@@ -1,0 +1,49 @@
+name: MagiaCN Auto Build Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 检出仓库代码
+        uses: actions/checkout@v3
+
+      - name: 安装 Zip 工具
+        run: sudo apt-get install zip -y
+
+      - name: 运行 JS 翻译注入脚本
+        run: |
+          if [ -f "Build_JS_Injector.py" ]; then
+            python3 Build_JS_Injector.py
+          fi
+
+      - name: 打包基础资源 (DB & Manifest)
+        run: |
+          # 打包数据库
+          zip -r cn_base_00_db.zip madomagi/madomagi.db
+          # 打包清单 JSON
+          zip -r cn_base_01_json.zip madomagi/*.json
+
+      - name: 打包热更新资源 (Scenario & JS)
+        run: |
+          # 打包剧情和 JS
+          zip -r cn_hotupdate.zip magica/js/ madomagi/resource/scenario/
+          
+          # 计算热更包大小并更新 version.json
+          SIZE=$(stat -c%s "cn_hotupdate.zip")
+          python3 -c "import json; d=json.load(open('version.json')); d['version']+=1; d['size']=$SIZE; json.dump(d, open('version.json','w'), indent=4)"
+
+      - name: 提交并推送生成的 ZIP 回仓库
+        run: |
+          git config --local user.name "MagiaCN AutoBot"
+          git config --local user.email "bot@magiacn.com"
+          git add cn_base_00_db.zip cn_base_01_json.zip cn_hotupdate.zip version.json magica/js/libs/jquery-3.7.1.min.js
+          git commit -m "Auto Build: Generate ZIPs and JS" || echo "No changes to commit"
+          git push
