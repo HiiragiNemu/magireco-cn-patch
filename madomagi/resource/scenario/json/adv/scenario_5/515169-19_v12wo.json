@@ -1,0 +1,1716 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3501_vr_frame.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_14072.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "id": 820100,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "id": 820100,
+                        "motion": 100
+                    }
+                ],
+                "nameNarration": "システム",
+                "narration": "[bgEffect:shakeLarge][chara:820100:effect_shake]>システム停止します",
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 180,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 820100
+                    }
+                ],
+                "narrationEffect": "out",
+                "se": "3102_enemy_dead"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_14063.jpg",
+                "bgChangeEffect": "exitWitchSpace",
+                "bgm": "stop",
+                "se": "7209_gate_close",
+                "textClear": 1
+            },
+            {
+                "bgm": "bgm24_story01",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 120302,
+                        "motion": 300,
+                        "mouthOpen": 1,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 120301,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "ぜぇ、はぁ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301
+                    },
+                    {
+                        "id": 120302,
+                        "mouthOpen": 0
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "きっつい敵だったけど…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51119_storyselect_delivery/51119_caribou_mini.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120301,
+                        "motion": 101
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "これで、邪魔するものは@もうないよ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120302,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "おー！@屋上めざして行くぞ！"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "black",
+                "deleteArmatureList": [
+                    1
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51119_storyselect_delivery/51119_caribou_mini.png",
+                        "visible": "hide"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/1503_motorcycle_loading.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_14081.jpg",
+                "deleteArmatureList": [
+                    2
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3501_vr_frame.ExportJson",
+                        "zOrder": "messageBack"
+                    },
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 3,
+                        "filePath": "resource/image_native/effect/story/general/3000_snow_messageback.ExportJson",
+                        "zOrder": "messageBack"
+                    },
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 4,
+                        "filePath": "resource/image_native/effect/story/general/6000_snow_bgfront.ExportJson",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "autoTurnLast": 0.01,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 120301,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120302,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "…やった！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 120302,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "着いたぞ！@願い星のすぐ下だ！"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_24013.jpg",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 3,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_14081.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120301,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120302,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "時雨ちゃん、聞こえてる？@屋上に来たよ！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "motion": 0
+                    }
+                ],
+                "nameNarration": "時雨",
+                "narration": "「至近距離まで来たね…@バイクも無事？」",
+                "narrationBg": "bg_adv_14081.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "narrationEffect": "out",
+                "textRight": "とーぜんだろ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 120301,
+                        "motion": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 120302
+                    }
+                ],
+                "nameNarration": "",
+                "narration": "「おーっと、人類史上初の瞬間は間もなくだぞ！@これぞエンドオブザワールド有人探査！」",
+                "narrationBg": "bg_adv_14081.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "narrationEffect": "out",
+                "textLeft": "ラジオで実況されてるの？@これ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120302,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "あとはトナカイさん２号で@飛び出すだけだよな？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120301,
+                        "motion": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120302,
+                        "motion": 0
+                    }
+                ],
+                "nameNarration": "時雨",
+                "narration": "「うん…伝送ロスを避けたいから@空中にジャンプして@願い星にギリギリまで近づいてほしい」",
+                "narrationBg": "bg_adv_14081.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "narration": "「その瞬間…天文台から@伝送ビームを照射するから」"
+            },
+            {
+                "narration": "「位置とタイミングは@機械が自動で捕捉するから大丈夫だけど…@念のために、飛び出す直前に合図して」"
+            },
+            {
+                "nameNarration": "はぐむ",
+                "narration": "「あっ、あの…わ、私からも…@…が、頑張ってね！」"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "motion": 101
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "narrationEffect": "out",
+                "textLeft": "ありがと、はぐむちゃん！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 120302,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "…ビームを浴びたらオレたち@いっぺん分解されちゃうんだな"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 120301,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "うん、ビット単位までね@…ちょっと、震えちゃうね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 120302,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "おいおい！@緊張してヘマすんじゃねーぞ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "こっちは鶴乃につかまってるしか@できねーんだからな！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 120301,
+                        "motion": 201
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "あはは、大丈夫！@最後まで、笑顔で頑張ろう！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51119_storyselect_delivery/51119_caribou_mini.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120301,
+                        "motion": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120302,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "…それじゃ、時雨ちゃん！@星空に向けて出発するから！"
+            },
+            {
+                "nameNarration": "時雨",
+                "narration": "「…了解@天文台、伝送ビーム照射準備」",
+                "narrationBg": "bg_adv_14081.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 120301,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "narrationEffect": "out",
+                "textLeft": "スーパートナカイさん２号・改！@スターブースター、ON！"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "deleteArmatureList": [
+                    3
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51119_storyselect_delivery/51119_caribou_mini.png",
+                        "visible": "hide"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "deleteArmatureList": [
+                    4
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51119_storyselect_delivery/memoria_1572.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ]
+            },
+            {
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/51119_storyselect_delivery/memoria_1572.jpg"
+                    }
+                ],
+                "nameNarration": "鶴乃",
+                "narration": "―鶴乃―@星空に向かって…",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/51119_storyselect_delivery/memoria_1572.jpg"
+                    }
+                ],
+                "nameNarration": "フェリシア",
+                "narration": "―フェリシア―@いっけぇ～っ!!"
+            },
+            {
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/51119_storyselect_delivery/memoria_1572.jpg"
+                    }
+                ],
+                "nameNarration": "枇々木 めぐる",
+                "narration": "―めぐる―@世界の果てまで笑顔をお届け！@空前絶後のファーストフライトだーっ!!"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_24013.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120301,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 120302,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51119_storyselect_delivery/memoria_1572.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "motion": 101
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "願い星が…@すぐそこだよ！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 120302,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "かこ！@ビームは？"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_21483.jpg",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 5,
+                        "filePath": "resource/image_native/effect/story/general/3003_act_picture.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.01,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_022.exp3.json",
+                        "id": 301100,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 303800,
+                        "motion": 1,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 304000,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "id": 301100,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "夏目 かこ",
+                "textLeft": "今です！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_19141.jpg",
+                "deleteArmatureList": [
+                    5
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_19142.jpg",
+                "bgChangeEffect": "fade"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_24013.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 120302,
+                        "motion": 1,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 120301,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 1.4
+            },
+            {
+                "autoTurnLast": 0.5,
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "flashEffect": "explosion"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 120302,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "あっ…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120301,
+                        "motion": 201
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "…来たよっ！"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 1.3,
+                "bg": "bg_adv_16052.jpg",
+                "bgm": "stop",
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 2
+            },
+            {
+                "autoTurnLast": 2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102900,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 103000,
+                        "motion": 1,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 304200,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "se": "6200_hit_explosion_01_vh"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103000
+                    }
+                ],
+                "nameCenter": "はぐむ",
+                "textCenter": "行ったね…",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102900,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "時雨",
+                "textLeft": "…うん…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 304200,
+                        "motion": 400
+                    }
+                ],
+                "nameRight": "枇々木 めぐる",
+                "textRight": "あっ…"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "flashEffect": "flashWhiteSlow2",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 304200
+                    }
+                ],
+                "nameRight": "枇々木 めぐる",
+                "textRight": "星屑が…！"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "textClear": 1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 3,
+                        "filePath": "resource/image_native/effect/story/general/3000_snow_messageback.ExportJson",
+                        "zOrder": "messageBack"
+                    },
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 4,
+                        "filePath": "resource/image_native/effect/story/general/6000_snow_bgfront.ExportJson",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "autoTurnLast": 1,
+                "bg": "bg_adv_24013.jpg",
+                "turnChangeIn": "whiteIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 1
+            },
+            {
+                "autoTurnLast": 3,
+                "flashEffect": "explosion",
+                "se": "3201_heal"
+            },
+            {
+                "autoTurnLast": 4,
+                "bg": "black",
+                "deleteArmatureList": [
+                    1
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 4
+            },
+            {
+                "autoTurnLast": 0.01,
+                "deleteArmatureList": [
+                    3
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 120301,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "deleteArmatureList": [
+                    4
+                ]
+            },
+            {
+                "bgm": "bgm24_story07",
+                "chara": [
+                    {
+                        "id": 120301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "…………",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 2
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 120301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（あ…）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（わたし、息してない…？）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 120301,
+                        "lipSynch": 0,
+                        "motion": 100
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（ビットまで分解されたんだから@そりゃそうだよね）"
+            },
+            {
+                "nameNarration": "時雨",
+                "narration": "「アクアリウムを飛び出した魚は@外の世界では生きられない」",
+                "narrationBg": "black",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 120301,
+                        "lipSynch": 0,
+                        "motion": 300
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "narrationEffect": "out",
+                "textCenter": "（やな言葉、思い出すなー）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 120301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（星空じゃない…真っ暗な場所）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 120301,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（ということは…@願い星の向こう側だよね？）"
+            },
+            {
+                "nameNarration": "時雨",
+                "narration": "「いちばん可能性が高い結末は…@虚空に投げ出されて…最後は消滅」",
+                "narrationBg": "black",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 120301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "narrationEffect": "out",
+                "textCenter": "…………@…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（やっぱり、天使たちの世界には@たどり着けなかったのかな…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120301,
+                        "lipSynch": 0,
+                        "motion": 101
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（だとしても…@世界の果ては、越えられた）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 120301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（史上最強の偉業…@わたしの、生きた証）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（誰も見てないかもしれないけど@…世界に、爪痕を残せた）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 120301,
+                        "lipSynch": 0,
+                        "motion": 200
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（わたしはこれで満足だよ）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 120301,
+                        "lipSynch": 0,
+                        "motion": 1
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（フェリシアは…どこだろ？@はぐれちゃったのかな？）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（ひとりだけでも、向こう側に@“配達”できてたら…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120301,
+                        "lipSynch": 0,
+                        "motion": 300
+                    }
+                ],
+                "nameCenter": "鶴乃",
+                "textCenter": "（100点満点なんだけどな…）"
+            },
+            {
+                "autoTurnLast": 3,
+                "bg": "black",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 120302,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "…………",
+                "turnChangeOut": "fadeOut",
+                "turnChangeOutTime": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "――っ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 200
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（ここが世界の果ての向こうか？@…なんもねートコだな！）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 300
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（声も出せねーし…）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 1
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（ここが生まれる前の@世界だとしたら）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（オレが忘れてきたものは@ここにあるはずなんだよな…？）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 100
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（見つからねーってことは…）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（世界の境界とかいうヤツを@越えられなかったのか…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 200
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（この先に、ぜってーあるんだ…@大事な…そう…思い出が！）"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bgm": "stop",
+                "flashEffect": "explosion",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（あ…）"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "flashEffect": "flashWhiteSlow2",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_20646.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 120302,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 2
+            },
+            {
+                "bgm": "bgm03_story07",
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "（願い星…？）",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "（なぜか@懐かしい感じがする光…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "（そーいや、あれは星じゃなくて@“扉”なんだって言ってたな）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "（扉から、あっちの世界の@光が漏れてくるんだって…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "（あの向こうに、むかし@オレがいた世界があるのか…？）"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "flashEffect": "flashWhiteSlow2",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51119_storyselect_delivery/memoria_1104.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 2,
+                "turnChangeOutTime": 1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 5,
+                        "filePath": "resource/image_native/effect/story/general/3003_act_picture.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1,
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "nameNarration": "フェリシア",
+                "narration": "―フェリシア―@――っ!?",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "narration": "―フェリシア―@なんだ…この記憶"
+            },
+            {
+                "narration": "―フェリシア―@なんで…@涙が出そうなんだ…？"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "white",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120302,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "deleteArmatureList": [
+                    5
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51119_storyselect_delivery/memoria_1104.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 3,
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（そうか…）",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 2
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（“天使”だったときの@オレの記憶のかけら…）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（失くしたままだった…@大切な思い出）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 100
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（オレがいて…）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（あとふたり…そう…@“家族”ってやつがいて）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（幸せな一瞬…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（まるで奇跡だった）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 120302,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（世界の果てで…@やっと取り戻せた…）"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "flashEffect": "explosion",
+                "textClear": 1,
+                "turnEffect": "promist"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 120302,
+                        "lipSynch": 0,
+                        "motion": 300
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "（…あたたかい…）"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 2
+            },
+            {
+                "autoTurnLast": 0.1,
+                "turnEffect": "stop"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "turnChangeInTime": 2,
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/51119_normalend.ExportJson",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "white",
+                "bgm": "stop",
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 2
+            }
+        ]
+    },
+    "version": 3
+}

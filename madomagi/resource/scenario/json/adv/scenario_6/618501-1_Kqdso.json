@@ -1,0 +1,191 @@
+{
+    "skipTransitionList": [
+        {
+            "from": "group_1",
+            "to": "group_5"
+        },
+        {
+            "canSkip": false,
+            "from": "group_5"
+        }
+    ],
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_12065.jpg",
+                "bgm": "bgm05_event02",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 140101,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 140102,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 140101,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "いろは",
+                "textLeft": "水名神社に@ようこそお参りくださいました",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 140102,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "うい",
+                "textRight": "水名神社名物の@“究極のおみくじ”を引いて"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 140101,
+                        "motion": 301,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 140102,
+                        "motion": 0
+                    }
+                ],
+                "nameCenter": "いろは＆うい",
+                "textCenter": "せーのっ…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 140101,
+                        "motion": 400,
+                        "mouthOpen": 1
+                    },
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 140102,
+                        "motion": 100,
+                        "mouthOpen": 1
+                    }
+                ],
+                "nameCenter": "いろは＆うい",
+                "textBg": "shout",
+                "textCenter": "開運！運試しっ!!"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 140101,
+                        "mouthOpen": 0
+                    },
+                    {
+                        "id": 140102,
+                        "mouthOpen": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "select": [
+                    {
+                        "group": "group_2",
+                        "textSelect": "牡丹柄のおみくじ"
+                    },
+                    {
+                        "group": "group_3",
+                        "textSelect": "梅柄のおみくじ"
+                    },
+                    {
+                        "group": "group_4",
+                        "textSelect": "万両柄のおみくじ"
+                    }
+                ]
+            }
+        ],
+        "group_2": [
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ],
+        "group_3": [
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ],
+        "group_4": [
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ],
+        "group_5": [
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_12065.jpg",
+                "bgm": "bgm05_event02",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 140101,
+                        "motion": 400,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 140102,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "select": [
+                    {
+                        "group": "group_2",
+                        "textSelect": "牡丹柄のおみくじ"
+                    },
+                    {
+                        "group": "group_3",
+                        "textSelect": "梅柄のおみくじ"
+                    },
+                    {
+                        "group": "group_4",
+                        "textSelect": "万両柄のおみくじ"
+                    }
+                ],
+                "turnChangeOut": "fadeOut"
+            }
+        ]
+    },
+    "version": 3
+}

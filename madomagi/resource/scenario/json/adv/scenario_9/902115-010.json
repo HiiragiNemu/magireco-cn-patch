@@ -1,0 +1,790 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_14.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_14.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_15.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_20201.jpg",
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day15.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "nameNarration": "",
+                "narrationEffect": "in",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 4,
+                "narration": "[surround:7104_schoolbell]キーンコーンカーンコーン",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200902,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "narrationEffect": "out",
+                "surround": "stop"
+            },
+            {
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 330,
+                "FnarrationX": 190,
+                "FnarrationY": 150,
+                "bgm": "bgm01_anime04",
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-1"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(昨日のアレ@なんだったんでしょう？)",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-2"
+                    }
+                ],
+                "progressFnarration": "(あの動き、ふつーの@人間じゃ有り得ないような…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200902
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 200501,
+                        "motion": 0,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-3"
+                    }
+                ],
+                "nameAvCenter": "マミ",
+                "textAvCenter": "起立",
+                "textAvColor": "textMami"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200501,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-4"
+                    }
+                ],
+                "nameAvCenter": "マミ",
+                "textAvCenter": "礼"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200501,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-5"
+                    }
+                ],
+                "nameAvCenter": "マミ",
+                "textAvCenter": "着席"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200501
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200902,
+                        "motion": 1,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 350,
+                "FnarrationX": 190,
+                "FnarrationY": 160,
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-6"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(マミって言ってましたよね)",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-7"
+                    }
+                ],
+                "progressFnarration": "(ま、珍しい名前じゃないですし@巴さんのことなわけ、ないか…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200902
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 250313,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-8"
+                    }
+                ],
+                "nameAvRight": "マミ",
+                "textAvColor": "textMami",
+                "textAvRight": "…………"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 200501,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 350,
+                "FnarrationX": 0,
+                "FnarrationY": 0,
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(あ、あれ？@こっちを意識してる？なんで？)",
+                "textAvColor": "textMabayu",
+                "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-9"
+            },
+            {
+                "progressFnarration": "(私、巴さんと教室では会話すら@したことないはず…)",
+                "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-10"
+            },
+            {
+                "progressFnarration": "(いや…もしかしたら@１回くらいはありましたか？)",
+                "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-11"
+            },
+            {
+                "progressFnarration": "(クラスメイトだから@おかしくはないですけど…)",
+                "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-12"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200501
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200912,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "FnarrationAnchor": "top",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 120,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 15,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 350,
+                "FnarrationX": 160,
+                "FnarrationY": -70,
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-13"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(――っ!?@そ、そうか！@クラスメイト！)",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-14"
+                    }
+                ],
+                "progressFnarration": "(クラスメイトなら@と、と、と、友だちとして…！)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-15"
+                    }
+                ],
+                "progressFnarration": "(ふ、普通に話しかけたって@問題ない、はず…はず…！)"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-16"
+                    }
+                ],
+                "progressFnarration": "(友だち…友だち…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.01,
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200912
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200902,
+                        "lipSynch": 1,
+                        "motion": 0,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-17"
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 200501,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "と、ともだち…トモ…ダチ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200501,
+                        "motion": 100,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-18"
+                    }
+                ],
+                "nameAvRight": "マミ",
+                "textAvColor": "textMami",
+                "textAvRight": "え…？"
+            },
+            {
+                "bgm": "bgm01_anime07",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200902,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-19"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "あっ、あの…巴、マミ、さん？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200501,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-20"
+                    }
+                ],
+                "nameAvRight": "マミ",
+                "textAvColor": "textMami",
+                "textAvRight": "は、はい…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-21"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "えっと、あの、あの、ですね…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-22"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "き、きのう、公園で…@へんな子を見たんです"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200501,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-23"
+                    }
+                ],
+                "nameAvRight": "マミ",
+                "textAvColor": "textMami",
+                "textAvRight": "は…はあ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-24"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "マミ、って名前、言ってたから@もしかしたら知り合いかも、って"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200501,
+                        "motion": 200,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-25"
+                    }
+                ],
+                "nameAvRight": "マミ",
+                "textAvColor": "textMami",
+                "textAvRight": "ええと…よくわからないけど、@その子は、どんな方なのかしら？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-26"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "なんか、その…えっと…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-27"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "赤い変な服を着て、槍をブンブン@振り回して、バームクーヘンを…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200501,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-28"
+                    }
+                ],
+                "nameAvRight": "マミ",
+                "textAvColor": "textMami",
+                "textAvRight": "…………？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-29"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "いえ、ごめんなさい！@なんでもないです！"
+            },
+            {
+                "autoTurnLast": 0.4,
+                "chara": [
+                    {
+                        "id": 200902,
+                        "motion": 0
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "id": 200902,
+                        "slideOut": {
+                            "duration": 1.2,
+                            "easing": "EaseOut",
+                            "easingParam": 1.5,
+                            "offsetX": -2000
+                        }
+                    }
+                ],
+                "surround": "8017_1footsteps"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200912,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day15.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "surround": "stop",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 350,
+                "FnarrationX": 190,
+                "FnarrationY": -70,
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-30"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(不審！不審すぎますよ、私！)",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-31"
+                    }
+                ],
+                "progressFnarration": "(赤い服で、槍で@バームクーヘン!?)"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-32"
+                    }
+                ],
+                "progressFnarration": "(そんな知り合いいるかって@意味わかんなすぎる！)"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-33"
+                    }
+                ],
+                "progressFnarration": "(巴さんの怪訝な瞳が目に@焼きついて…恥ずかしいッ!!)"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-34"
+                    }
+                ],
+                "progressFnarration": "(妙な気を起こすんじゃなかった@ああ、さっさと家に帰って…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200912
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200902,
+                        "motion": 0,
+                        "pos": 0,
+                        "slideIn": {
+                            "duration": 0.8,
+                            "easing": "EaseSineInOut",
+                            "easingParam": 1,
+                            "offsetX": -1000
+                        }
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 800900,
+                        "motion": 0,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-35"
+                    }
+                ],
+                "nameAvRight": "先生",
+                "textAvColor": "255255255",
+                "textAvRight": "おーい愛生、どこに行く？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200902,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-36"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "へ？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800900,
+                        "voiceFullAuto": "fullvoice/section_104201/vo_full_902115-010-37"
+                    }
+                ],
+                "nameAvRight": "先生",
+                "textAvColor": "255255255",
+                "textAvRight": "今日は追試だぞ、教室に残れ"
+            },
+            {
+                "autoTurnFirst": 2,
+                "chara": [
+                    {
+                        "id": 200902,
+                        "motion": 400,
+                        "voiceFull": "fullvoice/section_104201/vo_full_902115-010-38"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "あ…やば！忘れてた…!!"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200902
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 2,
+                "chara": [
+                    {
+                        "id": 200902,
+                        "voiceFullStop": "fullvoice/section_104201/vo_full_902115-010-38"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

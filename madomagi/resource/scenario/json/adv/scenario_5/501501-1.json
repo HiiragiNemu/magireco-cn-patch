@@ -1,0 +1,752 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "bg": "bg_adv_20231.jpg",
+    "bgm": "stop",
+    "nameNarration": "",
+    "narration": "第1部",
+    "narrationEffect": "in",
+    "turnChangeIn": "fadeIn",
+    "turnChangeOut": "fadeOut",
+    "turnEffect": "sepiaFrame"
+   },
+   {
+    "narration": "第1章「梦之法国」",
+    "narrationBg": "bg_adv_narration.jpg",
+    "turnEffect": "stop"
+   },
+   {
+    "bg": "bg_adv_20073.jpg",
+    "bgm": "bgm03_story10",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 760000,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 830400,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameLeft": "",
+    "nameRight": "",
+    "narrationEffect": "out",
+    "textBg": "shout",
+    "textLeft": "БЯЯяяЯяЯЯ！！！！"
+   },
+   {
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 760000
+     },
+     {
+      "effect": "fadeout",
+      "id": 830400
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 830300,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "nameNarration": "",
+    "narration": "「唔、唔啊啊啊！！」",
+    "narrationBg": "bg_adv_narration.jpg",
+    "narrationEffect": "in"
+   },
+   {
+    "narration": "「队长，要撑不住了！」"
+   },
+   {
+    "chara": [
+     {
+      "id": 830300
+     }
+    ],
+    "nameCenter": "",
+    "narrationEffect": "out",
+    "textCenter": "单挑没有胜算！@一定要三人一起上！"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 830300
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "armatureList": [
+     {
+      "animation": [
+       "in",
+       "stay"
+      ],
+      "armatureId": 1,
+      "filePath": "resource/image_native/effect/story/general/4000_darkmist.ExportJson",
+      "zOrder": "charaBack"
+     }
+    ],
+    "autoTurnLast": 0.01,
+    "se": "3211_fog"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 760000,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 760090,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textBg": "shout",
+    "textCenter": "ББЯЯЯЯЯЯЯ！@БББЯЯЯяяЯ!!!!"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 760000
+     },
+     {
+      "effect": "fadeout",
+      "id": 760090
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 830300,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "textCenter": "又有新敌人！？"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 830300
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 760000,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 830500,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "textBg": "shout",
+    "textLeft": "[flashEffect:flashWhite2][bgEffect:shakeSmall]БЯЯяяЯяЯЯ！！！！"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bgEffect": "shakeLarge",
+    "chara": [
+     {
+      "cheek": 0,
+      "effect": "shake",
+      "face": "mtn_ex_030.exp.json",
+      "id": 830500,
+      "motion": 0
+     }
+    ],
+    "flashEffect": "flashRed2",
+    "se": "3001_chara_damage",
+    "textRight": "唔、唔哇啊啊啊啊啊啊！！"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 830500
+     }
+    ],
+    "se": "3102_enemy_dead",
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 830300,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "textRight": "喂，振作一点！@可恶……撑不下去了吗？"
+   },
+   {
+    "chara": [
+     {
+      "id": 830300
+     }
+    ],
+    "textRight": "撤退！@去和南边部队汇合！"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 760000
+     }
+    ]
+   },
+   {
+    "nameLeft": "？？？",
+    "textLeft": "什么啊……@这就要撤退了？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402500,
+      "motion": 100,
+      "pos": 0
+     }
+    ],
+    "textLeft": "真是群不好玩的家伙！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 830300,
+      "motion": 400
+     }
+    ],
+    "textRight": "你是……英军的魔女——可鲁波！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 402500,
+      "motion": 1
+     }
+    ],
+    "nameLeft": "可鲁波",
+    "textLeft": "叫我魔女，还真是没礼貌啊？"
+   },
+   {
+    "chara": [
+     {
+      "id": 402500
+     }
+    ],
+    "textLeft": "我是……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402500,
+      "motion": 200
+     }
+    ],
+    "textLeft": "[flashEffect:flashWhite2][surround:4025A02]魔法少女啦！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 830300,
+      "motion": 0
+     }
+    ],
+    "textRight": "[flashEffect:flashRed2][surround:4025A03][chara:830300:effect_shake][bgEffect:shakeLarge]唔……唔啊啊啊！"
+   },
+   {
+    "chara": [
+     {
+      "id": 402500,
+      "motion": 1
+     }
+    ],
+    "textLeft": "[flashEffect:flashWhite2][surround:4025A05]去死。"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bgEffect": "shakeLarge",
+    "chara": [
+     {
+      "effect": "shake",
+      "id": 830300
+     }
+    ],
+    "flashEffect": "flashRed2",
+    "surround": "4025A07"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 830300
+     }
+    ],
+    "se": "3102_enemy_dead"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "deleteArmatureList": [
+     1
+    ],
+    "turnChangeIn": "whiteIn"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100104,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "彩羽",
+    "textCenter": "诶……",
+    "turnChangeOut": "whiteOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100104
+     }
+    ],
+    "textCenter": "这是……什么声音？战场？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100104,
+      "motion": 301
+     }
+    ],
+    "textCenter": "到底发生了什么！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "id": 100104,
+      "pos": 2
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "armatureList": [
+     {
+      "animation": [
+       "in",
+       "stay"
+      ],
+      "armatureId": 1,
+      "filePath": "resource/image_native/effect/story/general/4000_darkmist.ExportJson",
+      "zOrder": "charaBack"
+     }
+    ],
+    "autoTurnLast": 0.01,
+    "se": "1004_adv_word"
+   },
+   {
+    "bgEffect": "shakeSmall",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 760000,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "",
+    "nameRight": "彩羽",
+    "textBg": "shout",
+    "textLeft": "ББЯЯЯЯЯЯЯ——！！！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100104,
+      "motion": 401
+     }
+    ],
+    "textRight": "哇……[chara:100104:lipSynch_0][wait:0.8][chara:100104:motion_400][chara:100104:lipSynch_1]呀！"
+   },
+   {
+    "chara": [
+     {
+      "id": 100104,
+      "lipSynch": 0
+     }
+    ],
+    "nameRight": "？？？",
+    "textRight": "[flashEffect:flashWhite2][se:4050_landing_jump]彩羽！"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bgEffect": "shakeLarge",
+    "chara": [
+     {
+      "effect": "shake",
+      "id": 760000
+     }
+    ],
+    "flashEffect": "flashRed2",
+    "se": "6256_hit_spike_02_v",
+    "textBg": "shout",
+    "textLeft": "БЯЯяяя——！？？？？？"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 760000
+     }
+    ],
+    "se": "3102_enemy_dead"
+   },
+   {
+    "armatureList": [
+     {
+      "animation": [
+       "out"
+      ],
+      "armatureId": 1,
+      "filePath": "resource/image_native/effect/story/general/4000_darkmist.ExportJson"
+     }
+    ],
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "id": 100104,
+      "pos": 0
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100200,
+      "motion": 100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "八千代",
+    "textRight": "没事吧？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100104,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "彩羽",
+    "textLeft": "八千代……谢谢你。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100104
+     }
+    ],
+    "textLeft": "这儿……到底是什么地方？@我们不是应该在家里吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100200,
+      "motion": 0
+     }
+    ],
+    "textRight": "有什么话一会儿再说，@我也不明白是怎么回事。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 760000,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "",
+    "textBg": "shout",
+    "textLeft": "БББЯЯяяяяЯЯ——！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100200,
+      "motion": 201
+     }
+    ],
+    "textRight": "那个会动的铠甲……@好像是使魔，我们赶紧变身吧！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100104,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "彩羽",
+    "textRight": "好、好的！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "effect": "ef_adv_05",
+      "face": "mtn_ex_021.exp.json",
+      "id": 100100,
+      "motion": 400,
+      "pos": 2
+     }
+    ],
+    "se": "7205_magic_girl",
+    "textRight": "那么……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 402500,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "可鲁波",
+    "textLeft": "咦，这不是有好玩的人嘛。"
+   },
+   {
+    "chara": [
+     {
+      "id": 402500,
+      "motion": 200
+     }
+    ],
+    "textLeft": "没想到会在这里遇见@新来的魔法少女！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100200,
+      "lipSynch": 0,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "八千代",
+    "textRight": "…………？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100100,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "彩羽",
+    "textRight": "你、你是谁？"
+   },
+   {
+    "chara": [
+     {
+      "id": 402500,
+      "motion": 1
+     }
+    ],
+    "textLeft": "你们也和法国的圣女大人@是一伙的吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100100
+     }
+    ],
+    "textRight": "诶……圣女大人？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402500
+     }
+    ],
+    "textLeft": "你不知道？@那就算了。"
+   },
+   {
+    "armatureList": [
+     {
+      "animation": [
+       "in",
+       "stay"
+      ],
+      "armatureId": 1,
+      "filePath": "resource/image_native/effect/story/general/4000_darkmist.ExportJson",
+      "zOrder": "charaBack"
+     }
+    ],
+    "autoTurnLast": 0.01,
+    "se": "3211_fog",
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 1.0,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 760000,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 760090,
+      "motion": 0,
+      "pos": 2
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 100200,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "八千代",
+    "textRight": "（魔法少女……@召唤了使魔！？）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 402500,
+      "motion": 300,
+      "pos": 0
+     }
+    ],
+    "textLeft": "我的破坏欲@还没得到满足呢。"
+   },
+   {
+    "chara": [
+     {
+      "id": 402500
+     }
+    ],
+    "textLeft": "所以，让我……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402500,
+      "motion": 200
+     }
+    ],
+    "textBg": "shout",
+    "textLeft": "在这里破坏个够吧！"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "deleteArmatureList": [
+     1
+    ],
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

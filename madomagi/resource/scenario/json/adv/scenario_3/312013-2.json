@@ -1,0 +1,366 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "White",
+    "bgm": "bgm03_story07",
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_5b.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "narrationAnchor": "bottom",
+    "narrationCoverOpacity": 0.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0,
+    "turnChangeIn": "whiteIn"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "turnChangeOut": "whiteOut"
+   },
+   {
+    "bg": "black",
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_5a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_5b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "呜呜……@我究竟怎么了……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 900
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_5a.jpg"
+     },
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posX": -100,
+        "posY": -80
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_6b.jpg",
+      "posX": 0,
+      "posY": -900,
+      "scale": 1.3,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_6c1.png",
+      "posX": -100,
+      "posY": -80,
+      "scale": 1.3,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_5a.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "啊@这是玛吉斯操纵羽翼时用的@通讯吊坠！"
+   },
+   {
+    "bgm": "stop",
+    "item": [
+     {
+      "action": {
+       "spawn": [
+        {
+         "scaleTo": {
+          "duration": 0.2,
+          "scale": 1.0
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_6a.jpg",
+      "posX": -100,
+      "posY": -80,
+      "scale": 1.3,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_6c1.png",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_6b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小圆前辈",
+    "narration": "真好玩呀"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "spawn": [
+        {
+         "scaleTo": {
+          "duration": 0.2,
+          "scale": 2.8
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": 150,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_6a.jpg"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "scaleTo": {
+        "duration": 0.5,
+        "scale": 0.0
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_6a.jpg"
+     },
+     {
+      "action": {
+       "scaleTo": {
+        "duration": 0.05,
+        "scale": 1.0
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_7b.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 0.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "autoTurnFirst": 0.01,
+    "bgm": "bgm03_story16",
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 0.8
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 1.2
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 1.0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_7b.jpg"
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_7c1.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_6a.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "即将上线的魔法纪录第2部@也会在似近若远的神滨"
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_7a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_7c1.png",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_7b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "为这个世界的神滨加油哦！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 900
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_7a.jpg"
+     },
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_8b.jpg",
+      "posX": 0,
+      "posY": -900,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_8c1.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_7a.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "……第2部的主人公是我吧？"
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_8c2.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "nameNarration": "小圆前辈",
+    "narration": "要开始特训咯@小忧！"
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_8a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_8c1.png",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_8c2.png",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_8b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "忧",
+    "narration": "好的@小圆前辈！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "spawn": [
+        {
+         "moveTo": {
+          "duration": 0.5,
+          "posX": 750,
+          "posY": 400
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.5,
+          "scale": 2.8
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m3_8a.jpg"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 2.0,
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

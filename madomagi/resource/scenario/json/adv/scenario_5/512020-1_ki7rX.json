@@ -1,0 +1,894 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "white",
+                "bgm": "stop",
+                "deleteArmatureList": [
+                    0
+                ],
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "日記のページ",
+                "narration": "[textBlack:20××年12月××日　14:40]",
+                "narrationBg": "",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 180,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "[textBlack:もどらないひびをおもいだしたこうはいは]@[textBlack:わんわんなきだしてしまいました]"
+            },
+            {
+                "narration": "[textBlack:だけど、なきおわったこうはいのかおには]@[textBlack:すこしだけ、ほほえみがうかんでいたのです]"
+            },
+            {
+                "narration": "[textBlack:おしまい]"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_21012.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 110701,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 110702,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110702,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "これで、このエピソードは@終わりのようだけど…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "flashEffect": "explosion",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51120_touka_nemu_christmas/51120_magicalbook2.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp.json",
+                        "id": 110701,
+                        "motion": 100
+                    },
+                    {
+                        "id": 110702,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "灯花",
+                "textLeft": "また次のページが@開かれたみたいだよ？"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "flashEffect": "flashWhiteSlow2",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_060.exp.json",
+                        "id": 110701,
+                        "motion": 400
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_060.exp.json",
+                        "id": 110702,
+                        "motion": 400
+                    }
+                ],
+                "nameCenter": "灯花＆ねむ",
+                "textCenter": "…………！"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "flashEffect": "explosion",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_21232.jpg",
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 2
+            },
+            {
+                "autoTurnLast": 0.5,
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 110701,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 110702,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "flashEffect": "explosion",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 110701
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 110702
+                    }
+                ],
+                "nameCenter": "灯花＆ねむ",
+                "textCenter": "…………"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 110701
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 110702
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_21232.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 800700,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 800600,
+                        "motion": 0,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 801200,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 800700
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 800600
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 801200
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "bgm": "bgm03_story06",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 110702,
+                        "motion": 100,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 110701,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "ここは…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110701,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "灯花",
+                "textLeft": "ホテルの部屋みたいだよ？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110702,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "それにあの子は確か…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 110701
+                    }
+                ],
+                "nameLeft": "灯花",
+                "textLeft": "月咲が手袋を買えるように@手伝ってくれた子だねー"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51120_touka_nemu_christmas/51120_magicalbook2.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 110702
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "日記には…@何が書いてあるんだろう？"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "white",
+                "deleteArmatureList": [
+                    0
+                ],
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "日記のページ",
+                "narration": "[textBlack:20××年12月××日　16:30]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 180,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_21232.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 110701,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 110702,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51120_touka_nemu_christmas/51120_magicalbook2.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110702,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "日付と時間しか書いてない…？",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110701
+                    }
+                ],
+                "nameLeft": "灯花",
+                "textLeft": "あとは真っ白だねー"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51120_touka_nemu_christmas/51120_magicalbook2.png",
+                        "visible": "hide"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 110702,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "この日付と時間は…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110702
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "栄区であの男の子と会った@少しあとだね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp.json",
+                        "id": 110701,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "灯花",
+                "textLeft": "あー、あの子@みーくん、だったっけ？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110701
+                    }
+                ],
+                "nameLeft": "灯花",
+                "textLeft": "そっちの女の子と@ケンカしちゃったっていう"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 110701
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 110702
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_21232.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 800700,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 800600,
+                        "motion": 0,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 801200,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 800700
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 800600
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 801200
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 110701,
+                        "motion": 100,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 110702,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "灯花",
+                "textLeft": "…わたくしたちに気づいてない？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110702,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "見えないというより…@話に夢中で気づいてない感じだね"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 110701
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 110702
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 800700,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 801200,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "空港行きのバスが来るまで@あと…１時間半か"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 800700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "荷物はもうまとめたかな？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 801200,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 800700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "どうした？@お腹でも痛いのか？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 800600,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "不安なのよね？@くーちゃん"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800600
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "飛行機も初めてだし"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 800700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "それもそうか…@10時間以上のフライトだしな"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 801200,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "ううん…@飛行機は平気"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 800700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "…やっぱり@引っ越しがイヤなのか？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "ごめんな、パパの都合で"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 801200
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "ううん…@イヤってわけじゃないよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 801200
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "お別れはつらいけど"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 801200
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "外国の学校@楽しみにしてるし"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 801200
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "ただ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 801200
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "…みーくん…と…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 800600,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "…ん？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 801200,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "…………@…………"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 800600
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 801200
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_21232.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 110702,
+                        "lipSynch": 0,
+                        "motion": 400,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 110701,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "…………！"
+            },
+            {
+                "bgm": "bgm03_story12",
+                "chara": [
+                    {
+                        "id": 110702
+                    }
+                ],
+                "nameRight": "ねむ",
+                "surround": "7202_telepathy",
+                "textRight": "この子…今から外国に@引っ越しするということ？",
+                "turnEffect": "ef_adv_02"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 110701,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "灯花",
+                "textLeft": "そうみたいだね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110701
+                    }
+                ],
+                "nameLeft": "灯花",
+                "textLeft": "みーくんとはまだ@仲直りしてないのかぁー"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 110702,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "いまの時間、みーくんの方は@僕達のアドバイスを聞いて"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110702
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "やっとプレゼントを@探しはじめた頃だからね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 110701,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "灯花",
+                "textLeft": "…バスが来るまで@あと１時間半って言ったかにゃ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 110702,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110702
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "みーくんは、引っ越しのことを@知らない様子だった…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 110702
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "このままじゃ…さよならも@言えないまま…？"
+            },
+            {
+                "autoTurnLast": 2,
+                "surround": "stop",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            }
+        ]
+    },
+    "version": 3
+}

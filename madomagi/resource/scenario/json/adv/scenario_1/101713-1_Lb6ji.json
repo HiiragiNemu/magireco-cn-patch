@@ -1,0 +1,468 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100100,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": -1,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100200,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bg": "bg_adv_17121.jpg",
+    "bgm": "bgm03_story10",
+    "chara": [
+     {
+      "id": 100100,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-1"
+     }
+    ],
+    "nameLeft": "彩羽",
+    "nameRight": "八千代",
+    "textLeft": "鹤乃就在这里……",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 100200,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-2",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-1"
+     }
+    ],
+    "textRight": "原本以为只要到了附近@就能进入游乐园的[textBlue:传闻]……"
+   },
+   {
+    "chara": [
+     {
+      "id": 100200,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-3",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-2"
+     }
+    ],
+    "textRight": "看来是另外有入口啊……@[textBlue:传闻]的入口……在哪里……"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 0,
+      "pos": 2,
+      "posX": 40,
+      "posY": 0
+     }
+    ],
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-3"
+   },
+   {
+    "select": [
+     {
+      "group": "group_2",
+      "textSelect": "呜啾啾……@（摩天轮很可疑哦）"
+     },
+     {
+      "group": "group_3",
+      "textSelect": "呜啾呜啾@（分头找吧）"
+     }
+    ]
+   }
+  ],
+  "group_2": [
+   {
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 100,
+      "voice": "vo_kyube_0001_02"
+     }
+    ],
+    "nameRight": "userName",
+    "textRight": "呜啾啾……"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "voice": "stop"
+   },
+   {
+    "chara": [
+     {
+      "id": 100100,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-5"
+     }
+    ],
+    "textLeft": "远处的那个摩天轮……"
+   },
+   {
+    "changeGroup": "group_4",
+    "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-5"
+   }
+  ],
+  "group_3": [
+   {
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 100,
+      "voice": "vo_kyube_0001_16"
+     }
+    ],
+    "nameRight": "userName",
+    "textRight": "呜啾呜啾。"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "voice": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100100,
+      "motion": 301,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-7"
+     }
+    ],
+    "textLeft": "这里有很多羽翼，@现在分头行动感觉有些可怕……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100100,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-8",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-7"
+     }
+    ],
+    "textLeft": "如果要一起去的话……"
+   },
+   {
+    "chara": [
+     {
+      "id": 100100,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-9",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-8"
+     }
+    ],
+    "textLeft": "嗯。"
+   },
+   {
+    "changeGroup": "group_4",
+    "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-9"
+   }
+  ],
+  "group_4": [
+   {
+    "chara": [
+     {
+      "id": 100100,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-10"
+     }
+    ],
+    "textLeft": "既然是有关游乐园的[textBlue:传闻]，@感觉摩天轮脱不了干系。"
+   },
+   {
+    "chara": [
+     {
+      "id": 100100,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-11",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-10"
+     }
+    ],
+    "textLeft": "你们觉不觉得@那里有些可疑？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 101000,
+      "motion": 200,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-12",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-11"
+     }
+    ],
+    "nameRight": "桃子",
+    "textRight": "也是，我们去看看吧。"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "bgm": "stop",
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 100100
+     },
+     {
+      "effect": "fadeout",
+      "id": 101000
+     }
+    ],
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-12"
+   },
+   {
+    "bgm": "bgm02_boss02",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 715100,
+      "motion": 200,
+      "pos": 1,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-13"
+     }
+    ],
+    "nameCenter": "白翼",
+    "textCenter": "不好意思了，@我们会守住这里的。"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 715100
+     }
+    ],
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-13"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100100,
+      "motion": 0,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-14"
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 101000,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textLeft": "白翼……"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 100100
+     },
+     {
+      "effect": "fadeout",
+      "id": 101000
+     }
+    ],
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-14"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 715000,
+      "motion": 0,
+      "pos": 0
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 715002,
+      "motion": 0,
+      "pos": 2
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 715001,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 1,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-15"
+     }
+    ],
+    "nameCenter": "黑翼",
+    "textCenter": "…………"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 715000
+     },
+     {
+      "effect": "fadeout",
+      "id": 715001
+     },
+     {
+      "effect": "fadeout",
+      "id": 715002
+     }
+    ],
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-15"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100100,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 101000,
+      "motion": 300,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-16"
+     }
+    ],
+    "textRight": "喂喂，连黑翼也在……"
+   },
+   {
+    "chara": [
+     {
+      "id": 101000,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-17",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-16"
+     }
+    ],
+    "textRight": "虽然已经预料到了，@但这个欢迎的阵势还真够大的……"
+   },
+   {
+    "chara": [
+     {
+      "id": 100100,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-18",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-17"
+     }
+    ],
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "id": 100100,
+      "motion": 1,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-19",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-18"
+     }
+    ],
+    "textLeft": "这些人知道吗？"
+   },
+   {
+    "chara": [
+     {
+      "id": 100100,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-20",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-19"
+     }
+    ],
+    "textLeft": "这次的[textBlue:传闻]把人聚集起来@要干什么……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 101600,
+      "motion": 1,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-21",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-20"
+     }
+    ],
+    "nameRight": "十七夜",
+    "textRight": "她们都是为了得救@而放弃了思考的家伙。"
+   },
+   {
+    "chara": [
+     {
+      "id": 101600,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-22",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-21"
+     }
+    ],
+    "textRight": "怎么可能知道。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 715100,
+      "motion": 0,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-23",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-22"
+     }
+    ],
+    "nameLeft": "白翼",
+    "textLeft": "你们在说什么，@要走就趁现在。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 101600,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101713/vo_full_101713-1-24",
+      "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-23"
+     }
+    ],
+    "textRight": "你以为这么说，@我们就会走人吗？"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn",
+    "voiceFullStop": "fullvoice/section_101713/vo_full_101713-1-24"
+   }
+  ]
+ },
+ "version": 3
+}

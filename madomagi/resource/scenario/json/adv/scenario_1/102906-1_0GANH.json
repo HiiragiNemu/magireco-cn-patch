@@ -1,0 +1,824 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "black",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm20_song10",
+                "nameNarration": "かごめ",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 150,
+                "progressNarration": "[textBlack:これは過去を記した]@[textBlack:最初の４編よりも前にあった話。]@[textBlack:魔法少女たちを分かれさせる切っ掛けになった]@[textBlack:短いけれども大きな話。]",
+                "turnChangeOut": "fadeOut",
+                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-1"
+            },
+            {
+                "progressNarration": "[textBlack:これはその中でもネオマギウスについて調べて]@[textBlack:わかってきた過去の出来事。]",
+                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-2"
+            },
+            {
+                "progressNarration": "[textBlack:彼女たちが水面下で何をしていたのかを知ると、]@[textBlack:全てが着々と準備されていたことだってわかる。]",
+                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-3"
+            },
+            {
+                "progressNarration": "[textBlack:そして、リーダーのひめなさんには]@[textBlack:最初から描いていた結末が]@[textBlack:あったんじゃないかと思えてきた。]",
+                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-4"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bg": "white",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "blackFrame"
+            },
+            {
+                "bgm": "bgm23_magus01",
+                "nameNarration": "ミユリ",
+                "narration": "[textBlack:「それならそれなら！」]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut",
+                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-5"
+            },
+            {
+                "nameNarration": "ミユリ",
+                "narration": "[textBlack:「傷ついて変化を求めるミユたちは]@[textBlack:強く結ばれる要素があるんですね」]",
+                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-6"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "narrationEffect": "out",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png",
+                        "posX": 0,
+                        "posY": 1000,
+                        "scale": 6,
+                        "setVisible": 1,
+                        "zOrder": "messageFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_19241.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 103201,
+                        "motion": 1,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": -1000
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png"
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103201,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-7"
+                    }
+                ],
+                "nameCenter": "ミユリ",
+                "textCenter": "ミユの場合だと燦様がいないと@みんなをケガさせちゃうことです"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 103201
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 103101,
+                        "motion": 100,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-8"
+                    }
+                ],
+                "nameCenter": "燦",
+                "textCenter": "それなら私の傷は、祭りを失って@しまったことかしらね"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 103101
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 103001,
+                        "motion": 300,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-9"
+                    }
+                ],
+                "nameCenter": "はぐむ",
+                "textCenter": "私はみんなにからかわれたり@笑われちゃうことかな"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 103001
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102901,
+                        "motion": 1,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-10"
+                    }
+                ],
+                "nameCenter": "時雨",
+                "textCenter": "ぼくも陰口たたかれるし@ひとりでいると笑われる…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102901
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 102801,
+                        "motion": 200,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-11"
+                    }
+                ],
+                "nameCenter": "ひめな",
+                "textCenter": "そして私チャンは@周りから自由な恋愛を潰された"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 102801,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-12"
+                    }
+                ],
+                "nameCenter": "ひめな",
+                "textCenter": "って考えてみるとそうかもね★"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 102801,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-13"
+                    }
+                ],
+                "nameCenter": "ひめな",
+                "textCenter": "みんな傷付いてて@変わろうとするたびに結ばれる"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 102801,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-14"
+                    }
+                ],
+                "nameCenter": "ひめな",
+                "textCenter": "それでいて、互いを想って@頑張れるならそれって最強じゃん"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_21741.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 102901,
+                        "motion": 1,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "bgm": "bgm23_magus02",
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 102901,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-15"
+                    }
+                ],
+                "nameCenter": "時雨",
+                "textCenter": "（あれからぼくたちは@お互いのために頑張ってきた）",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 102901,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-16"
+                    }
+                ],
+                "nameCenter": "時雨",
+                "textCenter": "（魔法少女至上主義を広めて、@自分たちの傷を癒やすために…）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 102901,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-17"
+                    }
+                ],
+                "nameCenter": "時雨",
+                "textCenter": "（姫が死んじゃうって思ったり@色々とあったけど）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 102901,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-18"
+                    }
+                ],
+                "nameCenter": "時雨",
+                "textCenter": "（裏で動きながら@着実に理想へと進んでる…）"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 102901,
+                        "pos": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 103001,
+                        "motion": 100,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-19"
+                    }
+                ],
+                "nameRight": "はぐむ",
+                "textRight": "時雨ちゃん嬉しそうだね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102901,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-20"
+                    }
+                ],
+                "nameLeft": "時雨",
+                "textLeft": "うん、姫と教官が来てくれて@順調に進んでるから…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103001,
+                        "motion": 1,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-21"
+                    }
+                ],
+                "nameRight": "はぐむ",
+                "textRight": "笠音さんもネオマギウスに@来てくれそうだし"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103001,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-22"
+                    }
+                ],
+                "nameRight": "はぐむ",
+                "textRight": "藍家さんと彼ピさんが言ってた@戦わずして逆転するのも"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 103001,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-23"
+                    }
+                ],
+                "nameRight": "はぐむ",
+                "textRight": "本当にできちゃいそうだよね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102901,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-24"
+                    }
+                ],
+                "nameLeft": "時雨",
+                "textLeft": "うんっ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 103101,
+                        "motion": 100,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-25"
+                    }
+                ],
+                "nameRight": "燦",
+                "textRight": "時女の本家への刷り込みも@もうすぐで終わりそうだから"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103101,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-26"
+                    }
+                ],
+                "nameRight": "燦",
+                "textRight": "今まで動かしてきた触手が@ようやく獲物を掴んだ感じね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_014.exp3.json",
+                        "id": 102901,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-27"
+                    }
+                ],
+                "nameLeft": "時雨",
+                "textLeft": "わぁ、さすが教官…！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 103101,
+                        "pos": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 103201,
+                        "motion": 0,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-28"
+                    }
+                ],
+                "nameRight": "ミユリ",
+                "textRight": "ただ戦うだけじゃなくて、@口も達者で頭も回る"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_014.exp3.json",
+                        "id": 103201,
+                        "motion": 400,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-29"
+                    }
+                ],
+                "nameRight": "ミユリ",
+                "textRight": "あぁ、もうミユは燦様に@惚れ直しそうですぅ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 103101,
+                        "motion": 1,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-30"
+                    }
+                ],
+                "nameLeft": "燦",
+                "textLeft": "ミユの方はどうなの？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 103201,
+                        "motion": 1,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-31"
+                    }
+                ],
+                "nameRight": "ミユリ",
+                "textRight": "あぅぅ…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 103201,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-32"
+                    }
+                ],
+                "nameRight": "ミユリ",
+                "textRight": "それが和泉十七夜に接触しても@追い返される始末で…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103101,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-33"
+                    }
+                ],
+                "nameLeft": "燦",
+                "textLeft": "一番の強敵が相手だからね@私でも無理だと思うわ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 103201,
+                        "motion": 200,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-34"
+                    }
+                ],
+                "nameRight": "ミユリ",
+                "textRight": "燦様でも!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103101,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-35"
+                    }
+                ],
+                "nameLeft": "燦",
+                "textLeft": "何か心を折るトリガーがないと@引き込むのは難しいでしょうね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 103201,
+                        "motion": 300,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-36"
+                    }
+                ],
+                "nameRight": "ミユリ",
+                "textRight": "そんな都合が良いことなんて@起きないと思いますし"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103201,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-37"
+                    }
+                ],
+                "nameRight": "ミユリ",
+                "textRight": "賭けになっちゃいます…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 103101,
+                        "motion": 0,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-38"
+                    }
+                ],
+                "nameLeft": "燦",
+                "textLeft": "そうね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 103501,
+                        "motion": 1,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-39"
+                    }
+                ],
+                "nameRight": "アレクサンドラ",
+                "textRight": "それでもユニオン以外を@切り崩せるのはすごいです♪"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103501,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-40"
+                    }
+                ],
+                "nameRight": "アレクサンドラ",
+                "textRight": "作戦の準備も順調ですし、@今のところ軌道に乗ってますね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 103501,
+                        "motion": 100,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-41"
+                    }
+                ],
+                "nameRight": "アレクサンドラ",
+                "textRight": "うふふっ♪"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 103001,
+                        "motion": 1,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-42"
+                    }
+                ],
+                "nameLeft": "はぐむ",
+                "textLeft": "確か神浜市の人たちに@私たちの声を聞かせるために"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103001,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-43"
+                    }
+                ],
+                "nameLeft": "はぐむ",
+                "textLeft": "サーシャさんは@情報を集めてるんだよね？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 103501,
+                        "motion": 200,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-44"
+                    }
+                ],
+                "nameRight": "アレクサンドラ",
+                "textRight": "その通りです♪"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103501,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-45"
+                    }
+                ],
+                "nameRight": "アレクサンドラ",
+                "textRight": "それで、おふたりに@伺いたいことがあるんですけど…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 103001,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-46"
+                    }
+                ],
+                "nameLeft": "はぐむ",
+                "textLeft": "私たち？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 103501,
+                        "motion": 0,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-47"
+                    }
+                ],
+                "nameRight": "アレクサンドラ",
+                "textRight": "はい、北養区の電波望遠鏡って@まだ稼働できますか？"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 103001,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 102901,
+                        "motion": 100,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-48"
+                    }
+                ],
+                "nameLeft": "時雨",
+                "textLeft": "えと…@灯花様が使ってたやつなら"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102901,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-49"
+                    }
+                ],
+                "nameLeft": "時雨",
+                "textLeft": "ぼくたちが最後に行ったときは@まだ動いてたはず…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102901,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-50"
+                    }
+                ],
+                "nameLeft": "時雨",
+                "textLeft": "だよね、はぐむん？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103001,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-51"
+                    }
+                ],
+                "nameRight": "はぐむ",
+                "textRight": "うん、簡単には廃棄にしたり@しないと思うけど"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 103501,
+                        "motion": 100,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-52"
+                    }
+                ],
+                "nameRight": "アレクサンドラ",
+                "textRight": "それならよかったです♪"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103501,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-53"
+                    }
+                ],
+                "nameRight": "アレクサンドラ",
+                "textRight": "電波望遠鏡を使えば効率良く@ひめちゃんの声が届きますから♪"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 102801,
+                        "motion": 200,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-54"
+                    }
+                ],
+                "nameLeft": "ひめな",
+                "textLeft": "キャハッ★"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 102801,
+                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-55"
+                    }
+                ],
+                "nameLeft": "ひめな",
+                "textLeft": "これで人員も次の動きも@決まってきた感じするよねー"
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "stop",
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

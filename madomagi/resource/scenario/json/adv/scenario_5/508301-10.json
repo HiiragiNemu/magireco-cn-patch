@@ -1,0 +1,612 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "black",
+    "item": [
+     {
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_frame.png",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm02_anime10",
+    "nameNarration": "",
+    "narration": "她要凭一己之力打倒魔女之夜……",
+    "narrationCoverOpacity": 90.0,
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "narration": "而那个播撒灾厄的魔女@再次出现在了她的面前"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear",
+      "zOrder": "bgFront"
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "surround": "7015_walpurgis_voice",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 3.0,
+    "surround": "7003_wind"
+   },
+   {
+    "autoTurnLast": 3.0,
+    "surround": "7015_walpurgis_voice"
+   },
+   {
+    "armatureList": [
+     {
+      "animation": [
+       "action"
+      ],
+      "armatureId": 1,
+      "filePath": "resource/image_native/effect/story/general/3002_cloud_of_dust.ExportJson",
+      "zOrder": "charaBack"
+     }
+    ],
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_23041.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 200200,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200200,
+      "lipSynch": 0,
+      "motion": 400
+     }
+    ],
+    "nameCenter": "焰",
+    "textCenter": "[flashEffect:flashWhite2]？！",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bgEffect": "shakeLarge",
+    "chara": [
+     {
+      "cheek": 0,
+      "effect": "shake",
+      "eyeClose": 1,
+      "face": "mtn_ex_020.exp.json",
+      "id": 200200
+     }
+    ],
+    "flashEffect": "flashRed2",
+    "se": "3001_chara_damage",
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "id": 810000,
+      "pos": 0,
+      "posX": -50,
+      "posY": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200101,
+      "motion": 0,
+      "pos": 2,
+      "soulGem": 0
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 200101,
+      "motion": 300
+     }
+    ],
+    "nameLeft": "丘比",
+    "nameRight": "圆",
+    "textRight": "怎么会这样……",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "textLeft": "没办法，这不是她一个人能够承担的。"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 200200,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200200,
+      "lipSynch": 0
+     }
+    ],
+    "nameCenter": "焰",
+    "textCenter": "[flashEffect:flashWhite2]？！",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bgEffect": "shakeLarge",
+    "chara": [
+     {
+      "cheek": 0,
+      "effect": "shake",
+      "eyeClose": 1,
+      "face": "mtn_ex_020.exp.json",
+      "id": 200200
+     }
+    ],
+    "flashEffect": "flashRed2",
+    "se": "3001_chara_damage",
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 1.0,
+    "chara": [
+     {
+      "id": 810000,
+      "pos": 0,
+      "posX": -50,
+      "posY": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 200101,
+      "motion": 0,
+      "pos": 2,
+      "soulGem": 0
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 200101,
+      "motion": 201
+     }
+    ],
+    "textRight": "怎么可以……@[chara:200101:lipSynch_0][wait:1.0][chara:200101:cheek_0][chara:200101:face_mtn_ex_040.exp.json][chara:200101:lipSynch_1]这也太残酷了！",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200200,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200
+     }
+    ],
+    "textBg": "shout",
+    "textCenter": "小圆！",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_020.exp.json",
+      "id": 200200,
+      "mouthOpen": 1
+     }
+    ],
+    "textBg": "shout",
+    "textCenter": "别听它胡说！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "id": 810000,
+      "pos": 0,
+      "posX": -50,
+      "posY": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 200101,
+      "motion": 0,
+      "pos": 2,
+      "soulGem": 0
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "textLeft": "如果放弃，就不会有未来。",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_040.exp.json",
+      "id": 200101,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "textRight": "……"
+   },
+   {
+    "textLeft": "但你能够改变命运。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200101,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "textRight": "……@……"
+   },
+   {
+    "textLeft": "你尽可扭转一切——@无论是注定的毁灭，还是难逃的困局。"
+   },
+   {
+    "textLeft": "因为你拥有这种能力。"
+   },
+   {
+    "chara": [
+     {
+      "id": 200101
+     }
+    ],
+    "textRight": "……真的吗？"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_23041.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200200,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200,
+      "mouthOpen": 1
+     }
+    ],
+    "textBg": "shout",
+    "textCenter": "别上当！否则会正中它的下怀！",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "id": 810000,
+      "pos": 0,
+      "posX": -50,
+      "posY": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200101,
+      "motion": 0,
+      "pos": 2,
+      "soulGem": 0
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200101,
+      "motion": 0
+     }
+    ],
+    "textRight": "我真的可以做些什么吗？",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 200101
+     }
+    ],
+    "textRight": "真的能够改变这个结局吗？"
+   },
+   {
+    "textLeft": "可以啊。"
+   },
+   {
+    "textLeft": "所以和我签订契约，成为魔法少女吧！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200101,
+      "lipSynch": 0
+     }
+    ],
+    "textRight": "……@……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_23041.jpg",
+    "bgm": "stop",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200200,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "deleteArmatureList": [
+     1
+    ],
+    "surround": "stop",
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200,
+      "mouthOpen": 1
+     }
+    ],
+    "nameNarration": "焰",
+    "narration": "『不行——』",
+    "narrationEffect": "in",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bgm": "stop",
+    "item": [
+     {
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_witch_salvation.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm01_anime17",
+    "nameNarration": "丘比",
+    "narration": "―丘比―@小圆变身之后可真厉害啊",
+    "narrationAnchor": "bottom",
+    "narrationCoverOpacity": 110.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 30.0,
+    "narrationLineMargin": 10.0,
+    "narrationLineSpace": 20.0,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "nameNarration": "焰",
+    "narration": "―焰―@…………"
+   },
+   {
+    "nameNarration": "丘比",
+    "narration": "―丘比―@我也预测到@她会成为最强的魔法少女"
+   },
+   {
+    "narration": "―丘比―@但我真没想到@她一下就打倒了魔女之夜……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_20181.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 200200,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "id": 810000,
+      "pos": 2,
+      "posX": 40,
+      "posY": 0
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200
+     }
+    ],
+    "nameLeft": "焰",
+    "nameRight": "丘比",
+    "textLeft": "这也是你预想到的结果对吗？",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "textRight": "迟早都将迎来这个结局哦。"
+   },
+   {
+    "textRight": "她会作为最强大的魔法少女，@打倒最凶恶的敌人。"
+   },
+   {
+    "textRight": "当然，她到最后会变成最危险的魔女。"
+   },
+   {
+    "textRight": "现在的小圆恐怕用不了10天，"
+   },
+   {
+    "textRight": "就可以毁灭这座星球吧。"
+   },
+   {
+    "textRight": "……不过，这就是@你们人类面临着的问题了。"
+   },
+   {
+    "textRight": "毕竟我们的能量回收计划@已经基本完成了。"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200,
+      "lipSynch": 0
+     }
+    ],
+    "textLeft": "……"
+   },
+   {
+    "textRight": "……你不去战斗吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 200200,
+      "motion": 1
+     }
+    ],
+    "textLeft": "不去，@我的战场不在这里。"
+   },
+   {
+    "textRight": "晓美焰，@你……"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "flashEffect": "explosion",
+    "surround": "7017_homura_backtime",
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 1.0,
+    "bgm": "stop",
+    "item": [
+     {
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_homura_walking.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "whiteIn"
+   },
+   {
+    "bgm": "bgm01_anime05",
+    "nameNarration": "焰",
+    "narration": "不断地重复……@重复了无数次……",
+    "narrationAnchor": "bottom",
+    "narrationCoverOpacity": 110.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 30.0,
+    "narrationLineMargin": 35.0,
+    "narrationLineSpace": 20.0,
+    "turnChangeOut": "whiteOut"
+   },
+   {
+    "narration": "无数次在同一时间徘徊@只为寻找那唯一的出口"
+   },
+   {
+    "narration": "寻找能将你从绝望的命运当中@拯救出来的道路……"
+   },
+   {
+    "narration": "小圆……@我唯一的朋友"
+   },
+   {
+    "narration": "如果是……@为了你"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bgm": "stop",
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "焰",
+    "narration": "就算被囚禁在永恒的迷宫中@我也无所畏惧",
+    "narrationBg": "black",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

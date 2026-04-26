@@ -1,0 +1,677 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg",
+                        "posX": 0,
+                        "posY": 125,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "autoTurnFirst": 0.1,
+                "bgm": "bgm03_story23",
+                "item": [
+                    {
+                        "action": {
+                            "spawn": [
+                                {
+                                    "moveTo": {
+                                        "duration": 12,
+                                        "posX": 0,
+                                        "posY": -125
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg"
+                    }
+                ],
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1
+            },
+            {
+                "nameNarration": "ペレネル・フラメル",
+                "narration": "―ペレネル―@いまから10年近く前…",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20
+            },
+            {
+                "narration": "―ペレネル―@“乙女”は強大な魔女@“女王（ラ・レーヌ）の黄昏”を倒し"
+            },
+            {
+                "narration": "―ペレネル―@売国妃イザボーの手からフランスを…@いえ、ヨーロッパを救いました"
+            },
+            {
+                "autoTurnLast": 0.5
+            },
+            {
+                "narration": "―ペレネル―@そして、みずから火刑になる道を選んだのです"
+            },
+            {
+                "autoTurnLast": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_20071.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102001,
+                        "motion": 0,
+                        "pos": 1,
+                        "soulGem": 0
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…………",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102001
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "異常に気づいたのは@そのあとだったわ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "うん"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "まるで“乙女”が、初めから@「いなかった」かのように"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "人々の記憶が変化しはじめたんだ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "世界が不自然な力で@変えられようとしている…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "そう考えたペレネルと僕は"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "人々に残る記憶を集めて@失われることのないように"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "書物の中に閉じこめることにした"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "それによってできた@書物の中の空間…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "それが、あなたたちが入り込んだ@“想いの箱舟”よ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "箱舟の中にある「本」の@ひとつひとつは"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "“乙女”ジャンヌにゆかりのある@人々の想いで構成されているの"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "そう、想いの箱舟は…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "いわば“乙女”の夢を@集めたような場所と言えるね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102001,
+                        "motion": 300,
+                        "pos": 0,
+                        "soulGem": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "そうだったんだ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "そうして箱舟に集まった記憶を@調べることで"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "僕たちは世界の異変の原因を@探ろうとしていた"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "そして、他にも協力者を@募っていたところだったんだ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "ところが…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "トルテが書物の中の空間に@勝手に立ち入ってしまったのよね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "うん、それであわてて@追いかけてきたってわけ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 831303,
+                        "motion": 300,
+                        "pos": 0,
+                        "soulGem": 0
+                    }
+                ],
+                "nameLeft": "トルテ",
+                "textLeft": "えっと…@…ごめんなさい"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 810000,
+                        "pos": 2,
+                        "posX": 50
+                    }
+                ],
+                "nameRight": "キューブ",
+                "textRight": "トルテも箱舟に集まった記憶を@調査して"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameRight": "キューブ",
+                "textRight": "世界の異変の原因を探ろうと@していたのかい？"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 831303,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "トルテ",
+                "textLeft": "調べようとはしてたけど@そんな立派な動機じゃないの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831303
+                    }
+                ],
+                "nameLeft": "トルテ",
+                "textLeft": "ただ、わたしと同じ名前の@“乙女”のことを"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831303
+                    }
+                ],
+                "nameLeft": "トルテ",
+                "textLeft": "もっと知りたいって@思っただけだから…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "好奇心を持つのはいいけど"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "迷惑をかけたかごめちゃんに@ちゃんと謝らないとね"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 831303,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "id": 831303,
+                        "motion": 100,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102001,
+                        "motion": 0,
+                        "pos": 0,
+                        "soulGem": 0
+                    }
+                ],
+                "nameRight": "トルテ",
+                "textRight": "うん…@ごめんね、かごめちゃん"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 102001,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "あ…ううん@私もさっきまで"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "ジャンヌ・ダルクさんのことを@取材できたらな…なんて"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "そんな考えでいたし…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "id": 102001,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "今も、ペレネルさんが@魔法少女だって知って"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "取材させてほしいな…なんて@思っちゃったし…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "取材とは…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831303,
+                        "motion": 0,
+                        "pos": 0,
+                        "soulGem": 0
+                    }
+                ],
+                "nameLeft": "トルテ",
+                "textLeft": "あ、かごめちゃんはね…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831303
+                    }
+                ],
+                "nameLeft": "トルテ",
+                "textLeft": "魔法少女のことを@記録に残してるんだって"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831303,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "トルテ",
+                "textLeft": "お母さんも協力してあげて！"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bgm": "stop",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "black",
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "white",
+                "turnChangeIn": "whiteIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "[textBlack:―取材記録―@ペレネル・フラメル]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 0.2
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 2,
+                        "posX": 30
+                    }
+                ],
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "whiteIn"
+            },
+            {
+                "bgm": "bgm20_song10",
+                "chara": [
+                    {
+                        "id": 402901,
+                        "motion": 200
+                    }
+                ],
+                "nameNarration": "ペレネル・フラメル",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 80,
+                "progressNarration": "[textBlack:「“知りたい”…]@[textBlack:真理を究めんとする者として]@[textBlack:それが私の望みであり、私のすべてでした」]",
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "motion": 0
+                    }
+                ],
+                "progressNarration": "[textBlack:「でも、“乙女”との出会いが私を変えました]@[textBlack:…少し丸くなったと言われることもあります」]"
+            },
+            {
+                "progressNarration": "[textBlack:「あのとき…魔女になる運命が]@[textBlack:決して避けられぬと知った“乙女”は]@[textBlack:戦友たちの命と引き換えに]@[textBlack:火刑となる道を選びました」]"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "motion": 100
+                    }
+                ],
+                "progressNarration": "[textBlack:「そして“乙女”は…タルトは]@[textBlack:みずから敵に囚われてゆきました。]@[textBlack:「最後まで傍観者にすぎなかった私に]@[textBlack:『みんなをお願いします』と言い残して…」]"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 0
+                    }
+                ],
+                "progressNarration": "[textBlack:「…“乙女”の死を目の当たりにして]@[textBlack:私は長い人生で初めて、我が夫以外の誰かに]@[textBlack:祈りを捧げました」]"
+            },
+            {
+                "progressNarration": "[textBlack:「ただ、祈りを捧げることしか]@[textBlack:できなかったのです…」]"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "motion": 400
+                    }
+                ],
+                "progressNarration": "[textBlack:「我が娘が、“乙女”に関心を持ち]@[textBlack:その生きざまを知りたいというのなら」]"
+            },
+            {
+                "progressNarration": "[textBlack:「亡き“乙女”ジャンヌのために]@[textBlack:自分に何ができるのか、真剣に考えてほしい」]"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402901,
+                        "motion": 100
+                    }
+                ],
+                "progressNarration": "[textBlack:「それが今の、私の望みね」]"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

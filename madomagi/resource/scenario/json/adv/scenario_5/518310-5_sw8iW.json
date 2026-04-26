@@ -1,0 +1,550 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_60031.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100301,
+                        "motion": 1,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104501,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm03_story19",
+                "chara": [
+                    {
+                        "id": 100301,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "ここが、露姫様の部屋？",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104501,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "隣にあなたたちの部屋を@用意させたわ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104501,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "ねむも含めると３人だと思うけど@ひとつの部屋になってごめんね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104501,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "これで、ご神木を守ってくれた@お礼になってるかしら？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 100301,
+                        "motion": 101,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "野宿か廃屋を覚悟してたから、@今の待遇は十分すぎるぐらいだよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104501,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "ふふっ、良かった"
+            },
+            {
+                "nameNarration": "カササギの声",
+                "narration": "「ガァ、グァーグァー」",
+                "narrationBg": "bg_adv_60031.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "black",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51183_historia_kamihama/51183_kasasagi.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "さな",
+                "narration": "―さな―@あ、トリさんを飼ってるんですね",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "nameNarration": "露",
+                "narration": "―露―@カササギっていうの"
+            },
+            {
+                "nameNarration": "露",
+                "narration": "―露―@父が譲り受けたもので@日の本にはいない珍しい鳥なんですって"
+            },
+            {
+                "nameNarration": "さな",
+                "narration": "―さな―@七夕のお話に出てきますよね@織姫と彦星のために橋渡しをするって…"
+            },
+            {
+                "nameNarration": "露",
+                "narration": "―露―@そんな話も聞いたことがあるわね"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_60031.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 101405,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100301,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51183_historia_kamihama/51183_kasasagi.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 101405,
+                        "motion": 200,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ねむ",
+                "surround": "7202_telepathy",
+                "textRight": "これは歴史を追う鍵になるよ",
+                "turnChangeOut": "fadeOut",
+                "turnEffect": "ef_adv_02"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 101405
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "現代に残された資料の中にも@カササギの話は出てくる"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 100301,
+                        "motion": 201,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "うん、戦神子であるふたりの絆は@カササギのおかげで結ばれてるよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 100401,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "さな",
+                "textLeft": "これから、観察が必要ですね…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 100401,
+                        "pos": 2
+                    }
+                ],
+                "surround": "stop",
+                "textClear": 1,
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104501,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "本当はネコが好きなんだけど@トリがいると飼いづらいのよね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104501
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "そもそも、この飢饉のさなかだと@ネコにあげるエサもないけどね…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100401,
+                        "motion": 1
+                    }
+                ],
+                "nameRight": "さな",
+                "textRight": "そういえば…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100401
+                    }
+                ],
+                "nameRight": "さな",
+                "textRight": "正綱様と玄雲さんは飢饉について@話を続けてるんでしょうか…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 104501,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "ええ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104501
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "徳政を求める農民の蜂起に対して@どう対応するかを話してると思う"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104501,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "昨晩、玄雲にも伝えていたから"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104501
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "徳政を進められるように@助け船を出してくれているはずよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100401,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "さな",
+                "textRight": "いい人ですね、玄雲さん"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104501,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "ええ、隅谷や熊井なんかより@よっぽど民のことを憂いてるわ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100301,
+                        "motion": 101,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "だけど、この飢饉は徳政をしても@その場しのぎだよね…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100301
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "さっき、妖魔が引き起こしてる@って話をしてたから…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 104501,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "そう…厳密には泰党が@妖魔を操って起こしていること…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 104501
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "根本的に解決するには@泰党を倒すしかないのよ…"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_20753.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 100300,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 101405,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100300
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "飢饉に徳政を求める農民の蜂起…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100300,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "ゴタゴタの多い時代だけど@とりあえず一歩進んだね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100300
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "元から露姫様を捜す気だったから@順調で良かったよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 101405,
+                        "motion": 100
+                    },
+                    {
+                        "id": 100300,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "城で水名露の側で仕えるなんて@大躍進以外の言いようがないね"
+            },
+            {
+                "autoTurnLast": 0.3,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/80901_historia_today/80901_soul_dome_particle.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "flashEffect": "flashWhiteSlow2"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100400,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さな",
+                "textRight": "器が光って…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100300,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "いろはちゃんの概念が@回収された…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 101405,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ねむ",
+                "textRight": "うん、お姉さんを形作る概念で@間違いないはずだよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100300,
+                        "motion": 200,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "よっし！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100300
+                    }
+                ],
+                "nameLeft": "鶴乃",
+                "textLeft": "このまま歴史に従って、@いろはちゃんを助けよう…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100400,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さな",
+                "textRight": "はいっ…！"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

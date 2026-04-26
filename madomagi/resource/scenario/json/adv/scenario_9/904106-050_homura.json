@@ -1,0 +1,167 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_20171.jpg",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_052.exp3.json",
+                        "id": 200501,
+                        "motion": 0,
+                        "pos": 0,
+                        "tear": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day06.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm01_anime18",
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200501,
+                        "motion": 100
+                    }
+                ],
+                "nameAvLeft": "マミ",
+                "textAvColor": "textMami",
+                "textAvLeft": "どうして、こんなことに…？",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200501
+                    }
+                ],
+                "nameAvLeft": "マミ",
+                "textAvLeft": "考えて、考えて、ベストの@行動を取ったつもりなのに…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200501,
+                        "motion": 300
+                    }
+                ],
+                "nameAvLeft": "マミ",
+                "textAvLeft": "私…魔法少女、失格だわ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 300
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvRight": "マミさん…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200101
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 200501
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 230101,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "FnarrationAnchor": "top",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textHomura",
+                "FnarrationWidth": 340,
+                "FnarrationX": 200,
+                "FnarrationY": -20,
+                "chara": [
+                    {
+                        "id": 230101
+                    }
+                ],
+                "nameFnarration": "ほむら",
+                "progressFnarration": "(巴マミが落ち込む気持ちも@よくわかる)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 230101,
+                        "motion": 300
+                    }
+                ],
+                "progressFnarration": "(彼女の言葉を信じるなら@恐らく推察は正しい)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 230101
+                    }
+                ],
+                "progressFnarration": "(最悪の事態を想定するなら@これから先も…)"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 230101
+                    }
+                ],
+                "progressFnarration": "(愛生まばゆに@真実を伝えることは、できない)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

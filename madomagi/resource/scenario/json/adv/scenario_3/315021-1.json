@@ -1,0 +1,768 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_21173.jpg",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bgm": "bgm03_story07",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "nameNarration": "やちよ",
+                "narration": "１日…また１日…",
+                "narrationBg": "bg_adv_21173.jpg",
+                "narrationCoverOpacity": 50,
+                "narrationEffect": "in"
+            },
+            {
+                "narration": "いろはたちが姿を消した“あの日”から@私は朝を迎えるたびに@心にできた隙間に触れている"
+            },
+            {
+                "narration": "月日を指折り数えているうちに@少しずつ隙間は埋まるものかもしれないけど@まだ、その日を迎える未来を@私は想像できない"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_14013.jpg",
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "nameNarration": "やちよ",
+                "narration": "それは、私に限った話じゃない",
+                "narrationBg": "bg_adv_14013.jpg",
+                "narrationCoverOpacity": 50,
+                "narrationEffect": "in"
+            },
+            {
+                "narration": "みかづき荘のみんなも@神浜市のみんなも@いろはたちと出会った人たちはみんな"
+            },
+            {
+                "narration": "多かれ少なかれ@同じ想いを背負っていると思う"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_14051.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100201,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100201,
+                        "lipSynch": 0,
+                        "motion": 301,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "やちよ",
+                "textCenter": "（そして、夜が明けるたびに@思い知るのよね…）",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100201,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "やちよ",
+                "textCenter": "（魔法少女以外のみんなが@“いろは”を忘れている現実を）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 100201,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "やちよ",
+                "textCenter": "[se:7201_detect_magic][chara:100201:effect_ef_adv_01]――っ!?"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.2,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png",
+                        "posX": 0,
+                        "posY": 3000,
+                        "scale": 6,
+                        "setVisible": 1,
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.01,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 100201
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_24014.jpg",
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.2,
+                                "posY": -3000
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "flashEffect": "flashWhiteSlow1"
+            },
+            {
+                "nameNarration": "やちよ",
+                "narration": "「いろは…？」",
+                "narrationBg": "bg_adv_24014.jpg",
+                "narrationCoverOpacity": 50,
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_21201.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100502,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 1
+            },
+            {
+                "bgm": "bgm01_anime02",
+                "chara": [
+                    {
+                        "id": 100502,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "フェリシア",
+                "textCenter": "ふぉふぁよぉ～",
+                "turnChangeOut": "fadeOut",
+                "turnChangeOutTime": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 100502
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_21261.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100201,
+                        "motion": 201,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100401,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "おはようじゃないわよ@急がないと遅刻…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 100201,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "って、まだパジャマ!?[chara:100201:lipSynch_0][wait:0.8][chara:100201:cheek_0][chara:100201:face_mtn_ex_021.exp3.json][chara:100201:lipSynch_1]@早く着替えて！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100401,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さな",
+                "textRight": "フェリシアさん…！@食事は置いておきますね…！"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_21201.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100201,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100401,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100201,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "さなは、そろそろ出かける？",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100401,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さな",
+                "textRight": "はい、今なら始業のチャイムまで@少し余裕があるので…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100201,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "わかったわ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 100201,
+                        "motion": 200,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100502,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "というわけで@フェリシアも早く！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100502,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "１日遅刻したって、@誰も死んだりしねーよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_042.exp3.json",
+                        "id": 100201,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "怒るわよ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100502,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "いろは風のハンバーグを@夕飯にしてくれたら頑張る"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100201,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "わかったわ、今度ね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 100502,
+                        "motion": 200,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "[chara:100502:effect_emotion_joy_0][se:7222_happy]おっしゃ！@それじゃあ、約束な！"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "slideOutRightFast",
+                        "id": 100502
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100401,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さな",
+                "textRight": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 100201,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "…行かないの？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100401,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さな",
+                "textRight": "あ、はい@行ってきます！"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_21691.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100501,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 100301,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "rollIn"
+            },
+            {
+                "bgm": "bgm03_story02",
+                "chara": [
+                    {
+                        "id": 100301,
+                        "motion": 200,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "よぉし、フェリシア！@学校に出発だー！",
+                "turnChangeOut": "rollOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100501,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "フェリシア",
+                "textLeft": "学校ちげーのに@なんで来たんだよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100301,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "やちよが２限目からなのを@忘れちゃってて…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100301,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "あとは、やっぱり@前の名残、みたいな感じかな…？"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 100301,
+                        "motion": 101,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "いやあ、ドジだよねぇ"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 100501,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "フェリシア",
+                "textLeft": "別に、いろはもういも@学校一緒だったし、仕方ねーよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100501,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100301,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "フェリシア",
+                "textLeft": "あ、そういや今日さ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 100501,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "フェリシア",
+                "textLeft": "やちよがいろは風の@ハンバーグ作ってくれるんだぞ！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 100501,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_042.exp3.json",
+                        "id": 100201,
+                        "motion": 201,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "今度よ今度@今日なんて言ってないからね？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100501,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "フェリシア",
+                "textRight": "え、マジか…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 100301,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "ふふっ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100301,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "ただ、作ってくれたとしても@やちよにあの味が出せるかな？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100201,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "あら、私にだって作れるわよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100201,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "やちよ",
+                "textLeft": "それより、ふたりとも@遅刻するわよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100301,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "おっと！@[chara:100301:lipSynch_0][wait:0.8][chara:100301:cheek_0][chara:100301:face_mtn_ex_011.exp3.json][chara:100301:motion_0][chara:100301:lipSynch_1]それじゃあ、行ってきます！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 100501,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "フェリシア",
+                "textLeft": "んじゃなー！"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "slideOutRightFast",
+                        "id": 100301
+                    },
+                    {
+                        "effect": "slideOutRightFast",
+                        "id": 100501
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100201,
+                        "motion": 300,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "やちよ",
+                "textCenter": "はあ…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 100201,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "やちよ",
+                "textCenter": "（いろはがいなくなった影響は@やっぱり大きいわね…）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100201,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "やちよ",
+                "textCenter": "（フェリシアはわからないけど@鶴乃とさなには影が落ちてる…）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100201,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameCenter": "やちよ",
+                "textCenter": "（十七夜とみふゆに聞いた話だと@他の人も沈んでるみたいだし）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100201,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "やちよ",
+                "textCenter": "（まだまだケアをする必要が@ありそうね…）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 100201,
+                        "motion": 301,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "やちよ",
+                "textCenter": "どうすればいいのかしらね…"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

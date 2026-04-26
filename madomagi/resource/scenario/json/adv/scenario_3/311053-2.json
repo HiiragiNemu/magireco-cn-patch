@@ -1,0 +1,278 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "black",
+    "bgm": "bgm03_story01",
+    "item": [
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_5b.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "narrationAnchor": "bottom",
+    "narrationCoverOpacity": 0.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0,
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_5a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_5b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小菲莉希亚",
+    "narration": "我不要再拍照了！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posX": -1200
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_5a.jpg"
+     },
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_6b.jpg",
+      "posX": 1200,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "se": "7107_arrivalone"
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_6a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_5a.jpg",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_6b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "八千代",
+    "narration": "哎呀@你这就回来了？"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 900
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_6a.jpg"
+     },
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_7b.jpg",
+      "posX": 0,
+      "posY": -900,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_7a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_6a.jpg",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_7b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "八千代",
+    "narration": "下周学校要开运动会吧？@我买了相机，你站那里让我试……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 900
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_7a.jpg"
+     },
+     {
+      "action": {
+       "sequence": [
+        {
+         "moveTo": {
+          "duration": 0.3,
+          "posY": 100
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.1,
+          "posY": -100
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.1,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_8b.jpg",
+      "posX": 0,
+      "posY": -900,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_8c1.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_7a.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小菲莉希亚",
+    "narration": "咚咔——！",
+    "surround": "1005A02"
+   },
+   {
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 0.8
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 1.2
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 0.8
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 1.2
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 0.8
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 1.2
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 1.0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_8a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_8c1.png",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_8b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "八千代",
+    "narration": "呀啊！"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

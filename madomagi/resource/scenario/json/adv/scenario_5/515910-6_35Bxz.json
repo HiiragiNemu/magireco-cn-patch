@@ -1,0 +1,650 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bg": "black",
+                "nameNarration": "",
+                "narration": "第２章「ニコラとペレネル」",
+                "narrationBg": "black",
+                "narrationEffect": "in",
+                "narrationFontSize": 37,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "in",
+                            "stay"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/4000_darkmist.ExportJson",
+                        "zOrder": "charaBack"
+                    }
+                ],
+                "autoTurnLast": 1,
+                "bg": "bg_adv_20071.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 760100,
+                        "motion": 0,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 760000,
+                        "live2dName": "live2d_0",
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 760000,
+                        "live2dName": "live2d_1",
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "effect": "shake",
+                        "id": 760000,
+                        "live2dName": "live2d_1"
+                    }
+                ],
+                "flashEffect": "flashRed2",
+                "se": "3001_chara_damage"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 760000,
+                        "live2dName": "live2d_1"
+                    }
+                ],
+                "se": "3002_chara_dead"
+            },
+            {
+                "autoTurnLast": 1.2,
+                "chara": [
+                    {
+                        "id": 760100
+                    }
+                ],
+                "nameCenter": "",
+                "textBg": "shout",
+                "textCenter": "БяяяяЯ!?"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "effect": "shake",
+                        "id": 760000,
+                        "live2dName": "live2d_0"
+                    }
+                ],
+                "flashEffect": "flashRed2",
+                "se": "3001_chara_damage",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 760000,
+                        "live2dName": "live2d_0"
+                    }
+                ],
+                "se": "3002_chara_dead"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "effect": "shake",
+                        "id": 760100
+                    }
+                ],
+                "flashEffect": "flashRed2",
+                "se": "3001_chara_damage"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 760100
+                    }
+                ],
+                "se": "3002_chara_dead"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831303,
+                        "motion": 400,
+                        "pos": 2,
+                        "soulGem": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102001,
+                        "motion": 0,
+                        "pos": 0,
+                        "soulGem": 0
+                    }
+                ],
+                "nameRight": "トルテ",
+                "textRight": "えっ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "誰か、倒してくれたの…？"
+            },
+            {
+                "bgm": "bgm03_story09",
+                "nameCenter": "？？？の声",
+                "textCenter": "探しましたよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "トルテちゃん@見て、上！"
+            },
+            {
+                "autoTurnLast": 0.4,
+                "bg": "black",
+                "deleteArmatureList": [
+                    2
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51158_tower_tart2/memoria_1736.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "ペレネル・フラメル",
+                "narration": "―ペレネル―@近所で遊んでるのかと思ったら@まさかこんな…",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 10,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "nameNarration": "ニコラ・フラメル",
+                "narration": "―ニコラ―@聞けばキューブも@一緒じゃないって言うし"
+            },
+            {
+                "narration": "―ニコラ―@僕たち心配したよ！"
+            },
+            {
+                "autoTurnLast": 0.4,
+                "bg": "bg_adv_20071.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102001,
+                        "motion": 0,
+                        "pos": 0,
+                        "soulGem": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831303,
+                        "motion": 0,
+                        "pos": 2,
+                        "soulGem": 0
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831303
+                    }
+                ],
+                "nameRight": "トルテ",
+                "textRight": "…お父さん、お母さん",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "え…@この人たちが？"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 831303
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 102001
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402900,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "初めまして！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "僕は錬金術士の@ニコラ・フラメル"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "ef_adv_05",
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "se": "7205_magic_girl",
+                "textLeft": "同じく錬金術士にして魔法少女の@ペレネル・フラメルと申します"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102001,
+                        "motion": 200,
+                        "pos": 0,
+                        "soulGem": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "あ…あの@佐鳥かごめ…です"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "娘のトルテ…いえ、ジャンヌが@ご迷惑をおかけしたみたいで"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "誠に申し訳ありません"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "私もなるべく目を離さないように@しているのですが"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "なにぶん手に負えないお転婆で…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 831303,
+                        "motion": 0,
+                        "pos": 0,
+                        "soulGem": 0
+                    }
+                ],
+                "nameLeft": "トルテ",
+                "textLeft": "ごめんなさい…@お父さん…お母さん"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 831303
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 402901
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 102001,
+                        "motion": 1,
+                        "pos": 0,
+                        "soulGem": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "えっ…えっと…？@お、お父さん…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "（私と@同じくらいに見えるけど…？）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402901,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "ああ、ニコラの見た目は@気にしないでくださいね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "わけあって@歳を取らない体質なので…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102001,
+                        "lipSynch": 0,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "[chara:102001:effect_emotion_surprise_0][se:7226_shock]（そんな体質あるの…？）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831303,
+                        "motion": 200,
+                        "pos": 0,
+                        "soulGem": 0
+                    }
+                ],
+                "nameLeft": "トルテ",
+                "textLeft": "あのね、聞いて！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831303
+                    }
+                ],
+                "nameLeft": "トルテ",
+                "textLeft": "かごめちゃんは@未来から来たんだよ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "未来から…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "id": 810000,
+                        "motion": 0,
+                        "pos": 2,
+                        "posX": 50
+                    }
+                ],
+                "nameRight": "キューブ",
+                "textRight": "それは興味深いね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102001,
+                        "motion": 400,
+                        "pos": 0,
+                        "soulGem": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "きゅ、キュゥべえ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameRight": "キューブ",
+                "textRight": "やっぱりキミには@ボクの姿が見えるみたいだね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameRight": "キューブ",
+                "textRight": "まさかこんなところで@魔法少女の素質がある子に"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameRight": "キューブ",
+                "textRight": "出会えるとは思わなかったよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 102001,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "…………@…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831303,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "トルテ",
+                "textRight": "…どうしたの、かごめちゃん？"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 102001
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "いろんな情報が入ってきて@頭が混乱しちゃって…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831700,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "うーん、そうだね@とりあえず…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "僕たちが何をしているのかを@話すことにしようか？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "そうね"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

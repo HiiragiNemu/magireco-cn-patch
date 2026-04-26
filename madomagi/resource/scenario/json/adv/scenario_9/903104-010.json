@@ -1,0 +1,250 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_03.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_03.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_04.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_20201.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 801000,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day04.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm01_anime07",
+                "chara": [
+                    {
+                        "id": 801000,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903104-010-1"
+                    }
+                ],
+                "nameAvCenter": "先生",
+                "textAvCenter": "地球は太陽の周りを、1年で@ぐるっと一周するわけで…",
+                "textAvColor": "255255255",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "textAvClear": 1
+            },
+            {
+                "nameAvLeft": "まばゆの声",
+                "surround": "7202_telepathy",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "そーっと、そーっと…",
+                "turnEffect": "ef_adv_02",
+                "voiceFullAuto": "fullvoice/section_104202/vo_full_903104-010-2"
+            },
+            {
+                "autoTurnFirst": 2,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200903,
+                        "motion": 1,
+                        "pos": 0,
+                        "voiceFull": "fullvoice/section_104202/vo_full_903104-010-3"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "おお…教卓から見る@教室は、また格別"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200903
+                    }
+                ]
+            },
+            {
+                "autoTurnFirst": 4,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "action": {
+                            "moveBy": {
+                                "duration": 2,
+                                "posX": 500
+                            }
+                        },
+                        "id": 200903
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200903,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903104-010-4",
+                        "voiceFullStop": "fullvoice/section_104202/vo_full_903104-010-3"
+                    }
+                ],
+                "nameAvRight": "まばゆ",
+                "textAvRight": "ふふーん、ホントにみんな@私が見えてないんですね"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 801000
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200903,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903104-010-5"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "まわりの光をねじ曲げて@前後を素通しさせる…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200903,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903104-010-6"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "いわゆる光学迷彩という@ヤツですね"
+            },
+            {
+                "nameAvRight": "キュゥべえの声",
+                "textAvColor": "255255255",
+                "textAvRight": "なるほど、なかなか珍しい@魔法が使えるんだね",
+                "voiceFullAuto": "fullvoice/section_104202/vo_full_903104-010-7"
+            },
+            {
+                "nameAvRight": "キュゥべえの声",
+                "textAvRight": "どうやらキミは、補助魔法に@力を発揮するようだ",
+                "voiceFullAuto": "fullvoice/section_104202/vo_full_903104-010-8"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200903,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903104-010-9"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "私の性格っぽいですね",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200903,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903104-010-10"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "そしてその方が@情報収集に断然有利！"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200903,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903104-010-11"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "そろそろ、反撃の時間が@やってきたようですよ…"
+            },
+            {
+                "autoTurnLast": 2,
+                "surround": "stop",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            }
+        ]
+    },
+    "version": 3
+}

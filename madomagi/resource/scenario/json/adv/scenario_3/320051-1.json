@@ -1,0 +1,540 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.1,
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "bg": "bg_adv_12011.jpg"
+   },
+   {
+    "bgm": "bgm03_story06",
+    "nameNarration": "麻美",
+    "narration": "神滨市……@有什么事正在这个城市发生。",
+    "narrationBg": "narration",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "narration": "虽然先到达了这里@但要从哪里开始调查呢"
+   },
+   {
+    "narration": "寻找魔女？@还是寻找魔法少女？"
+   },
+   {
+    "narration": "说到底@这个城市中到底是什么失控了？"
+   },
+   {
+    "bg": "bg_adv_12041.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 200500,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "麻美",
+    "narrationEffect": "out",
+    "textRight": "首先还是要了解这片土地吧。"
+   },
+   {
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 200500
+     }
+    ],
+    "narration": "神滨市到底变成了什么样子@先去了解一下风土人情@或许就能有线索了",
+    "narrationBg": "narration",
+    "narrationEffect": "in"
+   },
+   {
+    "narration": "好，那首先将这里的……"
+   },
+   {
+    "autoTurnLast": 1.0,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 200500,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "flashEffect": "flashWhiteSlow2",
+    "narrationEffect": "out",
+    "se": "7211_souljem_02"
+   },
+   {
+    "bgm": "bgm03_story10",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 200500,
+      "motion": 400
+     }
+    ],
+    "textRight": "——！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 200500,
+      "motion": 1
+     }
+    ],
+    "textRight": "灵魂宝石有反应了！@这附近有魔女吗！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 200500,
+      "motion": 200
+     }
+    ],
+    "textRight": "没想到刚来就遇到了魔女，@这里果然很不对劲啊！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 200500
+     }
+    ],
+    "textRight": "很强的魔力波动呢，@可能就在附近。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 200500
+     }
+    ],
+    "textRight": "——！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "effect": "ef_adv_01",
+      "face": "mtn_ex_001.exp.json",
+      "id": 200500,
+      "motion": 100
+     }
+    ],
+    "item": [
+     {
+      "path": "resource/scenario/img/6001_candy_emblem.png",
+      "posY": 120,
+      "visible": "appear"
+     }
+    ],
+    "se": "7201_detect_magic",
+    "textRight": "找到了，@魔女的结界！",
+    "turnEffect": "ef_adv_06"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "item": [
+     {
+      "path": "resource/scenario/img/6001_candy_emblem.png",
+      "visible": "hide"
+     }
+    ]
+   },
+   {
+    "bg": "bg_adv_47001.jpg",
+    "bgChangeEffect": "enterWitchSpace",
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 200500,
+      "motion": 1
+     }
+    ],
+    "se": "7208_wander_into",
+    "textRight": "魔女在哪？",
+    "turnEffect": "stop"
+   },
+   {
+    "textBg": "shout",
+    "textLeft": "呀啊啊！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 200500,
+      "motion": 400
+     }
+    ],
+    "textRight": "惨叫声！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 200500,
+      "motion": 1
+     }
+    ],
+    "textRight": "已经有人在跟她作战了吗！？"
+   },
+   {
+    "bgEffect": "shakeSmall",
+    "bgm": "bgm01_anime12",
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_020.exp.json",
+      "id": 300100,
+      "motion": 100,
+      "pos": 2
+     }
+    ],
+    "flashEffect": "flashWhite2",
+    "nameRight": "？？？",
+    "textRight": "接招！[se:4050_landing_jump]",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "bgEffect": "shakeSmall",
+    "chara": [
+     {
+      "cheek": 1,
+      "id": 300100,
+      "motion": 200
+     }
+    ],
+    "flashEffect": "flashWhite2",
+    "textRight": "嘿啊！[se:4050_landing_jump]"
+   },
+   {
+    "bgEffect": "shakeSmall",
+    "chara": [
+     {
+      "id": 7001,
+      "name": "sprite_0",
+      "pos": 0
+     }
+    ],
+    "nameLeft": "",
+    "textLeft": "＃＃＄＋＠￥·！！Shalaa！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300100,
+      "motion": 400,
+      "mouthOpen": 1
+     }
+    ],
+    "textRight": "什么！？@慢……"
+   },
+   {
+    "bgEffect": "shakeSmall",
+    "flashEffect": "flashWhite2",
+    "textLeft": "％＆｜￥·＃＄＋＠＃Shalaa"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300100,
+      "motion": 0
+     }
+    ],
+    "textRight": "——！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300100,
+      "lipSynch": 0
+     }
+    ],
+    "textRight": "（不行，@要被干掉了！）",
+    "turnEffect": "thinking"
+   },
+   {
+    "textCenter": "危险！",
+    "turnEffect": "stop"
+   },
+   {
+    "autoTurnLast": 0.3,
+    "bgEffect": "shakeSmall",
+    "chara": [
+     {
+      "effect": "shake",
+      "id": 7001,
+      "name": "sprite_0"
+     }
+    ],
+    "flashEffect": "flashRed1",
+    "se": "6002_hit_shooting_02_s",
+    "textLeft": "＃＄＋＠｜＃！？Shalaa！？"
+   },
+   {
+    "autoTurnLast": 0.3,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 7001,
+      "name": "sprite_0"
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300100
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 200500,
+      "motion": 1,
+      "pos": 0
+     }
+    ],
+    "textRight": "你、是……@魔法少女？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 200500,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "真是千钧一发呢，@幸好赶上了。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 200500,
+      "motion": 200
+     }
+    ],
+    "textLeft": "你没事吧？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300100,
+      "motion": 100
+     }
+    ],
+    "textRight": "啊……我、我没事！那个……！@谢谢你！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300100,
+      "motion": 0,
+      "mouthOpen": 1
+     }
+    ],
+    "textRight": "那个，我……！"
+   },
+   {
+    "bgm": "bgm01_anime09",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 200500,
+      "motion": 1
+     }
+    ],
+    "textLeft": "自我介绍等之后再说！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 200500
+     }
+    ],
+    "textLeft": "我们先合力将这些使魔打倒！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300100
+     }
+    ],
+    "textRight": "诶？啊……！@[chara:300100:motion_100]好、好的！"
+   },
+   {
+    "chara": [
+     {
+      "id": 7001,
+      "name": "sprite_0",
+      "pos": 0
+     }
+    ],
+    "nameLeft": "",
+    "textLeft": "＃＃＄＋＠＆｜￥·Shalaa"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 200500,
+      "motion": 100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "麻美",
+    "textRight": "不仅数量众多……"
+   },
+   {
+    "bgEffect": "shakeSmall",
+    "textLeft": "·＃＃＄＋＠｜￥！！Shalaa！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 200500,
+      "motion": 200
+     }
+    ],
+    "textRight": "而且就使魔而言，太强了！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300100,
+      "motion": 100,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "？？？",
+    "textLeft": "那个！@[chara:300100:cheek_0:face_mtn_ex_030.exp.json]啊，呃……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300100,
+      "motion": 0
+     }
+    ],
+    "textLeft": "“好心人”！@你不要勉强！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 200500,
+      "motion": 1
+     }
+    ],
+    "textRight": "谢谢，@不过你不用担心。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 200500
+     }
+    ],
+    "textRight": "稍微离我远点。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300100
+     }
+    ],
+    "textLeft": "诶……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 200500,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "麻美",
+    "textCenter": "我要上了。",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 200500,
+      "motion": 400,
+      "mouthOpen": 1
+     }
+    ],
+    "textCenter": "最终射击！"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "bgm": "stop",
+    "se": "5003_shooting_02_vh",
+    "turnChangeIn": "whiteIn"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "bg": "white"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "turnChangeOut": "whiteOut"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 2
+}

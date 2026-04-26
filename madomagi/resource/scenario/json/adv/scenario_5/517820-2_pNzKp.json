@@ -1,0 +1,499 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.9,
+                "bg": "bg_adv_13111.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_150.exp3.json",
+                        "id": 102001,
+                        "motion": 101,
+                        "pos": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter12/103303_leaf.png",
+                        "posX": 150,
+                        "posY": 50,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "さっきのアルちゃんの葉っぱが…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "flashEffect": "flashWhite2",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_160.exp3.json",
+                        "id": 102001,
+                        "motion": 401
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "きゃっ…!?"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3003_act_picture.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 1,
+                "bg": "bg_adv_21131.jpg",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter12/103303_leaf.png",
+                        "visible": "hide"
+                    }
+                ],
+                "turnChangeIn": "whiteIn"
+            },
+            {
+                "bgm": "bgm05_event07",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 820400,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameNarration": "",
+                "narration": "ザザッ…",
+                "narrationBg": "black",
+                "narrationEffect": "in",
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 820400,
+                        "motion": 400
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "narrationEffect": "out",
+                "textCenter": "＜…！＞"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 820400
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜××××！＞"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "effect": "slideOutLeftFast",
+                        "id": 820400
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "nameNarration": "かごめ",
+                "narration": "「これは…葉っぱの情報…!?」",
+                "narrationBg": "black",
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_46105.jpg",
+                "chara": [
+                    {
+                        "id": 7105,
+                        "name": "sprite_0",
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 820400,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 820400,
+                        "motion": 200
+                    },
+                    {
+                        "id": 7105,
+                        "name": "sprite_0"
+                    }
+                ],
+                "nameRight": "アルちゃん",
+                "textRight": "[surround:1020A01][name:sprite_0:effect_7000_attack01]＜××××…！＞",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bgEffect": "shakeSmall",
+                "chara": [
+                    {
+                        "effect": "7002_damage01",
+                        "id": 7105,
+                        "name": "sprite_0"
+                    }
+                ],
+                "surround": "1020A02",
+                "textClear": 1
+            },
+            {
+                "nameNarration": "",
+                "narration": "ザザッ…",
+                "narrationBg": "",
+                "narrationEffect": "in"
+            },
+            {
+                "nameNarration": "かごめ",
+                "narration": "「今度は使い魔とアルちゃん…？」"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "effect": "7001_attack02",
+                        "id": 820400
+                    }
+                ],
+                "narrationEffect": "out",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 820400,
+                        "motion": 400
+                    }
+                ],
+                "nameRight": "アルちゃん",
+                "textRight": "[chara:820400:effect_7003_damage02][se:3001_chara_damage][bgEffect:shakeSmall]＜××！＞"
+            },
+            {
+                "nameNarration": "",
+                "narration": "ザザッ…ザザザザ！",
+                "narrationBg": "black",
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_13111.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_150.exp3.json",
+                        "id": 102001,
+                        "motion": 2,
+                        "pos": 1
+                    }
+                ],
+                "deleteArmatureList": [
+                    1
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "whiteIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "lipSynch": 0,
+                        "motion": 401
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…！",
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "何をしても見ることが@できなかったのに…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_140.exp3.json",
+                        "id": 102001,
+                        "motion": 301
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "それにしてもこの葉っぱの記録…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "アルちゃんと使い魔が@戦っていたように見えたけど"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "どういうことなんだろう…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "lipSynch": 0,
+                        "motion": 2
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_100.exp3.json",
+                        "id": 102001,
+                        "motion": 201
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "これだけじゃわからない@もう少しだけ情報を…！"
+            },
+            {
+                "autoTurnLast": 1,
+                "flashEffect": "flashWhiteSlow1",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_130.exp3.json",
+                        "id": 102001,
+                        "lipSynch": 0,
+                        "motion": 301
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…っ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "ダメ…これ以上は@見ることができないみたい"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "motion": 2
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…でも記録のなかのアルちゃんは@操られているというよりか"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "自分の意思で動いているように@見えた…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_150.exp3.json",
+                        "id": 102001,
+                        "motion": 401
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "今までの行動もむやみやたらに@していたわけじゃなくて"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "私たちに何かを伝えようとして@いたのなら…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_150.exp3.json",
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "このままじゃみなさんと@アルちゃんが無駄に戦うことに！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_100.exp3.json",
+                        "id": 102001,
+                        "motion": 101
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "一刻も早く、この新事実を@みなさんに報せないと…！"
+            },
+            {
+                "autoTurnLast": 1,
+                "bgm": "stop",
+                "flashEffect": "flashWhite1",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_150.exp3.json",
+                        "id": 102001,
+                        "motion": 2
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "な、なに…!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_160.exp3.json",
+                        "id": 102001,
+                        "motion": 401
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "きゃあっ!?"
+            },
+            {
+                "autoTurnLast": 1.2,
+                "bg": "bg_adv_46105.jpg",
+                "bgChangeEffect": "enterWitchSpace",
+                "se": "7208_wander_into",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_150.exp3.json",
+                        "id": 102001,
+                        "motion": 201
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "こ、ここは…結界…？@急に何が起こったの…？"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 102001,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 6105,
+                        "name": "sprite_0",
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_152.exp3.json",
+                        "id": 102001,
+                        "lipSynch": 0,
+                        "motion": 401
+                    }
+                ],
+                "nameRight": "かごめ",
+                "textRight": "…!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameRight": "かごめ",
+                "textRight": "あのとき@勝てなかった魔女！"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

@@ -1,0 +1,1152 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "―プロローグ―",
+                "narrationBg": "",
+                "narrationEffect": "in",
+                "narrationFontSize": 37,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_la_reine.jpg",
+                        "posX": 0,
+                        "posY": 125,
+                        "visible": "appear"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "autoTurnFirst": 0.1,
+                "bgm": "bgm05_event04",
+                "item": [
+                    {
+                        "action": {
+                            "spawn": [
+                                {
+                                    "moveTo": {
+                                        "duration": 12,
+                                        "posX": 0,
+                                        "posY": -125
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_la_reine.jpg"
+                    }
+                ],
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1
+            },
+            {
+                "nameNarration": "タルト",
+                "narration": "―タルト―@この世界を闇の中へ落とそうとする者…",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20
+            },
+            {
+                "narration": "―タルト―@イザボー・ド・バヴィエール"
+            },
+            {
+                "autoTurnLast": 2,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg",
+                        "posX": 0,
+                        "posY": 125,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "item": [
+                    {
+                        "action": {
+                            "spawn": [
+                                {
+                                    "moveTo": {
+                                        "duration": 3.5,
+                                        "posX": 0,
+                                        "posY": -125
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg"
+                    }
+                ],
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "nameNarration": "タルト",
+                "narration": "これで@終わらせます",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20
+            },
+            {
+                "flashEffect": "flashWhiteSlow2",
+                "narration": "「光あれ」…"
+            },
+            {
+                "flashEffect": "explosion",
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -125
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": -100
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -125
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": -100
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": -125
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg"
+                    }
+                ],
+                "jingle": "4028D10",
+                "narration": "「天国の扉（ラ・ポルトゥ・ドゥ・パラディ）」",
+                "turnEffect": "promist"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 1.3
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "textClear": 1,
+                "turnEffect": "stop"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "white",
+                "bgm": "stop",
+                "narrationBg": "",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "jingle": "4028D20",
+                "nameNarration": "",
+                "narration": "[textBlack:ガコンッ]",
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "narrationEffect": "out",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_21372.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 102003,
+                        "motion": 0,
+                        "pos": 1,
+                        "soulGem": 0
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 1.2,
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…………@…………",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 1.2
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_20121.jpg",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "bgm": "bgm05_event05",
+                "nameNarration": "",
+                "narration": "「…以上の理由により、教会は」",
+                "narrationBg": "",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "「ジャンヌ・ラ・ピュセルと名乗る者を@異端者と認め」"
+            },
+            {
+                "narration": "「火刑に処す」"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "black",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51102_singleraid_tart3/memoria_1511.jpg",
+                        "posX": 0,
+                        "posY": 125,
+                        "visible": "appear"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 1
+            },
+            {
+                "autoTurnFirst": 0.1,
+                "item": [
+                    {
+                        "action": {
+                            "spawn": [
+                                {
+                                    "moveTo": {
+                                        "duration": 12,
+                                        "posX": 0,
+                                        "posY": -125
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/51102_singleraid_tart3/memoria_1511.jpg"
+                    }
+                ],
+                "turnChangeOut": "fadeOut",
+                "turnChangeOutTime": 1
+            },
+            {
+                "autoTurnLast": 1
+            },
+            {
+                "nameNarration": "ラ・イル",
+                "narration": "―ラ・イル―@あのお嬢ちゃんは…@“乙女”は俺たちの戦友なんだ！",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 10,
+                "narrationLineSpace": 20
+            },
+            {
+                "narration": "―ラ・イル―@それを助けることが@今の俺たちのやるべきことだ"
+            },
+            {
+                "narration": "ラ・ピュセル！ ラ・ピュセル!!@ラ・ピュセル！ ラ・ピュセル!!"
+            },
+            {
+                "autoTurnLast": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_31121.jpg",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402101,
+                        "motion": 100,
+                        "pos": 1
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 2
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 3,
+                        "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402101,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "タルト",
+                "textCenter": "…………",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 402101
+                    }
+                ],
+                "deleteArmatureList": [
+                    1
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "deleteArmatureList": [
+                    2
+                ]
+            },
+            {
+                "autoTurnLast": 0.1,
+                "deleteArmatureList": [
+                    3
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402301,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 402601,
+                        "lipSynch": 0,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "エリザ・ツェリスカ",
+                "textLeft": "[chara:402601:effect_emotion_surprise_0][se:7226_shock]――っ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402601,
+                        "motion": 1,
+                        "mouthOpen": 1
+                    }
+                ],
+                "textBg": "shout",
+                "textLeft": "もう火がっ!!"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "id": 402301,
+                        "motion": 1,
+                        "tear": 1
+                    },
+                    {
+                        "id": 402601,
+                        "mouthOpen": 0
+                    }
+                ],
+                "nameRight": "メリッサ･ド･ヴィニョル",
+                "textRight": "タルト！@タルトっ!!"
+            },
+            {
+                "autoTurnLast": 1.6,
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402101,
+                        "motion": 100,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 3,
+                        "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402101,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "タルト",
+                "textCenter": "…………@…………",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402900,
+                        "motion": 400,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402601,
+                        "lipSynch": 0,
+                        "motion": 1,
+                        "pos": 0,
+                        "tear": 1
+                    },
+                    {
+                        "cheek": 2,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402301,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "pos": 1,
+                        "tear": 1
+                    }
+                ],
+                "deleteArmatureList": [
+                    1
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "deleteArmatureList": [
+                    2
+                ]
+            },
+            {
+                "autoTurnLast": 0.1,
+                "deleteArmatureList": [
+                    3
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "私も…祈りましょう",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "聖女の…@“乙女”の伝説の最後に…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.01,
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402101,
+                        "motion": 100,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 3,
+                        "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "autoTurnLast": 1.5
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402101,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "タルト",
+                "textCenter": "…………@…………",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "black",
+                "deleteArmatureList": [
+                    1,
+                    2,
+                    3
+                ],
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51102_singleraid_tart3/memoria_1508.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "タルト",
+                "narration": "―タルト―@すべてのことに…",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "―タルト―@ありがとう（メルシー・ヴレモン）"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 2.5,
+                "bg": "bg_adv_21372.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 102003,
+                        "motion": 0,
+                        "pos": 1,
+                        "soulGem": 0
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 2,
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…………",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 2
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "white",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "？？？",
+                "narration": "[textBlack:「…お願い」]",
+                "narrationBg": "white",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "surround": "7202_telepathy",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "[textBlack:「彼女の想いを、なかったことにはしないで」]"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_21173.jpg",
+                "narrationEffect": "out",
+                "surround": "stop",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_21171.jpg",
+                "bgChangeEffect": "fade"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_21012.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 102003,
+                        "motion": 0,
+                        "pos": 1,
+                        "soulGem": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm01_anime02",
+                "chara": [
+                    {
+                        "id": 102003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…………",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 102003
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102003,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "はっ…@[chara:102003:lipSynch_0][wait:1.0][chara:102003:cheek_0][chara:102003:face_mtn_ex_030.exp3.json][chara:102003:lipSynch_1]何…いまの夢？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102003,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "あれっ…？"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102003
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51158_tower_tart2/51158_kagome_magical_pencil.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51158_tower_tart2/51158_kagome_magical_pencil.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102003,
+                        "motion": 300,
+                        "pos": 1,
+                        "soulGem": 0
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "シャープペンシル…？@持って寝ちゃってたんだ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "確か私の…だよね？@でも…いつ買ったんだっけ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "id": 102003,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…………"
+            },
+            {
+                "bg": "bg_adv_21012.jpg",
+                "chara": [
+                    {
+                        "id": 102003,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 800600,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameNarration": "",
+                "narration": "コン、コン",
+                "narrationBg": "bg_adv_21012.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800600
+                    }
+                ],
+                "nameRight": "",
+                "narrationEffect": "out",
+                "textRight": "おはようございます@佐鳥かごめさん"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102003,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "あ…看護師さん"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800600
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "今日は退院ですね@おめでとうございます！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 102003,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "…あ…ありがとうございます"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800600
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "朝食、ここに置いておきますね@それじゃ…"
+            },
+            {
+                "bg": "bg_adv_21012.jpg",
+                "chara": [
+                    {
+                        "id": 102003,
+                        "motion": 0,
+                        "pos": 1
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 800600
+                    }
+                ],
+                "nameNarration": "",
+                "narration": "バタン…",
+                "narrationBg": "bg_adv_21012.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "lipSynch": 0,
+                        "motion": 200
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "narrationEffect": "out",
+                "textCenter": "＜…ふぅん、きみ@かごめちゃんっていうんだ？＞"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102003,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…え…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "motion": 400
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…えっ…ええっ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "（アルちゃんが…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_053.exp3.json",
+                        "id": 102003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "（勝手にしゃべった…!?）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜聞いていい？ここはどこ？＞"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "motion": 300
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…えぇっ…と…"
+            },
+            {
+                "autoTurnLast": 2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_053.exp3.json",
+                        "id": 102003,
+                        "motion": 1,
+                        "pos": 1,
+                        "soulGem": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜そっか…ここはわたしにとって@未来の世界みたいだね！＞",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜あのね、お願いがあるの！@“乙女”ジャンヌとか…>"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜ジャンヌ・ダルクって@呼ばれてる人のことを＞"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜一緒に調べてほしいの！＞"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "black",
+                "bgm": "stop",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bgm": "bgm03_story23"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/adv_eve_1159.ExportJson",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "autoTurnLast": 0.1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

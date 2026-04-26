@@ -1,0 +1,115 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3010_vista_16_9.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_46120.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104700,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "id": 6120,
+                        "name": "sprite_0",
+                        "pos": 0
+                    }
+                ],
+                "questBg": "bg_adv_46120.jpg",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm24_story02",
+                "chara": [
+                    {
+                        "id": 104700,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "私、とても弱い魔法少女でしたが@毎日この魔女を制御してきました",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "生かさず殺さず、被害を出さず@それって大変なんですよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "そういった日々の積み重ね…@ではないですが…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "私、もう普通に強いんです"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 104700
+                    }
+                ],
+                "nameRight": "",
+                "textBg": "shout",
+                "textRight": "この魔女の弱点はここ！@[chara:104700:lipSynch_0][wait:1.0][surround:1047A05][name:sprite_0:effect_7000_attack01][chara:104700:lipSynch_1:mouthOpen_1]てやぁっ!!"
+            },
+            {
+                "autoTurnLast": 1,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "id": 104700,
+                        "mouthOpen": 0
+                    },
+                    {
+                        "effect": "7002_damage01",
+                        "id": 6120,
+                        "name": "sprite_0"
+                    }
+                ],
+                "surround": "1047A06",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "stop",
+                "deleteArmatureList": [
+                    1
+                ],
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

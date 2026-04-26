@@ -1,0 +1,261 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.5,
+    "bg": "bg_adv_20261.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 200151,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 230000,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm03_story02",
+    "chara": [
+     {
+      "id": 200151,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "圆",
+    "textLeft": "哇～@掉了很多松果呢。",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 230000,
+      "motion": 100
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "嗯，可以随便挑呢。"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 230000
+     },
+     {
+      "effect": "fadeout",
+      "id": 200151
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "id": 830800,
+      "pos": 1,
+      "posX": 0,
+      "posY": 120
+     }
+    ],
+    "nameCenter": "",
+    "textCenter": "[se:7101_catvoice]喵。"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 830800
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 230000,
+      "motion": 0,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp.json",
+      "id": 200151,
+      "motion": 400,
+      "pos": 0
+     }
+    ],
+    "textLeft": "啊！[chara:200151:lipSynch_0][wait:0.8][chara:200151:cheek_0][chara:200151:face_mtn_ex_011.exp.json][chara:200151:lipSynch_1]有只猫～"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 200151,
+      "motion": 0
+     }
+    ],
+    "textLeft": "难道它就是小惠？"
+   },
+   {
+    "chara": [
+     {
+      "id": 230000,
+      "motion": 1
+     }
+    ],
+    "textRight": "不知道，要叫叫看吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 200151,
+      "motion": 100
+     }
+    ],
+    "textLeft": "[chara:200151:effect_emotion_joy_0][se:7222_happy]小惠～小惠～"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 230000,
+      "motion": 300
+     }
+    ],
+    "textRight": "喵喵？"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "id": 230000,
+      "pos": 2
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "id": 830800,
+      "pos": 0,
+      "posX": 40,
+      "posY": 120
+     }
+    ],
+    "nameLeft": "",
+    "textLeft": "[se:7101_catvoice]喵。"
+   },
+   {
+    "chara": [
+     {
+      "id": 230000,
+      "motion": 1
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "它在看这边呢……@不过看起来并没有生气呢。"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "焰",
+    "narration": "[textBlack:8月11日]@[textBlack:那只猫走几步就回头看看我们，]@[textBlack:走几步就回头看看我们，]@[textBlack:本以为它会就这么离开，没想到它却折返了回来，]@[textBlack:就像是在对我们说快点跟上一样]@[textBlack:一边喵喵地叫着，一边在那里来回走动……]",
+    "narrationCoverOpacity": 0.0,
+    "narrationEffect": "in",
+    "narrationHAlignment": "left",
+    "narrationPosX": 100.0,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "id": 830800,
+      "pos": 1,
+      "posX": 0,
+      "posY": 120
+     }
+    ],
+    "item": [
+     {
+      "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+      "visible": "hide"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 810100
+     }
+    ],
+    "nameCenter": "",
+    "narrationEffect": "out",
+    "textCenter": "[se:7101_catvoice]喵呜喵呜。",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "焰",
+    "narration": "[textBlack:我们走向那只猫后，它看似很满意地挺起胸，]@[textBlack:大大地摇着尾巴，]@[textBlack:像在带路似的向前走去。]@[textBlack:它一边向松树林深处走去，]@[textBlack:一边时不时地回头看我们。]@[textBlack:看来它果然是想带我们去什么地方。]",
+    "narrationCoverOpacity": 0.0,
+    "narrationEffect": "in",
+    "narrationHAlignment": "left",
+    "narrationPosX": 100.0,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bgm": "stop",
+    "item": [
+     {
+      "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+      "visible": "hide"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

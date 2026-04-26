@@ -1,0 +1,203 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_22.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_22.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_32.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "white",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day32.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/film04_homura_seriously.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "textAvClear": 1,
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "white",
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day32.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "whiteIn"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 0.1
+            },
+            {
+                "autoTurnLast": 0.01,
+                "surround": "8005_heartbeat"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/1509_prophecy_active.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.01
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_23014.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200900,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200201,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day32.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 0.2
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-010-1"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvLeft": "どう？",
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200900,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-010-2"
+                    }
+                ],
+                "nameAvRight": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvRight": "…はい、視えました"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200900,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-010-3"
+                    }
+                ],
+                "nameAvRight": "まばゆ",
+                "textAvRight": "暁美さんは、無事に@時を巻き戻せます"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-010-4"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvLeft": "…わかったわ"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

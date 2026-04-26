@@ -1,0 +1,1064 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "bgm05_event05",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "ペレネルの手記",
+                "narration": "[textBlack:それまでの私は]@[textBlack:ただ「知る」ことを続けたかった]@[textBlack:合理をもって、効率的に]@[textBlack:できるかぎり探究を続けたかった]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 150,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "[textBlack:…でも今は、「共に」知り続けたい]@[textBlack:この分かち難い魂を持つ、愛すべき少年と]"
+            },
+            {
+                "narration": "[textBlack:そう気づいたのは]@[textBlack:黒死病の猛威に襲われたポントワーズの町から]@[textBlack:ニコラを救い出した日のことだった]"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_20231.jpg",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "nameNarration": "",
+                "narration": "＜フランス、ポントワーズ＞",
+                "narrationBg": "",
+                "narrationCoverOpacity": 50,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_20081.jpg",
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "ef_adv_06"
+            },
+            {
+                "autoTurnLast": 2.5,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402900,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "se": "7209_gate_close",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "…ニコラ、無事だった!?",
+                "turnChangeOut": "fadeOut",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "うん…@[chara:831700:lipSynch_0][wait:1.0][chara:831700:cheek_0][chara:831700:face_mtn_ex_050.exp3.json][chara:831700:lipSynch_1]あの…その姿は…？"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "ef_adv_05",
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "se": "7205_magic_girl",
+                "textLeft": "魔女を退治したのよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "この町に黒死病を振りまいた@呪われた存在を…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 831700,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "魔女…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "ええ、話せば長くなるわ@それより、この地を離れましょう"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "黒死病の猛威は@当分収まりそうもないわ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "でも、どこへ…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "ヨーロッパにはもう@安全な場所なんてないよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "うーん、そうね…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "…ねえ、ニコラ@前から思っていたのだけど"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "この際、パリにある私の家に"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "一緒に住んでみるというのは@どうかしら？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "たぶん私の家が"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "フランス…いえヨーロッパで@一番安全な場所だと思うの"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831700,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "えっ、それは@ど…どういう意味で…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "lipSynch": 0,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "（あ…！）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "（これじゃ、私がニコラに@求婚しているも同然じゃない）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "あ、あのっ@別にその、変な意味じゃなくて"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "…えっと、こういうときは@なんて言えばいいのかしら"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "…………@[wait:1.0][chara:831700:cheek_0][chara:831700:face_mtn_ex_010.exp3.json][chara:831700:lipSynch_1]…そうだね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "君と初めて公園で@出会ったときから考えていたんだ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "僕は、君と一生を過ごすことに@なるかもしれないなって"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 400,
+                        "mouthOpen": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "[chara:402901:effect_emotion_surprise_0][se:7226_shock]ふぇっ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700
+                    },
+                    {
+                        "id": 402901,
+                        "mouthOpen": 0
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "君と会ってわかったんだ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "こんなにも魂が分かち難い存在が@いるんだっていうことを"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "えっ…あの…@その…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 831700,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "結婚してください"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "ペレネル",
+                "textLeft": "…………"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "black",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "nameNarration": "ペレネルの手記",
+                "narration": "[textBlack:こうして私たちはパリに移り住み]@[textBlack:平穏ながらも充実した日々が始まった]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 150,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "[textBlack:私たちは表向き、写本業を営む夫婦を装いつつ]@[textBlack:パリの一角で静かな研究生活に入った]"
+            },
+            {
+                "narration": "[textBlack:もしもこの記録が、錬金術士としての]@[textBlack:私たちふたりの業績を書き記す目的であったなら]@[textBlack:その後の数十年間の記録にこそ]@[textBlack:最も多くの頁を割くことになったに違いない]"
+            },
+            {
+                "narration": "[textBlack:魔法石の力を借りて]@[textBlack:年齢を偽って暮らしていたものの]@[textBlack:ニコラが私の前で見せる姿は]@[textBlack:外見も中身も、純真な少年のままだった]"
+            },
+            {
+                "narration": "[textBlack:…やがて、大いなる転機が訪れる]"
+            },
+            {
+                "narration": "[textBlack:それは私たち夫妻だけではなく]@[textBlack:ヨーロッパそのものの命運を左右する]@[textBlack:災禍の訪れを告げるものだった]"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_20231.jpg",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "nameNarration": "",
+                "narration": "＜1389年8月20日＞",
+                "narrationBg": "",
+                "narrationCoverOpacity": 50,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "＜フランス、パリ＞"
+            },
+            {
+                "narration": "＜イザボー王妃、即位式＞"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_31121.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 830400,
+                        "live2dName": "live2d_0",
+                        "motion": 0,
+                        "mouthOpen": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 830400,
+                        "live2dName": "live2d_1",
+                        "motion": 0,
+                        "mouthOpen": 1,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 830500,
+                        "motion": 0,
+                        "mouthOpen": 1,
+                        "pos": 1
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bg": "bg_adv_31121.jpg",
+                "nameNarration": "",
+                "narration": "[bgEffect:shakeSmall]ワァッ",
+                "narrationBg": "",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 830400,
+                        "live2dName": "live2d_0"
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 830400,
+                        "live2dName": "live2d_1"
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 830500
+                    }
+                ],
+                "narrationEffect": "out",
+                "textClear": 1
+            },
+            {
+                "bgm": "bgm05_event09",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "…すごい歓声ね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "４年前、国王陛下が"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "バイエルン公国から@お迎えしたイザボー様が"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "いよいよ正式な王妃として@パリに入城する日だからね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "…あっ、あっちだよ！@サン＝ドニ門から！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 402901
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 831700
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_31121.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 830300,
+                        "live2dName": "live2d_0",
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 830300,
+                        "live2dName": "live2d_1",
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 412201,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 412201,
+                        "lipSynch": 0,
+                        "motion": 100
+                    }
+                ],
+                "nameCenter": "イザボー",
+                "textCenter": "…………"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 412201
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 830300,
+                        "live2dName": "live2d_0"
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 830300,
+                        "live2dName": "live2d_1"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "ペレネル・フラメル",
+                "textCenter": "[chara:402901:effect_ef_adv_01][se:7201_detect_magic]――っ!?"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "black",
+                "bgChangeEffect": "enterWitchSpace",
+                "se": "7208_wander_into",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 402901,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "ペレネル・フラメル",
+                "textCenter": "（これは…@この感覚は…？）"
+            },
+            {
+                "autoTurnFirst": 0.3,
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 402901
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "ペレネル・フラメル",
+                "textCenter": "（…闇…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 402901,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "ペレネル・フラメル",
+                "textCenter": "（底知れない…@完全なる…闇…）"
+            },
+            {
+                "nameRight": "ニコラの声",
+                "textRight": "…ネル？"
+            },
+            {
+                "nameRight": "ニコラの声",
+                "textRight": "…ペレネル、どうしたの…？"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_31121.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "ねえ、どうしたの？@ペレネル！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "id": 402901,
+                        "lipSynch": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "…………！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "…ええ、ちょっと@めまいが…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 831700
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 402901
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_31121.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 412201,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "イザボー",
+                "textCenter": "…………"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 412201
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "彼女も…魔法少女…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "…そうなんだ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 402901,
+                        "lipSynch": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "ええ…ただ…@それだけじゃない…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "（そう…@この気配、まるで…）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "悪魔（インキューブ）…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 831700,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ニコラ・フラメル",
+                "textRight": "えっ…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "ニコラ、このままでは…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "フランスが…@世界が闇に包まれてしまうわ"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_31121.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 810000,
+                        "pos": 2,
+                        "posX": 50
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "bgm": "bgm05_event05",
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameRight": "キューブ",
+                "textRight": "…ずいぶん長い時間@もの思いにふけっていたね",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "ええ…思い出していたのよ@キューブ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "この国に暗雲をもたらした"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901,
+                        "motion": 200,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "あなたと同じ力を持つ@最悪の魔法少女"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameLeft": "ペレネル・フラメル",
+                "textLeft": "イザボー・ド・バヴィエールと@出会った日のことを"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

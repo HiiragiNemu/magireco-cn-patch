@@ -1,0 +1,975 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "bgm": "stop",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "爱丽莎·瑟尔斯加",
+    "narration": "没错……",
+    "narrationBg": "bg_adv_narration.jpg",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut",
+    "turnEffect": "sepiaFrame"
+   },
+   {
+    "narration": "莉兹她们和可鲁波战斗的时候……"
+   },
+   {
+    "narration": "我和塔鲁特，在对付那个魔女……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "black",
+    "item": [
+     {
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_lapine_witch.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm01_anime15",
+    "nameNarration": "",
+    "narration": "嘭……",
+    "narrationAnchor": "bottom",
+    "narrationBg": "",
+    "narrationCoverOpacity": 110.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 30.0,
+    "narrationLineMargin": 60.0,
+    "narrationLineSpace": 20.0,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "flashEffect": "flashWhite2",
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_lapine_witch.jpg"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_20091.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402100,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402600,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "item": [
+     {
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_lapine_witch.jpg",
+      "visible": "hide"
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 402600,
+      "motion": 400
+     }
+    ],
+    "nameRight": "爱丽莎·瑟尔斯加",
+    "textRight": "[chara:402600:effect_emotion_surprise_0][se:7226_shock]怎么……",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402601,
+      "motion": 0,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402100,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "se": "7205_magic_girl",
+    "turnChangeIn": "whiteIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 402601,
+      "lipSynch": 0
+     }
+    ],
+    "textRight": "（变身被……）",
+    "turnChangeOut": "whiteOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 402100,
+      "motion": 400
+     }
+    ],
+    "nameLeft": "塔鲁特",
+    "textLeft": "哇哇哇！？"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402101,
+      "motion": 400,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 402601,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "se": "7205_magic_girl",
+    "turnChangeIn": "whiteIn"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402601,
+      "motion": 200
+     }
+    ],
+    "textRight": "[chara:402601:effect_emotion_angry_1][se:7218_anger]为什么要来这边啊！！",
+    "turnChangeOut": "whiteOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 402101,
+      "motion": 100
+     }
+    ],
+    "textLeft": "[chara:402101:effect_emotion_surprise_0][se:7226_shock]诶！？"
+   },
+   {
+    "chara": [
+     {
+      "id": 402601
+     }
+    ],
+    "textRight": "你不是说从左边上吗？"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402600,
+      "motion": 200,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402100,
+      "motion": 100,
+      "pos": 0
+     }
+    ],
+    "se": "7205_magic_girl",
+    "turnChangeIn": "whiteIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 402101,
+      "motion": 100
+     }
+    ],
+    "textLeft": "诶？",
+    "turnChangeOut": "whiteOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402100,
+      "motion": 201
+     }
+    ],
+    "textLeft": "所以我去左边了啊！？"
+   },
+   {
+    "chara": [
+     {
+      "id": 402600,
+      "motion": 1
+     }
+    ],
+    "textRight": "你这不是来右边了吗！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 402100,
+      "motion": 300
+     }
+    ],
+    "textLeft": "那个……@这种情况下的左右……"
+   },
+   {
+    "chara": [
+     {
+      "id": 402100
+     }
+    ],
+    "textLeft": "是从自己这边看？@还是从对方那边看？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402600,
+      "motion": 400
+     }
+    ],
+    "textRight": "啊！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 2,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402600,
+      "motion": 1
+     }
+    ],
+    "textRight": "这种时候当然是……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402100,
+      "motion": 1
+     }
+    ],
+    "textLeft": "爱丽莎大人！！@她的眼睛又过来了！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_lapine_witch.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "",
+    "narration": "……",
+    "narrationAnchor": "bottom",
+    "narrationBg": "",
+    "narrationCoverOpacity": 110.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 30.0,
+    "narrationLineMargin": 60.0,
+    "narrationLineSpace": 20.0,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "flashEffect": "flashWhite2",
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_lapine_witch.jpg"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402100,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402600,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 402600,
+      "motion": 400
+     },
+     {
+      "id": 402600,
+      "motion": 400
+     }
+    ],
+    "textRight": "[chara:402600:effect_emotion_surprise_0][se:7226_shock]呀！？",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402101,
+      "motion": 400,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402601,
+      "motion": 400,
+      "pos": 2
+     }
+    ],
+    "se": "7205_magic_girl",
+    "turnChangeIn": "whiteIn"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 402601,
+      "motion": 200,
+      "mouthOpen": 1
+     }
+    ],
+    "textBg": "shout",
+    "textRight": "怎么就变成这样了呢！！",
+    "turnChangeOut": "whiteOut"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bgm": "stop",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "爱丽莎·瑟尔斯加",
+    "narration": "我们那时候……@也一样不会配合啊……",
+    "narrationBg": "bg_adv_narration.jpg",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402100,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402600,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm05_event09",
+    "chara": [
+     {
+      "id": 402600,
+      "motion": 1
+     }
+    ],
+    "textRight": "真没办法，",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 402600
+     }
+    ],
+    "textRight": "仅限这次……"
+   },
+   {
+    "chara": [
+     {
+      "id": 402600
+     }
+    ],
+    "textRight": "我把主角的位子让给你。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402100,
+      "motion": 400
+     }
+    ],
+    "textLeft": "诶？"
+   },
+   {
+    "chara": [
+     {
+      "id": 402600,
+      "motion": 200
+     }
+    ],
+    "textRight": "我是叫你给那魔女最后一击。"
+   },
+   {
+    "chara": [
+     {
+      "id": 402600
+     }
+    ],
+    "textRight": "“圣女”，以最快的速度@跑到那魔女身前。"
+   },
+   {
+    "chara": [
+     {
+      "id": 402600
+     }
+    ],
+    "textRight": "我来掩护你，@决不会让她动你一根汗毛。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 402600,
+      "motion": 1
+     }
+    ],
+    "textRight": "当然了……@前提是……"
+   },
+   {
+    "chara": [
+     {
+      "id": 402600
+     }
+    ],
+    "textRight": "你愿意相信才相识数日的我。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402100,
+      "motion": 100
+     }
+    ],
+    "textLeft": "我明白了！@拜托你！！"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "slideOutRightFast",
+      "id": 402100
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402600,
+      "motion": 400
+     }
+    ],
+    "textRight": "[chara:402600:effect_emotion_surprise_0][se:7226_shock]诶！？@等等！？"
+   },
+   {
+    "chara": [
+     {
+      "id": 402600
+     }
+    ],
+    "textRight": "你这也太老实了吧……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_lapine_witch.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "",
+    "narration": "……！",
+    "narrationAnchor": "bottom",
+    "narrationBg": "",
+    "narrationCoverOpacity": 110.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 30.0,
+    "narrationLineMargin": 60.0,
+    "narrationLineSpace": 20.0,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "flashEffect": "flashWhite2",
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_lapine_witch.jpg"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 402101,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "narrationEffect": "out",
+    "se": "7205_magic_girl",
+    "turnChangeIn": "whiteIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 402101,
+      "lipSynch": 0,
+      "motion": 400
+     }
+    ],
+    "nameCenter": "塔鲁特",
+    "textCenter": "唔！？",
+    "turnChangeOut": "whiteOut"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "id": 402101,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402600,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "id": 402600,
+      "motion": 200
+     }
+    ],
+    "surround": "7202_telepathy",
+    "textRight": "行了，@就这样冲过去吧！！",
+    "turnEffect": "ef_adv_02"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "black",
+    "bgm": "stop",
+    "item": [
+     {
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_elisa_magia.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "surround": "stop",
+    "turnChangeIn": "fadeIn",
+    "turnEffect": "stop"
+   },
+   {
+    "bgm": "bgm05_event03",
+    "jingle": "4026M02",
+    "nameNarration": "爱丽莎·瑟尔斯加",
+    "narration": "—爱丽莎—@龙之雷火",
+    "narrationAnchor": "bottom",
+    "narrationBg": "",
+    "narrationCoverOpacity": 110.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 30.0,
+    "narrationLineMargin": 35.0,
+    "narrationLineSpace": 20.0,
+    "turnChangeOut": "fadeOut",
+    "turnEffect": "sepiaFrame"
+   },
+   {
+    "narration": "—爱丽莎—@葬身在"
+   },
+   {
+    "narration": "—爱丽莎—@龙之雷火中吧！！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "flashEffect": "flashWhite2",
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_elisa_magia.jpg"
+     }
+    ],
+    "narrationEffect": "out"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bg": "bg_adv_20091.jpg",
+    "turnChangeIn": "whiteIn"
+   },
+   {
+    "autoTurnLast": 1.0,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 402101,
+      "motion": 1,
+      "pos": 1
+     }
+    ],
+    "jingle": "4026M06"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "id": 402101,
+      "motion": 201
+     }
+    ],
+    "narrationEffect": "out",
+    "textCenter": "呀啊啊！！[flashEffect:flashWhite2][bgEffect:shakeLarge][surround:4021A01]",
+    "turnChangeOut": "whiteOut",
+    "turnChangeOutTime": 1.3
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bg": "black",
+    "bgm": "stop",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 402400,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "jingle": "4021M04",
+    "turnChangeIn": "whiteIn",
+    "turnChangeInTime": 1.2
+   },
+   {
+    "autoTurnLast": 0.01,
+    "turnEffect": "stop"
+   },
+   {
+    "bgm": "bgm03_story12",
+    "chara": [
+     {
+      "id": 402400,
+      "motion": 1
+     }
+    ],
+    "nameCenter": "米诺",
+    "textCenter": "差不多是时候了……",
+    "turnChangeOut": "whiteOut",
+    "turnChangeOutTime": 1.6
+   },
+   {
+    "chara": [
+     {
+      "id": 402400
+     }
+    ],
+    "textCenter": "开始改写剧本。"
+   },
+   {
+    "chara": [
+     {
+      "id": 402400
+     }
+    ],
+    "textCenter": "我在台下为各位准备了@特别观演席位。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 402400,
+      "motion": 100
+     }
+    ],
+    "textCenter": "请在那里好好休息一会吧……"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

@@ -1,0 +1,843 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.1,
+    "bg": "bg_adv_13021.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100102,
+      "motion": 400,
+      "pos": 1
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnFirst": 4.0,
+    "bgm": "bgm03_story08",
+    "chara": [
+     {
+      "id": 100102,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-1"
+     }
+    ],
+    "enableSkipAutoTurn": 1,
+    "nameCenter": "彩羽",
+    "textCenter": "没有……没有……没有……！@昨天确实在这里的……",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "lipSynch": 0,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-2",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-1"
+     }
+    ],
+    "enableSkipAutoTurn": 0,
+    "textCenter": "（是移动到别的地方去了吗？）"
+   },
+   {
+    "autoTurnLast": 0.3,
+    "chara": [
+     {
+      "id": 100102,
+      "pos": 0
+     },
+     {
+      "id": 810100,
+      "motion": 0,
+      "pos": 2,
+      "posX": 40,
+      "posY": 0
+     }
+    ],
+    "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-2"
+   },
+   {
+    "select": [
+     {
+      "group": "group_2",
+      "textSelect": "呜啾啾@（等到昨天的同一时间看看吧）"
+     },
+     {
+      "group": "group_3",
+      "textSelect": "呜啾呜啾@（等到一日一杯的时间看看吧）"
+     }
+    ]
+   }
+  ],
+  "group_2": [
+   {
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "彩羽",
+    "nameRight": "userName",
+    "textRight": "呜啾啾",
+    "voice": "vo_kyube_0001_17"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "voice": "stop"
+   },
+   {
+    "changeGroup": "group_4"
+   }
+  ],
+  "group_3": [
+   {
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "彩羽",
+    "nameRight": "userName",
+    "textRight": "呜啾呜啾",
+    "voice": "vo_kyube_0001_16"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "voice": "stop"
+   },
+   {
+    "changeGroup": "group_4"
+   }
+  ],
+  "group_4": [
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 301,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-5"
+     }
+    ],
+    "textLeft": "不好，数字快变成0了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-6",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-5"
+     }
+    ],
+    "textLeft": "必须想办法找到线索……"
+   },
+   {
+    "bgm": "stop",
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 810100
+     }
+    ],
+    "nameRight": "？？？",
+    "textRight": "哎，什么嘛，不在啊！",
+    "voiceFull": "fullvoice/section_101402/vo_full_101402-2-7",
+    "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-6"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-8",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-7"
+     }
+    ],
+    "textLeft": "咦，这声音……"
+   },
+   {
+    "bgm": "bgm03_story03",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "motion": 0,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-9",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-8"
+     }
+    ],
+    "textRight": "啊！你是昨天的！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-10",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-9"
+     }
+    ],
+    "textLeft": "（对方也认出我了。@果然是昨天那个女孩……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-11",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-10"
+     }
+    ],
+    "textRight": "喂，你知道原先在这里的@那个大叔去哪儿了吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100102,
+      "motion": 401,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-12",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-11"
+     }
+    ],
+    "textLeft": "哎，难道你也在找他？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-13",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-12"
+     }
+    ],
+    "textRight": "哦哦，你也是！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100501,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-14",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-13"
+     }
+    ],
+    "textRight": "你也想再喝一杯吗！？"
+   },
+   {
+    "autoTurnFirst": 1.0,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100102,
+      "motion": 400,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-15",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-14"
+     }
+    ],
+    "enableSkipAutoTurn": 1,
+    "textLeft": "诶诶！？@不、不是……不是哦？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-16",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-15"
+     }
+    ],
+    "enableSkipAutoTurn": 0,
+    "textRight": "什么嘛，不是啊。@那你找他有什么事？"
+   },
+   {
+    "bgm": "stop",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100102,
+      "motion": 0,
+      "mouthOpen": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-17",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-16"
+     }
+    ],
+    "textLeft": "啊。"
+   },
+   {
+    "autoTurnLast": 1.5,
+    "item": [
+     {
+      "path": "resource/scenario/img/chapter4/countdown_09.png",
+      "posX": 0,
+      "posY": 50,
+      "visible": "appear"
+     }
+    ],
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-17"
+   },
+   {
+    "bgm": "bgm03_story13",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100102,
+      "motion": 401,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-18"
+     }
+    ],
+    "textLeft": "这、这个！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-19",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-18"
+     }
+    ],
+    "textLeft": "喝完那个水后，@就开始有纸落下来了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-20",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-19"
+     }
+    ],
+    "textLeft": "我是来调查原因的。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "motion": 1,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-21",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-20"
+     }
+    ],
+    "textRight": "啊啊，你说那张纸啊？@也没什么吧？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-22",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-21"
+     }
+    ],
+    "textRight": "你看，我面前也会有纸掉下来，@但也没发生什么。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "lipSynch": 0,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-23",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-22"
+     }
+    ],
+    "textLeft": "（完全不当一回事啊……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-24",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-23"
+     }
+    ],
+    "item": [
+     {
+      "path": "resource/scenario/img/chapter4/countdown_09.png",
+      "visible": "hide"
+     }
+    ],
+    "textLeft": "可是，如果这是[textBlue:传闻]的话，@不知道会引发什么事件呢？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-25",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-24"
+     }
+    ],
+    "textRight": "哈？传闻？@你在说什么啊？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "lipSynch": 0,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-26",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-25"
+     }
+    ],
+    "textLeft": "（原来如此，她不知道啊……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-27",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-26"
+     }
+    ],
+    "textLeft": "呃，等数字变成0后，@说不定会有什么危险……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-28",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-27"
+     }
+    ],
+    "textRight": "是吗……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100102,
+      "motion": 400,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-29",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-28"
+     }
+    ],
+    "textLeft": "啊，对了！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100102,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-30",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-29"
+     }
+    ],
+    "textLeft": "如果可以的话，@你跟我一起调查[textBlue:传闻]吧？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100102,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-31",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-30"
+     }
+    ],
+    "textLeft": "如果发生什么事，@我们还能有个照应。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100501,
+      "motion": 400,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-32",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-31"
+     }
+    ],
+    "textRight": "不要，我没兴趣，@我根本不信这种事。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100501,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-33",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-32"
+     }
+    ],
+    "textRight": "我自己去找大叔了，先走啦。"
+   },
+   {
+    "autoTurnLast": 1.0,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 100501
+     }
+    ],
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-33"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100102,
+      "motion": 401,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-34"
+     }
+    ],
+    "textLeft": "等、等一下！@说不定真的很危险啊！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100501,
+      "motion": 300,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-35",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-34"
+     }
+    ],
+    "textRight": "什么啊，真麻烦……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-36",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-35"
+     }
+    ],
+    "textRight": "噢……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100102,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-37",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-36"
+     }
+    ],
+    "textLeft": "诶？"
+   },
+   {
+    "bgm": "bgm03_story02",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100501,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-38",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-37"
+     }
+    ],
+    "textRight": "也行啊，@我跟你一起走也行哦？"
+   },
+   {
+    "autoTurnFirst": 1.2,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100102,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-39",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-38"
+     }
+    ],
+    "enableSkipAutoTurn": 1,
+    "textLeft": "真的吗？@太好了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100102,
+      "motion": 301
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100501,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-40",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-39"
+     }
+    ],
+    "enableSkipAutoTurn": 0,
+    "textRight": "但作为交换，你得给我点什么。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100501,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-41",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-40"
+     }
+    ],
+    "textRight": "如果有报酬的话，我就跟你走。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100102,
+      "motion": 401,
+      "mouthOpen": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-42",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-41"
+     }
+    ],
+    "textLeft": "诶诶诶诶！？[chara:100102:effect_emotion_surprise_0][se:7226_shock]"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 1,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-43",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-42"
+     }
+    ],
+    "textLeft": "等等，怎么这样，@我也没什么钱……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100501,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-44",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-43"
+     }
+    ],
+    "textRight": "什么都可以哦？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-45",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-44"
+     }
+    ],
+    "textLeft": "就算你这么说……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "lipSynch": 0,
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-45"
+     }
+    ],
+    "textLeft": "…………[wait:1][chara:100102:lipSynch_1][chara:100102:voiceFull_fullvoice/section_101402/vo_full_101402-2-46]那就……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-47",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-46"
+     }
+    ],
+    "textLeft": "我做饭请你吃行吗……@还是不行……？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-48",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-47"
+     }
+    ],
+    "textRight": "饭！"
+   },
+   {
+    "autoTurnFirst": 0.8,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100501,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-49",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-48"
+     }
+    ],
+    "enableSkipAutoTurn": 1,
+    "textRight": "真的吗！太好了！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "effect": "emotion_joy_0",
+      "face": "mtn_ex_011.exp.json",
+      "id": 100501
+     }
+    ],
+    "se": "7222_happy"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100501,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-50",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-49"
+     }
+    ],
+    "enableSkipAutoTurn": 0,
+    "textRight": "走吧走吧！成交啦！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-51",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-50"
+     }
+    ],
+    "textLeft": "（同意了……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100501,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-52",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-51"
+     }
+    ],
+    "nameRight": "菲莉希亚",
+    "textRight": "我是“[textRed:深月菲莉希亚]”，请多指教！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100102,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101402/vo_full_101402-2-53",
+      "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-52"
+     }
+    ],
+    "textLeft": "嗯、嗯，我是“环彩羽”。@请多指教，菲莉希亚。"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn",
+    "voiceFullStop": "fullvoice/section_101402/vo_full_101402-2-53"
+   }
+  ]
+ },
+ "version": 3
+}

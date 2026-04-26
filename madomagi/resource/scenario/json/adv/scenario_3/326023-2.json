@@ -1,0 +1,790 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_46104.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 200600,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "id": 6104,
+                        "name": "sprite_0",
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm01_anime15",
+                "chara": [
+                    {
+                        "id": 200600
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "コイツで…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "id": 200600,
+                        "motion": 200,
+                        "mouthOpen": 1
+                    }
+                ],
+                "nameRight": "杏子",
+                "textBg": "shout",
+                "textRight": "[flashEffect:flashWhite2]決まりだぁーっ！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 200600,
+                        "mouthOpen": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "black",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51049_storyselect_homura/51049_kyoko_faceup.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 2
+            },
+            {
+                "flashEffect": "flashWhite2",
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": 30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -30
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/51049_storyselect_homura/51049_kyoko_faceup.jpg"
+                    }
+                ],
+                "jingle": "2006M09",
+                "nameNarration": "杏子",
+                "narration": "―杏子―@食らいやがれ！",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_46104.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "id": 6104,
+                        "name": "sprite_0",
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51049_storyselect_homura/51049_kyoko_faceup.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "whiteIn"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "jingle": "2006M10",
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "autoTurnLast": 3,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "effect": "shake",
+                        "id": 6104,
+                        "name": "sprite_0"
+                    }
+                ],
+                "flashEffect": "flashRed2"
+            },
+            {
+                "autoTurnLast": 1.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 6104,
+                        "name": "sprite_0"
+                    }
+                ],
+                "se": "3102_enemy_dead"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_18021.jpg",
+                "bgChangeEffect": "exitWitchSpace",
+                "se": "7209_gate_close"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3000_snow_messageback.ExportJson",
+                        "zOrder": "messageBack"
+                    },
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/6000_snow_bgfront.ExportJson",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200600,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "杏子",
+                "textCenter": "…………@…………"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200600,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "杏子",
+                "textCenter": "（子どもたちが巻き込まれる前に@なんとか倒せたな）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200600,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "杏子",
+                "textCenter": "（グリーフシードも手に入ったし@まあ、御の字ってとこだね）"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200600
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_18021.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "bgm": "bgm01_anime03",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 801200,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 800600,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "あ…@杏子おねーちゃん？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 801202,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "もしかして…@また撮影？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 200600,
+                        "lipSynch": 0,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "杏子",
+                "textLeft": "[chara:200600:effect_emotion_surprise_0][se:7226_shock]――っ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200600
+                    }
+                ],
+                "nameLeft": "杏子",
+                "textLeft": "あ、ああ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200600,
+                        "motion": 200,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "杏子",
+                "textLeft": "そう！@撮影だよ撮影！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 800600,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "さっき、槍から@火が出てたように見えましたけど"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800600
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "どうやったんですか？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 200600,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "杏子",
+                "textLeft": "い、いやぁ…@目の錯覚じゃないかな？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 801300,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "そうかなー？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200600,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "杏子",
+                "textLeft": "（魔女を倒して@結界が消滅した瞬間に）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200600,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "杏子",
+                "textLeft": "（立ってたところを@見られたのか…？）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 801200,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "杏子おねーちゃん…@ほんとに魔法を使えるんじゃ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 200600,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "杏子",
+                "textLeft": "な…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200600,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "杏子",
+                "textLeft": "そ、そんなこと@あるわけないだろ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 801200,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "そうなのかなぁ…@[chara:801200:lipSynch_0][wait:0.8][chara:801200:cheek_0][chara:801200:face_mtn_ex_010.exp3.json][chara:801200:lipSynch_1]ま、いいや"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 800600,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "雪がひどくなる前に@そろそろ帰りましょうか"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 801200,
+                        "pos": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 801200,
+                        "mouthOpen": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 801202,
+                        "motion": 0,
+                        "mouthOpen": 1,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 801300,
+                        "motion": 0,
+                        "mouthOpen": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameCenter": "みんな",
+                "textCenter": "はーい！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 801200,
+                        "mouthOpen": 0
+                    },
+                    {
+                        "id": 801202,
+                        "mouthOpen": 0
+                    },
+                    {
+                        "id": 801300,
+                        "mouthOpen": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "それじゃ、またねー！@杏子おねーちゃん！"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_16081.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 305201,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200652,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "杏子",
+                "narration": "そんなこんなでやってきた@工匠学舎",
+                "narrationBg": "bg_adv_16081.jpg",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 305201,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "アシュリー･テイラー",
+                "narrationEffect": "out",
+                "textLeft": "Welcome！@時間ぴったりデスネー！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 305201
+                    }
+                ],
+                "nameLeft": "アシュリー･テイラー",
+                "textLeft": "せいらは歴史研究部で@待ってマスヨー！"
+            },
+            {
+                "autoTurnLast": 0.3,
+                "bg": "bg_adv_21025.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 303901,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200652,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "deleteArmatureList": [
+                    1,
+                    2
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 303901,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "三穂野 せいら",
+                "textLeft": "お、来たね！",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200652,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "まず借りたモンを返さないとね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200652
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "あたしとさやかの衣装…@それから機材一式"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 305201,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "アシュリー･テイラー",
+                "textLeft": "衣装は差し上げた@つもりだったのデスガ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200652,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "気持ちはありがたいんだけど"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200652
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "変身すれば同じ格好に@いつでもなれるしな"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 305201,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "アシュリー･テイラー",
+                "textLeft": "確かに、言われてみると…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 305201,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "アシュリー･テイラー",
+                "textLeft": "では、次に着る機会まで@私の家で保管しておきマス！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200652,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "そうしてくれよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200652,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "それで…@ひとつ頼みがあるんだけどさ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200652
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "撮影した動画のファイルが@記念に欲しいんだよね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 303901,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "三穂野 せいら",
+                "textLeft": "お安い御用！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 303901
+                    }
+                ],
+                "nameLeft": "三穂野 せいら",
+                "textLeft": "ついでにちょこっと編集して"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 303901
+                    }
+                ],
+                "nameLeft": "三穂野 せいら",
+                "textLeft": "映画の一場面っぽく@してもいいけど？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 200652,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "マジか？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 303901,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "三穂野 せいら",
+                "textLeft": "うん、少し時間もらえれば！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 305201,
+                        "motion": 200,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アシュリー･テイラー",
+                "textRight": "私も見学したいデース！"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}
