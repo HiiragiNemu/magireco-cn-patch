@@ -1,4 +1,4 @@
-name: MagiaCN Auto Build Pipeline
+name: MagiaCN Precision Build Pipeline
 
 on:
   push:
@@ -14,36 +14,81 @@ jobs:
     steps:
       - name: 检出仓库代码
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # 【核心：识别到底是谁动了】
+      - name: 检测被修改的路径
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            js_patch:
+              - 'magica/js/libs/**'
+              - 'Build_JS_Injector.py'
+              - 'original_source/**'
+            scenario:
+              - 'madomagi/resource/scenario/**'
+            manifest:
+              - 'madomagi/*.json'
+            db:
+              - 'madomagi/madomagi.db'
 
       - name: 安装 Zip 工具
         run: sudo apt-get install zip -y
 
-      - name: 运行 JS 翻译注入脚本
+      # ==========================================
+      # 场景 1: 修改了 JS 逻辑（字典 JSON 或脚本）
+      # ==========================================
+      - name: 运行 Python 注入并生成热更包
+        if: steps.filter.outputs.js_patch == 'true'
         run: |
-          if [ -f "Build_JS_Injector.py" ]; then
-            python3 Build_JS_Injector.py
-          fi
-
-      - name: 打包所有资源包
-        run: |
-          # 1. 数据库
-          zip -r cn_base_00_db.zip madomagi/madomagi.db
-          # 2. 清单JSON
-          zip -r cn_base_01_json.zip madomagi/*.json
-          # 3. 核心热更新包
+          python3 Build_JS_Injector.py
+          # 打包包含最新 JS 的热更包
           zip -r cn_hotupdate.zip magica/js/ madomagi/resource/scenario/
-          
-          # 更新 version.json 供 Java 层读取
-          SIZE=$(stat -c%s "cn_hotupdate.zip")
-          python3 -c "import json; d=json.load(open('version.json')); d['version']+=1; d['size']=$SIZE; json.dump(d, open('version.json','w'), indent=4)"
 
-      - name: 仅提交文本变动到仓库
+      # ==========================================
+      # 场景 2: 修改了剧情脚本 (Scenario) 但没动 JS
+      # ==========================================
+      - name: 仅打包剧情热更包
+        if: steps.filter.outputs.scenario == 'true' && steps.filter.outputs.js_patch == 'false'
+        run: |
+          zip -r cn_hotupdate.zip magica/js/ madomagi/resource/scenario/
+
+      # ==========================================
+      # 场景 3: 修改了清单 JSON
+      # ==========================================
+      - name: 打包清单文件 (cn_base_01_json)
+        if: steps.filter.outputs.manifest == 'true'
+        run: zip -r cn_base_01_json.zip madomagi/*.json
+
+      # ==========================================
+      # 场景 4: 修改了数据库 (DB)
+      # ==========================================
+      - name: 打包数据库 (cn_base_00_db)
+        if: steps.filter.outputs.db == 'true'
+        run: zip -r cn_base_00_db.zip madomagi/madomagi.db
+
+      # ==========================================
+      # 统一处理：更新版本号 (针对 JS 或剧情更新)
+      # ==========================================
+      - name: 更新 version.json
+        if: steps.filter.outputs.js_patch == 'true' || steps.filter.outputs.scenario == 'true'
+        run: |
+          SIZE=$(stat -c%s "cn_hotupdate.zip")
+          python3 -c "import json, os; f='version.json'; d=json.load(open(f)) if os.path.exists(f) else {'version': 0, 'size': 0}; d['version']+=1; d['size']=$SIZE; json.dump(d, open(f, 'w'), indent=4)"
+
+      # ==========================================
+      # 提交变动并推送至 Release
+      # ==========================================
+      - name: 提交代码变动并发布 Release
         run: |
           git config --local user.name "MagiaCN AutoBot"
           git config --local user.email "bot@magiacn.com"
-          # 注意：这里我们绝对不再把 zip 塞进仓库里了！
-          git add version.json magica/js/libs/jquery-3.7.1.min.js
-          git commit -m "Auto Build: Update JSON and JS" || echo "No changes to commit"
+          
+          # 仅提交 version.json 和生成的 JS
+          git add version.json magica/js/libs/jquery-3.7.1.min.js || true
+          git commit -m "Auto Build: Assets Sync" || echo "No changes to commit"
           git push
 
       - name: 发布 ZIP 到 GitHub Releases
@@ -52,7 +97,6 @@ jobs:
           allowUpdates: true
           tag: "latest"
           name: "最新汉化资源包 (自动更新)"
-          body: "此页面包含最新构建的热更新补丁和基础数据库。由 GitHub Actions 自动打包。"
           artifacts: "*.zip"
           replacesArtifacts: true
           token: ${{ secrets.GITHUB_TOKEN }}
