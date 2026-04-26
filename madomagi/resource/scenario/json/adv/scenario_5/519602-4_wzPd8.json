@@ -1,0 +1,1320 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "white",
+                "nameNarration": "ひめな",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm24_story07",
+                "narration": "[textBlack:ここは、どこ…？]",
+                "turnChangeOut": "fadeOut",
+                "turnChangeOutTime": 1.5
+            },
+            {
+                "autoTurnLast": 1.7,
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "fadeTo": {
+                                        "duration": 0.6,
+                                        "opacity": 0
+                                    }
+                                },
+                                {
+                                    "fadeTo": {
+                                        "duration": 0.2,
+                                        "opacity": 80
+                                    }
+                                },
+                                {
+                                    "fadeTo": {
+                                        "duration": 0.8,
+                                        "opacity": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "iPhoneXScale": 1,
+                        "opacity": 80,
+                        "path": "resource/scenario/img/pink.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "setVisible": 1,
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "narrationEffect": "out"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/pink.png",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "ひめな",
+                "narration": "[textBlack:誰かの、夢…？]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51196_historia_paxromana/51196_magia_record_alt1.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    }
+                ],
+                "narrationEffect": "out"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
+                        "zOrder": "messageBack"
+                    },
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
+                        "zOrder": "charaFront"
+                    },
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 3,
+                        "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_65013.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 810000,
+                        "motion": 0,
+                        "pos": 1,
+                        "posX": 0,
+                        "posY": 80
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 1,
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "キュゥべえ",
+                "textCenter": "…………@…………",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 1.5
+            },
+            {
+                "nameNarration": "？？？",
+                "narration": "『クビウス様…』",
+                "narrationBg": "bg_adv_65013.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "narration": "『これは、神々の罰なのでしょうか？』"
+            },
+            {
+                "narration": "『あのとき、ウェスタの煌乙女になることを@わたしが、拒んだから…』"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "white",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102801,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "deleteArmatureList": [
+                    1,
+                    2,
+                    3
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 1,
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102801,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "ひめな",
+                "textCenter": "（今のって@アマリュリスの夢だよね？）",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102801,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "ひめな",
+                "textCenter": "（あの子は…）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 102801,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "ひめな",
+                "textCenter": "（ずっと罪の意識を@感じていたんだね）"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bg": "bg_adv_65011.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 834900,
+                        "live2dName": "live2d_0",
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 834900,
+                        "live2dName": "live2d_2",
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameNarration": "",
+                "narrationBg": "bg_adv_65011.jpg",
+                "narrationEffect": "in",
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 1.5
+            },
+            {
+                "narration": "＜西暦79年10月＞",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 1.5
+            },
+            {
+                "narration": "＜ポンペイ＞"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bgm": "bgm23_magus01",
+                "narrationEffect": "out"
+            },
+            {
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "id": 834900,
+                        "live2dName": "live2d_0",
+                        "pos": 0
+                    },
+                    {
+                        "id": 834900,
+                        "live2dName": "live2d_2",
+                        "pos": 2
+                    }
+                ],
+                "nameCenter": "",
+                "surround": "7022_earthquake",
+                "textCenter": "…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 834900,
+                        "live2dName": "live2d_0",
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 834900,
+                        "live2dName": "live2d_2",
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "また揺れたぞ…@今日は一段とひどいな"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834900,
+                        "live2dName": "live2d_2",
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "オレたちも避難したほうが@いいんじゃないか？"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_65041.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 835000,
+                        "live2dName": "live2d_0",
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 835000,
+                        "live2dName": "live2d_2",
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "surround": "stop",
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "id": 835000,
+                        "live2dName": "live2d_0",
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "surround": "7022_earthquake",
+                "textLeft": "水道はまだ枯れてるみたいです"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 835000,
+                        "live2dName": "live2d_2",
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "いよいよ、予言通りに@なってしまうの…？"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_65031.jpg",
+                "surround": "stop",
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut",
+                "turnChangeOutTime": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102801,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "flashEffect": "explosion"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102801,
+                        "lipSynch": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "ひめな",
+                "textCenter": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102801,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "ひめな",
+                "textCenter": "あ…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102801
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_65031.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 103201,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102901,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "flashEffect": "explosion"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 103201,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 102901,
+                        "pos": 2
+                    }
+                ],
+                "nameCenter": "ミユリ＆時雨",
+                "textCenter": "…………"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 103201
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 102901
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_65031.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 833600,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "コルネリア",
+                "textCenter": "ひめなたち…？"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 833600,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102801,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833600,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "textLeft": "…あれから１年が経ったわ",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833600,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "textLeft": "アマリュリスの言う通り@ウェスパシアヌス様にかわって"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833600,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "textLeft": "６月にティトゥス様が@インペラートルへと即位された"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833600,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "textLeft": "都市参事会の空気も変わった…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102801,
+                        "motion": 200,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ひめな",
+                "textRight": "マリウスのお父さんの力？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833600,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "textLeft": "うん…移住に踏み切った人は@全体からみると少ないけど"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 833600,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "textLeft": "大きな地震も増えてきたし…@どの町も、何かあったら"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833600,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "textLeft": "すぐに避難しようって@雰囲気になってきてる"
+            },
+            {
+                "autoTurnLast": 1,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 833600,
+                        "pos": 0
+                    }
+                ],
+                "surround": "7022_earthquake",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102801,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ひめな",
+                "textRight": "地震…！@噴火まで、あと何日なの？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 833600,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "surround": "stop",
+                "textLeft": "…あと２日よ@もう、時間がないの"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 833600,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 105301,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameNarration": "",
+                "narration": "[se:7107_arrivalone]タタッ",
+                "narrationBg": "bg_adv_65031.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105301,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "narrationEffect": "out",
+                "textRight": "コルネリア様！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105301,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "ユニア様は無事に@避難していただけました…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 105301,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102801,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "…って、あれっ？@ひめな様たち…？"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 833600,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 105301,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833600,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "textLeft": "今はもう、噴火が始まったら@みんながすぐに逃げだせるように",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833600,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "textLeft": "できる準備を進めるしかないわ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102801,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ひめな",
+                "textLeft": "ユニアの家族は@もう避難したんだね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105301,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "はい、三家のお父様がたはすでに"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105301,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "この町に住むことの@危険を理解されています"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105301,
+                        "motion": 200,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "地元と強い結びつきを持つ@ユニア様のお義父様は"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105301,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "みなさんに範を示す意味で@早期にご家族を避難させました"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105301,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "そして、コルネリア様と@マリウス様のお父様…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105301,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "そしてマリウス様とともに"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105301,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "避難を円滑に進めるための@準備を進めています"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 105301,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "…本当は、コルネリア様にも@避難していただきたいのですが"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 833600,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリア",
+                "textLeft": "私はひとりでも多くを救えるよう@できるかぎりのことをするわ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 105301,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "アマリュリス",
+                "textRight": "コルネリア様…！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 833600
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 105301
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_65031.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 102801,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 103201,
+                        "motion": 0,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 102901,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "ひめな",
+                "textLeft": "私チャンたちも！"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bg": "bg_adv_65011.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 834901,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 834902,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameNarration": "",
+                "narrationBg": "bg_adv_65011.jpg",
+                "narrationEffect": "in",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "narration": "[surround:7022_earthquake]ゴゴゴ…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリアの父",
+                "narrationEffect": "out",
+                "textLeft": "地鳴りがひどい…@ただごとではないな"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリアの父",
+                "textLeft": "２～３年ほど前は@あまりにコルネリアが怯えるので"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリアの父",
+                "textLeft": "万が一の災禍にも@目配りしておこう…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリアの父",
+                "textLeft": "ぐらいの気持ちだったが"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 834901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリアの父",
+                "surround": "stop",
+                "textLeft": "あの噂…いや予言は@的中しそうに思えてならん"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834902,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ユニアの義父",
+                "textRight": "それには同意せざるをえんな"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834902,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 834901,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "ユニアの義父",
+                "textRight": "正直うちの商売は@地元産のワイン頼みだったし"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834902,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ユニアの義父",
+                "textRight": "参事会の、地元にこだわらず@やっていこうって方針も"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834902,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ユニアの義父",
+                "textRight": "あんたとマリウスの親父に@押し切られる形で渋々呑んだが…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 834902,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ユニアの義父",
+                "textRight": "今ではむしろ感謝している"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 834902,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ユニアの義父",
+                "textRight": "あのまま参事会の趨勢が@変わらなければ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834902,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ユニアの義父",
+                "textRight": "避難などとんでもない！…と@先頭に立って反対していただろう"
+            },
+            {
+                "nameNarration": "",
+                "narration": "[surround:7022_earthquake]ゴゴゴゴ…",
+                "narrationBg": "bg_adv_65011.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリアの父",
+                "narrationEffect": "out",
+                "textLeft": "…このぶんだと@数日以内に何か起きそうだな"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834902,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ユニアの義父",
+                "textRight": "うむ…“万が一”のときは"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834902,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ユニアの義父",
+                "textRight": "早めに陸路での避難を促すのが@最善だと考える"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリアの父",
+                "textLeft": "逃げ遅れた住民が乗れるように"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 834901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリアの父",
+                "textLeft": "商船も待機させているが…@いかんせん数が足りない"
+            },
+            {
+                "nameCenter": "？？？の声",
+                "surround": "stop",
+                "textCenter": "…船がご入用でしょうか？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 834901,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 835001,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "コルネリアの父",
+                "textLeft": "あなたは、女神イシスの…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 835001,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "イシスの神官",
+                "textRight": "わが教団の信者のなかには@船主の方が多くいらっしゃいます"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 835001,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "イシスの神官",
+                "textRight": "よろしければ@ご協力をいただけるよう"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 835001,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "イシスの神官",
+                "textRight": "お声がけしてみますが…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 834901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "コルネリアの父",
+                "textLeft": "おお、それは助かります！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 834800,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "マリウス",
+                "textRight": "僕は父とともに、参事会の@重鎮がたに働きかけてきます"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 834800,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "マリウス",
+                "textRight": "何かあったとき、彼らが@避難を渋るようなことになれば"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 834800,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "マリウス",
+                "textRight": "その家族や使用人の方々は@逃げたくても逃げられませんから"
+            },
+            {
+                "bgm": "stop",
+                "nameNarration": "",
+                "narration": "＜そして…＞",
+                "narrationBg": "bg_adv_65011.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bg": "black",
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 1
+            },
+            {
+                "autoTurnLast": 2.5,
+                "surround": "7022_earthquake",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3002_cloud_of_dust.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 1,
+                "bg": "bg_adv_65013.jpg",
+                "nameNarration": "",
+                "narrationBg": "bg_adv_65013.jpg",
+                "narrationEffect": "in",
+                "surround": "stop",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "narration": "＜西暦79年10月24日＞",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bgm": "bgm03_story17",
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 3,
+                "bgEffect": "shakeLarge",
+                "surround": "7022_earthquake"
+            },
+            {
+                "autoTurnLast": 3,
+                "bgEffect": "shakeLarge",
+                "surround": "7022_earthquake"
+            },
+            {
+                "autoTurnLast": 3,
+                "bgEffect": "shakeLarge",
+                "surround": "7022_earthquake"
+            },
+            {
+                "autoTurnLast": 3,
+                "bgEffect": "shakeLarge",
+                "surround": "7022_earthquake"
+            },
+            {
+                "autoTurnLast": 2.5,
+                "bgEffect": "stop",
+                "deleteArmatureList": [
+                    1
+                ],
+                "surround": "stop",
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 1
+            }
+        ]
+    },
+    "version": 3
+}

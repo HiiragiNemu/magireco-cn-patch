@@ -1,0 +1,559 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_19333.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 303500,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 103800,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter12/103303_witch_handmirror_gate.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 303500,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-1"
+                    }
+                ],
+                "nameRight": "千秋 理子？",
+                "textRight": "こんな危ないものは@壊さないといけませんね！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103800,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-2"
+                    }
+                ],
+                "nameLeft": "みかげ？",
+                "textLeft": "あくよーされたら困るもんね"
+            },
+            {
+                "autoTurnLast": 0.9,
+                "chara": [
+                    {
+                        "id": 103800,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-3_mikage"
+                    },
+                    {
+                        "id": 303500,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-3_riko"
+                    }
+                ],
+                "nameCenter": "理子？＆みかげ？",
+                "textCenter": "[flashEffect:flashWhite2][surround:1038A01][surround:3035A02]せーのっ！"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -100,
+                                        "posY": 50
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 100,
+                                        "posY": -50
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -100,
+                                        "posY": 50
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 100,
+                                        "posY": -50
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -100,
+                                        "posY": 50
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 100,
+                                        "posY": -50
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/part2_chapter12/103303_witch_handmirror_gate.png"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/1505_mirror_brake.ExportJson",
+                        "zOrder": "top"
+                    }
+                ],
+                "autoTurnLast": 3,
+                "flashEffect": "explosion",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter12/103303_witch_handmirror_gate.png",
+                        "visible": "hide"
+                    }
+                ],
+                "se": "3214_ban"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 303500
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 103800
+                    }
+                ],
+                "deleteArmatureList": [
+                    1
+                ]
+            },
+            {
+                "bgm": "bgm03_story12",
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "effect": "ef_adv_08",
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 100100,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 2,
+                        "effect": "ef_adv_08",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_331.exp3.json",
+                        "id": 102000,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameNarration": "いろは",
+                "narration": "あぁ…やちよさんも鶴乃ちゃんも…@魔女になっていく…",
+                "narrationEffect": "in",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-4"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100100
+                    }
+                ],
+                "narration": "穢れを回収されず@ドッペルを出すことなく@託された希望を使い果たして…",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-5"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100100
+                    }
+                ],
+                "narration": "フェリシアちゃんもさなちゃんも…",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-6"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 100100
+                    }
+                ],
+                "narration": "そして、私とかごめちゃんも…",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-7"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "black",
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 2
+            },
+            {
+                "nameNarration": "いろは",
+                "narration": "あぁ…悔しいなぁ…",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-8"
+            },
+            {
+                "narration": "みんながここまで命をかけてくれたのに…@私に未来を託してくれたのに…@本当に私はなにひとつ残せていない…",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-9"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter12/103303_leaf_irohahand1.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "いろは",
+                "narration": "―いろは―@かごめちゃん…",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "fadeOut",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-10"
+            },
+            {
+                "nameNarration": "かごめ",
+                "narration": "―かごめ―@…………",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-11"
+            },
+            {
+                "nameNarration": "いろは",
+                "narration": "―いろは―@アルちゃん…",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-12"
+            },
+            {
+                "nameNarration": "アルちゃん",
+                "narration": "―アルちゃん―@…………",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-13"
+            },
+            {
+                "nameNarration": "いろは",
+                "narration": "―いろは―@もう、祈ることしかできない…",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-14"
+            },
+            {
+                "narration": "―いろは―@お願い…どうか未来を幸せに…@誰か…お願いです…",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-15"
+            },
+            {
+                "narration": "―いろは―@この…絶望から…希望、を…",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-16"
+            },
+            {
+                "narration": "―いろは―@…………",
+                "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-17"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 2.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter12/103303_leaf_irohahand2.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_19303.jpg",
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_014.exp3.json",
+                        "id": 100800,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 101200,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100800,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-18"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "アハッ@サイッコーのバーンナップ…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100800,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-19"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "今際の際に燃える灯火"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 100800,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-20"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "ハァ～…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100800,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-21"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "最後まで生きようとする@ブリリアントな命…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 101200,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "voiceFull": "fullvoice/section_103303/vo_full_103303-21-22"
+                    }
+                ],
+                "nameRight": "御園 かりん",
+                "textRight": "…っ、もう、結果はわかったの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 101200,
+                        "lipSynch": 1
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_013.exp3.json",
+                        "id": 100800,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-23",
+                        "voiceFullStop": "fullvoice/section_103303/vo_full_103303-21-22"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "サッドネスで終わるケド"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100800,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-24"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "レジストするほど、人の命は@サイッコーに輝くワケ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100800,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-25"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "瀬奈みことにはベストなアートを@見せてもらったヨネ"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 100800
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 101200,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-26"
+                    }
+                ],
+                "nameRight": "御園 かりん",
+                "textRight": "どこへ行くの…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_014.exp3.json",
+                        "id": 100800,
+                        "motion": 0,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-27"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "ただ静かにデッドを待つなら@レジストしてくるワケ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 101200,
+                        "motion": 200,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-28"
+                    }
+                ],
+                "nameRight": "御園 かりん",
+                "textRight": "じゃあ、わたしも@アリナ先輩と一緒に戦うの"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 101200,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-29"
+                    }
+                ],
+                "nameRight": "御園 かりん",
+                "textRight": "一緒に輝いて散るの"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_013.exp3.json",
+                        "id": 100800,
+                        "motion": 300,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-30"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "オッケー、フールガール"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100800,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-31"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "いや、今のアリナたちは@ブリリアントガールだヨネ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_014.exp3.json",
+                        "id": 100800,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_103303/vo_full_103303-21-32"
+                    }
+                ],
+                "nameLeft": "アリナ",
+                "textLeft": "ラストバトルスタート"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 1
+            }
+        ]
+    },
+    "version": 3
+}

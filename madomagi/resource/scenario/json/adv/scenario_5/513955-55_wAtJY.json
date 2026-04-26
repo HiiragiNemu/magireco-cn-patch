@@ -1,0 +1,1176 @@
+{
+    "skipTransitionList": [
+        {
+            "from": "group_1",
+            "to": "group_4"
+        },
+        {
+            "canSkip": false,
+            "from": "group_4"
+        }
+    ],
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "black",
+                "chara": [
+                    {
+                        "cheek": -1,
+                        "effect": "ef_adv_08",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121004,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "…………@…………",
+                "narrationBg": "black",
+                "narrationEffect": "in",
+                "surround": "7031_bubble_loop",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "苦しい…"
+            },
+            {
+                "narration": "苦しい…"
+            },
+            {
+                "narration": "あなたと生き別れて…@ただただ海を漂って…@またあの村に流れ着いて…@あなたをずっと待ち続けて…"
+            },
+            {
+                "narration": "ずっとずっと、苦しかった…"
+            },
+            {
+                "narration": "こんなに苦しむくらいなら…@あなたとはぐれたあのときに@ここで死んでいればよかった…"
+            },
+            {
+                "autoTurnLast": 2,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 1.5
+            },
+            {
+                "autoTurnLast": 0.01,
+                "surround": "7032_bubble_nonloop"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/1504_bubble_scene.ExportJson",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "autoTurnLast": 0.1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "surround": "stop",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "ザバァンッ!!",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.2,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png",
+                        "posX": 0,
+                        "posY": -3000,
+                        "scale": 6,
+                        "setVisible": 1,
+                        "zOrder": "messageFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_20682.jpg",
+                "chara": [
+                    {
+                        "cheek": -1,
+                        "face": "mtn_ex_001.exp.json",
+                        "id": 121003,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": -1,
+                        "effect": "ef_adv_08",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121004,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.2,
+                                "posY": 3000
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png"
+                    }
+                ]
+            },
+            {
+                "bgm": "bgm03_story12",
+                "chara": [
+                    {
+                        "id": 121003,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "みたま",
+                "surround": "7202_telepathy",
+                "textLeft": "ももこ！@しっかりして、ももこ！",
+                "turnEffect": "ef_adv_02"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "一緒に船に戻るわよ…！"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 121004,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121003,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "ももこ…！@お願い、返事をしてよ…！"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 121004,
+                        "lipSynch": 1
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "これで…いいの…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "え？"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 121004,
+                        "tear": 1
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "あの方のところに…@行けるから…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_052.exp.json",
+                        "id": 121003,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "なっ…!?"
+            },
+            {
+                "select": [
+                    {
+                        "alternativeId": 11,
+                        "group": "group_2",
+                        "textSelect": "諦めないで"
+                    },
+                    {
+                        "alternativeId": 12,
+                        "group": "group_3",
+                        "textSelect": "ふざけないで"
+                    }
+                ]
+            }
+        ],
+        "group_2": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_20682.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121003,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": -1,
+                        "effect": "ef_adv_08",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121004,
+                        "motion": 0,
+                        "pos": 2,
+                        "tear": 1
+                    }
+                ],
+                "surround": "stop",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm03_story08",
+                "chara": [
+                    {
+                        "id": 121003,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "みたま",
+                "surround": "7202_telepathy",
+                "textLeft": "お願い、諦めないで…",
+                "turnChangeOut": "fadeOut",
+                "turnEffect": "ef_adv_02"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "まだあの人が生きてるかも@しれないじゃない…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "一緒に探しましょう…！@ね…？"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 121004,
+                        "lipSynch": 0,
+                        "tear": 1
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "…………！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121004,
+                        "lipSynch": 1,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "そんなこと…言ってくれたのは@あなたが初めて…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_032.exp.json",
+                        "id": 121003,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "surround": "stop",
+                "textLeft": "（…本当はあの人が生きてる@わけないのに…）",
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 121003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "（…ごめんなさい、こんな希望を@持たせるようなことを言って…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121003,
+                        "lipSynch": 0,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "[chara:121003:effect_shake]っ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "（まずい、息が、もう…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": -1,
+                        "face": "mtn_ex_060.exp.json",
+                        "id": 121004,
+                        "lipSynch": 0,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "[chara:121004:effect_shake]っ…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 121003,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "（ももこ…！）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_032.exp.json",
+                        "id": 121003,
+                        "lipSynch": 0,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "（どうしたら助けられる…？@どうしたら…！）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003,
+                        "motion": 100,
+                        "pos": 1
+                    }
+                ],
+                "nameNarration": "",
+                "narration": "[chara:121004:effect_shake]ギュッ…！",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 121003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "みたま",
+                "narrationEffect": "out",
+                "textCenter": "[flashEffect:flashWhite2]…………！"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_20271.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 800103,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 801100,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnEffect": "promist"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800103
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "私は…とても幸せ者です…",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 1.5
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800103
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "巫の力で、あなたに想いを@伝えることができて…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800103
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "役立たずだったこの足も@動くようになって…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800103
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "魚にならなくても@あなたについていけるから…"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "white",
+                "turnChangeIn": "whiteIn",
+                "turnEffect": "stop"
+            },
+            {
+                "bgm": "bgm05_event05",
+                "nameNarration": "みたま",
+                "narration": "[textBlack:そうだわ…]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "narration": "[textBlack:この広い海を自由に泳ぎ回れる]@[textBlack:何にも囚われない存在に]@[textBlack:わたしたちを変えれば…！]"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/4005_bubble.ExportJson",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "autoTurnLast": 1.5,
+                "bg": "bg_adv_20682.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_001.exp.json",
+                        "id": 121001,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121002,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "whiteIn"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_051.exp.json",
+                        "id": 121001
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "あ…",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 1.5
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121001,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "よかった、成功したみたいね…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 121002
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "この姿は…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 121001
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "あなたの記憶をヒントに@わたしが調整したっていうか…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121001,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "あなたの力を貸してもらって@変身できたってことよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121002,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121001
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "…さぁ、行きましょう@あの人を探しに…"
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "stop",
+                "deleteArmatureList": [
+                    2
+                ],
+                "turnChangeIn": "fadeIn"
+            }
+        ],
+        "group_3": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_20682.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 121003,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": -1,
+                        "effect": "ef_adv_08",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121004,
+                        "motion": 0,
+                        "pos": 2,
+                        "tear": 1
+                    }
+                ],
+                "surround": "stop",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 121003
+                    }
+                ],
+                "nameLeft": "みたま",
+                "surround": "7202_telepathy",
+                "textLeft": "…ふざけないで",
+                "turnChangeOut": "fadeOut",
+                "turnEffect": "ef_adv_02"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "…………[wait:0.8][chara:121003:cheek_0][chara:121003:eyeClose_0:motion_200][chara:121003:lipSynch_1]ふざけないでよ…ッ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": -1,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 121004,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "…………"
+            },
+            {
+                "bgm": "bgm03_story23",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_001.exp.json",
+                        "id": 121003
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "悲劇を繰り返して@ほしくないんじゃなかったの？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "みんなの自由を…幸せを…@願ってたんじゃないの…!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_032.exp.json",
+                        "id": 121003
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "なのに、@こんな終わり方を選んで…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_001.exp.json",
+                        "id": 121003,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "本当にこれが@あなたの望んだことだったの!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121004,
+                        "lipSynch": 1
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "あ…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textBg": "shout",
+                "textLeft": "ももこを連れて行かないでッ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": -1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121004
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "私、は…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": -1,
+                        "face": "mtn_ex_060.exp.json",
+                        "id": 121004
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "[chara:121004:effect_shake]うっ…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_052.exp.json",
+                        "id": 121003,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "ももこっ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121003,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "surround": "stop",
+                "textLeft": "[chara:121003:effect_shake]っ…",
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 121003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "（まずい、息が、もう…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_032.exp.json",
+                        "id": 121003,
+                        "lipSynch": 0,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "（どうしたら助けられる…？@どうしたら…！）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121003,
+                        "motion": 100,
+                        "pos": 1
+                    }
+                ],
+                "nameNarration": "",
+                "narration": "[chara:121004:effect_shake]ギュッ…！",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 121003,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "みたま",
+                "narrationEffect": "out",
+                "textCenter": "[flashEffect:flashWhite2]…………！"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_20271.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 800103,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 801100,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "whiteIn",
+                "turnChangeOutTime": 1.5,
+                "turnEffect": "promist"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800103
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "私は…とても幸せ者です…",
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800103
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "巫の力で、あなたに想いを@伝えることができて…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800103
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "役立たずだったこの足も@動くようになって…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800103
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "魚にならなくても@あなたについていけるから…"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "white",
+                "turnChangeIn": "whiteIn",
+                "turnEffect": "stop"
+            },
+            {
+                "nameNarration": "みたま",
+                "narration": "[textBlack:そうだわ…]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "narration": "[textBlack:この広い海を自由に泳ぎ回れる]@[textBlack:何にも囚われない存在に]@[textBlack:わたしたちを変えれば…！]"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 3,
+                        "filePath": "resource/image_native/effect/story/general/4005_bubble.ExportJson",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "autoTurnLast": 1.5,
+                "bg": "bg_adv_20682.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_001.exp.json",
+                        "id": 121001,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121002,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "whiteIn"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_051.exp.json",
+                        "id": 121001
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "あ…",
+                "turnChangeOut": "whiteOut",
+                "turnChangeOutTime": 1.5
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121001,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "よかった、成功したみたいね…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 121002
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "この姿は…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 121001
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "あなたの記憶をヒントに@わたしが調整したっていうか…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121001,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "あなたの力を貸してもらって@変身できたってことよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121002,
+                        "motion": 1
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "そう…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121002,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121002,
+                        "lipSynch": 1,
+                        "motion": 300
+                    },
+                    {
+                        "id": 121001,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "…私…間違っていました…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 121002
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "私が望んだのは…@あの方と一目会うことだから…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 121002,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "ももこ",
+                "textRight": "だから…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 121001,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "みたま",
+                "textLeft": "…うん@一緒に探しましょう"
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "stop",
+                "deleteArmatureList": [
+                    3
+                ],
+                "turnChangeIn": "fadeIn"
+            }
+        ],
+        "group_4": [
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_20682.jpg",
+                "bgm": "bgm03_story08",
+                "chara": [
+                    {
+                        "cheek": -1,
+                        "effect": "ef_adv_08",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 121004,
+                        "motion": 0,
+                        "pos": 2,
+                        "tear": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_052.exp.json",
+                        "id": 121003,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "surround": "stop",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "select": [
+                    {
+                        "alternativeId": 11,
+                        "group": "group_2",
+                        "textSelect": "諦めないで"
+                    },
+                    {
+                        "alternativeId": 12,
+                        "group": "group_3",
+                        "textSelect": "ふざけないで"
+                    }
+                ],
+                "surround": "7202_telepathy",
+                "turnChangeOut": "fadeOut",
+                "turnEffect": "ef_adv_02"
+            }
+        ]
+    },
+    "version": 3
+}

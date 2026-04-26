@@ -1,0 +1,344 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "bg": "white",
+    "bgm": "bgm03_story14",
+    "chara": [
+     {
+      "face": "mtn_ex_010.exp.json",
+      "id": 820000,
+      "mouthOpen": 0,
+      "pos": 1
+     }
+    ],
+    "nameNarration": "",
+    "narration": "哎呀，你已经听说了吗？@是谁告诉你的呀？@FM神滨的传闻",
+    "narrationBg": "narration",
+    "narrationEffect": "in",
+    "turnChangeIn": "fadeIn",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_010.exp.json",
+      "id": 820000,
+      "mouthOpen": 0
+     }
+    ],
+    "narration": "丰富了神滨市民的生活@从流行歌曲到趣味杂谈@是清晨的闹钟，工作的良伴，躁动深夜的慰藉"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 820000,
+      "mouthOpen": 1
+     }
+    ],
+    "narration": "FM神滨常伴你身边@然而只要有关掉电台的打算@全身就会被哔哩哔哩地电到发麻！"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_010.exp.json",
+      "id": 820000,
+      "mouthOpen": 0
+     }
+    ],
+    "narration": "起伏跳动的电波穿越次元@能够传达到任何地方@神滨市的听众们都在讨论这个传闻"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_000.exp.json",
+      "id": 820000,
+      "mouthOpen": 1
+     }
+    ],
+    "narration": "不要换台！"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bg": "black",
+    "bgm": "stop",
+    "item": [
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_1b.jpg",
+      "posX": 100,
+      "posY": -250,
+      "scale": 2.0,
+      "setVisible": 1
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bgm": "bgm01_anime03",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "nameNarration": "小圆前辈",
+    "narration": "Q",
+    "narrationAnchor": "bottom",
+    "narrationCoverOpacity": 0.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0
+   },
+   {
+    "item": [
+     {
+      "action": {
+       "spawn": [
+        {
+         "moveTo": {
+          "duration": 1.0,
+          "posX": 0,
+          "posY": 0
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 1.0,
+          "scale": 1.0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_1b.jpg"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 900
+       }
+      },
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_1b.jpg"
+     },
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_2b.jpg",
+      "posX": 0,
+      "posY": -900,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_2c1.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "nameNarration": "彩羽",
+    "narration": "第一次收听这个电台的朋友！",
+    "narrationCoverOpacity": 0.0,
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_2a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_2b.jpg",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_2c1.png",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "彩羽",
+    "narration": "你们好呀！",
+    "narrationCoverOpacity": 0.0,
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 900
+       }
+      },
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_2a.jpg"
+     },
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_3b.jpg",
+      "posX": 0,
+      "posY": -900,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_3c1.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "nameNarration": "小圆前辈",
+    "narration": "一直以来都支持我们的朋友！",
+    "narrationCoverOpacity": 0.0,
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_3c2.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "nameNarration": "小圆前辈",
+    "narration": "上周引起了骚动真是抱歉@没想到会流那么多血@真是吓了一跳呢！",
+    "narrationCoverOpacity": 0.0,
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_3a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_3b.jpg",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_3c1.png",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_3c2.png",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小圆前辈",
+    "narration": "希望木乃美快点康复吧！",
+    "narrationCoverOpacity": 0.0,
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "scaleTo": {
+        "duration": 0.5,
+        "scale": 0.0
+       }
+      },
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_3a.jpg"
+     },
+     {
+      "action": {
+       "scaleTo": {
+        "duration": 0.5,
+        "scale": 1.0
+       }
+      },
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_4b.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 0.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 0.8
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 1.2
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.05,
+          "scale": 1.0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/51021_PAPA_tower/0402/51021_01_4a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "nameNarration": "彩羽",
+    "narration": "FM神滨圣广播电台@开始啦！",
+    "narrationCoverOpacity": 0.0,
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0
+   },
+   {},
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

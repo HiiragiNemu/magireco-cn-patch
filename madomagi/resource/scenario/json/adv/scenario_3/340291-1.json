@@ -1,0 +1,458 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "bgm05_event07",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "ペレネルの手記",
+                "narration": "[textBlack:これから記されることは]@[textBlack:すべて“私”の見解にすぎない]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 150,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "[textBlack:私がひとりの学究として]@[textBlack:あるいは知の求道者として]@[textBlack:この文書を記すのであれば]@[textBlack:可能なかぎり偏見を排し、また]@[textBlack:可能なかぎり中庸を心がけたことだろう]"
+            },
+            {
+                "narration": "[textBlack:けれど、これは私という人間の]@[textBlack:とりとめもない記憶を書き綴った]@[textBlack:ただの記録だ]"
+            },
+            {
+                "narration": "[textBlack:そう、ペレネル・フラメルという名の]@[textBlack:ひとりの錬金術士の…]"
+            },
+            {
+                "narration": "[textBlack:さて…事のはじまりをいつ頃に]@[textBlack:いや、何世紀に定めるべきだろう？]"
+            },
+            {
+                "narration": "[textBlack:さしあたっては]@[textBlack:思い出した順に記していくことにしても]@[textBlack:特に支障はないと考える]"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_20231.jpg",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "nameNarration": "",
+                "narration": "＜1427年＞",
+                "narrationBg": "",
+                "narrationCoverOpacity": 50,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "＜フランス、パリ＞"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_31121.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "bgm": "bgm01_anime02",
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameCenter": "ニコラ・フラメル",
+                "textCenter": "[chara:831700:effect_emotion_joy_0][se:7222_happy]…あっ、おかえり！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 831700,
+                        "pos": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "ただいま戻りました@我が夫よ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameLeft": "ニコラ・フラメル",
+                "textLeft": "ネルちゃん、あのね@さっき…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "…コホン@街中でその呼び方は…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "何度も言いますが@私たちは一応"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "隠居した写本業者という体裁で@この町に暮らしていますので…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831700,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ニコラ・フラメル",
+                "textLeft": "ごめん、そうだったね@つい…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ニコラ・フラメル",
+                "textLeft": "みんなには僕たちが@老夫婦に見えてるんだから"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameLeft": "ニコラ・フラメル",
+                "textLeft": "もっと気をつけないとね"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "black",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "ペレネルの手記",
+                "narration": "[textBlack:外見上、老いることのない我が夫ニコラと私が]@[textBlack:人々に怪しまれずに]@[textBlack:町の片隅で暮らしていられるのは]@[textBlack:人の目をあざむく魔法石のおかげだ]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 150,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "[textBlack:とはいえ、私たちのことを]@[textBlack:仔細に至るまで調べれば]@[textBlack:すでに異常な長寿であることに気づかれるのも]@[textBlack:時間の問題…]"
+            },
+            {
+                "narration": "[textBlack:妙な噂が立つ前に、住み慣れた我が家を]@[textBlack:引き払うことも考えないといけない]"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_31121.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "…それで、何か@言いかけていたようだけど？",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831700,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ニコラ・フラメル",
+                "textLeft": "そうそう！@お忍びでお客さんが来たんだ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "お忍び…王族か貴族…@それとも教会の使いかしら？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "隠居して久しいというのに@製本の依頼が絶えないわね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 831700,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ニコラ・フラメル",
+                "textLeft": "製本じゃないよ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameLeft": "ニコラ・フラメル",
+                "textLeft": "うちを訪ねてきたのは@神聖ローマ帝国ドラゴン騎士団の"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 831700
+                    }
+                ],
+                "nameLeft": "ニコラ・フラメル",
+                "textLeft": "オスヴァルト・フォン@ヴォルケンシュタイン様！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "ああ…@そういうことですか"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831700,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ニコラ・フラメル",
+                "textLeft": "あ、もうわかった？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "ええ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402901
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "音楽家にして冒険家…@高名なる吟遊詩人にして"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402901
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "神聖ローマ帝国の外交官でもある@かのヴォルケンシュタイン様を"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "id": 402901,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "まるで使い走りのように@うちによこすお方と言えば…"
+            },
+            {
+                "autoTurnLast": 0.4,
+                "bg": "white",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 402601,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "narrationBg": "narration",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 3.5,
+                "chara": [
+                    {
+                        "id": 402601,
+                        "motion": 100
+                    }
+                ],
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.4,
+                "bg": "bg_adv_31121.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 831700,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402901,
+                        "motion": 400
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "…あのお嬢様しか考えられないわ",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

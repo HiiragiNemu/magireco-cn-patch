@@ -1,0 +1,863 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_06.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_06.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_07.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_23181.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200904,
+                        "motion": 1,
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day07.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm01_anime03",
+                "chara": [
+                    {
+                        "id": 200904,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-1"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "いらっしゃいませー",
+                "textAvColor": "textMabayu",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200904
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 260102,
+                        "motion": 0,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-2"
+                    }
+                ],
+                "nameAvCenter": "杏子",
+                "textAvCenter": "いらっしゃいませー",
+                "textAvColor": "textKyoko"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 260102,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-3"
+                    }
+                ],
+                "nameAvCenter": "杏子",
+                "textAvCenter": "…………"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 260102,
+                        "pos": 2
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 260102,
+                        "lipSynch": 1,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-4"
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200904,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "surround": "7202_telepathy",
+                "textAvRight": "って、なんであたしがこんな@カッコしてるんだよ！",
+                "turnEffect": "ef_adv_02"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-5"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "そりゃまあ@ケーキ屋さんですから"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "id": 260102,
+                        "motion": 1,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-6"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "いやいや！そうじゃなくて！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 260102,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-7"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvRight": "あたしは魔女をブッ倒すために@おまえらと組んだんだぞ？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 260102,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-8"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvRight": "こんなことしてる暇があったら…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-9"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "今日は魔女、出ませんよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 260102,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-10"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "いや、だからってなんで@店の手伝いなんか…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200904,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-11"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "そのうち、私ナシで@店番してもらいますから"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 260102,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-12"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "だーかーらー！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200904
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 260102
+                    }
+                ],
+                "surround": "stop",
+                "textAvClear": 1,
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_015.exp3.json",
+                        "id": 833500,
+                        "motion": 0,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-13"
+                    }
+                ],
+                "nameAvCenter": "咲笑",
+                "textAvCenter": "あ、杏子ちゃん！@ちょっと来てくれるかしら？",
+                "textAvColorRGB": "255255255"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 833500,
+                        "pos": 0
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 260102,
+                        "motion": 0,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-14"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "え…？何だ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 833500,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-15"
+                    }
+                ],
+                "nameAvLeft": "咲笑",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "[chara:833500:effect_emotion_joy_0][se:7222_happy]じゃーん！新製品の@アプリコットのタルトよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 260102,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-16"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "お…おお…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_015.exp3.json",
+                        "id": 833500,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-17"
+                    }
+                ],
+                "nameAvLeft": "咲笑",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "おひとつ、召し上がれ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 260102,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-18"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "い…いいのか？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 833500,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-19"
+                    }
+                ],
+                "nameAvLeft": "咲笑",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "もちろん！インスパイアドバイ@杏子ちゃん、だもの！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 260102,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-20"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "…えーと@それじゃ、遠慮なく…"
+            },
+            {
+                "autoTurnFirst": 1.8,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 260102,
+                        "voiceFull": "fullvoice/section_104212/vo_full_913107-010-21"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvRight": "はむ…ん…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 260102,
+                        "lipSynch": 0
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 833500,
+                        "motion": 1,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-22",
+                        "voiceFullStop": "fullvoice/section_104212/vo_full_913107-010-21"
+                    }
+                ],
+                "nameAvLeft": "咲笑",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "どうかしら？@お口に合う？"
+            },
+            {
+                "autoTurnFirst": 1,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "id": 260102,
+                        "voiceFull": "fullvoice/section_104212/vo_full_913107-010-24"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "お、おお…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 260102
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "id": 260102,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-25",
+                        "voiceFullStop": "fullvoice/section_104212/vo_full_913107-010-24"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvRight": "[chara:260102:effect_emotion_joy_0][se:7222_happy]うまい…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 833500,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-26"
+                    }
+                ],
+                "nameAvLeft": "咲笑",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "よかったー！杏子ちゃんなら@きっと気に入ってくれると思って"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833500,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-27"
+                    }
+                ],
+                "nameAvLeft": "咲笑",
+                "textAvLeft": "いっぱい作っちゃったから@まかないで持って帰ってね"
+            },
+            {
+                "autoTurnFirst": 1,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 260102,
+                        "motion": 0,
+                        "voiceFull": "fullvoice/section_104212/vo_full_913107-010-28"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "あ…うん、助かるよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 260102
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 833500,
+                        "voiceFullStop": "fullvoice/section_104212/vo_full_913107-010-28"
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200904,
+                        "motion": 0,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-29"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "…にひひひ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-30"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "surround": "7202_telepathy",
+                "textAvLeft": "すっかり咲笑さんに@ほだされましたね",
+                "turnEffect": "ef_adv_02"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 260102,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-31"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "は？別に、そういうんじゃ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200904,
+                        "motion": 1,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-32"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "私は、みんなの毎日を@守りたいんです"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-33"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "ワルプルギスの夜を倒しても@町が壊れたら意味がない"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-34"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "できるだけ、当たり前の@毎日を続けて…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200904,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-35"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "みんなができるだけ@普通の日々を過ごせるように…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 260102,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-36"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "みんなが…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200904,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-37"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "はい、だから佐倉さんを@このお店に誘ったんです"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-38"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "ワルプルギスの夜を倒すことも@このお店を盛り上げることも…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-39"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "私にとっては、大事なことです！"
+            },
+            {
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "id": 260102,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-40"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "…薄ら寒いぜ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200904,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-41"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "え？"
+            },
+            {
+                "bgm": "bgm01_anime19",
+                "chara": [
+                    {
+                        "id": 260102,
+                        "motion": 1,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-42"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "お前、本気でワルプルギスの夜が@一発で倒せると思ってんのか？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 260102,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-43"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvRight": "ほむらが時間を止められても@兵器の奪取は簡単じゃない"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 260102,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-44"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvRight": "ホントはこの世界も@見捨てるつもりなんだろ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200904,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-45"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "違います、そんなことは…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 260102,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-46"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "あたしだったらそうするね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200904,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-47"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "え…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 260102,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-48"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "ほむらが折れない限り@何度だってやり直せるんだろ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 260102,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-49"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvRight": "だったらむしろ、楽しめるだけ@楽しんだ方がお得じゃないか"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200904,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-50"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "そんな、私は…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 260102,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-51"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "ってか、さっきまで楽しそう@だったじゃんか"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-52"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "うっ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 260102,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-53"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvColor": "textKyoko",
+                "textAvRight": "もう、慣れちまってるんだろ？@それともお前さ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 260102,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104212/vo_full_913107-010-54"
+                    }
+                ],
+                "nameAvRight": "杏子",
+                "textAvRight": "本気で、こういう毎日が@終わって欲しいと思ってんのか？"
+            },
+            {
+                "autoTurnLast": 2,
+                "surround": "stop",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            }
+        ]
+    },
+    "version": 3
+}

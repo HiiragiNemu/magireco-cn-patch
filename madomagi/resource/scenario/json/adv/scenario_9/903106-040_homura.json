@@ -1,0 +1,204 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_23202.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day06.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm01_anime19",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200501,
+                        "motion": 200,
+                        "pos": 2,
+                        "slideIn": {
+                            "duration": 0.5,
+                            "easing": "EaseIn",
+                            "easingParam": 1.5,
+                            "offsetX": -1000
+                        }
+                    }
+                ],
+                "nameAvRight": "マミ",
+                "textAvColor": "textMami",
+                "textAvRight": "鹿目さんっ！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 200101,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameAvLeft": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvLeft": "マミさん…！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200501
+                    }
+                ],
+                "nameAvRight": "マミ",
+                "textAvColor": "textMami",
+                "textAvRight": "大丈夫だった？@どこにもケガはない？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200101
+                    }
+                ],
+                "nameAvLeft": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvLeft": "はい、ほむらちゃんが@助けてくれたおかげで…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 100
+                    }
+                ],
+                "nameAvLeft": "まどか",
+                "textAvLeft": "ね、ほむらちゃん！"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200101
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 200501
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200501,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameAvLeft": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvLeft": "あ…あれ@ほむらちゃん？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101
+                    }
+                ],
+                "nameAvLeft": "まどか",
+                "textAvLeft": "いなくなっちゃった…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 230104,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day06.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "textAvClear": 1,
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textHomura",
+                "FnarrationWidth": 340,
+                "FnarrationX": 0,
+                "FnarrationY": 0,
+                "nameFnarration": "ほむら",
+                "progressFnarration": "(ごめんね、鹿目さん@あなたは信じてくれたけど…)",
+                "textAvColor": "textHomura"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 230104,
+                        "motion": 100
+                    }
+                ],
+                "progressFnarration": "(巴さんに信じてもらえる自信が@私にはまだ、持てないの…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

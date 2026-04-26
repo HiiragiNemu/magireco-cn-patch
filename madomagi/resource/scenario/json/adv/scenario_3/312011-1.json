@@ -1,0 +1,499 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_21141.jpg",
+    "bgm": "bgm03_story02",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 120100,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 120100
+     }
+    ],
+    "nameCenter": "小彩羽",
+    "textCenter": "你好呀，感谢一直以来的关照。",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 120100,
+      "motion": 200
+     }
+    ],
+    "textCenter": "我就是魔法报告的彩羽。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 120100,
+      "motion": 1
+     }
+    ],
+    "textCenter": "一般在魔法少女剧情里，"
+   },
+   {
+    "chara": [
+     {
+      "id": 120100
+     }
+    ],
+    "textCenter": "大部分人都会聊起"
+   },
+   {
+    "chara": [
+     {
+      "id": 120100
+     }
+    ],
+    "textCenter": "自己成为魔法少女的契机。"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 120100,
+      "motion": 100
+     }
+    ],
+    "textCenter": "而我是从魔法纪录宣传漫画——"
+   },
+   {
+    "textCenter": "魔法报告开始连载时@成为魔法少女的。"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 120100,
+      "motion": 401
+     }
+    ],
+    "textCenter": "……这样解释可以吗？"
+   },
+   {
+    "chara": [
+     {
+      "id": 120100,
+      "motion": 201
+     }
+    ],
+    "textCenter": "那是2017年3月发生的故事……"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bg": "black",
+    "bgm": "stop",
+    "item": [
+     {
+      "action": {
+       "fadeTo": {
+        "duration": 0.0,
+        "opacity": 0
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_1b.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 0
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bgm": "bgm01_anime07",
+    "item": [
+     {
+      "action": {
+       "fadeTo": {
+        "duration": 0.5,
+        "opacity": 255
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_1b.jpg",
+      "setVisible": 1
+     }
+    ],
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_1a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_1b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "那年春天，魔法纪录即将上线@我作为主人公可不能在大家面前丢脸@于是就开始到小圆前辈身边进行学习",
+    "narrationAnchor": "bottom",
+    "narrationCoverOpacity": 0.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 900
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_1a.jpg"
+     },
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_2b.jpg",
+      "posX": 0,
+      "posY": -900,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_2c1.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_1a.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "后来魔法纪录延期上线……"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "moveTo": {
+          "duration": 0.1,
+          "posX": 10,
+          "posY": -10
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.1,
+          "posX": -10,
+          "posY": 10
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_2b.jpg"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": 50,
+          "posY": -50
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": -50,
+          "posY": 50
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_2b.jpg"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": 5,
+          "posY": -5
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": -5,
+          "posY": 5
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_2b.jpg"
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_2a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_2c1.png",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_2b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "到出梅为止都是春天啦"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 900
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_2a.jpg"
+     },
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_3b.jpg",
+      "posX": 0,
+      "posY": -900,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_3a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_3b.jpg",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_2a.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "随后的整个夏天我们都在日夜栽培小番茄"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bgm": "stop",
+    "item": [
+     {
+      "action": {
+       "spawn": [
+        {
+         "fadeTo": {
+          "duration": 3.0,
+          "opacity": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_3a.jpg"
+     },
+     {
+      "action": {
+       "fadeTo": {
+        "duration": 0.0,
+        "opacity": 0
+       }
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_4b.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 0.5,
+      "setVisible": 0
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "spawn": [
+        {
+         "fadeTo": {
+          "duration": 0.5,
+          "opacity": 255
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.5,
+          "scale": 1.5
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_4b.jpg",
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_3a.jpg",
+      "visible": "hide"
+     }
+    ],
+    "surround": "7003_wind"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "scaleTo": {
+          "duration": 0.1,
+          "scale": 0.5
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.2,
+          "scale": 1.2
+         }
+        },
+        {
+         "scaleTo": {
+          "duration": 0.2,
+          "scale": 1.0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_4b.jpg"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_4c1.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "就当我们快要回归野生的时候@魔法纪录上线了"
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31201_irohachan_story/31201_m1_4a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "那是什么？能吃吗？"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

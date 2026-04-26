@@ -1,0 +1,436 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_11.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_11.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_13.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_23131.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200301,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day13.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm02_anime06",
+                "chara": [
+                    {
+                        "id": 200301,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-1"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvLeft": "わざわざ、呼び出してごめんね",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-2"
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvRight": "ううん、これも、ほむらちゃんに@とって大事なこと…なんだよね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200301,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-3"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvLeft": "うん、巴さんに本当の事は@まだ言えない"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200301,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-4"
+                    },
+                    {
+                        "id": 200101,
+                        "motion": 0
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvLeft": "でも、私はこれから@起こることを知ってるの"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200301,
+                        "motion": 1,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-5"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvLeft": "今日の夜、町外れの工場に魔女が@現れて、ガスが漏れ出すの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200301,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-6"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvLeft": "前の周では、気づくのが@１日遅れて、被害者が出たわ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200301,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-7"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvLeft": "でも…今の私たちなら先回りして@皆を助けることができる"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200301,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-8"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvLeft": "記憶を辿れば、私たちきっと@前よりたくさんの人が救えるの！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200301
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 200101
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_23131.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200913,
+                        "motion": 1,
+                        "pos": 1,
+                        "posX": -150
+                    }
+                ],
+                "turnEffect": "thinking"
+            },
+            {
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 350,
+                "FnarrationX": 160,
+                "FnarrationY": 150,
+                "chara": [
+                    {
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-9"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(ああ、そういえばそうでした)",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-10"
+                    }
+                ],
+                "progressFnarration": "(確か前の周では、このくらいに@工場の事故があって…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.01
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200913
+                    }
+                ],
+                "turnEffect": "stop"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_23131.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-11"
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200301,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvRight": "もしかしたら、だけど…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-12"
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "textAvRight": "この前のショッピングセンターで@さやかちゃんを助けたのも…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-13"
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "textAvRight": "前の周の記憶のおかげなの？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200301,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-14"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200301,
+                        "lipSynch": 1,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-15"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvLeft": "私は以前、美樹さんを失って@悲しむ、あなたを見たの"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200301,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-16"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvLeft": "もう二度とそんな気持ちは@味わわせたくないの"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200101,
+                        "motion": 201,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-17"
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvRight": "わかった"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-18"
+                    },
+                    {
+                        "eyeClose": 0,
+                        "id": 200301,
+                        "motion": 0
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "textAvRight": "ほむらちゃん@わたし、あなたと一緒に…"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "textAvClear": 1
+            },
+            {
+                "bgm": "stop",
+                "nameNarration": "",
+                "narration": "[surround:7105_telphone]～～♪～～♪",
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "narrationEffect": "out"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 200101,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-19"
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "surround": "stop",
+                "textAvRight": "あ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200301,
+                        "motion": 100,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-20"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvLeft": "鹿目さん？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903113-010-21"
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvRight": "さやかちゃんからだ"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

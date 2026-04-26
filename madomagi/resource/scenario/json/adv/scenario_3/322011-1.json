@@ -1,0 +1,578 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_narration.jpg",
+                "bgm": "bgm01_anime03",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200380,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 220180,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200380
+                    }
+                ],
+                "nameRight": "ほむらちゃん",
+                "textRight": "この魔法少女ストーリーは@『神浜スパアドベンチャー』を",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200380
+                    }
+                ],
+                "nameRight": "ほむらちゃん",
+                "textRight": "プレイした後に@読むのをおすすめします"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 220180
+                    }
+                ],
+                "nameLeft": "悪魔ほむらちゃん",
+                "textLeft": "イベント期間外でも"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 220180
+                    }
+                ],
+                "nameLeft": "悪魔ほむらちゃん",
+                "textLeft": "アイテム「追憶の欠片」を使って@ストーリーを閲覧可能よ"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1b.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationFontSize": 0,
+                "narrationLineSpace": 2000,
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bgm": "bgm01_anime05",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1c.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "nameNarration": "ほむらちゃん",
+                "narration": "心の弱さから悪魔と契約を@交わしてしまった私です"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1b.jpg",
+                        "visible": "hide"
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1c.png",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "悪魔",
+                "narration": "その願い引き受けた"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "spawn": [
+                                {
+                                    "scaleTo": {
+                                        "duration": 0.5,
+                                        "scale": 2
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.5,
+                                        "posX": 300,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.3,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": 5
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": -5
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": 5
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": -5
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": 5
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": -5
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": 5
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2b.jpg",
+                        "posX": -1200,
+                        "posY": -900,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ]
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2c.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narration": "契約が完了して自由になるまで@肉体を借りるぞ！"
+            },
+            {
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -50,
+                                        "posY": -20
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 50,
+                                        "posY": 70
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2d.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "nameNarration": "ほむらちゃん",
+                "narration": "あーっ！"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2a.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2b.jpg",
+                        "visible": "hide"
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2c.png",
+                        "visible": "hide"
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2d.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.3,
+                                "posX": 1200,
+                                "posY": 900
+                            }
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2a.jpg"
+                    },
+                    {
+                        "action": {
+                            "scaleTo": {
+                                "duration": 1,
+                                "scale": 1
+                            }
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3b.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 0,
+                        "setVisible": 1
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 10
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": -10
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 10
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": -10
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 10
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": -10
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 10
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": -10
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3b.jpg"
+                    }
+                ]
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3d.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2a.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "悪魔ほむらちゃん",
+                "narration": "久々の実体だわ"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3a.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3b.jpg",
+                        "visible": "hide"
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3d.png",
+                        "visible": "hide"
+                    }
+                ],
+                "narration": "遠慮無くやらせてもらうわね"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "spawn": [
+                                {
+                                    "scaleTo": {
+                                        "duration": 1,
+                                        "scale": 2
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 1,
+                                        "posX": -120,
+                                        "posY": -200
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3a.jpg"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3a.jpg",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bgm": "stop",
+                "item": [
+                    {
+                        "action": {
+                            "spawn": [
+                                {
+                                    "moveTo": {
+                                        "duration": 2,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "scaleTo": {
+                                        "duration": 2,
+                                        "scale": 1
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_4b.jpg",
+                        "posX": 170,
+                        "posY": -250,
+                        "scale": 5,
+                        "setVisible": 1
+                    }
+                ]
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_4a.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "narration": "ピザ神浜ですか？@ギガチーズイタリアーナと@めんたいマヨシュリンプのＬとコーラと@シェイクとチーズタルトを大至急"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

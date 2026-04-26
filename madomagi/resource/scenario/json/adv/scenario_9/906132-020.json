@@ -1,0 +1,817 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_24011.jpg",
+                "chara": [
+                    {
+                        "id": 640500,
+                        "pos": 1,
+                        "posY": 150,
+                        "scale": 1.6
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day32.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "bgm02_anime10_2",
+                "surround": "7015_walpurgis_voice",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png",
+                        "posX": 0,
+                        "posY": -3000,
+                        "scale": 6,
+                        "setVisible": 1,
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.01,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 640500
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200400,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200100,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_20391.jpg",
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": 3000
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png"
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200400,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-1"
+                    }
+                ],
+                "nameAvLeft": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvLeft": "あれが、ワルプルギスの夜！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200100,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-2"
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvRight": "さやかちゃん…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200400,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-3"
+                    }
+                ],
+                "nameAvLeft": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvLeft": "大丈夫、あたしたちが@力を合わせればきっと…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200100,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-4"
+                    }
+                ],
+                "nameAvRight": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvRight": "…うん!!"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200100
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 200400
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_20391.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200913,
+                        "motion": 0,
+                        "pos": 1,
+                        "posX": -150
+                    }
+                ],
+                "turnEffect": "thinking"
+            },
+            {
+                "FnarrationAnchor": "center",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 370,
+                "FnarrationX": 150,
+                "FnarrationY": 100,
+                "autoTurnFirst": 3.2,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "voiceFull": "fullvoice/section_104205/vo_full_906132-020-5"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(待って下さい…@そう、声をかけたかった)"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200913
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-6",
+                        "voiceFullStop": "fullvoice/section_104205/vo_full_906132-020-5"
+                    }
+                ],
+                "progressFnarration": "(２人なら倒せなくても@４人ならもっとまともに戦える)"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-7"
+                    }
+                ],
+                "progressFnarration": "(…本当に？)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-8"
+                    }
+                ],
+                "progressFnarration": "(今の美樹さんにとって@私たちは敵・裏切り者)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-9"
+                    }
+                ],
+                "progressFnarration": "(声をかけてしまえば、かえって@足を引っ張ることになる)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-10"
+                    }
+                ],
+                "progressFnarration": "(私のフィルムは@そう言っていました)"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-11"
+                    }
+                ],
+                "progressFnarration": "(それが、引っ込み思案な私の@言い訳なのも、わかっています)"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-12"
+                    }
+                ],
+                "progressFnarration": "(でも、とにかく…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.01
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200913
+                    }
+                ],
+                "turnEffect": "stop"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_20391.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 2.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200400,
+                        "motion": 200,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-13"
+                    }
+                ],
+                "nameAvCenter": "さやか",
+                "textAvCenter": "[flashEffect:flashWhite2][surround:2004A09]でやあああああッッ!!",
+                "textAvColor": "textSayaka"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200400
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnFirst": 1,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200100,
+                        "motion": 201,
+                        "pos": 1,
+                        "voiceFull": "fullvoice/section_104205/vo_full_906132-020-14"
+                    }
+                ],
+                "nameAvCenter": "まどか",
+                "textAvCenter": "[flashEffect:flashWhite1][se:5007_shooting_05_s]やっ！はぁっ！たあっ！",
+                "textAvColor": "textMadoka"
+            },
+            {
+                "autoTurnFirst": 0.9,
+                "autoTurnNoDelay": 1,
+                "flashEffect": "flashWhite1",
+                "se": "5007_shooting_05_s"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "id": 200100,
+                        "motion": 400
+                    }
+                ],
+                "flashEffect": "flashWhite1",
+                "se": "5009_shooting_05_h"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200100,
+                        "voiceFullStop": "fullvoice/section_104205/vo_full_906132-020-14"
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png",
+                        "posX": 0,
+                        "posY": 3000,
+                        "scale": 6,
+                        "setVisible": 1,
+                        "zOrder": "messageFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "chara": [
+                    {
+                        "id": 640500,
+                        "pos": 1,
+                        "posY": 150,
+                        "scale": 1.6
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_24011.jpg",
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": -3000
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "effect": "shakeModelOffset",
+                        "id": 640500
+                    }
+                ],
+                "flashEffect": "flashRed2",
+                "surround": "2004A13"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "effect": "shakeModelOffset",
+                        "id": 640500
+                    }
+                ],
+                "flashEffect": "flashRed1",
+                "se": "6007_hit_shooting_05_s"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "shakeModelOffset",
+                        "id": 640500
+                    }
+                ],
+                "flashEffect": "flashRed1",
+                "se": "6007_hit_shooting_05_s"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bgEffect": "shakeLarge",
+                "flashEffect": "flashRed2",
+                "se": "6009_hit_shooting_05_h"
+            },
+            {
+                "autoTurnLast": 1,
+                "bgEffect": "shakeSmall",
+                "flashEffect": "flashWhite2",
+                "surround": "7015_walpurgis_voice"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bgEffect": "shakeSmall",
+                "flashEffect": "flashWhite2"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png",
+                        "posX": 0,
+                        "posY": -3000,
+                        "scale": 6,
+                        "setVisible": 1,
+                        "zOrder": "messageFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_20391.jpg",
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 640500
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_063.exp3.json",
+                        "id": 200400,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_064.exp3.json",
+                        "id": 200100,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "surround": "stop"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": 3000
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png"
+                    }
+                ]
+            },
+            {
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "shake",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_060.exp3.json",
+                        "id": 200400,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-15"
+                    }
+                ],
+                "flashEffect": "flashRed2",
+                "nameAvLeft": "さやか",
+                "se": "3001_chara_damage",
+                "textAvColor": "textSayaka",
+                "textAvLeft": "ぐあッ!!"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200400
+                    }
+                ],
+                "se": "3002_chara_dead",
+                "textAvClear": 1
+            },
+            {
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "shake",
+                        "face": "mtn_ex_060.exp3.json",
+                        "id": 200100,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-16"
+                    }
+                ],
+                "flashEffect": "flashRed2",
+                "nameAvRight": "まどか",
+                "se": "3001_chara_damage",
+                "textAvColor": "textMadoka",
+                "textAvRight": "きゃあッ!!"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200100
+                    }
+                ],
+                "se": "3002_chara_dead",
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_20391.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 200913,
+                        "motion": 0,
+                        "pos": 1,
+                        "posX": -150
+                    }
+                ],
+                "turnEffect": "thinking"
+            },
+            {
+                "FnarrationAnchor": "center",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 350,
+                "FnarrationX": 150,
+                "FnarrationY": 100,
+                "chara": [
+                    {
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-17"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(私は、ふたりの戦いを見ている@ことしかできませんでした)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.01
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200913
+                    }
+                ],
+                "turnEffect": "stop"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200903,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 200200,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200900,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "flashEffect": "explosion",
+                "surround": "8065_opticalcamouflage"
+            },
+            {
+                "bgmFadeOut": 10000,
+                "chara": [
+                    {
+                        "id": 200200,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-18"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvLeft": "…もう、だめ"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200200,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-19"
+                    }
+                ],
+                "nameAvLeft": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvLeft": "見ていられないわ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 200900,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-20"
+                    }
+                ],
+                "nameAvRight": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvRight": "はい、お願いします"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200900,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906132-020-21"
+                    }
+                ],
+                "nameAvRight": "まばゆ",
+                "textAvRight": "同じ失敗を繰り返さない"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bgm": "stop"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day32.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/film05_scene09_01.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "textAvClear": 1,
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "flashEffect": "flashWhiteSlow1",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/film05_scene09_02.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "surround": "7017_homura_backtime"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "white",
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 1.5
+            },
+            {
+                "autoTurnLast": 0.01,
+                "turnChangeOut": "whiteOut"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "turnChangeIn": "fadeIn",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 7,
+                        "filePath": "resource/image_native/effect/story/general/1511_rewind_film.ExportJson",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "autoTurnLast": 0.01
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

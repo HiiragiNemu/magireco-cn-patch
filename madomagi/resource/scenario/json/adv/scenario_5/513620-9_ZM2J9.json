@@ -1,0 +1,557 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.1,
+                "bg": "black",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51136_tower_nayuta/memoria_1636.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm03_story02",
+                "nameNarration": "那由他",
+                "narration": "―那由他―@もう一度確認していいですの？@本当にただのストーカーだったんですの？",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 10,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "nameNarration": "ラビ",
+                "narration": "―ラビ―@はい"
+            },
+            {
+                "nameNarration": "那由他",
+                "narration": "―那由他―@そ、そうなんですの…"
+            },
+            {
+                "nameNarration": "那由他",
+                "narration": "―那由他―@てっきりラビさんの過去と@深い因縁のある相手だと思ってましたの"
+            },
+            {
+                "nameNarration": "ラビ",
+                "narration": "―ラビ―@何を期待してるんですか@もう中学３年生ですよね？"
+            },
+            {
+                "nameNarration": "ラビ",
+                "narration": "―ラビ―@あの方は生まれも育ちも神浜です@私の半生とは一切の関係もありません"
+            },
+            {
+                "narration": "―みかげ―@えへへ"
+            },
+            {
+                "nameNarration": "ラビ",
+                "narration": "―ラビ―@どうしましたか"
+            },
+            {
+                "nameNarration": "みかげ",
+                "narration": "―みかげ―@別にー"
+            },
+            {
+                "nameNarration": "ラビ",
+                "narration": "―ラビ―@変なみかげさんです"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_21082.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 103801,
+                        "motion": 0,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 103301,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 103701,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103801,
+                        "motion": 100
+                    }
+                ],
+                "nameCenter": "みかげ",
+                "textCenter": "ただいまー！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103301
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "ただいま帰りました"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "ただいまですの"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 103801
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp.json",
+                        "id": 103301,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "はっ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 103301,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "すっかり騒動で頭がいっぱいで@何も買わずに帰ってしまいました"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103301
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "お米はありますが…@主菜がありません"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "大丈夫ですの！@冷蔵庫を見て欲しいんですの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103301,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "はぁ…なんでしょう…"
+            },
+            {
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "id": 103301,
+                        "lipSynch": 0
+                    },
+                    {
+                        "id": 103701,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "…………[wait:0.8][chara:103301:cheek_0][chara:103301:face_mtn_ex_051.exp.json][chara:103301:lipSynch_1]あっ！"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51136_tower_nayuta/51136_kawafish.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "bgm": "bgm03_story09",
+                "chara": [
+                    {
+                        "id": 103301
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "これは…ニジマス…？@にしては大きいような"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 103701,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "釣ったんですの！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103301,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "下処理もされてますが…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 103701,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "泣きながら頑張って@残り作業は調理だけですの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103301,
+                        "motion": 1
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "それはすごいことですが@一体なぜ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "その説明の前に訂正がありますの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "この魚はただのニジマスではなく@ニジマスの３倍体ですの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "地方によってはクイーントラウト@とも言いますの！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 103301,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "はあ、クイーントラウト@クイーン…女王…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp.json",
+                        "id": 103301,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "えっ…まさか…風格がないと@言ったことをまだ根に持って…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103301
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "それでマウントを…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 103701,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51136_tower_nayuta/51136_kawafish.png",
+                        "visible": "hide"
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "ち、違いますの！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701
+                    },
+                    {
+                        "id": 103301,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "確かにそれを根に持って@失敗をしたのですが"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "この女王と名の付く魚を@自分で釣って食べてもらう"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "それで私が反省してるのを@ラビさんに伝えたかったんですの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "それに、主と使用人だとしても@対等だと示したかったんですの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "だから誕生日パーティーの@リベンジを成功させることで"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "ラビさんへの@謝罪にさせて欲しいんですの！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 103301,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "…まあ、手段はともかく@気持ちは伝わりました"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 103801,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "みかげ",
+                "textRight": "ラビたん、もうほとんど@怒ってないよね！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 103701,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "え…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 103801,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "みかげ",
+                "textRight": "だっていつものラビたんに@戻ってるもん"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103701,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "あ、そうですの@普通に会話してますの"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 103301,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "…まあ、そうですね@正直もうそこまで怒ってません"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103301,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "むしろ私の方こそムキになって@情けないと反省してました"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103301
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "そろそろ許すキッカケが@欲しいと考えていたところです"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 103301,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "なのでこのパーティーの成功を@もって許したいと思います"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 103301
+                    }
+                ],
+                "nameRight": "ラビ",
+                "textRight": "完璧なパーティー@お願いしますよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 103701,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "那由他",
+                "textLeft": "任せてほしいですの！"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

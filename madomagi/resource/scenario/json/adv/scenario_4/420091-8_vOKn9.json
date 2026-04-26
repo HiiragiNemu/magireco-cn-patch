@@ -1,0 +1,1255 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_46407.jpg",
+                "bgm": "bgm24_story01",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 200300,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "id": 6407,
+                        "name": "sprite_0",
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200300,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "ほむら",
+                "textRight": "うっ…@強い…！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_021.exp.json",
+                        "id": 200600,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "力を温存してたら@ラチが明かねぇ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 200500,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "マミ",
+                "textRight": "こうしてる間にも、外では@危険な状況が続いてるのに…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 200100,
+                        "motion": 201,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "今はみんなで力を合わせて@一気に倒そう！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 200400,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "だね！よーし！"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/41300_senmetsu_battle/memoria_1637.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "杏子",
+                "narration": "[flashEffect:flashWhite2][surround:2006A01]―杏子―@おりゃぁ！",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "nameNarration": "さやか",
+                "narration": "[flashEffect:flashWhite2][surround:2004A02]―さやか―@せいっ！"
+            },
+            {
+                "nameNarration": "マミ",
+                "narration": "[flashEffect:flashWhite2][se:5002_shooting_02_s]―マミ―@ふたりとも、お願いっ！"
+            },
+            {
+                "nameNarration": "まどか＆ほむら",
+                "narration": "[flashEffect:flashWhite2][se:5009_shooting_05_h][se:4005_equip_arms_grenade_vh]―まどか＆ほむら―@えーーーーいっ!!"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_46407.jpg",
+                "chara": [
+                    {
+                        "id": 6407,
+                        "name": "sprite_0",
+                        "pos": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/41300_senmetsu_battle/memoria_1637.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "flashEffect": "flashRed2",
+                "se": "6009_hit_shooting_05_h",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 6407,
+                        "name": "sprite_0"
+                    }
+                ],
+                "se": "3102_enemy_dead",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_14029.jpg",
+                "bgChangeEffect": "exitWitchSpace",
+                "se": "7209_gate_close"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 200500,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_021.exp.json",
+                        "id": 200600,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "bgm": "bgm03_story09",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "ef_adv_05",
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200501,
+                        "motion": 100,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "effect": "ef_adv_05",
+                        "face": "mtn_ex_000.exp.json",
+                        "id": 200601,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "マミ",
+                "se": "7205_magic_girl",
+                "textLeft": "ふぅ…勝ったわね@これで倒した魔女は…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200601
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "いろはたちが倒した分を合わせて@今のが７体目か"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "なな…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp.json",
+                        "id": 200301,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ほむら",
+                "textRight": "あとどれくらい魔女が@来てるんだろう…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_040.exp.json",
+                        "id": 200401,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "今のでかなり魔力を使ったし@もうこれ以上は勘弁…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "ななっ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 100,
+                        "mouthOpen": 1
+                    },
+                    {
+                        "eyeClose": 0,
+                        "id": 200401
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textBg": "shout",
+                "textLeft": "あーーーーーっ!!"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 200401,
+                        "motion": 400,
+                        "pos": 2
+                    },
+                    {
+                        "id": 200101,
+                        "mouthOpen": 0
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "[chara:200401:effect_emotion_surprise_0][se:7226_shock]な、なにっ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200101,
+                        "motion": 201,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "安心して、さやかちゃん@今の魔女が最後だよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "ちょっとどうしたの急に…@本当なの？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200401,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "本当ならあたし@泣いて喜べるけど"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 200101,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "あ、ごめんね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_041.exp.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "さやかちゃんにだけ、まだ少し@頑張って欲しいことがあって…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "ちょっと大変だけど…@お願いしてもいいかな"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 200401,
+                        "motion": 201
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "どーいうことっ!?"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_23052.jpg",
+                "bgm": "stop",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 2,
+                "surround": "7007_evening_townbuzz",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "effect": "slideInLeft",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 200401,
+                        "motion": 300,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "さやか",
+                "textCenter": "はぁ…ふぅ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 0,
+                        "id": 200401,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "さやか",
+                "textCenter": "たぶん日時は合ってるし、@確かこの辺りを歩いてたはず…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 200401,
+                        "motion": 1,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "さやか",
+                "textCenter": "時間まで飛び越えたんだから、@最後はうまく片付けないとね…"
+            },
+            {
+                "nameRight": "まどかの声",
+                "textRight": "えへへ@今のはわたしが悪かったね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200401,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "さやか",
+                "textCenter": "あ、いた…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 200401,
+                        "lipSynch": 0,
+                        "motion": 400,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "さやか",
+                "textCenter": "[chara:200401:effect_emotion_surprise_0][se:7226_shock]――っ!?[wait:1.0][chara:200401:lipSynch_1]@ヤバ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "motion": 1
+                    }
+                ],
+                "nameCenter": "さやか",
+                "textCenter": "か、隠れないと@ええと…そこの茂みでいいやっ！"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "id": 200401,
+                        "pos": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "shake",
+                        "id": 200401
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200401
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "nameLeft": "さやかの声",
+                "textLeft": "ハァ…ハァ…"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_23052.jpg",
+                "bgChangeEffect": "cameraPan",
+                "surround": "stop",
+                "textClear": 1
+            },
+            {
+                "bgm": "bgm01_anime02",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200401,
+                        "motion": 201,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "じゃーあたしこっちだから@またね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200101
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "うん…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 200101,
+                        "lipSynch": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 200401,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "…まだ、今日の魔女のこと@気にしてるの？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "うん、矢も当たって@もう少しのところだったのに"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "どこかに消えちゃったから…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "正直、何回か立て続けに@逃がしちゃってるから心配だよね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "あたしらのせいで被害に遭ってる@人もいるかもしれないし…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "うん…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 1
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "それにわたしも、さやかちゃんも@グリーフシードがもう…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "それはそうだけど…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200401,
+                        "motion": 201,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "でもま、元気だして@次は必ず魔女を倒そう！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_041.exp.json",
+                        "id": 200101,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "…うん、そうだね@ありがとう"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "…じゃ、バイバイ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "うん、バイバイ"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200401
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 200101,
+                        "pos": 1
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 200101,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameCenter": "まどか",
+                "textCenter": "…………"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 200101,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 200401,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "まどか！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp.json",
+                        "id": 200101,
+                        "lipSynch": 0,
+                        "motion": 400
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "[chara:200101:effect_emotion_surprise_0][se:7226_shock]――っ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "え？え？@さ、さやかちゃん…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "id": 200401,
+                        "motion": 300,
+                        "mouthOpen": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "ハァ…ハァ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_040.exp.json",
+                        "id": 200401,
+                        "mouthOpen": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "よ、用事があったの思い出して@戻ってきた…みたいな？"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200401,
+                        "mouthOpen": 1
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "ハァ…ハァ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 100
+                    },
+                    {
+                        "id": 200401,
+                        "mouthOpen": 0
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "それで走ってきたの？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 200101,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "あれ？@でも、あっちの方に行ったはず…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 200401,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "ま、回り込んできて…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "なんでわざわざ…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 200401,
+                        "motion": 201
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "い、いいからっ！@これっ！受け取って！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "これは…えっ!?@グリーフシード!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "えっと、どこまで言っていいか@わかんないけど…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_040.exp.json",
+                        "id": 200401,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "きゅ、急に手に入って"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 1
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "でもこんなにたくさん？@だって７つだよ…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 200401,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "あ、そうだ、大事なことだった@７つ、そう７つだからね？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "motion": 201
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "今、あたしは７つ渡したから@絶対に忘れないでね！７つ！７！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 201
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "７…うん、７…@忘れない"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "で、次にもし７つ@グリーフシードを集めたら"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200401,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "そん時にあたしに返して"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "…こんなにもらえないし@いま返しちゃダメなの？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 200401,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "絶対ダメ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "絶対…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200401,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "id": 200101,
+                        "motion": 1
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "ああ、あともうひとつ@今は魔女が消えて苦しいけど"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 200401,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "それも今日までだから@安心して"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "…うん、わかった@信じる"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200401,
+                        "motion": 201,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "じゃあね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp.json",
+                        "id": 200101,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "うん、バイバイ"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_14029.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 200401,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "blackFrame"
+            },
+            {
+                "bgm": "bgm01_anime03",
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 201
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "どうして今のが最後の@魔女かって言うとね",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "集めたグリーフシードが@神浜の子が回収した分も合わせて"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "今のでちょうど７つになったから"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "これでピッタリ、“あの時”@さやかちゃんからもらった"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "グリーフシードの数と@一致するんだ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp.json",
+                        "id": 200401,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "一致してなんの関係が…@そもそもそんなことなかったし…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 200301,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ほむら",
+                "textRight": "そっか！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200301
+                    }
+                ],
+                "nameRight": "ほむら",
+                "textRight": "鹿目さんだけが会った@その美樹さんが…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 200101,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "グリーフシードを戻すために"
+            },
+            {
+                "nameLeft": "まどか",
+                "textLeft": "未来からやって来た@さやかちゃんなんだよ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 200401,
+                        "lipSynch": 0,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "[chara:200401:effect_emotion_surprise_0][se:7226_shock]――っ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "…じゃあもしかしてあたしは@今からミラーズに行って"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "過去までひとっ走り@する必要があると…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_041.exp.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "…そうなるね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 200401,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "[chara:200401:effect_emotion_sad_0][se:7224_fall_into]も～疲れたよ～～!!"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

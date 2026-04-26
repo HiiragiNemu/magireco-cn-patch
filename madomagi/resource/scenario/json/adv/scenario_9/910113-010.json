@@ -1,0 +1,484 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_10.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_10.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_13.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_23131.jpg",
+                "bgm": "bgm01_anime06",
+                "chara": [
+                    {
+                        "id": 834200,
+                        "motion": 300,
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day13.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.4,
+                "chara": [
+                    {
+                        "effect": "7000_attack01",
+                        "id": 834200
+                    }
+                ],
+                "nameAvCenter": "まばゆの声",
+                "textAvCenter": "[surround:2009A04]えいっ！",
+                "textAvColor": "textMabayu",
+                "turnChangeOut": "fadeOut",
+                "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-1"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "bgEffect": "shakeSmall",
+                "chara": [
+                    {
+                        "effect": "7002_damage01",
+                        "id": 834200
+                    }
+                ],
+                "surround": "2009A02",
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.4,
+                "chara": [
+                    {
+                        "effect": "7001_attack02",
+                        "id": 834200
+                    }
+                ],
+                "nameAvCenter": "まばゆの声",
+                "textAvCenter": "[surround:2009A04]やあっ！",
+                "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-2"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "bgEffect": "shakeSmall",
+                "chara": [
+                    {
+                        "effect": "7003_damage02",
+                        "id": 834200
+                    }
+                ],
+                "surround": "2009A02",
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.4,
+                "flashEffect": "flashWhite2",
+                "nameAvCenter": "まばゆの声",
+                "textAvCenter": "[surround:2009A03]たあああっ!!",
+                "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-3"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bgEffect": "shakeSmall",
+                "chara": [
+                    {
+                        "effect": "shake",
+                        "id": 834200
+                    }
+                ],
+                "flashEffect": "flashRed2",
+                "surround": "2009A05",
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 834200
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200900,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200201,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200900,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-4"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "[chara:200900:effect_emotion_joy_0][se:7222_happy]すごいですよ、ほら！@見て下さい！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200900,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-5"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "ドラム缶に@バッチリ刺さって…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-6"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "それで魔女は倒せるの？"
+            },
+            {
+                "autoTurnFirst": 0.9,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200900,
+                        "motion": 0,
+                        "voiceFull": "fullvoice/section_104209/vo_full_910113-010-7"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "え？いや、あはははは…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200900
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200900,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-8",
+                        "voiceFullStop": "fullvoice/section_104209/vo_full_910113-010-7"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "無理…かな？"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-9"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "無理よ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_060.exp3.json",
+                        "id": 200900,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-10"
+                    },
+                    {
+                        "eyeClose": 0,
+                        "id": 200201,
+                        "motion": 0
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "ああっ、もう！@なんで私が訓練なんて!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200900,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-11"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "我ながら、以前から全然@進歩がないじゃないですかー！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200900,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-12"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "私は参謀タイプなんですよー？@策士ポジションなんですよー？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200900,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-13"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "肉体労働なんて向いてない@ダメダメな魔法少女なんですよー"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "motion": 101,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-14"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "私たちの魔法は魔法少女の@祈りが原動力よ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-15"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "あなたが戦いに後ろ向きなら@結果は望むべくもない"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200900,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-16"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "そりゃまあ@そうかもしれませんけど…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200900,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-17"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "祈り…祈りか…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200900,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-18"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "…っていうか、アレ？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200900,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-19"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "私、なんでこんな命懸けで@戦ってるんだろ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-20"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "lipSynch": 1,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-21"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "決まっているでしょう？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-22"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "私の願いを叶えて@このループから抜け出すためよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200900,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-23"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "いや…ま、それはそうなんですが"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200201,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-24"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "まばゆ、余計なことを考えないで"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-25"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "今は魔法の上達だけを@考えなさい"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-26"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "まずは、あのドラム缶が@真っ二つになるまで、特訓よ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200900,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104209/vo_full_910113-010-27"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "えええ…鬼ですかぁ…？"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

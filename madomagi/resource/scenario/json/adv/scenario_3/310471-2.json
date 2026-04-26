@@ -1,0 +1,1075 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3010_vista_16_9.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm03_story13",
+                "nameNarration": "",
+                "narration": "人違いをされること自体は@特徴の少ない私には何度か経験のあることでした",
+                "narrationBg": "",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "ただ、そうそうよく起きることでは@ないと思っていたのですが…"
+            },
+            {
+                "narration": "「前にも助けてくれましたよね」@そんな言葉から始まる人違いは@その後も、何度か続いていったんです"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bg": "bg_adv_21131.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 800200,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104700,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800200
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "前にも助けてくれましたよね！@その、何かお礼をしたくって…！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "[chara:104700:effect_emotion_surprise_0][se:7226_shock]わわわわわ@人違いだと思います…！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_21591.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104700,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameCenter": "",
+                "textCenter": "ひぃ…ふぅ…",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "motion": 300
+                    }
+                ],
+                "nameCenter": "",
+                "textCenter": "こう…何度も人違いを@されることってあるんでしょうか"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104700,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "",
+                "textCenter": "もしかして、私の@そっくりさんがいるとか…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameCenter": "",
+                "textCenter": "…だとしても、そっくりさん@人助けしすぎでは!?"
+            },
+            {
+                "autoTurnLast": 0.3,
+                "chara": [
+                    {
+                        "id": 104700,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/6001_candy_emblem.png",
+                        "posX": 0,
+                        "posY": 120,
+                        "visible": "appear"
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "…って、こんなところに@魔女の結界が…",
+                "turnEffect": "ef_adv_06"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104700,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "ぼーっと歩いていたせいで@全く気づきませんでした…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "周りに魔法少女は@いないようですね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "そっくりさんも@頑張っているようですし"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/6001_candy_emblem.png",
+                        "visible": "hide"
+                    }
+                ],
+                "textClear": 1,
+                "turnEffect": "stop"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_46001.jpg",
+                "bgChangeEffect": "enterWitchSpace",
+                "se": "7208_wander_into"
+            },
+            {
+                "bgm": "bgm01_anime15",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 104700,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "",
+                "textCenter": "私だって、負けてられませんね！"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bg": "bg_adv_46001.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104700,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameCenter": "",
+                "textCenter": "はひぃ…かっこつけてみたけど@無理なものは無理でした…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "motion": 300
+                    }
+                ],
+                "nameCenter": "",
+                "textCenter": "ソウルジェムも濁ってきたし…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 104700,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    },
+                    {
+                        "id": 6001,
+                        "name": "sprite_0",
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "これはまずいのでは…!?"
+            },
+            {
+                "nameCenter": "？？？の声",
+                "textCenter": "[se:6000_hit_shooting_01_s][name:sprite_0:effect_7000_attack01]いっけーっ！"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "7002_damage01",
+                        "id": 6001,
+                        "name": "sprite_0"
+                    }
+                ],
+                "se": "5000_shooting_01_s",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104700,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "[chara:104700:effect_emotion_surprise_0][se:7226_shock]――っ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "（この攻撃…@いったいどこから…！）"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 104700,
+                        "pos": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100100,
+                        "motion": 200,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "大丈夫ですか!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 100100
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "えっと、とりあえず@これ使ってください！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "え、いや私は他人の力を@借りるわけには…！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 100100,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "effect": "ef_adv_09",
+                        "id": 104700
+                    }
+                ],
+                "se": "7210_souljem_01"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "（問答無用…!?）"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bg": "bg_adv_46001.jpg",
+                "bgm": "stop",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_21591.jpg",
+                "bgChangeEffect": "exitWitchSpace",
+                "se": "7209_gate_close"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100100,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104700,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "ef_adv_05",
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100101,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "effect": "ef_adv_05",
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104701,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "se": "7205_magic_girl"
+            },
+            {
+                "bgm": "bgm01_anime02",
+                "chara": [
+                    {
+                        "id": 100101,
+                        "motion": 100,
+                        "pos": 2
+                    },
+                    {
+                        "id": 104701,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "…なんとか倒せましたね@大丈夫でしたか？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104701,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "その…ありがとうございました@なんだか助けてもらっちゃって…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100101,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "あ、ううん全然！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104701,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "…あれ、もしかしてどこかで@会ったことあります…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100101,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "へっ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104701,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "[chara:104701:effect_emotion_surprise_0][se:7226_shock]ああ違うんですナンパとか@そういうのじゃなくて"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104701
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "学校で見かけたことが@あるかもって思って…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104701,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "（掃除を押しつけられていたのを@見たことがあるような…）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100101,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "確かにすれ違ってるかも…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100101,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "あなたが着てる制服@私も転校前に着てたんです"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104701,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "やっぱり同じ学校でしたか"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104701,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "でも、転校したんですか？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104701,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "（…そういえば、制服が違う）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100101,
+                        "motion": 301
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "はい、でも寮生活みたいなもので@実家はこっちにあって"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100101
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "それで、今はちょうど@帰ってきていたところなんです"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104701,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "そういうことだったんですね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100101,
+                        "motion": 1
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "だから、魔女と戦うときも@縄張り争いにならないようにって"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100101
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "できるだけ他の魔法少女の@お手伝いに留めるようにしていて"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100101,
+                        "motion": 401,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "…あ、もしかして私@あなたの担当地域に…！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104701,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "ああ、いえ@それは気にしないで大丈夫です"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104701,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "…それより今、お手伝いって@言ってましたけど"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104701
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "もしかして、最近@何人か魔法少女を助けました？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100101,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "助けたって程じゃないけど…@一緒に魔女は倒したかも？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104701,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104701,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "…なんだか私たちって@見た目、ちょっと似てますよね"
+            },
+            {
+                "autoTurnLast": 1.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "ef_adv_05",
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104700,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "se": "7205_magic_girl",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "ほら、この姿…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100101,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "ほんとだ！"
+            },
+            {
+                "autoTurnLast": 1.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "ef_adv_05",
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100100,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "se": "7205_magic_girl",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 100100,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "フードもついてて似てるかも！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "そっくりさんの正体って…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100100,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "…？"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100100,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104700,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm03_story06",
+                "chara": [
+                    {
+                        "id": 100100,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "ご、ごめんなさい！@迷惑をかけちゃったみたいで",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "ああそんな！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "それより、あなたも@私に間違われていたなんて…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104700,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "こちらこそご迷惑を…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "ただでさえ、フード付きの@魔法少女は勘違いされるのに…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 100100,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "勘違い…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104700,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "神浜市にフード付きローブの@怪しい集団がいるじゃないですか"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "私もそれで@何度か勘違いされまして…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100100,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "あ、あぁ…それは…すみません"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104700,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "（え、あれ、反応が…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104700,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "ご、ごめんなさい…！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "もしかしてあなたも@その集団に入ってたとか…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 100100,
+                        "motion": 1
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "そうじゃないんですけど…その…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104700,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "すみません、ずかずかと@聞くようなことじゃないですね！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104700
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "そ、それにそれに…あなたも@私みたいな陰キャと"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104700,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "勘違いされるなんて@とんだ災難ですよね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104700,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "",
+                "textLeft": "ご迷惑をかけてすみません！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100100,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "いろは",
+                "textRight": "それは、私もなので…！"
+            },
+            {
+                "nameNarration": "",
+                "narration": "…………",
+                "narrationBg": "",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104700,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "",
+                "narrationEffect": "out",
+                "textLeft": "（気まずくなっちゃった…！）"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

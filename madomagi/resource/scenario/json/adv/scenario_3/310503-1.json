@@ -1,0 +1,707 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "ガンヒルト",
+                "narration": "魔法少女になって@得たものと失ったものがある",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "得たものは、超常なる力と@強靭な身体…"
+            },
+            {
+                "narration": "そして、失ったものは…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_62021.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 104901,
+                        "motion": 0,
+                        "pos": 2,
+                        "soulGem": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 790201,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "bgm": "bgm24_story01",
+                "chara": [
+                    {
+                        "id": 104901,
+                        "motion": 400,
+                        "mouthOpen": 1
+                    }
+                ],
+                "nameRight": "オルガ",
+                "textRight": "[bgEffect:shakeSmall][chara:790201:effect_7001_attack02]はあっ！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "effect": "7003_damage02",
+                        "id": 790201
+                    },
+                    {
+                        "id": 104901,
+                        "mouthOpen": 0
+                    }
+                ],
+                "se": "3001_chara_damage",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 790201
+                    }
+                ],
+                "se": "3002_chara_dead"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 104901
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 833200,
+                        "motion": 0,
+                        "mouthOpen": 1,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 790201,
+                        "live2dName": "live2d_0",
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 790201,
+                        "live2dName": "live2d_2",
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameCenter": "エッベ",
+                "textBg": "shout",
+                "textCenter": "[flashEffect:flashWhite2][bgEffect:shakeSmall]おらおらっ！"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "effect": "shake",
+                        "id": 790201,
+                        "live2dName": "live2d_0"
+                    },
+                    {
+                        "effect": "shake",
+                        "id": 790201,
+                        "live2dName": "live2d_2"
+                    },
+                    {
+                        "id": 833200,
+                        "mouthOpen": 0
+                    }
+                ],
+                "flashEffect": "flashRed2",
+                "se": "3001_chara_damage",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 790201,
+                        "live2dName": "live2d_2"
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 790101,
+                        "live2dName": "live2d_0"
+                    }
+                ],
+                "se": "3002_chara_dead"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 833200
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_62021.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 105001,
+                        "motion": 400,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 790201,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "ガンヒルト",
+                "textLeft": "[flashEffect:explosion]ふんっ…！"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "id": 790201
+                    }
+                ],
+                "nameRight": "敵の戦士",
+                "textBg": "shout",
+                "textRight": "[flashEffect:flashRed2][se:3001_chara_damage][bgEffect:shakeLarge][chara:790201:effect_shake]う…ぐぁ…！"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 790201
+                    }
+                ],
+                "se": "3002_chara_dead",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 833200,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "id": 105001,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "エッベ",
+                "textRight": "まったく…@どいつもこいつもだな！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833200
+                    }
+                ],
+                "nameRight": "エッベ",
+                "textRight": "性懲りもなく@うちらとやりあおうなんざ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 105001,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ガンヒルト",
+                "textLeft": "それだけ『姉妹の戦士団』の@名前が有名になったんだよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105001
+                    }
+                ],
+                "nameLeft": "ガンヒルト",
+                "textLeft": "うちの得たものを@全部奪いたいんだろうね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104901,
+                        "motion": 300,
+                        "pos": 0,
+                        "soulGem": 0
+                    }
+                ],
+                "nameLeft": "オルガ",
+                "textLeft": "はぁ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 833200
+                    }
+                ],
+                "nameRight": "エッベ",
+                "textRight": "しょげるな、オルガ！@いいことじゃねーか！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104901,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "オルガ",
+                "textLeft": "でも！@いつまでたっても戦いが…！"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 105001,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "ガンヒルト",
+                "textBg": "shout",
+                "textRight": "[flashEffect:flashWhite1]姉さん！危ない！"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 790201,
+                        "motion": 0,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104901
+                    }
+                ],
+                "nameCenter": "敵の戦士",
+                "textCenter": "[flashEffect:flashRed2][bgEffect:shakeSmall][se:3001_chara_damage][chara:790201:effect_shake]ん…ぐお…"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 790201
+                    }
+                ],
+                "se": "3002_chara_dead",
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104901,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "id": 105001,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "オルガ",
+                "textLeft": "あ、ありがとう…ガンヒルト…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 105001,
+                        "pos": 1
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105001,
+                        "motion": 200
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 833200,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameCenter": "ガンヒルト",
+                "textCenter": "エッベ！@姉さんと一緒に向こうの敵を！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 105001
+                    }
+                ],
+                "nameCenter": "ガンヒルト",
+                "textCenter": "ここいらのは@私が引き受ける！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 833200
+                    }
+                ],
+                "nameRight": "エッベ",
+                "textRight": "おう、そうか@んじゃ、行くか、オルガ"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "id": 104901,
+                        "pos": 1
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104901,
+                        "motion": 200
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 105001,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameCenter": "オルガ",
+                "textCenter": "ガンヒルト！@無理はダメだよ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 105001
+                    }
+                ],
+                "nameLeft": "ガンヒルト",
+                "textLeft": "大丈夫@この程度の敵、訳ないよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 105001,
+                        "motion": 100
+                    },
+                    {
+                        "id": 104901,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "ガンヒルト",
+                "textLeft": "エッベ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833200
+                    }
+                ],
+                "nameRight": "エッベ",
+                "textRight": "あいよ！@おら、いくぞ首領！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104901,
+                        "motion": 100,
+                        "posX": 50
+                    }
+                ],
+                "nameCenter": "オルガ",
+                "textCenter": "ちょ、ちょっと！@ガンヒルトー！"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "slideOutRightFast",
+                        "id": 104901
+                    },
+                    {
+                        "effect": "slideOutRightFast",
+                        "id": 833200
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 105001,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "ガンヒルト",
+                "textCenter": "…さて、と…"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 790201,
+                        "live2dName": "live2d_0",
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "敵の戦士",
+                "textLeft": "[bgEffect:shakeSmall][chara:105001:effect_7001_attack02]こんの…！"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 105001,
+                        "motion": 200
+                    }
+                ],
+                "nameCenter": "ガンヒルト",
+                "textCenter": "[bgEffect:shakeSmall][live2dName:live2d_0:effect_7000_attack01]…はっ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 790201,
+                        "live2dName": "live2d_0"
+                    }
+                ],
+                "nameLeft": "敵の戦士",
+                "textLeft": "[live2dName:live2d_0:effect_7002_damage01][se:3001_chara_damage][bgEffect:shakeSmall]…ぐふっ…！"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 790201,
+                        "live2dName": "live2d_0"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 790201,
+                        "live2dName": "live2d_0",
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "敵の戦士",
+                "textBg": "shout",
+                "textLeft": "ま、まだまだぁ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_063.exp3.json",
+                        "id": 105001,
+                        "motion": 400
+                    }
+                ],
+                "nameCenter": "ガンヒルト",
+                "textCenter": "…えっ!?"
+            },
+            {
+                "bgm": "bgm24_story03",
+                "chara": [
+                    {
+                        "id": 790201,
+                        "posX": 50
+                    }
+                ],
+                "nameLeft": "敵の戦士",
+                "textLeft": "[chara:105001:effect_shake]捕まえた…！@やれ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 790201,
+                        "live2dName": "live2d_2",
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "敵の戦士",
+                "textBg": "shout",
+                "textRight": "[flashEffect:flashWhite2][bgEffect:shakeSmall]おおおおおおお！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 105001,
+                        "motion": 300
+                    }
+                ],
+                "nameCenter": "ガンヒルト",
+                "textCenter": "[flashEffect:flashRed2][se:3001_chara_damage][chara:105001:effect_shake][bgEffect:shakeLarge]うっ…！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 790201,
+                        "live2dName": "live2d_2"
+                    }
+                ],
+                "nameRight": "敵の戦士",
+                "textRight": "ひ、ひひ！@やったぞ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 790201,
+                        "live2dName": "live2d_2"
+                    }
+                ],
+                "nameRight": "敵の戦士",
+                "textRight": "見ろ！@首筋にザックリだ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 790201,
+                        "live2dName": "live2d_0"
+                    }
+                ],
+                "nameLeft": "敵の戦士",
+                "textLeft": "よ、よし…！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 790201,
+                        "live2dName": "live2d_0"
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 790201,
+                        "live2dName": "live2d_2"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "bg": "bg_adv_red.jpg",
+                "bgChangeEffect": "fade",
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 105001
+                    }
+                ],
+                "nameCenter": "ガンヒルト",
+                "textCenter": "…な…！"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 105001
+                    }
+                ],
+                "se": "3002_chara_dead",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "stop",
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

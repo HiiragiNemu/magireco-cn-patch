@@ -1,0 +1,198 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_narration.jpg",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "貫かれ",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut",
+                "voiceFullAuto": "fullvoice/section_104204/vo_full_905101-010-1"
+            },
+            {
+                "narration": "引き裂かれ",
+                "voiceFullAuto": "fullvoice/section_104204/vo_full_905101-010-2"
+            },
+            {
+                "narration": "意識が消える",
+                "voiceFullAuto": "fullvoice/section_104204/vo_full_905101-010-3"
+            },
+            {
+                "autoTurnLast": 0.1
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "black",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_01.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 2
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "[surround:8020_alarmclock]ジリリリリリ！",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_23161.jpg",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200911,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day01.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200911,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104204/vo_full_905101-010-4"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "ぎゃあああああああッ!!",
+                "textAvColor": "textMabayu",
+                "turnChangeOut": "fadeOut",
+                "turnChangeOutTime": 0.01
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 200911,
+                        "voiceFullAuto": "fullvoice/section_104204/vo_full_905101-010-5"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "surround": "stop",
+                "textAvCenter": "ゆ…夢？"
+            },
+            {
+                "bgm": "bgm01_anime04",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "id": 200911,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104204/vo_full_905101-010-6"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "じゃ…ない、ですよね…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200911
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200901,
+                        "motion": 100,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_104204/vo_full_905101-010-7"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "今のは、夢じゃなくて@実際にあった出来事で…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104204/vo_full_905101-010-8"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "私は、一度死にました"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200901,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104204/vo_full_905101-010-9"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "でも、また目を覚ますことが@できたということは…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200901,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104204/vo_full_905101-010-10"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "あの時の私の判断は@間違っていなかった"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

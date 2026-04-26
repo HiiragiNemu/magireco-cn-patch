@@ -1,0 +1,655 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_05.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_05.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_06.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_23202.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 800700,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day06.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm01_anime07",
+                "chara": [
+                    {
+                        "id": 800700,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-1"
+                    }
+                ],
+                "nameAvCenter": "先生",
+                "textAvCenter": "いいかみんな！10分後に@この場所に集合だからな",
+                "textAvColorRGB": "255255255",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800700,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-2"
+                    }
+                ],
+                "nameAvCenter": "先生",
+                "textAvCenter": "トイレなんかはちゃんと@済ませておくように！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 800700
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200912,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "FnarrationAnchor": "top",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 340,
+                "FnarrationX": 160,
+                "FnarrationY": -70,
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-3"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(魔女は現実に悪影響を及ぼす)",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-4"
+                    }
+                ],
+                "progressFnarration": "(夢では、この工場で@事故が起こりましたが…)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-5"
+                    }
+                ],
+                "progressFnarration": "(私が迷い込んだあの空間が@魔女の結界なのだとしたら)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-6"
+                    }
+                ],
+                "progressFnarration": "(事故もまた、魔女の影響を@受けて起こったもののはず)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.2,
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200912
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bg": "bg_adv_24041.jpg",
+                "bgChangeEffect": "enterWitchSpace",
+                "se": "7208_wander_into"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200912,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "FnarrationAnchor": "top",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 320,
+                "FnarrationX": 160,
+                "FnarrationY": -70,
+                "bgm": "bgm01_anime08",
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-7"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(そう、ここです)",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-8"
+                    }
+                ],
+                "progressFnarration": "(この前の夢では、確か…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3507_film_frame.ExportJson",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "autoTurnLast": 0.2,
+                "bg": "black",
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day06.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "surround": "8007_ribbon"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/1510_mami_ribbon.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.01,
+                "turnChangeOut": "fadeOut",
+                "turnChangeOutTime": 0.1
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_24041.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200902,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "deleteArmatureList": [
+                    1
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day06.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 0.01
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 3,
+                        "filePath": "resource/image_native/effect/story/general/3507_film_frame.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "chara": [
+                    {
+                        "effect": "7006_ribbon",
+                        "id": 200902,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-9"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "surround": "8007_ribbon",
+                "textAvCenter": "きゃあああっ!!",
+                "turnChangeOut": "fadeOut",
+                "turnChangeOutTime": 0.01
+            },
+            {
+                "autoTurnLast": 0.01,
+                "textAvClear": 1
+            },
+            {
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 80,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 270,
+                "FnarrationX": 180,
+                "FnarrationY": 150,
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-10"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(ちょっ、なんですか!?)",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-11"
+                    }
+                ],
+                "progressFnarration": "(足、引っ張られて…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.1
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200902,
+                        "lipSynch": 1,
+                        "voiceFull": "fullvoice/section_104202/vo_full_903106-010-12"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "うひゃああああああーっ!!"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "chara": [
+                    {
+                        "id": 200902,
+                        "voiceFullStop": "fullvoice/section_104202/vo_full_903106-010-12"
+                    }
+                ],
+                "deleteArmatureList": [
+                    3
+                ],
+                "textAvClear": 1,
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_24041.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200902,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day06.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "FnarrationAnchor": "top",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 350,
+                "FnarrationX": 190,
+                "FnarrationY": -50,
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-13"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(私は何かに足をすくわれました)",
+                "textAvColor": "textMabayu",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-14"
+                    }
+                ],
+                "progressFnarration": "(あれが、魔法の力による@ものだったとするならば…)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-15"
+                    }
+                ],
+                "progressFnarration": "(ここには誰か、魔法少女が…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.01
+            },
+            {
+                "autoTurnLast": 0.1,
+                "flashEffect": "explosion",
+                "surround": "8059_theworld"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_24042.jpg",
+                "bgChangeEffect": "fade"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200902,
+                        "lipSynch": 1,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-16"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "あ…",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "textAvClear": 1
+            },
+            {
+                "FnarrationAnchor": "top",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 340,
+                "FnarrationX": 190,
+                "FnarrationY": -50,
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-17"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(この感じ…)",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-18"
+                    }
+                ],
+                "progressFnarration": "(また、時間が止まってる)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-19"
+                    }
+                ],
+                "progressFnarration": "(夢では、止まらなかったのに@どうして…？)"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-20"
+                    }
+                ],
+                "progressFnarration": "(いいえ、そんなことよりも！)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-21"
+                    }
+                ],
+                "progressFnarration": "(先に進めば、時間が止まる@原因が、見つかるかも！)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903106-010-22"
+                    }
+                ],
+                "progressFnarration": "(よし、姿を消して…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.2
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "ef_adv_05",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200900,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "se": "7205_magic_girl"
+            },
+            {
+                "autoTurnLast": 2.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200903,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "flashEffect": "explosion",
+                "surround": "8065_opticalcamouflage"
+            },
+            {
+                "autoTurnLast": 2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200903
+                    }
+                ],
+                "se": "7107_arrivalone"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}
