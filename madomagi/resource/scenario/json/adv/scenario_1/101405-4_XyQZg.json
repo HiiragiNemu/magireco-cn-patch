@@ -1,0 +1,291 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 101900,
+      "motion": 1,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_060.exp.json",
+      "id": 100100,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bg": "bg_adv_13081.jpg",
+    "bgm": "bgm02_boss02",
+    "chara": [
+     {
+      "id": 100100,
+      "motion": 401,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-1"
+     }
+    ],
+    "nameLeft": "月咲",
+    "nameRight": "彩羽",
+    "textRight": "[flashEffect:flashRed2][bgEffect:shakeSmall][chara:100100:effect_shake][se:3001_chara_damage]呀，啊啊！",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_060.exp.json",
+      "id": 100200,
+      "motion": 301,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-2",
+      "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-1"
+     }
+    ],
+    "nameRight": "八千代",
+    "textRight": "[flashEffect:flashRed2][bgEffect:shakeSmall][chara:100200:effect_shake][se:3001_chara_damage]唔呜！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 101900,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-3",
+      "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-2"
+     }
+    ],
+    "textLeft": "看到你们那感动得扭曲的脸，@我们的演奏真是值得呢。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 101800,
+      "motion": 100,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-4",
+      "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-3"
+     }
+    ],
+    "nameLeft": "月夜",
+    "textLeft": "嗯嗯，就算不说出来，@那份感动也会在体内回响呢。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100200,
+      "motion": 300,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-5",
+      "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-4"
+     }
+    ],
+    "textRight": "虽然我们人多，@不过要往深处走实在太难了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100100,
+      "motion": 200,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-6",
+      "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-5"
+     }
+    ],
+    "nameRight": "彩羽",
+    "textRight": "没错……不知道回音@会从什么方向反射回来……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100100,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-7",
+      "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-6"
+     }
+    ],
+    "textRight": "如果能想办法消除这声音……"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 0,
+      "pos": 0,
+      "posX": -50,
+      "posY": 0
+     }
+    ],
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-7"
+   },
+   {
+    "select": [
+     {
+      "group": "group_2",
+      "textSelect": "呜啾呜啾！@（把回声反射回去就行了）"
+     },
+     {
+      "group": "group_3",
+      "textSelect": "呜啾呜啾@（把声音堵住就行了）"
+     }
+    ]
+   }
+  ],
+  "group_2": [
+   {
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 100,
+      "voice": "vo_kyube_0001_10"
+     }
+    ],
+    "nameLeft": "userName",
+    "textLeft": "呜啾呜啾！"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "voice": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100100,
+      "motion": 301,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-9"
+     }
+    ],
+    "textRight": "可是，我不知道声音@会从哪里传来……"
+   },
+   {
+    "changeGroup": "group_4",
+    "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-9"
+   }
+  ],
+  "group_3": [
+   {
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 100,
+      "voice": "vo_kyube_0001_16"
+     }
+    ],
+    "nameLeft": "userName",
+    "textLeft": "呜啾呜啾"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "voice": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100100,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-11"
+     }
+    ],
+    "textRight": "只要堵住耳朵……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100100,
+      "motion": 301,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-12",
+      "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-11"
+     }
+    ],
+    "textRight": "就算可行，也要用两只手堵住啊……"
+   },
+   {
+    "changeGroup": "group_4",
+    "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-12"
+   }
+  ],
+  "group_4": [
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 101900,
+      "motion": 1,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-13"
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 101800,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameRight": "月咲",
+    "textRight": "那么，月夜，"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 101900,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-14",
+      "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-13"
+     }
+    ],
+    "textRight": "是时候演奏第二首曲子了。"
+   },
+   {
+    "chara": [
+     {
+      "id": 101800,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-15",
+      "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-14"
+     }
+    ],
+    "nameLeft": "月夜",
+    "textLeft": "好的月咲。"
+   },
+   {
+    "chara": [
+     {
+      "id": 101800,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101405/vo_full_101405-4-16",
+      "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-15"
+     }
+    ],
+    "textLeft": "接下来，就在这首曲子中@感受身体的颤栗吧！"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn",
+    "voiceFullStop": "fullvoice/section_101405/vo_full_101405-4-16"
+   }
+  ]
+ },
+ "version": 3
+}

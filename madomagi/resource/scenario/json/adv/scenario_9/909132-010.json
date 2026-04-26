@@ -1,0 +1,524 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_16.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_16.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_32.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_23151.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 810501,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200401,
+                        "motion": 0,
+                        "pos": 2,
+                        "soulGem": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day32.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "「本日午前７時、突発的異常気象に@伴い避難指示が発令されました」",
+                "narrationBg": "bg_adv_23151.jpg",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut",
+                "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-1"
+            },
+            {
+                "narration": "「付近にお住まいの皆さまは」",
+                "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-2"
+            },
+            {
+                "narration": "「速やかに最寄りの避難場所への@移動をお願いします」",
+                "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-3"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "narrationEffect": "out"
+            },
+            {
+                "bgm": "bgm01_anime04",
+                "chara": [
+                    {
+                        "id": 200401,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-4"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "恭介"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 810501,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-5"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 200401,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-6"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "お医者さんは@避難していいって"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "motion": 201,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-7"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvRight": "避難所に移動しよう？"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 810501,
+                        "lipSynch": 1,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-8"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "いいよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200401,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-9"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "…そっか"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 810501,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-10"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-11"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 810501,
+                        "lipSynch": 1,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-12"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "…なんで、ここにいるんだい？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810501,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-13"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvLeft": "君は早く、避難しなよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 200401,
+                        "lipSynch": 1,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-14"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "なんで？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810501,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-15"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "なんでって…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200401,
+                        "motion": 1,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-16"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "あたしは恭介のそばにいる"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200401,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-17"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvRight": "あたしが心配だったら@恭介も一緒に逃げないとね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 810501,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-18"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 810501,
+                        "lipSynch": 1,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-19"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvLeft": "…なんだよ、それは"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-20"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810501,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-21"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200401,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-22"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "…………"
+            },
+            {
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 810501,
+                        "lipSynch": 1,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-23"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "…わかったよ"
+            },
+            {
+                "bgm": "bgm01_anime02",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 810501,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-24"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvLeft": "車椅子を、借りてきてもらえる？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200401,
+                        "lipSynch": 1,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-25"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "ふふふ、そうなると思って@もう既に！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 810501,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-26"
+                    }
+                ],
+                "nameAvLeft": "恭介",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "…さやからしいね"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_21801.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200913,
+                        "motion": 0,
+                        "pos": 1,
+                        "posX": -150
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day32.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "textAvClear": 1,
+                "turnChangeIn": "rollInFast",
+                "turnEffect": "thinking"
+            },
+            {
+                "FnarrationAnchor": "center",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 350,
+                "FnarrationX": 150,
+                "FnarrationY": 100,
+                "chara": [
+                    {
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-27"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(上条さん…前よりずっと@マシになりましたね)",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-28"
+                    }
+                ],
+                "progressFnarration": "(癒えない傷なんてありません)"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200913,
+                        "lipSynch": 0,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-29"
+                    }
+                ],
+                "progressFnarration": "(そばに支えてくれる人が@いれば、きっと…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.01
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200913
+                    }
+                ],
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200401,
+                        "motion": 200,
+                        "pos": 2,
+                        "soulGem": 0,
+                        "voiceFullAuto": "fullvoice/section_104208/vo_full_909132-010-30"
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 810501,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "本降りになる前に、ゴー！"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

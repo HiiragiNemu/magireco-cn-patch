@@ -1,0 +1,568 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_01.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_01.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_11.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_23183.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 240202,
+                        "motion": 0,
+                        "pos": 1,
+                        "soulGem": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day11.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "nameNarration": "",
+                "narration": "[surround:8026_doorbell]カランカラン",
+                "narrationBg": "bg_adv_23183.jpg",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "bgm": "bgm01_anime03",
+                "chara": [
+                    {
+                        "id": 240202,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-1"
+                    }
+                ],
+                "nameAvCenter": "さやか",
+                "narrationEffect": "out",
+                "textAvCenter": "ありがとうございましたー！",
+                "textAvColor": "textSayaka"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 240202,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-2"
+                    }
+                ],
+                "nameAvCenter": "さやか",
+                "textAvCenter": "ふぅー！終わった終わったぁ！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 240202,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 833500,
+                        "motion": 100,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-3"
+                    }
+                ],
+                "nameAvRight": "咲笑",
+                "textAvColorRGB": "255255255",
+                "textAvRight": "うふふふふ、ありがとうね@さやかちゃん"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 833500,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-4"
+                    }
+                ],
+                "nameAvRight": "咲笑",
+                "textAvRight": "あなたみたいな元気な子が@来てくれて助かるわぁ"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 833500
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 240202
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200904,
+                        "motion": 1,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "FnarrationAnchor": "top",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 290,
+                "FnarrationX": 190,
+                "FnarrationY": -50,
+                "chara": [
+                    {
+                        "id": 200904,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-5"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(と、ここまでの@再現は順調…と)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 0.2,
+                "bgmFadeOut": 3000,
+                "chara": [
+                    {
+                        "id": 200904,
+                        "pos": 0
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 240202,
+                        "motion": 0,
+                        "pos": 2,
+                        "soulGem": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-6"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "で、まばゆセンパイ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 240202,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-7"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "なんであたしに@声かけたんですか？"
+            },
+            {
+                "bgm": "bgm01_anime02",
+                "chara": [
+                    {
+                        "id": 200904,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-8"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "美樹さん、CD買うのに@お金が必要でしょ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_041.exp3.json",
+                        "id": 240202,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-9"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "あ…見られてました？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200904,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-10"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "クラシック売り場で@いつもじーっと品定めして"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 240202,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-11"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "えへへへ、似合わないですよねー"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-12"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "とっても似合いますよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 240202,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-13"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "え…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "motion": 1,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-14"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "試聴してるときの美樹さん@すごく楽しそうで"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200904,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-15"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "あー、ステキな音楽聴いてる@って思いますもん"
+            },
+            {
+                "autoTurnFirst": 0.8,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "id": 240202,
+                        "voiceFull": "fullvoice/section_104207/vo_full_908111-050-16"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "あ…あはははは…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_041.exp3.json",
+                        "id": 240202,
+                        "motion": 300
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "id": 240202,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-17",
+                        "voiceFullStop": "fullvoice/section_104207/vo_full_908111-050-16"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvRight": "なんか…そう言われると@照れちゃいますね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200904,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-18"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "今日のお店が終わったら@ちょっと時間ありませんか？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 240202,
+                        "motion": 1,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-19"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "え…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-20"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "音楽はあんまりだけど@映画には詳しいので"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200904,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-21"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "美樹さんにぜひ見て欲しい@映画があるんですよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-22"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "神童と呼ばれたモーツァルトの@伝記映画なんですけどね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_013.exp3.json",
+                        "id": 200904,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-23"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "賞も総ナメした名作中の名作で！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 240202,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-24"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "あ…それ、もしかしたら@聞いたことがあるかも…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200904,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-25"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "たぶん、それです！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200904,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-26"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "あの…もし良かったら@今日これから、時間あります？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 240202,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-27"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "え…あ、ちょっとなら…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200904,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-28"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "じゃあ、家が近いんで@持って来ますよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 240202,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-29"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "え、でも今日じゃなくても…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200904,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-30"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "いえいえ、遠慮は要りませんって"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200904,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-31"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "それじゃ、シフトが終わったら@モールの辺りで"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 240202,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908111-050-32"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "は…はい"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

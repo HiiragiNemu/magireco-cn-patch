@@ -1,0 +1,351 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "bgm03_story01",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_1b.jpg",
+                        "posX": -1200,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationFontSize": 0,
+                "narrationLineSpace": 2000,
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.8,
+                                "posX": 0,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_1b.jpg"
+                    }
+                ],
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_1a.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_1b.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "悪魔ほむらちゃん",
+                "narration": "環いろはに化けて悪事を働き@罪をなすりつけるという寸法よ"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.8,
+                                "posX": 1200,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_1a.jpg"
+                    },
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.5,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_2b.jpg",
+                        "posX": 1200,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ]
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_2c.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_1a.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "まどか先輩",
+                "narration": "おや？@向こうにもいろはちゃんがいたような？"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_2a.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_2b.jpg",
+                        "visible": "hide"
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_2c.png",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "悪魔ほむらちゃん",
+                "narration": "[se:7222_happy]あら まどか♪"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_3b.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_3c.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_2a.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narration": "鹿目まどかに対して@込み上げるこの感情…@これは暁美ほむらの心？"
+            },
+            {
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 5,
+                                        "posY": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_3d.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "narration": "この私が抑え込めないなんて…@ああ…鹿目さん…まどか…@いやいや！今はこの場をごまかさないと！"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_4b.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_4c.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_3a.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narration": "そんなことより連れて行ってもらえる？"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_4d.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "narration": "保健室"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_4a.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_4b.jpg",
+                        "visible": "hide"
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_4c.png",
+                        "visible": "hide"
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_4d.png",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "まどか先輩",
+                "narration": "ここから？"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

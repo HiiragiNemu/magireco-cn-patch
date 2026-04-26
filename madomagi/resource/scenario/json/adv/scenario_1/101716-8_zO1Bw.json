@@ -1,0 +1,750 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "id": 6007,
+      "name": "sprite_0",
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_060.exp.json",
+      "id": 100300,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_17141.jpg",
+    "bgm": "stop",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "nameLeft": "",
+    "nameRight": "鹤乃",
+    "se": "7213_witch_noise_01",
+    "textBg": "shout",
+    "textLeft": "[flashEffect:flashRed2][se:6001_hit_shooting_01_vh][bgEffect:shakeLarge][name:sprite_0:effect_shake]｜……嗡……｜"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 6007,
+      "name": "sprite_0"
+     }
+    ],
+    "se": "3102_enemy_dead",
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100300,
+      "motion": 400,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-2"
+     }
+    ],
+    "textRight": "哇哇，要、要掉下来了！"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-2"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.4,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png",
+      "posX": 0,
+      "posY": -3000,
+      "scale": 4.0,
+      "setVisible": 1,
+      "zOrder": "messageFront"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.4,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100500,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "effect": "fadeout",
+      "id": 100300
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.4,
+        "posY": 3000
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png"
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "id": 100500,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-3"
+     }
+    ],
+    "nameLeft": "菲莉希亚",
+    "nameRight": "鹤乃",
+    "textLeft": "[flashEffect:flashWhite2][bgEffect:shakeSmall]接到！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_060.exp.json",
+      "id": 100500,
+      "motion": 400,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-4",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-3"
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_060.exp.json",
+      "id": 100300,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textLeft": "[flashEffect:flashRed2][bgEffect:shakeSmall][chara:100500:effect_shake][se:3001_chara_damage]呜啊！"
+   },
+   {
+    "chara": [
+     {
+      "id": 100500,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-5",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-4"
+     }
+    ],
+    "textLeft": "好、好重！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100300,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-6",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-5"
+     }
+    ],
+    "textRight": "好过分！"
+   },
+   {
+    "bgm": "bgm03_story03",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_040.exp.json",
+      "id": 100400,
+      "motion": 100,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-7",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-6"
+     }
+    ],
+    "nameLeft": "莎奈",
+    "textLeft": "这样就……结束了……对吧？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100100,
+      "motion": 0,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-8",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-7"
+     }
+    ],
+    "nameLeft": "彩羽",
+    "textLeft": "嗯，@之后等结界消失就行了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100300,
+      "lipSynch": 0,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-9",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-8"
+     }
+    ],
+    "textRight": "…………"
+   },
+   {
+    "chara": [
+     {
+      "id": 100300,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-10",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-9"
+     }
+    ],
+    "textRight": "那个，对不起大家，@给你们添了超大的麻烦……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100200,
+      "motion": 100,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-11",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-10"
+     }
+    ],
+    "nameLeft": "八千代",
+    "textLeft": "为什么要道歉？@要道歉的是我们才对。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 2,
+      "id": 100300,
+      "motion": 300,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-12",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-11"
+     }
+    ],
+    "textRight": "因为我被洗脑了，@还离开了队伍……"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 100300,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-13",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-12"
+     }
+    ],
+    "textRight": "这一次，@还想要杀掉好多的人……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_014.exp.json",
+      "id": 100200,
+      "motion": 1,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-14",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-13"
+     }
+    ],
+    "textLeft": "不过，不知是幸运还是不幸，@我们深刻地了解了鹤乃的想法。"
+   },
+   {
+    "chara": [
+     {
+      "id": 100200,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-15",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-14"
+     }
+    ],
+    "textLeft": "我觉得这是好事，@也让我能够重新审视自己。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100100,
+      "motion": 1,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-16",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-15"
+     }
+    ],
+    "nameLeft": "彩羽",
+    "textLeft": "虽然是以这种方式，@但是我也觉得能理解鹤乃太好了。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100100,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-17",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-16"
+     }
+    ],
+    "textLeft": "而且，会变成这种情况，@我觉得都是玛吉斯的错。"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 100300,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-18",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-17"
+     }
+    ],
+    "textRight": "嗯……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100100,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-19",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-18"
+     }
+    ],
+    "textLeft": "从今以后我们5个还要@手牵手一同努力啊！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100100,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-20",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-19"
+     }
+    ],
+    "textLeft": "然后，我们要一起找出办法……"
+   },
+   {
+    "chara": [
+     {
+      "id": 100100,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-21",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-20"
+     }
+    ],
+    "textLeft": "去面对魔女化这个束缚我们的@魔法少女的命运。"
+   },
+   {
+    "chara": [
+     {
+      "id": 100100,
+      "motion": 301,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-22",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-21"
+     }
+    ],
+    "textLeft": "寻找和玛吉斯不一样的，@崭新的答案……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100200,
+      "motion": 200,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-23",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-22"
+     }
+    ],
+    "nameLeft": "八千代",
+    "textLeft": "是啊。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 2,
+      "face": "mtn_ex_020.exp.json",
+      "id": 100300,
+      "motion": 101,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-24",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-23"
+     }
+    ],
+    "textRight": "嗯！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100500,
+      "motion": 100,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-25",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-24"
+     }
+    ],
+    "nameLeft": "菲莉希亚",
+    "textLeft": "好嘞，那接下来该做那个吧！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_040.exp.json",
+      "id": 100400,
+      "motion": 1,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-26",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-25"
+     }
+    ],
+    "nameRight": "莎奈",
+    "textRight": "做……那个？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100500,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-27",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-26"
+     }
+    ],
+    "textLeft": "就是把手叠在一起的那个！@比赛中总做的！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100300,
+      "motion": 400,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-28",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-27"
+     }
+    ],
+    "nameRight": "鹤乃",
+    "textRight": "噢，那个确实有重建队伍的感觉！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100500,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-29",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-28"
+     }
+    ],
+    "textLeft": "对吧！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100300,
+      "motion": 101,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-30",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-29"
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100500,
+      "motion": 0
+     }
+    ],
+    "textRight": "那么，把手伸出来！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100300,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-31",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-30"
+     }
+    ],
+    "textRight": "好，彩羽来说点什么！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100100,
+      "motion": 401,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-32",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-31"
+     }
+    ],
+    "nameLeft": "彩羽",
+    "textLeft": "[chara:100100:effect_emotion_surprise_0][se:7226_shock]诶！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100300,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-33",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-32"
+     }
+    ],
+    "textRight": "你是队长吧？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100100,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-34",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-33"
+     }
+    ],
+    "textLeft": "啊，那个，呜……是的……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100300,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-35",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-34"
+     }
+    ],
+    "textRight": "哼哼！"
+   },
+   {
+    "chara": [
+     {
+      "id": 100100,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-36",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-35"
+     }
+    ],
+    "textLeft": "那、那么！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 2,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100100,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-37",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-36"
+     }
+    ],
+    "textBg": "shout",
+    "textLeft": "三日月别墅小队！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 2,
+      "eyeClose": 1,
+      "face": "mtn_ex_060.exp.json",
+      "id": 100100,
+      "motion": 400,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-38",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-37"
+     }
+    ],
+    "textBg": "shout",
+    "textLeft": "加、加油——！"
+   },
+   {
+    "chara": [
+     {
+      "id": 100100
+     },
+     {
+      "cheek": 1,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100200,
+      "motion": 201,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-39_yachiyo"
+     },
+     {
+      "cheek": 1,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100300,
+      "motion": 201,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-39_tsuruno"
+     }
+    ],
+    "nameCenter": "八千代&鹤乃",
+    "textBg": "shout",
+    "textCenter": "噢————！",
+    "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-38"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100500,
+      "motion": 200,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-39_felishia"
+     },
+     {
+      "cheek": 1,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100400,
+      "motion": 200,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-39_sana",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-39_tsuruno"
+     }
+    ],
+    "nameCenter": "菲莉希亚&莎奈",
+    "textBg": "shout",
+    "textCenter": "噢————！",
+    "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-39_yachiyo"
+   },
+   {
+    "autoTurnLast": 3.0,
+    "bg": "bg_adv_21173.jpg",
+    "bgm": "stop",
+    "chara": [
+     {
+      "id": 100400,
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-39_sana"
+     }
+    ],
+    "turnChangeIn": "fadeIn",
+    "turnChangeOut": "fadeOut",
+    "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-39_felishia"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_17023.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 800200,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 800300,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 800200,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-40"
+     }
+    ],
+    "nameLeft": "",
+    "nameRight": "",
+    "surround": "7009_night_townbuzz",
+    "textLeft": "奇、奇怪，@我来这种地方是要做什么来着。",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 800200,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-41",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-40"
+     }
+    ],
+    "textLeft": "好像是想去什么地方似的。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 800300,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-42",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-41"
+     }
+    ],
+    "textRight": "游乐园？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 800300,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-43",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-42"
+     }
+    ],
+    "textRight": "怎么可能有那种东西？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 800200,
+      "voiceFull": "fullvoice/section_101716/vo_full_101716-8-44",
+      "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-43"
+     }
+    ],
+    "textLeft": "诶——好诡异……"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn",
+    "voiceFullStop": "fullvoice/section_101716/vo_full_101716-8-44"
+   }
+  ]
+ },
+ "version": 3
+}

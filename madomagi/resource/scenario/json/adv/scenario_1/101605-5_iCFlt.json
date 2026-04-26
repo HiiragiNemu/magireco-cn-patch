@@ -1,0 +1,634 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": -1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100201,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bg": "bg_adv_15071.jpg",
+    "bgm": "bgm03_story12",
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100201,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-1"
+     }
+    ],
+    "nameLeft": "彩羽",
+    "nameRight": "八千代",
+    "textRight": "环……队伍就此解散吧……",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-2",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-1"
+     }
+    ],
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100101,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-3",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-2"
+     }
+    ],
+    "textLeft": "那个……诶？解、散？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-4",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-3"
+     }
+    ],
+    "textRight": "没错。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-5",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-4"
+     }
+    ],
+    "textLeft": "请等等……这是……"
+   },
+   {
+    "autoTurnLast": 0.3,
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 0,
+      "pos": 2,
+      "posX": 40,
+      "posY": 0
+     }
+    ],
+    "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-5"
+   },
+   {
+    "select": [
+     {
+      "group": "group_2",
+      "textSelect": "呜啾！@（看来她有自己的考量呢）"
+     },
+     {
+      "group": "group_3",
+      "textSelect": "呜啾？@（再问一次吧）"
+     }
+    ]
+   }
+  ],
+  "group_2": [
+   {
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 100,
+      "voice": "vo_kyube_0001_14"
+     }
+    ],
+    "nameRight": "userName",
+    "textRight": "呜啾！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "textClear": 1,
+    "voice": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100101,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-7"
+     }
+    ],
+    "textLeft": "啊……"
+   },
+   {
+    "changeGroup": "group_4",
+    "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-7"
+   }
+  ],
+  "group_3": [
+   {
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 100,
+      "voice": "vo_kyube_0001_06"
+     }
+    ],
+    "nameRight": "userName",
+    "textRight": "呜啾？"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "textClear": 1,
+    "voice": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-9"
+     }
+    ],
+    "textLeft": "（但、但是，如果我没听错的话……）",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100101,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-10",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-9"
+     }
+    ],
+    "textLeft": "啊……",
+    "turnEffect": "stop"
+   },
+   {
+    "changeGroup": "group_4",
+    "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-10"
+   }
+  ],
+  "group_4": [
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "motion": 301,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-11"
+     }
+    ],
+    "textLeft": "（是吗，我们并没有受到@美冬记忆的影响。）",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-12",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-11"
+     }
+    ],
+    "textLeft": "（所以这是为了避免@和传闻战斗演的戏吧……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-13",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-12"
+     }
+    ],
+    "textLeft": "（怎么办……@都怪我贸然说出了拒绝的话……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-14",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-13"
+     }
+    ],
+    "textLeft": "…………",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-15",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-14"
+     }
+    ],
+    "textLeft": "（但是，现在先……）",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_041.exp.json",
+      "id": 100101,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-16",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-15"
+     }
+    ],
+    "textLeft": "是、是啊，那就解散吧。",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_051.exp.json",
+      "id": 100201,
+      "motion": 0,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-17",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-16"
+     }
+    ],
+    "nameRight": "八千代",
+    "textRight": "！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-18",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-17"
+     }
+    ],
+    "textRight": "是吗，看来你明白了啊。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100101,
+      "motion": 400,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-19",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-18"
+     }
+    ],
+    "textLeft": "当然了，@毕竟看了那些记忆嘛。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "motion": 201,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-20",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-19"
+     }
+    ],
+    "textRight": "那我先出去了。"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 100201
+     }
+    ],
+    "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-20"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100101,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-21"
+     }
+    ],
+    "textLeft": "啊，我也正好要到@[textBlue:传闻]的外面去。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-22",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-21"
+     }
+    ],
+    "textRight": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-23",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-22"
+     }
+    ],
+    "textLeft": "不知道鹤乃她们都出去了没有……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-24",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-23"
+     }
+    ],
+    "textRight": "一定是这样吧。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-25",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-24"
+     }
+    ],
+    "textRight": "应该被美冬的记忆所影响，@先出去了。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100101,
+      "motion": 400,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-26",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-25"
+     }
+    ],
+    "textLeft": "但是也没所谓了吧，@反正都解散了。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "lipSynch": 0,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-27",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-26"
+     }
+    ],
+    "textRight": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "motion": 301,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-28",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-27"
+     }
+    ],
+    "textLeft": "（如果大家被洗脑了……）",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-29",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-28"
+     }
+    ],
+    "textLeft": "（那就是我的错……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-30",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-29"
+     }
+    ],
+    "textLeft": "（我轻信了谎言，@以为她们真的不想争斗……）"
+   },
+   {
+    "chara": [
+     {
+      "id": 100101,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-31",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-30"
+     }
+    ],
+    "textLeft": "（八千代的劝阻我也不听……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "motion": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-32",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-31"
+     }
+    ],
+    "textLeft": "…………",
+    "turnEffect": "stop"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bg": "bg_adv_15072.jpg",
+    "bgChangeEffect": "enterWitchSpace",
+    "bgm": "stop",
+    "se": "7208_wander_into",
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-32"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 100101
+     },
+     {
+      "effect": "fadeout",
+      "id": 100201
+     }
+    ]
+   },
+   {
+    "bgm": "bgm01_battle01",
+    "chara": [
+     {
+      "id": 7006,
+      "name": "sprite_0",
+      "pos": 1
+     }
+    ],
+    "nameCenter": "",
+    "textCenter": "[se:7214_witch_noise_02]｜咔咔嘎｜"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 7006,
+      "name": "sprite_0"
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "motion": 0,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-34"
+     },
+     {
+      "cheek": -1,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100201,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textLeft": "传闻……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-35",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-34"
+     }
+    ],
+    "textLeft": "（演出来的没意义吗？）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100201,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-36",
+      "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-35"
+     }
+    ],
+    "textRight": "果然来挡路了……"
+   },
+   {
+    "chara": [
+     {
+      "id": 7006,
+      "name": "sprite_1",
+      "pos": 0
+     }
+    ],
+    "nameLeft": "",
+    "textLeft": "[se:7214_witch_noise_02]｜0=|C―☆｜",
+    "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-36"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "effect": "ef_adv_05",
+      "face": "mtn_ex_021.exp.json",
+      "id": 100200,
+      "motion": 201,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101605/vo_full_101605-5-38"
+     }
+    ],
+    "se": "7205_magic_girl",
+    "textRight": "让开！"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn",
+    "voiceFullStop": "fullvoice/section_101605/vo_full_101605-5-38"
+   }
+  ]
+ },
+ "version": 3
+}

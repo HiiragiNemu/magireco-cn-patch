@@ -1,0 +1,1158 @@
+{
+ "skipTransitionList": [
+  {
+   "from": "group_1",
+   "to": "group_4"
+  },
+  {
+   "canSkip": false,
+   "from": "group_4"
+  }
+ ],
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_21163.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302600,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302700,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm03_story04",
+    "chara": [
+     {
+      "id": 302600
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "我来说……",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 302700,
+      "motion": 400
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "不用木叶你去说的……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 1,
+      "pos": 0
+     }
+    ],
+    "textLeft": "没事的……让我来吧。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302700,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textRight": "…………"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_030.exp.json",
+      "id": 302700,
+      "lipSynch": 1,
+      "motion": 300,
+      "pos": 2
+     }
+    ],
+    "textRight": "木叶一旦决定，就说什么都没用了……"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 302800,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "我去吧！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302700,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "不用啦，菖蒲。@我们就在一边看着吧，好吗？"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 302800,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "唔～"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302600,
+      "motion": 0
+     }
+    ],
+    "textLeft": "抱歉，菖蒲……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 0
+     }
+    ],
+    "textLeft": "那么……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300500,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "rollIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600,
+      "motion": 1
+     },
+     {
+      "id": 300500
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "我们来聊聊吧，@常盘七香……",
+    "turnChangeOut": "rollOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 300500
+     }
+    ],
+    "nameRight": "常盘七香",
+    "textRight": "请多多关照。@请问，你的名字是？"
+   },
+   {
+    "textLeft": "静海木叶……"
+   },
+   {
+    "bg": "bg_adv_narration.jpg",
+    "nameNarration": "静海木叶",
+    "narration": "我和常盘七香@相互试探了一番……",
+    "narrationEffect": "in",
+    "turnChangeIn": "fadeIn",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "narration": "我完全没有和她们联手的打算@说到底这不过是为了知道对方的底细"
+   },
+   {
+    "narration": "但是，常盘七香@她并不是一个@容易看透的对手……"
+   },
+   {
+    "narration": "不知不觉间@谈话陷入了胶着……"
+   },
+   {
+    "narration": "目前我了解到的是……@『常盘七香@是个让人捉摸不透的魔法少女』"
+   },
+   {
+    "narration": "所以我应该选择……"
+   },
+   {
+    "narrationEffect": "out",
+    "select": [
+     {
+      "alternativeId": 4,
+      "group": "group_2",
+      "textSelect": "和七香保持距离"
+     },
+     {
+      "alternativeId": 5,
+      "group": "group_3",
+      "textSelect": "继续试探"
+     }
+    ],
+    "surround": "stop",
+    "turnEffect": "stop"
+   }
+  ],
+  "group_2": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_21163.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302600,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300500,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600,
+      "lipSynch": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "（对于捉摸不透的对手……@不去接近才是上策。）",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "lipSynch": 1,
+      "motion": 1
+     }
+    ],
+    "textLeft": "呼……"
+   },
+   {
+    "chara": [
+     {
+      "id": 300500
+     }
+    ],
+    "nameRight": "常盘七香",
+    "textRight": "怎么了？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 0
+     }
+    ],
+    "textLeft": "我已经有答案了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300500,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "textRight": "能告诉我吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 0
+     }
+    ],
+    "textLeft": "常盘……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 1
+     }
+    ],
+    "textLeft": "能请你别和我们扯上关系吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302700,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "游佐叶月",
+    "textLeft": "木叶……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302800,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "三栗菖蒲",
+    "textLeft": "哦哦！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302600,
+      "motion": 1,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "我们不需要其他同伴……"
+   },
+   {
+    "textLeft": "我们一路都是这么走来的，@今后也一样。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302700,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameLeft": "",
+    "nameRight": "游佐叶月",
+    "surround": "7202_telepathy",
+    "textLeft": "",
+    "textRight": "木叶，这样真的好吗？",
+    "turnEffect": "ef_adv_02"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "她是个很难对付的人。"
+   },
+   {
+    "textLeft": "这样的人还是不要扯上关系比较好。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302700,
+      "motion": 400,
+      "pos": 2
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "可是，我们离开了神滨这么久，@对这里的事……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "如果想探查情报，@我们还可以去找其他人。"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_030.exp.json",
+      "id": 302700,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textRight": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "……明白了吗？"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_030.exp.json",
+      "id": 302700,
+      "motion": 300,
+      "pos": 2
+     }
+    ],
+    "textRight": "明白了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300500,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "常盘七香",
+    "surround": "stop",
+    "textRight": "这样啊……@我明白了。",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300800,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "？？？",
+    "textRight": "七香……"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_030.exp.json",
+      "id": 301100,
+      "motion": 400,
+      "pos": 2
+     }
+    ],
+    "textRight": "七香！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 301200,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textRight": "这样好吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300500,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "常盘七香",
+    "textRight": "毕竟我也不能强迫别人。"
+   },
+   {
+    "textRight": "盟约本身就是公平的，@必须要双方都同意才行。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "那我们今后都不要相互干涉……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 300500,
+      "motion": 1
+     }
+    ],
+    "textRight": "我知道了。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 300500,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textRight": "真是遗憾啊。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "…………"
+   },
+   {
+    "textRight": "静海木叶……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 300500,
+      "motion": 1
+     }
+    ],
+    "textRight": "明明说不定可以帮上什么忙……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302600,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "textLeft": "…………？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 302600,
+      "lipSynch": 0
+     }
+    ],
+    "textLeft": "（这句话……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300500,
+      "lipSynch": 1,
+      "motion": 0
+     }
+    ],
+    "textRight": "那么，请多保重……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300800,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "？？？",
+    "textRight": "走吧……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 301200,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textRight": "嗯……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 301100,
+      "lipSynch": 0,
+      "motion": 300,
+      "pos": 2
+     }
+    ],
+    "textRight": "…………"
+   },
+   {
+    "chara": [
+     {
+      "id": 301100,
+      "lipSynch": 0,
+      "pos": 2
+     }
+    ],
+    "textRight": "（那个13岁的女孩子，@她的名字……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301200,
+      "lipSynch": 1,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textRight": "佳子，怎么了？"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_050.exp.json",
+      "id": 301100,
+      "motion": 400,
+      "pos": 2
+     }
+    ],
+    "textRight": "啊，没事！"
+   },
+   {
+    "chara": [
+     {
+      "id": 301100,
+      "pos": 2
+     }
+    ],
+    "textRight": "马、马上来……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302700,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "rollIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600
+     },
+     {
+      "id": 302700
+     }
+    ],
+    "nameLeft": "游佐叶月",
+    "textLeft": "要回家了哦。",
+    "turnChangeOut": "rollOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 302700
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "嗯……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 302800,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "三栗菖蒲",
+    "textLeft": "回家之后就吃饭吧！@叶月！我想吃咖喱！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302700,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "textRight": "嗯，好哦……"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 302800
+     },
+     {
+      "id": 302700,
+      "pos": 1
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302700,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "游佐叶月",
+    "textCenter": "（真的这样就好了吗……）"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn"
+   }
+  ],
+  "group_3": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_21163.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302600,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300500,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600,
+      "lipSynch": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "（这个时候应该要再多试探一下@对方的态度……）",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "textLeft": "（但是……要怎么试探呢？）"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 302800,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "喂，叶月！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302700,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "怎么了？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302800,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "现在什么情况啊？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302700,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "这个嘛……"
+   },
+   {
+    "bgm": "bgm03_story01",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302700,
+      "pos": 2
+     }
+    ],
+    "textRight": "相互瞪眼？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302800,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "那只要让对方笑就行了吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302700,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "这个主意或许也不错～"
+   },
+   {
+    "chara": [
+     {
+      "id": 302700,
+      "motion": 200
+     }
+    ],
+    "textRight": "嗯～到底该怎么做呢～"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 302800,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "[chara:302800:effect_emotion_angry_1][se:7218_anger]真是的！@到底要怎么做啊！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 302700,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "冷静冷静，@木叶现在不正在思考吗。"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 302800,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "唔……"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "id": 302800,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "textRight": "木叶！"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 302700,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "好啦，安静一点～@不然会妨碍她思考的。"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 302800,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "可是！"
+   },
+   {
+    "textRight": "木叶！"
+   },
+   {
+    "chara": [
+     {
+      "id": 302600,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 302800,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "木叶！"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 302800,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "textRight": "木叶！"
+   },
+   {
+    "chara": [
+     {
+      "face": "mtn_ex_020.exp.json",
+      "id": 302800,
+      "motion": 100,
+      "pos": 2
+     }
+    ],
+    "textRight": "到底要怎么办啊！"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn"
+   }
+  ],
+  "group_4": [
+   {
+    "bg": "bg_adv_narration.jpg",
+    "nameNarration": "静海木叶",
+    "narration": "这样一来，我应该作出的选择是……",
+    "narrationEffect": "in"
+   },
+   {
+    "narrationEffect": "out",
+    "select": [
+     {
+      "alternativeId": 4,
+      "group": "group_2",
+      "textSelect": "跟七香保持距离"
+     },
+     {
+      "alternativeId": 5,
+      "group": "group_3",
+      "textSelect": "继续试探"
+     }
+    ],
+    "surround": "stop",
+    "turnEffect": "stop"
+   }
+  ]
+ },
+ "version": 3
+}

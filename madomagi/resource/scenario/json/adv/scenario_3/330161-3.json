@@ -1,0 +1,468 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_21161.jpg",
+    "item": [
+     {
+      "path": "resource/scenario/img/6104_rebecca_emblem.png",
+      "posX": 0,
+      "posY": 120,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "fadeIn",
+    "turnEffect": "ef_adv_06"
+   },
+   {
+    "bgm": "bgm03_story10",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 301601,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "粟根心",
+    "textRight": "找到了……！@是结界……！",
+    "turnChangeOut": "fadeOut",
+    "turnEffect": "blackFrame"
+   },
+   {
+    "chara": [
+     {
+      "id": 301601,
+      "motion": 200
+     }
+    ],
+    "textRight": "必须赶紧过去……！"
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/6104_rebecca_emblem.png",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "粟根心",
+    "narration": "我与“加贺见真良”的相遇，@是在我成为魔法少女后@过了一段时间的时候。",
+    "narrationBg": "bg_adv_narration.jpg",
+    "narrationEffect": "in",
+    "turnEffect": "stop"
+   },
+   {
+    "bg": "bg_adv_47104.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 301600,
+      "lipSynch": 0,
+      "motion": 300,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "粟根心",
+    "narrationEffect": "out",
+    "textCenter": "（到目前为止……@都没有见到一只使魔……）",
+    "turnChangeIn": "fadeIn",
+    "turnChangeOut": "fadeOut",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "id": 301600,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（但是有结界……@这说明最深处有魔女吧？）"
+   },
+   {
+    "chara": [
+     {
+      "id": 301600,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "textCenter": "（也就是说……[wait:1.0][chara:301600:cheek_0][chara:301600:face_mtn_ex_050.exp.json]@使魔全都被其他人击溃了……？）"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bg": "bg_adv_46104.jpg",
+    "bgChangeEffect": "enterWitchSpace",
+    "bgm": "stop",
+    "se": "7208_wander_into",
+    "turnEffect": "stop"
+   },
+   {
+    "bgm": "bgm01_anime15",
+    "chara": [
+     {
+      "id": 301600,
+      "lipSynch": 0,
+      "motion": 400
+     }
+    ],
+    "textCenter": "——！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 302900,
+      "motion": 100,
+      "pos": 2
+     },
+     {
+      "id": 6104,
+      "name": "sprite_0",
+      "pos": 0
+     }
+    ],
+    "nameLeft": "",
+    "nameRight": "加贺见真良",
+    "textRight": "[flashEffect::flashWhite2][se:4061_landing_jump5]哼……！",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "textLeft": "[flashEffect:flashRed2][chara:6104:effect_shake][se:6106_hit_slash_03_h][bgEffect:shakeLarge]……！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302900,
+      "motion": 0
+     }
+    ],
+    "textRight": "[flashEffect::flashWhite2][se:4061_landing_jump5]哈啊！！"
+   },
+   {
+    "textLeft": "[flashEffect:flashRed2][se:6106_hit_slash_03_h][chara:6104:effect_shake][bgEffect:shakeLarge]……！！？？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301600,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "粟根心",
+    "textCenter": "（这个人……@好强……）",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301600,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（果然……@是她击溃了所有使魔吧……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302900,
+      "motion": 0,
+      "pos": 2
+     },
+     {
+      "id": 6104,
+      "name": "sprite_0",
+      "pos": 0
+     }
+    ],
+    "textLeft": "[flashEffect:flashWhite2][bgEffect:shakeSmall]……！！",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301600,
+      "motion": 400,
+      "mouthOpen": 1,
+      "pos": 1
+     }
+    ],
+    "textCenter": "危险……！！",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 301600
+     }
+    ],
+    "textCenter": "哎……！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302900,
+      "motion": 200,
+      "pos": 2
+     },
+     {
+      "id": 6104,
+      "name": "sprite_0",
+      "pos": 0
+     }
+    ],
+    "nameRight": "加贺见真良",
+    "textRight": "[flashEffect::flashWhite2][se:4061_landing_jump5]啊啊！！",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "textLeft": "[flashEffect:flashWhite2][bgEffect:shakeSmall]……！！！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 301600,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "textCenter": "（她没有回避魔女的攻击……）",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301600,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（反而从正前方冲过去了……！？）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302900,
+      "motion": 200,
+      "pos": 2
+     },
+     {
+      "id": 6104,
+      "name": "sprite_0",
+      "pos": 0
+     }
+    ],
+    "textRight": "[flashEffect::flashWhite2][se:4061_landing_jump5]哈！！",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302900,
+      "motion": 400
+     }
+    ],
+    "textRight": "[flashEffect:flashRed2][chara:302900:effect_shake][se:3001_chara_damage][bgEffect:shakeLarge]咕……！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301600,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "textCenter": "（她一直都在攻击……@没有其他动作……）",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302900,
+      "motion": 100,
+      "pos": 2
+     },
+     {
+      "id": 6104,
+      "name": "sprite_0",
+      "pos": 0
+     }
+    ],
+    "textLeft": "[flashEffect:flashWhite2][bgEffect:shakeSmall]……！！！",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 301600,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "textCenter": "（就像是……）",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "id": 301600,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（丝毫不畏惧死亡……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301600,
+      "lipSynch": 0,
+      "motion": 400
+     }
+    ],
+    "textCenter": "——！？",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302900,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 2
+     },
+     {
+      "id": 6104,
+      "name": "sprite_0",
+      "pos": 0
+     }
+    ],
+    "nameRight": "加贺见真良",
+    "textRight": "——！？@[wait:1.0][chara:302900:lipSynch_1]这边……！？",
+    "turnChangeIn": "rollInFast",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "textLeft": "[flashEffect:flashWhite2][bgEffect:shakeSmall]……！！！！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302900
+     }
+    ],
+    "textRight": "啧……！"
+   },
+   {
+    "textLeft": "[flashEffect:flashRed2][chara:6104:effect_shake][surround:3016A03][bgEffect:shakeLarge]……！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302900,
+      "lipSynch": 0,
+      "motion": 400
+     }
+    ],
+    "textRight": "——！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 301600,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "粟根心",
+    "textLeft": "没事吧！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp.json",
+      "id": 302900,
+      "motion": 0
+     }
+    ],
+    "textRight": "原来还有其他魔法少女来了，@我没注意到。"
+   },
+   {
+    "chara": [
+     {
+      "id": 301600,
+      "motion": 100
+     }
+    ],
+    "textLeft": "我来支援你……！"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

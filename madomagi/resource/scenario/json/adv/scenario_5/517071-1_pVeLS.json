@@ -1,0 +1,619 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51170_storyselect_kuroe/51170_madoka_title.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 2.4,
+                "se": "3201_heal",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1.8,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51170_storyselect_kuroe/51170_madoka_title.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_20311.jpg",
+                "bgm": "bgm01_anime03"
+            },
+            {
+                "nameNarration": "まどか",
+                "narration": "夏休み@わたしたちは南国のリゾートへ@おでかけをすることに",
+                "narrationBg": "bg_adv_20311.jpg",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "これはその旅先で体験した@とっても楽しくて、とってもおかしな@夏の思い出の一場面"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_20258.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 210600,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200750,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 210600,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "わぁ！@ここが貸し切りエリア？",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200750,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "なぎさ",
+                "textRight": "今から全部@なぎさたちのものなのです！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 230000,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ほむら",
+                "textLeft": "ここなら、他の人たちのことを@気にせず遊べるね"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 230000
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 200750
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 240100,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 250100,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "じゃ、さっそく始めよっか"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 240100,
+                        "motion": 201
+                    }
+                ],
+                "nameLeft": "さやか",
+                "textLeft": "マミさんとさやかちゃん主催！@夏の陣取り合戦!!"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 260000,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "杏子",
+                "textRight": "水鉄砲を使った@陣取りゲームだっけ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 250100,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "マミ",
+                "textLeft": "そうよ@景品にするプレゼントは"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 250100
+                    }
+                ],
+                "nameLeft": "マミ",
+                "textLeft": "各自このリゾートで買って@持ち寄る約束だったけど"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 250100,
+                        "motion": 200,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "マミ",
+                "textLeft": "みんな持ってきたかしら？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 210600,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "はい！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 210600
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "とっておきのものを@見つけてきました！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 240100,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "とっておきかー@まどか、気合入ってるね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 210600,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "うん！@だって、ママと…"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_20162.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "blackFrame"
+            },
+            {
+                "bgm": "bgm01_anime02",
+                "nameNarration": "まどかの母",
+                "narration": "「忘れ物はないな？」",
+                "narrationBg": "",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101
+                    }
+                ],
+                "nameCenter": "まどか",
+                "narrationEffect": "out",
+                "textCenter": "大丈夫！"
+            },
+            {
+                "nameNarration": "まどかの母",
+                "narration": "「課題、覚えてるかい？」",
+                "narrationBg": "",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200101,
+                        "motion": 201,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "まどか",
+                "narrationEffect": "out",
+                "textCenter": "うん…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200101,
+                        "motion": 0
+                    }
+                ],
+                "nameNarration": "まどかの母",
+                "narration": "「よーし、いい子だ@それじゃ…」",
+                "narrationBg": "",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "narration": "「今しかできないことを存分に楽しんできな」"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_20258.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 210600,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 240100,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 210600
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "今しかできないことを@存分に楽しむって約束したから",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 210600,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "ここだけの特別な思い出を@たくさん作りたい"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 240100,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "存分にって@全力でってことだよね？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 240100,
+                        "motion": 201
+                    }
+                ],
+                "nameRight": "さやか",
+                "textRight": "じゃあ、思いっきり遊びますか！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 210600,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "うんっ！"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_20258.jpg",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51170_storyselect_kuroe/51170_present2.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "まどか",
+                "narration": "それから、みんなが持ち寄ったプレゼントを@誰のものかわからないように集めて…",
+                "narrationBg": "",
+                "narrationCoverOpacity": 150,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_20258.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 210600,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 230000,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 210600,
+                        "motion": 201
+                    }
+                ],
+                "nameLeft": "まどか",
+                "textLeft": "ほむらちゃんは@どんなプレゼントにしたの？",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 230000,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "ほむら",
+                "textRight": "えっと、たぶん@すごくいいものを選べたかな…？"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 230000,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "ほむら",
+                "textRight": "（鹿目さんも、お店で@気になってそうな品だったし…）",
+                "turnEffect": "thinking"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 230000,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "ほむら",
+                "textRight": "（鹿目さんが用意したっていう）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 230000,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameRight": "ほむら",
+                "textRight": "（“とっておきのもの”も@気になるけど…）"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 230000
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 210600
+                    }
+                ],
+                "textClear": 1,
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 260000,
+                        "motion": 1,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "杏子",
+                "textCenter": "ふーん…@すごくいいもの、ね"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bg": "bg_adv_20258.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 240100,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 250100,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameNarration": "まどか",
+                "narration": "ええと、ルール説明の時間になったんだけど…",
+                "narrationBg": "bg_adv_20258.jpg",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 250100,
+                        "motion": 200
+                    }
+                ],
+                "nameCenter": "さやか＆マミ",
+                "narrationEffect": "out",
+                "textCenter": "…………"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 240100
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 250100
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200750,
+                        "motion": 100,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 260000,
+                        "motion": 400,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "なぎさ",
+                "textRight": "ふふ～ん♪"
+            },
+            {
+                "bg": "bg_adv_20258.jpg",
+                "nameNarration": "まどか",
+                "narration": "あとから思うと@このときからみんなの様子が@少しおかしかったような気がして…",
+                "narrationBg": "bg_adv_20258.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "narration": "プレゼントの山をちらちら見てたりして@なんだか落ち着かない感じで…"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

@@ -1,0 +1,143 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_20201.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 810200,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200301,
+                        "motion": 0,
+                        "pos": 2,
+                        "soulGem": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day10_s.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm01_anime03",
+                "chara": [
+                    {
+                        "id": 810200
+                    }
+                ],
+                "nameAvLeft": "早乙女先生",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "はーい、それじゃ@自己紹介いってみよー",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200301,
+                        "motion": 300
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "あ、あの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200301
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "あ…暁美ほ…ほむらです"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200301
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "その…ええと…[chara:200301:lipSynch_0][wait:1.0][chara:200301:cheek_1][chara:200301:motion_0][chara:200301:lipSynch_1]どうか@よろしくお願いします"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810200
+                    }
+                ],
+                "nameAvLeft": "早乙女先生",
+                "textAvColorRGB": "255255255",
+                "textAvLeft": "暁美さんは心臓の病気で@ずっと入院していたの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810200
+                    }
+                ],
+                "nameAvLeft": "早乙女先生",
+                "textAvLeft": "久しぶりの学校だから色々と@戸惑うことも多いでしょう"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810200
+                    }
+                ],
+                "nameAvLeft": "早乙女先生",
+                "textAvLeft": "みんな助けてあげてね"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "textAvClear": 1
+            },
+            {
+                "FnarrationAnchor": "center",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 90,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textHomura",
+                "FnarrationWidth": 310,
+                "FnarrationX": 70,
+                "FnarrationY": 150,
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200301,
+                        "motion": 300
+                    }
+                ],
+                "nameFnarration": "ほむら",
+                "progressFnarration": "(ううう…き、緊張する…！)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

@@ -1,0 +1,778 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_narration.jpg",
+    "bgm": "bgm03_story10",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 300201,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302301,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "id": 300201
+     }
+    ],
+    "nameLeft": "空穗夏希",
+    "nameRight": "江利爱实",
+    "textLeft": "接受魔女之吻的姐姐……",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 300201,
+      "motion": 200
+     }
+    ],
+    "textLeft": "肯定已经到你们那里了！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302301
+     }
+    ],
+    "textRight": "什么？！"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "bg": "bg_adv_21131.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302301,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "turnChangeIn": "fadeIn",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "id": 302301,
+      "lipSynch": 0
+     }
+    ],
+    "nameCenter": "江利爱实",
+    "textCenter": "[chara:302301:effect_ef_adv_01][se:7201_detect_magic]唔？！",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302301,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（真的……@有魔女的反应……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302301,
+      "lipSynch": 0,
+      "motion": 300
+     }
+    ],
+    "textCenter": "（不好，得赶紧带妹妹@离开这里……）"
+   },
+   {
+    "chara": [
+     {
+      "id": 302301,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（这样的话，就算靠蛮力……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302301,
+      "motion": 0
+     }
+    ],
+    "textCenter": "咦？"
+   },
+   {
+    "chara": [
+     {
+      "id": 302301,
+      "motion": 400
+     }
+    ],
+    "textCenter": "妹妹人呢？！"
+   },
+   {
+    "chara": [
+     {
+      "id": 302301,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "……[wait:0.8][chara:302301:lipSynch_1]啊！！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 801200,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 800100,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "item": [
+     {
+      "path": "resource/scenario/img/6001_candy_emblem.png",
+      "posX": 0,
+      "posY": 120,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "rollInFast",
+    "turnEffect": "ef_adv_06"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 403501,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 300201,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "rollInFast",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "id": 300201,
+      "motion": 200
+     }
+    ],
+    "nameLeft": "奏遥香",
+    "nameRight": "空穗夏希",
+    "textRight": "不好，得快点过去！",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 403501,
+      "motion": 200
+     }
+    ],
+    "textLeft": "你们会被卷进去的！！"
+   },
+   {
+    "autoTurnLast": 1.0,
+    "chara": [
+     {
+      "effect": "slideOutLeftFast",
+      "id": 300201
+     },
+     {
+      "effect": "slideOutLeftFast",
+      "id": 403501
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 801200,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 800100,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "item": [
+     {
+      "path": "resource/scenario/img/6001_candy_emblem.png",
+      "posX": 0,
+      "posY": 120,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "rollInFast",
+    "turnEffect": "ef_adv_06"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302301,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "turnChangeIn": "rollInFast",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "id": 302301,
+      "motion": 200
+     }
+    ],
+    "nameCenter": "江利爱实",
+    "textCenter": "给我赶上！！",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "autoTurnLast": 1.0,
+    "chara": [
+     {
+      "effect": "slideOutLeftFast",
+      "id": 302301
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bgm": "stop",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 801200,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 800100,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "item": [
+     {
+      "path": "resource/scenario/img/6001_candy_emblem.png",
+      "posX": 0,
+      "posY": 120,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "rollInFast",
+    "turnEffect": "ef_adv_06"
+   },
+   {
+    "chara": [
+     {
+      "id": 800100
+     }
+    ],
+    "nameLeft": "",
+    "nameRight": "",
+    "textRight": "那么，@就如你所愿……",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 800100
+     }
+    ],
+    "textRight": "为了你……"
+   },
+   {
+    "chara": [
+     {
+      "id": 800100
+     }
+    ],
+    "textRight": "消失好了……"
+   },
+   {
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 800100
+     }
+    ],
+    "nameNarration": "",
+    "narration": "呵……",
+    "narrationBg": "",
+    "narrationEffect": "in"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 801200
+     }
+    ],
+    "narrationEffect": "out",
+    "textLeft": "什么？"
+   },
+   {
+    "chara": [
+     {
+      "id": 801200
+     }
+    ],
+    "surround": "7003_wind",
+    "textLeft": "咦？怎么回事？@去哪了？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 801200
+     }
+    ],
+    "textLeft": "姐姐……在哪？"
+   },
+   {
+    "chara": [
+     {
+      "id": 801200
+     }
+    ],
+    "textBg": "shout",
+    "textLeft": "为什么……怎么会这样……@姐姐！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300201,
+      "motion": 100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "空穗夏希",
+    "textRight": "给我冷静！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302301,
+      "motion": 300,
+      "pos": 2
+     }
+    ],
+    "nameRight": "江利爱实",
+    "textRight": "不会有事的！"
+   },
+   {
+    "chara": [
+     {
+      "id": 801200
+     }
+    ],
+    "textLeft": "姐姐她……不见了……"
+   },
+   {
+    "chara": [
+     {
+      "id": 801200
+     }
+    ],
+    "textLeft": "姐姐消失了……"
+   },
+   {
+    "chara": [
+     {
+      "id": 801200
+     }
+    ],
+    "textLeft": "都是因为我说要她消失……"
+   },
+   {
+    "chara": [
+     {
+      "id": 801200
+     }
+    ],
+    "textBg": "shout",
+    "textLeft": "都怪我说了那样的话！！"
+   },
+   {
+    "chara": [
+     {
+      "id": 801200
+     }
+    ],
+    "textLeft": "怎么办……"
+   },
+   {
+    "chara": [
+     {
+      "id": 801200
+     }
+    ],
+    "textLeft": "姐姐……@你快回来啊……"
+   },
+   {
+    "chara": [
+     {
+      "id": 801200
+     }
+    ],
+    "textLeft": "姐姐！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 403501,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "奏遥香",
+    "textRight": "……"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bg": "bg_adv_21072.jpg",
+    "bgm": "stop",
+    "chara": [
+     {
+      "id": 810000,
+      "motion": 0,
+      "pos": 1,
+      "posX": 0,
+      "posY": 80
+     }
+    ],
+    "surround": "stop",
+    "turnChangeIn": "fadeIn",
+    "turnEffect": "stop"
+   },
+   {
+    "bgm": "bgm03_story12",
+    "nameCenter": "丘比",
+    "textCenter": "我可以实现你的一个愿望。",
+    "turnChangeOut": "fadeOut",
+    "turnEffect": "sepiaFrame"
+   },
+   {
+    "nameNarration": "奏遥香",
+    "narration": "「任何愿望？」",
+    "narrationBg": "",
+    "narrationEffect": "in"
+   },
+   {
+    "narration": "那真的只是一时冲动",
+    "narrationBg": "black"
+   },
+   {
+    "narration": "实现愿望？@这种事怎么可能做到……@我当时就是这么想的"
+   },
+   {
+    "narration": "所以我……@只是想稍微发泄一下不满……"
+   },
+   {
+    "narration": "「我希望姐姐消失！」",
+    "narrationBg": ""
+   },
+   {
+    "narration": "我当时许了这样的愿望……",
+    "narrationBg": "black"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "white",
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "奏遥香",
+    "narration": "那天晚上，我后悔万分@因为那是绝不能说的话@是没法用一时冲动这种借口@来求得原谅的话",
+    "narrationBg": "",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "narration": "去道歉吧……"
+   },
+   {
+    "narration": "或许姐姐会笑着问我@「为什么要道歉？」@就算被姐姐笑话也没关系"
+   },
+   {
+    "narration": "就算不被理解也没关系@我要向姐姐道歉@为今天、昨天，迄今的一切道歉……"
+   },
+   {
+    "narration": "因为我其实心里对姐姐……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_21081.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 800700,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 800600,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "奏遥香",
+    "narration": "「早上好」",
+    "narrationBg": "",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 800600
+     }
+    ],
+    "nameLeft": "遥香的父亲",
+    "nameRight": "遥香的母亲",
+    "narrationEffect": "out",
+    "textRight": "早啊，遥香。"
+   },
+   {
+    "chara": [
+     {
+      "id": 800700
+     }
+    ],
+    "textLeft": "今天起得好早啊？"
+   },
+   {
+    "nameNarration": "奏遥香",
+    "narration": "「……」",
+    "narrationBg": "",
+    "narrationEffect": "in"
+   },
+   {
+    "narration": "「咦？」"
+   },
+   {
+    "narration": "姐姐每天都起得很早，可那天早晨@客厅里没有姐姐的身影……",
+    "narrationBg": "black"
+   },
+   {
+    "narration": "姐姐常坐的椅子不见了@姐姐插的花也没了@还有她获奖的那幅画也消失了"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 800600
+     }
+    ],
+    "narrationEffect": "out",
+    "textRight": "遥香？@怎么了，你的表情很难看哦？"
+   },
+   {
+    "chara": [
+     {
+      "id": 800700
+     }
+    ],
+    "textLeft": "我知道了，@一定是睡糊涂了。"
+   },
+   {
+    "nameNarration": "奏遥香",
+    "narration": "「姐……姐姐呢？」",
+    "narrationBg": "",
+    "narrationEffect": "in"
+   },
+   {
+    "chara": [
+     {
+      "id": 800600
+     }
+    ],
+    "narrationEffect": "out",
+    "textRight": "姐姐……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 800700
+     }
+    ],
+    "textLeft": "哈哈……@你在说什么啊？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 800600
+     }
+    ],
+    "textRight": "该不会真的睡糊涂了吧？"
+   },
+   {
+    "nameNarration": "奏遥香",
+    "narration": "「才、才没有……」",
+    "narrationBg": "",
+    "narrationEffect": "in"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 800700
+     }
+    ],
+    "narrationEffect": "out",
+    "textLeft": "但是遥香……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 800600
+     }
+    ],
+    "textRight": "你……"
+   },
+   {
+    "nameCenter": "遥香的父亲＆母亲",
+    "textCenter": "没有姐姐啊。"
+   },
+   {
+    "nameNarration": "奏遥香",
+    "narration": "「什么？！」",
+    "narrationBg": "",
+    "narrationEffect": "in"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "奏遥香",
+    "narration": "我拼命地跑上楼梯……",
+    "narrationBg": "black",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "narration": "朝那个房间奔去……"
+   },
+   {
+    "narration": "到那里就能知道了"
+   },
+   {
+    "narration": "那里会有我要的答案"
+   },
+   {
+    "narration": "那个房间！姐姐的房间！"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "bg": "bg_adv_21074.jpg",
+    "bgm": "stop",
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 3.0,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

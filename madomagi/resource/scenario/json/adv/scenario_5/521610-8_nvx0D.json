@@ -1,0 +1,161 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "bg": "bg_adv_20271.jpg",
+                "chara": [
+                    {
+                        "id": 830800,
+                        "pos": 0,
+                        "posX": 40,
+                        "posY": 120
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 230000,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameNarration": "ほむら",
+                "narration": "猫に導かれるまま@松林の中をしばらく歩くと@私たちはすこし開けた場所へと出た",
+                "narrationBg": "black",
+                "narrationEffect": "in",
+                "turnChangeIn": "fadeIn",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 830800
+                    }
+                ],
+                "nameLeft": "",
+                "narrationEffect": "out",
+                "surround": "7001_birdsong",
+                "textLeft": "[se:7101_catvoice]ニャー"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 230000,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "ほむら",
+                "textRight": "こんなところに祠が…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 830800
+                    }
+                ],
+                "textLeft": "[se:7101_catvoice]ニャーン"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_051.exp3.json",
+                        "id": 200151,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "まどか",
+                "textRight": "祠の脇で…わたしたちのこと、@呼んでるのかな？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 830800
+                    }
+                ],
+                "textLeft": "ゴロゴロゴロ"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 830800
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 230000,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "ほむら",
+                "textLeft": "にゃっにゃー？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200151,
+                        "motion": 0
+                    }
+                ],
+                "textRight": "やっぱり来て欲しいのかな？@[chara:200151:lipSynch_0][wait:0.8][chara:200151:cheek_0][chara:200151:face_mtn_ex_010.exp3.json:motion_100][chara:200151:lipSynch_1]床下にお家があるのかも"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 230000,
+                        "motion": 1
+                    }
+                ],
+                "textLeft": "さすがに床下までは@入れませんけど"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 230000
+                    }
+                ],
+                "textLeft": "表からご挨拶出来れば…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200151,
+                        "motion": 300
+                    }
+                ],
+                "textRight": "にゃごにゃごにゃ～♪"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 230000,
+                        "motion": 0
+                    }
+                ],
+                "textLeft": "あれ？@床下に何かある[chara:230000:lipSynch_0][wait:1.0][chara:230000:motion_100][chara:230000:lipSynch_1]…………手帳？"
+            },
+            {
+                "autoTurnLast": 2,
+                "surround": "stop",
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

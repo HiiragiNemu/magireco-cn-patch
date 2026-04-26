@@ -1,0 +1,298 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_17221.jpg",
+                "bgm": "bgm23_promised06",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_060.exp3.json",
+                        "id": 100300,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 102400,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 100300,
+                        "voiceFull": "fullvoice/section_102603/vo_full_102603-13-1"
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "と、お、せぇっ…!!",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "effect": "7001_attack02",
+                        "id": 102400
+                    },
+                    {
+                        "id": 100300,
+                        "motion": 200
+                    }
+                ],
+                "se": "8000_flame_01_s"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_060.exp3.json",
+                        "id": 102400,
+                        "motion": 300,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-2",
+                        "voiceFullStop": "fullvoice/section_102603/vo_full_102603-13-1"
+                    },
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 100300
+                    }
+                ],
+                "nameLeft": "樹里",
+                "textLeft": "[chara:102400:effect_7003_damage02][se:8001_flame_01_v][bgEffect:shakeSmall]ケッ…ほとんど魔力が…@無くなりかけてるじゃねぇか…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 102400,
+                        "motion": 100,
+                        "pos": 0,
+                        "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-3"
+                    }
+                ],
+                "nameLeft": "樹里",
+                "textLeft": "ヨォッ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_060.exp3.json",
+                        "id": 100300
+                    }
+                ],
+                "nameNarration": "",
+                "narration": "[flashEffect:flashRed2][se:3001_chara_damage][bgEffect:shakeLarge][chara:100300:effect_shake]ゴッ…",
+                "narrationBg": "",
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100300,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-5"
+                    }
+                ],
+                "nameRight": "鶴乃",
+                "textRight": "グッ…"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 100300
+                    }
+                ],
+                "se": "3002_chara_dead",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter5/102603_double_fire.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "樹里",
+                "narration": "―樹里―@ふぅっ…ふっ…@武器でぶん殴られるのも…キくだろ…",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 10,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "fadeOut",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-6"
+            },
+            {
+                "nameNarration": "鶴乃",
+                "narration": "―鶴乃―@そっちこそ、辛そう…だよ…",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-7"
+            },
+            {
+                "nameNarration": "樹里",
+                "narration": "―樹里―@ニヒッ、あと一発やりゃあ@くたばりそうなのにな…",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-8"
+            },
+            {
+                "nameNarration": "鶴乃",
+                "narration": "―鶴乃―@そっちが、やる気なら…@ふぅ、まだやるよ…",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-9"
+            },
+            {
+                "narration": "―鶴乃―@こっちは魔女と戦うだけの力は@残してるからね…",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-10"
+            },
+            {
+                "nameNarration": "樹里",
+                "narration": "―樹里―@そりゃッ、お互い様だ…@樹里サマも温存してたからな…",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-11"
+            },
+            {
+                "nameNarration": "鶴乃",
+                "narration": "―鶴乃―@じゃあ、ずっと温存してなよ…@わたしは行くから…",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-12"
+            },
+            {
+                "autoTurnLast": 2,
+                "flashEffect": "flashWhiteSlow2",
+                "narrationEffect": "out",
+                "textClear": 1
+            },
+            {
+                "nameNarration": "鶴乃",
+                "narration": "―鶴乃―@――っ!?",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20,
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-13"
+            },
+            {
+                "nameNarration": "樹里",
+                "narration": "―樹里―@残した魔力は今が使う時だ…@こっちから地下を…崩してやる！",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-14"
+            },
+            {
+                "nameNarration": "鶴乃",
+                "narration": "―鶴乃―@ちょっと、ウソでしょ…@自分でショートカットを、断つ気…!?",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-15"
+            },
+            {
+                "nameNarration": "樹里",
+                "narration": "―樹里―@テメェら神浜の連中に@消されるぐらいならなぁ…！",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-16"
+            },
+            {
+                "nameNarration": "鶴乃",
+                "narration": "―鶴乃―@…………@…………",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-17"
+            },
+            {
+                "narration": "―鶴乃―@…………",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-18"
+            },
+            {
+                "narration": "―鶴乃―@…そっか、ショートカットへのルートは@ひとつじゃない",
+                "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-19"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter5/102603_double_fire.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "[se:7108_arrivals]ザッ…ザッ…ザッ…",
+                "narrationBg": "black",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_17221.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 100900,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 101100,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 101100,
+                        "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-23"
+                    }
+                ],
+                "nameRight": "かえで",
+                "textRight": "レ、レナちゃん…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 100900,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_102603/vo_full_102603-13-24"
+                    }
+                ],
+                "nameLeft": "レナ",
+                "textLeft": "まだ、増えるっていうの…？"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

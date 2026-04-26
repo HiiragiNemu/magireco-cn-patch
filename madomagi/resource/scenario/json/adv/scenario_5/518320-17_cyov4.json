@@ -1,0 +1,814 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_60022.jpg",
+                "bgm": "bgm24_story03",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832101,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "＜北＞",
+                "narrationBg": "bg_adv_60022.jpg",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "narrationEffect": "out",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 832101,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 832801,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "泰党の兵",
+                "textLeft": "もらった！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 832101,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "正綱",
+                "textRight": "しまった…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 104500,
+                        "motion": 200,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "露",
+                "textCenter": "[chara:832801:effect_7000_attack01][surround:1045A01]父上！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 832801,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "泰党の兵",
+                "textLeft": "[chara:832801:effect_7002_damage01][surround:1045A04][bgEffect:shakeSmall]ぐっ…@戦神子が居ると分が悪い…"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 832801
+                    }
+                ],
+                "se": "3002_chara_dead",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 104500,
+                        "pos": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832101,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "正綱",
+                "textRight": "すまない、露"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104500,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "いえ、ご無事で何よりです"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832101
+                    }
+                ],
+                "nameRight": "正綱",
+                "textRight": "今のところ泰党の配置は@密書に書いた通りか"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_001.exp3.json",
+                        "id": 104500,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "はい、私たちが苦戦するのも@玄雲や熊井の考えるところかと"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832101
+                    }
+                ],
+                "nameRight": "正綱",
+                "textRight": "ならば、この折りに…"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_yu_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "[textBlack:順調な隅谷、熊井、水徳寺とは対照的に]@[textBlack:北と南を受け持つ我々は苦戦する。]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 150,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "[textBlack:そこに、水徳寺の兵が現れるはずだ。]@[textBlack:最初からそういう手はずだが、]@[textBlack:彼らは偶然を装って現れるだろう。]"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_60022.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 832802,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832101,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832802,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "僧兵",
+                "textRight": "水名殿！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832101
+                    }
+                ],
+                "nameLeft": "正綱",
+                "textLeft": "お前は水徳寺の者か！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832802
+                    }
+                ],
+                "nameRight": "僧兵",
+                "textRight": "はっ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832802
+                    }
+                ],
+                "nameRight": "僧兵",
+                "textRight": "我々が進む西側は敵兵が少なく@玄雲殿の命で参った次第"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832802
+                    }
+                ],
+                "nameRight": "僧兵",
+                "textRight": "挟撃を成功させるために@我々も加勢いたす！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 832101,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "正綱",
+                "textLeft": "かたじけない！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104500,
+                        "motion": 100,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "露",
+                "textLeft": "水名の戦神子としても@感謝します"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_60021.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832900,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 832800,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "nameNarration": "",
+                "narration": "＜南＞",
+                "narrationBg": "bg_adv_60021.jpg",
+                "narrationEffect": "in",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832900
+                    }
+                ],
+                "nameLeft": "三郷の領主",
+                "narrationEffect": "out",
+                "textLeft": "状況を報告しろ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832800
+                    }
+                ],
+                "nameRight": "三郷の兵",
+                "textRight": "共に入られた凪津も@泰党に苦戦を強いられている様子"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832800
+                    }
+                ],
+                "nameRight": "三郷の兵",
+                "textRight": "我々は先に向かった兵たちが@奇襲に遭って壊滅状態"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832800
+                    }
+                ],
+                "nameRight": "三郷の兵",
+                "textRight": "早くも１割近くの兵を@失っています…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 832900,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "三郷の領主",
+                "textLeft": "位置まではわかっていたが@まるでサルのような連中"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832900
+                    }
+                ],
+                "nameLeft": "三郷の領主",
+                "textLeft": "普通の戦い方ではままならんな…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832800
+                    }
+                ],
+                "nameRight": "三郷の兵",
+                "textRight": "また、増援も望めない状況で…"
+            },
+            {
+                "nameCenter": "僧兵の声",
+                "textCenter": "捜しましたぞ、三郷殿！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 832900,
+                        "lipSynch": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "三郷の領主",
+                "textLeft": "[chara:832900:effect_emotion_surprise_0][se:7226_shock]――っ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 832802,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "僧兵",
+                "textRight": "ここは我らが加勢する！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832900,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "三郷の領主",
+                "textLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 832802,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "僧兵",
+                "textRight": "む、驚かせて済まない"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832900,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "三郷の領主",
+                "textLeft": "…いや、ご助力感謝いたす"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_60022.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832901,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "nameNarration": "",
+                "narration": "＜西＞",
+                "narrationBg": "bg_adv_60022.jpg",
+                "narrationEffect": "in",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832901
+                    }
+                ],
+                "nameLeft": "熊井",
+                "narrationEffect": "out",
+                "textLeft": "このまま進めば@泰党の里へ着くということか"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832700
+                    }
+                ],
+                "nameRight": "玄雲",
+                "textRight": "いかにも"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832700
+                    }
+                ],
+                "nameRight": "玄雲",
+                "textRight": "千里地獄も迷路とはいえ@自らが迷えば本末転倒"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832700
+                    }
+                ],
+                "nameRight": "玄雲",
+                "textRight": "加えて有事の際に起きる@やり取りなども想定すれば…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 832901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "熊井",
+                "textLeft": "なるほど、自ずと正しい道は@単純なものになってゆく"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832700
+                    }
+                ],
+                "nameRight": "玄雲",
+                "textRight": "そういうことにございます"
+            },
+            {
+                "nameNarration": "",
+                "narration": "ヒュッ…",
+                "narrationBg": "",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 832700,
+                        "motion": 200,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "玄雲",
+                "narrationEffect": "out",
+                "textCenter": "[flashEffect:flashWhite2]むっ！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832901,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "熊井",
+                "textLeft": "助かった！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 832700
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 832901
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_60022.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832201,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "山右衛門",
+                "textCenter": "オメエ本当に坊主か…？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832201
+                    }
+                ],
+                "nameCenter": "山右衛門",
+                "textCenter": "うちでも戦神子の千鶴か@一部の手練れしか防げねえ技だ"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 832201,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832700,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "玄雲",
+                "textLeft": "日々精進している賜物だ"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 832700
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 832201
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_60022.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 832302,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "隅谷",
+                "textCenter": "お、お主が@万守山右衛門か…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 832302,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "隅谷",
+                "textCenter": "お主らの狼藉は聞き及んでおる！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832302
+                    }
+                ],
+                "nameCenter": "隅谷",
+                "textCenter": "速やかに余に降伏し@この地を放棄せよ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832302
+                    }
+                ],
+                "nameCenter": "隅谷",
+                "textCenter": "さ、さもなくば、@この国を預かる者として"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832302
+                    }
+                ],
+                "nameCenter": "隅谷",
+                "textCenter": "その首をとらねばならない！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 832302,
+                        "pos": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 832201,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "山右衛門",
+                "textRight": "おうおう、何も知らねえガキが@飾り祭られて調子に乗ってやがる"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832302
+                    }
+                ],
+                "nameLeft": "隅谷",
+                "textLeft": "無礼な…!!"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 832201
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 832302
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_60022.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 832901,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 832700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "熊井",
+                "textLeft": "万守山右衛門！@決して降伏はせぬ構えだな"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 832700,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "玄雲",
+                "textRight": "何百年も続く問題が@降伏で終わるのも癪というもの"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 832201,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "山右衛門",
+                "textRight": "おう"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 832201
+                    }
+                ],
+                "nameRight": "山右衛門",
+                "textRight": "俺も簡単に片づける気はねぇ@ここは通さねえからな"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

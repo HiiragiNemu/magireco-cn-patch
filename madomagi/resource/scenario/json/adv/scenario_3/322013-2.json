@@ -1,0 +1,279 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "bgm01_anime02",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_5b.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationFontSize": 0,
+                "narrationLineSpace": 2000,
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_5d.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "nameNarration": "ほむらちゃん",
+                "narration": "悪魔は祓われました"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_5e.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "nameNarration": "悪魔ほむらちゃん",
+                "narration": "まどか…私は…"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "action": {
+                            "fadeTo": {
+                                "duration": 2,
+                                "opacity": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_5e.png"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_6b.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_6d.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_5a.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "ほむらちゃん",
+                "narration": "多少身に覚えのない事件が起きていたけれど@おおむね平穏が戻っています"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_6a.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_6b.jpg",
+                        "visible": "hide"
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_6c.png",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "千歳 ゆま",
+                "narration": "悪魔のおねーちゃん"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_7b.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_7a.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_7b.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "マミ",
+                "narration": "みんなで夕飯にしましょう@リクエストはあるかしら？"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.5,
+                                "posY": 900
+                            }
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_7a.jpg"
+                    },
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.3,
+                                        "posX": 0
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": -20
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_8b.jpg",
+                        "posX": 1200,
+                        "posY": -900,
+                        "scale": 1,
+                        "setVisible": 1
+                    }
+                ]
+            },
+            {
+                "item": [
+                    {
+                        "action": {
+                            "sequence": [
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": 40
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": -40
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 30,
+                                        "posY": -40
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 40
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": -30,
+                                        "posY": -40
+                                    }
+                                },
+                                {
+                                    "moveTo": {
+                                        "duration": 0.05,
+                                        "posX": 0,
+                                        "posY": 0
+                                    }
+                                }
+                            ]
+                        },
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_8e.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_8c.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 1,
+                        "setVisible": 1
+                    },
+                    {
+                        "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m3_7a.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "nameNarration": "ほむらちゃん",
+                "narration": "ギガチーズイタリアーナと@めんたいマヨシュリンプ"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

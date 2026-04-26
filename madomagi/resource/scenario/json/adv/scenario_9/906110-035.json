@@ -1,0 +1,577 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_06.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_06.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_10.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_20191.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200902,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day10.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "bgm": "bgm01_anime04",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200201,
+                        "motion": 0,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-1"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "まばゆ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "id": 200902,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-2"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "あ…どうも"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200902,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-3"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "今日は、ショッピングモールに@魔女が出る日ですね"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200902,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-4"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "そこで美樹さんがケガを@負ってしまった…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 200902,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-5"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "あれをもう一度@繰り返すつもりですか？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-6"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "あの時は、まどかたちを@庇わなければならない状況だった"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-7"
+                    },
+                    {
+                        "id": 200902,
+                        "motion": 0
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "その展開が避けられるなら@話は別よ"
+            },
+            {
+                "autoTurnFirst": 1.8,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200902,
+                        "voiceFull": "fullvoice/section_104205/vo_full_906110-035-8"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "よかった…美樹さんはもう@入院せずに済むんですね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200902
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200201,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-9"
+                    },
+                    {
+                        "id": 200902,
+                        "voiceFullStop": "fullvoice/section_104205/vo_full_906110-035-8"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "私はまどかを甘く見ていたわ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-10"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "危険だと知れば、怖じ気づくと@思っていたけれど…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-11"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "親友をケガさせたことで@かえって契約に近づけてしまった"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-12"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "今回はそもそも、ふたりが@魔女に遭遇しないようにするわ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-13"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "それがベターかと"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "motion": 101,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-14"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "ひとつ問題なのは、同じ@タイミングで別の魔女が出ること"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200902,
+                        "motion": 1,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-15"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "ああ…確かそんなことを@言ってましたね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-16"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "前回は、巴マミさんに@対処をお願いしたんだったよーな"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-17"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "でも今回、彼女には@別の町を担当させている"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-18"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "前周みたいに、彼女が魔女退治に@飛び込むのは、危険だもの"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200902,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-19"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "確かに…不確定要素は@ひとつでも減らしたいですしね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200902,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-20"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "しかし…@じゃあいったいどうすれば…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200902,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-21"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "[chara:200902:effect_emotion_surprise_0][se:7226_shock]ハッ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-22"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "ま、まさか…手分けして@私が、倒せとでも…!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-23"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "期待しているわよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200902,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-24"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "[chara:200902:effect_shake]無理無理無理無理無理ッ!!@私ひとりで魔女を倒すなんて!!"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_060.exp3.json",
+                        "id": 200902,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-25"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "この前も@失敗したじゃないですかぁ！"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200201,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-26"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "冗談よ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200902,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-27"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "ですよねー！よかったー！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "id": 200902,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-28"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "っていうか暁美さん、真顔で@冗談言うのやめてもらえます!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200201,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-29"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "少し考えればわかるでしょう？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-30"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "キュゥべえは魔女の襲撃を狙って@まどかにコンタクトをとるわ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-31"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "あなたは、まどかのそばを@離れてはいけない"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200902,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-32"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "まあ、それはわかりますけど…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-33"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "通学路の魔女は最短で片づけて@ショッピングモールに向かうわ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-34"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "あなたはその間@時間稼ぎをしてちょうだい"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 200902,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-35"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "時間稼ぎ？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-36"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvColor": "textHomura",
+                "textAvRight": "まどかと美樹さやかを@魔女から遠ざけるの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200201,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104205/vo_full_906110-035-37"
+                    }
+                ],
+                "nameAvRight": "ほむら",
+                "textAvRight": "よろしく頼んだわよ"
+            },
+            {
+                "autoTurnFirst": 1.6,
+                "autoTurnNoDelay": 1,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200902,
+                        "motion": 200,
+                        "voiceFull": "fullvoice/section_104205/vo_full_906110-035-38"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "ええ、ええ@そのくらいならお安いご用です"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 200902
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn",
+                "voiceFullStop": "fullvoice/section_104205/vo_full_906110-035-38"
+            }
+        ]
+    },
+    "version": 3
+}

@@ -1,0 +1,323 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_15.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_15.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_16.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_23051.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 200101,
+                        "motion": 1,
+                        "pos": 0,
+                        "soulGem": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 810600,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day16.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm01_anime19",
+                "chara": [
+                    {
+                        "id": 200101,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-1"
+                    }
+                ],
+                "nameAvLeft": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvLeft": "さやかちゃん、おはよう",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810600,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-2"
+                    }
+                ],
+                "nameAvRight": "仁美",
+                "textAvColorRGB": "255255255",
+                "textAvRight": "おはようございます"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 810600
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 200101
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200401,
+                        "motion": 0,
+                        "pos": 1,
+                        "soulGem": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-3"
+                    }
+                ],
+                "nameAvCenter": "さやか",
+                "textAvCenter": "あ…お、おはよう",
+                "textAvColor": "textSayaka"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 200401,
+                        "pos": 2
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200101,
+                        "motion": 0,
+                        "pos": 0,
+                        "soulGem": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-4"
+                    }
+                ],
+                "nameAvLeft": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvLeft": "あれ…？@なんか、元気ない？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_041.exp3.json",
+                        "id": 200401,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-5"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvColor": "textSayaka",
+                "textAvRight": "ううん、なんでもない"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200401,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-6"
+                    }
+                ],
+                "nameAvRight": "さやか",
+                "textAvRight": "遅れてゴメン@早く、学校に行こ"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200401
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200101,
+                        "motion": 201,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-7"
+                    }
+                ],
+                "nameAvLeft": "まどか",
+                "textAvColor": "textMadoka",
+                "textAvLeft": "あ、うん"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 810600,
+                        "lipSynch": 0,
+                        "motion": 1,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-8"
+                    }
+                ],
+                "nameAvRight": "仁美",
+                "textAvColorRGB": "255255255",
+                "textAvRight": "…………？"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 810600
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 200101
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_23051.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200912,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "FnarrationAnchor": "center",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 340,
+                "FnarrationX": 200,
+                "FnarrationY": 150,
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-9"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(意識、しますよね)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-10"
+                    }
+                ],
+                "progressFnarration": "(前回、美樹さんは志筑さんの@恋愛感情を知らなかった)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-11"
+                    }
+                ],
+                "progressFnarration": "(契約をした後に知ったから@あの悲劇が起こったんです)"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200912,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104207/vo_full_908116-005-12"
+                    }
+                ],
+                "progressFnarration": "(でも今回は@私が状況を先に伝えた…)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

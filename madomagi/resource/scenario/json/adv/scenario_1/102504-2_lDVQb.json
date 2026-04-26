@@ -1,0 +1,69 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_17213.jpg",
+                "bgm": "bgm24_story03",
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "effect": "ef_adv_08",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 305300,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "blackPromist"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 305300,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_102504/vo_full_102504-2-1"
+                    }
+                ],
+                "nameNarration": "牧野 郁美",
+                "narration": "「あぁアアッ!!」",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "id": 305300
+                    }
+                ],
+                "flashEffect": "flashWhite2",
+                "narrationEffect": "out"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_032.exp3.json",
+                        "id": 102100,
+                        "motion": 0,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102504/vo_full_102504-2-2"
+                    }
+                ],
+                "nameRight": "結菜",
+                "textRight": "その悲しみは、@私たちが受けたほんの一部よ"
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "stop",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            }
+        ]
+    },
+    "version": 3
+}

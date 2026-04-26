@@ -1,0 +1,587 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "bgm05_event07",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "ペレネルの手記",
+                "narration": "[textBlack:穢れが限界を超えたソウルジェムは魔女を生む…]@[textBlack:これは魔法少女の逃れられない宿命であり]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 150,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "[textBlack:“乙女”が負うことになった]@[textBlack:巨大すぎる因果を考えれば]@[textBlack:この悲劇は起きるべくして起きた]"
+            },
+            {
+                "narration": "[textBlack:そしてその因果が]@[textBlack:彼女に集中するように仕向けたのは]@[textBlack:他ならぬこの私である]@[textBlack:そのことだけでも充分に非難に値するだろう]"
+            },
+            {
+                "narration": "[textBlack:それどころか私は]@[textBlack:自身のもっと大きな罪について口を閉ざしたまま]@[textBlack:この記録を終えようとしている]"
+            },
+            {
+                "narration": "[textBlack:私とキューブが知ることの中には、露見すれば]@[textBlack:新たなる戦乱の火種になりかねないことが]@[textBlack:数多く含まれているからだ]"
+            },
+            {
+                "narration": "[textBlack:もっともこの記録は]@[textBlack:私とニコラにしかわからない符牒で記されており]@[textBlack:これを記すこと自体が]@[textBlack:すでに意味のない行為なのだが…]"
+            },
+            {
+                "narration": "[textBlack:それでも私は]@[textBlack:書き残さずにはいられなかった]"
+            },
+            {
+                "narration": "[textBlack:「私の中に、人としての心は]@[textBlack:まだ残っているのだろうか…？」]@[textBlack:“乙女”が最期を迎えたとき…]@[textBlack:私はその答えを知ったからだ]"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_20231.jpg",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "nameNarration": "",
+                "narration": "＜1431年5月30日＞",
+                "narrationBg": "",
+                "narrationCoverOpacity": 50,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "＜フランス北部、ルーアン＞"
+            },
+            {
+                "autoTurnLast": 1.6,
+                "bg": "bg_adv_31121.jpg",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402101,
+                        "motion": 100,
+                        "pos": 1
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 3,
+                        "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "bgm": "bgm05_event05",
+                "chara": [
+                    {
+                        "id": 402101,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "タルト",
+                "textCenter": "…………@…………",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "bg_adv_31121.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402900,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "id": 810000,
+                        "pos": 0,
+                        "posX": -50,
+                        "posY": 0
+                    }
+                ],
+                "deleteArmatureList": [
+                    1,
+                    2,
+                    3
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "自らを犠牲にしても",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "己の内包する@魔女の可能性を消し去る…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "理解に苦しむよ@彼女にとっては最悪の結末だろう"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402900,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "それでもあなたは@タルトの決意を止めはしなかった"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900,
+                        "motion": 1
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "彼女が魔女になる"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "それはあなたにとって@好都合であったにも関わらずね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900,
+                        "motion": 400
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "どういう風の吹き回しかしら？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    },
+                    {
+                        "id": 402900,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "…深い意味はないよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "タルトは今まで@良くやってくれた"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "ボクの望んだ通り"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "イザボーを倒してくれたんだ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "だから代わりに@彼女の望みに従ってみたのさ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "キミたちからすると"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "「感謝のお礼」とでも@言うのかい？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "…それを「祈り」と言うのよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "感謝すべきもの、愛すべきもの@畏怖すべきもの"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "尊い様々なものに対して抱く思い"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000
+                    }
+                ],
+                "nameLeft": "キューブ",
+                "textLeft": "…キミたち人類の感情は@本当に…訳が分からないよ"
+            },
+            {
+                "autoTurnLast": 0.25,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 810000
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 1.3,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402900,
+                        "motion": 400,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402601,
+                        "lipSynch": 0,
+                        "motion": 1,
+                        "pos": 0,
+                        "tear": 1
+                    },
+                    {
+                        "cheek": 2,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402301,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "pos": 1,
+                        "tear": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "私も…祈りましょう",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402900
+                    }
+                ],
+                "nameRight": "ペレネル・フラメル",
+                "textRight": "聖女の…@“乙女”の伝説の最後に…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.01,
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402101,
+                        "motion": 100,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 2,
+                        "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.1
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 3,
+                        "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "autoTurnLast": 1.5
+            },
+            {
+                "chara": [
+                    {
+                        "id": 402101,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "タルト",
+                "textCenter": "…………@…………",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "deleteArmatureList": [
+                    1
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "deleteArmatureList": [
+                    2
+                ]
+            },
+            {
+                "autoTurnLast": 0.1,
+                "deleteArmatureList": [
+                    3
+                ]
+            },
+            {
+                "autoTurnLast": 1.2,
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402601,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "pos": 0,
+                        "tear": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 402900,
+                        "lipSynch": 0,
+                        "motion": 400,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 2,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 402301,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "pos": 1,
+                        "tear": 1
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.1,
+                "narrationBg": "bg_adv_31121.jpg",
+                "narrationEffect": "in"
+            },
+            {
+                "nameNarration": "",
+                "narration": "バサッ…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 402301,
+                        "lipSynch": 0,
+                        "tear": 1
+                    }
+                ],
+                "nameCenter": "メリッサ･ド･ヴィニョル",
+                "narrationEffect": "out",
+                "textCenter": "…………"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51102_singleraid_tart3/memoria_1508.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "タルト",
+                "narration": "―タルト―@すべてのことに…",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "―タルト―@ありがとう（メルシー・ヴレモン）"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 2.5,
+                "turnChangeIn": "whiteIn",
+                "turnChangeInTime": 2,
+                "turnEffect": "stop"
+            }
+        ]
+    },
+    "version": 3
+}

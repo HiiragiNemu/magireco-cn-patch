@@ -1,0 +1,232 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_31.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_31.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_32.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_23167.jpg",
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day32.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "「本日午前７時、突発的異常気象に@伴い避難指示が発令されました」",
+                "narrationEffect": "in",
+                "surround": "8063_storm",
+                "turnChangeOut": "fadeOut",
+                "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-1"
+            },
+            {
+                "narration": "「付近にお住まいの皆さまは」",
+                "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-2"
+            },
+            {
+                "narration": "「速やかに最寄りの避難場所への@移動をお願いします」",
+                "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-3"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "narrationEffect": "out"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200901,
+                        "motion": 300,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-4"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "うひー、昨日までの天気予報じゃ@全然大丈夫だったのに…",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-5"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "ほんとに来るんですね@異常気象…"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "textAvClear": 1
+            },
+            {
+                "nameAvRight": "咲笑の声",
+                "textAvColorRGB": "255255255",
+                "textAvRight": "まばゆちゃーん@避難所、準備お願いねー",
+                "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-6"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200901,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-7"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "はーい、準備できてるんで@先にいきますねー",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200901
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200911,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ]
+            },
+            {
+                "FnarrationAnchor": "top",
+                "FnarrationCoverColor": "textBlack",
+                "FnarrationCoverOpacity": 110,
+                "FnarrationEffect": "in",
+                "FnarrationFontSize": 23,
+                "FnarrationHeight": 100,
+                "FnarrationLineMargin": 30,
+                "FnarrationLineSpace": 20,
+                "FnarrationOutlineColor": "textBlack",
+                "FnarrationOutlineWeight": 2,
+                "FnarrationTextColor": "textMabayu",
+                "FnarrationWidth": 340,
+                "FnarrationX": 160,
+                "FnarrationY": -70,
+                "chara": [
+                    {
+                        "id": 200911,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-8"
+                    }
+                ],
+                "nameFnarration": "まばゆ",
+                "progressFnarration": "(嘘をついてごめんなさい@咲笑さん)",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200911,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-9"
+                    }
+                ],
+                "progressFnarration": "(でも…)"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 200911,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-10"
+                    }
+                ],
+                "progressFnarration": "(今日だけは、ふたりを@見に行かないとダメなんです)"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200911,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903132-010-11"
+                    }
+                ],
+                "progressFnarration": "(暁美さんの、決断を…！)"
+            },
+            {
+                "FnarrationEffect": "out",
+                "autoTurnLast": 2,
+                "surround": "stop",
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

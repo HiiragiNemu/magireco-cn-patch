@@ -1,0 +1,104 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3003_act_picture.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_16141.jpg",
+                "bgm": "bgm01_anime03",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 305201,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51126_tower_Ashley/51126_kumanosuke.png",
+                        "posX": 300,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 305201,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "アシュリー･テイラー",
+                "textLeft": "Hi!!@アシュリー･テイラーデス！",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 305201
+                    }
+                ],
+                "nameLeft": "アシュリー･テイラー",
+                "textLeft": "今日も日本のKAWAIIを@故郷に紹介するため…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 305201
+                    }
+                ],
+                "nameLeft": "アシュリー･テイラー",
+                "textLeft": "動画を配信していきマスヨー！"
+            },
+            {
+                "autoTurnLast": 1,
+                "bg": "black",
+                "bgm": "stop",
+                "deleteArmatureList": [
+                    1
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bgm": "bgm03_story16"
+            },
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/adv_eve_1126.ExportJson"
+                    }
+                ],
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "stop",
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

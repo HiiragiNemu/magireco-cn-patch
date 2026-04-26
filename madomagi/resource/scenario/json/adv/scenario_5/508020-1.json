@@ -1,0 +1,743 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "armatureList": [
+     {
+      "animation": [
+       "action"
+      ],
+      "armatureId": 1,
+      "filePath": "resource/image_native/effect/story/general/3500_picture_book.ExportJson",
+      "zOrder": "messageBack"
+     }
+    ],
+    "autoTurnLast": 0.2,
+    "bg": "white",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm05_event01",
+    "nameNarration": "",
+    "narration": "[textBlack:＜梨花和怜遇到的是]@[textBlack:自称圣诞精灵的御魂＞]",
+    "narrationCoverOpacity": 0.0,
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "narration": "[textBlack:＜她身负重任]@[textBlack:要帮这座城市的人快乐地度过圣诞节]@[textBlack:但身染黑暗的人比预想的要多]@[textBlack:她正苦恼一个人忙不过来＞]"
+   },
+   {
+    "narration": "[textBlack:＜梨花和怜跟御魂一样]@[textBlack:非常在意城市被黑暗侵染]@[textBlack:于是她们决定帮助御魂＞]"
+   },
+   {
+    "narration": "[textBlack:＜御魂将魔法的力量分给了梨花和怜]@[textBlack:好让她们能帮上忙]@[textBlack:但是，这份力量只有两人一起才能生效]@[textBlack:如果心有隔阂，就不能使用魔法＞]"
+   },
+   {
+    "narration": "[textBlack:＜随后，她们遇到了自称御魂爱徒的]@[textBlack:姿态为燕子的啾太]@[textBlack:「它对梨花和怜说]@[textBlack:「为了让这座城市的人快乐]@[textBlack:要驱逐胆小鬼之心」＞]"
+   },
+   {
+    "narration": "[textBlack:＜衣美里和晶也加入了梨花和怜]@[textBlack:帮忙驱逐胆小鬼之心]@[textBlack:在组成了神圣少女团的四个人的努力下]@[textBlack:这座城市的人顺利地取回了快乐＞]"
+   },
+   {
+    "narration": "[textBlack:＜『今天之内驱逐10个胆小鬼之心』]@[textBlack:神圣少女团达成了这一目标]@[textBlack:然而这时发生了异变……＞]"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "bgm": "stop",
+    "narrationEffect": "out"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bg": "bg_adv_13016.jpg",
+    "bgChangeEffect": "fade",
+    "item": [
+     {
+      "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 0.5,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.8,
+    "bgEffect": "shakeLarge",
+    "item": [
+     {
+      "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+      "scale": 1.0
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.5,
+    "item": [
+     {
+      "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+      "visible": "hide"
+     }
+    ]
+   },
+   {
+    "bgm": "bgm03_story17",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 350101,
+      "motion": 400,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300651,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameRight": "绫野梨花",
+    "textRight": "[chara:350101:effect_emotion_surprise_0][se:7226_shock]哇？！@好大？！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300651,
+      "motion": 300
+     }
+    ],
+    "nameLeft": "木崎衣美里",
+    "textLeft": "是不是吃太多胆小鬼之心了啊？！"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 300651
+     },
+     {
+      "effect": "fadeout",
+      "id": 350101
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "nameCenter": "啾太",
+    "textCenter": "要谢谢你们了……小姑娘们……"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "item": [
+     {
+      "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+      "visible": "hide"
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 350100,
+      "motion": 0,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300850,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameRight": "五十铃怜",
+    "textRight": "咦……"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 300850
+     },
+     {
+      "effect": "fadeout",
+      "id": 350100
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "textCenter": "我收下了10个胆小鬼之心……"
+   },
+   {
+    "textCenter": "呵呵，这座城市里的家伙们……@这下就都完蛋了！"
+   },
+   {
+    "textBg": "shout",
+    "textCenter": "哔啾哔哔啾哔哔！！"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "item": [
+     {
+      "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+      "visible": "hide"
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 350100,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 350101,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameLeft": "五十铃怜",
+    "textLeft": "怎么……回事？"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 350100
+     },
+     {
+      "effect": "fadeout",
+      "id": 350101
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.5,
+    "item": [
+     {
+      "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "surround": "7018_flap_storm"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bgEffect": "shakeLarge",
+    "flashEffect": "explosion",
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.4,
+        "posX": 3000
+       }
+      },
+      "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.2,
+    "item": [
+     {
+      "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+      "visible": "hide"
+     }
+    ]
+   },
+   {
+    "bgm": "stop",
+    "chara": [
+     {
+      "cheek": 0,
+      "effect": "shake",
+      "eyeClose": 1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 350100,
+      "motion": 300,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "effect": "shake",
+      "face": "mtn_ex_060.exp.json",
+      "id": 350101,
+      "motion": 400,
+      "pos": 2
+     }
+    ],
+    "nameRight": "绫野梨花",
+    "textRight": "呜哇？！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300850,
+      "motion": 300,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "志伸晶",
+    "textLeft": "什么啊……@到底发生什么了？！"
+   },
+   {
+    "bgm": "bgm05_event07",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 350101,
+      "motion": 200
+     }
+    ],
+    "textRight": "我说，我们追上去吧？！@它说的话听上去很不妙啊！"
+   },
+   {
+    "chara": [
+     {
+      "id": 350101
+     }
+    ],
+    "textRight": "城市里的家伙们都完蛋了……@什么的……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 300850,
+      "motion": 0
+     }
+    ],
+    "textLeft": "嗯……确实……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 300651,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "木崎衣美里",
+    "textLeft": "好！@一定要追上它！"
+   },
+   {
+    "chara": [
+     {
+      "id": 350101,
+      "motion": 1
+     }
+    ],
+    "textRight": "怜呢？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 350100,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "五十铃怜",
+    "textLeft": "啊……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 350101,
+      "motion": 300
+     }
+    ],
+    "textRight": "你还好吗？站得起来吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 350100,
+      "motion": 100
+     }
+    ],
+    "textLeft": "啊，嗯……@[chara:350100:lipSynch_0][wait:1.0][chara:350100:cheek_0][chara:350100:face_mtn_ex_030.exp.json][chara:350100:lipSynch_1]对不起，梨花……"
+   },
+   {
+    "chara": [
+     {
+      "id": 350100,
+      "lipSynch": 0
+     }
+    ],
+    "textLeft": "（这座城市……要完蛋了？）"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 350100,
+      "lipSynch": 0
+     }
+    ],
+    "textLeft": "（啾太……@到底是怎么了……）"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "bg": "bg_adv_21246.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 350100,
+      "motion": 1,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300850,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 350100
+     }
+    ],
+    "nameRight": "五十铃怜",
+    "textRight": "它去哪里了？",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 300850,
+      "motion": 300
+     }
+    ],
+    "nameLeft": "志伸晶",
+    "textLeft": "唔……@该怎么找呢……"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 300850
+     },
+     {
+      "effect": "fadeout",
+      "id": 350100
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 300651,
+      "motion": 1,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 350101,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameLeft": "木崎衣美里",
+    "textLeft": "那家伙体型那么大，@去找找目击者吧！"
+   },
+   {
+    "chara": [
+     {
+      "id": 350101,
+      "motion": 201
+     }
+    ],
+    "nameRight": "绫野梨花",
+    "textRight": "嗯，虽然可能有点花时间，@但是个好主意。"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "bg": "bg_adv_21131.jpg",
+    "chara": [
+     {
+      "cheek": 2,
+      "eyeClose": 1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300850,
+      "motion": 300,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300651,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 300850,
+      "mouthOpen": 1
+     }
+    ],
+    "nameRight": "志伸晶",
+    "textRight": "呼……呼……@[chara:300850:lipSynch_0][wait:0.8][chara:300850:cheek_0:eyeClose_0:mouthOpen_0][chara:300850:lipSynch_1]没什么可靠的信息啊……",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 300651,
+      "motion": 300
+     }
+    ],
+    "nameLeft": "木崎衣美里",
+    "textLeft": "呜……@为什么找不到啊？！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 350101,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "绫野梨花",
+    "textRight": "比起找目击者，@直接往天上找会不会快一些？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300651,
+      "motion": 100
+     }
+    ],
+    "textLeft": "啊，那这里怎么样？！@能清楚地看到天空！"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 300651
+     },
+     {
+      "effect": "fadeout",
+      "id": 350101
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 350100,
+      "motion": 1,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "五十铃怜",
+    "textCenter": "啾太……"
+   },
+   {
+    "chara": [
+     {
+      "id": 350100,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "……"
+   },
+   {
+    "chara": [
+     {
+      "id": 350100,
+      "lipSynch": 0,
+      "motion": 300
+     }
+    ],
+    "textCenter": "（如果……@啾太有什么企图的话……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_020.exp.json",
+      "id": 350100,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（不对……啾太……@不会做坏事的……）"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 350100,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "textCenter": "（得快点……@快点找到它……）"
+   },
+   {
+    "bgm": "stop",
+    "chara": [
+     {
+      "cheek": 0,
+      "effect": "ef_adv_01",
+      "face": "mtn_ex_050.exp.json",
+      "id": 350100,
+      "lipSynch": 0,
+      "motion": 400
+     }
+    ],
+    "se": "7201_detect_magic",
+    "textCenter": "？！"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "id": 350100,
+      "pos": 2
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "bgm": "bgm03_story10",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300850,
+      "lipSynch": 1,
+      "motion": 0
+     }
+    ],
+    "item": [
+     {
+      "path": "resource/scenario/img/6103_zenobia_emblem.png",
+      "posX": 0,
+      "posY": 120,
+      "visible": "appear"
+     }
+    ],
+    "nameRight": "五十铃怜",
+    "textRight": "魔女……什么时候出现的？！",
+    "turnEffect": "ef_adv_06"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 300850,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "志伸晶",
+    "textLeft": "各位，打起精神！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 350101,
+      "motion": 100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "绫野梨花",
+    "textRight": "嗯！"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bgm": "stop",
+    "deleteArmatureList": [
+     1
+    ],
+    "item": [
+     {
+      "path": "resource/scenario/img/6103_zenobia_emblem.png",
+      "visible": "hide"
+     }
+    ],
+    "turnChangeIn": "fadeIn",
+    "turnEffect": "stop"
+   }
+  ]
+ },
+ "version": 3
+}

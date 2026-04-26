@@ -1,0 +1,401 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "bgm": "stop",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaBack"
+                    },
+                    {
+                        "path": "resource/scenario/img/scene0/scene_02.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "charaFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_02.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 1.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/scene0/scene_03.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "",
+                "narration": "[surround:8020_alarmclock]ジリリリリリ！",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_23161.jpg",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200911,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "anchor": "skip",
+                        "path": "resource/scenario/img/scene0/calender_day03.png",
+                        "posX": -4,
+                        "posY": -50,
+                        "visible": "appear",
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200911,
+                        "motion": 100,
+                        "tear": 1,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-1"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "surround": "stop",
+                "textAvCenter": "ふわぁ…んんー",
+                "textAvColor": "textMabayu",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 200911
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "bgm": "bgm01_anime04",
+                "chara": [
+                    {
+                        "id": 810000,
+                        "motion": 0,
+                        "pos": 2,
+                        "posX": 40,
+                        "posY": 0,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-2"
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200901,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameAvRight": "キュゥべえ",
+                "textAvColorRGB": "255255255",
+                "textAvRight": "おはよう、まばゆ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-3"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "おはよう…ございます…@キュゥべえ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-4"
+                    }
+                ],
+                "nameAvRight": "キュゥべえ",
+                "textAvColorRGB": "255255255",
+                "textAvRight": "さて、ようやく目を覚ましたね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-5"
+                    }
+                ],
+                "nameAvRight": "キュゥべえ",
+                "textAvRight": "これで、ボクの存在が夢では@ないことがわかっただろう？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-6"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "ええ、そうですね@あなたは、夢ではない"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-7"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "ということは、ズバリ…"
+            },
+            {
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200901,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-8"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "幻！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-9"
+                    }
+                ],
+                "nameAvRight": "キュゥべえ",
+                "textAvColorRGB": "255255255",
+                "textAvRight": "…………？"
+            },
+            {
+                "bgm": "bgm03_story01",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 200901,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-10"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "いわゆる、イマジナリーフレンド@というやつでしょう"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-11"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "映画のラストで他の人に見えない@存在だと気づかれるアレですよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-12"
+                    }
+                ],
+                "nameAvRight": "キュゥべえ",
+                "textAvColorRGB": "255255255",
+                "textAvRight": "確かに、ボクは魔法少女の素質が@ある人間にしか見えないけれど…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200901,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-13"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "あー、魔法少女…とうとう@魔法少女とか言い出しましたよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-14"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "どうなってるんですか、私の頭"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-15"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "いくら学校に行きたくないからと@言って、妄想が過ぎる…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 200901,
+                        "motion": 0,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-16"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "一度、病院で診療を受けた方が@いいかもしれませんね"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-17"
+                    }
+                ],
+                "nameAvRight": "キュゥべえ",
+                "textAvColorRGB": "255255255",
+                "textAvRight": "キミは、自分の正気を疑って@いるのかい？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-18"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvColor": "textMabayu",
+                "textAvLeft": "当たり前です"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200901,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-19"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "あなたみたいな外見で@人間の言葉を話せる…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-20"
+                    }
+                ],
+                "nameAvLeft": "まばゆ",
+                "textAvLeft": "そんな動物が@いてたまるもんですか"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 810000,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-21"
+                    }
+                ],
+                "nameAvRight": "キュゥべえ",
+                "textAvColorRGB": "255255255",
+                "textAvRight": "信じてもらえないのは残念だ"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 810000
+                    }
+                ],
+                "textAvClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_040.exp3.json",
+                        "id": 200901,
+                        "motion": 400,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-22"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "あの、咲笑さーん!?",
+                "textAvColor": "textMabayu"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200901,
+                        "voiceFullAuto": "fullvoice/section_104203/vo_full_904103-010-23"
+                    }
+                ],
+                "nameAvCenter": "まばゆ",
+                "textAvCenter": "ちょっと、病院に@行きたいんですけど…"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

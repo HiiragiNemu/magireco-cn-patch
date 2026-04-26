@@ -1,0 +1,316 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "black",
+    "bgm": "bgm05_event07",
+    "item": [
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_1a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ],
+    "narrationAnchor": "bottom",
+    "narrationCoverOpacity": 0.0,
+    "narrationEffect": "in",
+    "narrationFontSize": 0.0,
+    "narrationLineSpace": 2000.0,
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "scaleTo": {
+        "duration": 0.5,
+        "scale": 0.0
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_1a.jpg"
+     },
+     {
+      "action": {
+       "scaleTo": {
+        "duration": 0.05,
+        "scale": 1.0
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_2b.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 0.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_2a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_2b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "御魂",
+    "narration": "这回拍出了完美的美少女照片哦"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 900
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_2a.jpg"
+     },
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.5,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_3b.jpg",
+      "posX": 0,
+      "posY": -900,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "fadeTo": {
+        "duration": 0.0,
+        "opacity": 0
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_3c1.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 0
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "spawn": [
+        {
+         "fadeTo": {
+          "duration": 2.0,
+          "opacity": 255
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.5,
+          "posX": 50,
+          "posY": 50
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.5,
+          "posX": -50,
+          "posY": -50
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.5,
+          "posX": 50,
+          "posY": 50
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.5,
+          "posX": -50,
+          "posY": -50
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.5,
+          "posX": 50,
+          "posY": 50
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.5,
+          "posX": -50,
+          "posY": -50
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.01,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_3c1.png",
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_2a.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "御魂",
+    "narration": "不过拍摄对象是这颗紫甘蓝呢！"
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_3a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_3b.jpg",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_3c1.png",
+      "visible": "hide"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.3,
+        "posX": -1200,
+        "posY": 900
+       }
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_3a.jpg"
+     },
+     {
+      "action": {
+       "sequence": [
+        {
+         "moveTo": {
+          "duration": 0.3,
+          "posX": 100,
+          "posY": -75
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": -100,
+          "posY": 75
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": -50,
+          "posY": 37
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": 40,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.2,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
+      },
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_4b.jpg",
+      "posX": -1200,
+      "posY": 900,
+      "scale": 1.0,
+      "setVisible": 1
+     }
+    ]
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_4c1.png",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_3a.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "小彩羽",
+    "narration": "菲莉希亚，你振作点！@御魂才是被诅咒的那个！"
+   },
+   {
+    "item": [
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_4a.jpg",
+      "posX": 0,
+      "posY": 0,
+      "scale": 1.0,
+      "setVisible": 1
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_4c1.png",
+      "visible": "hide"
+     },
+     {
+      "path": "resource/scenario/img/31105_feliciachan_story/31105_m3_4b.jpg",
+      "visible": "hide"
+     }
+    ],
+    "nameNarration": "御魂",
+    "narration": "诶～@是这样吗？"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

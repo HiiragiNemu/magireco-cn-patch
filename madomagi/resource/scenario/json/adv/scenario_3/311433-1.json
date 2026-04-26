@@ -1,0 +1,747 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "iPhoneXScale": 1,
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear",
+                        "zOrder": "bgFront"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm03_story02",
+                "nameNarration": "黒江",
+                "narrationBg": "",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 150,
+                "progressNarration": "[textBlack:〇月×日@みんなが想像する楽しい夏休みは、@思っていたよりずっときらきらしていて@誰もが誰かと一緒に過ごしていた。]",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "progressNarration": "[textBlack:そこは、なんだか程遠い世界に感じられて@私には到底、馴染めない場所だと思った。@だから、あれからしばらくは、@本を読んで過ごしていた。]"
+            },
+            {
+                "progressNarration": "[textBlack:それから、何冊かの物語を終えた今日。]"
+            },
+            {
+                "progressNarration": "[textBlack:前から気になっていた本を探しに@神浜市の図書館へと足を運んだ私は@帰りに、以前おすすめされた喫茶店へ立ち寄り]"
+            },
+            {
+                "progressNarration": "[textBlack:そこで、ある人と出会った。]"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_21221.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104301,
+                        "motion": 1,
+                        "pos": 1
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+                        "visible": "hide"
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.9,
+                "bg": "bg_adv_20571.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 304650,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 305350,
+                        "motion": 200,
+                        "pos": 2
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "blackFrame"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 304650,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "観鳥 令",
+                "textLeft": "本を読むならメイドカフェより@保澄ちゃんちの喫茶店かな",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 305350,
+                        "motion": 400
+                    }
+                ],
+                "nameRight": "牧野 郁美",
+                "textRight": "それはそうかも…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 305350
+                    }
+                ],
+                "nameRight": "牧野 郁美",
+                "textRight": "雫ちゃんちの喫茶店って@静かで本も読みやすそうだもんね"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 304650,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 304650,
+                        "motion": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 114300,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "観鳥 令",
+                "textRight": "あとはブレンドが絶品だよ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_041.exp3.json",
+                        "id": 304650
+                    }
+                ],
+                "nameRight": "観鳥 令",
+                "textRight": "まぁ観鳥さんはお小遣い的に@それしか飲めないんだけどね"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_21221.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104301,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "（たしかにあの人たちの言う通り@静かな純喫茶のイメージ）",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "lipSynch": 0,
+                        "motion": 100
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "（今はお客さんも@あまりいないみたいだし）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "（こういうところ@私は結構好きかも…）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "lipSynch": 0,
+                        "motion": 1
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "（本は家で読むのが@一番落ち着くと思ってたけど）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "（たまには@こういうのもいいな…）"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104301,
+                        "pos": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 300701,
+                        "motion": 401,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "お待たせしました@ブレンドコーヒーです"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "…ありがとうございます"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 300701
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 104301,
+                        "pos": 1
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "（わ…いい香り…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104301
+                    }
+                ],
+                "nameNarration": "",
+                "narration": "こくっ",
+                "narrationBg": "",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 104301,
+                        "motion": 300
+                    }
+                ],
+                "nameCenter": "黒江",
+                "narrationEffect": "out",
+                "textCenter": "美味しい…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 104301,
+                        "pos": 0
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 300701,
+                        "motion": 101,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "ありがとう、初めてのお客さんに@そう言ってもらえると嬉しいな"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104301,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "あ…すみません@声に…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 300701,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "…ふふ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 300701
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "…あ、その本"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "…読んだことある？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 300701
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "まだ最初の数ページしか@読めてないんだけど…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 300701
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "主人公の実家が喫茶店だから@なんか親近感があって"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104301,
+                        "motion": 1
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "そうなんだ@本はよく読むの…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 300701,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "どうだろう…@読書家ってほどじゃないけど"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 300701
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "旅行記とかは好きかも"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "そうなんだ…えっと…@ここのお店の…人だよね？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 300701,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "あ、ここはお父さんのお店なの@私は、雫…保澄雫"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "…あ…私、黒江"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 300701
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "黒江さん…って見ない制服だけど@ここら辺の人じゃない？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104301,
+                        "motion": 1
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "うん…宝崎市"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "このお店も神浜市の人に@教えてもらって…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "ブレンドしか@飲んでない人…なんだけど"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 300701,
+                        "motion": 401
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "あっ、もしかして@令さんのことかな？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "…そう、かも"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 300701,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "なんだ、そうだったんだ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 300701
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "…ということは元羽根の？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "…どうしてわかったの？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 300701,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "令さんがね@黒江さんのこと、話してたの"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 300701
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "肝心の名前を言ってなかったから@全然気づかなかった"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104301,
+                        "motion": 1
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "…あの人たちと仲いいんだね"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 300701,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "仲がいいっていうか…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 300701
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "textRight": "令さんと郁美さんには@…昔、助けられたから"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "そうなんだ…"
+            },
+            {
+                "nameNarration": "",
+                "narration": "カランカラン",
+                "narrationBg": "",
+                "narrationEffect": "in"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 300701,
+                        "motion": 401
+                    }
+                ],
+                "nameRight": "保澄 雫",
+                "narrationEffect": "out",
+                "textRight": "あ、ごめん@お客さん来たから、また"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "motion": 1
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "…うん"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 300701
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 104301,
+                        "pos": 1
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "（あの人たちに助けられた@って言ってたし）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "（私のことも元羽根って@呼び方をするってことは）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "（保澄さんもマギウスの翼に@いたことがあるのかな…）"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "lipSynch": 0,
+                        "motion": 100
+                    }
+                ],
+                "nameCenter": "黒江",
+                "textCenter": "（最近あった人の中で@一番、話しやすかったな…）"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

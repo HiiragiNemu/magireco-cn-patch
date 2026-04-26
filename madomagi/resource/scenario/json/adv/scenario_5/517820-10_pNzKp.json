@@ -1,0 +1,936 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51178_tower_kagome/memoria_1831.jpg",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "かごめ",
+                "narration": "ーかごめー@いっけーアルちゃん!!",
+                "narrationAnchor": "bottom",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "narrationFontSize": 30,
+                "narrationLineMargin": 35,
+                "narrationLineSpace": 20,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "nameNarration": "アルちゃん",
+                "narration": "ーアルちゃんー@＜私たちが分裂して@いっきに攻撃しちゃうよ！＞"
+            },
+            {
+                "narration": "ーアルちゃんー@＜とりゃとりゃとりゃー!!＞"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_46105.jpg",
+                "chara": [
+                    {
+                        "id": 6105,
+                        "name": "sprite_0",
+                        "pos": 1
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "effect": "7001_attack02",
+                        "id": 6105,
+                        "name": "sprite_0"
+                    }
+                ],
+                "surround": "1020A03",
+                "textClear": 1,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.8,
+                "chara": [
+                    {
+                        "effect": "7003_damage02",
+                        "id": 6105,
+                        "name": "sprite_0"
+                    }
+                ],
+                "nameCenter": "",
+                "textBg": "shout",
+                "textCenter": "[surround:1020A10][name:sprite_0:effect_7003_damage02][bgEffect:shakeLarge]…!!"
+            },
+            {
+                "autoTurnLast": 1.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 6105,
+                        "name": "sprite_0"
+                    }
+                ],
+                "se": "3102_enemy_dead",
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_13111.jpg",
+                "bgChangeEffect": "exitWitchSpace",
+                "se": "7209_gate_close"
+            },
+            {
+                "bgm": "bgm05_event10",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_150.exp3.json",
+                        "id": 102000,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102000
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "た…倒せた…！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102000,
+                        "motion": 200
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "私…@強敵をやっつけたんだ…！"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102000,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜やったねかごめちゃん！＞"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_111.exp3.json",
+                        "id": 102000,
+                        "motion": 100
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "やったやったー！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102000
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 300600,
+                        "motion": 300,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 300900,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "木崎 衣美里",
+                "textLeft": "ふぃ～…@ヤ…ヤバかった～"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 300900
+                    }
+                ],
+                "nameRight": "胡桃 まなか",
+                "textRight": "いったた…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 300600
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 300900
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_150.exp3.json",
+                        "id": 102000,
+                        "motion": 400,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 300300,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "みなさん！@大丈夫でしたか!?"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 300300,
+                        "motion": 300
+                    }
+                ],
+                "nameRight": "都 ひなの",
+                "textRight": "…なんとかな"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102000
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 300300
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 300200,
+                        "motion": 300,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 101300,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "空穂 夏希",
+                "textLeft": "でも、結構危なかったかも…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 101300,
+                        "motion": 100
+                    }
+                ],
+                "nameRight": "竜城 明日香",
+                "textRight": "今回はがっつりかごめさんに@助けられちゃいましたね！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_150.exp3.json",
+                        "id": 102000,
+                        "motion": 200,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "そ、そんな…！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102000
+                    },
+                    {
+                        "id": 101300,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "みなさんの手助けがあったから@ここまでこれたんです"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_110.exp3.json",
+                        "id": 102000,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "…でも、お役に立てたみたいで@嬉しいです…"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102000,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "アルちゃん",
+                "textLeft": "＜うんうん！＞"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102000,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "アルちゃん",
+                "textLeft": "＜かごめちゃんが嬉しいと@私も嬉しいよ＞"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 300300,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "都 ひなの",
+                "textRight": "それにしてもだなアルちゃん…@あのやり方じゃわからないぞ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_550.exp3.json",
+                        "id": 102000,
+                        "lipSynch": 0,
+                        "motion": 400
+                    }
+                ],
+                "nameLeft": "アルちゃん",
+                "textLeft": "＜…!!＞"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "dollLipSynch": 1,
+                        "face": "mtn_ex_350.exp3.json",
+                        "id": 102000,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "アルちゃん",
+                "textLeft": "＜みんなへのメッセージのこと@…だよね？＞"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 300300,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "都 ひなの",
+                "textRight": "それ以外にないだろ"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 300900,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "胡桃 まなか",
+                "textRight": "せめて、もう少しわかりやすく@してほしかったです…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 101300,
+                        "motion": 300,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "竜城 明日香",
+                "textRight": "あれを初手で解読するのは"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 101300
+                    }
+                ],
+                "nameRight": "竜城 明日香",
+                "textRight": "難関大謎解き研究会所属でも@ないかぎり無理ですよ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "dollLipSynch": 1,
+                        "face": "mtn_ex_330.exp3.json",
+                        "id": 102000,
+                        "lipSynch": 0,
+                        "motion": 1
+                    }
+                ],
+                "nameLeft": "アルちゃん",
+                "textLeft": "＜ご、ごめんねみんな…！＞"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102000,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "アルちゃん",
+                "textLeft": "＜あのときはとにかく必死で@取り乱してて…＞"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102000,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameLeft": "アルちゃん",
+                "textLeft": "＜意思疎通もできないから@あれが精いっぱいだったの…＞"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102000,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "…元はと言えば、私の責任です"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102000
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "魔女に負けたショックから"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102000
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "魔力を無意識に@抑え込んでいたのが原因で"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102000
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "アルちゃんと@意思疎通できなくなったようです"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102000
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "結果、みなさんを@危険にさらすことに…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 300300,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "都 ひなの",
+                "textRight": "なるほど…事件の発端は@メンタルの不調だったのか"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_331.exp3.json",
+                        "id": 102000,
+                        "motion": 200
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "本当にごめんなさい…！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102000
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 300300
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 300200,
+                        "motion": 100,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 101300,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "空穂 夏希",
+                "textLeft": "謝らないで、かごめさん@誰だってそういうときはあるよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 101300,
+                        "motion": 200
+                    }
+                ],
+                "nameRight": "竜城 明日香",
+                "textRight": "みんなお互い様ですし@助け合っていきましょう！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 300200
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 101300
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 300900,
+                        "motion": 100,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 300600,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "胡桃 まなか",
+                "textRight": "そうです！@魔法少女は協力が不可欠ですし"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_011.exp3.json",
+                        "id": 300600,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "木崎 衣美里",
+                "textLeft": "今回のことは@貸しにしとくってことで！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 300600
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 300900
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_110.exp3.json",
+                        "id": 102000,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 300300,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "かごめ",
+                "textLeft": "みなさん…@ありがとうございます…！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "都 ひなの",
+                "textRight": "んじゃ、今回はこれにて@一件落着ってことで"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 200
+                    }
+                ],
+                "nameRight": "都 ひなの",
+                "textRight": "みんな、お疲れ様だったな"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bg": "bg_adv_21073.jpg",
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_110.exp3.json",
+                        "id": 102001,
+                        "motion": 1,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm03_story18",
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102001,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜かごめちゃん何してるの？＞",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "今回の出来事をレポートで@残しておこうと思って"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "またあの魔女みたいな敵と@遭遇しても慌てないようにね"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102001,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜へぇ！@さすがかごめちゃん＞"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "motion": 100
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…あと、助けを求めることは"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "決して悪いことじゃないって@私の心に刻んでおくためにも"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102001,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜えっ…？＞"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "motion": 200
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "私、魔法少女になるまで"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "助けられることの方が@多かったでしょ？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "魔法少女になったら@もっとみんなの役に立ちたいって"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "ずっと思ってて…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001,
+                        "motion": 1
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "今回のことまでは@魔女退治もひとりでできてたし"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "いまさら助けを求めることは"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "無意識にダメなことだと@思いこんでたみたいなの"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 102001,
+                        "motion": 300
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "恥ずかしいことだけど@少し自惚れちゃってたのかもね…"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102001,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜そっか…それに@気づけただけでもすごいよ＞"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102001,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜かごめちゃんは@たくさん成長したんだね＞"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 102001,
+                        "motion": 0
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "うん…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "だから@また壁にぶつかったときは"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "今回のことを思い出して"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102001
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "失敗を恐れずに@立ち向かおうと思う"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_111.exp3.json",
+                        "id": 102001,
+                        "motion": 100
+                    }
+                ],
+                "nameCenter": "かごめ",
+                "textCenter": "…だから、これからも@ずっとそばにいてね"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102001,
+                        "lipSynch": 0,
+                        "motion": 200
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜うん…＞"
+            },
+            {
+                "chara": [
+                    {
+                        "dollLipSynch": 1,
+                        "id": 102001,
+                        "lipSynch": 0
+                    }
+                ],
+                "nameCenter": "アルちゃん",
+                "textCenter": "＜何があっても私はずっと@かごめちゃんと一緒だよ！＞"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn",
+                "turnChangeInTime": 1
+            }
+        ]
+    },
+    "version": 3
+}

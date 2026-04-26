@@ -1,0 +1,912 @@
+{
+ "skipTransitionList": [
+  {
+   "from": "group_1",
+   "to": "group_4"
+  },
+  {
+   "canSkip": false,
+   "from": "group_4"
+  }
+ ],
+ "story": {
+  "group_1": [
+   {
+    "nameNarration": "彩羽",
+    "narration": "夏日庆典海报上的副标题——@所谓「莉爱节」的@「莉爱」指的是……",
+    "narrationBg": "bg_adv_20351.jpg",
+    "narrationEffect": "in",
+    "turnChangeIn": "fadeIn",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bg": "bg_adv_20351.jpg",
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_051.exp.json",
+      "id": 100201,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100301,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "？？？",
+    "narration": "「指的就是我啦！」",
+    "narrationBg": "bg_adv_narration.jpg",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 100201
+     }
+    ],
+    "nameLeft": "八千代",
+    "narrationEffect": "out",
+    "textLeft": "哎呀……"
+   },
+   {
+    "chara": [
+     {
+      "id": 100301,
+      "motion": 400,
+      "mouthOpen": 1
+     }
+    ],
+    "nameRight": "鹤乃",
+    "textRight": "[chara:100301:effect_emotion_surprise_0][se:7226_shock]哦！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 100201
+     },
+     {
+      "effect": "fadeout",
+      "id": 100301
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300601,
+      "motion": 200,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "木崎衣美里",
+    "textCenter": "啊，她来啦！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 300601
+     }
+    ],
+    "textCenter": "莉爱大人！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "id": 300601,
+      "pos": 0
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "bgm": "bgm03_story01",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 301001,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "阿见莉爱",
+    "textRight": "各位，晚上好……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "彩羽",
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100101,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "textLeft": "（果然是她！）",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_020.exp.json",
+      "id": 100301,
+      "motion": 201,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "鹤乃",
+    "textLeft": "出现了～",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "id": 100301
+     }
+    ],
+    "textLeft": "呢子大人！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 301001,
+      "motion": 200
+     }
+    ],
+    "textRight": "你说谁毛绒绒的！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 101001,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "桃子",
+    "textLeft": "不，我记得是……"
+   },
+   {
+    "chara": [
+     {
+      "id": 101001,
+      "motion": 200
+     }
+    ],
+    "textLeft": "肋排大人！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301001,
+      "motion": 400
+     }
+    ],
+    "textRight": "你说谁是肋骨啊！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100901,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "玲奈",
+    "textLeft": "不是啦……"
+   },
+   {
+    "chara": [
+     {
+      "id": 100901,
+      "motion": 100
+     }
+    ],
+    "textLeft": "是利息大人才对吧？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 301001,
+      "motion": 200
+     }
+    ],
+    "textRight": "我又不会涨！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 101101,
+      "motion": 1,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "枫",
+    "textLeft": "你们都在说什么呢……"
+   },
+   {
+    "chara": [
+     {
+      "id": 101101
+     }
+    ],
+    "textLeft": "那肯定是利维坦大人啊！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "id": 301001,
+      "motion": 400
+     }
+    ],
+    "textRight": "我才不是什么海怪呢！"
+   },
+   {
+    "chara": [
+     {
+      "id": 301001
+     }
+    ],
+    "textRight": "再说了你这字数都对不上！"
+   },
+   {
+    "chara": [
+     {
+      "id": 301001,
+      "motion": 0,
+      "mouthOpen": 1
+     }
+    ],
+    "textRight": "呼……呼……呼……"
+   },
+   {
+    "chara": [
+     {
+      "id": 301001,
+      "motion": 1,
+      "mouthOpen": 0
+     }
+    ],
+    "textRight": "还有别的叫法吗！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100101,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "彩羽",
+    "textLeft": "啊……今天就到此为止……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 301001
+     }
+    ],
+    "textRight": "很好！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301001,
+      "motion": 400
+     }
+    ],
+    "textRight": "[chara:301001:effect_emotion_surprise_0][se:7226_shock]不对，一点都不好！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300601,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "木崎衣美里",
+    "textLeft": "话说我觉得庆典需要@代表性的事物，"
+   },
+   {
+    "chara": [
+     {
+      "id": 300601
+     }
+    ],
+    "textLeft": "也就是需要个性鲜明的人。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 301001,
+      "motion": 300
+     }
+    ],
+    "textRight": "这就进入下一个话题了吗！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 300601,
+      "motion": 100
+     }
+    ],
+    "textLeft": "我这么一想，也就只有@美丽高贵的莉爱大人符合条件了！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_040.exp.json",
+      "id": 100401,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "莎奈",
+    "textLeft": "美丽高贵……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 301001,
+      "motion": 1
+     }
+    ],
+    "textRight": "呵呵……不愧是制作人，@你很懂嘛……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 301001
+     }
+    ],
+    "textRight": "没错！@我就是象征着这个庆典的女神！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 301001,
+      "motion": 100,
+      "mouthOpen": 1
+     }
+    ],
+    "textRight": "哦呵呵呵——！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "id": 301001,
+      "mouthOpen": 0
+     }
+    ],
+    "nameLeft": "八千代",
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 301001,
+      "motion": 1
+     }
+    ],
+    "textRight": "看来你们都被我的神性光辉所折服，@以至于都讲不出话来了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_051.exp.json",
+      "id": 100201,
+      "motion": 401
+     }
+    ],
+    "textLeft": "诶？@啊，不是的，我只是在发呆……"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 301001
+     }
+    ],
+    "textRight": "可以理解！@你肯定受到了冲击！"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 301001
+     }
+    ],
+    "textRight": "你心里肯定在想，为什么@被选中的不是我，而偏偏是她……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 301001,
+      "motion": 200
+     }
+    ],
+    "textRight": "你肯定很不甘心，@还在偷偷地咒骂我吧！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_051.exp.json",
+      "id": 100201,
+      "motion": 0
+     }
+    ],
+    "textLeft": "我并没有在意……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 301001,
+      "motion": 100
+     }
+    ],
+    "textRight": "真拿你没办法！七海八千代！@你听好，我给你一个机会……"
+   },
+   {
+    "chara": [
+     {
+      "id": 301001
+     }
+    ],
+    "textRight": "允许你与我争夺女神之座！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_042.exp.json",
+      "id": 100201,
+      "motion": 200
+     }
+    ],
+    "textLeft": "她完全没听我讲话……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 301001,
+      "motion": 1
+     }
+    ],
+    "textRight": "艾米莉，你能让她参赛吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 300601,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "木崎衣美里",
+    "textLeft": "哦，@八千代也要参加「女神之战」吗！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_042.exp.json",
+      "id": 100201,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "八千代",
+    "textRight": "我说，你刚刚也@看到了对话的全过程了吧？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 101101,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "枫",
+    "textLeft": "那个……@「女神之战」是什么？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 301001,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "阿见莉爱",
+    "textRight": "就是之后会在高台前的@特设舞台上举行的高贵之战……"
+   },
+   {
+    "chara": [
+     {
+      "id": 301001
+     }
+    ],
+    "textRight": "其名为女神之座争夺战！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 303101,
+      "motion": 1,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "绫野梨花",
+    "textLeft": "也就是庆典的表演活动吧。"
+   },
+   {
+    "chara": [
+     {
+      "id": 303101
+     }
+    ],
+    "textLeft": "跟女神大人比赛游戏，@赢了就能得到奖品哦。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100901,
+      "motion": 100,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "玲奈",
+    "textLeft": "也就是说……是个余兴表演！"
+   },
+   {
+    "chara": [
+     {
+      "id": 301001,
+      "motion": 400
+     }
+    ],
+    "textRight": "不，这是神圣之战！"
+   },
+   {
+    "chara": [
+     {
+      "id": 301001,
+      "motion": 0
+     }
+    ],
+    "textRight": "七海八千代，与我一决高下吧！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 301001,
+      "motion": 1
+     }
+    ],
+    "textRight": "我要当着游客们的面，@让你领教一下女神的实力！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100201,
+      "motion": 301,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "八千代",
+    "textLeft": "为什么我非领教不可啊……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 301001,
+      "motion": 100
+     }
+    ],
+    "textRight": "我说叫你领教你就要领教！"
+   },
+   {
+    "chara": [
+     {
+      "id": 100201,
+      "motion": 100
+     }
+    ],
+    "textLeft": "真烦人……"
+   },
+   {
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 100201
+     },
+     {
+      "effect": "fadeout",
+      "id": 301001
+     }
+    ],
+    "nameNarration": "彩羽",
+    "narration": "收到莉爱发出的挑战@八千代决定……",
+    "narrationBg": "bg_adv_20351.jpg",
+    "narrationEffect": "in"
+   },
+   {
+    "narrationEffect": "out",
+    "select": [
+     {
+      "alternativeId": 24,
+      "group": "group_2",
+      "textSelect": "再考虑一下"
+     },
+     {
+      "alternativeId": 25,
+      "group": "group_3",
+      "textSelect": "拒绝挑战"
+     }
+    ]
+   }
+  ],
+  "group_2": [
+   {
+    "autoTurnLast": 0.2,
+    "bg": "bg_adv_20351.jpg",
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100201,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 301001,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 100201,
+      "lipSynch": 0,
+      "motion": 300
+     }
+    ],
+    "nameLeft": "八千代",
+    "textLeft": "（唉……我该怎么办呢……）",
+    "turnChangeOut": "fadeOut",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "id": 100201,
+      "lipSynch": 1,
+      "motion": 0
+     }
+    ],
+    "textLeft": "唔……",
+    "turnEffect": "stop"
+   },
+   {
+    "bgm": "stop",
+    "nameNarration": "？？？",
+    "narration": "「比就比——！」",
+    "narrationEffect": "in"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_051.exp.json",
+      "id": 100201
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301001
+     }
+    ],
+    "narrationEffect": "out",
+    "textLeft": "诶？"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn"
+   }
+  ],
+  "group_3": [
+   {
+    "autoTurnLast": 0.5,
+    "bg": "bg_adv_20351.jpg",
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100201,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 301001,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 100201,
+      "lipSynch": 0,
+      "motion": 301
+     }
+    ],
+    "nameLeft": "八千代",
+    "textLeft": "（我不是很想答应……）",
+    "turnChangeOut": "fadeOut",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "id": 100201,
+      "lipSynch": 0
+     }
+    ],
+    "textLeft": "（虽然对不住她，但我来这里@只是想享受庆典而已。）"
+   },
+   {
+    "chara": [
+     {
+      "id": 100201,
+      "lipSynch": 1,
+      "motion": 0
+     }
+    ],
+    "textLeft": "那个……",
+    "turnEffect": "stop"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "bgm": "stop",
+    "turnChangeIn": "fadeIn"
+   }
+  ],
+  "group_4": [
+   {
+    "bg": "bg_adv_20351.jpg",
+    "nameNarration": "彩羽",
+    "narration": "收到莉爱发出的挑战@八千代决定……",
+    "narrationBg": "bg_adv_20351.jpg",
+    "narrationEffect": "in",
+    "turnChangeIn": "fadeIn",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "narrationEffect": "out",
+    "select": [
+     {
+      "alternativeId": 24,
+      "group": "group_2",
+      "textSelect": "再考虑一下"
+     },
+     {
+      "alternativeId": 25,
+      "group": "group_3",
+      "textSelect": "拒绝挑战"
+     }
+    ]
+   }
+  ]
+ },
+ "version": 3
+}

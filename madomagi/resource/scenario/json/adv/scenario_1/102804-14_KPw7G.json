@@ -1,0 +1,912 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_21251.jpg",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm21_system03",
+                "nameNarration": "結菜",
+                "narration": "あぁ…@体の自由が奪われるばかりか@目まで見えなくなってしまった…",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut",
+                "turnEffect": "blackPromist",
+                "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-1"
+            },
+            {
+                "narration": "得体の知れない存在だからこそ@[textYellow:キモチ]に心を許したつもりはなかったけれど@私が置かれている状況こそが現実ねぇ…",
+                "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-2"
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter7/102804_kimochi_garnet.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "narration": "完全にしてやられた…@みんなの流した血を奪うどころか@最後の１滴まで搾り取られてしまぅ…",
+                "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-3"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png",
+                        "posX": 0,
+                        "posY": 3000,
+                        "scale": 6,
+                        "setVisible": 1,
+                        "zOrder": "messageFront"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter7/102804_kimochi_garnet.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": -3000
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png"
+                    }
+                ]
+            },
+            {
+                "nameNarration": "結菜",
+                "narration": "みんな、命を張ってくれて@さくやも最後まで命を賭して戦ってくれたのに@なんて無様なのかしらぁ…",
+                "narrationEffect": "in",
+                "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-4"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_51011.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 102100,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 302100,
+                        "motion": 0,
+                        "pos": 2,
+                        "tear": 1
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 302100,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-5"
+                    }
+                ],
+                "nameRight": "鈴鹿 さくや",
+                "textRight": "どんなに憎い相手でも…",
+                "turnChangeOut": "fadeOut",
+                "turnEffect": "blackFrame"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 302100,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-6"
+                    }
+                ],
+                "nameRight": "鈴鹿 さくや",
+                "textRight": "人となりを知った相手にまで@手をかけたら…"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 302100,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-7"
+                    }
+                ],
+                "nameRight": "鈴鹿 さくや",
+                "textRight": "結菜は…誰でも殺せるように@なってしまうから…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_032.exp3.json",
+                        "id": 102100,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-8"
+                    }
+                ],
+                "nameLeft": "結菜",
+                "textLeft": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 302100,
+                        "motion": 0,
+                        "tear": 0,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-9"
+                    }
+                ],
+                "nameRight": "鈴鹿 さくや",
+                "textRight": "昔の結菜が…そうだったように…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 302100,
+                        "pos": 2,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-10"
+                    }
+                ],
+                "nameRight": "鈴鹿 さくや",
+                "textRight": "今の結菜に…その一線を@越えてほしくないんだ…！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 302100,
+                        "motion": 100,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-11"
+                    }
+                ],
+                "nameRight": "鈴鹿 さくや",
+                "textRight": "お願い、結菜…@心まで鬼にならないで…！"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "black",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 102100,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-12"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "そう…@私に心の隙を作ったのはさくや…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-13"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "彼女が死んでまで@私の行動を止めたのなら"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_032.exp3.json",
+                        "id": 102100,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-14"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "その遺志に報いて@やり直すべきかしらぁ…"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": 0
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png",
+                        "posX": 0,
+                        "posY": -3000,
+                        "scale": 6,
+                        "setVisible": 1,
+                        "zOrder": "messageFront"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.01,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 102100,
+                        "motion": 0
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_21251.jpg",
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posY": 3000
+                            }
+                        },
+                        "path": "resource/scenario/img/adv_roll_fade.png"
+                    }
+                ],
+                "turnEffect": "blackPromist"
+            },
+            {
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "id": 102100,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-15"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "それなら、私はまだ…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 102100,
+                        "lipSynch": 1,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-16"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "――っ!?"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102100
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_21251.jpg",
+                "bgChangeEffect": "cameraPan",
+                "bgm": "bgm03_story17"
+            },
+            {
+                "autoTurnLast": 2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter3/102403_kimochi_opal.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter3/102403_kimochi_opal.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_21251.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter3/102402_kimochi_pearl.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter3/102402_kimochi_pearl.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_21251.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter1/102203_kimochi_aquamarine.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter1/102203_kimochi_aquamarine.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_21251.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter7/102804_kimochi_garnet.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/part2_chapter7/102804_kimochi_garnet.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_060.exp3.json",
+                        "id": 102100,
+                        "motion": 300,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-17"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "ぐっ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "voiceFull": "fullvoice/section_102804/vo_full_102804-14-18"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "浸食に耐えるだけで精一杯なのに@これじゃ払いのけるなんて…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_032.exp3.json",
+                        "id": 102100,
+                        "lipSynch": 0,
+                        "voiceFullStop": "fullvoice/section_102804/vo_full_102804-14-18"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "…………[wait:1.0][chara:102100:voiceFull_fullvoice/section_102804/vo_full_102804-14-19][chara:102100:eyeClose_1][chara:102100:lipSynch_1]そぅ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "motion": 0,
+                        "tear": 1,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-20",
+                        "voiceFullStop": "fullvoice/section_102804/vo_full_102804-14-19"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "あなたたちを支配するのは@最初から無理な条件だったのね…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-21"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "支配感なんてものは偽りで、@手のひらで踊らされただけ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-22"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "私は誰も守れなぃ…救えなぃ…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-23"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "奪い返すことも恨みを返すことも@なにもかもが成せなぃ…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 102100,
+                        "tear": 1,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-24"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "…先輩"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 102100,
+                        "motion": 300,
+                        "tear": 1,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-25"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "私が先輩の教えを棄てて@守らなくなったからでしょうか…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-26"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "そのせいで全てが@狂ってしまったのでしょうか…"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_20522.jpg",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 102102,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "sepiaFrame"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102102,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-27"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "待っていてください@すぐにグリーフシードを探しに…",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "nameNarration": "",
+                "narration": "「行かないで、結菜…@私を見届けてちょうだい…」",
+                "narrationEffect": "in",
+                "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-28"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "narrationEffect": "out"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102102,
+                        "motion": 400,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-29"
+                    }
+                ],
+                "textCenter": "従えません…！"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 102102,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-30"
+                    }
+                ],
+                "textCenter": "私には、まだあなたから@教えてもらうことが山ほどある…"
+            },
+            {
+                "nameNarration": "",
+                "narration": "「大丈夫…私たちの半年は濃かったわ…@あなたの中に息づくぐらいにね…」",
+                "narrationEffect": "in",
+                "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-31"
+            },
+            {
+                "narration": "「だから思い出して…@私が必要な時は答えるわ…@ちゃんと、あなたの心の中から…ね…」",
+                "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-32"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_21251.jpg",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_021.exp3.json",
+                        "id": 102100,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 102100,
+                        "lipSynch": 1,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-33"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "っ！",
+                "turnChangeOut": "fadeOut",
+                "turnEffect": "blackPromist"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "lipSynch": 1,
+                        "motion": 200,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-34"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "お前たちに体は渡さなぃ!!"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-35"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "まずは視界からひとつずつ@返してもらうわよぉ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 102100,
+                        "motion": 400,
+                        "mouthOpen": 0,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-36"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textBg": "shout",
+                "textCenter": "[flashEffect:flashWhite2]ぁぁあああぁあああッ!!"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_20463.jpg",
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "effect": "kimochiaura",
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102104,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            },
+            {
+                "autoTurnLast": 4,
+                "chara": [
+                    {
+                        "id": 102104,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "voiceFull": "fullvoice/section_102804/vo_full_102804-14-37"
+                    }
+                ],
+                "enableSkipAutoTurn": 1,
+                "nameCenter": "結菜",
+                "textCenter": "（はっ…はぁ…あ…）",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 1,
+                        "face": "mtn_ex_052.exp3.json",
+                        "id": 102104,
+                        "motion": 0
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102104,
+                        "voiceFullStop": "fullvoice/section_102804/vo_full_102804-14-37"
+                    }
+                ],
+                "enableSkipAutoTurn": 0,
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bg": "bg_adv_20463.jpg",
+                "bgChangeEffect": "cameraPan"
+            },
+            {
+                "autoTurnLast": 2.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102400,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 304400,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102400
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 304400
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102300,
+                        "motion": 300,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 102200,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102200
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 102300
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2.5,
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 770000,
+                        "motion": 300,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 770001,
+                        "motion": 0,
+                        "pos": 1
+                    },
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 770100,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.3,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 770000
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 770001
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 770100
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": -1,
+                        "effect": "kimochiaura",
+                        "face": "mtn_ex_052.exp3.json",
+                        "id": 102104,
+                        "lipSynch": 0,
+                        "motion": 0,
+                        "pos": 1,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-38"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "（これ…全部…私が…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": -1,
+                        "face": "mtn_ex_031.exp3.json",
+                        "id": 102104,
+                        "lipSynch": 0,
+                        "motion": 300,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-39"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "（っ、先輩…教えて…@私どうすれば…）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 102104,
+                        "lipSynch": 0,
+                        "voiceFullAuto": "fullvoice/section_102804/vo_full_102804-14-40"
+                    }
+                ],
+                "nameCenter": "結菜",
+                "textCenter": "（先輩…！）"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 102104
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "stop",
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

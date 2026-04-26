@@ -1,0 +1,655 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3010_vista_16_9.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_46001.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 104300,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "id": 6001,
+                        "name": "sprite_0",
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 1,
+                "chara": [
+                    {
+                        "id": 104300,
+                        "motion": 200
+                    },
+                    {
+                        "effect": "7000_attack01",
+                        "id": 6001,
+                        "name": "sprite_0"
+                    }
+                ],
+                "surround": "1043A01"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "bgEffect": "shakeLarge",
+                "chara": [
+                    {
+                        "effect": "7002_damage01",
+                        "id": 6001,
+                        "name": "sprite_0"
+                    }
+                ],
+                "surround": "1043A02"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 6001,
+                        "name": "sprite_0"
+                    }
+                ],
+                "se": "3102_enemy_dead"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 104300
+                    }
+                ]
+            },
+            {
+                "bgm": "bgm03_story12",
+                "nameNarration": "黒江",
+                "narration": "倒しても倒しても　魔女は現れる",
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_46000.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp3.json",
+                        "id": 104300,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "id": 6000,
+                        "name": "sprite_0",
+                        "pos": 0
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "nameNarration": "黒江",
+                "narration": "私はそのたびに　死にかけて",
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_46106.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104300,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "id": 6106,
+                        "name": "sprite_0",
+                        "pos": 0
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 6106,
+                        "name": "sprite_0"
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 104300
+                    }
+                ]
+            },
+            {
+                "nameNarration": "黒江",
+                "narration": "私が殺されかけているうちに",
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "bg_adv_46107.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104300,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "id": 6107,
+                        "name": "sprite_0",
+                        "pos": 0
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 6107,
+                        "name": "sprite_0"
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 104300
+                    }
+                ]
+            },
+            {
+                "nameNarration": "黒江",
+                "narration": "他の誰かが死んでいる",
+                "narrationEffect": "in"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bg": "black",
+                "chara": [
+                    {
+                        "id": 810000,
+                        "motion": 0,
+                        "pos": 1,
+                        "posX": 0,
+                        "posY": 80
+                    }
+                ],
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "キュゥべえ",
+                "narration": "「またその質問かい？」",
+                "narrationBg": "",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "「この地区に魔法少女の素質がある人間は@まだ現れていないよ」"
+            },
+            {
+                "narration": "「それに前にも話したけど@新しい魔法少女の数が増えても」"
+            },
+            {
+                "narration": "「魔女から得られるグリーフシードの数は@今まで通りひとつきり」"
+            },
+            {
+                "narration": "「つまり奪い合いが@起こってしまうということさ」"
+            },
+            {
+                "narration": "「なぜかって？」"
+            },
+            {
+                "narration": "「グリーフシードが得られないということは@ソウルジェムの浄化がままならなくなり@魔力を正常にコントロールすることが@難しくなる」"
+            },
+            {
+                "narration": "「そんな状態で魔女と戦っても勝ち目はない」"
+            },
+            {
+                "narration": "「つまり、ひとつでも多くの@グリーフシードを得られる魔法少女が@より長く生き残るんだ」"
+            },
+            {
+                "autoTurnLast": 2,
+                "narrationEffect": "out"
+            },
+            {
+                "nameNarration": "キュゥべえ",
+                "narration": "「それは無理な相談だよ」",
+                "narrationCoverOpacity": 110,
+                "narrationEffect": "in"
+            },
+            {
+                "narration": "「君は願いと引き換えに@魔女と戦う運命を受け入れたんだんだからね」"
+            },
+            {
+                "narration": "「それに、君は君自身を@卑下する必要なんてない」"
+            },
+            {
+                "narration": "「たとえ強力な魔力をもっていないとはいえ@君が魔女を倒したことで救われた人間は@確実に存在するじゃないか」"
+            },
+            {
+                "narration": "「君が戦うことを放棄してしまったら@いったい誰が@あの人間たちを救うと言うんだい？」"
+            },
+            {
+                "autoTurnLast": 2,
+                "bg": "bg_adv_21026.jpg",
+                "narrationEffect": "out",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "nameNarration": "黒江",
+                "narration": "気がつけば、私はもう３年生になっていた",
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 800400,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104301,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "",
+                "narrationEffect": "out",
+                "textRight": "あれ？@黒江も部活だったの？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104301
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "…うん"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 800400
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "ここんとこ@ずっと元気ないけど"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800400
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "何かあった？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800400
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "部活にも@ほとんど行ってないって"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800400
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "聞いたし…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "みんな部活好きなのかな"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 800400
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "好きだからやってる人が@多いと思うけど"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800400
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "そうじゃない人だって@いるんじゃない？"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "好きでもないのに"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "一生懸命やらなきゃ@いけないことって"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "どうすればいいんだろう…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800400
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "部活とか、勉強の話？"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 800400
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 104301
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 800600,
+                        "motion": 0,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "",
+                "textCenter": "あ、黒江さん@まだ残ってたのね"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 800600,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 800600
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104301,
+                        "motion": 1,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "ちょうどよかったわ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800600
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "３年生になったし@推薦に備えて"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800600
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "小論文の課題とかも@はじめてみる？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp3.json",
+                        "id": 104301,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "（そうだった…推薦入試）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104301
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "あ…………[chara:104301:lipSynch_0][wait:0.8][chara:104301:lipSynch_1]はい"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800600
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "それじゃ、まずはこれね"
+            },
+            {
+                "nameNarration": "",
+                "narration": "小論文：@全ての生徒が平等に学校を楽しむためには@何が出来るか",
+                "narrationBg": "black",
+                "narrationEffect": "in",
+                "narrationHAlignment": "left",
+                "narrationPosX": 180
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp3.json",
+                        "id": 104301,
+                        "motion": 100
+                    }
+                ],
+                "nameLeft": "黒江",
+                "narrationEffect": "out",
+                "textLeft": "はい…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800600
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "提出はそんなに@急がなくて大丈夫だけど"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800600
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "質問したいことがあったら@遠慮なく聞いてね？"
+            },
+            {
+                "autoTurnLast": 1.5,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 800600
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 800400,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_000.exp3.json",
+                        "id": 104301,
+                        "motion": 0
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "黒江は真面目過ぎるんだよ"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800400
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "死ぬわけじゃないんだから"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 800400
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "もっと適当にやって@大丈夫じゃない？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp3.json",
+                        "id": 800400
+                    }
+                ],
+                "nameRight": "",
+                "textRight": "少しくらいやらなくなったって、@誰も怒ったりしないって"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 104301,
+                        "motion": 1
+                    }
+                ],
+                "nameLeft": "黒江",
+                "textLeft": "…そうだね"
+            },
+            {
+                "nameNarration": "黒江",
+                "narration": "次の日、私は新体操部をやめた",
+                "narrationBg": "black",
+                "narrationEffect": "in"
+            },
+            {
+                "narration": "私は大会に出るような選手じゃなかったし@みんなは私が受験勉強でやめたんだと思ってる@でも、本当は違う"
+            },
+            {
+                "narration": "私が魔法少女だから"
+            },
+            {
+                "autoTurnLast": 2,
+                "turnChangeIn": "fadeIn"
+            }
+        ]
+    },
+    "version": 3
+}

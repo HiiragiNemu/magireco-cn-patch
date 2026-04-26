@@ -1,0 +1,460 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bg": "bg_adv_21061.jpg",
+    "bgm": "bgm03_story02",
+    "chara": [
+     {
+      "id": 100102,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-1"
+     }
+    ],
+    "nameLeft": "彩羽",
+    "nameRight": "八千代",
+    "surround": "7008_station",
+    "textLeft": "菲莉希亚还没有回来……",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-2",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-1"
+     }
+    ],
+    "textRight": "这个时间也该回来了……"
+   },
+   {
+    "autoTurnLast": 1.5,
+    "item": [
+     {
+      "path": "resource/scenario/img/chapter4/countdown_02.png",
+      "posX": 0,
+      "posY": 50,
+      "visible": "appear"
+     }
+    ],
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-2"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 301,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-3"
+     }
+    ],
+    "textLeft": "还剩2小时……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100201,
+      "motion": 301,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-4",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-3"
+     }
+    ],
+    "textRight": "这样下去，@就只能眼睁睁看着不幸降临了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-5",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-4"
+     }
+    ],
+    "textLeft": "她会来吗？"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 0,
+      "pos": 2,
+      "posX": 40,
+      "posY": 0
+     }
+    ],
+    "item": [
+     {
+      "path": "resource/scenario/img/chapter4/countdown_02.png",
+      "visible": "hide"
+     }
+    ],
+    "textClear": 1,
+    "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-5"
+   },
+   {
+    "select": [
+     {
+      "group": "group_2",
+      "textSelect": "呜啾啾@（先走吧）"
+     },
+     {
+      "group": "group_3",
+      "textSelect": "呜啾呜啾@（再等等吧）"
+     }
+    ]
+   }
+  ],
+  "group_2": [
+   {
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 100,
+      "voice": "vo_kyube_0001_17"
+     }
+    ],
+    "nameRight": "userName",
+    "textRight": "呜啾啾"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "voice": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-7"
+     }
+    ],
+    "textLeft": "可是，我想相信菲莉希亚！"
+   },
+   {
+    "changeGroup": "group_4",
+    "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-7"
+   }
+  ],
+  "group_3": [
+   {
+    "chara": [
+     {
+      "id": 810100,
+      "motion": 100,
+      "voice": "vo_kyube_0001_16"
+     }
+    ],
+    "nameRight": "userName",
+    "textRight": "呜啾呜啾"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "voice": "stop"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100102,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-9"
+     }
+    ],
+    "textLeft": "嗯，我想再等等菲莉希亚。"
+   },
+   {
+    "changeGroup": "group_4",
+    "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-9"
+   }
+  ],
+  "group_4": [
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "motion": 1,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-10"
+     }
+    ],
+    "nameRight": "八千代",
+    "textRight": "不，看来是没这个必要了。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100102,
+      "motion": 401,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-11",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-10"
+     }
+    ],
+    "textLeft": "菲莉希亚回来了！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100301,
+      "motion": 101,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-12",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-11"
+     }
+    ],
+    "nameRight": "鹤乃",
+    "textRight": "嘿，久等啦！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100102,
+      "motion": 1,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-13",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-12"
+     }
+    ],
+    "textLeft": "鹤乃！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-14",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-13"
+     }
+    ],
+    "textLeft": "一直没看到你，你去哪儿了？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100301,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-15",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-14"
+     }
+    ],
+    "textRight": "啊哈，我一直跟在菲莉希亚后面哦。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100301,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-16",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-15"
+     }
+    ],
+    "textRight": "毕竟她的风评那么差，@实在不敢完全相信她。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100301,
+      "motion": 101,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-17",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-16"
+     }
+    ],
+    "textRight": "八千代也是这么说的。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-18",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-17"
+     }
+    ],
+    "textLeft": "然后呢，菲莉希亚呢？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100301,
+      "motion": 300,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-19",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-18"
+     }
+    ],
+    "textRight": "这个嘛……我跟到半路就跟丢了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "motion": 300,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-20",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-19"
+     }
+    ],
+    "textLeft": "鹤乃都回来了，菲莉希亚还没回来……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100201,
+      "motion": 0,
+      "pos": 2,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-21",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-20"
+     }
+    ],
+    "nameRight": "八千代",
+    "textRight": "估计是对方提出的报酬更为丰厚吧……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_021.exp.json",
+      "id": 100102,
+      "motion": 1,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-22",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-21"
+     }
+    ],
+    "textLeft": "现在还不能确定她一定是叛变了，"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100102,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-23",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-22"
+     }
+    ],
+    "textLeft": "说不定，她是被对方抓住了呢……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 100201,
+      "motion": 200,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-24",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-23"
+     }
+    ],
+    "textRight": "她可没那么弱。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 100301,
+      "motion": 201,
+      "pos": 0,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-25",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-24"
+     }
+    ],
+    "nameLeft": "鹤乃",
+    "textLeft": "还是快点走吧！@不是快没时间了吗！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "motion": 1,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-26",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-25"
+     }
+    ],
+    "textRight": "也对。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": -1,
+      "face": "mtn_ex_010.exp.json",
+      "id": 100201,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-27",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-26"
+     }
+    ],
+    "textRight": "鹤乃，只到半路也没关系，@带我们去吧。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 100301,
+      "motion": 100,
+      "voiceFull": "fullvoice/section_101404/vo_full_101404-1-28",
+      "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-27"
+     }
+    ],
+    "textLeft": "没问题！"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn",
+    "voiceFullStop": "fullvoice/section_101404/vo_full_101404-1-28"
+   }
+  ]
+ },
+ "version": 3
+}

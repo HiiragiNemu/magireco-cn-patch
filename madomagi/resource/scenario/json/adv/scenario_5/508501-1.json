@@ -1,0 +1,708 @@
+{
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_20463.jpg",
+    "bgm": "bgm23_promised05",
+    "turnChangeIn": "fadeIn",
+    "turnEffect": "blackPromist"
+   },
+   {
+    "nameNarration": "",
+    "narration": "＜二木市＞",
+    "narrationBg": "",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 102102,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_012.exp.json",
+      "id": 102400,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 102400,
+      "motion": 200
+     }
+    ],
+    "nameRight": "树里",
+    "textRight": "结菜……终于见到你了。",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 102102,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "结菜",
+    "textLeft": "是啊，树里。"
+   },
+   {
+    "chara": [
+     {
+      "id": 102400,
+      "motion": 100
+     }
+    ],
+    "textRight": "不管想了多少作战计划，"
+   },
+   {
+    "chara": [
+     {
+      "id": 102400
+     }
+    ],
+    "textRight": "最后还是只能像这样正面对决。"
+   },
+   {
+    "chara": [
+     {
+      "id": 102400
+     }
+    ],
+    "textRight": "真蠢啊，@对吧？"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bg": "bg_adv_20522.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 770084,
+      "motion": 0,
+      "pos": 0,
+      "posX": -40
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 770088,
+      "motion": 0,
+      "pos": 1
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 770083,
+      "motion": 0,
+      "pos": 2,
+      "posX": 40
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 770088
+     }
+    ],
+    "nameCenter": "",
+    "textCenter": "[chara:770084:effect_7001_attack02]喝！"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 770084
+     }
+    ],
+    "nameLeft": "",
+    "textLeft": "[chara:770084:effect_7003_damage02][se:3001_chara_damage][bgEffect:shakeLarge]呜！"
+   },
+   {
+    "autoTurnLast": 1.0,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 770084
+     }
+    ],
+    "se": "3002_chara_dead",
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "id": 770088,
+      "mouthOpen": 1
+     }
+    ],
+    "textBg": "shout",
+    "textCenter": "[chara:770083:effect_7000_attack01]呀！"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 770083
+     },
+     {
+      "id": 770088,
+      "mouthOpen": 0
+     }
+    ],
+    "nameRight": "",
+    "textRight": "[chara:770083:effect_7002_damage01][se:3001_chara_damage][bgEffect:shakeLarge]啊！"
+   },
+   {
+    "autoTurnLast": 1.0,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 770083
+     }
+    ],
+    "se": "3002_chara_dead",
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.1,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 770083,
+      "motion": 0,
+      "pos": 0,
+      "posX": -40
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 770183,
+      "motion": 0,
+      "pos": 1
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 770085,
+      "motion": 0,
+      "pos": 2,
+      "posX": 40
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "autoTurnLast": 1.5,
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 770186,
+      "motion": 0,
+      "pos": 1
+     },
+     {
+      "effect": "7000_attack01",
+      "id": 770085
+     },
+     {
+      "effect": "7001_attack02",
+      "id": 770083
+     }
+    ],
+    "textCenter": "这个时代就是我的了。"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "cheek": 0,
+      "effect": "7002_damage01",
+      "face": "mtn_ex_030.exp.json",
+      "id": 770085
+     },
+     {
+      "cheek": 0,
+      "effect": "7003_damage02",
+      "face": "mtn_ex_030.exp.json",
+      "id": 770083
+     }
+    ],
+    "se": "3001_chara_damage",
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 1.0,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 770083
+     },
+     {
+      "effect": "fadeout",
+      "id": 770085
+     }
+    ],
+    "se": "3002_chara_dead"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bg": "bg_adv_21153.jpg",
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302100,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 770083,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "rollInFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 302100,
+      "mouthOpen": 1
+     }
+    ],
+    "nameLeft": "铃鹿朔夜",
+    "textLeft": "呼……呼……",
+    "turnChangeOut": "rollOutFast"
+   },
+   {
+    "chara": [
+     {
+      "id": 770083
+     },
+     {
+      "id": 302100,
+      "mouthOpen": 0
+     }
+    ],
+    "nameRight": "",
+    "textRight": "呼……呼……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302100,
+      "motion": 1
+     }
+    ],
+    "textLeft": "可以……请你让开吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 770083
+     }
+    ],
+    "textRight": "我不会让的……"
+   },
+   {
+    "chara": [
+     {
+      "id": 302100,
+      "motion": 300
+     }
+    ],
+    "textLeft": "大家还在等我，@我不会手下留情的！"
+   },
+   {
+    "chara": [
+     {
+      "id": 770083
+     }
+    ],
+    "textRight": "我死也不会让你过去。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302100
+     }
+    ],
+    "textLeft": "只能一战了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 770083
+     }
+    ],
+    "textRight": "没错……@不能在使命里，掺杂私情……"
+   },
+   {
+    "chara": [
+     {
+      "id": 770083
+     }
+    ],
+    "textRight": "来……上吧……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 770083
+     }
+    ],
+    "textRight": "我的好朋友。"
+   },
+   {
+    "autoTurnLast": 1.0,
+    "bgm": "stop",
+    "chara": [
+     {
+      "id": 770083,
+      "pos": 1
+     }
+    ],
+    "flashEffect": "explosion",
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 1.5,
+    "bg": "bg_adv_21075.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302101,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "turnChangeIn": "whiteIn",
+    "turnChangeInTime": 0.2,
+    "turnEffect": "stop"
+   },
+   {
+    "bgm": "stop",
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 302101,
+      "motion": 400
+     }
+    ],
+    "nameCenter": "铃鹿朔夜",
+    "textCenter": "啊！",
+    "turnChangeOut": "whiteOut",
+    "turnChangeOutTime": 0.2
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "……"
+   },
+   {
+    "bgm": "bgm03_story12",
+    "chara": [
+     {
+      "id": 302101,
+      "motion": 0
+     }
+    ],
+    "textCenter": "是梦……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302101
+     }
+    ],
+    "textCenter": "又是这样……"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0,
+      "motion": 300
+     }
+    ],
+    "textCenter": "（梦到了……那个时候……）",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（二木市的魔法少女@互相残杀的那一战……）"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（不战斗就会死，@为了活下来，这是没办法的。）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302101,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "textCenter": "（我不会后悔……@这是我自己选的路。）"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0,
+      "motion": 100
+     }
+    ],
+    "textCenter": "（而且，@多亏这样才能立下血盟。）"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（现在的二木已经团结一心，@没人能够撼动。）"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "textCenter": "（也知道了神滨有个神奇的@自动净化系统……）"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（能够解放魔法少女……）"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 302101,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（是有收获的……）"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0,
+      "motion": 300
+     }
+    ],
+    "textCenter": "（所以我们是正确的，@没有错。）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302101,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "（但即便如此……@噩梦也还是紧缠着我不放……）"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0
+     }
+    ],
+    "textCenter": "……",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 302101
+     }
+    ],
+    "textCenter": "睡吧。"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "textCenter": "……"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "bgm": "stop",
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "black",
+    "turnChangeIn": "fadeIn",
+    "turnChangeInTime": 1.5
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302101,
+      "motion": 0
+     }
+    ],
+    "nameNarration": "铃鹿朔夜",
+    "narration": "「睡不着」",
+    "narrationBg": "black",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut",
+    "turnChangeOutTime": 0.2
+   },
+   {
+    "autoTurnLast": 0.01,
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn",
+    "turnChangeInTime": 0.2
+   },
+   {
+    "chara": [
+     {
+      "id": 302101
+     }
+    ],
+    "nameNarration": "铃鹿朔夜",
+    "narration": "我很清楚自己做噩梦的原因",
+    "narrationBg": "bg_adv_narration.jpg",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut",
+    "turnChangeOutTime": 0.6
+   },
+   {
+    "chara": [
+     {
+      "id": 302101
+     }
+    ],
+    "narration": "这是我自己的问题"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101
+     }
+    ],
+    "narration": "结菜和兰华她们也都不知道"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101
+     }
+    ],
+    "narration": "她们不用知道"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101
+     }
+    ],
+    "narration": "我做噩梦，那是因为……"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101
+     }
+    ],
+    "narration": "我把她……@把我的挚友……"
+   },
+   {
+    "chara": [
+     {
+      "id": 302101
+     }
+    ],
+    "narration": "[textRed:亲手杀死了]"
+   },
+   {
+    "autoTurnLast": 2.0,
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
+}

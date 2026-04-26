@@ -1,0 +1,743 @@
+{
+    "story": {
+        "group_1": [
+            {
+                "armatureList": [
+                    {
+                        "animation": [
+                            "action"
+                        ],
+                        "armatureId": 1,
+                        "filePath": "resource/image_native/effect/story/general/3500_picture_book.ExportJson",
+                        "zOrder": "messageBack"
+                    }
+                ],
+                "autoTurnLast": 0.2,
+                "bg": "white",
+                "turnChangeIn": "fadeIn"
+            },
+            {
+                "bgm": "bgm05_event01",
+                "nameNarration": "",
+                "narration": "[textBlack:＜梨花とれんが出会ったのは]@[textBlack:クリスマスの精と名乗るみたまでした＞]",
+                "narrationCoverOpacity": 0,
+                "narrationEffect": "in",
+                "turnChangeOut": "fadeOut"
+            },
+            {
+                "narration": "[textBlack:＜彼女の役目は、町の人々がクリスマスを]@[textBlack:ハッピーに迎えられるように手伝うことでしたが]@[textBlack:暗い人々が予想以上に多く]@[textBlack:人手が足りないと困っていました＞]"
+            },
+            {
+                "narration": "[textBlack:＜みたまと同じく、町が暗いことが]@[textBlack:気になっていた梨花とれんは]@[textBlack:みたまを手伝うことにしました＞]"
+            },
+            {
+                "narration": "[textBlack:＜手伝うために、梨花とれんは]@[textBlack:みたまから魔法の力を分けてもらいました]@[textBlack:ただし、力はふたり揃って１人前]@[textBlack:心が通い合っていないと魔法は使えません＞]"
+            },
+            {
+                "narration": "[textBlack:＜その後、みたまの愛弟子と名乗る]@[textBlack:ツバメのチュン太が現れて]@[textBlack:「町の人々をハッピーにするために]@[textBlack:ヨワムシハートを追い払おう」]@[textBlack:と、梨花とれんに話しました＞]"
+            },
+            {
+                "narration": "[textBlack:＜ヨワムシハートを追い払う梨花とれんに]@[textBlack:手伝いとして、衣美里とあきらが加わって]@[textBlack:ホーリーガールズを結成した４人は]@[textBlack:順調に町の人々をハッピーにしていきました＞]"
+            },
+            {
+                "narration": "[textBlack:＜『今日中にヨワムシハートを10個追い払う』]@[textBlack:という目標を達成したホーリーガールズでしたが]@[textBlack:そこで、異変が起こったのです…＞]"
+            },
+            {
+                "autoTurnLast": 0.1,
+                "bgm": "stop",
+                "narrationEffect": "out"
+            },
+            {
+                "autoTurnLast": 0.5,
+                "bg": "bg_adv_13016.jpg",
+                "bgChangeEffect": "fade",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "scale": 0.5,
+                        "setVisible": 1
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.8,
+                "bgEffect": "shakeLarge",
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+                        "scale": 1
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "bgm": "bgm03_story17",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 350101,
+                        "motion": 400,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 300651,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "綾野 梨花",
+                "textRight": "[chara:350101:effect_emotion_surprise_0][se:7226_shock]うぇぇっ!?@デカっ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 300651,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "木崎 衣美里",
+                "textLeft": "ヨワムシハート@食べ過ぎたんじゃね!?"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 300651
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 350101
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "nameCenter": "チュン太",
+                "textCenter": "礼を言うぞ…小娘ども…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+                        "visible": "hide"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 350102,
+                        "motion": 0,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 300850,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameRight": "五十鈴 れん",
+                "textRight": "え…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 300850
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 350102
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "textCenter": "10個のヨワムシハート、@確かに頂いた…"
+            },
+            {
+                "textCenter": "…くくっ、この町のヤツらは…@これで終わりだ…！"
+            },
+            {
+                "textBg": "shout",
+                "textCenter": "ピーッチュピピチュピピ!!"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+                        "visible": "hide"
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 350102,
+                        "motion": 0,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 350101,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "五十鈴 れん",
+                "textLeft": "どういう…こと…？"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 350102
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 350101
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "autoTurnLast": 0.5,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+                        "posX": 0,
+                        "posY": 0,
+                        "visible": "appear"
+                    }
+                ],
+                "surround": "7018_flap_storm"
+            },
+            {
+                "autoTurnLast": 0.01,
+                "bgEffect": "shakeLarge",
+                "flashEffect": "explosion",
+                "item": [
+                    {
+                        "action": {
+                            "moveTo": {
+                                "duration": 0.4,
+                                "posX": 3000
+                            }
+                        },
+                        "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png"
+                    }
+                ]
+            },
+            {
+                "autoTurnLast": 0.2,
+                "item": [
+                    {
+                        "path": "resource/scenario/img/51080_rika_ren_christmas/51080_cyunta.png",
+                        "visible": "hide"
+                    }
+                ]
+            },
+            {
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "shake",
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 350102,
+                        "motion": 300,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "effect": "shake",
+                        "face": "mtn_ex_060.exp.json",
+                        "id": 350101,
+                        "motion": 400,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "綾野 梨花",
+                "textRight": "うわわっ!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 300850,
+                        "motion": 300,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "志伸 あきら",
+                "textLeft": "何だよもう…@何がどうなっちゃってるの…!?"
+            },
+            {
+                "bgm": "bgm05_event07",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 350101,
+                        "motion": 200
+                    }
+                ],
+                "textRight": "ね、追いかけよう!?@なんかヤバげなこと言ってたし！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 350101
+                    }
+                ],
+                "textRight": "町のヤツらは終わり…とか…！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 300850,
+                        "motion": 0
+                    }
+                ],
+                "textLeft": "あ…確かに…"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 300651,
+                        "motion": 200,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "木崎 衣美里",
+                "textLeft": "おっしゃ！@絶対追いついてやっからなー！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 350101,
+                        "motion": 1
+                    }
+                ],
+                "textRight": "れんちゃんはっ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 350102,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "五十鈴 れん",
+                "textLeft": "ぇ…あ…………"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 350101,
+                        "motion": 300
+                    }
+                ],
+                "textRight": "大丈夫？立てる…？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 350102,
+                        "motion": 100
+                    }
+                ],
+                "textLeft": "ぁ、ぅん…@[chara:350102:lipSynch_0][wait:1.0][chara:350102:cheek_0][chara:350102:face_mtn_ex_030.exp.json][chara:350102:lipSynch_1]ごめん、梨花ちゃん…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 350102,
+                        "lipSynch": 0
+                    }
+                ],
+                "textLeft": "（この町が…終わり…？）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 1,
+                        "id": 350102,
+                        "lipSynch": 0
+                    }
+                ],
+                "textLeft": "（どうしちゃったの…@チュン太さん…）"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_21246.jpg",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 350102,
+                        "motion": 1,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 300850,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 350102
+                    }
+                ],
+                "nameRight": "五十鈴 れん",
+                "textRight": "どこなの…？",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 300850,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "志伸 あきら",
+                "textLeft": "うーん…@どうやって探そうか…"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 300850
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 350102
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 300651,
+                        "motion": 1,
+                        "pos": 0
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 350101,
+                        "motion": 0,
+                        "pos": 2
+                    }
+                ],
+                "nameLeft": "木崎 衣美里",
+                "textLeft": "アイツ、デカいし@目撃情報を聞いてこーよ！"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 350101,
+                        "motion": 201
+                    }
+                ],
+                "nameRight": "綾野 梨花",
+                "textRight": "ん～、時間かかりそーだけど@それが良さげだね"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "bg": "bg_adv_21131.jpg",
+                "chara": [
+                    {
+                        "cheek": 2,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 300850,
+                        "motion": 300,
+                        "pos": 2
+                    },
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 300651,
+                        "motion": 0,
+                        "pos": 0
+                    }
+                ],
+                "turnChangeIn": "rollInFast"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 300850,
+                        "mouthOpen": 1
+                    }
+                ],
+                "nameRight": "志伸 あきら",
+                "textRight": "はぁ…はぁ…@[chara:300850:lipSynch_0][wait:0.8][chara:300850:cheek_0:eyeClose_0:mouthOpen_0][chara:300850:lipSynch_1]なかなか情報がないね…",
+                "turnChangeOut": "rollOutFast"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 300651,
+                        "motion": 300
+                    }
+                ],
+                "nameLeft": "木崎 衣美里",
+                "textLeft": "うぅ～…@なんで見つかんないの～!?"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 350101,
+                        "motion": 1,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "綾野 梨花",
+                "textRight": "目撃情報より、@空を探すほうが早いかなぁ？"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_010.exp.json",
+                        "id": 300651,
+                        "motion": 100
+                    }
+                ],
+                "textLeft": "あー、ならココ良くない!?@空、見やすいし！"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "effect": "fadeout",
+                        "id": 300651
+                    },
+                    {
+                        "effect": "fadeout",
+                        "id": 350101
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 350102,
+                        "motion": 1,
+                        "pos": 1
+                    }
+                ],
+                "nameCenter": "五十鈴 れん",
+                "textCenter": "…チュン太さん…"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 350102,
+                        "lipSynch": 0
+                    }
+                ],
+                "textCenter": "…………"
+            },
+            {
+                "chara": [
+                    {
+                        "id": 350102,
+                        "lipSynch": 0,
+                        "motion": 300
+                    }
+                ],
+                "textCenter": "（もし…チュン太さんが…@何か…企んでいるとしたら…）"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "eyeClose": 1,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 350102,
+                        "lipSynch": 0
+                    }
+                ],
+                "textCenter": "（ううん…チュン太さんが…@悪いこと…するわけない…）"
+            },
+            {
+                "chara": [
+                    {
+                        "eyeClose": 0,
+                        "id": 350102,
+                        "lipSynch": 0,
+                        "motion": 0
+                    }
+                ],
+                "textCenter": "（早く…@早く、見つけなきゃ…っ）"
+            },
+            {
+                "bgm": "stop",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "effect": "ef_adv_01",
+                        "face": "mtn_ex_050.exp.json",
+                        "id": 350102,
+                        "lipSynch": 0,
+                        "motion": 400
+                    }
+                ],
+                "se": "7201_detect_magic",
+                "textCenter": "――っ!?"
+            },
+            {
+                "autoTurnLast": 0.2,
+                "chara": [
+                    {
+                        "id": 350102,
+                        "pos": 2
+                    }
+                ],
+                "textClear": 1
+            },
+            {
+                "bgm": "bgm03_story10",
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_030.exp.json",
+                        "id": 300850,
+                        "lipSynch": 1,
+                        "motion": 0
+                    }
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/6103_zenobia_emblem.png",
+                        "posX": 0,
+                        "posY": 120,
+                        "visible": "appear"
+                    }
+                ],
+                "nameRight": "五十鈴 れん",
+                "textRight": "いつの間に…魔女が…!?",
+                "turnEffect": "ef_adv_06"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 300850,
+                        "motion": 200,
+                        "pos": 0
+                    }
+                ],
+                "nameLeft": "志伸 あきら",
+                "textLeft": "…みんな、気を引き締めて！"
+            },
+            {
+                "chara": [
+                    {
+                        "cheek": 0,
+                        "face": "mtn_ex_020.exp.json",
+                        "id": 350101,
+                        "motion": 100,
+                        "pos": 2
+                    }
+                ],
+                "nameRight": "綾野 梨花",
+                "textRight": "うん！"
+            },
+            {
+                "autoTurnLast": 2,
+                "bgm": "stop",
+                "deleteArmatureList": [
+                    1
+                ],
+                "item": [
+                    {
+                        "path": "resource/scenario/img/6103_zenobia_emblem.png",
+                        "visible": "hide"
+                    }
+                ],
+                "turnChangeIn": "fadeIn",
+                "turnEffect": "stop"
+            }
+        ]
+    },
+    "version": 3
+}
