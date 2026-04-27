@@ -1,4 +1,4 @@
-name: MagiaCN Precision Build Pipeline
+name: MagiaCN Build Pipeline
 
 on:
   push:
@@ -12,91 +12,106 @@ jobs:
       contents: write
 
     steps:
-      - name: 检出仓库代码
+      - name: 检出代码
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      # 【核心：识别到底是谁动了】
-      - name: 检测被修改的路径
+      - name: 检测修改路径
         uses: dorny/paths-filter@v2
         id: filter
         with:
           filters: |
-            js_patch:
+            js_source:
               - 'magica/js/libs/**'
-              - 'Build_JS_Injector.py'
               - 'original_source/**'
+              - 'Build_JS_Injector.py'
             scenario:
-              - 'madomagi/resource/scenario/**'
-            manifest:
-              - 'madomagi/*.json'
-            db:
-              - 'madomagi/madomagi.db'
+              - 'madomagi/resource/scenario/json/**'
 
-      - name: 安装 Zip 工具
-        run: sudo apt-get install zip -y
+      - name: 安装工具
+        run: sudo apt-get install -y zip python3
 
       # ==========================================
-      # 场景 1: 修改了 JS 逻辑（字典 JSON 或脚本）
+      # JS修改：运行注入脚本，只打包生成的单个js文件
       # ==========================================
-      - name: 运行 Python 注入并生成热更包
-        if: steps.filter.outputs.js_patch == 'true'
+      - name: 生成并打包 JS 热更包
+        if: steps.filter.outputs.js_source == 'true'
         run: |
           python3 Build_JS_Injector.py
-          # 打包包含最新 JS 的热更包
-          zip -r cn_hotupdate.zip magica/js/ madomagi/resource/scenario/
+          echo "=== 只打包编译后的单个js文件 ==="
+          zip cn_hotupdate.zip magica/js/libs/jquery-3.7.1.min.js
+          SIZE=$(stat -c%s cn_hotupdate.zip)
+          echo "JS热更包大小: ${SIZE} 字节"
+          echo "BUILD_TYPE=js" >> $GITHUB_ENV
+          echo "ZIP_SIZE=${SIZE}" >> $GITHUB_ENV
 
       # ==========================================
-      # 场景 2: 修改了剧情脚本 (Scenario) 但没动 JS
+      # 剧情修改：只打包 scenario/json 目录
       # ==========================================
-      - name: 仅打包剧情热更包
-        if: steps.filter.outputs.scenario == 'true' && steps.filter.outputs.js_patch == 'false'
+      - name: 打包剧情热更包
+        if: steps.filter.outputs.scenario == 'true' && steps.filter.outputs.js_source == 'false'
         run: |
-          zip -r cn_hotupdate.zip magica/js/ madomagi/resource/scenario/
+          echo "=== 只打包 scenario/json 目录 ==="
+          zip -r cn_hotupdate.zip madomagi/resource/scenario/json/
+          SIZE=$(stat -c%s cn_hotupdate.zip)
+          echo "剧情热更包大小: ${SIZE} 字节"
+          echo "BUILD_TYPE=scenario" >> $GITHUB_ENV
+          echo "ZIP_SIZE=${SIZE}" >> $GITHUB_ENV
 
       # ==========================================
-      # 场景 3: 修改了清单 JSON
+      # JS + 剧情同时修改：两者都打包进同一个zip
       # ==========================================
-      - name: 打包清单文件 (cn_base_01_json)
-        if: steps.filter.outputs.manifest == 'true'
-        run: zip -r cn_base_01_json.zip madomagi/*.json
+      - name: 打包 JS+剧情 合并热更包
+        if: steps.filter.outputs.js_source == 'true' && steps.filter.outputs.scenario == 'true'
+        run: |
+          python3 Build_JS_Injector.py
+          echo "=== 打包 JS + 剧情 ==="
+          zip cn_hotupdate.zip magica/js/libs/jquery-3.7.1.min.js
+          zip -r cn_hotupdate.zip madomagi/resource/scenario/json/
+          SIZE=$(stat -c%s cn_hotupdate.zip)
+          echo "合并热更包大小: ${SIZE} 字节"
+          echo "BUILD_TYPE=combined" >> $GITHUB_ENV
+          echo "ZIP_SIZE=${SIZE}" >> $GITHUB_ENV
 
       # ==========================================
-      # 场景 4: 修改了数据库 (DB)
-      # ==========================================
-      - name: 打包数据库 (cn_base_00_db)
-        if: steps.filter.outputs.db == 'true'
-        run: zip -r cn_base_00_db.zip madomagi/madomagi.db
-
-      # ==========================================
-      # 统一处理：更新版本号 (针对 JS 或剧情更新)
+      # 更新 version.json
       # ==========================================
       - name: 更新 version.json
-        if: steps.filter.outputs.js_patch == 'true' || steps.filter.outputs.scenario == 'true'
+        if: env.ZIP_SIZE != ''
         run: |
-          SIZE=$(stat -c%s "cn_hotupdate.zip")
-          python3 -c "import json, os; f='version.json'; d=json.load(open(f)) if os.path.exists(f) else {'version': 0, 'size': 0}; d['version']+=1; d['size']=$SIZE; json.dump(d, open(f, 'w'), indent=4)"
+          python3 - <<'EOF'
+          import json, os
+          f = 'version.json'
+          d = json.load(open(f)) if os.path.exists(f) else {'version': 0, 'size': 0}
+          d['version'] += 1
+          d['size'] = int(os.environ['ZIP_SIZE'])
+          json.dump(d, open(f, 'w'), indent=4)
+          print(f"version.json 更新: version={d['version']}, size={d['size']}")
+          EOF
 
       # ==========================================
-      # 提交变动并推送至 Release
+      # 提交 version.json
       # ==========================================
-      - name: 提交代码变动并发布 Release
+      - name: 提交 version.json
+        if: env.ZIP_SIZE != ''
         run: |
-          git config --local user.name "MagiaCN AutoBot"
-          git config --local user.email "bot@magiacn.com"
-          
-          # 仅提交 version.json 和生成的 JS
-          git add version.json magica/js/libs/jquery-3.7.1.min.js || true
-          git commit -m "Auto Build: Assets Sync" || echo "No changes to commit"
+          git config user.name "MagiaCN AutoBot"
+          git config user.email "bot@magiacn.com"
+          git add version.json
+          git commit -m "Auto: 更新 version.json [${BUILD_TYPE}]" || echo "无变动"
           git push
 
-      - name: 发布 ZIP 到 GitHub Releases
+      # ==========================================
+      # 发布 Release
+      # ==========================================
+      - name: 发布到 GitHub Releases
+        if: env.ZIP_SIZE != ''
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           tag: "latest"
-          name: "最新汉化资源包 (自动更新)"
-          artifacts: "*.zip"
+          name: "最新汉化资源包"
+          artifacts: "cn_hotupdate.zip"
           replacesArtifacts: true
           token: ${{ secrets.GITHUB_TOKEN }}
