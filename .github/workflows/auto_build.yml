@@ -1,117 +1,227 @@
-name: MagiaCN Build Pipeline
+name: MagiaCN Asset Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build:
+  # ============================================================
+  # JS 热更：只在 JS 源文件变动时触发，产物名固定 cn_hotupdate_js.zip
+  # ============================================================
+  build_js:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
+    if: |
+      contains(toJson(github.event.commits.*.modified), 'magica/js/') ||
+      contains(toJson(github.event.commits.*.modified), 'Build_JS_Injector.py')
     steps:
-      - name: 检出代码
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
 
-      - name: 检测修改路径
-        uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            js_source:
-              - 'magica/js/libs/**'
-              - 'original_source/**'
-              - 'Build_JS_Injector.py'
-            scenario:
-              - 'madomagi/resource/scenario/json/**'
-
-      - name: 安装工具
-        run: sudo apt-get install -y zip python3
-
-      # ==========================================
-      # JS修改：运行注入脚本，只打包生成的单个js文件
-      # ==========================================
       - name: 生成并打包 JS 热更包
-        if: steps.filter.outputs.js_source == 'true'
         run: |
+          sudo apt-get install -y python3 zip
           python3 Build_JS_Injector.py
-          echo "=== 只打包编译后的单个js文件 ==="
-          zip cn_hotupdate.zip magica/js/libs/jquery-3.7.1.min.js
-          SIZE=$(stat -c%s cn_hotupdate.zip)
-          echo "JS热更包大小: ${SIZE} 字节"
-          echo "BUILD_TYPE=js" >> $GITHUB_ENV
-          echo "ZIP_SIZE=${SIZE}" >> $GITHUB_ENV
+          zip cn_hotupdate_js.zip magica/js/libs/jquery-3.7.1.min.js
+          SIZE=$(stat -c%s cn_hotupdate_js.zip)
+          MD5=$(md5sum cn_hotupdate_js.zip | cut -d' ' -f1)
+          echo "JS包 size=${SIZE} md5=${MD5}"
+          echo "JS_SIZE=${SIZE}" >> $GITHUB_ENV
+          echo "JS_MD5=${MD5}" >> $GITHUB_ENV
 
-      # ==========================================
-      # 剧情修改：只打包 scenario/json 目录
-      # ==========================================
-      - name: 打包剧情热更包
-        if: steps.filter.outputs.scenario == 'true' && steps.filter.outputs.js_source == 'false'
-        run: |
-          echo "=== 只打包 scenario/json 目录 ==="
-          zip -r cn_hotupdate.zip madomagi/resource/scenario/json/
-          SIZE=$(stat -c%s cn_hotupdate.zip)
-          echo "剧情热更包大小: ${SIZE} 字节"
-          echo "BUILD_TYPE=scenario" >> $GITHUB_ENV
-          echo "ZIP_SIZE=${SIZE}" >> $GITHUB_ENV
-
-      # ==========================================
-      # JS + 剧情同时修改：两者都打包进同一个zip
-      # ==========================================
-      - name: 打包 JS+剧情 合并热更包
-        if: steps.filter.outputs.js_source == 'true' && steps.filter.outputs.scenario == 'true'
-        run: |
-          python3 Build_JS_Injector.py
-          echo "=== 打包 JS + 剧情 ==="
-          zip cn_hotupdate.zip magica/js/libs/jquery-3.7.1.min.js
-          zip -r cn_hotupdate.zip madomagi/resource/scenario/json/
-          SIZE=$(stat -c%s cn_hotupdate.zip)
-          echo "合并热更包大小: ${SIZE} 字节"
-          echo "BUILD_TYPE=combined" >> $GITHUB_ENV
-          echo "ZIP_SIZE=${SIZE}" >> $GITHUB_ENV
-
-      # ==========================================
-      # 更新 version.json
-      # ==========================================
-      - name: 更新 version.json
-        if: env.ZIP_SIZE != ''
+      - name: 更新 version_js.json
         run: |
           python3 - <<'EOF'
           import json, os
-          f = 'version.json'
-          d = json.load(open(f)) if os.path.exists(f) else {'version': 0, 'size': 0}
+          f = 'version_js.json'
+          d = json.load(open(f)) if os.path.exists(f) else {'version': 0, 'size': 0, 'md5': ''}
           d['version'] += 1
-          d['size'] = int(os.environ['ZIP_SIZE'])
+          d['size'] = int(os.environ['JS_SIZE'])
+          d['md5'] = os.environ['JS_MD5']
           json.dump(d, open(f, 'w'), indent=4)
-          print(f"version.json 更新: version={d['version']}, size={d['size']}")
           EOF
 
-      # ==========================================
-      # 提交 version.json
-      # ==========================================
-      - name: 提交 version.json
-        if: env.ZIP_SIZE != ''
+      - name: 提交并发布
         run: |
           git config user.name "MagiaCN AutoBot"
           git config user.email "bot@magiacn.com"
-          git add version.json
-          git commit -m "Auto: 更新 version.json [${BUILD_TYPE}]" || echo "无变动"
+          git add version_js.json
+          git commit -m "Auto: JS热更 v$(cat version_js.json | python3 -c 'import sys,json;print(json.load(sys.stdin)[\"version\"])')" || true
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # ==========================================
-      # 发布 Release
-      # ==========================================
-      - name: 发布到 GitHub Releases
-        if: env.ZIP_SIZE != ''
-        uses: ncipollo/release-action@v1
+      - uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           tag: "latest"
           name: "最新汉化资源包"
-          artifacts: "cn_hotupdate.zip"
+          artifacts: "cn_hotupdate_js.zip"
+          replacesArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ============================================================
+  # 剧情热更：只在 scenario 变动时触发，产物名固定 cn_hotupdate_scenario.zip
+  # ============================================================
+  build_scenario:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: |
+      contains(toJson(github.event.commits.*.modified), 'madomagi/resource/scenario/json/')
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 打包剧情热更包
+        run: |
+          sudo apt-get install -y zip
+          zip -r cn_hotupdate_scenario.zip madomagi/resource/scenario/json/
+          SIZE=$(stat -c%s cn_hotupdate_scenario.zip)
+          MD5=$(md5sum cn_hotupdate_scenario.zip | cut -d' ' -f1)
+          echo "剧情包 size=${SIZE} md5=${MD5}"
+          echo "SCN_SIZE=${SIZE}" >> $GITHUB_ENV
+          echo "SCN_MD5=${MD5}" >> $GITHUB_ENV
+
+      - name: 更新 version_scenario.json
+        run: |
+          python3 - <<'EOF'
+          import json, os
+          f = 'version_scenario.json'
+          d = json.load(open(f)) if os.path.exists(f) else {'version': 0, 'size': 0, 'md5': ''}
+          d['version'] += 1
+          d['size'] = int(os.environ['SCN_SIZE'])
+          d['md5'] = os.environ['SCN_MD5']
+          json.dump(d, open(f, 'w'), indent=4)
+          EOF
+
+      - name: 提交并发布
+        run: |
+          git config user.name "MagiaCN AutoBot"
+          git config user.email "bot@magiacn.com"
+          git add version_scenario.json
+          git commit -m "Auto: 剧情热更 v$(cat version_scenario.json | python3 -c 'import sys,json;print(json.load(sys.stdin)[\"version\"])')" || true
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          tag: "latest"
+          name: "最新汉化资源包"
+          artifacts: "cn_hotupdate_scenario.zip"
+          replacesArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ============================================================
+  # 资源清单生成：任何推送都重新计算 MD5，生成 asset_main_cn.json
+  # ============================================================
+  build_manifest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 计算所有 R2+GitHub 文件 MD5，生成 asset_main_cn.json
+        run: |
+          sudo apt-get install -y curl python3
+
+          python3 - <<'PYEOF'
+          import subprocess, json, os, hashlib, urllib.request
+
+          # ── R2 静态包（大概率不再变动）──────────────────────
+          R2_BASE = "https://restless-field-06c7.crynetsystemscell.workers.dev"
+          R2_FILES = [
+              "cn_base_02.zip",
+              "cn_base_03.zip",
+              "cn_base_04.zip",
+              "cn_base_05.zip",
+              "cn_base_06.zip",
+              "cn_magica_resource.zip",
+              "cn_scenario_img.zip",
+              "cn_voice_01.zip",
+              "cn_voice_02_done.zip",
+          ]
+
+          # ── GitHub Release 包（会随热更变动）────────────────
+          GH_BASE = "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest"
+          GH_FILES = [
+              "cn_base_00_db.zip",
+              "cn_base_01_json.zip",
+          ]
+
+          entries = []
+
+          def calc_md5_url(url):
+              print(f"  下载计算MD5: {url}")
+              req = urllib.request.urlopen(url, timeout=120)
+              h = hashlib.md5()
+              size = 0
+              while True:
+                  chunk = req.read(1024*1024)
+                  if not chunk:
+                      break
+                  h.update(chunk)
+                  size += len(chunk)
+              return h.hexdigest(), size
+
+          for fname in R2_FILES:
+              url = f"{R2_BASE}/{fname}"
+              fake_path = f"cn_zips/{fname}"
+              md5, size = calc_md5_url(url)
+              entries.append({
+                  "file_list": [{"size": size, "url": fake_path}],
+                  "md5": md5,
+                  "path": fake_path,
+                  "_real_url": url   # 仅供 C++ hook 参考，游戏不解析此字段
+              })
+              print(f"  {fname}: size={size}, md5={md5}")
+
+          for fname in GH_FILES:
+              url = f"{GH_BASE}/{fname}"
+              fake_path = f"cn_zips/{fname}"
+              md5, size = calc_md5_url(url)
+              entries.append({
+                  "file_list": [{"size": size, "url": fake_path}],
+                  "md5": md5,
+                  "path": fake_path,
+                  "_real_url": url
+              })
+              print(f"  {fname}: size={size}, md5={md5}")
+
+          # 写入 asset_main_cn.json（游戏可解析的格式）
+          # 去掉 _real_url，另存 url_map.json 供 C++ 使用
+          game_entries = []
+          url_map = {}
+          for e in entries:
+              game_entries.append({
+                  "file_list": e["file_list"],
+                  "md5": e["md5"],
+                  "path": e["path"]
+              })
+              url_map[e["path"]] = e["_real_url"]
+
+          json.dump(game_entries, open("asset_main_cn.json", "w"), separators=(',',':'))
+          json.dump(url_map, open("url_map.json", "w"), indent=2)
+          print(f"\n生成完毕: {len(game_entries)} 个条目")
+          PYEOF
+
+      - name: 提交 asset_main_cn.json 和 url_map.json
+        run: |
+          git config user.name "MagiaCN AutoBot"
+          git config user.email "bot@magiacn.com"
+          git add asset_main_cn.json url_map.json
+          git commit -m "Auto: 更新资源清单 MD5" || echo "无变动"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          tag: "latest"
+          name: "最新汉化资源包"
+          artifacts: "asset_main_cn.json,url_map.json"
           replacesArtifacts: true
           token: ${{ secrets.GITHUB_TOKEN }}
