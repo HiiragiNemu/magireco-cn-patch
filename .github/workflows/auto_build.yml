@@ -177,16 +177,13 @@ jobs:
           print(f"\n✅ download_asset 写入 {count} 条（全部为占位符MD5）")
           PYEOF
 
-      # ── 步骤3：打包 cn_base_00_db.zip ─────────────────────
-      - name: 打包 cn_base_00_db.zip（DB + flag）
+      - name: 打包 cn_base_00_db.zip（只含DB，不含flag）
         run: |
-          # zip 内部路径: madomagi/madomagi.db
-          #               madomagi/magica/cn_base_done.flag
-          # 解压到 BASE_DIR(files/) 后路径自动对齐
-          mkdir -p _db_pack/madomagi/magica
+          # ★ 只打包 DB 文件，不打包 cn_base_done.flag
+          # cn_base_done.flag 由 Java startCNDownload 全量安装完成后写入
+          # cn_db_installed.flag 由 C++ Bootstrap 解压后写入，供下次启动跳过Bootstrap
+          mkdir -p _db_pack/madomagi
           cp madomagi/madomagi.db _db_pack/madomagi/madomagi.db
-          # flag 文件：游戏和我们的 C++ 都用它判断是否已安装基础包
-          echo "done" > _db_pack/madomagi/magica/cn_base_done.flag
           cd _db_pack && zip -r ../cn_base_00_db.zip madomagi/ && cd ..
           echo "DB包内容:"
           unzip -l cn_base_00_db.zip
