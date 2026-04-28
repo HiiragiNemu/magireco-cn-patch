@@ -6,6 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
+  # ════════════════════════════════════════════════════════════
+  # JOB 1: 构建全量资源清单 + DB + 发布
+  # ════════════════════════════════════════════════════════════
   build_all:
     runs-on: ubuntu-latest
     permissions:
@@ -25,7 +28,8 @@ jobs:
       - name: 安装依赖
         run: pip3 install requests
 
-      - name: 获取MD5和Size，生成所有JSON
+      # ── 步骤1：获取所有 ZIP 的 MD5/Size ───────────────────
+      - name: 获取MD5和Size
         run: |
           python3 - <<'PYEOF'
           import requests, hashlib, json, base64, binascii, os
@@ -50,14 +54,12 @@ jobs:
                       return size, etag
               except Exception as e:
                   print(f"         HEAD失败: {e}")
-              print(f"  [流式下载] {url.split('/')[-1]}")
+              print(f"  [流式] {url.split('/')[-1]}")
               r = requests.get(url, stream=True, timeout=600, allow_redirects=True)
               r.raise_for_status()
-              h = hashlib.md5()
-              size = 0
-              for chunk in r.iter_content(4 * 1024 * 1024):
-                  h.update(chunk)
-                  size += len(chunk)
+              h, size = hashlib.md5(), 0
+              for chunk in r.iter_content(4*1024*1024):
+                  h.update(chunk); size += len(chunk)
               md5 = h.hexdigest()
               print(f"         size={size} md5={md5} (流式)")
               return size, md5
@@ -66,87 +68,55 @@ jobs:
               print(f"  [下载] {url.split('/')[-1]}")
               r = requests.get(url, stream=True, timeout=300, allow_redirects=True)
               r.raise_for_status()
-              h = hashlib.md5()
-              size = 0
-              for chunk in r.iter_content(1024 * 1024):
-                  h.update(chunk)
-                  size += len(chunk)
+              h, size = hashlib.md5(), 0
+              for chunk in r.iter_content(1024*1024):
+                  h.update(chunk); size += len(chunk)
               md5 = h.hexdigest()
               print(f"         size={size} md5={md5}")
               return size, md5
-
-          def entry(fake_path, size, md5):
-              return {
-                  "file_list": [{"size": size, "url": fake_path}],
-                  "md5":  md5,
-                  "path": fake_path
-              }
 
           zip_info = {}
 
           print("[R2 包]")
           r2_zips = [
-              ("cn_zips/cn_base_02.zip",          f"{R2}/cn_base_02.zip"),
-              ("cn_zips/cn_base_03.zip",          f"{R2}/cn_base_03.zip"),
-              ("cn_zips/cn_base_04.zip",          f"{R2}/cn_base_04.zip"),
-              ("cn_zips/cn_base_05.zip",          f"{R2}/cn_base_05.zip"),
-              ("cn_zips/cn_base_06.zip",          f"{R2}/cn_base_06.zip"),
-              ("cn_zips/cn_magica_resource.zip",  f"{R2}/cn_magica_resource.zip"),
-              ("cn_zips/cn_scenario_img.zip",     f"{R2}/cn_scenario_img.zip"),
-              ("cn_zips/cn_voice_01.zip",         f"{R2}/cn_voice_01.zip"),
-              ("cn_zips/cn_voice_02_done.zip",    f"{R2}/cn_voice_02_done.zip"),
+              ("cn_zips/cn_base_02.zip",         f"{R2}/cn_base_02.zip"),
+              ("cn_zips/cn_base_03.zip",         f"{R2}/cn_base_03.zip"),
+              ("cn_zips/cn_base_04.zip",         f"{R2}/cn_base_04.zip"),
+              ("cn_zips/cn_base_05.zip",         f"{R2}/cn_base_05.zip"),
+              ("cn_zips/cn_base_06.zip",         f"{R2}/cn_base_06.zip"),
+              ("cn_zips/cn_magica_resource.zip", f"{R2}/cn_magica_resource.zip"),
+              ("cn_zips/cn_scenario_img.zip",    f"{R2}/cn_scenario_img.zip"),
+              ("cn_zips/cn_voice_01.zip",        f"{R2}/cn_voice_01.zip"),
+              ("cn_zips/cn_voice_02_done.zip",   f"{R2}/cn_voice_02_done.zip"),
           ]
           for fake, real in r2_zips:
               size, md5 = get_r2_info(real)
               zip_info[fake] = {"size": size, "md5": md5, "real_url": real}
 
-          print("\n[GitHub 包]")
+          print("\n[GitHub 包（除DB）]")
           gh_zips = [
               ("cn_zips/cn_base_01_json.zip", f"{GH}/cn_base_01_json.zip"),
-              # cn_base_00_db.zip 的 MD5/size 在打包新DB后才能确定，最后单独处理
           ]
           for fake, real in gh_zips:
               size, md5 = get_gh_info(real)
               zip_info[fake] = {"size": size, "md5": md5, "real_url": real}
 
           os.makedirs("madomagi", exist_ok=True)
-
-          # 先保存不含DB包的 zip_info，供后续DB打包步骤使用
           json.dump(
-              {k: {"size": v["size"], "md5": v["md5"]}
-               for k, v in zip_info.items()},
+              {k: {"size": v["size"], "md5": v["md5"]} for k, v in zip_info.items()},
               open("zip_md5_nodb.json", "w"), indent=2
           )
-
-          # voice / fullvoice JSON（不含DB）
-          asset_voice = [entry(
-              "cn_zips/cn_voice_01.zip",
-              zip_info["cn_zips/cn_voice_01.zip"]["size"],
-              zip_info["cn_zips/cn_voice_01.zip"]["md5"]
-          )]
-          asset_fullvoice = [entry(
-              "cn_zips/cn_voice_02_done.zip",
-              zip_info["cn_zips/cn_voice_02_done.zip"]["size"],
-              zip_info["cn_zips/cn_voice_02_done.zip"]["md5"]
-          )]
-
-          def dump(path, obj):
-              with open(path, "w", encoding="utf-8") as f:
-                  json.dump(obj, f, separators=(',', ':'), ensure_ascii=False)
-              print(f"✓ {path} ({len(obj)} 条)")
-
-          dump("madomagi/asset_voice.json",    asset_voice)
-          dump("madomagi/asset_fullvoice.json", asset_fullvoice)
-
           json.dump(
               {k: v["real_url"] for k, v in zip_info.items()},
-              open("url_map.json", "w"), indent=2
+              open("url_map_nodb.json", "w"), indent=2
           )
-          print(f"✓ url_map.json ({len(zip_info)} 条)")
-          print("\n✅ 第一阶段完成（等待DB打包后生成最终asset_main.json）")
+          print("✓ zip_md5_nodb.json / url_map_nodb.json")
           PYEOF
 
-      - name: 构建 madomagi.db（写入所有cn_zips MD5）
+      # ── 步骤2：构建 madomagi.db（含占位符MD5） ────────────
+      # ★ 关键设计：cn_zips 条目写入 DB 但 MD5 设为占位符
+      #   游戏对比 manifest(真实MD5) vs DB(占位符MD5) → 不符 → 触发下载
+      - name: 构建 madomagi.db（含占位符MD5触发下载）
         run: |
           python3 - <<'PYEOF'
           import json, sqlite3, os
@@ -156,6 +126,7 @@ jobs:
 
           os.makedirs("madomagi", exist_ok=True)
           zmd5 = json.load(open(ZMD5_PATH))
+
           conn = sqlite3.connect(DB_PATH)
           cur  = conn.cursor()
 
@@ -170,91 +141,93 @@ jobs:
               )
           """)
 
-          # ★ 关键：DB里只写入 cn_base_01..06 和资源包的MD5
-          # ★ 不写入 cn_base_00_db.zip 自身（否则游戏会跳过DB包下载）
-          # ★ 不写入 voice 包（由 asset_voice.json 单独控制）
+          # ★ cn_zips 条目写入占位符 MD5（与 manifest 中真实 MD5 不符）
+          #   → 游戏检测到不符 → 加入下载队列
+          # ★ voice 包不写入（由 asset_voice.json 单独控制）
+          PLACEHOLDER = "00000000000000000000000000000000"
           skip = {"cn_zips/cn_voice_01.zip", "cn_zips/cn_voice_02_done.zip"}
           count = 0
-          for fake_path, info in zmd5.items():
+          for fake_path in zmd5:
               if fake_path in skip:
                   print(f"  [跳过voice] {fake_path}")
                   continue
+              # cn_base_01_json 也写占位符，确保游戏下载
               cur.execute(
                   "INSERT OR REPLACE INTO download_asset (path, md5) VALUES (?, ?)",
-                  (fake_path, info["md5"])
+                  (fake_path, PLACEHOLDER)
               )
-              print(f"  {fake_path} → {info['md5']}")
+              print(f"  {fake_path} → {PLACEHOLDER} (占位符，触发下载)")
               count += 1
 
-          # 清除 asset_json 缓存（强制游戏重新获取manifest）
+          # 也要给 cn_base_00_db.zip 写占位符（DB包自身）
+          cur.execute(
+              "INSERT OR REPLACE INTO download_asset (path, md5) VALUES (?, ?)",
+              ("cn_zips/cn_base_00_db.zip", PLACEHOLDER)
+          )
+          print(f"  cn_zips/cn_base_00_db.zip → {PLACEHOLDER} (占位符，触发下载)")
+          count += 1
+
+          # 清空 asset_json 缓存（强制游戏重新获取 manifest）
           if "asset_json" in tables:
               cur.execute("DELETE FROM asset_json")
               print("✓ asset_json 缓存清空")
 
           conn.commit()
           conn.close()
-          print(f"\n✅ download_asset 写入 {count} 条")
+          print(f"\n✅ download_asset 写入 {count} 条（全部为占位符MD5）")
           PYEOF
 
-      - name: 打包 cn_base_00_db.zip（含最新DB，内部路径对齐游戏解压目标）
+      # ── 步骤3：打包 cn_base_00_db.zip ─────────────────────
+      - name: 打包 cn_base_00_db.zip（DB + flag）
         run: |
-          # 游戏解压到 /data/data/io.kamihama.totentanz/files/
-          # 所以zip内部路径必须是 madomagi/madomagi.db
-          mkdir -p _db_pack/madomagi
-          cp madomagi/madomagi.db _db_pack/madomagi/madomagi.db
-
-          # 同时打包 flag 文件，解压后游戏知道基础包已完成
+          # zip 内部路径: madomagi/madomagi.db
+          #               madomagi/magica/cn_base_done.flag
+          # 解压到 BASE_DIR(files/) 后路径自动对齐
           mkdir -p _db_pack/madomagi/magica
+          cp madomagi/madomagi.db _db_pack/madomagi/madomagi.db
+          # flag 文件：游戏和我们的 C++ 都用它判断是否已安装基础包
           echo "done" > _db_pack/madomagi/magica/cn_base_done.flag
-
-          cd _db_pack
-          zip -r ../cn_base_00_db.zip madomagi/
-          cd ..
-          echo "DB包大小: $(du -sh cn_base_00_db.zip | cut -f1)"
+          cd _db_pack && zip -r ../cn_base_00_db.zip madomagi/ && cd ..
           echo "DB包内容:"
           unzip -l cn_base_00_db.zip
+          echo "DB包大小: $(du -sh cn_base_00_db.zip | cut -f1)"
 
-      - name: 计算 cn_base_00_db.zip 的 MD5/Size，生成最终 asset_main.json
+      # ── 步骤4：计算DB包MD5，生成最终 asset_main.json ──────
+      - name: 生成 asset_main.json / asset_voice.json / asset_fullvoice.json
         run: |
           python3 - <<'PYEOF'
           import json, hashlib, os
 
-          # 计算刚打包的DB zip
-          h = hashlib.md5()
-          size = 0
+          # 计算刚打好的 DB zip
+          h, size = hashlib.md5(), 0
           with open("cn_base_00_db.zip", "rb") as f:
               for chunk in iter(lambda: f.read(1024*1024), b""):
-                  h.update(chunk)
-                  size += len(chunk)
+                  h.update(chunk); size += len(chunk)
           db_md5  = h.hexdigest()
           db_size = size
           print(f"cn_base_00_db.zip: size={db_size} md5={db_md5}")
 
-          # 读取其他包信息
           zmd5 = json.load(open("zip_md5_nodb.json"))
+          GH   = "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest"
 
-          # 写入完整 zip_md5.json（含DB包）
-          zmd5["cn_zips/cn_base_00_db.zip"] = {
-              "size": db_size,
-              "md5":  db_md5
-          }
+          # 补入 DB 包真实信息（写入 zip_md5.json 供参考）
+          zmd5["cn_zips/cn_base_00_db.zip"] = {"size": db_size, "md5": db_md5}
           json.dump(zmd5, open("zip_md5.json", "w"), indent=2)
-          print("✓ zip_md5.json（含DB包）")
+          print("✓ zip_md5.json（含DB包真实MD5）")
 
-          def entry(fake_path, size, md5):
-              return {
-                  "file_list": [{"size": size, "url": fake_path}],
-                  "md5":  md5,
-                  "path": fake_path
-              }
+          url_map = json.load(open("url_map_nodb.json"))
+          url_map["cn_zips/cn_base_00_db.zip"] = f"{GH}/cn_base_00_db.zip"
+          json.dump(url_map, open("url_map.json", "w"), indent=2)
+          print("✓ url_map.json")
 
-          # ★★★ asset_main.json 顺序：
-          # 1. cn_base_00_db.zip 放【最前面】，游戏先下载DB
-          # 2. 其余资源包按顺序
-          # 游戏下载完DB包后，DB里已有其余包的MD5记录
-          # 但其余包的实际文件不存在 → 游戏会继续下载
+          def entry(path, size, md5):
+              return {"file_list": [{"size": size, "url": path}],
+                      "md5": md5, "path": path}
+
+          # ★ asset_main.json：DB 放首位，游戏先下载 DB
+          #   游戏处理顺序：DB → 01 → 02 ... → 场景图 → 不含voice
           main_order = [
-              "cn_zips/cn_base_00_db.zip",      # ★ DB最先装
+              "cn_zips/cn_base_00_db.zip",     # ★ 首位，先装DB
               "cn_zips/cn_base_01_json.zip",
               "cn_zips/cn_base_02.zip",
               "cn_zips/cn_base_03.zip",
@@ -264,26 +237,35 @@ jobs:
               "cn_zips/cn_magica_resource.zip",
               "cn_zips/cn_scenario_img.zip",
           ]
+          asset_main = [entry(p, zmd5[p]["size"], zmd5[p]["md5"])
+                        for p in main_order]
 
-          asset_main = [
-              entry(p, zmd5[p]["size"], zmd5[p]["md5"])
-              for p in main_order
-          ]
+          asset_voice = [entry(
+              "cn_zips/cn_voice_01.zip",
+              zmd5["cn_zips/cn_voice_01.zip"]["size"],
+              zmd5["cn_zips/cn_voice_01.zip"]["md5"]
+          )]
+          asset_fullvoice = [entry(
+              "cn_zips/cn_voice_02_done.zip",
+              zmd5["cn_zips/cn_voice_02_done.zip"]["size"],
+              zmd5["cn_zips/cn_voice_02_done.zip"]["md5"]
+          )]
 
-          with open("madomagi/asset_main.json", "w", encoding="utf-8") as f:
-              json.dump(asset_main, f, separators=(',', ':'), ensure_ascii=False)
-          print(f"✓ asset_main.json ({len(asset_main)} 条，DB在首位)")
+          os.makedirs("madomagi", exist_ok=True)
 
-          # 更新 url_map.json 加入DB包
-          GH = "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest"
-          url_map = json.load(open("url_map.json"))
-          url_map["cn_zips/cn_base_00_db.zip"] = f"{GH}/cn_base_00_db.zip"
-          json.dump(url_map, open("url_map.json", "w"), indent=2)
-          print("✓ url_map.json 更新")
-          print("\n✅ 全部完成")
+          def dump(path, obj):
+              with open(path, "w", encoding="utf-8") as f:
+                  json.dump(obj, f, separators=(',',':'), ensure_ascii=False)
+              print(f"✓ {path} ({len(obj)} 条)")
+
+          dump("madomagi/asset_main.json",     asset_main)
+          dump("madomagi/asset_voice.json",    asset_voice)
+          dump("madomagi/asset_fullvoice.json", asset_fullvoice)
+          print("\n✅ 全部JSON生成完成")
           PYEOF
 
-      - name: 提交所有变更
+      # ── 步骤5：提交并发布 ──────────────────────────────────
+      - name: 提交所有变更到仓库
         run: |
           git pull --rebase --autostash origin main
           git add madomagi/asset_main.json \
@@ -293,12 +275,13 @@ jobs:
                   url_map.json \
                   zip_md5.json
           git diff --cached --quiet \
-            && echo "无变动，跳过" \
+            && echo "无变动，跳过commit" \
             || git commit -m \
               "Auto: 更新资源清单+DB $(date -u +'%Y-%m-%d %H:%M UTC')"
           n=0
-          until git push || [ $n -ge 3 ]; do
+          until git push || [ $n -ge 5 ]; do
             n=$((n+1))
+            echo "push失败，第${n}次重试..."
             git pull --rebase --autostash origin main
             sleep $((n*3))
           done
@@ -320,7 +303,11 @@ jobs:
           replacesArtifacts: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
-  build_hotupdate:
+  # ════════════════════════════════════════════════════════════
+  # JOB 2: 剧情JSON热更（cn_scenario_update.zip）
+  # 触发条件：madomagi/resource/scenario/json/ 下有文件变动
+  # ════════════════════════════════════════════════════════════
+  build_scenario_hotupdate:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -331,31 +318,33 @@ jobs:
           fetch-depth: 2
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 检测翻译文件变动
-        id: detect
+      - name: 检测剧情JSON变动
+        id: detect_scenario
         run: |
           CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          echo "变动文件:"
+          echo "$CHANGED"
           HAS=0
-          echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/' && HAS=1
-          echo "$CHANGED" | grep -qE '^magica/js/' && HAS=1
+          echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/json/' && HAS=1
+          echo "HAS=$HAS"
           echo "HAS=$HAS" >> $GITHUB_OUTPUT
 
-      - name: 打包热更
-        if: steps.detect.outputs.HAS == '1'
+      - name: 打包 cn_scenario_update.zip
+        if: steps.detect_scenario.outputs.HAS == '1'
         run: |
-          mkdir -p _pack/madomagi/resource/scenario/json
-          mkdir -p _pack/magica/js
-          [ -d madomagi/resource/scenario/json ] && \
-            cp -r madomagi/resource/scenario/json/. \
-                  _pack/madomagi/resource/scenario/json/
-          [ -d magica/js ] && \
-            cp -r magica/js/. _pack/magica/js/
-          cd _pack && zip -r ../cn_hotupdate.zip madomagi/ magica/ && cd ..
-          echo "热更包内容:"
-          unzip -l cn_hotupdate.zip
+          echo "打包剧情JSON热更包..."
+          mkdir -p _pack_scenario/madomagi/resource/scenario/json
+          cp -r madomagi/resource/scenario/json/. \
+                _pack_scenario/madomagi/resource/scenario/json/
+          cd _pack_scenario
+          zip -r ../cn_scenario_update.zip madomagi/
+          cd ..
+          echo "剧情热更包内容 (前20行):"
+          unzip -l cn_scenario_update.zip | head -20
+          echo "剧情热更包大小: $(du -sh cn_scenario_update.zip | cut -f1)"
 
-      - name: 更新 version.json 并发布
-        if: steps.detect.outputs.HAS == '1'
+      - name: 更新 version_scenario.json 并发布
+        if: steps.detect_scenario.outputs.HAS == '1'
         run: |
           git config user.name  "MagiaCN AutoBot"
           git config user.email "bot@magiacn.com"
@@ -363,27 +352,25 @@ jobs:
           git pull --rebase --autostash origin main
           python3 - <<'EOF'
           import json, hashlib, os
-          f = "version.json"
+          f = "version_scenario.json"
           d = json.load(open(f)) if os.path.exists(f) \
               else {"version": 0, "size": 0, "md5": ""}
-          h = hashlib.md5()
-          size = 0
-          with open("cn_hotupdate.zip", "rb") as fp:
+          h, size = hashlib.md5(), 0
+          with open("cn_scenario_update.zip", "rb") as fp:
               for chunk in iter(lambda: fp.read(1024*1024), b""):
-                  h.update(chunk)
-                  size += len(chunk)
+                  h.update(chunk); size += len(chunk)
           d["version"] += 1
           d["size"]     = size
           d["md5"]      = h.hexdigest()
           json.dump(d, open(f, "w"), indent=2)
-          print(json.dumps(d, indent=2))
+          print(f"version_scenario.json: {json.dumps(d, indent=2)}")
           EOF
-          git add version.json
+          git add version_scenario.json
           VER=$(python3 -c \
-            'import json; print(json.load(open("version.json"))["version"])')
-          git commit -m "Auto: 热更 v${VER}" || true
+            'import json; print(json.load(open("version_scenario.json"))["version"])')
+          git commit -m "Auto: 剧情热更 v${VER} $(date -u +'%Y-%m-%d %H:%M UTC')" || true
           n=0
-          until git push || [ $n -ge 3 ]; do
+          until git push || [ $n -ge 5 ]; do
             n=$((n+1))
             git pull --rebase --autostash origin main
             sleep $((n*3))
@@ -392,10 +379,135 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: ncipollo/release-action@v1
-        if: steps.detect.outputs.HAS == '1'
+        if: steps.detect_scenario.outputs.HAS == '1'
         with:
           allowUpdates: true
           tag: "latest"
-          artifacts: "cn_hotupdate.zip"
+          artifacts: |
+            cn_scenario_update.zip
+            version_scenario.json
+          replacesArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ════════════════════════════════════════════════════════════
+  # JOB 3: JS热更（cn_js_update.zip）
+  # 触发条件：magica/js/libs/ 下有 JSON 源文件变动
+  # 先运行 Build_JS_Injector.py 生成最新 JS，再打包
+  # ════════════════════════════════════════════════════════════
+  build_js_hotupdate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: build_all
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 检测JS源文件变动
+        id: detect_js
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          echo "变动文件:"
+          echo "$CHANGED"
+          HAS=0
+          echo "$CHANGED" | grep -qE '^magica/js/libs/' && HAS=1
+          echo "HAS=$HAS"
+          echo "HAS=$HAS" >> $GITHUB_OUTPUT
+
+      - name: 安装 Python 依赖（供 Build_JS_Injector.py 使用）
+        if: steps.detect_js.outputs.HAS == '1'
+        run: |
+          pip3 install requests 2>/dev/null || true
+          # 如果 Build_JS_Injector.py 有其他依赖，在此添加
+          if [ -f "requirements_js.txt" ]; then
+            pip3 install -r requirements_js.txt
+          fi
+
+      - name: 运行 Build_JS_Injector.py 生成最新 JS
+        if: steps.detect_js.outputs.HAS == '1'
+        run: |
+          echo "运行 Build_JS_Injector.py..."
+          python3 Build_JS_Injector.py
+          echo "生成的 JS 文件:"
+          find magica/js/libs/ -name "*.js" | head -20
+
+      - name: 打包 cn_js_update.zip
+        if: steps.detect_js.outputs.HAS == '1'
+        run: |
+          echo "打包JS热更包..."
+          mkdir -p _pack_js/magica/js/libs
+          # 只打包生成的 .js 文件，不打包源 JSON 文件
+          find magica/js/libs/ -name "*.js" -exec cp {} _pack_js/magica/js/libs/ \;
+          cd _pack_js
+          zip -r ../cn_js_update.zip magica/
+          cd ..
+          echo "JS热更包内容:"
+          unzip -l cn_js_update.zip
+          echo "JS热更包大小: $(du -sh cn_js_update.zip | cut -f1)"
+
+      - name: 提交生成的 JS 文件到仓库
+        if: steps.detect_js.outputs.HAS == '1'
+        run: |
+          git config user.name  "MagiaCN AutoBot"
+          git config user.email "bot@magiacn.com"
+          git config rebase.autoStash true
+          git pull --rebase --autostash origin main
+          # 提交 Build_JS_Injector.py 生成的 JS 文件
+          git add magica/js/libs/*.js 2>/dev/null || \
+            git add "magica/js/libs/" 2>/dev/null || true
+          git diff --cached --quiet \
+            && echo "JS无变动" \
+            || git commit -m "Auto: 更新生成JS $(date -u +'%Y-%m-%d %H:%M UTC')"
+          n=0
+          until git push || [ $n -ge 5 ]; do
+            n=$((n+1))
+            git pull --rebase --autostash origin main
+            sleep $((n*3))
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 更新 version_js.json 并发布
+        if: steps.detect_js.outputs.HAS == '1'
+        run: |
+          git pull --rebase --autostash origin main
+          python3 - <<'EOF'
+          import json, hashlib, os
+          f = "version_js.json"
+          d = json.load(open(f)) if os.path.exists(f) \
+              else {"version": 0, "size": 0, "md5": ""}
+          h, size = hashlib.md5(), 0
+          with open("cn_js_update.zip", "rb") as fp:
+              for chunk in iter(lambda: fp.read(1024*1024), b""):
+                  h.update(chunk); size += len(chunk)
+          d["version"] += 1
+          d["size"]     = size
+          d["md5"]      = h.hexdigest()
+          json.dump(d, open(f, "w"), indent=2)
+          print(f"version_js.json: {json.dumps(d, indent=2)}")
+          EOF
+          git add version_js.json
+          VER=$(python3 -c \
+            'import json; print(json.load(open("version_js.json"))["version"])')
+          git commit -m "Auto: JS热更 v${VER} $(date -u +'%Y-%m-%d %H:%M UTC')" || true
+          n=0
+          until git push || [ $n -ge 5 ]; do
+            n=$((n+1))
+            git pull --rebase --autostash origin main
+            sleep $((n*3))
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ncipollo/release-action@v1
+        if: steps.detect_js.outputs.HAS == '1'
+        with:
+          allowUpdates: true
+          tag: "latest"
+          artifacts: |
+            cn_js_update.zip
+            version_js.json
           replacesArtifacts: true
           token: ${{ secrets.GITHUB_TOKEN }}
