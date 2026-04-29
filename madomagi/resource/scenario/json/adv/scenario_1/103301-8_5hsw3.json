@@ -1,929 +1,929 @@
 {
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.01,
-                "bg": "bg_adv_11025.jpg",
-                "chara": [
-                    {
-                        "id": 6212,
-                        "name": "sprite_0",
-                        "pos": 1
-                    }
-                ],
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare.png",
-                        "posX": 300,
-                        "posY": 0,
-                        "visible": "appear"
-                    },
-                    {
-                        "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare2.png",
-                        "posX": -350,
-                        "posY": 0,
-                        "visible": "appear"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "bgm": "bgm01_battle06",
-                "chara": [
-                    {
-                        "id": 6212,
-                        "name": "sprite_0"
-                    }
-                ],
-                "nameCenter": "",
-                "textCenter": "…………",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "effect": "shake",
-                        "id": 6212,
-                        "name": "sprite_0"
-                    }
-                ],
-                "nameCenter": "",
-                "textBg": "shout",
-                "textCenter": "――っ!?"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 6212,
-                        "name": "sprite_0"
-                    }
-                ],
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare.png",
-                        "visible": "hide"
-                    },
-                    {
-                        "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare2.png",
-                        "visible": "hide"
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "bg_adv_11025.jpg",
-                "bgChangeEffect": "cameraPan"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 101500,
-                        "motion": 200,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-3"
-                    }
-                ],
-                "nameCenter": "うい",
-                "textCenter": "ツバメさん！@少しだけ動きを止めて！"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "effect": "slideInRightFast",
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100100,
-                        "motion": 1,
-                        "pos": 0
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-4"
-                    }
-                ],
-                "nameLeft": "いろは",
-                "textLeft": "いいタイミングだよ、うい！@これなら一撃で！"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "id": 100100,
-                        "motion": 400
-                    }
-                ],
-                "flashEffect": "explosion",
-                "se": "4001_equip_arms_bow_vh",
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 101500
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 100100
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "bg_adv_11025.jpg",
-                "bgChangeEffect": "cameraPan"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "effect": "shake",
-                        "id": 6212,
-                        "name": "sprite_0",
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "",
-                "textBg": "shout",
-                "textCenter": "[flashEffect:flashRed2][se:6001_hit_shooting_01_vh][bgEffect:shakeLarge]!?!?!?"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 6212,
-                        "name": "sprite_0"
-                    }
-                ],
-                "se": "3102_enemy_dead",
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 100100,
-                        "motion": 100,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-6"
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 101500,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameLeft": "いろは",
-                "textLeft": "ふぅ、これで７枚目だね"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 101500,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-7"
-                    }
-                ],
-                "nameRight": "うい",
-                "textRight": "うん、順調だと思う！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-8"
-                    }
-                ],
-                "nameLeft": "いろは",
-                "textLeft": "みんなからのメッセージを見ても@調子は良さそうだよ"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "bg": "black",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 100100,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-9"
-                    }
-                ],
-                "nameNarration": "いろは",
-                "narration": "こっちは７枚目の鏡を壊しました！",
-                "narrationEffect": "in",
-                "narrationHAlignment": "left",
-                "narrationPosX": 180,
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_001.exp3.json",
-                        "id": 102500,
-                        "motion": 200,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-10"
-                    }
-                ],
-                "nameNarration": "静香",
-                "narration": "私もこれから６枚目なんだけど@神浜市に浮かんでる鏡全部を壊すのよね？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 100100,
-                        "motion": 301,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-11"
-                    }
-                ],
-                "nameNarration": "いろは",
-                "narration": "正直、助けがないと朝までかかりそうだよね…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 103300,
-                        "motion": 1,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-12"
-                    }
-                ],
-                "nameNarration": "ラビ",
-                "narration": "こちらはそれ以前の問題で@コピーの見分け方があれば教えて欲しい"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 100100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-13"
-                    }
-                ],
-                "nameNarration": "いろは",
-                "narration": "私たち以外は倒れてるはずだし@もしも誰か目を覚ましたら@連絡をしてもらうようにグループメッセージには@送ってあるんだけど"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_040.exp3.json",
-                        "id": 102800,
-                        "motion": 1,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-14"
-                    }
-                ],
-                "nameNarration": "ひめな",
-                "narration": "まぁラビりんの言うことも@わかりみは深いよね"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102800,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-15"
-                    }
-                ],
-                "narration": "ワンチャン、ガチのマイメンだったりしたら@ぶっちゃけ最＆悪なわけじゃん？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102500,
-                        "motion": 0,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-16"
-                    }
-                ],
-                "nameNarration": "静香",
-                "narration": "考えてなかったわ"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 100100,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-17"
-                    }
-                ],
-                "nameNarration": "いろは",
-                "narration": "そうなんだけど…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100100,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-18"
-                    }
-                ],
-                "narration": "一番簡単なのは魔力反応を探ることです@すぐに違うのがわかります"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-19"
-                    }
-                ],
-                "narration": "あとは精巧なコピーだったとしても@性格や過去や趣味など@何かしら一致しない部分があるので@それを探ってもらうのがいいと思います！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 103300,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-20"
-                    }
-                ],
-                "nameNarration": "ラビ",
-                "narration": "とりあえず環さんの助言通りに@試してみる"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_001.exp3.json",
-                        "id": 102500,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-21"
-                    }
-                ],
-                "nameNarration": "静香",
-                "narration": "ええ、ちょうど本当にちゃるみたいな@コピーが目の前にいるから試してみるわ"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "bg": "bg_adv_13035.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 102500,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102600,
-                        "motion": 1,
-                        "pos": 2
-                    }
-                ],
-                "narrationEffect": "out",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102500,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-22"
-                    }
-                ],
-                "nameLeft": "静香",
-                "textLeft": "やっぱりあなたは@本物かもしれないのね",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 102600,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-23"
-                    }
-                ],
-                "nameRight": "ちはる",
-                "textRight": "よかったぁ@やっと信じてもらえたよぅ！"
-            },
-            {
-                "autoTurnLast": 2,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_001.exp3.json",
-                        "id": 102500
-                    }
-                ],
-                "flashEffect": "flashWhiteSlow2",
-                "se": "7211_souljem_02",
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 0,
-                        "id": 102500,
-                        "lipSynch": 0,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-24"
-                    }
-                ],
-                "nameLeft": "静香",
-                "textLeft": "（確かに魔力は本人のような…）"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102500,
-                        "lipSynch": 0,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-25"
-                    }
-                ],
-                "nameLeft": "静香",
-                "textLeft": "（さっきすなおの偽物を見つけて@倒したけど偽物で良かったわ…）"
-            },
-            {
-                "autoTurnLast": 2,
-                "bg": "bg_adv_21153.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_001.exp3.json",
-                        "id": 102500,
-                        "motion": 1,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102600,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102600,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-26"
-                    }
-                ],
-                "nameRight": "ちはる",
-                "textRight": "ここに鏡があるの？",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102500,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-27"
-                    }
-                ],
-                "nameLeft": "静香",
-                "textLeft": "いえ、あなたを殺すために@誘い込んだんだのよ"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102600,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-28"
-                    }
-                ],
-                "nameRight": "ちはる",
-                "textRight": "えっ…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 102500,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-29"
-                    }
-                ],
-                "nameLeft": "静香",
-                "textLeft": "私の悪意に気づけないだなんて@能力がさび付いたのかしら"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102600,
-                        "motion": 300,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-30"
-                    }
-                ],
-                "nameRight": "ちはる",
-                "textRight": "あれ、ちょっと調子が@悪いのかな…"
-            },
-            {
-                "autoTurnLast": 2.2,
-                "chara": [
-                    {
-                        "id": 102500,
-                        "pos": 1,
-                        "voiceFull": "fullvoice/section_103301/vo_full_103301-8-31"
-                    }
-                ],
-                "enableSkipAutoTurn": 1,
-                "nameCenter": "静香",
-                "textCenter": "時女一心流@三尺蹴詰ノ首落し!!"
-            },
-            {
-                "autoTurnLast": 0.8,
-                "chara": [
-                    {
-                        "effect": "7000_attack01",
-                        "id": 102500,
-                        "motion": 400
-                    }
-                ],
-                "surround": "1025A04"
-            },
-            {
-                "autoTurnLast": 1,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102600,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-32",
-                        "voiceFullStop": "fullvoice/section_103301/vo_full_103301-8-31"
-                    }
-                ],
-                "enableSkipAutoTurn": 0,
-                "nameRight": "ちはる",
-                "textRight": "[surround:1025A06][chara:102600:effect_7002_damage01][bgEffect:shakeLarge]…っ!?"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 102600
-                    }
-                ],
-                "se": "3002_chara_dead",
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_001.exp3.json",
-                        "id": 102500,
-                        "motion": 0,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-33"
-                    }
-                ],
-                "nameLeft": "静香",
-                "textLeft": "さあ、@首を落としてどうなるかしら…"
-            },
-            {
-                "autoTurnLast": 1,
-                "chara": [
-                    {
-                        "id": 7213,
-                        "name": "sprite_0",
-                        "pos": 2
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102500,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-34"
-                    }
-                ],
-                "nameLeft": "静香",
-                "textLeft": "ふぅ…偽物だった…"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 102500
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 7213,
-                        "name": "sprite_0"
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "bg_adv_12027.jpg",
-                "bgChangeEffect": "cameraPan"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 103400,
-                        "motion": 0,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 103300,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "effect": "7001_attack02",
-                        "id": 103400
-                    },
-                    {
-                        "id": 103300,
-                        "motion": 200
-                    }
-                ],
-                "surround": "1033A05"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_060.exp3.json",
-                        "id": 103400,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-35"
-                    }
-                ],
-                "nameRight": "旭",
-                "textRight": "[surround:1033A06][chara:103400:effect_7003_damage02][bgEffect:shakeLarge]ぐっ…！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 103400,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-36"
-                    }
-                ],
-                "nameRight": "旭",
-                "textRight": "なぜ、我が偽物だと…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 103300,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-37"
-                    }
-                ],
-                "nameLeft": "ラビ",
-                "textLeft": "己に戒めを刻む彼女の肌に@傷がひとつもない"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103300,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-38"
-                    }
-                ],
-                "nameLeft": "ラビ",
-                "textLeft": "魔法少女は傷が治るからと、@惰性でコピーしただけ…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 103400,
-                        "motion": 200,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-39"
-                    }
-                ],
-                "nameRight": "旭",
-                "textRight": "こうなったらヤケであります！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 103300,
-                        "motion": 200,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-40"
-                    }
-                ],
-                "nameLeft": "ラビ",
-                "textLeft": "彼女はもう、@ヤケで狩りはしない！"
-            },
-            {
-                "autoTurnLast": 0.01,
-                "chara": [
-                    {
-                        "effect": "slideOutLeftFast",
-                        "id": 103400
-                    },
-                    {
-                        "effect": "slideOutRightFast",
-                        "id": 103300
-                    }
-                ],
-                "flashEffect": "flashRed2",
-                "surround": "1033A06",
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.5,
-                "surround": "1034A03"
-            },
-            {
-                "autoTurnLast": 0.8,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 103300,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_060.exp3.json",
-                        "id": 103400,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "effect": "shake",
-                        "id": 103400
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 103400
-                    }
-                ],
-                "se": "3002_chara_dead",
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103300,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-41"
-                    }
-                ],
-                "nameLeft": "ラビ",
-                "textLeft": "さあ、次…！"
-            },
-            {
-                "autoTurnLast": 0.01,
-                "bg": "bg_adv_14136.jpg",
-                "chara": [
-                    {
-                        "id": 6212,
-                        "name": "sprite_0",
-                        "pos": 0
-                    }
-                ],
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter6/102704_mirror.png",
-                        "posX": 200,
-                        "posY": 0,
-                        "visible": "appear"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 6212,
-                        "name": "sprite_0"
-                    }
-                ],
-                "nameLeft": "",
-                "textLeft": "…………",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 6212,
-                        "name": "sprite_0"
-                    }
-                ],
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter6/102704_mirror.png",
-                        "visible": "hide"
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102800,
-                        "motion": 200,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-43"
-                    }
-                ],
-                "nameCenter": "ひめな",
-                "textCenter": "んじゃ、私チャンたちも@５枚目の鏡にチャレンジしよっか"
-            },
-            {
-                "autoTurnLast": 2,
-                "turnChangeIn": "fadeIn"
-            }
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.01,
+        "bg": "bg_adv_11025.jpg",
+        "chara": [
+          {
+            "id": 6212,
+            "name": "sprite_0",
+            "pos": 1
+          }
+        ],
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare.png",
+            "posX": 300,
+            "posY": 0,
+            "visible": "appear"
+          },
+          {
+            "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare2.png",
+            "posX": -350,
+            "posY": 0,
+            "visible": "appear"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "bgm": "bgm01_battle06",
+        "chara": [
+          {
+            "id": 6212,
+            "name": "sprite_0"
+          }
+        ],
+        "nameCenter": "",
+        "textCenter": "…………",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "effect": "shake",
+            "id": 6212,
+            "name": "sprite_0"
+          }
+        ],
+        "nameCenter": "",
+        "textBg": "shout",
+        "textCenter": "——！？"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 6212,
+            "name": "sprite_0"
+          }
+        ],
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare.png",
+            "visible": "hide"
+          },
+          {
+            "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare2.png",
+            "visible": "hide"
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "bg_adv_11025.jpg",
+        "bgChangeEffect": "cameraPan"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 101500,
+            "motion": 200,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-3"
+          }
+        ],
+        "nameCenter": "忧",
+        "textCenter": "小燕子！稍微阻止一下它的动作！"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "cheek": 0,
+            "effect": "slideInRightFast",
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100100,
+            "motion": 1,
+            "pos": 0
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-4"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "时机正好，忧！@这样的话，一击就能打倒它！"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "chara": [
+          {
+            "id": 100100,
+            "motion": 400
+          }
+        ],
+        "flashEffect": "explosion",
+        "se": "4001_equip_arms_bow_vh",
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 101500
+          },
+          {
+            "effect": "fadeout",
+            "id": 100100
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "bg_adv_11025.jpg",
+        "bgChangeEffect": "cameraPan"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "chara": [
+          {
+            "effect": "shake",
+            "id": 6212,
+            "name": "sprite_0",
+            "pos": 1
+          }
+        ],
+        "nameCenter": "",
+        "textBg": "shout",
+        "textCenter": "[flashEffect:flashRed2][se:6001_hit_shooting_01_vh][bgEffect:shakeLarge]!?!?!?"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 6212,
+            "name": "sprite_0"
+          }
+        ],
+        "se": "3102_enemy_dead",
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 100100,
+            "motion": 100,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-6"
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 101500,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "呼，这就是第七面了吧"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 101500,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-7"
+          }
+        ],
+        "nameRight": "忧",
+        "textRight": "嗯，我觉得很顺利！"
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-8"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "看大家发来的信息@她们的状况好像也不错"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "bg": "black",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 100100,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-9"
+          }
+        ],
+        "nameNarration": "彩羽",
+        "narration": "我们这边已经破坏了第七面镜子！",
+        "narrationEffect": "in",
+        "narrationHAlignment": "left",
+        "narrationPosX": 180,
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 102500,
+            "motion": 200,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-10"
+          }
+        ],
+        "nameNarration": "静香",
+        "narration": "我接下来也要破坏第六面了@但是，必须破坏掉所有漂浮在神滨市的镜子吧？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 100100,
+            "motion": 301,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-11"
+          }
+        ],
+        "nameNarration": "彩羽",
+        "narration": "说实话，如果没有支援，@大概要一直持续到早晨…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 103300,
+            "motion": 1,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-12"
+          }
+        ],
+        "nameNarration": "拉比",
+        "narration": "我这边的问题要更基础@希望你们能告诉我区分复制品的方法"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 100100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-13"
+          }
+        ],
+        "nameNarration": "彩羽",
+        "narration": "除了我们以外的人都倒下了@而且，为了万一有人醒来也会联系我们@我已经在群聊里发了一条信息"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_040.exp3.json",
+            "id": 102800,
+            "motion": 1,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-14"
+          }
+        ],
+        "nameNarration": "姬奈",
+        "narration": "嘛，拉比比说的人家也很能懂"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102800,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-15"
+          }
+        ],
+        "narration": "如果真是人家的好姐妹，不就真的糟透了吗？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102500,
+            "motion": 0,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-16"
+          }
+        ],
+        "nameNarration": "静香",
+        "narration": "我都没想过这些"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 100100,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-17"
+          }
+        ],
+        "nameNarration": "彩羽",
+        "narration": "虽然确实是那样…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100100,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-18"
+          }
+        ],
+        "narration": "最简单的方法是感受魔力反应@马上就能察觉到不同"
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-19"
+          }
+        ],
+        "narration": "还有，就算是很精致的复制品@性格、过去和兴趣等方面也会有不一致的部分@所以，问她们这些问题也是个好方法！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 103300,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-20"
+          }
+        ],
+        "nameNarration": "拉比",
+        "narration": "总之，我会照环小姐说的试试看"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 102500,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-21"
+          }
+        ],
+        "nameNarration": "静香",
+        "narration": "嗯，正好有个@真的像千春一样的复制品在我眼前@我就试试看吧"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "bg": "bg_adv_13035.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 102500,
+            "motion": 0,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102600,
+            "motion": 1,
+            "pos": 2
+          }
+        ],
+        "narrationEffect": "out",
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "chara": [
+          {
+            "id": 102500,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-22"
+          }
+        ],
+        "nameLeft": "静香",
+        "textLeft": "果然，你好像就是本人",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 102600,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-23"
+          }
+        ],
+        "nameRight": "千春",
+        "textRight": "太好了，你终于肯相信我了！"
+      },
+      {
+        "autoTurnLast": 2,
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 102500
+          }
+        ],
+        "flashEffect": "flashWhiteSlow2",
+        "se": "7211_souljem_02",
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 0,
+            "id": 102500,
+            "lipSynch": 0,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-24"
+          }
+        ],
+        "nameLeft": "静香",
+        "textLeft": "（魔力确实也是本人…）"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102500,
+            "lipSynch": 0,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-25"
+          }
+        ],
+        "nameLeft": "静香",
+        "textLeft": "（刚才我也看到了沙绪的复制品@并打倒了，幸好那是假货…）"
+      },
+      {
+        "autoTurnLast": 2,
+        "bg": "bg_adv_21153.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 102500,
+            "motion": 1,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102600,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "chara": [
+          {
+            "id": 102600,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-26"
+          }
+        ],
+        "nameRight": "千春",
+        "textRight": "这里有镜子吗？",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "id": 102500,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-27"
+          }
+        ],
+        "nameLeft": "静香",
+        "textLeft": "不，我是为了杀掉你@才把你引到这里来的"
+      },
+      {
+        "chara": [
+          {
+            "id": 102600,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-28"
+          }
+        ],
+        "nameRight": "千春",
+        "textRight": "诶…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 102500,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-29"
+          }
+        ],
+        "nameLeft": "静香",
+        "textLeft": "居然没注意到我的恶意@你的能力是生锈了吗"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102600,
+            "motion": 300,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-30"
+          }
+        ],
+        "nameRight": "千春",
+        "textRight": "诶，是我的状态有点糟糕吗…"
+      },
+      {
+        "autoTurnLast": 2.2,
+        "chara": [
+          {
+            "id": 102500,
+            "pos": 1,
+            "voiceFull": "fullvoice/section_103301/vo_full_103301-8-31"
+          }
+        ],
+        "enableSkipAutoTurn": 1,
+        "nameCenter": "静香",
+        "textCenter": "时女一心流@三尺之内蹴落首级！"
+      },
+      {
+        "autoTurnLast": 0.8,
+        "chara": [
+          {
+            "effect": "7000_attack01",
+            "id": 102500,
+            "motion": 400
+          }
+        ],
+        "surround": "1025A04"
+      },
+      {
+        "autoTurnLast": 1,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102600,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-32",
+            "voiceFullStop": "fullvoice/section_103301/vo_full_103301-8-31"
+          }
+        ],
+        "enableSkipAutoTurn": 0,
+        "nameRight": "千春",
+        "textRight": "[surround:1025A06][chara:102600:effect_7002_damage01][bgEffect:shakeLarge]…!?"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 102600
+          }
+        ],
+        "se": "3002_chara_dead",
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 102500,
+            "motion": 0,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-33"
+          }
+        ],
+        "nameLeft": "静香",
+        "textLeft": "好了，砍掉脑袋@到底会变成什么样呢…"
+      },
+      {
+        "autoTurnLast": 1,
+        "chara": [
+          {
+            "id": 7213,
+            "name": "sprite_0",
+            "pos": 2
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102500,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-34"
+          }
+        ],
+        "nameLeft": "静香",
+        "textLeft": "呼…是假货…"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 102500
+          },
+          {
+            "effect": "fadeout",
+            "id": 7213,
+            "name": "sprite_0"
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "bg_adv_12027.jpg",
+        "bgChangeEffect": "cameraPan"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 103400,
+            "motion": 0,
+            "pos": 2
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 103300,
+            "motion": 0,
+            "pos": 0
+          }
         ]
-    },
-    "version": 3
+      },
+      {
+        "autoTurnLast": 0.5,
+        "chara": [
+          {
+            "effect": "7001_attack02",
+            "id": 103400
+          },
+          {
+            "id": 103300,
+            "motion": 200
+          }
+        ],
+        "surround": "1033A05"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_060.exp3.json",
+            "id": 103400,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-35"
+          }
+        ],
+        "nameRight": "旭",
+        "textRight": "[surround:1033A06][chara:103400:effect_7003_damage02][bgEffect:shakeLarge]咕…！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 103400,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-36"
+          }
+        ],
+        "nameRight": "旭",
+        "textRight": "为什么，能看出来我是假货…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 103300,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-37"
+          }
+        ],
+        "nameLeft": "拉比",
+        "textLeft": "镌刻着对自己的惩戒的@她的肌肤上没有一点伤痕"
+      },
+      {
+        "chara": [
+          {
+            "id": 103300,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-38"
+          }
+        ],
+        "nameLeft": "拉比",
+        "textLeft": "你只是想着魔法少女的伤都会治好@在惰性中复制了她而已…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 103400,
+            "motion": 200,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-39"
+          }
+        ],
+        "nameRight": "旭",
+        "textRight": "既然这样，就只能自暴自弃了！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 103300,
+            "motion": 200,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-40"
+          }
+        ],
+        "nameLeft": "拉比",
+        "textLeft": "她已经不会@因为自暴自弃而狩猎了！"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "chara": [
+          {
+            "effect": "slideOutLeftFast",
+            "id": 103400
+          },
+          {
+            "effect": "slideOutRightFast",
+            "id": 103300
+          }
+        ],
+        "flashEffect": "flashRed2",
+        "surround": "1033A06",
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.5,
+        "surround": "1034A03"
+      },
+      {
+        "autoTurnLast": 0.8,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 103300,
+            "motion": 0,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_060.exp3.json",
+            "id": 103400,
+            "motion": 0,
+            "pos": 2
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.5,
+        "chara": [
+          {
+            "effect": "shake",
+            "id": 103400
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.5,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 103400
+          }
+        ],
+        "se": "3002_chara_dead",
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "id": 103300,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-41"
+          }
+        ],
+        "nameLeft": "拉比",
+        "textLeft": "好了，下一只…！"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "bg": "bg_adv_14136.jpg",
+        "chara": [
+          {
+            "id": 6212,
+            "name": "sprite_0",
+            "pos": 0
+          }
+        ],
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter6/102704_mirror.png",
+            "posX": 200,
+            "posY": 0,
+            "visible": "appear"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "chara": [
+          {
+            "id": 6212,
+            "name": "sprite_0"
+          }
+        ],
+        "nameLeft": "",
+        "textLeft": "…………",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 6212,
+            "name": "sprite_0"
+          }
+        ],
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter6/102704_mirror.png",
+            "visible": "hide"
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102800,
+            "motion": 200,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_103301/vo_full_103301-8-43"
+          }
+        ],
+        "nameCenter": "姬奈",
+        "textCenter": "那，人家我们@也来挑战第五面镜子吧"
+      },
+      {
+        "autoTurnLast": 2,
+        "turnChangeIn": "fadeIn"
+      }
+    ]
+  },
+  "version": 3
 }
