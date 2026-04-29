@@ -158,9 +158,8 @@ jobs:
         run: |
           echo "🚀 运行 scripts/update_asset_main.py ..."
           python3 scripts/update_asset_main.py \
-            --resource-dir _game_res/madomagi/resource \
-            --original-json madomagi/asset_main.json \
-            --output-json   madomagi/asset_main.json
+          --resource-dir _game_res/madomagi/resource \
+          --json-path    madomagi/asset_main.json
 
       - name: "[任务 C] 运行 patch_db.py 将新 MD5 写入 DB"
         if: steps.detect.outputs.HAS_RESOURCE == '1'
