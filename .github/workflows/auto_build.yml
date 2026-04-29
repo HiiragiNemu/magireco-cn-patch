@@ -36,7 +36,7 @@ jobs:
 
           echo "$CHANGED" | grep -qE '^madomagi/resource/' && HAS_RESOURCE=1 || true
           echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/json/' && HAS_SCENARIO=1 || true
-          echo "$CHANGED" | grep -qE '^magica/js/libs/' && HAS_JS=1 || true
+          echo "$CHANGED" | grep -qE '^magica/' && HAS_JS=1 || true
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             HAS_RESOURCE=1
@@ -50,187 +50,141 @@ jobs:
 
           mkdir -p _artifacts
 
-      # ── 2. [任务 A] JS 热更（不下载任何资源，纯本地） ──────
-      - name: "[任务 A] 生成 JS 并打包热更"
+      # ── 2. [任务 A] JS 补丁打包（外挂文件夹 magica/） ──────
+      - name: "[任务 A] 生成 JS 并打包补丁"
         if: steps.detect.outputs.HAS_JS == '1'
         run: |
           pip3 install requests 2>/dev/null || true
-          if [ -f "requirements_js.txt" ]; then
-            pip3 install -r requirements_js.txt
-          fi
-
-          echo "🚀 运行 Build_JS_Injector.py..."
           python3 Build_JS_Injector.py
 
-          echo "📦 打包 cn_js_update.zip..."
-          mkdir -p _pack_js/magica/js/libs
-          find magica/js/libs/ -name "*.js" -exec cp {} _pack_js/magica/js/libs/ \;
-          cd _pack_js && zip -r ../cn_js_update.zip magica/ && cd ..
-          echo "大小: $(du -sh cn_js_update.zip | cut -f1)"
-
-          echo "📝 更新 version_js.json..."
+          echo "📦 打包外挂补丁 cn_js_update.zip (magica/)..."
+          # 整个 magica 文件夹作为外部补丁打包
+          zip -r cn_js_update.zip magica/
+          
+          # 更新 version_js.json
           python3 - <<'PYEOF'
-          import json, hashlib
+          import json, hashlib, os
           f = "version_js.json"
-          import os
           d = json.load(open(f)) if os.path.exists(f) else {"version": 0, "size": 0, "md5": ""}
-          h = hashlib.md5()
           with open("cn_js_update.zip", "rb") as fp:
               data = fp.read()
-              h.update(data)
           d["version"] += 1
           d["size"] = len(data)
-          d["md5"]  = h.hexdigest()
+          d["md5"]  = hashlib.md5(data).hexdigest()
           json.dump(d, open(f, "w"), indent=2)
-          print(f"version_js.json => {json.dumps(d)}")
           PYEOF
-
+          
           cp cn_js_update.zip _artifacts/
           cp version_js.json  _artifacts/
 
-      # ── 3. [任务 B] 剧情热更（纯本地，秒完成） ────────────
+      # ── 3. [任务 B] 剧情热更 ────────────
       - name: "[任务 B] 剧情 JSON 打包热更"
         if: steps.detect.outputs.HAS_SCENARIO == '1'
         run: |
           echo "📦 打包 cn_scenario_update.zip..."
           mkdir -p _pack_scn/madomagi/resource/scenario/json
-          cp -r madomagi/resource/scenario/json/. \
-                _pack_scn/madomagi/resource/scenario/json/
+          cp -r madomagi/resource/scenario/json/. _pack_scn/madomagi/resource/scenario/json/
           cd _pack_scn && zip -r ../cn_scenario_update.zip madomagi/ && cd ..
-          echo "大小: $(du -sh cn_scenario_update.zip | cut -f1)"
-
-          echo "📝 更新 version_scenario.json..."
+          
           python3 - <<'PYEOF'
           import json, hashlib, os
           f = "version_scenario.json"
           d = json.load(open(f)) if os.path.exists(f) else {"version": 0, "size": 0, "md5": ""}
-          h = hashlib.md5()
           with open("cn_scenario_update.zip", "rb") as fp:
               data = fp.read()
-              h.update(data)
           d["version"] += 1
           d["size"] = len(data)
-          d["md5"]  = h.hexdigest()
+          d["md5"]  = hashlib.md5(data).hexdigest()
           json.dump(d, open(f, "w"), indent=2)
-          print(f"version_scenario.json => {json.dumps(d)}")
           PYEOF
-
           cp cn_scenario_update.zip _artifacts/
           cp version_scenario.json  _artifacts/
 
-      # ── 4. [任务 C] 全量更新 DB + asset_main.json ─────────
-      #   触发条件：madomagi/resource/ 下任意文件有变动
+      # ── 4. [任务 C] 全量更新 DB + 资源清单 (仅限 madomagi/) ─────────
       - name: "[任务 C] 下载资源包并还原游戏文件系统"
         if: steps.detect.outputs.HAS_RESOURCE == '1'
         run: |
           pip3 install requests
-
           mkdir -p _game_res
           cd _game_res
 
-          echo "📥 并发下载所有汉化资源包..."
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_02.zip"       &
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_03.zip"       &
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_04.zip"       &
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_05.zip"       &
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_06.zip"       &
+          echo "📥 并发下载所有 madomagi 资源包..."
+          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_02.zip" &
+          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_03.zip" &
+          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_04.zip" &
+          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_05.zip" &
+          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_06.zip" &
           wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_magica_resource.zip" &
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_scenario_img.zip"  &
+          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_scenario_img.zip" &
           wget -q "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_base_01_json.zip" &
+          wget -q "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_scenario_update.zip" &
           wait
 
           echo "📦 解压全部资源包..."
           for z in *.zip; do
-            echo "  解压 $z ..."
             unzip -q -o "$z"
             rm "$z"
           done
           cd ..
 
-      - name: "[任务 C] 将仓库最新文件覆盖入游戏文件系统"
+      - name: "[任务 C] 将仓库最新文件覆盖入本地 madomagi/"
         if: steps.detect.outputs.HAS_RESOURCE == '1'
         run: |
-          echo "🔄 覆盖 madomagi/ ..."
+          echo "🔄 覆盖 madomagi/ 核心资源..."
           cp -af madomagi/. _game_res/madomagi/ 2>/dev/null || true
 
-      - name: "[任务 C] 运行 update_asset_main.py 重新计算 MD5"
+      - name: "[任务 C] 运行脚本更新 madomagi/ 资产清单和 DB"
         if: steps.detect.outputs.HAS_RESOURCE == '1'
         run: |
-          echo "🚀 运行 scripts/update_asset_main.py ..."
+          # 仅针对 madomagi/resource 内的文件计算 MD5，写入清单
           python3 scripts/update_asset_main.py \
-          --resource-dir _game_res/madomagi/resource \
-          --json-path    madomagi/asset_main.json
+            --resource-dir _game_res/madomagi/resource \
+            --json-path    madomagi/asset_main.json
 
-      - name: "[任务 C] 运行 patch_db.py 将新 MD5 写入 DB"
-        if: steps.detect.outputs.HAS_RESOURCE == '1'
-        run: |
-          echo "🚀 运行 scripts/patch_db.py ..."
+          # 篡改本地账本数据库
           python3 scripts/patch_db.py \
             --json-path madomagi/asset_main.json \
             --db-path   madomagi/madomagi.db
 
-      - name: "[任务 C] 打包 cn_base_00_db.zip"
+      - name: "[任务 C] 打包 cn_base_00_db.zip (仅含 madomagi/ 内容)"
         if: steps.detect.outputs.HAS_RESOURCE == '1'
         run: |
-          echo "📦 打包 cn_base_00_db.zip ..."
+          echo "📦 打包包含账本和清单的 00 包..."
           mkdir -p _db_pack/madomagi
-          cp madomagi/madomagi.db _db_pack/madomagi/madomagi.db
+          # 复制数据库
+          cp madomagi/madomagi.db _db_pack/madomagi/
+          # 复制所有资源清单文件，存放在 madomagi 目录下
+          cp madomagi/asset_*.json _db_pack/madomagi/ 2>/dev/null || true
+          
           cd _db_pack && zip -r ../cn_base_00_db.zip madomagi/ && cd ..
-          echo "大小: $(du -sh cn_base_00_db.zip | cut -f1)"
+          echo "打包大小: $(du -sh cn_base_00_db.zip | cut -f1)"
 
-          cp cn_base_00_db.zip          _artifacts/
-          cp madomagi/asset_main.json   _artifacts/
+          cp cn_base_00_db.zip _artifacts/
+          cp madomagi/asset_main.json _artifacts/
 
-      # ── 5. 统一提交变更到仓库 ─────────────────────────────
-      - name: 提交更新文件到仓库
+      # ── 5. 提交变更 ─────────────────────────────
+      - name: 提交更新到仓库
         run: |
           git pull --rebase --autostash origin main
-
-          # 分别 add，找不到时不报错
-          git add madomagi/asset_main.json       2>/dev/null || true
-          git add madomagi/madomagi.db           2>/dev/null || true
-          git add version_scenario.json          2>/dev/null || true
-          git add version_js.json                2>/dev/null || true
-          git add magica/js/libs/                2>/dev/null || true
+          git add madomagi/ 2>/dev/null || true
+          git add magica/ 2>/dev/null || true
+          git add version_*.json 2>/dev/null || true
 
           if git diff --cached --quiet; then
-            echo "无文件变动，跳过 Commit"
+            echo "无变动"
           else
-            git commit -m "Auto: 更新产物 $(date -u +'%Y-%m-%d %H:%M UTC')"
-            n=0
-            until git push; do
-              n=$((n+1))
-              [ $n -ge 5 ] && { echo "Push 失败超过5次，放弃"; exit 1; }
-              echo "Push 失败，第 ${n} 次重试..."
-              git pull --rebase --autostash origin main
-              sleep $((n * 3))
-            done
+            git commit -m "Auto: 同步资产、账本及外部补丁 $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push origin main
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # ── 6. 上传产物到 latest Release（只覆盖本次生成的文件） ──
-      - name: 发布到 GitHub Release
+      # ── 6. 发布 ─────────────────────────────
+      - name: 发布产物
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -z "$(ls -A _artifacts 2>/dev/null)" ]; then
-            echo "本次无产物需要发布，跳过"
             exit 0
           fi
-
-          echo "📤 上传以下文件到 latest release:"
-          ls -lh _artifacts/
-
-          # 确保 latest tag 存在
-          gh release view latest --repo ${{ github.repository }} > /dev/null 2>&1 || \
-          gh release create latest \
-            --repo ${{ github.repository }} \
-            --title "最新汉化资源包" \
-            --notes "MagiaCN 自动构建" \
-            --latest
-
-          # --clobber：只覆盖同名文件，不删除其他文件
-          gh release upload latest _artifacts/* \
-            --repo ${{ github.repository }} \
-            --clobber
+          gh release upload latest _artifacts/* --repo ${{ github.repository }} --clobber
