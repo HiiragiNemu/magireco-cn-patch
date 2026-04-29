@@ -1,1 +1,324 @@
+name: MagiaCN Asset Pipeline
 
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build_all:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 配置 git
+        run: |
+          git config user.name  "MagiaCN AutoBot"
+          git config user.email "bot@magiacn.com"
+          git config rebase.autoStash true
+
+      # ── 1. 还原真实手机游戏目录结构 ─────────────────────────────
+      - name: 下载并解压所有资源以还原游戏结构
+        run: |
+          mkdir -p _game_res
+          cd _game_res
+          
+          # 定义所有需要下载的文件
+          URLS=(
+            "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_02.zip"
+            "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_03.zip"
+            "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_04.zip"
+            "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_05.zip"
+            "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_06.zip"
+            "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_magica_resource.zip"
+            "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_scenario_img.zip"
+            "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_base_01_json.zip"
+          )
+          
+          echo "📥 正在并发下载所有资源包..."
+          for url in "${URLS[@]}"; do
+            wget -q -nc "$url" &
+          done
+          wait
+          
+          echo "📦 正在解压构建文件系统..."
+          for z in *.zip; do
+            unzip -q -o "$z"
+            rm "$z"
+          done
+          cd ..
+
+      # ── 2. 用 GitHub 最新提交的文件覆盖掉老文件 ──────────────────
+      - name: 将 GitHub 仓库最新提交覆盖入虚拟环境
+        run: |
+          echo "🔄 将仓库最新修改 (scenario, js) 覆盖进资源树"
+          cp -af madomagi/* _game_res/madomagi/ 2>/dev/null || true
+          cp -af magica/* _game_res/magica/ 2>/dev/null || true
+
+      # ── 3. 运行原地更新脚本 ────────────────────────────────────
+      - name: 原地更新 asset_main.json 与 madomagi.db
+        run: |
+          echo "🚀 运行 update_asset_main.py ..."
+          python3 scripts/update_asset_main.py \
+            --resource-dir _game_res/madomagi/resource \
+            --json-path madomagi/asset_main.json
+            
+          echo "🚀 运行 patch_db.py ..."
+          python3 scripts/patch_db.py \
+            --json-path madomagi/asset_main.json \
+            --db-path madomagi/madomagi.db
+
+      # ── 4. 打包全新的 DB 供新玩家初始化使用 ──────────────────────
+      - name: 打包 cn_base_00_db.zip
+        run: |
+          mkdir -p _db_pack/madomagi
+          cp madomagi/madomagi.db _db_pack/madomagi/
+          cd _db_pack
+          zip -r ../cn_base_00_db.zip madomagi/
+          cd ..
+
+      # ── 5. 提交最新状态到 GitHub ──────────────────────────────
+      - name: 提交更新到仓库
+        run: |
+          git pull --rebase --autostash origin main
+          git add madomagi/asset_main.json
+          git add madomagi/madomagi.db
+          
+          git diff --cached --quiet \
+            && echo "无变动，跳过 Commit" \
+            || git commit -m "Auto: 增量更新 DB 和资源清单 $(date -u +'%Y-%m-%d %H:%M UTC')"
+            
+          n=0
+          until git push || [ $n -ge 3 ]; do
+            n=$((n+1))
+            git pull --rebase --autostash origin main
+            sleep $((n*3))
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 6. 发布 Release ───────────────────────────────────────
+      - uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          tag: "latest"
+          name: "最新汉化资源包"
+          artifacts: |
+            cn_base_00_db.zip
+            madomagi/asset_main.json
+          replacesArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ════════════════════════════════════════════════════════════
+  # JOB 2: 剧情JSON热更（cn_scenario_update.zip）
+  # 触发条件：madomagi/resource/scenario/json/ 下有文件变动
+  # ════════════════════════════════════════════════════════════
+  build_scenario_hotupdate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: build_all
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 检测剧情JSON变动
+        id: detect_scenario
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          echo "变动文件:"
+          echo "$CHANGED"
+          HAS=0
+          echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/json/' && HAS=1
+          echo "HAS=$HAS"
+          echo "HAS=$HAS" >> $GITHUB_OUTPUT
+
+      - name: 打包 cn_scenario_update.zip
+        if: steps.detect_scenario.outputs.HAS == '1'
+        run: |
+          echo "打包剧情JSON热更包..."
+          mkdir -p _pack_scenario/madomagi/resource/scenario/json
+          cp -r madomagi/resource/scenario/json/. \
+                _pack_scenario/madomagi/resource/scenario/json/
+          cd _pack_scenario
+          zip -r ../cn_scenario_update.zip madomagi/
+          cd ..
+          echo "剧情热更包内容 (前20行):"
+          unzip -l cn_scenario_update.zip | head -20
+          echo "剧情热更包大小: $(du -sh cn_scenario_update.zip | cut -f1)"
+
+      - name: 更新 version_scenario.json 并发布
+        if: steps.detect_scenario.outputs.HAS == '1'
+        run: |
+          git config user.name  "MagiaCN AutoBot"
+          git config user.email "bot@magiacn.com"
+          git config rebase.autoStash true
+          git pull --rebase --autostash origin main
+          python3 - <<'EOF'
+          import json, hashlib, os
+          f = "version_scenario.json"
+          d = json.load(open(f)) if os.path.exists(f) \
+              else {"version": 0, "size": 0, "md5": ""}
+          h, size = hashlib.md5(), 0
+          with open("cn_scenario_update.zip", "rb") as fp:
+              for chunk in iter(lambda: fp.read(1024*1024), b""):
+                  h.update(chunk); size += len(chunk)
+          d["version"] += 1
+          d["size"]     = size
+          d["md5"]      = h.hexdigest()
+          json.dump(d, open(f, "w"), indent=2)
+          print(f"version_scenario.json: {json.dumps(d, indent=2)}")
+          EOF
+          git add version_scenario.json
+          VER=$(python3 -c \
+            'import json; print(json.load(open("version_scenario.json"))["version"])')
+          git commit -m "Auto: 剧情热更 v${VER} $(date -u +'%Y-%m-%d %H:%M UTC')" || true
+          n=0
+          until git push || [ $n -ge 5 ]; do
+            n=$((n+1))
+            git pull --rebase --autostash origin main
+            sleep $((n*3))
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ncipollo/release-action@v1
+        if: steps.detect_scenario.outputs.HAS == '1'
+        with:
+          allowUpdates: true
+          tag: "latest"
+          artifacts: |
+            cn_scenario_update.zip
+            version_scenario.json
+          replacesArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ════════════════════════════════════════════════════════════
+  # JOB 3: JS热更（cn_js_update.zip）
+  # 触发条件：magica/js/libs/ 下有 JSON 源文件变动
+  # 先运行 Build_JS_Injector.py 生成最新 JS，再打包
+  # ════════════════════════════════════════════════════════════
+  build_js_hotupdate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: build_all
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 检测JS源文件变动
+        id: detect_js
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          echo "变动文件:"
+          echo "$CHANGED"
+          HAS=0
+          echo "$CHANGED" | grep -qE '^magica/js/libs/' && HAS=1
+          echo "HAS=$HAS"
+          echo "HAS=$HAS" >> $GITHUB_OUTPUT
+
+      - name: 安装 Python 依赖（供 Build_JS_Injector.py 使用）
+        if: steps.detect_js.outputs.HAS == '1'
+        run: |
+          pip3 install requests 2>/dev/null || true
+          # 如果 Build_JS_Injector.py 有其他依赖，在此添加
+          if [ -f "requirements_js.txt" ]; then
+            pip3 install -r requirements_js.txt
+          fi
+
+      - name: 运行 Build_JS_Injector.py 生成最新 JS
+        if: steps.detect_js.outputs.HAS == '1'
+        run: |
+          echo "运行 Build_JS_Injector.py..."
+          python3 Build_JS_Injector.py
+          echo "生成的 JS 文件:"
+          find magica/js/libs/ -name "*.js" | head -20
+
+      - name: 打包 cn_js_update.zip
+        if: steps.detect_js.outputs.HAS == '1'
+        run: |
+          echo "打包JS热更包..."
+          mkdir -p _pack_js/magica/js/libs
+          # 只打包生成的 .js 文件，不打包源 JSON 文件
+          find magica/js/libs/ -name "*.js" -exec cp {} _pack_js/magica/js/libs/ \;
+          cd _pack_js
+          zip -r ../cn_js_update.zip magica/
+          cd ..
+          echo "JS热更包内容:"
+          unzip -l cn_js_update.zip
+          echo "JS热更包大小: $(du -sh cn_js_update.zip | cut -f1)"
+
+      - name: 提交生成的 JS 文件到仓库
+        if: steps.detect_js.outputs.HAS == '1'
+        run: |
+          git config user.name  "MagiaCN AutoBot"
+          git config user.email "bot@magiacn.com"
+          git config rebase.autoStash true
+          git pull --rebase --autostash origin main
+          # 提交 Build_JS_Injector.py 生成的 JS 文件
+          git add magica/js/libs/*.js 2>/dev/null || \
+            git add "magica/js/libs/" 2>/dev/null || true
+          git diff --cached --quiet \
+            && echo "JS无变动" \
+            || git commit -m "Auto: 更新生成JS $(date -u +'%Y-%m-%d %H:%M UTC')"
+          n=0
+          until git push || [ $n -ge 5 ]; do
+            n=$((n+1))
+            git pull --rebase --autostash origin main
+            sleep $((n*3))
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 更新 version_js.json 并发布
+        if: steps.detect_js.outputs.HAS == '1'
+        run: |
+          git pull --rebase --autostash origin main
+          python3 - <<'EOF'
+          import json, hashlib, os
+          f = "version_js.json"
+          d = json.load(open(f)) if os.path.exists(f) \
+              else {"version": 0, "size": 0, "md5": ""}
+          h, size = hashlib.md5(), 0
+          with open("cn_js_update.zip", "rb") as fp:
+              for chunk in iter(lambda: fp.read(1024*1024), b""):
+                  h.update(chunk); size += len(chunk)
+          d["version"] += 1
+          d["size"]     = size
+          d["md5"]      = h.hexdigest()
+          json.dump(d, open(f, "w"), indent=2)
+          print(f"version_js.json: {json.dumps(d, indent=2)}")
+          EOF
+          git add version_js.json
+          VER=$(python3 -c \
+            'import json; print(json.load(open("version_js.json"))["version"])')
+          git commit -m "Auto: JS热更 v${VER} $(date -u +'%Y-%m-%d %H:%M UTC')" || true
+          n=0
+          until git push || [ $n -ge 5 ]; do
+            n=$((n+1))
+            git pull --rebase --autostash origin main
+            sleep $((n*3))
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ncipollo/release-action@v1
+        if: steps.detect_js.outputs.HAS == '1'
+        with:
+          allowUpdates: true
+          tag: "latest"
+          artifacts: |
+            cn_js_update.zip
+            version_js.json
+          replacesArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
