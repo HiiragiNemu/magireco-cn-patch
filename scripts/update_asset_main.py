@@ -4,96 +4,149 @@ import pickle
 import argparse
 from pathlib import Path
 
-def get_file_info_with_cache(file_path, cache):
-    stat = file_path.stat()
-    size = stat.st_size
-    mtime = stat.st_mtime
-    path_str = str(file_path)
 
-    if path_str in cache and cache[path_str]['size'] == size and cache[path_str]['mtime'] == mtime:
-        return cache[path_str]['md5'], size, True
+def calc_md5_cached(file_path: Path, cache: dict):
+    """计算文件MD5，优先使用缓存（基于文件大小+修改时间）"""
+    stat  = file_path.stat()
+    size  = stat.st_size
+    mtime = stat.st_mtime
+    key   = str(file_path)
+
+    if (key in cache
+            and cache[key]['size']  == size
+            and cache[key]['mtime'] == mtime):
+        return cache[key]['md5'], size, True  # (md5, size, 命中缓存)
 
     h = hashlib.md5()
     with open(file_path, "rb") as f:
         for chunk in iter(lambda: f.read(1024 * 1024), b""):
             h.update(chunk)
     md5 = h.hexdigest()
-    
-    cache[path_str] = {'md5': md5, 'size': size, 'mtime': mtime}
+    cache[key] = {'md5': md5, 'size': size, 'mtime': mtime}
     return md5, size, False
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Update asset_main.json in-place based on actual files")
-    parser.add_argument('--resource-dir', required=True, help="解压后的游戏 resource 根目录路径")
-    parser.add_argument('--json-path', required=True, help="需要被更新的 asset_main.json 路径")
+    parser = argparse.ArgumentParser(
+        description="非破坏性更新 asset_main.json 中的 MD5/size（仅更新本地存在的文件）"
+    )
+    parser.add_argument('--resource-dir', required=True,
+                        help="解压后的游戏 resource 根目录，如 _game_res/madomagi/resource")
+    parser.add_argument('--json-path', required=True,
+                        help="需要被更新的 asset_main.json 路径")
     args = parser.parse_args()
 
     resource_dir = Path(args.resource_dir)
-    json_path = Path(args.json_path)
-    cache_file = Path(".md5_cache")
+    json_path    = Path(args.json_path)
+    cache_file   = Path(".md5_cache")
 
+    # ── 前置检查 ──────────────────────────────────────────────
     if not json_path.exists():
-        print(f"❌ 错误: 找不到清单 {json_path}")
+        print(f"❌ 找不到清单: {json_path}")
         return
     if not resource_dir.exists():
-        print(f"❌ 错误: 找不到资源目录 {resource_dir}")
+        print(f"❌ 找不到资源目录: {resource_dir}")
         return
 
+    # ── 加载 MD5 缓存 ─────────────────────────────────────────
     cache = {}
     if cache_file.exists():
-        with open(cache_file, 'rb') as f:
-            cache = pickle.load(f)
+        try:
+            with open(cache_file, 'rb') as f:
+                cache = pickle.load(f)
+        except Exception:
+            cache = {}
 
-    print(f"📂 正在读取清单: {json_path.name}")
+    # ── 读取 asset_main.json ──────────────────────────────────
+    # 结构: [ {"path": "...", "md5": "...", "file_list": [{"size": N, "url": "..."}]} ]
+    print(f"📂 读取清单: {json_path}")
     with open(json_path, "r", encoding="utf-8") as f:
-        manifest_data = json.load(f)
+        manifest = json.load(f)
 
-    print(f"🔍 正在扫描本地目录: {resource_dir}")
-    # 建立本地文件的相对路径映射（统一使用正斜杠对齐 JSON）
-    local_files = {f.relative_to(resource_dir).as_posix(): f for f in resource_dir.rglob("*") if f.is_file()}
-    json_paths = {item["path"] for item in manifest_data}
+    if not isinstance(manifest, list):
+        print("❌ asset_main.json 顶层不是数组，格式不符")
+        return
+    print(f"   清单条目数: {len(manifest)}")
 
-    replaced_count = 0
-    cached_count = 0
-    missing_in_local =[]
-    
-    print("⚙️ 正在对比并原地更新清单数据...")
-    for item in manifest_data:
-        target_path = item["path"]
-        
-        if target_path in local_files:
-            local_file_path = local_files[target_path]
-            new_md5, new_size, was_cached = get_file_info_with_cache(local_file_path, cache)
-            
-        old_size = item.get("file_list", [{}])[0].get("size", -1) if item.get("file_list") else -1
-        if item["md5"] == new_md5 and old_size == new_size:
-            cached_count += 1
+    # ── 构建本地文件索引 ──────────────────────────────────────
+    # key = 相对于 resource_dir 的正斜杠路径，与 JSON 里 "path" 字段一致
+    print(f"🔍 扫描本地资源: {resource_dir}")
+    local_files: dict[str, Path] = {
+        f.relative_to(resource_dir).as_posix(): f
+        for f in resource_dir.rglob("*")
+        if f.is_file()
+    }
+    print(f"   本地文件数: {len(local_files)}")
+
+    # ── 遍历清单，非破坏性更新 ────────────────────────────────
+    count_replaced  = 0   # MD5/size 发生变化，已更新
+    count_unchanged = 0   # 本地文件存在，MD5/size 与清单一致，跳过
+    count_no_local  = 0   # 本地不存在（movie 等），保留清单原始值
+    count_bad_item  = 0   # 清单条目格式异常，跳过
+
+    for item in manifest:
+        # 验证必要字段
+        if not isinstance(item, dict):
+            count_bad_item += 1
+            continue
+        path = item.get("path", "")
+        if not path:
+            count_bad_item += 1
             continue
 
+        # ── 本地不存在：保留清单原始 MD5/size，不做任何修改 ──
+        # movie 文件夹、未下载的资源都走这条路
+        if path not in local_files:
+            count_no_local += 1
+            continue
+
+        # ── 本地存在：计算真实 MD5 ────────────────────────────
+        local_file = local_files[path]
+        try:
+            new_md5, new_size, from_cache = calc_md5_cached(local_file, cache)
+        except Exception as e:
+            print(f"⚠️  计算MD5失败，跳过: {path} ({e})")
+            count_bad_item += 1
+            continue
+
+        # 读取清单中的旧值
+        old_md5  = item.get("md5", "")
+        old_size = -1
+        fl = item.get("file_list")
+        if isinstance(fl, list) and len(fl) > 0:
+            old_size = fl[0].get("size", -1)
+
+        # 相同则跳过（非破坏性核心逻辑）
+        if old_md5 == new_md5 and old_size == new_size:
+            count_unchanged += 1
+            continue
+
+        # ── 执行更新（只改 md5 和 file_list[0].size，其余字段不动）──
         item["md5"] = new_md5
-        if item.get("file_list"):
-            item["file_list"][0]["size"] = new_size
-            replaced_count += 1
-        else:
-            missing_in_local.append(target_path)
 
-    # 原地覆盖保存新的 JSON
+        if isinstance(fl, list) and len(fl) > 0:
+            fl[0]["size"] = new_size
+            # url 字段保持不变
+
+        count_replaced += 1
+
+    # ── 保存更新后的清单（原地覆盖）────────────────────────────
     with open(json_path, "w", encoding="utf-8") as f:
-        json.dump(manifest_data, f, separators=(",", ":"), ensure_ascii=False)
+        json.dump(manifest, f, separators=(",", ":"), ensure_ascii=False)
 
-    unlisted_files =[p for p in local_files.keys() if p not in json_paths]
-
-    # 保存缓存文件
+    # ── 保存 MD5 缓存 ─────────────────────────────────────────
     with open(cache_file, 'wb') as f:
         pickle.dump(cache, f)
 
-    print("\n================ 📊 处理报告 ================")
-    print(f"✅ 原地更新文件: {json_path}")
-    print(f"🚀 命中缓存（未变更直接跳过）: {cached_count} 个")
-    print(f"✍️ 实际写入（MD5/Size已变动）: {replaced_count} 个")
-    print(f"❌ 缺失文件（清单有本地无）: {len(missing_in_local)} 个")
-    print(f"👻 增量文件（本地有清单无）: {len(unlisted_files)} 个")
+    # ── 输出报告 ──────────────────────────────────────────────
+    print("\n========= 📊 update_asset_main 报告 =========")
+    print(f"  ✍️  MD5已更新    : {count_replaced}  个")
+    print(f"  ✅ 无变化跳过   : {count_unchanged} 个")
+    print(f"  🎬 本地无此文件  : {count_no_local}  个  ← movie等保留原始MD5")
+    print(f"  ⚠️  格式异常跳过 : {count_bad_item}  个")
+    print(f"  📄 清单总条目   : {len(manifest)} 个")
     print("=============================================\n")
+
 
 if __name__ == "__main__":
     main()

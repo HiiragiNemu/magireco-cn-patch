@@ -22,7 +22,7 @@ jobs:
           git config user.email "bot@magiacn.com"
           git config rebase.autoStash true
 
-      # ── 1. 智能检测变动范围 ────────────────────────────────
+      # ── 1. 检测变动范围 ─────────────────────────────────────
       - name: 检测变动范围
         id: detect
         run: |
@@ -39,29 +39,24 @@ jobs:
           echo "$CHANGED" | grep -qE '^magica/' && HAS_JS=1 || true
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            HAS_RESOURCE=1
-            HAS_SCENARIO=1
-            HAS_JS=1
+            HAS_RESOURCE=1; HAS_SCENARIO=1; HAS_JS=1
           fi
 
           echo "HAS_RESOURCE=$HAS_RESOURCE" >> $GITHUB_OUTPUT
           echo "HAS_SCENARIO=$HAS_SCENARIO" >> $GITHUB_OUTPUT
           echo "HAS_JS=$HAS_JS"             >> $GITHUB_OUTPUT
-
           mkdir -p _artifacts
 
-      # ── 2. [任务 A] JS 补丁打包（外挂文件夹 magica/） ──────
+      # ── 2. [任务 A] JS 补丁打包 ────────────────────────────
       - name: "[任务 A] 生成 JS 并打包补丁"
         if: steps.detect.outputs.HAS_JS == '1'
         run: |
           pip3 install requests 2>/dev/null || true
           python3 Build_JS_Injector.py
 
-          echo "📦 打包外挂补丁 cn_js_update.zip (magica/)..."
-          # 整个 magica 文件夹作为外部补丁打包
+          echo "📦 打包 cn_js_update.zip (magica/)..."
           zip -r cn_js_update.zip magica/
-          
-          # 更新 version_js.json
+
           python3 - <<'PYEOF'
           import json, hashlib, os
           f = "version_js.json"
@@ -69,23 +64,25 @@ jobs:
           with open("cn_js_update.zip", "rb") as fp:
               data = fp.read()
           d["version"] += 1
-          d["size"] = len(data)
-          d["md5"]  = hashlib.md5(data).hexdigest()
+          d["size"]     = len(data)
+          d["md5"]      = hashlib.md5(data).hexdigest()
           json.dump(d, open(f, "w"), indent=2)
+          print(f"version_js.json → version={d['version']} size={d['size']}")
           PYEOF
-          
+
           cp cn_js_update.zip _artifacts/
           cp version_js.json  _artifacts/
 
-      # ── 3. [任务 B] 剧情热更 ────────────
+      # ── 3. [任务 B] 剧情热更 ───────────────────────────────
       - name: "[任务 B] 剧情 JSON 打包热更"
         if: steps.detect.outputs.HAS_SCENARIO == '1'
         run: |
           echo "📦 打包 cn_scenario_update.zip..."
           mkdir -p _pack_scn/madomagi/resource/scenario/json
-          cp -r madomagi/resource/scenario/json/. _pack_scn/madomagi/resource/scenario/json/
+          cp -r madomagi/resource/scenario/json/. \
+                _pack_scn/madomagi/resource/scenario/json/
           cd _pack_scn && zip -r ../cn_scenario_update.zip madomagi/ && cd ..
-          
+
           python3 - <<'PYEOF'
           import json, hashlib, os
           f = "version_scenario.json"
@@ -93,22 +90,23 @@ jobs:
           with open("cn_scenario_update.zip", "rb") as fp:
               data = fp.read()
           d["version"] += 1
-          d["size"] = len(data)
-          d["md5"]  = hashlib.md5(data).hexdigest()
+          d["size"]     = len(data)
+          d["md5"]      = hashlib.md5(data).hexdigest()
           json.dump(d, open(f, "w"), indent=2)
+          print(f"version_scenario.json → version={d['version']} size={d['size']}")
           PYEOF
+
           cp cn_scenario_update.zip _artifacts/
           cp version_scenario.json  _artifacts/
 
-      # ── 4. [任务 C] 全量更新 DB + 资源清单 (仅限 madomagi/) ─────────
-      - name: "[任务 C] 下载资源包并还原游戏文件系统"
+      # ── 4-A. [任务 C] 下载全量资源包 ──────────────────────
+      - name: "[任务 C] 下载资源包"
         if: steps.detect.outputs.HAS_RESOURCE == '1'
         run: |
-          pip3 install requests
           mkdir -p _game_res
           cd _game_res
 
-          echo "📥 并发下载所有 madomagi 资源包..."
+          echo "📥 并发下载资源包..."
           wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_02.zip" &
           wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_03.zip" &
           wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_04.zip" &
@@ -122,56 +120,178 @@ jobs:
 
           echo "📦 解压全部资源包..."
           for z in *.zip; do
-            unzip -q -o "$z"
-            rm "$z"
+            echo "  解压: $z"
+            unzip -q -o "$z" && rm "$z"
           done
+
+          # ── 验证解压结构 ──────────────────────────────────
+          echo "🔍 验证解压结构..."
+          if [ ! -d "madomagi/resource" ]; then
+            echo "❌ 解压结构错误: 找不到 _game_res/madomagi/resource"
+            echo "实际目录结构:"
+            find . -maxdepth 3 -type d | head -30
+            exit 1
+          fi
+          echo "✅ 找到 madomagi/resource"
+          echo "资源文件数: $(find madomagi/resource -type f | wc -l)"
           cd ..
 
-      - name: "[任务 C] 将仓库最新文件覆盖入本地 madomagi/"
+      # ── 4-B. [任务 C] 用仓库最新CN文件覆盖 ───────────────
+      - name: "[任务 C] 覆盖 CN 版本文件"
         if: steps.detect.outputs.HAS_RESOURCE == '1'
         run: |
-          echo "🔄 覆盖 madomagi/ 核心资源..."
+          echo "🔄 覆盖仓库CN文件到 _game_res/madomagi/..."
           cp -af madomagi/. _game_res/madomagi/ 2>/dev/null || true
+          echo "覆盖后resource文件数: $(find _game_res/madomagi/resource -type f 2>/dev/null | wc -l)"
 
-      - name: "[任务 C] 运行脚本更新 madomagi/ 资产清单和 DB"
+      # ── 4-C. [任务 C] 更新清单 MD5 ────────────────────────
+      - name: "[任务 C] 更新 asset_main.json MD5"
         if: steps.detect.outputs.HAS_RESOURCE == '1'
         run: |
-          # 仅针对 madomagi/resource 内的文件计算 MD5，写入清单
+          # 验证 asset_main.json 格式
+          python3 - <<'PYEOF'
+          import json, sys
+          path = "madomagi/asset_main.json"
+          with open(path) as f:
+              data = json.load(f)
+          if not isinstance(data, list):
+              print(f"❌ 格式错误: 顶层不是数组，而是 {type(data)}")
+              sys.exit(1)
+          # 抽查前3条结构
+          for i, item in enumerate(data[:3]):
+              has_path = "path" in item
+              has_md5  = "md5"  in item
+              has_fl   = isinstance(item.get("file_list"), list)
+              print(f"  [{i}] path={'✅' if has_path else '❌'}"
+                    f" md5={'✅' if has_md5 else '❌'}"
+                    f" file_list={'✅' if has_fl else '❌'}"
+                    f"  → {item.get('path','?')[:60]}")
+          if not (has_path and has_md5 and has_fl):
+              print("❌ JSON结构与预期不符，请检查 asset_main.json")
+              sys.exit(1)
+          print(f"✅ asset_main.json 格式正确，共 {len(data)} 条")
+          PYEOF
+
+          echo "⚙️ 运行 update_asset_main.py..."
           python3 scripts/update_asset_main.py \
             --resource-dir _game_res/madomagi/resource \
             --json-path    madomagi/asset_main.json
 
-          # 篡改本地账本数据库
+      # ── 4-D. [任务 C] 注入 DB ─────────────────────────────
+      - name: "[任务 C] 注入 MD5 到 madomagi.db"
+        if: steps.detect.outputs.HAS_RESOURCE == '1'
+        run: |
+          echo "💉 运行 patch_db.py..."
           python3 scripts/patch_db.py \
             --json-path madomagi/asset_main.json \
             --db-path   madomagi/madomagi.db
 
-      - name: "[任务 C] 打包 cn_base_00_db.zip (仅含 madomagi/ 内容)"
+          # ── 抽查验证：取一条 scenario 文件对比 JSON 和 DB ──
+          python3 - <<'PYEOF'
+          import json, sqlite3, sys
+
+          with open("madomagi/asset_main.json") as f:
+              manifest = json.load(f)
+
+          # 找一条非movie的scenario文件
+          samples = [
+              item for item in manifest
+              if "scenario" in item.get("path", "")
+              and "movie"   not in item.get("path", "")
+          ]
+          if not samples:
+              samples = [item for item in manifest if "movie" not in item.get("path","")]
+
+          if not samples:
+              print("⚠️  找不到可抽查的条目")
+              sys.exit(0)
+
+          sample   = samples[0]
+          exp_path = sample["path"]
+          exp_md5  = sample["md5"]
+
+          conn = sqlite3.connect("madomagi/madomagi.db")
+          c    = conn.cursor()
+          c.execute("SELECT md5 FROM download_asset WHERE path=?", (exp_path,))
+          row = c.fetchone()
+          conn.close()
+
+          db_md5 = row[0] if row else "NOT_FOUND"
+          ok     = db_md5 == exp_md5
+
+          print(f"抽查路径  : {exp_path}")
+          print(f"JSON MD5  : {exp_md5}")
+          print(f"DB   MD5  : {db_md5}")
+          print(f"结果      : {'✅ 一致' if ok else '❌ 不一致 — DB注入可能失败！'}")
+
+          if not ok:
+              sys.exit(1)
+          PYEOF
+
+      # ── 4-E. [任务 C] 打包 cn_base_00_db.zip ─────────────
+      - name: "[任务 C] 打包 cn_base_00_db.zip"
         if: steps.detect.outputs.HAS_RESOURCE == '1'
         run: |
-          echo "📦 打包包含账本和清单的 00 包..."
+          echo "📦 打包 cn_base_00_db.zip..."
           mkdir -p _db_pack/madomagi
-          # 复制数据库
-          cp madomagi/madomagi.db _db_pack/madomagi/
-          # 复制所有资源清单文件，存放在 madomagi 目录下
-          cp madomagi/asset_*.json _db_pack/madomagi/ 2>/dev/null || true
-          
-          cd _db_pack && zip -r ../cn_base_00_db.zip madomagi/ && cd ..
-          echo "打包大小: $(du -sh cn_base_00_db.zip | cut -f1)"
 
-          cp cn_base_00_db.zip _artifacts/
+          cp madomagi/madomagi.db     _db_pack/madomagi/
+          cp madomagi/asset_main.json _db_pack/madomagi/
+
+          cd _db_pack && zip -r ../cn_base_00_db.zip madomagi/ && cd ..
+
+          echo "打包大小: $(du -sh cn_base_00_db.zip | cut -f1)"
+          echo "包内文件:"
+          unzip -l cn_base_00_db.zip
+
+          # ── 验证 zip 内 DB 的 scenario 条目数 ──────────────
+          python3 - <<'PYEOF'
+          import zipfile, sqlite3, tempfile, os, sys
+
+          with zipfile.ZipFile("cn_base_00_db.zip") as zf:
+              with tempfile.TemporaryDirectory() as td:
+                  zf.extractall(td)
+                  db_path = os.path.join(td, "madomagi", "madomagi.db")
+                  if not os.path.exists(db_path):
+                      print("❌ zip内找不到 madomagi/madomagi.db")
+                      sys.exit(1)
+                  conn = sqlite3.connect(db_path)
+                  c    = conn.cursor()
+                  c.execute("SELECT COUNT(*) FROM download_asset")
+                  total = c.fetchone()[0]
+                  c.execute("SELECT COUNT(*) FROM download_asset WHERE path LIKE '%scenario%'")
+                  scn   = c.fetchone()[0]
+                  c.execute("SELECT COUNT(*) FROM download_asset WHERE path LIKE '%movie%'")
+                  movie = c.fetchone()[0]
+                  conn.close()
+
+          print(f"zip内DB验证:")
+          print(f"  总条目数   : {total}")
+          print(f"  scenario   : {scn}")
+          print(f"  movie(跳过): {movie}")
+
+          if total == 0:
+              print("❌ DB为空！")
+              sys.exit(1)
+          if scn == 0:
+              print("❌ scenario条目为0，注入可能失败！")
+              sys.exit(1)
+          print("✅ DB内容验证通过")
+          PYEOF
+
+          cp cn_base_00_db.zip        _artifacts/
           cp madomagi/asset_main.json _artifacts/
 
-      # ── 5. 提交变更 ─────────────────────────────
+      # ── 5. 提交变更 ─────────────────────────────────────────
       - name: 提交更新到仓库
         run: |
           git pull --rebase --autostash origin main
-          git add madomagi/ 2>/dev/null || true
-          git add magica/ 2>/dev/null || true
+          git add madomagi/  2>/dev/null || true
+          git add magica/    2>/dev/null || true
           git add version_*.json 2>/dev/null || true
 
           if git diff --cached --quiet; then
-            echo "无变动"
+            echo "无变动，跳过提交"
           else
             git commit -m "Auto: 同步资产、账本及外部补丁 $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push origin main
@@ -179,12 +299,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # ── 6. 发布 ─────────────────────────────
+      # ── 6. 发布 Release ────────────────────────────────────
       - name: 发布产物
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -z "$(ls -A _artifacts 2>/dev/null)" ]; then
+            echo "无产物，跳过发布"
             exit 0
           fi
-          gh release upload latest _artifacts/* --repo ${{ github.repository }} --clobber
+
+          echo "📤 发布产物:"
+          ls -lh _artifacts/
+
+          # 验证关键文件存在
+          REQUIRED="cn_base_00_db.zip"
+          for f in $REQUIRED; do
+            if [ ! -f "_artifacts/$f" ]; then
+              echo "❌ 缺少关键文件: $f"
+              exit 1
+            fi
+          done
+
+          gh release upload latest _artifacts/* \
+            --repo ${{ github.repository }} \
+            --clobber
