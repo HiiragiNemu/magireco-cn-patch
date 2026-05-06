@@ -29,18 +29,16 @@ jobs:
           CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "ALL")
           echo "变动文件:"; echo "$CHANGED"
 
-          HAS_RESOURCE=0; HAS_SCENARIO=0; HAS_JS=0
+          HAS_SCENARIO=0; HAS_JS=0
 
-          echo "$CHANGED" | grep -qE '^madomagi/'  && HAS_RESOURCE=1 || true
           echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/json/' \
                                                    && HAS_SCENARIO=1 || true
           echo "$CHANGED" | grep -qE '^magica/'    && HAS_JS=1       || true
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            HAS_RESOURCE=1; HAS_SCENARIO=1; HAS_JS=1
+            HAS_SCENARIO=1; HAS_JS=E
           fi
 
-          echo "HAS_RESOURCE=$HAS_RESOURCE" >> $GITHUB_OUTPUT
           echo "HAS_SCENARIO=$HAS_SCENARIO" >> $GITHUB_OUTPUT
           echo "HAS_JS=$HAS_JS"             >> $GITHUB_OUTPUT
           mkdir -p _artifacts
@@ -91,192 +89,23 @@ jobs:
           cp cn_scenario_update.zip _artifacts/
           cp version_scenario.json  _artifacts/
 
-      # ── 4. [RESOURCE] 下载所有资源包 ─────────────────────
-      - name: "[RESOURCE] 下载资源包"
-        if: steps.detect.outputs.HAS_RESOURCE == '1'
-        run: |
-          mkdir -p _game_res
-          cd _game_res
-
-          echo "📥 并发下载所有资源包（含voice）..."
-          # 图像/UI/战斗
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_02.zip" &
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_03.zip" &
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_04.zip" &
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_05.zip" &
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_base_06.zip" &
-          # 剧情图像
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_scenario_img.zip" &
-          # ★ voice 包（必须下载，用于更新 asset_voice/fullvoice 的 MD5）
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_voice_01.zip" &
-          wget -q "https://restless-field-06c7.crynetsystemscell.workers.dev/cn_voice_02_done.zip" &
-          # JSON/DB/magica资源
-          wget -q "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_base_01_json.zip" &
-          wget -q "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_magica_resource.zip" &
-          wait
-
-          echo "📦 解压全部资源包..."
-          for z in *.zip; do
-            echo "  解压: $z"
-            unzip -q -o "$z" && rm "$z"
-          done
-
-          echo "🔍 验证解压结构..."
-          if [ ! -d "madomagi/resource" ]; then
-            echo "❌ 解压结构错误"; find . -maxdepth 3 -type d | head -20; exit 1
-          fi
-          echo "✅ resource目录存在"
-          echo "  resource文件数: $(find madomagi/resource -type f | wc -l)"
-
-          # voice 文件统计（重要）
-          FV=$(find madomagi/resource -name "*.hca" 2>/dev/null | wc -l)
-          echo "  .hca文件数: $FV"
-          if [ "$FV" -eq 0 ]; then
-            echo "⚠️  警告: 未找到任何.hca文件，voice包可能解压失败"
-          fi
-          cd ..
-
-      # ── 5. [RESOURCE] 用仓库CN文件覆盖 ──────────────────
-      - name: "[RESOURCE] 覆盖CN版本文件"
-        if: steps.detect.outputs.HAS_RESOURCE == '1'
-        run: |
-          echo "🔄 覆盖仓库CN文件到 _game_res/madomagi/..."
-          cp -af madomagi/. _game_res/madomagi/ 2>/dev/null || true
-          echo "覆盖后文件数: $(find _game_res/madomagi/resource -type f 2>/dev/null | wc -l)"
-
-      # ── 6. [RESOURCE] 更新所有 manifest JSON ────────────
-      - name: "[RESOURCE] 更新所有manifest JSON的MD5"
-        if: steps.detect.outputs.HAS_RESOURCE == '1'
-        run: |
-          python3 scripts/update_all_manifests.py \
-            --resource-dir _game_res/madomagi/resource \
-            --manifest-dir madomagi
-
-          # 验证关键manifest
-          python3 - <<'PYEOF'
-          import json, sys
-
-          def check(path, name):
-              try:
-                  data = json.load(open(path))
-              except:
-                  print(f"  ❌ {name} 解析失败"); return False
-              if not isinstance(data, list):
-                  print(f"  ❌ {name} 非数组"); return False
-              print(f"  ✅ {name}: {len(data)} 条")
-              return True
-
-          ok = True
-          ok &= check("madomagi/asset_main.json",     "asset_main")
-          ok &= check("madomagi/asset_voice.json",    "asset_voice")
-          ok &= check("madomagi/asset_fullvoice.json","asset_fullvoice")
-          if not ok:
-              sys.exit(1)
-          PYEOF
-
-      # ── 7. [RESOURCE] 注入所有manifest到DB ──────────────
-      - name: "[RESOURCE] 注入所有manifest MD5到madomagi.db"
-        if: steps.detect.outputs.HAS_RESOURCE == '1'
-        run: |
-          python3 scripts/patch_db_all.py \
-            --manifest-dir madomagi \
-            --db-path      madomagi/madomagi.db \
-            --resource-dir _game_res/madomagi/resource
-
-          # 验证DB
-          python3 - <<'PYEOF'
-          import sqlite3, sys
-
-          conn = sqlite3.connect("madomagi/madomagi.db")
-          c    = conn.cursor()
-
-          c.execute("SELECT COUNT(*) FROM download_asset")
-          total = c.fetchone()[0]
-
-          c.execute("SELECT COUNT(*) FROM download_asset WHERE path LIKE '%scenario%'")
-          scn = c.fetchone()[0]
-
-          c.execute("SELECT COUNT(*) FROM download_asset WHERE path LIKE '%fullvoice%'")
-          fv  = c.fetchone()[0]
-
-          c.execute("SELECT COUNT(*) FROM download_asset WHERE path LIKE '%movie%'")
-          mv  = c.fetchone()[0]
-
-          # 抽查：JSON里的MD5是否和DB一致
-          import json
-          manifest = json.load(open("madomagi/asset_main.json"))
-          samples  = [i for i in manifest
-                      if "scenario" in i.get("path","")
-                      and "movie"   not in i.get("path","")][:3]
-          mismatch = 0
-          for s in samples:
-              c.execute("SELECT md5 FROM download_asset WHERE path=?", (s["path"],))
-              row = c.fetchone()
-              if not row or row[0] != s["md5"]:
-                  mismatch += 1
-                  print(f"  ❌ 不一致: {s['path']}")
-                  print(f"     JSON: {s['md5']}")
-                  print(f"     DB  : {row[0] if row else 'NOT_FOUND'}")
-
-          conn.close()
-
-          print(f"DB验证:")
-          print(f"  总条目    : {total}")
-          print(f"  scenario  : {scn}")
-          print(f"  fullvoice : {fv}  {'✅' if fv>0 else '⚠️ 为0'}")
-          print(f"  movie(跳过): {mv}")
-          print(f"  抽查不一致: {mismatch}")
-
-          if total == 0 or scn == 0 or mismatch > 0:
-              sys.exit(1)
-          print("✅ DB验证通过")
-          PYEOF
-
-      # ── 8. [RESOURCE] 打包 cn_base_00_db.zip ────────────
-      - name: "[RESOURCE] 打包cn_base_00_db.zip（含全部manifest）"
-        if: steps.detect.outputs.HAS_RESOURCE == '1'
-        run: |
-          mkdir -p _db_pack/madomagi
-
-          cp madomagi/madomagi.db _db_pack/madomagi/
-
-          # ★ 打包全部6个manifest（不只是asset_main）
-          for f in asset_main.json     \
-                   asset_voice.json    \
-                   asset_fullvoice.json \
-                   asset_char_list.json \
-                   asset_config.json   \
-                   asset_movieall_high.json; do
-            [ -f "madomagi/$f" ] && cp "madomagi/$f" "_db_pack/madomagi/$f" \
-              && echo "  打包: $f" || echo "  跳过(不存在): $f"
-          done
-
-          cd _db_pack && zip -r ../cn_base_00_db.zip madomagi/ && cd ..
-
-          echo "大小: $(du -sh cn_base_00_db.zip | cut -f1)"
-          echo "包内文件:"; unzip -l cn_base_00_db.zip
-
-          cp cn_base_00_db.zip _artifacts/
-          cp madomagi/asset_main.json _artifacts/
-
-      # ── 9. 提交变更到仓库 ────────────────────────────────
+      # ── 4. 提交变更到仓库 ────────────────────────────────
       - name: 提交更新
         run: |
           git pull --rebase --autostash origin main
-          git add madomagi/ 2>/dev/null || true
-          git add magica/   2>/dev/null || true
+          # 仅提交版本号变动，避免污染仓库
           git add version_*.json 2>/dev/null || true
 
           if git diff --cached --quiet; then
             echo "无变动，跳过提交"
           else
-            git commit -m "Auto: 同步资产+manifest+DB $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git commit -m "Auto: 更新前端JS/剧情版本号 $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push origin main
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # ── 10. 发布 Release ─────────────────────────────────
+      # ── 5. 发布 Release ─────────────────────────────────
       - name: 发布产物
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -285,9 +114,6 @@ jobs:
             echo "无产物，跳过" && exit 0
 
           echo "产物:"; ls -lh _artifacts/
-
-          [ ! -f "_artifacts/cn_base_00_db.zip" ] && \
-            echo "❌ 缺少 cn_base_00_db.zip" && exit 1
 
           gh release upload latest _artifacts/* \
             --repo "${{ github.repository }}" \
