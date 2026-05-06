@@ -1,0 +1,59 @@
+name: "🗑️ 清空存储桶文件"
+
+on:
+  workflow_dispatch: # 只允许手动触发
+    inputs:
+      confirm:
+        description: '请输入 "DELETE_ALL" 以确认删除两个存储桶中的所有文件'
+        required: true
+        default: ''
+      bucket_choice:
+        description: '选择要清空的存储桶'
+        required: true
+        type: choice
+        options:
+          - 'bucket1'
+          - 'bucket2'
+          - 'both'
+
+jobs:
+  delete-files:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'DELETE_ALL'
+    
+    steps:
+      - name: 📥 检出代码库
+        uses: actions/checkout@v4
+
+      - name: 🐍 设置 Python 环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: ⚙️ 安装依赖
+        run: |
+          pip install boto3
+
+      - name: 🗑️ 执行删除操作
+        id: delete_op
+        env:
+          # 存储桶1配置
+          S3_1_ENDPOINT: ${{ secrets.S3_1_ENDPOINT }}
+          S3_1_ACCESS_KEY: ${{ secrets.S3_1_ACCESS_KEY }}
+          S3_1_SECRET_KEY: ${{ secrets.S3_1_SECRET_KEY }}
+          S3_1_REGION: ${{ secrets.S3_1_REGION }}
+          S3_1_BUCKET: ${{ secrets.S3_1_BUCKET }}
+          # 存储桶2配置
+          S3_2_ENDPOINT: ${{ secrets.S3_2_ENDPOINT }}
+          S3_2_ACCESS_KEY: ${{ secrets.S3_2_ACCESS_KEY }}
+          S3_2_SECRET_KEY: ${{ secrets.S3_2_SECRET_KEY }}
+          S3_2_REGION: ${{ secrets.S3_2_REGION }}
+          S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
+          BUCKET_CHOICE: ${{ github.event.inputs.bucket_choice }}
+        run: |
+          python .github/workflows/delete_all_files.py
+
+      - name: 📝 生成删除报告
+        if: always()
+        run: |
+          echo "${{ steps.delete_op.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
