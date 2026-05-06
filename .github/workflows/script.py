@@ -1,14 +1,12 @@
 import os
 import sys
 import json
-import re
 import time
-import shutil
 from datetime import datetime
 import logging
 
 import boto3
-from botocore.exceptions import ClientError, NoCredentialsError
+from botocore.exceptions import ClientError
 from tencentcloud.common import credential
 from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
@@ -218,18 +216,31 @@ def main():
     logger.add_summary_text(f"🟡 **状态**: 检测到 {len(new_files)} 个新文件，开始处理...")
 
     # --- 4.4 分类、下载、上传、刷新 ---
+    # 显式定义存储桶1的文件列表（使用表驱动，避免正则错误）
+    bucket1_files = {
+        'cn_base_00_db.zip',
+        'cn_base_01.json.zip',
+        'cn_base_02.zip',
+        'cn_base_03.zip',
+        'cn_base_04.zip',
+        'cn_base_05.zip',
+        'cn_base_06.zip',
+        'cn_hotupdate.zip',
+        'cn_js_update.zip',
+        'cn_magica_resource.zip'
+    }
+    
     results = []
     for filename in new_files:
         logger.info(f"--- 开始处理文件: {filename} ---")
         
-        # 分类判断 (已修复正则表达式，增加了 cn_base_0X.zip 的匹配)
-        pattern = r'^(cn_base_0[0-6]_db\.zip|cn_base_0[0-6]\.json\.zip|cn_base_0[2-6]\.zip|cn_hotupdate\.zip|cn_js_update\.zip|cn_magica_resource\.zip)$'
-        if re.match(pattern, filename):
+        # 使用集合查找判断文件归属（O(1)复杂度，绝对准确）
+        if filename in bucket1_files:
             target_s3 = s3_1_handler
+            logger.info(f"文件 {filename} 被分类到 存储桶1")
         else:
             target_s3 = s3_2_handler
-            
-        logger.info(f"文件 {filename} 被分类到 {target_s3.name}")
+            logger.info(f"文件 {filename} 被分类到 存储桶2")
         
         download_url = next((a['browser_download_url'] for a in release_data['assets'] if a['name'] == filename), None)
         if not download_url:
