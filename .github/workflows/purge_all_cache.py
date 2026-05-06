@@ -26,15 +26,17 @@ def purge_domain_cache(secret_id, secret_key, zone_id, domain, domain_label):
         
         client = teo_client.TeoClient(cred, "", client_profile)
         
-        req = models.PurgePathCacheRequest()
+        # 使用新版 API CreatePurgeTaskRequest
+        req = models.CreatePurgeTaskRequest()
+        # 使用 purge_prefix 清空整个域名下的所有文件缓存
         params = {
             "ZoneId": zone_id,
-            "Paths": [f"http://{domain}/*"],  # 清除整个域名
-            "FlushType": "purge"
+            "Type": "purge_prefix", 
+            "Targets": [f"http://{domain}/*"] 
         }
         req.from_json_string(json.dumps(params))
         
-        resp = client.PurgePathCache(req)
+        resp = client.CreatePurgeTask(req)
         log(f"✅ 成功提交 {domain_label} 的全站缓存清除任务，任务ID: {resp.RequestId}")
         return True, resp.RequestId
         
@@ -101,7 +103,11 @@ def main():
         f"**结束时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`"
     ])
     
-    print(f"summary<<EOF\n" + "\n".join(summary_lines) + "\nEOF")
+    # 写入 GitHub Step Summary
+    github_step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
+    if github_step_summary_path:
+        with open(github_step_summary_path, 'a', encoding='utf-8') as f:
+            f.write("\n".join(summary_lines))
 
 if __name__ == "__main__":
     main()
