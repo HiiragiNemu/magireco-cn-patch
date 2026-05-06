@@ -1,0 +1,52 @@
+name: "🧹 清空CDN缓存"
+
+on:
+  workflow_dispatch: # 只允许手动触发
+    inputs:
+      confirm:
+        description: '请输入 "PURGE_ALL" 以确认清除所有CDN缓存'
+        required: true
+        default: ''
+      domain_choice:
+        description: '选择要清空的域名'
+        required: true
+        type: choice
+        options:
+          - 'domain1'
+          - 'domain2'
+          - 'both'
+
+jobs:
+  purge-cache:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'PURGE_ALL'
+    
+    steps:
+      - name: 📥 检出代码库
+        uses: actions/checkout@v4
+
+      - name: 🐍 设置 Python 环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: ⚙️ 安装依赖
+        run: |
+          pip install tencentcloud-sdk-python
+
+      - name: 🧹 执行缓存清除
+        id: purge_op
+        env:
+          QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
+          QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
+          EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
+          S3_1_DOMAIN: ${{ secrets.S3_1_DOMAIN }}
+          S3_2_DOMAIN: ${{ secrets.S3_2_DOMAIN }}
+          DOMAIN_CHOICE: ${{ github.event.inputs.domain_choice }}
+        run: |
+          python .github/workflows/purge_all_cache.py
+
+      - name: 📝 生成清除报告
+        if: always()
+        run: |
+          echo "${{ steps.purge_op.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
