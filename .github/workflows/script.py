@@ -4,7 +4,6 @@ import json
 import time
 import shutil
 from datetime import datetime
-import logging
 
 import boto3
 from botocore.exceptions import ClientError
@@ -14,7 +13,20 @@ from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.teo.v20220901 import teo_client, models
 
 # ==========================================
-# 1. 日志与输出设置 (全中文、带颜色、带Markdown摘要)
+# 1. GitHub Actions 分组日志工具
+# ==========================================
+class ActionGroup:
+    """用于在 GitHub Actions 中创建折叠的分组"""
+    @staticmethod
+    def start_group(title):
+        print(f"::group::{title}")
+    
+    @staticmethod
+    def end_group():
+        print("::endgroup::")
+
+# ==========================================
+# 2. 日志与输出设置
 # ==========================================
 LOG_COLORS = {
     'INFO': '\033[92m',    # 绿色
@@ -26,14 +38,15 @@ LOG_COLORS = {
 class ActionLogger:
     def __init__(self):
         self.step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
-        self.file_statuses = {}  # 存储每个文件的状态
+        self.file_statuses = {}
+        self.start_time = datetime.now()
         
     def init_summary(self):
         """初始化 Step Summary"""
         if self.step_summary_path:
             with open(self.step_summary_path, 'w', encoding='utf-8') as f:
                 f.write("## 🚀 Action 运行报告\n\n")
-                f.write(f"⏱️ **开始时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
+                f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
                 f.write("### 📋 文件处理状态\n\n")
                 f.write("| 文件名 | 状态 | 详细信息 |\n")
                 f.write("|--------|------|----------|\n")
@@ -46,7 +59,7 @@ class ActionLogger:
             # 重新写入整个表格
             with open(self.step_summary_path, 'w', encoding='utf-8') as f:
                 f.write("## 🚀 Action 运行报告\n\n")
-                f.write(f"⏱️ **开始时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
+                f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
                 f.write("### 📋 文件处理状态\n\n")
                 f.write("| 文件名 | 状态 | 详细信息 |\n")
                 f.write("|--------|------|----------|\n")
@@ -78,11 +91,30 @@ class ActionLogger:
         # 如果提供了文件名和状态，更新 Step Summary
         if filename and status:
             self.update_file_status(filename, status, details)
+    
+    def finalize_summary(self, processed_files):
+        """完成 Summary 的最终更新"""
+        end_time = datetime.now()
+        duration = (end_time - self.start_time).total_seconds()
+        
+        if self.step_summary_path:
+            with open(self.step_summary_path, 'a', encoding='utf-8') as f:
+                f.write(f"\n⏱️ **结束时间**: `{end_time.strftime('%Y-%m-%d %H:%M:%S')}`\n")
+                f.write(f"⏱️ **总耗时**: `{duration:.2f}` 秒\n\n")
+                
+                # 统计结果
+                success_count = sum(1 for f in processed_files if f['success'])
+                fail_count = sum(1 for f in processed_files if not f['success'])
+                
+                if fail_count == 0:
+                    f.write("🟢 **状态**: 所有文件处理成功！\n")
+                else:
+                    f.write(f"🟡 **状态**: 处理完成，{success_count} 个成功，{fail_count} 个失败。\n")
 
 logger = ActionLogger()
 
 # ==========================================
-# 2. S3 操作类
+# 3. S3 操作类
 # ==========================================
 class S3Handler:
     def __init__(self, endpoint, access_key, secret_key, region, bucket, domain, name="S3"):
@@ -124,7 +156,7 @@ class S3Handler:
             return False
 
 # ==========================================
-# 3. edge 缓存刷新类
+# 4. edge 缓存刷新类
 # ==========================================
 class EdgeOneHandler:
     def __init__(self, secret_id, secret_key, zone_id):
@@ -158,15 +190,13 @@ class EdgeOneHandler:
             return False, str(e)
 
 # ==========================================
-# 4. 主逻辑
+# 5. 主逻辑
 # ==========================================
 def main():
-    start_time = time.time()
-    
     # 初始化 Step Summary
     logger.init_summary()
     
-    # --- 4.1 读取环境变量 ---
+    # --- 5.1 读取环境变量 ---
     logger.log("正在从环境变量加载配置...", "INFO")
     try:
         s3_1_handler = S3Handler(
@@ -201,7 +231,7 @@ def main():
         logger.log(f"❌ 缺少必要的环境变量: {e}", "ERROR")
         sys.exit(1)
 
-    # --- 4.2 获取 Latest Release 文件列表 ---
+    # --- 5.2 获取 Latest Release 文件列表 ---
     logger.log(f"正在获取仓库 {repo_name} 的最新 Release 文件列表...", "INFO")
     import urllib.request
     
@@ -224,7 +254,7 @@ def main():
     
     logger.log(f"当前 Release 包含 {len(current_files)} 个文件。", "INFO")
 
-    # --- 4.3 文件变化检测 ---
+    # --- 5.3 文件变化检测 ---
     cache_file = '.github/workflows/.file_cache.json'
     previous_files = []
     if os.path.exists(cache_file):
@@ -244,16 +274,12 @@ def main():
     
     if not new_files:
         logger.log("✅ 没有检测到新的或变更的文件。任务结束。", "INFO")
-        # 更新 Summary 完成时间
-        if logger.step_summary_path:
-            with open(logger.step_summary_path, 'a', encoding='utf-8') as f:
-                f.write(f"\n⏱️ **结束时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n")
-                f.write("🟢 **状态**: 无变更，无需同步。\n")
+        logger.finalize_summary([])
         sys.exit(0)
     
     logger.log(f"检测到 {len(new_files)} 个新文件需要处理。", "INFO")
 
-    # --- 4.4 分类、下载、上传、刷新 ---
+    # --- 5.4 分类、下载、上传、刷新 ---
     # 显式定义存储桶1的文件列表
     bucket1_files = {
         'cn_base_00_db.zip',
@@ -270,7 +296,10 @@ def main():
     
     processed_files = []
     
-    for filename in new_files:
+    for i, filename in enumerate(new_files, 1):
+        # 为每个文件创建一个折叠的分组
+        ActionGroup.start_group(f"📦 文件 {i}/{len(new_files)}: {filename}")
+        
         logger.log(f"--- 开始处理文件: {filename} ---", "INFO")
         logger.update_file_status(filename, "下载中", "正在从 GitHub 下载文件")
         
@@ -287,11 +316,13 @@ def main():
             logger.log(f"未找到文件 {filename} 的下载链接。", "ERROR")
             logger.update_file_status(filename, "失败", "未找到下载链接")
             processed_files.append({'filename': filename, 'success': False, 'error': '未找到下载链接'})
+            ActionGroup.end_group()
             continue
             
         local_path = f"/tmp/{filename}"
         try:
             # 下载文件
+            logger.log(f"正在下载文件: {filename}...", "INFO")
             urllib.request.urlretrieve(download_url, local_path)
             logger.log(f"文件 {filename} 下载完成。", "INFO")
             logger.update_file_status(filename, "上传中", f"正在上传到 {target_s3.name}")
@@ -321,8 +352,10 @@ def main():
         finally:
             if os.path.exists(local_path):
                 os.remove(local_path)
-
-    # --- 4.5 更新缓存文件 ---
+        
+        ActionGroup.end_group()
+    
+    # --- 5.5 更新缓存文件 ---
     logger.log(f"正在更新文件缓存列表...", "INFO")
     with open(cache_file, 'w') as f:
         json.dump(current_files, f, indent=2)
@@ -334,24 +367,9 @@ def main():
     os.system('git commit -m "chore: update file cache" || echo "No changes to commit"')
     os.system('git push || echo "No changes to push"')
 
-    # --- 4.6 输出总结 ---
-    end_time = time.time()
+    # --- 5.6 完成 Summary ---
+    logger.finalize_summary(processed_files)
     
-    # 更新 Summary 完成信息
-    if logger.step_summary_path:
-        with open(logger.step_summary_path, 'a', encoding='utf-8') as f:
-            f.write(f"\n⏱️ **结束时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n")
-            f.write(f"⏱️ **总耗时**: `{round(end_time - start_time, 2)}` 秒\n\n")
-            
-            # 统计结果
-            success_count = sum(1 for f in processed_files if f['success'])
-            fail_count = sum(1 for f in processed_files if not f['success'])
-            
-            if fail_count == 0:
-                f.write("🟢 **状态**: 所有文件处理成功！\n")
-            else:
-                f.write(f"🟡 **状态**: 处理完成，{success_count} 个成功，{fail_count} 个失败。\n")
-
     logger.log("🎉 所有任务执行完毕！", "INFO")
 
 if __name__ == "__main__":
