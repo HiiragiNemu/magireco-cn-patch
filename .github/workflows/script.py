@@ -71,7 +71,6 @@ class S3Handler:
         self.bucket = bucket
         self.domain = domain
         
-        # 移除 endpoint URL 末尾的斜杠，防止 boto3 拼接出错
         if endpoint.endswith('/'):
             endpoint = endpoint[:-1]
             
@@ -102,7 +101,7 @@ class S3Handler:
             raise
 
 # ==========================================
-# 3. edge 缓存刷新类
+# 3. edge 缓存刷新类 (已修复腾讯云新版SDK兼容性)
 # ==========================================
 class EdgeOneHandler:
     def __init__(self, secret_id, secret_key, zone_id):
@@ -119,16 +118,18 @@ class EdgeOneHandler:
 
     def purge_cache(self, domain, filename):
         try:
-            req = models.PurgePathCacheRequest()
+            # 新版 SDK 使用 CreatePurgeTaskRequest 替代了 PurgePathCacheRequest
+            req = models.CreatePurgeTaskRequest()
+            target_url = f"http://{domain}/{filename}"
             params = {
                 "ZoneId": self.zone_id,
-                "Paths": [f"http://{domain}/{filename}"],
-                "FlushType": "purge"
+                "Type": "purge_url",  # 刷新单个文件 URL
+                "Targets": [target_url]
             }
             req.from_json_string(json.dumps(params))
             
-            resp = self.client.PurgePathCache(req)
-            logger.info(f"[edge] 成功提交缓存刷新任务: {domain}/{filename}, 任务ID: {resp.RequestId}")
+            resp = self.client.CreatePurgeTask(req)
+            logger.info(f"[edge] 成功提交缓存刷新任务: {target_url}, 任务ID: {resp.RequestId}")
         except Exception as e:
             logger.error(f"[edge] 刷新缓存 {domain}/{filename} 失败: {e}")
             raise
@@ -178,14 +179,9 @@ def main():
 
     # --- 4.2 获取 Latest Release 文件列表 ---
     logger.info(f"正在获取仓库 {repo_name} 的最新 Release 文件列表...")
-    # 注意：由于 GitHub API 限制，这里使用简单的 curl 请求获取最新 release 信息
-    # 在生产环境中，建议替换为使用 PyGithub 库
     import urllib.request
-    import base64
     
-    # 为了演示，我们假设有一个 GitHub Token 用于 API 访问
-    # 如果没有 token，匿名请求有严格的速率限制 (60次/小时)
-    gh_token = os.environ.get('', '') # 需要在 Secrets 中添加 GitHub Token
+    gh_token = os.environ.get('', '')
     req = urllib.request.Request(f"https://api.github.com/repos/{repo_name}/releases/latest")
     if gh_token:
         req.add_header('Authorization', f'token {gh_token}')
@@ -216,7 +212,6 @@ def main():
     if not new_files:
         logger.info("✅ 没有检测到新的或变更的文件。任务结束。")
         logger.add_summary_text("🟢 **状态**: 无变更，无需同步。")
-        print(f"summary<<EOF\n{logger.get_summary_output()}\nEOF", file=sys.stdout)
         sys.exit(0)
     
     logger.info(f"检测到 {len(new_files)} 个新文件: {', '.join(new_files)}")
@@ -227,8 +222,8 @@ def main():
     for filename in new_files:
         logger.info(f"--- 开始处理文件: {filename} ---")
         
-        # 分类判断
-        pattern = r'^(cn_base_0[0-6]_db\.zip|cn_base_0[0-6]\.json\.zip|cn_hotupdate\.zip|cn_js_update\.zip|cn_magica_resource\.zip)$'
+        # 分类判断 (已修复正则表达式，增加了 cn_base_0X.zip 的匹配)
+        pattern = r'^(cn_base_0[0-6]_db\.zip|cn_base_0[0-6]\.json\.zip|cn_base_0[2-6]\.zip|cn_hotupdate\.zip|cn_js_update\.zip|cn_magica_resource\.zip)$'
         if re.match(pattern, filename):
             target_s3 = s3_1_handler
         else:
@@ -236,7 +231,6 @@ def main():
             
         logger.info(f"文件 {filename} 被分类到 {target_s3.name}")
         
-        # 下载文件 (同样使用 curl 简化)
         download_url = next((a['browser_download_url'] for a in release_data['assets'] if a['name'] == filename), None)
         if not download_url:
             logger.error(f"未找到文件 {filename} 的下载链接。")
@@ -249,12 +243,10 @@ def main():
             urllib.request.urlretrieve(download_url, local_path)
             logger.info(f"文件 {filename} 下载完成。")
             
-            # 上传到 S3
             logger.info(f"正在将 {filename} 上传到 {target_s3.name}...")
-            target_s3.delete_file(filename) # 先删除
-            target_s3.upload_file(local_path, filename) # 再上传
+            target_s3.delete_file(filename)
+            target_s3.upload_file(local_path, filename)
             
-            # 刷新 CDN 缓存
             logger.info(f"正在刷新 CDN 缓存: {target_s3.domain}/{filename}")
             edge_one_handler.purge_cache(target_s3.domain, filename)
             
@@ -273,12 +265,12 @@ def main():
     with open(cache_file, 'w') as f:
         json.dump(current_files, f, indent=2)
         
-    # Git 提交缓存更新 (如果需要持久化缓存，取消注释以下代码)
-    # os.system('git config user.name "github-actions[bot]"')
-    # os.system('git config user.email "github-actions[bot]@users.noreply.github.com"')
-    # os.system(f'git add {cache_file}')
-    # os.system('git commit -m "chore: update file cache"')
-    # os.system('git push')
+    # Git 提交缓存更新
+    os.system('git config user.name "github-actions[bot]"')
+    os.system('git config user.email "github-actions[bot]@users.noreply.github.com"')
+    os.system(f'git add {cache_file}')
+    os.system('git commit -m "chore: update file cache" || echo "No changes to commit"')
+    os.system('git push || echo "No changes to push"')
 
     # --- 4.6 输出总结 ---
     logger.add_summary_text("### 📊 处理结果:")
@@ -288,7 +280,13 @@ def main():
     end_time = time.time()
     logger.add_summary_text(f"⏱️ **总耗时**: `{round(end_time - start_time, 2)}` 秒")
 
-    print(f"summary<<EOF\n{logger.get_summary_output()}\nEOF", file=sys.stdout)
+    # 将总结写入 GitHub Actions Step Summary
+    summary_content = logger.get_summary_output()
+    github_step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
+    if github_step_summary_path:
+        with open(github_step_summary_path, 'a', encoding='utf-8') as f:
+            f.write(summary_content)
+
     logger.info("🎉 所有任务执行完毕！")
 
 if __name__ == "__main__":
