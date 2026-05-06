@@ -114,7 +114,11 @@ def main():
         f"**结束时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`"
     ])
     
-    print(f"summary<<EOF\n" + "\n".join(summary_lines) + "\nEOF")
+    # 写入 GitHub Step Summary
+    github_step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
+    if github_step_summary_path:
+        with open(github_step_summary_path, 'a', encoding='utf-8') as f:
+            f.write("\n".join(summary_lines))
 
 if __name__ == "__main__":
     main()
