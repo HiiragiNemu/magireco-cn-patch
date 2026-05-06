@@ -1,120 +1,128 @@
+#!/usr/bin/env python3
 import os
 import sys
 import json
 import time
 import shutil
 from datetime import datetime
+from pathlib import Path
 
 import boto3
 from botocore.exceptions import ClientError
+from github import Github
 from tencentcloud.common import credential
 from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.teo.v20220901 import teo_client, models
 
 # ==========================================
-# 1. GitHub Actions 分组日志工具
+# 1. GitHub Actions 工具函数
 # ==========================================
-class ActionGroup:
-    """用于在 GitHub Actions 中创建折叠的分组"""
-    @staticmethod
-    def start_group(title):
-        print(f"::group::{title}")
-    
-    @staticmethod
-    def end_group():
-        print("::endgroup::")
+def set_output(name, value):
+    """设置 GitHub Actions 输出"""
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+        f.write(f'{name}={value}\n')
+
+def start_group(title):
+    print(f"::group::{title}")
+
+def end_group():
+    print("::endgroup::")
 
 # ==========================================
-# 2. 日志与输出设置
+# 2. 日志与状态管理
 # ==========================================
-LOG_COLORS = {
-    'INFO': '\033[92m',    # 绿色
-    'WARN': '\033[93m',    # 黄色
-    'ERROR': '\033[91m',   # 红色
-    'RESET': '\033[0m'     # 重置
-}
-
-class ActionLogger:
+class Logger:
     def __init__(self):
         self.step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
-        self.file_statuses = {}
-        self.start_time = datetime.now()
+        self.state_file = Path('.github/workflows/state.json')
+        self.current_state = self.load_state()
         
+    def load_state(self):
+        """加载持久化状态"""
+        if self.state_file.exists():
+            with open(self.state_file, 'r') as f:
+                return json.load(f)
+        return {
+            "last_release_id": None,
+            "synced_files": [],
+            "last_sync_time": None
+        }
+    
+    def save_state(self):
+        """保存状态到文件"""
+        self.state_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(self.state_file, 'w') as f:
+            json.dump(self.current_state, f, indent=2)
+    
     def init_summary(self):
         """初始化 Step Summary"""
         if self.step_summary_path:
             with open(self.step_summary_path, 'w', encoding='utf-8') as f:
-                f.write("## 🚀 Action 运行报告\n\n")
-                f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
-                f.write("### 📋 文件处理状态\n\n")
-                f.write("| 文件名 | 状态 | 详细信息 |\n")
-                f.write("|--------|------|----------|\n")
+                f.write("## 🔄 Release 同步报告\n\n")
+                f.write(f"⏱️ **开始时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
+                f.write("| 步骤 | 状态 | 详情 |\n")
+                f.write("|------|------|------|\n")
+                f.write("| 🔍 检测变更 | 🟡 进行中 | 检查最新 Release |\n")
     
-    def update_file_status(self, filename, status, details=""):
-        """更新单个文件的状态"""
-        self.file_statuses[filename] = {'status': status, 'details': details}
-        
+    def update_step(self, step, status_icon, details):
+        """更新步骤状态"""
         if self.step_summary_path:
-            # 重新写入整个表格
+            # 重新读取并更新
+            with open(self.step_summary_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            lines = content.split('\n')
+            for i, line in enumerate(lines):
+                if step in line:
+                    lines[i] = f"| {step} | {status_icon} | {details} |"
+                    break
+            
             with open(self.step_summary_path, 'w', encoding='utf-8') as f:
-                f.write("## 🚀 Action 运行报告\n\n")
-                f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
-                f.write("### 📋 文件处理状态\n\n")
-                f.write("| 文件名 | 状态 | 详细信息 |\n")
-                f.write("|--------|------|----------|\n")
-                
-                status_icons = {
-                    '无需操作': '⚪',
-                    '排队中': '🟡',
-                    '下载中': '🔵',
-                    '上传中': '🟣',
-                    '已上传': '🟢',
-                    '已完成': '✅',
-                    '失败': '❌'
-                }
-                
-                for fname, info in self.file_statuses.items():
-                    icon = status_icons.get(info['status'], '⚪')
-                    f.write(f"| {fname} | {icon} {info['status']} | {info['details']} |\n")
-                
-                f.write("\n")
+                f.write('\n'.join(lines))
     
-    def log(self, message, level="INFO", filename=None, status=None, details=""):
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        color = LOG_COLORS.get(level, '')
-        reset = LOG_COLORS['RESET']
-        
-        # 终端彩色输出
-        print(f"{color}[{timestamp}] [{level}] {message}{reset}")
-        
-        # 如果提供了文件名和状态，更新 Step Summary
-        if filename and status:
-            self.update_file_status(filename, status, details)
-    
-    def finalize_summary(self, processed_files):
-        """完成 Summary 的最终更新"""
-        end_time = datetime.now()
-        duration = (end_time - self.start_time).total_seconds()
-        
+    def finalize(self, success, message):
+        """完成报告"""
         if self.step_summary_path:
             with open(self.step_summary_path, 'a', encoding='utf-8') as f:
-                f.write(f"\n⏱️ **结束时间**: `{end_time.strftime('%Y-%m-%d %H:%M:%S')}`\n")
-                f.write(f"⏱️ **总耗时**: `{duration:.2f}` 秒\n\n")
-                
-                # 统计结果
-                success_count = sum(1 for f in processed_files if f['success'])
-                fail_count = sum(1 for f in processed_files if not f['success'])
-                
-                if fail_count == 0:
-                    f.write("🟢 **状态**: 所有文件处理成功！\n")
+                f.write(f"\n⏱️ **结束时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n")
+                if success:
+                    f.write(f"🟢 **最终结果**: {message}\n")
                 else:
-                    f.write(f"🟡 **状态**: 处理完成，{success_count} 个成功，{fail_count} 个失败。\n")
+                    f.write(f"🔴 **最终结果**: {message}\n")
 
-logger = ActionLogger()
+logger = Logger()
 
 # ==========================================
-# 3. S3 操作类
+# 3. GitHub API 客户端
+# ==========================================
+class GitHubClient:
+    def __init__(self, token, repo_name):
+        self.github = Github(token)
+        self.repo = self.github.get_repo(repo_name)
+    
+    def get_latest_release(self):
+        """获取最新 Release"""
+        releases = list(self.repo.get_releases())
+        if releases:
+            return releases[0]
+        return None
+    
+    def get_release_files(self, release):
+        """获取 Release 文件列表"""
+        files = []
+        for asset in release.get_assets():
+            if not asset.name.startswith('source code'):
+                files.append({
+                    'name': asset.name,
+                    'url': asset.browser_download_url,
+                    'size': asset.size,
+                    'id': asset.id
+                })
+        return files
+
+# ==========================================
+# 4. S3 操作类
 # ==========================================
 class S3Handler:
     def __init__(self, endpoint, access_key, secret_key, region, bucket, domain, name="S3"):
@@ -125,81 +133,72 @@ class S3Handler:
         if endpoint.endswith('/'):
             endpoint = endpoint[:-1]
             
-        self.s3_client = boto3.client(
+        self.client = boto3.client(
             's3',
             endpoint_url=endpoint,
             aws_access_key_id=access_key,
             aws_secret_access_key=secret_key,
             region_name=region
         )
-
-    def delete_file(self, filename):
+    
+    def exists(self, filename):
+        """检查文件是否存在"""
         try:
-            self.s3_client.delete_object(Bucket=self.bucket, Key=filename)
-            logger.log(f"[{self.name}] 成功删除旧文件: {filename}", "INFO")
+            self.client.head_object(Bucket=self.bucket, Key=filename)
             return True
         except ClientError as e:
             if e.response['Error']['Code'] == '404':
-                logger.log(f"[{self.name}] 文件 {filename} 不存在，无需删除。", "WARN")
-                return True
-            else:
-                logger.log(f"[{self.name}] 删除文件 {filename} 失败: {e}", "ERROR")
                 return False
-
-    def upload_file(self, local_path, filename):
-        try:
-            self.s3_client.upload_file(local_path, self.bucket, filename)
-            logger.log(f"[{self.name}] 成功上传文件: {filename}", "INFO")
-            return True
-        except Exception as e:
-            logger.log(f"[{self.name}] 上传文件 {filename} 失败: {e}", "ERROR")
-            return False
+            raise
+    
+    def upload(self, local_path, filename):
+        """上传文件"""
+        self.client.upload_file(local_path, self.bucket, filename)
+        return True
 
 # ==========================================
-# 4. edge 缓存刷新类
+# 5. edge 缓存刷新
 # ==========================================
 class EdgeOneHandler:
     def __init__(self, secret_id, secret_key, zone_id):
         self.zone_id = zone_id
-        
         cred = credential.Credential(secret_id, secret_key)
         http_profile = HttpProfile()
         http_profile.endpoint = "teo.tencentcloudapi.com"
-        
         client_profile = ClientProfile()
         client_profile.httpProfile = http_profile
-        
         self.client = teo_client.TeoClient(cred, "", client_profile)
-
-    def purge_cache(self, domain, filename):
-        try:
-            req = models.CreatePurgeTaskRequest()
-            target_url = f"http://{domain}/{filename}"
-            params = {
-                "ZoneId": self.zone_id,
-                "Type": "purge_url",
-                "Targets": [target_url]
-            }
-            req.from_json_string(json.dumps(params))
-            
-            resp = self.client.CreatePurgeTask(req)
-            logger.log(f"[edge] 成功提交缓存刷新任务: {target_url}", "INFO")
-            return True, resp.RequestId
-        except Exception as e:
-            logger.log(f"[edge] 刷新缓存 {domain}/{filename} 失败: {e}", "ERROR")
-            return False, str(e)
+    
+    def purge(self, url):
+        """刷新缓存"""
+        req = models.CreatePurgeTaskRequest()
+        params = {
+            "ZoneId": self.zone_id,
+            "Type": "purge_url",
+            "Targets": [url]
+        }
+        req.from_json_string(json.dumps(params))
+        resp = self.client.CreatePurgeTask(req)
+        return resp.RequestId
 
 # ==========================================
-# 5. 主逻辑
+# 6. 主逻辑
 # ==========================================
 def main():
-    # 初始化 Step Summary
+    start_time = time.time()
+    
+    # 初始化
     logger.init_summary()
     
-    # --- 5.1 读取环境变量 ---
-    logger.log("正在从环境变量加载配置...", "INFO")
     try:
-        s3_1_handler = S3Handler(
+        # 1. 初始化客户端
+        start_group("🔧 初始化客户端")
+        github_client = GitHubClient(
+            os.environ[''],
+            os.environ['REPO_NAME']
+        )
+        
+        s3_1 = S3Handler(
             endpoint=os.environ['S3_1_ENDPOINT'],
             access_key=os.environ['S3_1_ACCESS_KEY'],
             secret_key=os.environ['S3_1_SECRET_KEY'],
@@ -209,7 +208,7 @@ def main():
             name="存储桶1"
         )
         
-        s3_2_handler = S3Handler(
+        s3_2 = S3Handler(
             endpoint=os.environ['S3_2_ENDPOINT'],
             access_key=os.environ['S3_2_ACCESS_KEY'],
             secret_key=os.environ['S3_2_SECRET_KEY'],
@@ -219,158 +218,128 @@ def main():
             name="存储桶2"
         )
         
-        edge_one_handler = EdgeOneHandler(
+        edge = EdgeOneHandler(
             secret_id=os.environ['QCLOUD_SECRET_ID'],
             secret_key=os.environ['QCLOUD_SECRET_KEY'],
             zone_id=os.environ['EDGEONE_ZONE_ID']
         )
+        end_group()
         
-        repo_name = os.environ.get('GH_REPO', 'HiiragiNemu/patch-front')
-        logger.log("✅ 配置加载成功。", "INFO")
-    except KeyError as e:
-        logger.log(f"❌ 缺少必要的环境变量: {e}", "ERROR")
-        sys.exit(1)
-
-    # --- 5.2 获取 Latest Release 文件列表 ---
-    logger.log(f"正在获取仓库 {repo_name} 的最新 Release 文件列表...", "INFO")
-    import urllib.request
-    
-    gh_token = os.environ.get('', '')
-    req = urllib.request.Request(f"https://api.github.com/repos/{repo_name}/releases/latest")
-    if gh_token:
-        req.add_header('Authorization', f'token {gh_token}')
-    
-    try:
-        with urllib.request.urlopen(req) as response:
-            release_data = json.loads(response.read().decode())
-    except Exception as e:
-        logger.log(f"获取 Release 信息失败: {e}", "ERROR")
-        sys.exit(1)
-
-    current_files = []
-    for asset in release_data.get('assets', []):
-        if not asset['name'].startswith('source code'):
-            current_files.append(asset['name'])
-    
-    logger.log(f"当前 Release 包含 {len(current_files)} 个文件。", "INFO")
-
-    # --- 5.3 文件变化检测 ---
-    cache_file = '.github/workflows/.file_cache.json'
-    previous_files = []
-    if os.path.exists(cache_file):
-        with open(cache_file, 'r') as f:
-            previous_files = json.load(f)
-    
-    # 找出新文件和已存在的文件
-    new_files = [f for f in current_files if f not in previous_files]
-    existing_files = [f for f in current_files if f in previous_files]
-    
-    # 初始化所有文件的状态
-    for filename in existing_files:
-        logger.update_file_status(filename, "无需操作", "文件已同步，无需处理")
-    
-    for filename in new_files:
-        logger.update_file_status(filename, "排队中", "等待处理")
-    
-    if not new_files:
-        logger.log("✅ 没有检测到新的或变更的文件。任务结束。", "INFO")
-        logger.finalize_summary([])
-        sys.exit(0)
-    
-    logger.log(f"检测到 {len(new_files)} 个新文件需要处理。", "INFO")
-
-    # --- 5.4 分类、下载、上传、刷新 ---
-    # 显式定义存储桶1的文件列表
-    bucket1_files = {
-        'cn_base_00_db.zip',
-        'cn_base_01.json.zip',
-        'cn_base_02.zip',
-        'cn_base_03.zip',
-        'cn_base_04.zip',
-        'cn_base_05.zip',
-        'cn_base_06.zip',
-        'cn_hotupdate.zip',
-        'cn_js_update.zip',
-        'cn_magica_resource.zip'
-    }
-    
-    processed_files = []
-    
-    for i, filename in enumerate(new_files, 1):
-        # 为每个文件创建一个折叠的分组
-        ActionGroup.start_group(f"📦 文件 {i}/{len(new_files)}: {filename}")
+        # 2. 检测最新 Release
+        start_group("🔍 检测最新 Release")
+        logger.update_step("🔍 检测变更", "🟡", "获取最新 Release...")
         
-        logger.log(f"--- 开始处理文件: {filename} ---", "INFO")
-        logger.update_file_status(filename, "下载中", "正在从 GitHub 下载文件")
+        latest_release = github_client.get_latest_release()
+        if not latest_release:
+            logger.update_step("🔍 检测变更", "⚪", "没有找到 Release")
+            logger.finalize(True, "没有 Release，无需同步")
+            return
         
-        # 分类判断
-        if filename in bucket1_files:
-            target_s3 = s3_1_handler
-            logger.log(f"文件 {filename} 被分类到 存储桶1", "INFO")
-        else:
-            target_s3 = s3_2_handler
-            logger.log(f"文件 {filename} 被分类到 存储桶2", "INFO")
+        release_id = latest_release.id
+        release_tag = latest_release.tag_name
         
-        download_url = next((a['browser_download_url'] for a in release_data['assets'] if a['name'] == filename), None)
-        if not download_url:
-            logger.log(f"未找到文件 {filename} 的下载链接。", "ERROR")
-            logger.update_file_status(filename, "失败", "未找到下载链接")
-            processed_files.append({'filename': filename, 'success': False, 'error': '未找到下载链接'})
-            ActionGroup.end_group()
-            continue
+        # 检查是否是新 Release
+        if release_id == logger.current_state.get('last_release_id'):
+            logger.update_step("🔍 检测变更", "⚪", f"Release {release_tag} 已处理")
+            logger.finalize(True, "无新 Release，跳过同步")
+            return
+        
+        logger.update_step("🔍 检测变更", "🟢", f"发现新 Release: {release_tag}")
+        end_group()
+        
+        # 3. 获取文件列表
+        start_group("📁 获取文件列表")
+        files = github_client.get_release_files(latest_release)
+        
+        if not files:
+            logger.update_step("📁 获取文件", "⚪", "Release 中没有文件")
+            logger.finalize(True, "Release 为空")
+            return
+        
+        logger.update_step("📁 获取文件", "🟢", f"找到 {len(files)} 个文件")
+        end_group()
+        
+        # 4. 处理文件
+        bucket1_files = {
+            'cn_base_00_db.zip',
+            'cn_base_01.json.zip',
+            'cn_base_02.zip',
+            'cn_base_03.zip',
+            'cn_base_04.zip',
+            'cn_base_05.zip',
+            'cn_base_06.zip',
+            'cn_hotupdate.zip',
+            'cn_js_update.zip',
+            'cn_magica_resource.zip'
+        }
+        
+        synced_files = []
+        failed_files = []
+        
+        for i, file_info in enumerate(files, 1):
+            filename = file_info['name']
             
-        local_path = f"/tmp/{filename}"
-        try:
+            start_group(f"📦 文件 {i}/{len(files)}: {filename}")
+            
+            # 检查是否已同步过
+            if filename in logger.current_state.get('synced_files', []):
+                print(f"⚪ 文件 {filename} 已同步过，跳过")
+                end_group()
+                continue
+            
+            # 选择存储桶
+            if filename in bucket1_files:
+                s3 = s3_1
+                domain = os.environ['S3_1_DOMAIN']
+            else:
+                s3 = s3_2
+                domain = os.environ['S3_2_DOMAIN']
+            
+            print(f"📤 上传到 {s3.name}...")
+            
             # 下载文件
-            logger.log(f"正在下载文件: {filename}...", "INFO")
-            urllib.request.urlretrieve(download_url, local_path)
-            logger.log(f"文件 {filename} 下载完成。", "INFO")
-            logger.update_file_status(filename, "上传中", f"正在上传到 {target_s3.name}")
+            print(f"⬇️ 下载文件: {filename}")
+            local_path = f"/tmp/{filename}"
+            os.system(f"curl -L '{file_info['url']}' -o {local_path}")
             
             # 上传到 S3
-            if target_s3.upload_file(local_path, filename):
-                logger.update_file_status(filename, "已上传", f"已上传到 {target_s3.name}")
-                
-                # 刷新 CDN 缓存
-                logger.update_file_status(filename, "已完成", "正在清除 CDN 缓存")
-                success, task_id = edge_one_handler.purge_cache(target_s3.domain, filename)
-                
-                if success:
-                    logger.update_file_status(filename, "已完成", f"CDN 缓存已清除 (任务ID: {task_id})")
-                    processed_files.append({'filename': filename, 'success': True})
-                else:
-                    logger.update_file_status(filename, "失败", f"CDN 刷新失败: {task_id}")
-                    processed_files.append({'filename': filename, 'success': False, 'error': f"CDN 刷新失败: {task_id}"})
-            else:
-                logger.update_file_status(filename, "失败", "上传失败")
-                processed_files.append({'filename': filename, 'success': False, 'error': '上传失败'})
-                
-        except Exception as e:
-            logger.log(f"处理文件 {filename} 时发生错误: {e}", "ERROR")
-            logger.update_file_status(filename, "失败", str(e))
-            processed_files.append({'filename': filename, 'success': False, 'error': str(e)})
-        finally:
+            print(f"⬆️ 上传到 S3...")
+            s3.upload(local_path, filename)
+            
+            # 刷新 CDN
+            url = f"http://{domain}/{filename}"
+            print(f"🔄 刷新 CDN: {url}")
+            task_id = edge.purge(url)
+            
+            # 记录成功
+            synced_files.append(filename)
+            print(f"✅ 文件 {filename} 处理完成")
+            
+            # 清理临时文件
             if os.path.exists(local_path):
                 os.remove(local_path)
+            
+            end_group()
         
-        ActionGroup.end_group()
-    
-    # --- 5.5 更新缓存文件 ---
-    logger.log(f"正在更新文件缓存列表...", "INFO")
-    with open(cache_file, 'w') as f:
-        json.dump(current_files, f, indent=2)
+        # 5. 更新状态
+        logger.current_state['last_release_id'] = release_id
+        logger.current_state['synced_files'].extend(synced_files)
+        logger.current_state['last_sync_time'] = datetime.now().isoformat()
+        logger.save_state()
         
-    # Git 提交缓存更新
-    os.system('git config user.name "github-actions[bot]"')
-    os.system('git config user.email "github-actions[bot]@users.noreply.github.com"')
-    os.system(f'git add {cache_file}')
-    os.system('git commit -m "chore: update file cache" || echo "No changes to commit"')
-    os.system('git push || echo "No changes to push"')
-
-    # --- 5.6 完成 Summary ---
-    logger.finalize_summary(processed_files)
-    
-    logger.log("🎉 所有任务执行完毕！", "INFO")
+        # 6. 完成报告
+        duration = int(time.time() - start_time)
+        logger.finalize(True, f"同步完成！处理了 {len(synced_files)} 个文件，耗时 {duration} 秒")
+        
+        # 设置输出
+        set_output('summary', f"同步完成！处理了 {len(synced_files)} 个文件")
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        logger.finalize(False, f"执行失败: {str(e)}")
+        set_output('summary', f"执行失败: {str(e)}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
