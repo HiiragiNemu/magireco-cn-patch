@@ -1,8 +1,8 @@
-name: "⌚️ 定时同步 Release 文件"
+name: "⌚️ 同步 Release 文件"
 
 on:
-  schedule:
-    - cron: '* */12 * * *' # 每12小时运行一次
+  #schedule:
+    #- cron: '* */12 * * *' # 每12小时运行一次
   workflow_dispatch: # 允许手动触发
 
 jobs:
