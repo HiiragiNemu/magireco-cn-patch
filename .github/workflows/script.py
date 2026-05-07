@@ -283,7 +283,7 @@ def main():
     # 显式定义存储桶1的文件列表
     bucket1_files = {
         'cn_base_00_db.zip',
-        'cn_base_01.json.zip',
+        'cn_base_01_json.zip',
         'cn_base_02.zip',
         'cn_base_03.zip',
         'cn_base_04.zip',
