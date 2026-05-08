@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import time
 import urllib.request
 import urllib.error
 from datetime import datetime
@@ -18,24 +17,15 @@ from tencentcloud.teo.v20220901 import teo_client, models
 # 1. GitHub Actions 分组日志工具
 # ==========================================
 class ActionGroup:
-    """用于在 GitHub Actions 中创建折叠的分组"""
     @staticmethod
-    def start_group(title):
-        print(f"::group::{title}")
-    
+    def start_group(title): print(f"::group::{title}")
     @staticmethod
-    def end_group():
-        print("::endgroup::")
+    def end_group(): print("::endgroup::")
 
 # ==========================================
 # 2. 日志与输出设置
 # ==========================================
-LOG_COLORS = {
-    'INFO': '\033[92m',    # 绿色
-    'WARN': '\033[93m',    # 黄色
-    'ERROR': '\033[91m',   # 红色
-    'RESET': '\033[0m'     # 重置
-}
+LOG_COLORS = {'INFO':'\033[92m','WARN':'\033[93m','ERROR':'\033[91m','RESET':'\033[0m'}
 
 class ActionLogger:
     def __init__(self):
@@ -51,38 +41,25 @@ class ActionLogger:
             with open(self.step_summary_path, 'w', encoding='utf-8') as f:
                 f.write("## 🚀 Action 运行报告\n\n")
                 f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
-                f.write("### 📋 文件处理状态\n\n")
-                f.write("| 文件名 | 状态 | 详细信息 |\n")
-                f.write("|--------|------|----------|\n")
+                f.write("### 📋 文件处理状态\n\n| 文件名 | 状态 | 详细信息 |\n|--------|------|----------|\n")
     
     def update_file_status(self, filename, status, details=""):
         self.file_statuses[filename] = {'status': status, 'details': details}
-        
         if self.step_summary_path:
             with open(self.step_summary_path, 'w', encoding='utf-8') as f:
                 f.write("## 🚀 Action 运行报告\n\n")
                 f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
-                f.write("### 📋 文件处理状态\n\n")
-                f.write("| 文件名 | 状态 | 详细信息 |\n")
-                f.write("|--------|------|----------|\n")
-                
-                status_icons = {
-                    '无需操作': '⚪', '排队中': '🟡', '下载中': '🔵',
-                    '上传中': '🟣', '已上传': '🟢', '已完成': '✅',
-                    '已忽略': '⚫', '失败': '❌'
-                }
-                
+                f.write("### 📋 文件处理状态\n\n| 文件名 | 状态 | 详细信息 |\n|--------|------|----------|\n")
+                icons = {'无需操作':'⚪','排队中':'🟡','下载中':'🔵','上传中':'🟣','已上传':'🟢','已完成':'✅','已忽略':'⚫','失败':'❌'}
                 for fname, info in self.file_statuses.items():
-                    icon = status_icons.get(info['status'], '⚪')
+                    icon = icons.get(info['status'], '⚪')
                     f.write(f"| {fname} | {icon} {info['status']} | {info['details']} |\n")
                 f.write("\n")
     
     def add_obsolete_files_section(self):
         if self.step_summary_path and self.obsolete_files:
             with open(self.step_summary_path, 'a', encoding='utf-8') as f:
-                f.write("### 🗑️ 过时文件清理报告\n\n")
-                f.write("| 存储桶 | 文件名 | 状态 | 详细信息 |\n")
-                f.write("|--------|--------|------|----------|\n")
+                f.write("### 🗑️ 过时文件清理报告\n\n| 存储桶 | 文件名 | 状态 | 详细信息 |\n|--------|--------|------|----------|\n")
                 for item in self.obsolete_files:
                     icon = '✅' if item['status'] in ['已删除', '已纠正位置'] else '❌'
                     f.write(f"| {item['bucket']} | {item['filename']} | {icon} {item['status']} | {item['details']} |\n")
@@ -91,19 +68,15 @@ class ActionLogger:
     def add_token_info_section(self):
         if self.step_summary_path and self.token_info:
             with open(self.step_summary_path, 'a', encoding='utf-8') as f:
-                f.write("### 🔑 GitHub API Token 调用信息\n\n")
-                f.write("| 项目 | 值 |\n|------|----|\n")
-                for key, value in self.token_info.items():
-                    f.write(f"| {key} | {value} |\n")
+                f.write("### 🔑 GitHub API Token 调用信息\n\n| 项目 | 值 |\n|------|----|\n")
+                for k, v in self.token_info.items(): f.write(f"| {k} | {v} |\n")
                 f.write("\n")
     
     def log(self, message, level="INFO", filename=None, status=None, details=""):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         color = LOG_COLORS.get(level, '')
         print(f"{color}[{timestamp}] [{level}] {message}{LOG_COLORS['RESET']}")
-        
-        if filename and status:
-            self.update_file_status(filename, status, details)
+        if filename and status: self.update_file_status(filename, status, details)
     
     def finalize_summary(self, processed_files):
         if self.step_summary_path:
@@ -111,13 +84,10 @@ class ActionLogger:
                 f.write(f"\n⏱️ **结束时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n")
                 f.write(f"⏱️ **总耗时**: `{(datetime.now() - self.start_time).total_seconds():.2f}` 秒\n\n")
                 self.add_token_info_section()
-                
-                success = sum(1 for f in processed_files if f['success'])
+                success = sum(1 for x in processed_files if x['success'])
                 fail = len(processed_files) - success
-                if fail == 0:
-                    f.write("🟢 **状态**: 所有文件处理成功！\n")
-                else:
-                    f.write(f"🟡 **状态**: 处理完成，{success} 个成功，{fail} 个失败。\n")
+                if fail == 0: f.write("🟢 **状态**: 所有文件处理成功！\n")
+                else: f.write(f"🟡 **状态**: 处理完成，{success} 个成功，{fail} 个失败。\n")
 
 logger = ActionLogger()
 
@@ -126,7 +96,6 @@ logger = ActionLogger()
 # ==========================================
 class GitHubAPIClient:
     def __init__(self, token=None):
-        self.token = token
         self.headers = {'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'}
         if token:
             self.headers['Authorization'] = f'Bearer {token}'
@@ -156,9 +125,7 @@ class GitHubAPIClient:
 # ==========================================
 class S3Handler:
     def __init__(self, endpoint, access_key, secret_key, region, bucket, domain, name="S3"):
-        self.name = name
-        self.bucket = bucket
-        self.domain = domain
+        self.name = name; self.bucket = bucket; self.domain = domain
         if endpoint.endswith('/'): endpoint = endpoint[:-1]
         self.s3_client = boto3.client('s3', endpoint_url=endpoint, aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
 
@@ -168,40 +135,26 @@ class S3Handler:
             files = [obj['Key'] for page in paginator.paginate(Bucket=self.bucket) if 'Contents' in page for obj in page['Contents']]
             logger.log(f"[{self.name}] 列出 {len(files)} 个文件", "INFO")
             return files
-        except Exception as e:
-            logger.log(f"[{self.name}] 列出文件失败: {e}", "ERROR")
-            return []
+        except Exception as e: logger.log(f"[{self.name}] 列出文件失败: {e}", "ERROR"); return []
 
     def delete_file(self, filename):
-        try:
-            self.s3_client.delete_object(Bucket=self.bucket, Key=filename)
-            logger.log(f"[{self.name}] 删除 {filename} 成功", "INFO")
-            return True
+        try: self.s3_client.delete_object(Bucket=self.bucket, Key=filename); logger.log(f"[{self.name}] 删除 {filename} 成功", "INFO"); return True
         except ClientError as e:
-            if e.response['Error']['Code'] == '404':
-                logger.log(f"[{self.name}] {filename} 不存在", "WARN")
-                return True
-            logger.log(f"[{self.name}] 删除 {filename} 失败: {e}", "ERROR")
-            return False
-        except Exception as e:
-            logger.log(f"[{self.name}] 删除 {filename} 异常: {e}", "ERROR")
-            return False
+            if e.response['Error']['Code'] == '404': logger.log(f"[{self.name}] {filename} 不存在", "WARN"); return True
+            logger.log(f"[{self.name}] 删除 {filename} 失败: {e}", "ERROR"); return False
+        except Exception as e: logger.log(f"[{self.name}] 删除 {filename} 异常: {e}", "ERROR"); return False
 
     def upload_file_from_url(self, url, filename):
-        """流式上传，不落盘"""
         try:
             logger.log(f"[{self.name}] 开始流式上传: {filename}", "INFO")
             req = urllib.request.Request(url)
             with urllib.request.urlopen(req) as response:
                 file_data = response.read()
                 file_size = len(file_data)
-            
             self.s3_client.put_object(Bucket=self.bucket, Key=filename, Body=file_data, ContentLength=file_size)
             logger.log(f"[{self.name}] 流式上传 {filename} ({file_size/1024/1024:.2f} MB) 成功", "INFO")
             return True
-        except Exception as e:
-            logger.log(f"[{self.name}] 流式上传 {filename} 失败: {e}", "ERROR")
-            return False
+        except Exception as e: logger.log(f"[{self.name}] 流式上传 {filename} 失败: {e}", "ERROR"); return False
 
 # ==========================================
 # 5. EdgeOne 缓存刷新
@@ -210,10 +163,8 @@ class EdgeOneHandler:
     def __init__(self, secret_id, secret_key, zone_id):
         self.zone_id = zone_id
         cred = credential.Credential(secret_id, secret_key)
-        http_profile = HttpProfile()
-        http_profile.endpoint = "teo.tencentcloudapi.com"
-        client_profile = ClientProfile()
-        client_profile.httpProfile = http_profile
+        http_profile = HttpProfile(); http_profile.endpoint = "teo.tencentcloudapi.com"
+        client_profile = ClientProfile(); client_profile.httpProfile = http_profile
         self.client = teo_client.TeoClient(cred, "", client_profile)
 
     def _mask_task_id(self, task_id):
@@ -229,12 +180,10 @@ class EdgeOneHandler:
             masked_id = self._mask_task_id(resp.RequestId)
             logger.log(f"[EdgeOne] 提交刷新任务成功: {target_url} (ID: {masked_id})", "INFO")
             return True, masked_id
-        except Exception as e:
-            logger.log(f"[EdgeOne] 刷新缓存失败: {e}", "ERROR")
-            return False, str(e)
+        except Exception as e: logger.log(f"[EdgeOne] 刷新缓存失败: {e}", "ERROR"); return False, str(e)
 
 # ==========================================
-# 6. 主逻辑（SHA256 + 纠正位置）
+# 6. 主逻辑（SHA256 + 纠正位置 + 去重）
 # ==========================================
 def main():
     logger.init_summary()
@@ -248,9 +197,7 @@ def main():
         gh_client = GitHubAPIClient(os.environ.get('GH_TOKEN', ''))
         repo = os.environ.get('GH_REPO', 'HiiragiNemu/magireco-cn-patch').split('/')
         owner, repo_name = repo[0], repo[1]
-    except KeyError as e:
-        logger.log(f"❌ 缺少环境变量: {e}", "ERROR")
-        sys.exit(1)
+    except KeyError as e: logger.log(f"❌ 缺少环境变量: {e}", "ERROR"); sys.exit(1)
 
     # --- 6.2 获取 Release 及 SHA256 ---
     try:
@@ -260,9 +207,7 @@ def main():
             if not asset['name'].startswith('source code'):
                 current_map[asset['name']] = asset.get('digest', '')
         logger.log(f"当前 Release 包含 {len(current_map)} 个文件。", "INFO")
-    except Exception as e:
-        logger.log(f"获取 Release 失败: {e}", "ERROR")
-        sys.exit(1)
+    except Exception as e: logger.log(f"获取 Release 失败: {e}", "ERROR"); sys.exit(1)
 
     # --- 6.3 SHA256 比对 ---
     cache_file = '.github/workflows/.file_cache.json'
@@ -272,9 +217,9 @@ def main():
             with open(cache_file, 'r') as f: old_map = json.load(f)
         except: pass
 
-    to_process = []
-    unchanged = []
-    deleted = []
+    to_process = []  # 需要处理的文件（新文件或更新文件）
+    unchanged = []   # 未变更的文件
+    deleted = []      # 被删除的文件
 
     for fname, sha in current_map.items():
         if fname in IGNORE_FILES:
@@ -296,28 +241,23 @@ def main():
         if fname not in current_map and fname not in IGNORE_FILES:
             deleted.append(fname)
 
-    # --- 6.4 清理过时文件 & 纠正位置 ---
+    # --- 6.4 清理过时文件 & 纠正位置（关键修复：纠正后立即移出 to_process）---
     ActionGroup.start_group("🗑️ 清理过时文件 & 纠正位置")
     
     bucket1_files = s3_1.list_files()
     bucket2_files = s3_2.list_files()
     
-    bucket1_targets = {
-        'cn_base_00_db.zip', 'cn_base_01_json.zip', 'cn_base_02.zip', 
-        'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip', 
-        'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip', 
-        'cn_magica_resource.zip'
-    }
+    bucket1_targets = {'cn_base_00_db.zip','cn_base_01.json.zip','cn_base_02.zip','cn_base_03.zip','cn_base_04.zip','cn_base_05.zip','cn_base_06.zip','cn_hotupdate.zip','cn_js_update.zip','cn_magica_resource.zip'}
 
-    # 处理存储桶1：删除过时的，纠正错位的
+    # 处理存储桶1
     for fname in bucket1_files:
-        if fname in deleted or fname not in current_map:
-            # 过时文件，直接删除
+        # 情况1：文件已过时（不在当前Release中或被标记为删除）
+        if fname not in current_map or fname in deleted:
             if s3_1.delete_file(fname):
                 logger.update_file_status(fname, "已完成", "已删除过时文件")
                 logger.obsolete_files.append({'bucket':'存储桶1','filename':fname,'status':'已删除','details':'清理过时'})
+        # 情况2：文件放错了桶（应该在存储桶2）
         elif fname not in bucket1_targets:
-            # 文件还在 Release 中，但放错了桶（应在存储桶2）
             logger.log(f"文件 {fname} 在存储桶1中但应属于存储桶2，准备纠正", "WARN")
             logger.update_file_status(fname, "排队中", "纠正位置（移至存储桶2）")
             try:
@@ -326,6 +266,9 @@ def main():
                     if s3_1.delete_file(fname):
                         logger.update_file_status(fname, "已完成", "已纠正位置（移至存储桶2）")
                         logger.obsolete_files.append({'bucket':'存储桶1→存储桶2','filename':fname,'status':'已纠正位置','details':'移至正确桶'})
+                        # 关键：纠正成功后，从待处理列表中移除，避免后续重复上传
+                        if fname in to_process:
+                            to_process.remove(fname)
                     else:
                         logger.update_file_status(fname, "失败", "从原桶删除失败")
                 else:
@@ -333,14 +276,15 @@ def main():
             except Exception as e:
                 logger.update_file_status(fname, "失败", f"纠正失败: {e}")
 
-    # 处理存储桶2：删除过时的，纠正错位的
+    # 处理存储桶2
     for fname in bucket2_files:
-        if fname in deleted or fname not in current_map:
+        # 情况1：文件已过时
+        if fname not in current_map or fname in deleted:
             if s3_2.delete_file(fname):
                 logger.update_file_status(fname, "已完成", "已删除过时文件")
                 logger.obsolete_files.append({'bucket':'存储桶2','filename':fname,'status':'已删除','details':'清理过时'})
+        # 情况2：文件放错了桶（应该在存储桶1）
         elif fname in bucket1_targets:
-            # 文件还在 Release 中，但放错了桶（应在存储桶1）
             logger.log(f"文件 {fname} 在存储桶2中但应属于存储桶1，准备纠正", "WARN")
             logger.update_file_status(fname, "排队中", "纠正位置（移至存储桶1）")
             try:
@@ -349,6 +293,9 @@ def main():
                     if s3_2.delete_file(fname):
                         logger.update_file_status(fname, "已完成", "已纠正位置（移至存储桶1）")
                         logger.obsolete_files.append({'bucket':'存储桶2→存储桶1','filename':fname,'status':'已纠正位置','details':'移至正确桶'})
+                        # 关键：纠正成功后，从待处理列表中移除
+                        if fname in to_process:
+                            to_process.remove(fname)
                     else:
                         logger.update_file_status(fname, "失败", "从原桶删除失败")
                 else:
@@ -364,7 +311,7 @@ def main():
         logger.finalize_summary([])
         sys.exit(0)
 
-    # --- 6.5 处理新文件/更新文件 ---
+    # --- 6.5 处理剩余的新文件/更新文件（此时列表已无重复）---
     processed = []
     for i, fname in enumerate(to_process, 1):
         ActionGroup.start_group(f"📦 文件 {i}/{len(to_process)}: {fname}")
@@ -386,22 +333,16 @@ def main():
         else:
             logger.update_file_status(fname, "失败", "S3 上传失败")
             processed.append({'filename': fname, 'success': False})
-        
         ActionGroup.end_group()
 
     # --- 6.6 保存指纹 ---
     ActionGroup.start_group("💾 保存同步状态")
     final_map = old_map.copy()
-    for fname in unchanged:
-        final_map[fname] = old_map[fname]
-    for fname in to_process:
-        final_map[fname] = current_map[fname]
-    for fname in deleted:
-        final_map.pop(fname, None)
+    for fname in unchanged: final_map[fname] = old_map[fname]
+    for fname in to_process: final_map[fname] = current_map[fname]
+    for fname in deleted: final_map.pop(fname, None)
     
-    with open(cache_file, 'w') as f:
-        json.dump(final_map, f, indent=2)
-    
+    with open(cache_file, 'w') as f: json.dump(final_map, f, indent=2)
     os.system('git config user.name "github-actions[bot]"')
     os.system('git config user.email "github-actions[bot]@users.noreply.github.com"')
     os.system(f'git add {cache_file}')
