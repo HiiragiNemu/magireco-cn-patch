@@ -40,6 +40,7 @@ class ActionLogger:
         self.step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
         self.file_statuses = {}
         self.obsolete_files = []  # 存储过时文件信息
+        self.ignored_files = []   # 存储被忽略的文件信息
         self.start_time = datetime.now()
         
     def init_summary(self):
@@ -72,6 +73,7 @@ class ActionLogger:
                     '上传中': '🟣',
                     '已上传': '🟢',
                     '已完成': '✅',
+                    '已忽略': '⚫',
                     '失败': '❌'
                 }
                 
@@ -95,7 +97,7 @@ class ActionLogger:
                     status = item['status']
                     details = item['details']
                     
-                    status_icon = '✅' if status == '已删除' else '❌'
+                    status_icon = '✅' if status in ['已删除', '已纠正位置'] else '❌'
                     f.write(f"| {bucket} | {filename} | {status_icon} {status} | {details} |\n")
                 
                 f.write("\n")
@@ -234,6 +236,9 @@ def main():
     # 初始化 Step Summary
     logger.init_summary()
     
+    # 定义过滤列表（不希望同步的文件）
+    IGNORE_FILES = {'puella-historia-splited.tar.xz'}
+    
     # --- 5.1 读取环境变量 ---
     logger.log("正在从环境变量加载配置...", "INFO")
     try:
@@ -303,116 +308,36 @@ def main():
     new_files = [f for f in current_files if f not in previous_files]
     existing_files = [f for f in current_files if f in previous_files]
     
+    # 找出被忽略的文件
+    ignored_files = [f for f in current_files if f in IGNORE_FILES]
+    
     # 初始化所有文件的状态
     for filename in existing_files:
-        logger.update_file_status(filename, "无需操作", "文件已同步，无需处理")
+        if filename in IGNORE_FILES:
+            logger.update_file_status(filename, "已忽略", "文件在过滤列表中，不同步")
+            logger.ignored_files.append(filename)
+        else:
+            logger.update_file_status(filename, "无需操作", "文件已同步，无需处理")
     
     for filename in new_files:
-        logger.update_file_status(filename, "排队中", "等待处理")
+        if filename in IGNORE_FILES:
+            logger.update_file_status(filename, "已忽略", "文件在过滤列表中，不同步")
+            logger.ignored_files.append(filename)
+        else:
+            logger.update_file_status(filename, "排队中", "等待处理")
     
-    # --- 5.4 检测并清理过时文件 ---
+    # --- 5.4 检测并清理过时文件（包括纠正位置）---
     ActionGroup.start_group("🗑️ 检测并清理过时文件")
     logger.log("开始检测存储桶中的过时文件...", "INFO")
     
-    # 获取存储桶1中的文件列表
-    bucket1_files = set(s3_1_handler.list_files())
-    current_files_set = set(current_files)
+    # 获取两个存储桶中的文件列表
+    bucket1_files_list = s3_1_handler.list_files()
+    bucket2_files_list = s3_2_handler.list_files()
     
-    # 找出存储桶1中的过时文件（存在于存储桶但不在当前Release中）
-    obsolete_in_bucket1 = bucket1_files - current_files_set
-    
-    # 获取存储桶2中的文件列表
-    bucket2_files = set(s3_2_handler.list_files())
-    
-    # 找出存储桶2中的过时文件
-    obsolete_in_bucket2 = bucket2_files - current_files_set
-    
-    # 处理存储桶1的过时文件
-    for filename in obsolete_in_bucket1:
-        logger.log(f"发现存储桶1中的过时文件: {filename}", "WARN")
-        logger.update_file_status(filename, "排队中", "准备删除过时文件")
-        
-        try:
-            if s3_1_handler.delete_file(filename):
-                logger.update_file_status(filename, "已完成", "已删除过时文件")
-                logger.obsolete_files.append({
-                    'bucket': '存储桶1',
-                    'filename': filename,
-                    'status': '已删除',
-                    'details': '已从存储桶中删除'
-                })
-            else:
-                logger.update_file_status(filename, "失败", "删除过时文件失败")
-                logger.obsolete_files.append({
-                    'bucket': '存储桶1',
-                    'filename': filename,
-                    'status': '失败',
-                    'details': '删除失败'
-                })
-        except Exception as e:
-            logger.log(f"删除过时文件 {filename} 时发生错误: {e}", "ERROR")
-            logger.update_file_status(filename, "失败", f"删除失败: {str(e)}")
-            logger.obsolete_files.append({
-                'bucket': '存储桶1',
-                'filename': filename,
-                'status': '失败',
-                'details': str(e)
-            })
-    
-    # 处理存储桶2的过时文件
-    for filename in obsolete_in_bucket2:
-        logger.log(f"发现存储桶2中的过时文件: {filename}", "WARN")
-        logger.update_file_status(filename, "排队中", "准备删除过时文件")
-        
-        try:
-            if s3_2_handler.delete_file(filename):
-                logger.update_file_status(filename, "已完成", "已删除过时文件")
-                logger.obsolete_files.append({
-                    'bucket': '存储桶2',
-                    'filename': filename,
-                    'status': '已删除',
-                    'details': '已从存储桶中删除'
-                })
-            else:
-                logger.update_file_status(filename, "失败", "删除过时文件失败")
-                logger.obsolete_files.append({
-                    'bucket': '存储桶2',
-                    'filename': filename,
-                    'status': '失败',
-                    'details': '删除失败'
-                })
-        except Exception as e:
-            logger.log(f"删除过时文件 {filename} 时发生错误: {e}", "ERROR")
-            logger.update_file_status(filename, "失败", f"删除失败: {str(e)}")
-            logger.obsolete_files.append({
-                'bucket': '存储桶2',
-                'filename': filename,
-                'status': '失败',
-                'details': str(e)
-            })
-    
-    # 添加过时文件报告到 Step Summary
-    logger.add_obsolete_files_section()
-    
-    ActionGroup.end_group()
-    
-    if not new_files and not obsolete_in_bucket1 and not obsolete_in_bucket2:
-        logger.log("✅ 没有检测到新的或变更的文件，也没有过时文件。任务结束。", "INFO")
-        logger.finalize_summary([])
-        sys.exit(0)
-    
-    if not new_files:
-        logger.log("✅ 没有检测到新的或变更的文件，但已清理过时文件。任务结束。", "INFO")
-        logger.finalize_summary([])
-        sys.exit(0)
-    
-    logger.log(f"检测到 {len(new_files)} 个新文件需要处理。", "INFO")
-
-    # --- 5.5 分类、下载、上传、刷新 ---
-    # 显式定义存储桶1的文件列表
-    bucket1_files_list = {
+    # 定义存储桶1应该包含的文件
+    bucket1_should_contain = {
         'cn_base_00_db.zip',
-        'cn_base_01.json.zip',
+        'cn_base_01_json.zip',
         'cn_base_02.zip',
         'cn_base_03.zip',
         'cn_base_04.zip',
@@ -423,17 +348,222 @@ def main():
         'cn_magica_resource.zip'
     }
     
+    # 处理存储桶1中的文件
+    for filename in bucket1_files_list:
+        # 检查是否是过时文件（不在当前Release中）
+        if filename not in current_files:
+            logger.log(f"发现存储桶1中的过时文件: {filename}", "WARN")
+            logger.update_file_status(filename, "排队中", "准备删除过时文件")
+            
+            try:
+                if s3_1_handler.delete_file(filename):
+                    logger.update_file_status(filename, "已完成", "已删除过时文件")
+                    logger.obsolete_files.append({
+                        'bucket': '存储桶1',
+                        'filename': filename,
+                        'status': '已删除',
+                        'details': '已从存储桶中删除'
+                    })
+                else:
+                    logger.update_file_status(filename, "失败", "删除过时文件失败")
+                    logger.obsolete_files.append({
+                        'bucket': '存储桶1',
+                        'filename': filename,
+                        'status': '失败',
+                        'details': '删除失败'
+                    })
+            except Exception as e:
+                logger.log(f"删除过时文件 {filename} 时发生错误: {e}", "ERROR")
+                logger.update_file_status(filename, "失败", f"删除失败: {str(e)}")
+                logger.obsolete_files.append({
+                    'bucket': '存储桶1',
+                    'filename': filename,
+                    'status': '失败',
+                    'details': str(e)
+                })
+        else:
+            # 文件在当前Release中，检查是否放错了桶
+            if filename not in bucket1_should_contain:
+                logger.log(f"文件 {filename} 在存储桶1中但应属于存储桶2，准备纠正位置", "WARN")
+                logger.update_file_status(filename, "排队中", "文件放错位置，准备纠正")
+                
+                try:
+                    # 从GitHub下载文件
+                    download_url = next((a['browser_download_url'] for a in release_data['assets'] if a['name'] == filename), None)
+                    if not download_url:
+                        logger.log(f"未找到文件 {filename} 的下载链接。", "ERROR")
+                        logger.update_file_status(filename, "失败", "未找到下载链接")
+                        continue
+                    
+                    local_path = f"/tmp/{filename}"
+                    urllib.request.urlretrieve(download_url, local_path)
+                    
+                    # 上传到正确的存储桶（存储桶2）
+                    if s3_2_handler.upload_file(local_path, filename):
+                        # 从错误存储桶删除
+                        if s3_1_handler.delete_file(filename):
+                            logger.update_file_status(filename, "已完成", "已纠正位置（移至存储桶2）")
+                            logger.obsolete_files.append({
+                                'bucket': '存储桶1→存储桶2',
+                                'filename': filename,
+                                'status': '已纠正位置',
+                                'details': '文件从存储桶1移至存储桶2'
+                            })
+                        else:
+                            logger.update_file_status(filename, "失败", "从原存储桶删除失败")
+                            logger.obsolete_files.append({
+                                'bucket': '存储桶1→存储桶2',
+                                'filename': filename,
+                                'status': '失败',
+                                'details': '从原存储桶删除失败'
+                            })
+                    else:
+                        logger.update_file_status(filename, "失败", "上传到正确存储桶失败")
+                        logger.obsolete_files.append({
+                            'bucket': '存储桶1→存储桶2',
+                            'filename': filename,
+                            'status': '失败',
+                            'details': '上传到正确存储桶失败'
+                        })
+                    
+                    # 清理临时文件
+                    if os.path.exists(local_path):
+                        os.remove(local_path)
+                        
+                except Exception as e:
+                    logger.log(f"纠正文件 {filename} 位置时发生错误: {e}", "ERROR")
+                    logger.update_file_status(filename, "失败", f"纠正位置失败: {str(e)}")
+                    logger.obsolete_files.append({
+                        'bucket': '存储桶1→存储桶2',
+                        'filename': filename,
+                        'status': '失败',
+                        'details': str(e)
+                    })
+    
+    # 处理存储桶2中的文件
+    for filename in bucket2_files_list:
+        # 检查是否是过时文件（不在当前Release中）
+        if filename not in current_files:
+            logger.log(f"发现存储桶2中的过时文件: {filename}", "WARN")
+            logger.update_file_status(filename, "排队中", "准备删除过时文件")
+            
+            try:
+                if s3_2_handler.delete_file(filename):
+                    logger.update_file_status(filename, "已完成", "已删除过时文件")
+                    logger.obsolete_files.append({
+                        'bucket': '存储桶2',
+                        'filename': filename,
+                        'status': '已删除',
+                        'details': '已从存储桶中删除'
+                    })
+                else:
+                    logger.update_file_status(filename, "失败", "删除过时文件失败")
+                    logger.obsolete_files.append({
+                        'bucket': '存储桶2',
+                        'filename': filename,
+                        'status': '失败',
+                        'details': '删除失败'
+                    })
+            except Exception as e:
+                logger.log(f"删除过时文件 {filename} 时发生错误: {e}", "ERROR")
+                logger.update_file_status(filename, "失败", f"删除失败: {str(e)}")
+                logger.obsolete_files.append({
+                    'bucket': '存储桶2',
+                    'filename': filename,
+                    'status': '失败',
+                    'details': str(e)
+                })
+        else:
+            # 文件在当前Release中，检查是否放错了桶
+            if filename in bucket1_should_contain:
+                logger.log(f"文件 {filename} 在存储桶2中但应属于存储桶1，准备纠正位置", "WARN")
+                logger.update_file_status(filename, "排队中", "文件放错位置，准备纠正")
+                
+                try:
+                    # 从GitHub下载文件
+                    download_url = next((a['browser_download_url'] for a in release_data['assets'] if a['name'] == filename), None)
+                    if not download_url:
+                        logger.log(f"未找到文件 {filename} 的下载链接。", "ERROR")
+                        logger.update_file_status(filename, "失败", "未找到下载链接")
+                        continue
+                    
+                    local_path = f"/tmp/{filename}"
+                    urllib.request.urlretrieve(download_url, local_path)
+                    
+                    # 上传到正确的存储桶（存储桶1）
+                    if s3_1_handler.upload_file(local_path, filename):
+                        # 从错误存储桶删除
+                        if s3_2_handler.delete_file(filename):
+                            logger.update_file_status(filename, "已完成", "已纠正位置（移至存储桶1）")
+                            logger.obsolete_files.append({
+                                'bucket': '存储桶2→存储桶1',
+                                'filename': filename,
+                                'status': '已纠正位置',
+                                'details': '文件从存储桶2移至存储桶1'
+                            })
+                        else:
+                            logger.update_file_status(filename, "失败", "从原存储桶删除失败")
+                            logger.obsolete_files.append({
+                                'bucket': '存储桶2→存储桶1',
+                                'filename': filename,
+                                'status': '失败',
+                                'details': '从原存储桶删除失败'
+                            })
+                    else:
+                        logger.update_file_status(filename, "失败", "上传到正确存储桶失败")
+                        logger.obsolete_files.append({
+                            'bucket': '存储桶2→存储桶1',
+                            'filename': filename,
+                            'status': '失败',
+                            'details': '上传到正确存储桶失败'
+                        })
+                    
+                    # 清理临时文件
+                    if os.path.exists(local_path):
+                        os.remove(local_path)
+                        
+                except Exception as e:
+                    logger.log(f"纠正文件 {filename} 位置时发生错误: {e}", "ERROR")
+                    logger.update_file_status(filename, "失败", f"纠正位置失败: {str(e)}")
+                    logger.obsolete_files.append({
+                        'bucket': '存储桶2→存储桶1',
+                        'filename': filename,
+                        'status': '失败',
+                        'details': str(e)
+                    })
+    
+    # 添加过时文件报告到 Step Summary
+    logger.add_obsolete_files_section()
+    
+    ActionGroup.end_group()
+    
+    # 检查是否有工作需要做
+    filtered_new_files = [f for f in new_files if f not in IGNORE_FILES]
+    
+    if not filtered_new_files and not logger.obsolete_files and not logger.ignored_files:
+        logger.log("✅ 没有检测到新的或变更的文件，也没有过时文件，也没有被忽略的文件。任务结束。", "INFO")
+        logger.finalize_summary([])
+        sys.exit(0)
+    
+    if not filtered_new_files:
+        logger.log("✅ 没有检测到新的或变更的文件，但已处理过时文件或被忽略的文件。任务结束。", "INFO")
+        logger.finalize_summary([])
+        sys.exit(0)
+    
+    logger.log(f"检测到 {len(filtered_new_files)} 个新文件需要处理。", "INFO")
+
+    # --- 5.5 分类、下载、上传、刷新 ---
     processed_files = []
     
-    for i, filename in enumerate(new_files, 1):
+    for i, filename in enumerate(filtered_new_files, 1):
         # 为每个文件创建一个折叠的分组
-        ActionGroup.start_group(f"📦 文件 {i}/{len(new_files)}: {filename}")
+        ActionGroup.start_group(f"📦 文件 {i}/{len(filtered_new_files)}: {filename}")
         
         logger.log(f"--- 开始处理文件: {filename} ---", "INFO")
         logger.update_file_status(filename, "下载中", "正在从 GitHub 下载文件")
         
         # 分类判断
-        if filename in bucket1_files_list:
+        if filename in bucket1_should_contain:
             target_s3 = s3_1_handler
             logger.log(f"文件 {filename} 被分类到 存储桶1", "INFO")
         else:
