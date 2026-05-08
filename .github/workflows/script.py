@@ -6,6 +6,7 @@ import shutil
 import urllib.request
 import urllib.error
 from datetime import datetime
+from io import BytesIO
 
 import boto3
 from botocore.exceptions import ClientError
@@ -215,7 +216,7 @@ class GitHubAPIClient:
             raise
 
 # ==========================================
-# 4. S3 操作类
+# 4. S3 操作类（优化：直接流式上传）
 # ==========================================
 class S3Handler:
     def __init__(self, endpoint, access_key, secret_key, region, bucket, domain, name="S3"):
@@ -265,13 +266,29 @@ class S3Handler:
                 logger.log(f"[{self.name}] 删除文件 {filename} 失败: {e}", "ERROR")
                 return False
 
-    def upload_file(self, local_path, filename):
+    def upload_file_from_url(self, url, filename):
+        """直接从 URL 流式上传文件到 S3，无需本地存储"""
         try:
-            self.s3_client.upload_file(local_path, self.bucket, filename)
-            logger.log(f"[{self.name}] 成功上传文件: {filename}", "INFO")
+            logger.log(f"[{self.name}] 开始从 URL 流式上传: {filename}", "INFO")
+            
+            # 使用 urllib 打开 URL 并获取文件大小
+            req = urllib.request.Request(url)
+            with urllib.request.urlopen(req) as response:
+                file_size = int(response.headers.get('Content-Length', 0))
+                logger.log(f"[{self.name}] 文件大小: {file_size / 1024 / 1024:.2f} MB", "INFO")
+                
+                # 使用 put_object 直接上传流
+                self.s3_client.put_object(
+                    Bucket=self.bucket,
+                    Key=filename,
+                    Body=response.read(),
+                    ContentLength=file_size
+                )
+            
+            logger.log(f"[{self.name}] 成功流式上传文件: {filename}", "INFO")
             return True
         except Exception as e:
-            logger.log(f"[{self.name}] 上传文件 {filename} 失败: {e}", "ERROR")
+            logger.log(f"[{self.name}] 流式上传文件 {filename} 失败: {e}", "ERROR")
             return False
 
 # ==========================================
@@ -354,7 +371,7 @@ def main():
             zone_id=os.environ['EDGEONE_ZONE_ID']
         )
         
-        # 使用 GH_TOKEN（已改为通用变量名）
+        # 使用 GH_TOKEN
         github_token = os.environ.get('GH_TOKEN', '')
         github_client = GitHubAPIClient(github_token)
         
@@ -477,18 +494,15 @@ def main():
                 logger.update_file_status(filename, "排队中", "文件放错位置，准备纠正")
                 
                 try:
-                    # 从GitHub下载文件
+                    # 从GitHub获取下载链接
                     download_url = next((a['browser_download_url'] for a in release_data['assets'] if a['name'] == filename), None)
                     if not download_url:
                         logger.log(f"未找到文件 {filename} 的下载链接。", "ERROR")
                         logger.update_file_status(filename, "失败", "未找到下载链接")
                         continue
                     
-                    local_path = f"/tmp/{filename}"
-                    urllib.request.urlretrieve(download_url, local_path)
-                    
-                    # 上传到正确的存储桶（存储桶2）
-                    if s3_2_handler.upload_file(local_path, filename):
+                    # 直接流式上传到正确的存储桶（存储桶2）
+                    if s3_2_handler.upload_file_from_url(download_url, filename):
                         # 从错误存储桶删除
                         if s3_1_handler.delete_file(filename):
                             logger.update_file_status(filename, "已完成", "已纠正位置（移至存储桶2）")
@@ -514,10 +528,6 @@ def main():
                             'status': '失败',
                             'details': '上传到正确存储桶失败'
                         })
-                    
-                    # 清理临时文件
-                    if os.path.exists(local_path):
-                        os.remove(local_path)
                         
                 except Exception as e:
                     logger.log(f"纠正文件 {filename} 位置时发生错误: {e}", "ERROR")
@@ -569,18 +579,15 @@ def main():
                 logger.update_file_status(filename, "排队中", "文件放错位置，准备纠正")
                 
                 try:
-                    # 从GitHub下载文件
+                    # 从GitHub获取下载链接
                     download_url = next((a['browser_download_url'] for a in release_data['assets'] if a['name'] == filename), None)
                     if not download_url:
                         logger.log(f"未找到文件 {filename} 的下载链接。", "ERROR")
                         logger.update_file_status(filename, "失败", "未找到下载链接")
                         continue
                     
-                    local_path = f"/tmp/{filename}"
-                    urllib.request.urlretrieve(download_url, local_path)
-                    
-                    # 上传到正确的存储桶（存储桶1）
-                    if s3_1_handler.upload_file(local_path, filename):
+                    # 直接流式上传到正确的存储桶（存储桶1）
+                    if s3_1_handler.upload_file_from_url(download_url, filename):
                         # 从错误存储桶删除
                         if s3_2_handler.delete_file(filename):
                             logger.update_file_status(filename, "已完成", "已纠正位置（移至存储桶1）")
@@ -606,10 +613,6 @@ def main():
                             'status': '失败',
                             'details': '上传到正确存储桶失败'
                         })
-                    
-                    # 清理临时文件
-                    if os.path.exists(local_path):
-                        os.remove(local_path)
                         
                 except Exception as e:
                     logger.log(f"纠正文件 {filename} 位置时发生错误: {e}", "ERROR")
@@ -667,16 +670,10 @@ def main():
             ActionGroup.end_group()
             continue
             
-        local_path = f"/tmp/{filename}"
         try:
-            # 下载文件
-            logger.log(f"正在下载文件: {filename}...", "INFO")
-            urllib.request.urlretrieve(download_url, local_path)
-            logger.log(f"文件 {filename} 下载完成。", "INFO")
+            # 直接流式上传到 S3
             logger.update_file_status(filename, "上传中", f"正在上传到 {target_s3.name}")
-            
-            # 上传到 S3
-            if target_s3.upload_file(local_path, filename):
+            if target_s3.upload_file_from_url(download_url, filename):
                 logger.update_file_status(filename, "已上传", f"已上传到 {target_s3.name}")
                 
                 # 刷新 CDN 缓存
@@ -697,9 +694,6 @@ def main():
             logger.log(f"处理文件 {filename} 时发生错误: {e}", "ERROR")
             logger.update_file_status(filename, "失败", str(e))
             processed_files.append({'filename': filename, 'success': False, 'error': str(e)})
-        finally:
-            if os.path.exists(local_path):
-                os.remove(local_path)
         
         ActionGroup.end_group()
     
