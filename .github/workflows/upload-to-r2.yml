@@ -31,6 +31,7 @@ jobs:
         env:
           # --- 仓库信息 ---
           GH_REPO: "HiiragiNemu/magireco-cn-patch"
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           PYTHONUNBUFFERED: 1
           # --- S3 存储桶 1 配置 ---
           S3_1_ENDPOINT: ${{ secrets.S3_1_ENDPOINT }}
