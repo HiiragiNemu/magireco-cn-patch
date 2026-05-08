@@ -3,6 +3,8 @@ import sys
 import json
 import time
 import shutil
+import urllib.request
+import urllib.error
 from datetime import datetime
 
 import boto3
@@ -187,9 +189,6 @@ class GitHubAPIClient:
         
         logger.log(f"正在调用 GitHub API: GET {url}", "INFO")
         logger.token_info['API 调用次数'] = logger.token_info.get('API 调用次数', 0) + 1
-        
-        import urllib.request
-        import urllib.error
         
         req = urllib.request.Request(url, headers=self.headers)
         
