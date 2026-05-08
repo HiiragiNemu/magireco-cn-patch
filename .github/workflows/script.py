@@ -39,6 +39,7 @@ class ActionLogger:
     def __init__(self):
         self.step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
         self.file_statuses = {}
+        self.obsolete_files = []  # 存储过时文件信息
         self.start_time = datetime.now()
         
     def init_summary(self):
@@ -77,6 +78,25 @@ class ActionLogger:
                 for fname, info in self.file_statuses.items():
                     icon = status_icons.get(info['status'], '⚪')
                     f.write(f"| {fname} | {icon} {info['status']} | {info['details']} |\n")
+                
+                f.write("\n")
+    
+    def add_obsolete_files_section(self):
+        """添加过时文件报告部分"""
+        if self.step_summary_path and self.obsolete_files:
+            with open(self.step_summary_path, 'a', encoding='utf-8') as f:
+                f.write("### 🗑️ 过时文件清理报告\n\n")
+                f.write("| 存储桶 | 文件名 | 状态 | 详细信息 |\n")
+                f.write("|--------|--------|------|----------|\n")
+                
+                for item in self.obsolete_files:
+                    bucket = item['bucket']
+                    filename = item['filename']
+                    status = item['status']
+                    details = item['details']
+                    
+                    status_icon = '✅' if status == '已删除' else '❌'
+                    f.write(f"| {bucket} | {filename} | {status_icon} {status} | {details} |\n")
                 
                 f.write("\n")
     
@@ -133,6 +153,24 @@ class S3Handler:
             region_name=region
         )
 
+    def list_files(self):
+        """列出存储桶中的所有文件"""
+        files = []
+        try:
+            paginator = self.s3_client.get_paginator('list_objects_v2')
+            pages = paginator.paginate(Bucket=self.bucket)
+            
+            for page in pages:
+                if 'Contents' in page:
+                    for obj in page['Contents']:
+                        files.append(obj['Key'])
+            
+            logger.log(f"[{self.name}] 成功列出存储桶中的 {len(files)} 个文件", "INFO")
+            return files
+        except Exception as e:
+            logger.log(f"[{self.name}] 列出文件失败: {e}", "ERROR")
+            return []
+    
     def delete_file(self, filename):
         try:
             self.s3_client.delete_object(Bucket=self.bucket, Key=filename)
@@ -272,18 +310,109 @@ def main():
     for filename in new_files:
         logger.update_file_status(filename, "排队中", "等待处理")
     
+    # --- 5.4 检测并清理过时文件 ---
+    ActionGroup.start_group("🗑️ 检测并清理过时文件")
+    logger.log("开始检测存储桶中的过时文件...", "INFO")
+    
+    # 获取存储桶1中的文件列表
+    bucket1_files = set(s3_1_handler.list_files())
+    current_files_set = set(current_files)
+    
+    # 找出存储桶1中的过时文件（存在于存储桶但不在当前Release中）
+    obsolete_in_bucket1 = bucket1_files - current_files_set
+    
+    # 获取存储桶2中的文件列表
+    bucket2_files = set(s3_2_handler.list_files())
+    
+    # 找出存储桶2中的过时文件
+    obsolete_in_bucket2 = bucket2_files - current_files_set
+    
+    # 处理存储桶1的过时文件
+    for filename in obsolete_in_bucket1:
+        logger.log(f"发现存储桶1中的过时文件: {filename}", "WARN")
+        logger.update_file_status(filename, "排队中", "准备删除过时文件")
+        
+        try:
+            if s3_1_handler.delete_file(filename):
+                logger.update_file_status(filename, "已完成", "已删除过时文件")
+                logger.obsolete_files.append({
+                    'bucket': '存储桶1',
+                    'filename': filename,
+                    'status': '已删除',
+                    'details': '已从存储桶中删除'
+                })
+            else:
+                logger.update_file_status(filename, "失败", "删除过时文件失败")
+                logger.obsolete_files.append({
+                    'bucket': '存储桶1',
+                    'filename': filename,
+                    'status': '失败',
+                    'details': '删除失败'
+                })
+        except Exception as e:
+            logger.log(f"删除过时文件 {filename} 时发生错误: {e}", "ERROR")
+            logger.update_file_status(filename, "失败", f"删除失败: {str(e)}")
+            logger.obsolete_files.append({
+                'bucket': '存储桶1',
+                'filename': filename,
+                'status': '失败',
+                'details': str(e)
+            })
+    
+    # 处理存储桶2的过时文件
+    for filename in obsolete_in_bucket2:
+        logger.log(f"发现存储桶2中的过时文件: {filename}", "WARN")
+        logger.update_file_status(filename, "排队中", "准备删除过时文件")
+        
+        try:
+            if s3_2_handler.delete_file(filename):
+                logger.update_file_status(filename, "已完成", "已删除过时文件")
+                logger.obsolete_files.append({
+                    'bucket': '存储桶2',
+                    'filename': filename,
+                    'status': '已删除',
+                    'details': '已从存储桶中删除'
+                })
+            else:
+                logger.update_file_status(filename, "失败", "删除过时文件失败")
+                logger.obsolete_files.append({
+                    'bucket': '存储桶2',
+                    'filename': filename,
+                    'status': '失败',
+                    'details': '删除失败'
+                })
+        except Exception as e:
+            logger.log(f"删除过时文件 {filename} 时发生错误: {e}", "ERROR")
+            logger.update_file_status(filename, "失败", f"删除失败: {str(e)}")
+            logger.obsolete_files.append({
+                'bucket': '存储桶2',
+                'filename': filename,
+                'status': '失败',
+                'details': str(e)
+            })
+    
+    # 添加过时文件报告到 Step Summary
+    logger.add_obsolete_files_section()
+    
+    ActionGroup.end_group()
+    
+    if not new_files and not obsolete_in_bucket1 and not obsolete_in_bucket2:
+        logger.log("✅ 没有检测到新的或变更的文件，也没有过时文件。任务结束。", "INFO")
+        logger.finalize_summary([])
+        sys.exit(0)
+    
     if not new_files:
-        logger.log("✅ 没有检测到新的或变更的文件。任务结束。", "INFO")
+        logger.log("✅ 没有检测到新的或变更的文件，但已清理过时文件。任务结束。", "INFO")
         logger.finalize_summary([])
         sys.exit(0)
     
     logger.log(f"检测到 {len(new_files)} 个新文件需要处理。", "INFO")
 
-    # --- 5.4 分类、下载、上传、刷新 ---
+    # --- 5.5 分类、下载、上传、刷新 ---
     # 显式定义存储桶1的文件列表
-    bucket1_files = {
+    bucket1_files_list = {
         'cn_base_00_db.zip',
-        'cn_base_01_json.zip',
+        'cn_base_01.json.zip',
         'cn_base_02.zip',
         'cn_base_03.zip',
         'cn_base_04.zip',
@@ -304,7 +433,7 @@ def main():
         logger.update_file_status(filename, "下载中", "正在从 GitHub 下载文件")
         
         # 分类判断
-        if filename in bucket1_files:
+        if filename in bucket1_files_list:
             target_s3 = s3_1_handler
             logger.log(f"文件 {filename} 被分类到 存储桶1", "INFO")
         else:
@@ -355,7 +484,7 @@ def main():
         
         ActionGroup.end_group()
     
-    # --- 5.5 更新缓存文件 ---
+    # --- 5.6 更新缓存文件 ---
     logger.log(f"正在更新文件缓存列表...", "INFO")
     with open(cache_file, 'w') as f:
         json.dump(current_files, f, indent=2)
@@ -367,7 +496,7 @@ def main():
     os.system('git commit -m "chore: update file cache" || echo "No changes to commit"')
     os.system('git push || echo "No changes to push"')
 
-    # --- 5.6 完成 Summary ---
+    # --- 5.7 完成 Summary ---
     logger.finalize_summary(processed_files)
     
     logger.log("🎉 所有任务执行完毕！", "INFO")
