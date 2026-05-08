@@ -41,6 +41,7 @@ class ActionLogger:
         self.file_statuses = {}
         self.obsolete_files = []  # 存储过时文件信息
         self.ignored_files = []   # 存储被忽略的文件信息
+        self.token_info = {}      # 存储 token 调用信息
         self.start_time = datetime.now()
         
     def init_summary(self):
@@ -102,6 +103,19 @@ class ActionLogger:
                 
                 f.write("\n")
     
+    def add_token_info_section(self):
+        """添加 Token 调用信息部分"""
+        if self.step_summary_path and self.token_info:
+            with open(self.step_summary_path, 'a', encoding='utf-8') as f:
+                f.write("### 🔑 GitHub API Token 调用信息\n\n")
+                f.write("| 项目 | 值 |\n")
+                f.write("|------|----|\n")
+                
+                for key, value in self.token_info.items():
+                    f.write(f"| {key} | {value} |\n")
+                
+                f.write("\n")
+    
     def log(self, message, level="INFO", filename=None, status=None, details=""):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         color = LOG_COLORS.get(level, '')
@@ -124,6 +138,9 @@ class ActionLogger:
                 f.write(f"\n⏱️ **结束时间**: `{end_time.strftime('%Y-%m-%d %H:%M:%S')}`\n")
                 f.write(f"⏱️ **总耗时**: `{duration:.2f}` 秒\n\n")
                 
+                # 添加 Token 调用信息
+                self.add_token_info_section()
+                
                 # 统计结果
                 success_count = sum(1 for f in processed_files if f['success'])
                 fail_count = sum(1 for f in processed_files if not f['success'])
@@ -136,7 +153,70 @@ class ActionLogger:
 logger = ActionLogger()
 
 # ==========================================
-# 3. S3 操作类
+# 3. GitHub API 客户端（使用 Fine-grained Token）
+# ==========================================
+class GitHubAPIClient:
+    def __init__(self, token=None):
+        self.token = token
+        self.headers = {
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+        
+        if token:
+            self.headers['Authorization'] = f'Bearer {token}'
+            logger.log("使用 Fine-grained Personal Access Token 访问 GitHub API", "INFO")
+            logger.logger.token_info['Token 类型'] = 'Fine-grained Personal Access Token'
+            logger.logger.token_info['认证方式'] = 'Bearer Token'
+            
+            # 掩码显示 token（只显示前4位和后4位）
+            if len(token) > 8:
+                masked_token = token[:4] + '*' * (len(token) - 8) + token[-4:]
+            else:
+                masked_token = '*' * len(token)
+            logger.logger.token_info['Token 预览'] = masked_token
+        else:
+            logger.log("未提供 Token，将以匿名方式访问 GitHub API（可能受限于速率限制）", "WARN")
+            logger.logger.token_info['Token 类型'] = '匿名访问'
+            logger.logger.token_info['认证方式'] = '无'
+            logger.logger.token_info['Token 预览'] = '无'
+    
+    def get_latest_release(self, repo_owner, repo_name):
+        """获取仓库的最新 Release 信息"""
+        url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases/latest"
+        
+        logger.log(f"正在调用 GitHub API: GET {url}", "INFO")
+        logger.logger.token_info['API 调用次数'] = logger.logger.token_info.get('API 调用次数', 0) + 1
+        
+        import urllib.request
+        import urllib.error
+        
+        req = urllib.request.Request(url, headers=self.headers)
+        
+        try:
+            with urllib.request.urlopen(req) as response:
+                data = json.loads(response.read().decode())
+                rate_limit = response.headers.get('X-RateLimit-Limit', '未知')
+                rate_remaining = response.headers.get('X-RateLimit-Remaining', '未知')
+                rate_reset = response.headers.get('X-RateLimit-Reset', '未知')
+                
+                logger.log(f"API 调用成功，状态码: {response.status}", "INFO")
+                logger.logger.token_info['速率限制'] = rate_limit
+                logger.logger.token_info['剩余调用次数'] = rate_remaining
+                logger.logger.token_info['重置时间'] = datetime.fromtimestamp(int(rate_reset)).strftime('%Y-%m-%d %H:%M:%S') if rate_reset != '未知' else '未知'
+                
+                return data
+        except urllib.error.HTTPError as e:
+            logger.log(f"API 调用失败，HTTP 错误: {e.code} {e.reason}", "ERROR")
+            logger.logger.token_info['最后一次调用状态'] = f"失败 ({e.code} {e.reason})"
+            raise
+        except Exception as e:
+            logger.log(f"API 调用失败: {e}", "ERROR")
+            logger.logger.token_info['最后一次调用状态'] = f"失败 ({str(e)})"
+            raise
+
+# ==========================================
+# 4. S3 操作类
 # ==========================================
 class S3Handler:
     def __init__(self, endpoint, access_key, secret_key, region, bucket, domain, name="S3"):
@@ -196,7 +276,7 @@ class S3Handler:
             return False
 
 # ==========================================
-# 4. edge 缓存刷新类
+# 5. edge 缓存刷新类
 # ==========================================
 class EdgeOneHandler:
     def __init__(self, secret_id, secret_key, zone_id):
@@ -230,7 +310,7 @@ class EdgeOneHandler:
             return False, str(e)
 
 # ==========================================
-# 5. 主逻辑
+# 6. 主逻辑
 # ==========================================
 def main():
     # 初始化 Step Summary
@@ -239,7 +319,7 @@ def main():
     # 定义过滤列表（不希望同步的文件）
     IGNORE_FILES = {'history-data-splited.tar.xz'}
     
-    # --- 5.1 读取环境变量 ---
+    # --- 6.1 读取环境变量 ---
     logger.log("正在从环境变量加载配置...", "INFO")
     try:
         s3_1_handler = S3Handler(
@@ -268,26 +348,29 @@ def main():
             zone_id=os.environ['EDGEONE_ZONE_ID']
         )
         
+        # 使用 Fine-grained Token
+        github_token = os.environ.get('GH_FINE_GRAINED_TOKEN', '')
+        github_client = GitHubAPIClient(github_token)
+        
         repo_name = os.environ.get('GH_REPO', 'HiiragiNemu/patch-front')
+        repo_parts = repo_name.split('/')
+        repo_owner = repo_parts[0] if len(repo_parts) > 1 else 'HiiragiNemu'
+        repo_repo = repo_parts[1] if len(repo_parts) > 1 else 'patch-front'
+        
         logger.log("✅ 配置加载成功。", "INFO")
     except KeyError as e:
         logger.log(f"❌ 缺少必要的环境变量: {e}", "ERROR")
         sys.exit(1)
 
-    # --- 5.2 获取 Latest Release 文件列表 ---
+    # --- 6.2 获取 Latest Release 文件列表 ---
     logger.log(f"正在获取仓库 {repo_name} 的最新 Release 文件列表...", "INFO")
-    import urllib.request
-    
-    gh_token = os.environ.get('', '')
-    req = urllib.request.Request(f"https://api.github.com/repos/{repo_name}/releases/latest")
-    if gh_token:
-        req.add_header('Authorization', f'token {gh_token}')
     
     try:
-        with urllib.request.urlopen(req) as response:
-            release_data = json.loads(response.read().decode())
+        release_data = github_client.get_latest_release(repo_owner, repo_repo)
+        logger.logger.token_info['最后一次调用状态'] = '成功'
     except Exception as e:
         logger.log(f"获取 Release 信息失败: {e}", "ERROR")
+        logger.logger.token_info['最后一次调用状态'] = f'失败 ({str(e)})'
         sys.exit(1)
 
     current_files = []
@@ -297,7 +380,7 @@ def main():
     
     logger.log(f"当前 Release 包含 {len(current_files)} 个文件。", "INFO")
 
-    # --- 5.3 文件变化检测 ---
+    # --- 6.3 文件变化检测 ---
     cache_file = '.github/workflows/.file_cache.json'
     previous_files = []
     if os.path.exists(cache_file):
@@ -326,7 +409,7 @@ def main():
         else:
             logger.update_file_status(filename, "排队中", "等待处理")
     
-    # --- 5.4 检测并清理过时文件（包括纠正位置）---
+    # --- 6.4 检测并清理过时文件（包括纠正位置）---
     ActionGroup.start_group("🗑️ 检测并清理过时文件")
     logger.log("开始检测存储桶中的过时文件...", "INFO")
     
@@ -337,7 +420,7 @@ def main():
     # 定义存储桶1应该包含的文件
     bucket1_should_contain = {
         'cn_base_00_db.zip',
-        'cn_base_01_json.zip',
+        'cn_base_01.json.zip',
         'cn_base_02.zip',
         'cn_base_03.zip',
         'cn_base_04.zip',
@@ -552,7 +635,7 @@ def main():
     
     logger.log(f"检测到 {len(filtered_new_files)} 个新文件需要处理。", "INFO")
 
-    # --- 5.5 分类、下载、上传、刷新 ---
+    # --- 6.5 分类、下载、上传、刷新 ---
     processed_files = []
     
     for i, filename in enumerate(filtered_new_files, 1):
@@ -614,7 +697,7 @@ def main():
         
         ActionGroup.end_group()
     
-    # --- 5.6 更新缓存文件 ---
+    # --- 6.6 更新缓存文件 ---
     logger.log(f"正在更新文件缓存列表...", "INFO")
     with open(cache_file, 'w') as f:
         json.dump(current_files, f, indent=2)
@@ -626,7 +709,7 @@ def main():
     os.system('git commit -m "chore: update file cache" || echo "No changes to commit"')
     os.system('git push || echo "No changes to push"')
 
-    # --- 5.7 完成 Summary ---
+    # --- 6.7 完成 Summary ---
     logger.finalize_summary(processed_files)
     
     logger.log("🎉 所有任务执行完毕！", "INFO")
