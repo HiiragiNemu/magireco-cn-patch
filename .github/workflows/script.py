@@ -166,27 +166,27 @@ class GitHubAPIClient:
         if token:
             self.headers['Authorization'] = f'Bearer {token}'
             logger.log("使用 Fine-grained Personal Access Token 访问 GitHub API", "INFO")
-            logger.logger.token_info['Token 类型'] = 'Fine-grained Personal Access Token'
-            logger.logger.token_info['认证方式'] = 'Bearer Token'
+            logger.token_info['Token 类型'] = 'Fine-grained Personal Access Token'
+            logger.token_info['认证方式'] = 'Bearer Token'
             
             # 掩码显示 token（只显示前4位和后4位）
             if len(token) > 8:
                 masked_token = token[:4] + '*' * (len(token) - 8) + token[-4:]
             else:
                 masked_token = '*' * len(token)
-            logger.logger.token_info['Token 预览'] = masked_token
+            logger.token_info['Token 预览'] = masked_token
         else:
             logger.log("未提供 Token，将以匿名方式访问 GitHub API（可能受限于速率限制）", "WARN")
-            logger.logger.token_info['Token 类型'] = '匿名访问'
-            logger.logger.token_info['认证方式'] = '无'
-            logger.logger.token_info['Token 预览'] = '无'
+            logger.token_info['Token 类型'] = '匿名访问'
+            logger.token_info['认证方式'] = '无'
+            logger.token_info['Token 预览'] = '无'
     
     def get_latest_release(self, repo_owner, repo_name):
         """获取仓库的最新 Release 信息"""
         url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases/latest"
         
         logger.log(f"正在调用 GitHub API: GET {url}", "INFO")
-        logger.logger.token_info['API 调用次数'] = logger.logger.token_info.get('API 调用次数', 0) + 1
+        logger.token_info['API 调用次数'] = logger.token_info.get('API 调用次数', 0) + 1
         
         import urllib.request
         import urllib.error
@@ -201,18 +201,18 @@ class GitHubAPIClient:
                 rate_reset = response.headers.get('X-RateLimit-Reset', '未知')
                 
                 logger.log(f"API 调用成功，状态码: {response.status}", "INFO")
-                logger.logger.token_info['速率限制'] = rate_limit
-                logger.logger.token_info['剩余调用次数'] = rate_remaining
-                logger.logger.token_info['重置时间'] = datetime.fromtimestamp(int(rate_reset)).strftime('%Y-%m-%d %H:%M:%S') if rate_reset != '未知' else '未知'
+                logger.token_info['速率限制'] = rate_limit
+                logger.token_info['剩余调用次数'] = rate_remaining
+                logger.token_info['重置时间'] = datetime.fromtimestamp(int(rate_reset)).strftime('%Y-%m-%d %H:%M:%S') if rate_reset != '未知' else '未知'
                 
                 return data
         except urllib.error.HTTPError as e:
             logger.log(f"API 调用失败，HTTP 错误: {e.code} {e.reason}", "ERROR")
-            logger.logger.token_info['最后一次调用状态'] = f"失败 ({e.code} {e.reason})"
+            logger.token_info['最后一次调用状态'] = f"失败 ({e.code} {e.reason})"
             raise
         except Exception as e:
             logger.log(f"API 调用失败: {e}", "ERROR")
-            logger.logger.token_info['最后一次调用状态'] = f"失败 ({str(e)})"
+            logger.token_info['最后一次调用状态'] = f"失败 ({str(e)})"
             raise
 
 # ==========================================
@@ -276,7 +276,7 @@ class S3Handler:
             return False
 
 # ==========================================
-# 5. edge 缓存刷新类
+# 5. edge 缓存刷新类（支持部分隐藏任务ID）
 # ==========================================
 class EdgeOneHandler:
     def __init__(self, secret_id, secret_key, zone_id):
@@ -291,6 +291,12 @@ class EdgeOneHandler:
         
         self.client = teo_client.TeoClient(cred, "", client_profile)
 
+    def _mask_task_id(self, task_id):
+        """部分隐藏任务ID，只显示前4位和后4位"""
+        if not task_id or len(task_id) <= 8:
+            return '*' * len(task_id) if task_id else '未知'
+        return task_id[:4] + '*' * (len(task_id) - 8) + task_id[-4:]
+
     def purge_cache(self, domain, filename):
         try:
             req = models.CreatePurgeTaskRequest()
@@ -303,8 +309,9 @@ class EdgeOneHandler:
             req.from_json_string(json.dumps(params))
             
             resp = self.client.CreatePurgeTask(req)
-            logger.log(f"[edge] 成功提交缓存刷新任务: {target_url}", "INFO")
-            return True, resp.RequestId
+            masked_task_id = self._mask_task_id(resp.RequestId)
+            logger.log(f"[edge] 成功提交缓存刷新任务: {target_url}，任务ID: {masked_task_id}", "INFO")
+            return True, masked_task_id
         except Exception as e:
             logger.log(f"[edge] 刷新缓存 {domain}/{filename} 失败: {e}", "ERROR")
             return False, str(e)
@@ -348,8 +355,8 @@ def main():
             zone_id=os.environ['EDGEONE_ZONE_ID']
         )
         
-        # 使用 Fine-grained Token
-        github_token = os.environ.get('GH_FINE_GRAINED_TOKEN', '')
+        # 使用 （已改为通用变量名）
+        github_token = os.environ.get('', '')
         github_client = GitHubAPIClient(github_token)
         
         repo_name = os.environ.get('GH_REPO', 'HiiragiNemu/patch-front')
@@ -367,10 +374,10 @@ def main():
     
     try:
         release_data = github_client.get_latest_release(repo_owner, repo_repo)
-        logger.logger.token_info['最后一次调用状态'] = '成功'
+        logger.token_info['最后一次调用状态'] = '成功'
     except Exception as e:
         logger.log(f"获取 Release 信息失败: {e}", "ERROR")
-        logger.logger.token_info['最后一次调用状态'] = f'失败 ({str(e)})'
+        logger.token_info['最后一次调用状态'] = f'失败 ({str(e)})'
         sys.exit(1)
 
     current_files = []
