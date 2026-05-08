@@ -247,7 +247,7 @@ def main():
     bucket1_files = s3_1.list_files()
     bucket2_files = s3_2.list_files()
     
-    bucket1_targets = {'cn_base_00_db.zip','cn_base_01.json.zip','cn_base_02.zip','cn_base_03.zip','cn_base_04.zip','cn_base_05.zip','cn_base_06.zip','cn_hotupdate.zip','cn_js_update.zip','cn_magica_resource.zip'}
+    bucket1_targets = {'cn_base_00_db.zip','cn_base_01_json.zip','cn_base_02.zip','cn_base_03.zip','cn_base_04.zip','cn_base_05.zip','cn_base_06.zip','cn_hotupdate.zip','cn_js_update.zip','cn_magica_resource.zip'}
 
     # 处理存储桶1
     for fname in bucket1_files:
