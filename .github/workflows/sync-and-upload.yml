@@ -35,7 +35,7 @@ jobs:
           echo "## 🚀 同步与上传运行报告" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | 步骤 | 状态 | 详情 |" >> $GITHUB_STEP_SUMMARY
           echo "|------|------|------|------|" >> $GITHUB_STEP_SUMMARY
-          echo "| $(date '+%Y-%m-%d %H:%M:%S') | 初始化 | 🟢 开始 | 工作流启动 |" >> $GITHUB_STEP_SUMMARY
+          echo "| $(date +%Y-%m-%d_%H:%M:%S) | 初始化 | 🟢 开始 | 工作流启动 |" >> $GITHUB_STEP_SUMMARY
 
       - name: 🔍 检查同步状态（第一步）
         id: check_status
@@ -289,7 +289,7 @@ jobs:
           import boto3
           
           # 读取当前 Release 中的文件列表
-          current_files_str = '''${{ steps.check.outputs.current_files }}'''
+          current_files_str = '${{ steps.check.outputs.current_files }}'
           try:
               current_files = json.loads(current_files_str) if current_files_str else []
           except json.JSONDecodeError:
@@ -363,15 +363,15 @@ jobs:
           S3_2_REGION: ${{ secrets.S3_2_REGION }}
           S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
 
-      - name: 🚀 流式上传到 R2（含位置纠正 + CDN 刷新）
+      - name: 🚀 流式上传到 R2（真正的流式传输）
         if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
         id: upload
         run: |
           python -c "
           import os, json, sys, urllib.request, base64
-          from io import BytesIO
           import boto3
-          import time
+          import io
+          import threading
           
           # 强制禁用输出缓冲
           sys.stdout.reconfigure(line_buffering=True)
@@ -391,10 +391,10 @@ jobs:
               print(f'\033[91m❌ 解码文件列表失败: {e}\033[0m')
               sys.exit(1)
           
-          print(f'\033[94m🚀 开始上传 {len(files_to_upload)} 个文件到 R2...\033[0m')
+          print(f'\033[94m🚀 开始流式上传 {len(files_to_upload)} 个文件到 R2...\033[0m')
           
-          # 初始化 S3 客户端
-          s3_1 = boto3.client(
+          # 初始化 S3 资源（用于流式上传）
+          s3_1 = boto3.resource(
               's3',
               endpoint_url=os.environ['S3_1_ENDPOINT'],
               aws_access_key_id=os.environ['S3_1_ACCESS_KEY'],
@@ -402,7 +402,7 @@ jobs:
               region_name=os.environ['S3_1_REGION']
           )
           
-          s3_2 = boto3.client(
+          s3_2 = boto3.resource(
               's3',
               endpoint_url=os.environ['S3_2_ENDPOINT'],
               aws_access_key_id=os.environ['S3_2_ACCESS_KEY'],
@@ -418,8 +418,7 @@ jobs:
                   self.zone_id = zone_id
               
               def purge_cache(self, domain, filename):
-                  # 这里应该是调用腾讯云 API 的代码
-                  # 为了简化，我们只打印日志
+                  # 简化的刷新逻辑，实际需要调用腾讯云 API
                   print(f'\033[94m🔄 刷新 CDN 缓存: https://{domain}/{filename}\033[0m')
                   return True
           
@@ -447,20 +446,22 @@ jobs:
           bucket2_files = set()
           
           try:
-              response = s3_1.list_objects_v2(Bucket=bucket1_name)
+              s3_1_client = s3_1.meta.client
+              response = s3_1_client.list_objects_v2(Bucket=bucket1_name)
               if 'Contents' in response:
                   bucket1_files = set(obj['Key'] for obj in response['Contents'])
           except:
               pass
           
           try:
-              response = s3_2.list_objects_v2(Bucket=bucket2_name)
+              s3_2_client = s3_2.meta.client
+              response = s3_2_client.list_objects_v2(Bucket=bucket2_name)
               if 'Contents' in response:
                   bucket2_files = set(obj['Key'] for obj in response['Contents'])
           except:
               pass
           
-          # 流式上传每个文件（带分组和实时百分比）
+          # 流式上传每个文件
           uploaded_count = 0
           corrected_count = 0
           failed_files = []
@@ -483,7 +484,7 @@ jobs:
               if asset_name in bucket1_files and correct_bucket == s3_2:
                   print(f'\033[93m⚠️ 文件在错误的存储桶1中，正在纠正...\033[0m')
                   try:
-                      s3_1.delete_object(Bucket=bucket1_name, Key=asset_name)
+                      s3_1.meta.client.delete_object(Bucket=bucket1_name, Key=asset_name)
                       print(f'\033[92m✅ 已从存储桶1删除\033[0m')
                       corrected_count += 1
                   except Exception as e:
@@ -492,46 +493,58 @@ jobs:
               elif asset_name in bucket2_files and correct_bucket == s3_1:
                   print(f'\033[93m⚠️ 文件在错误的存储桶2中，正在纠正...\033[0m')
                   try:
-                      s3_2.delete_object(Bucket=bucket2_name, Key=asset_name)
+                      s3_2.meta.client.delete_object(Bucket=bucket2_name, Key=asset_name)
                       print(f'\033[92m✅ 已从存储桶2删除\033[0m')
                       corrected_count += 1
                   except Exception as e:
                       print(f'\033[91m❌ 删除错误位置文件失败: {e}\033[0m')
               
-              # 从 GitHub 下载并直接上传到 R2（带进度百分比）
+              # 真正的流式上传：从 GitHub 直接流式传输到 R2
               try:
-                  # 从 GitHub 下载
-                  print(f'\033[94m⬇️ 从 GitHub 下载...\033[0m')
-                  upstream_req = urllib.request.Request(asset_url)
-                  with urllib.request.urlopen(upstream_req) as upstream_response:
-                      # 获取文件总大小
-                      total_size = int(upstream_response.headers.get('Content-Length', 0))
-                      chunk_size = 8192
-                      downloaded = 0
-                      asset_data = bytearray()
-                      
-                      while True:
-                          chunk = upstream_response.read(chunk_size)
-                          if not chunk:
-                              break
-                          asset_data.extend(chunk)
-                          downloaded += len(chunk)
-                          
-                          # 计算并显示百分比
-                          if total_size > 0:
-                              percent = (downloaded / total_size) * 100
-                              print(f'\r\033[K\033[93m⬇️ 下载中: {percent:.1f}% ({downloaded/1024/1024:.1f}/{total_size/1024/1024:.1f}MB)\033[0m', end='', flush=True)
-                      
-                      print(f'\r\033[K\033[92m✅ 下载完成: {downloaded/1024/1024:.1f}MB\033[0m')
+                  print(f'\033[94m⬇️⬆️ 开始流式传输...\033[0m')
                   
-                  # 上传到 R2
-                  print(f'\033[94m⬆️ 上传到 R2...\033[0m')
-                  correct_bucket.put_object(
-                      Bucket=correct_bucket_name,
-                      Key=asset_name,
-                      Body=asset_data,
-                      ContentLength=len(asset_data)
+                  # 创建自定义的流式传输对象
+                  class StreamToS3:
+                      def __init__(self, url, total_size):
+                          self.url = url
+                          self.total_size = total_size
+                          self.downloaded = 0
+                          self.lock = threading.Lock()
+                      
+                      def read(self, size=-1):
+                          # 这个方法会被 boto3 调用以获取数据
+                          nonlocal asset_url
+                          if not hasattr(self, 'response'):
+                              req = urllib.request.Request(asset_url)
+                              self.response = urllib.request.urlopen(req)
+                          
+                          chunk = self.response.read(size if size != -1 else 8192)
+                          with self.lock:
+                              self.downloaded += len(chunk)
+                              if self.total_size > 0:
+                                  percent = (self.downloaded / self.total_size) * 100
+                                  print(f'\r\033[K\033[93m⬇️⬆️ 传输中: {percent:.1f}% ({self.downloaded/1024/1024:.1f}/{self.total_size/1024/1024:.1f}MB)\033[0m', end='', flush=True)
+                          return chunk
+                      
+                      def __iter__(self):
+                          return self
+                      
+                      def __next__(self):
+                          chunk = self.read(8192)
+                          if not chunk:
+                              raise StopIteration
+                          return chunk
+                  
+                  stream_obj = StreamToS3(asset_url, asset_size)
+                  
+                  # 使用 boto3 的 upload_fileobj 进行流式上传
+                  correct_bucket.meta.client.upload_fileobj(
+                      stream_obj,
+                      correct_bucket_name,
+                      asset_name
                   )
+                  
+                  print(f'\r\033[K\033[92m✅ 流式传输完成: {asset_size/1024/1024:.1f}MB\033[0m')
                   
                   # 刷新 CDN 缓存
                   edgeone.purge_cache(correct_domain, asset_name)
@@ -546,14 +559,14 @@ jobs:
               finally:
                   print('::endgroup::')
           
-          print(f'\n\033[92m🎉 所有 {uploaded_count} 个文件已上传到 R2！纠正了 {corrected_count} 个文件位置。\033[0m')
+          print(f'\n\033[92m🎉 所有 {uploaded_count} 个文件已流式上传到 R2！纠正了 {corrected_count} 个文件位置。\033[0m')
           
           # 更新报告
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
               if failed_files:
                   f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 上传 R2 | 🔴 失败 | {uploaded_count} 成功, {len(failed_files)} 失败 |\n')
               else:
-                  f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 上传 R2 | 🟢 成功 | {uploaded_count} 个文件上传完成，纠正 {corrected_count} 个文件位置 |\n')
+                  f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 上传 R2 | 🟢 成功 | {uploaded_count} 个文件流式上传完成，纠正 {corrected_count} 个文件位置 |\n')
           "
         env:
           # S3/R2 配置
@@ -813,5 +826,5 @@ jobs:
         run: |
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📈 运行统计" >> $GITHUB_STEP_SUMMARY
-          echo "- **完成时间**: $(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_STEP_SUMMARY
+          echo "- **完成时间**: $(date +%Y-%m-%d_%H:%M:%S)" >> $GITHUB_STEP_SUMMARY
           echo "- **运行状态**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
