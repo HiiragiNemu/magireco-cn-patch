@@ -9,11 +9,8 @@
 ### 魔法纪录中文资源打包：
 [![MagiaCN Asset Pipeline](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/auto_build.yml/badge.svg)](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/auto_build.yml)
 
-### 自动同步新文件到存储桶：
-[![⌚️ 更新 Release 文件到 R2 存储桶](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/upload-to-r2.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/upload-to-r2.yml)
-
-### 清除已上传文件列表（手动）：
-[![🔄 强制更新所有文件](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/force-update-all.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/force-update-all.yml)
+### 自动更新组织下游并上传S3：
+[![🔄 同步上游并上传到 S3](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml)
 
 ### 清除存储桶文件（手动）：
 [![🗑️ 清空存储桶文件](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/delete-all-files.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/delete-all-files.yml)
