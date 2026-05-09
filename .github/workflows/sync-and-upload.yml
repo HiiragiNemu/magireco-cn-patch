@@ -68,19 +68,19 @@ jobs:
                           f.write('skip=true\n')
                       # 更新报告
                       with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                          f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 检查状态 | 🟡 跳过 | 同步进行中，跳过本次运行 |\n')
+                          f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 检查状态 | 🟡 跳过 | 同步进行中，跳过本次运行 |\n')
                   else:
                       with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
                           f.write('skip=false\n')
                       with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                          f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 检查状态 | 🟢 继续 | 开始执行同步 |\n')
+                          f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 检查状态 | 🟢 继续 | 开始执行同步 |\n')
           except urllib.error.HTTPError as e:
               if e.code == 404:
                   # 变量不存在，首次运行
                   with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
                       f.write('skip=false\n')
                   with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                      f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 检查状态 | 🟢 首次 | 未发现同步状态变量，首次运行 |\n')
+                      f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 检查状态 | 🟢 首次 | 未发现同步状态变量，首次运行 |\n')
               else:
                   raise
           "
@@ -152,7 +152,7 @@ jobs:
           
           print('\033[92m✅ 同步状态已设置为进行中\033[0m')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 设置状态 | 🟢 成功 | 同步状态设为进行中 |\n')
+              f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 设置状态 | 🟢 成功 | 同步状态设为进行中 |\n')
           "
 
       - name: 🔄 同步 Fork
@@ -165,7 +165,7 @@ jobs:
             https://api.github.com/repos/${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}/merge-upstream \
             -d '{"branch":"main"}'
           echo -e "\033[92m✅ Fork 同步完成\033[0m"
-          echo "| $(date '+%Y-%m-%d %H:%M:%S') | 同步 Fork | 🟢 成功 | 上游 Fork 已同步 |" >> $GITHUB_STEP_SUMMARY
+          echo "| $(date +%Y-%m-%d_%H:%M:%S) | 同步 Fork | 🟢 成功 | 上游 Fork 已同步 |" >> $GITHUB_STEP_SUMMARY
 
       - name: 🔍 检查 Release 更新并生成文件列表（基于单个文件指纹）
         if: steps.check_status.outputs.skip == 'false'
@@ -207,6 +207,9 @@ jobs:
               with urllib.request.urlopen(req) as r:
                   var_data = json.loads(r.read().decode())
                   stored_fingerprints_str = var_data.get('value', '{}')
+                  # 确保 stored_fingerprints_str 是有效的 JSON 字符串
+                  if not stored_fingerprints_str:
+                      stored_fingerprints_str = '{}'
                   stored_fingerprints = json.loads(stored_fingerprints_str)
                   print(f'\033[92m存储的指纹: {len(stored_fingerprints)} 个文件\033[0m')
           except urllib.error.HTTPError as e:
@@ -215,6 +218,9 @@ jobs:
                   print('\033[93mℹ️ 未找到存储的指纹，首次运行\033[0m')
               else:
                   raise
+          except json.JSONDecodeError:
+              stored_fingerprints = {}
+              print('\033[93m⚠️ 存储的指纹格式无效，重置为空\033[0m')
           
           # 3. 比较每个文件的指纹，生成需要更新的文件列表
           files_to_upload = []
@@ -260,20 +266,20 @@ jobs:
               
               # 更新报告
               with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                  f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 检查更新 | 🟢 有更新 | 发现 {len(files_to_upload)} 个文件需要更新 |\n')
+                  f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 检查更新 | 🟢 有更新 | 发现 {len(files_to_upload)} 个文件需要更新 |\n')
           else:
               print('\033[93mℹ️ 没有文件需要更新\033[0m')
               with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
                   f.write('changed=false\n')
               with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                  f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 检查更新 | 🟡 无变化 | 所有文件均为最新 |\n')
+                  f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 检查更新 | 🟡 无变化 | 所有文件均为最新 |\n')
           "
 
       - name: 📦 安装依赖
         if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
         run: |
           pip install boto3
-          echo "| $(date '+%Y-%m-%d %H:%M:%S') | 安装依赖 | 🟢 成功 | boto3 已安装 |" >> $GITHUB_STEP_SUMMARY
+          echo "| $(date +%Y-%m-%d_%H:%M:%S) | 安装依赖 | 🟢 成功 | boto3 已安装 |" >> $GITHUB_STEP_SUMMARY
 
       - name: 🗑️ 清理过时文件（不在当前 Release 中的文件）
         if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
@@ -283,8 +289,11 @@ jobs:
           import boto3
           
           # 读取当前 Release 中的文件列表
-          current_files_str = '${{ steps.check.outputs.current_files }}'
-          current_files = json.loads(current_files_str) if current_files_str else []
+          current_files_str = '''${{ steps.check.outputs.current_files }}'''
+          try:
+              current_files = json.loads(current_files_str) if current_files_str else []
+          except json.JSONDecodeError:
+              current_files = []
           
           # 初始化 S3 客户端
           s3_1 = boto3.client(
@@ -305,14 +314,6 @@ jobs:
           
           bucket1_name = os.environ['S3_1_BUCKET']
           bucket2_name = os.environ['S3_2_BUCKET']
-          
-          # 定义哪些文件应该在存储桶1
-          bucket1_targets = {
-              'cn_base_00_db.zip', 'base_01_json.zip', 'cn_base_02.zip',
-              'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip',
-              'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip',
-              'cn_magica_resource.zip'
-          }
           
           deleted_count = 0
           
@@ -346,7 +347,7 @@ jobs:
           
           print(f'\033[92m✅ 共删除 {deleted_count} 个过时文件\033[0m')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 清理过时 | 🟢 成功 | 删除 {deleted_count} 个过时文件 |\n')
+              f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 清理过时 | 🟢 成功 | 删除 {deleted_count} 个过时文件 |\n')
           "
         env:
           # S3/object-storage 配置
@@ -409,7 +410,7 @@ jobs:
               region_name=os.environ['S3_2_REGION']
           )
           
-          # edge 客户端
+          # edge 客户端（简化版）
           class EdgeOneHandler:
               def __init__(self, secret_id, secret_key, zone_id):
                   self.secret_id = secret_id
@@ -417,7 +418,8 @@ jobs:
                   self.zone_id = zone_id
               
               def purge_cache(self, domain, filename):
-                  # 简化的刷新逻辑，实际需要调用腾讯云 API
+                  # 这里应该是调用腾讯云 API 的代码
+                  # 为了简化，我们只打印日志
                   print(f'\033[94m🔄 刷新 CDN 缓存: https://{domain}/{filename}\033[0m')
                   return True
           
@@ -549,9 +551,9 @@ jobs:
           # 更新报告
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
               if failed_files:
-                  f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 上传 object-storage | 🔴 失败 | {uploaded_count} 成功, {len(failed_files)} 失败 |\n')
+                  f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 上传 object-storage | 🔴 失败 | {uploaded_count} 成功, {len(failed_files)} 失败 |\n')
               else:
-                  f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 上传 object-storage | 🟢 成功 | {uploaded_count} 个文件上传完成，纠正 {corrected_count} 个文件位置 |\n')
+                  f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 上传 object-storage | 🟢 成功 | {uploaded_count} 个文件上传完成，纠正 {corrected_count} 个文件位置 |\n')
           "
         env:
           # S3/object-storage 配置
@@ -624,7 +626,7 @@ jobs:
           
           print('\033[92m✅ 指纹已更新\033[0m')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 更新指纹 | 🟢 成功 | 指纹已保存到变量 |\n')
+              f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 更新指纹 | 🟢 成功 | 指纹已保存到变量 |\n')
           "
 
       - name: 📦 上传到下游仓库 Release
@@ -752,7 +754,7 @@ jobs:
           
           print(f'\033[92m🎉 所有 {uploaded_assets} 个资产已上传到下游仓库 Release！\033[0m')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 下游 Release | 🟢 成功 | {uploaded_assets} 个资产已发布 |\n')
+              f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 下游 Release | 🟢 成功 | {uploaded_assets} 个资产已发布 |\n')
           "
 
       - name: 🔄 重置同步状态
@@ -803,7 +805,7 @@ jobs:
           
           print('\033[92m✅ 同步状态已重置为 false\033[0m')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 重置状态 | 🟢 完成 | 同步状态已重置 |\n')
+              f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 重置状态 | 🟢 完成 | 同步状态已重置 |\n')
           "
 
       - name: 📊 完成报告
