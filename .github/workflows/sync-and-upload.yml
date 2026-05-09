@@ -509,13 +509,13 @@ jobs:
                           self.url = url
                           self.total_size = total_size
                           self.downloaded = 0
+                          self.response = None
                           self.lock = threading.Lock()
                       
                       def read(self, size=-1):
                           # 这个方法会被 boto3 调用以获取数据
-                          nonlocal asset_url
-                          if not hasattr(self, 'response'):
-                              req = urllib.request.Request(asset_url)
+                          if self.response is None:
+                              req = urllib.request.Request(self.url)
                               self.response = urllib.request.urlopen(req)
                           
                           chunk = self.response.read(size if size != -1 else 8192)
