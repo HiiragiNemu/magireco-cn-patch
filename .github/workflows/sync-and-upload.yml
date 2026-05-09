@@ -1,4 +1,5 @@
 name: 🔄 同步上游并上传到 S3
+
 on:
   schedule:
     - cron: '*/15 * * * *'  # 每15分钟运行一次
@@ -9,12 +10,15 @@ on:
         required: false
         default: 'false'
         type: boolean
+
 # 关键：并发控制，确保同一时间只有一个实例运行
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true  # 如果已有运行中的任务，新任务直接取消（不排队）
+
 permissions:
   contents: write  # 需要写入权限来同步 fork 和更新变量
+
 jobs:
   sync-and-upload:
     runs-on: ubuntu-latest
@@ -43,6 +47,7 @@ jobs:
       UPSTREAM_REPO: "magireco-cn-patch"
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
       DOWNSTREAM_REPO: "magireco-cn-patch"
+
     steps:
       - name: 📦 检出下游仓库
         uses: actions/checkout@v4
@@ -50,6 +55,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           fetch-depth: 0
+
       - name: 🔍 检查上游更新
         id: check_upstream
         run: |
@@ -79,6 +85,7 @@ jobs:
             echo "无新版本，无需同步"
             echo "should_sync=false" >> $GITHUB_OUTPUT
           fi
+
       - name: 🔄 同步上游 Fork
         if: steps.check_upstream.outputs.should_sync == 'true'
         run: |
@@ -91,13 +98,16 @@ jobs:
             --force
             
           echo "✅ 上游仓库同步完成"
+
       - name: 🐍 设置 Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+
       - name: 📦 安装依赖
         run: |
           pip install boto3 tencentcloud-sdk-python
+
       - name: 🚀 运行同步脚本
         id: sync_script
         run: |
@@ -110,9 +120,11 @@ jobs:
           import urllib.error
           from datetime import datetime
           from io import BytesIO
+
           # 强制无缓冲输出
           sys.stdout.reconfigure(line_buffering=True)
           sys.stderr.reconfigure(line_buffering=True)
+
           # 修正：正确的 boto3 导入
           import boto3
           from botocore.exceptions import ClientError
@@ -120,6 +132,7 @@ jobs:
           from tencentcloud.common.profile.client_profile import ClientProfile
           from tencentcloud.common.profile.http_profile import HttpProfile
           from tencentcloud.teo.v20220901 import teo_client, models
+
           # ==========================================
           # 1. GitHub Actions 分组日志工具
           # ==========================================
@@ -130,12 +143,14 @@ jobs:
               @staticmethod
               def end_group():
                   print("::endgroup::")
+
           # ==========================================
           # 2. 日志与输出设置
           # ==========================================
           LOG_COLORS = {
               'INFO': '\033[92m', 'WARN': '\033[93m', 'ERROR': '\033[91m', 'RESET': '\033[0m'
           }
+
           class ActionLogger:
               def __init__(self):
                   self.step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
@@ -201,8 +216,10 @@ jobs:
                               f.write("🟢 **状态**: 所有文件处理成功！\n")
                           else:
                               f.write(f"🟡 **状态**: 处理完成，{success} 个成功，{fail} 个失败。\n")
+
           logger = ActionLogger()
           logger.init_summary()
+
           # ==========================================
           # 3. GitHub API 客户端
           # ==========================================
@@ -219,6 +236,7 @@ jobs:
                   else:
                       logger.log("未提供 Token，匿名访问（可能受限）", "WARN")
                       logger.token_info['Token 类型'] = '匿名'
+
               def get_latest_release(self, owner, repo):
                   url = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
                   logger.log(f"调用 API: GET {url}", "INFO")
@@ -237,6 +255,7 @@ jobs:
                   except Exception as e:
                       logger.log(f"API 调用失败: {e}", "ERROR")
                       raise
+
           # ==========================================
           # 4. S3 操作类（流式上传）
           # ==========================================
@@ -247,6 +266,7 @@ jobs:
                   self.domain = domain
                   if endpoint.endswith('/'): endpoint = endpoint[:-1]
                   self.s3_client = boto3.client('s3', endpoint_url=endpoint, aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
+
               def list_files(self):
                   try:
                       paginator = self.s3_client.get_paginator('list_objects_v2')
@@ -256,6 +276,7 @@ jobs:
                   except Exception as e:
                       logger.log(f"[{self.name}] 列出文件失败: {e}", "ERROR")
                       return []
+
               def delete_file(self, filename):
                   try:
                       self.s3_client.delete_object(Bucket=self.bucket, Key=filename)
@@ -270,6 +291,7 @@ jobs:
                   except Exception as e:
                       logger.log(f"[{self.name}] 删除 {filename} 异常: {e}", "ERROR")
                       return False
+
               def upload_file_from_url(self, url, filename):
                   try:
                       logger.log(f"[{self.name}] 开始流式上传: {filename}", "INFO")
@@ -283,6 +305,7 @@ jobs:
                   except Exception as e:
                       logger.log(f"[{self.name}] 流式上传 {filename} 失败: {e}", "ERROR")
                       return False
+
           # ==========================================
           # 5. EdgeOne 缓存刷新
           # ==========================================
@@ -295,9 +318,11 @@ jobs:
                   client_profile = ClientProfile()
                   client_profile.httpProfile = http_profile
                   self.client = teo_client.TeoClient(cred, "", client_profile)
+
               def _mask_task_id(self, task_id):
                   if not task_id or len(task_id) <= 8: return '*' * len(task_id) if task_id else '未知'
                   return task_id[:4] + '*' * (len(task_id) - 8) + task_id[-4:]
+
               def purge_cache(self, domain, filename):
                   try:
                       req = models.CreatePurgeTaskRequest()
@@ -310,6 +335,7 @@ jobs:
                   except Exception as e:
                       logger.log(f"[EdgeOne] 刷新缓存失败: {e}", "ERROR")
                       return False, str(e)
+
           # ==========================================
           # 6. 主逻辑
           # ==========================================
@@ -492,14 +518,17 @@ jobs:
               except Exception as e:
                   logger.log(f"❌ 脚本执行失败: {e}", "ERROR")
                   sys.exit(1)
+
           if __name__ == "__main__":
               main()
           EOF
+
       - name: 📝 更新 Release 信息
         if: steps.check_upstream.outputs.should_sync == 'true'
         run: |
           echo "更新 Variables 中的 Release ID..."
           gh variable set LAST_SYNC_RELEASE_ID --body "${{ steps.check_upstream.outputs.release_id }}"
+
       - name: 📊 生成运行摘要
         if: always()
         run: |
