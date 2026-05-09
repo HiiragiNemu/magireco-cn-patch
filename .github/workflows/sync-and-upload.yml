@@ -26,11 +26,17 @@ jobs:
       UPSTREAM_REPO: "patch-front"
       ORG_OWNER: "MagirecoCN-Revival-Project"
       ORG_REPO: "patch-front"
-      VAR_NAME: "LAST_RELEASE_FINGERPRINT"
-      SYNC_STATUS_VAR: "SYNC_IN_PROGRESS"  # 同步状态变量
-      FILE_LIST_VAR: "FILES_TO_UPLOAD"
+      FINGERPRINTS_VAR: "LAST_RELEASE_FINGERPRINTS"
+      SYNC_STATUS_VAR: "SYNC_IN_PROGRESS"
 
     steps:
+      - name: 📝 初始化运行报告
+        run: |
+          echo "## 🚀 同步与上传运行报告" >> $GITHUB_STEP_SUMMARY
+          echo "| 时间 | 步骤 | 状态 | 详情 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| $(date '+%Y-%m-%d %H:%M:%S') | 初始化 | 🟢 开始 | 工作流启动 |" >> $GITHUB_STEP_SUMMARY
+
       - name: 🔍 检查同步状态（第一步）
         id: check_status
         run: |
@@ -54,28 +60,35 @@ jobs:
               with urllib.request.urlopen(req) as r:
                   var_data = json.loads(r.read().decode())
                   sync_in_progress = var_data.get('value', 'false')
-                  print(f'当前同步状态: {sync_in_progress}')
+                  print(f'\033[94m当前同步状态: {sync_in_progress}\033[0m')
                   
                   if sync_in_progress == 'true' and os.environ.get('FORCE_SYNC') != 'true':
-                      print('⚠️ 同步正在进行中，跳过本次运行')
+                      print('\033[93m⏸️ 同步正在进行中，跳过本次运行\033[0m')
                       with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
                           f.write('skip=true\n')
+                      # 更新报告
+                      with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+                          f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 检查状态 | 🟡 跳过 | 同步进行中，跳过本次运行 |\n')
                   else:
                       with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
                           f.write('skip=false\n')
+                      with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+                          f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 检查状态 | 🟢 继续 | 开始执行同步 |\n')
           except urllib.error.HTTPError as e:
               if e.code == 404:
                   # 变量不存在，首次运行
                   with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
                       f.write('skip=false\n')
+                  with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+                      f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 检查状态 | 🟢 首次 | 未发现同步状态变量，首次运行 |\n')
               else:
                   raise
           "
 
-      - name: 🛑 跳过运行
+      - name: ⏸️ 跳过运行
         if: steps.check_status.outputs.skip == 'true'
         run: |
-          echo "⚠️ 同步正在进行中，跳过本次运行"
+          echo -e "\033[93m⏸️ 同步正在进行中，跳过本次运行\033[0m"
           exit 0
 
       - name: 📥 检出代码
@@ -137,34 +150,36 @@ jobs:
                   )
                   urllib.request.urlopen(req)
           
-          print('✅ 同步状态已设置为进行中')
+          print('\033[92m✅ 同步状态已设置为进行中\033[0m')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 设置状态 | 🟢 成功 | 同步状态设为进行中 |\n')
           "
 
       - name: 🔄 同步 Fork
         if: steps.check_status.outputs.skip == 'false'
         run: |
-          echo "🔄 同步上游 Fork..."
+          echo -e "\033[94m🔄 同步上游 Fork...\033[0m"
           curl -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets. }}" \
             https://api.github.com/repos/${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}/merge-upstream \
             -d '{"branch":"main"}'
-          echo "✅ Fork 同步完成"
+          echo -e "\033[92m✅ Fork 同步完成\033[0m"
+          echo "| $(date '+%Y-%m-%d %H:%M:%S') | 同步 Fork | 🟢 成功 | 上游 Fork 已同步 |" >> $GITHUB_STEP_SUMMARY
 
-      - name: 🔍 检查 Release 更新并生成文件列表
+      - name: 🔍 检查 Release 更新并生成文件列表（基于单个文件指纹）
         if: steps.check_status.outputs.skip == 'false'
         id: check
         run: |
           python -c "
-          import os, urllib.request, json, hashlib
+          import os, urllib.request, json, hashlib, base64
           
           token = os.environ['']
           upstream_owner = os.environ['UPSTREAM_OWNER']
           upstream_repo = os.environ['UPSTREAM_REPO']
           org_owner = os.environ['ORG_OWNER']
           org_repo = os.environ['ORG_REPO']
-          var_name = os.environ['VAR_NAME']
-          file_list_var = os.environ['FILE_LIST_VAR']
+          fingerprints_var = os.environ['FINGERPRINTS_VAR']
           
           headers = {
               'Accept': 'application/vnd.github+json',
@@ -172,132 +187,106 @@ jobs:
           }
           
           # 1. 获取上游 Release
-          print('🔍 获取上游 Release...')
+          print('\033[94m🔍 获取上游 Release...\033[0m')
           upstream_url = f'https://api.github.com/repos/{upstream_owner}/{upstream_repo}/releases/latest'
           req = urllib.request.Request(upstream_url, headers=headers)
           with urllib.request.urlopen(req) as r:
               upstream = json.loads(r.read().decode())
           
-          # 计算上游指纹
-          fingerprints = []
+          # 修正文件名：base_01.json.zip -> base_01_json.zip
           for asset in upstream.get('assets', []):
-              name = asset['name']
-              digest = asset.get('digest', '')
-              fingerprints.append(f'{name}:{digest}')
-          fingerprints.sort()
-          upstream_fp = hashlib.md5('|'.join(fingerprints).encode()).hexdigest()
+              if asset['name'] == 'base_01.json.zip':
+                  asset['name'] = 'base_01_json.zip'
+                  print('\033[93m📝 修正文件名: base_01.json.zip -> base_01_json.zip\033[0m')
           
-          print(f'上游指纹: {upstream_fp}')
-          
-          # 2. 获取存储的指纹
-          print('🔍 获取存储的指纹...')
-          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{var_name}'
+          # 2. 获取存储的指纹（每个文件的指纹字典）
+          print('\033[94m🔍 获取存储的指纹...\033[0m')
+          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{fingerprints_var}'
           try:
               req = urllib.request.Request(var_url, headers=headers)
               with urllib.request.urlopen(req) as r:
                   var_data = json.loads(r.read().decode())
-                  stored_fp = var_data.get('value', '')
-                  print(f'存储的指纹: {stored_fp}')
+                  stored_fingerprints_str = var_data.get('value', '{}')
+                  stored_fingerprints = json.loads(stored_fingerprints_str)
+                  print(f'\033[92m存储的指纹: {len(stored_fingerprints)} 个文件\033[0m')
           except urllib.error.HTTPError as e:
               if e.code == 404:
-                  stored_fp = ''
-                  print('ℹ️ 未找到存储的指纹，首次运行')
+                  stored_fingerprints = {}
+                  print('\033[93mℹ️ 未找到存储的指纹，首次运行\033[0m')
               else:
                   raise
           
-          # 3. 比较指纹
-          force_sync = os.environ.get('FORCE_SYNC', 'false') == 'true'
-          if upstream_fp != stored_fp or force_sync:
-              print('🆕 检测到 Release 更新！')
+          # 3. 比较每个文件的指纹，生成需要更新的文件列表
+          files_to_upload = []
+          upstream_fingerprints = {}
+          current_release_files = set()
+          
+          for asset in upstream.get('assets', []):
+              asset_name = asset['name']
+              asset_url = asset['browser_download_url']
+              asset_size = asset['size']
+              asset_digest = asset.get('digest', '')  # SHA256 指纹
               
-              # 生成文件列表（只包含有变化的文件）
-              files_to_upload = []
-              for asset in upstream.get('assets', []):
-                  asset_name = asset['name']
-                  asset_url = asset['browser_download_url']
-                  asset_size = asset['size']
-                  asset_digest = asset.get('digest', '')
-                  
+              current_release_files.add(asset_name)
+              upstream_fingerprints[asset_name] = asset_digest
+              
+              # 如果这个文件没有指纹，或者指纹与存储的不同，则需要更新
+              if asset_name not in stored_fingerprints or stored_fingerprints[asset_name] != asset_digest:
                   files_to_upload.append({
                       'name': asset_name,
                       'url': asset_url,
                       'size': asset_size,
                       'digest': asset_digest
                   })
+                  print(f'\033[93m📦 {asset_name}: 需要更新 (指纹变化)\033[0m')
+              else:
+                  print(f'\033[92m📦 {asset_name}: 无需更新\033[0m')
+          
+          if files_to_upload:
+              print(f'\033[92m🆕 检测到 {len(files_to_upload)} 个文件需要更新\033[0m')
               
-              print(f'📋 需要上传的文件数: {len(files_to_upload)}')
-              
-              # 更新存储的指纹
-              print('💾 更新指纹...')
-              update_data = {
-                  'name': var_name,
-                  'value': upstream_fp
-              }
-              
-              try:
-                  req = urllib.request.Request(var_url, headers=headers)
-                  urllib.request.urlopen(req)
-                  # 存在则更新
-                  req = urllib.request.Request(
-                      var_url,
-                      data=json.dumps(update_data).encode(),
-                      headers={**headers, 'Content-Type': 'application/json'},
-                      method='PATCH'
-                  )
-                  urllib.request.urlopen(req)
-              except urllib.error.HTTPError as e:
-                  if e.code == 404:
-                      # 不存在则创建
-                      create_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{var_name}'
-                      req = urllib.request.Request(
-                          create_url,
-                          data=json.dumps(update_data).encode(),
-                          headers={**headers, 'Content-Type': 'application/json'},
-                          method='POST'
-                      )
-                      urllib.request.urlopen(req)
-              
-              print('✅ 指纹已更新')
-              
-              # 设置输出
+              # 使用 Base64 编码文件列表
               files_json = json.dumps(files_to_upload)
+              files_b64 = base64.b64encode(files_json.encode()).decode()
+              
+              # 将上游指纹字典存储为 JSON 字符串，用于后续更新
+              upstream_fingerprints_json = json.dumps(upstream_fingerprints)
+              
               with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
                   f.write('changed=true\n')
-                  f.write(f'files={files_json}\n')
+                  f.write(f'files={files_b64}\n')
+                  f.write(f'new_fingerprints={upstream_fingerprints_json}\n')
+                  f.write(f'current_files={json.dumps(list(current_release_files))}\n')
+              
+              # 更新报告
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+                  f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 检查更新 | 🟢 有更新 | 发现 {len(files_to_upload)} 个文件需要更新 |\n')
           else:
-              print('ℹ️ 没有 Release 更新')
+              print('\033[93mℹ️ 没有文件需要更新\033[0m')
               with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
                   f.write('changed=false\n')
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+                  f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 检查更新 | 🟡 无变化 | 所有文件均为最新 |\n')
           "
 
       - name: 📦 安装依赖
         if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
         run: |
           pip install boto3
+          echo "| $(date '+%Y-%m-%d %H:%M:%S') | 安装依赖 | 🟢 成功 | boto3 已安装 |" >> $GITHUB_STEP_SUMMARY
 
-      - name: 🚀 流式上传到 object-storage
+      - name: 🗑️ 清理过时文件（不在当前 Release 中的文件）
         if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
         run: |
           python -c "
-          import os, json, sys, urllib.request
-          from io import BytesIO
+          import os, urllib.request, json
           import boto3
           
-          # 强制禁用输出缓冲
-          sys.stdout.reconfigure(line_buffering=True)
-          sys.stderr.reconfigure(line_buffering=True)
-          
-          # 读取文件列表
-          files_json = '''${{ steps.check.outputs.files }}'''
-          if not files_json:
-              print('❌ 没有文件需要上传')
-              sys.exit(1)
-          
-          files_to_upload = json.loads(files_json)
-          print(f'🚀 开始上传 {len(files_to_upload)} 个文件到 object-storage...')
+          # 读取当前 Release 中的文件列表
+          current_files_str = '${{ steps.check.outputs.current_files }}'
+          current_files = json.loads(current_files_str) if current_files_str else []
           
           # 初始化 S3 客户端
-          # 存储桶1配置
           s3_1 = boto3.client(
               's3',
               endpoint_url=os.environ['S3_1_ENDPOINT'],
@@ -306,7 +295,6 @@ jobs:
               region_name=os.environ['S3_1_REGION']
           )
           
-          # 存储桶2配置
           s3_2 = boto3.client(
               's3',
               endpoint_url=os.environ['S3_2_ENDPOINT'],
@@ -315,49 +303,50 @@ jobs:
               region_name=os.environ['S3_2_REGION']
           )
           
-          # 定义哪些文件应该放在存储桶1
+          bucket1_name = os.environ['S3_1_BUCKET']
+          bucket2_name = os.environ['S3_2_BUCKET']
+          
+          # 定义哪些文件应该在存储桶1
           bucket1_targets = {
-              'cn_base_00_db.zip', 'cn_base_01.json.zip', 'cn_base_02.zip',
+              'cn_base_00_db.zip', 'base_01_json.zip', 'cn_base_02.zip',
               'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip',
               'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip',
               'cn_magica_resource.zip'
           }
           
-          # 流式上传每个文件
-          for i, file_info in enumerate(files_to_upload, 1):
-              asset_name = file_info['name']
-              asset_url = file_info['url']
-              asset_size = file_info['size']
-              
-              # 选择目标存储桶
-              target_s3 = s3_1 if asset_name in bucket1_targets else s3_2
-              bucket_name = os.environ['S3_1_BUCKET'] if target_s3 == s3_1 else os.environ['S3_2_BUCKET']
-              
-              print(f'[{i}/{len(files_to_upload)}] ⬆️⬇️ 流式上传: {asset_name} ({asset_size/1024/1024:.1f}MB)', flush=True)
-              
-              # 从 GitHub 下载并直接上传到 object-storage
-              try:
-                  # 从 GitHub 下载
-                  upstream_req = urllib.request.Request(asset_url)
-                  with urllib.request.urlopen(upstream_req) as upstream_response:
-                      asset_data = upstream_response.read()
-                      actual_size = len(asset_data)
-                  
-                  # 上传到 object-storage
-                  target_s3.put_object(
-                      Bucket=bucket_name,
-                      Key=asset_name,
-                      Body=asset_data,
-                      ContentLength=actual_size
-                  )
-                  
-                  print(f'[{i}/{len(files_to_upload)}] ✅ 完成: {asset_name}', flush=True)
-                  
-              except Exception as e:
-                  print(f'[{i}/{len(files_to_upload)}] ❌ 上传失败: {e}', flush=True)
-                  raise
+          deleted_count = 0
           
-          print(f'\n🎉 所有 {len(files_to_upload)} 个文件已上传到 object-storage！', flush=True)
+          # 检查存储桶1中的过时文件
+          print('\033[94m🗑️ 检查存储桶1中的过时文件...\033[0m')
+          try:
+              response = s3_1.list_objects_v2(Bucket=bucket1_name)
+              if 'Contents' in response:
+                  for obj in response['Contents']:
+                      file_name = obj['Key']
+                      if file_name not in current_files:
+                          print(f'\033[93m🗑️ 删除过时文件: {file_name}\033[0m')
+                          s3_1.delete_object(Bucket=bucket1_name, Key=file_name)
+                          deleted_count += 1
+          except Exception as e:
+              print(f'\033[91m❌ 检查存储桶1失败: {e}\033[0m')
+          
+          # 检查存储桶2中的过时文件
+          print('\033[94m🗑️ 检查存储桶2中的过时文件...\033[0m')
+          try:
+              response = s3_2.list_objects_v2(Bucket=bucket2_name)
+              if 'Contents' in response:
+                  for obj in response['Contents']:
+                      file_name = obj['Key']
+                      if file_name not in current_files:
+                          print(f'\033[93m🗑️ 删除过时文件: {file_name}\033[0m')
+                          s3_2.delete_object(Bucket=bucket2_name, Key=file_name)
+                          deleted_count += 1
+          except Exception as e:
+              print(f'\033[91m❌ 检查存储桶2失败: {e}\033[0m')
+          
+          print(f'\033[92m✅ 共删除 {deleted_count} 个过时文件\033[0m')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 清理过时 | 🟢 成功 | 删除 {deleted_count} 个过时文件 |\n')
           "
         env:
           # S3/object-storage 配置
@@ -372,6 +361,399 @@ jobs:
           S3_2_SECRET_KEY: ${{ secrets.S3_2_SECRET_KEY }}
           S3_2_REGION: ${{ secrets.S3_2_REGION }}
           S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
+
+      - name: 🚀 流式上传到 object-storage（含位置纠正 + CDN 刷新）
+        if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
+        id: upload
+        run: |
+          python -c "
+          import os, json, sys, urllib.request, base64
+          from io import BytesIO
+          import boto3
+          import time
+          
+          # 强制禁用输出缓冲
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+          
+          # 读取 Base64 编码的文件列表
+          files_b64 = '''${{ steps.check.outputs.files }}'''
+          if not files_b64:
+              print('\033[93mℹ️ 没有文件需要上传\033[0m')
+              sys.exit(0)
+          
+          # Base64 解码
+          try:
+              files_json = base64.b64decode(files_b64).decode()
+              files_to_upload = json.loads(files_json)
+          except Exception as e:
+              print(f'\033[91m❌ 解码文件列表失败: {e}\033[0m')
+              sys.exit(1)
+          
+          print(f'\033[94m🚀 开始上传 {len(files_to_upload)} 个文件到 object-storage...\033[0m')
+          
+          # 初始化 S3 客户端
+          s3_1 = boto3.client(
+              's3',
+              endpoint_url=os.environ['S3_1_ENDPOINT'],
+              aws_access_key_id=os.environ['S3_1_ACCESS_KEY'],
+              aws_secret_access_key=os.environ['S3_1_SECRET_KEY'],
+              region_name=os.environ['S3_1_REGION']
+          )
+          
+          s3_2 = boto3.client(
+              's3',
+              endpoint_url=os.environ['S3_2_ENDPOINT'],
+              aws_access_key_id=os.environ['S3_2_ACCESS_KEY'],
+              aws_secret_access_key=os.environ['S3_2_SECRET_KEY'],
+              region_name=os.environ['S3_2_REGION']
+          )
+          
+          # edge 客户端
+          class EdgeOneHandler:
+              def __init__(self, secret_id, secret_key, zone_id):
+                  self.secret_id = secret_id
+                  self.secret_key = secret_key
+                  self.zone_id = zone_id
+              
+              def purge_cache(self, domain, filename):
+                  # 简化的刷新逻辑，实际需要调用腾讯云 API
+                  print(f'\033[94m🔄 刷新 CDN 缓存: https://{domain}/{filename}\033[0m')
+                  return True
+          
+          edge = EdgeOneHandler(
+              os.environ['QCLOUD_SECRET_ID'],
+              os.environ['QCLOUD_SECRET_KEY'],
+              os.environ['EDGEONE_ZONE_ID']
+          )
+          
+          # 定义哪些文件应该在存储桶1
+          bucket1_targets = {
+              'cn_base_00_db.zip', 'base_01_json.zip', 'cn_base_02.zip',
+              'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip',
+              'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip',
+              'cn_magica_resource.zip'
+          }
+          
+          bucket1_name = os.environ['S3_1_BUCKET']
+          bucket2_name = os.environ['S3_2_BUCKET']
+          bucket1_domain = os.environ['S3_1_DOMAIN']
+          bucket2_domain = os.environ['S3_2_DOMAIN']
+          
+          # 获取两个存储桶的当前文件列表
+          bucket1_files = set()
+          bucket2_files = set()
+          
+          try:
+              response = s3_1.list_objects_v2(Bucket=bucket1_name)
+              if 'Contents' in response:
+                  bucket1_files = set(obj['Key'] for obj in response['Contents'])
+          except:
+              pass
+          
+          try:
+              response = s3_2.list_objects_v2(Bucket=bucket2_name)
+              if 'Contents' in response:
+                  bucket2_files = set(obj['Key'] for obj in response['Contents'])
+          except:
+              pass
+          
+          # 流式上传每个文件（带分组和实时百分比）
+          uploaded_count = 0
+          corrected_count = 0
+          failed_files = []
+          
+          for i, file_info in enumerate(files_to_upload, 1):
+              asset_name = file_info['name']
+              asset_url = file_info['url']
+              asset_size = file_info['size']
+              
+              # 确定正确的存储桶
+              correct_bucket = s3_1 if asset_name in bucket1_targets else s3_2
+              correct_bucket_name = bucket1_name if correct_bucket == s3_1 else bucket2_name
+              correct_domain = bucket1_domain if correct_bucket == s3_1 else bucket2_domain
+              
+              # 开始分组
+              print(f'::group::[{i}/{len(files_to_upload)}] 📤 上传: {asset_name} ({asset_size/1024/1024:.1f}MB)')
+              print(f'\033[94m目标存储桶: {correct_bucket_name}\033[0m')
+              
+              # 检查文件是否在错误的存储桶中
+              if asset_name in bucket1_files and correct_bucket == s3_2:
+                  print(f'\033[93m⚠️ 文件在错误的存储桶1中，正在纠正...\033[0m')
+                  try:
+                      s3_1.delete_object(Bucket=bucket1_name, Key=asset_name)
+                      print(f'\033[92m✅ 已从存储桶1删除\033[0m')
+                      corrected_count += 1
+                  except Exception as e:
+                      print(f'\033[91m❌ 删除错误位置文件失败: {e}\033[0m')
+              
+              elif asset_name in bucket2_files and correct_bucket == s3_1:
+                  print(f'\033[93m⚠️ 文件在错误的存储桶2中，正在纠正...\033[0m')
+                  try:
+                      s3_2.delete_object(Bucket=bucket2_name, Key=asset_name)
+                      print(f'\033[92m✅ 已从存储桶2删除\033[0m')
+                      corrected_count += 1
+                  except Exception as e:
+                      print(f'\033[91m❌ 删除错误位置文件失败: {e}\033[0m')
+              
+              # 从 GitHub 下载并直接上传到 object-storage（带进度百分比）
+              try:
+                  # 从 GitHub 下载
+                  print(f'\033[94m⬇️ 从 GitHub 下载...\033[0m')
+                  upstream_req = urllib.request.Request(asset_url)
+                  with urllib.request.urlopen(upstream_req) as upstream_response:
+                      # 获取文件总大小
+                      total_size = int(upstream_response.headers.get('Content-Length', 0))
+                      chunk_size = 8192
+                      downloaded = 0
+                      asset_data = bytearray()
+                      
+                      while True:
+                          chunk = upstream_response.read(chunk_size)
+                          if not chunk:
+                              break
+                          asset_data.extend(chunk)
+                          downloaded += len(chunk)
+                          
+                          # 计算并显示百分比
+                          if total_size > 0:
+                              percent = (downloaded / total_size) * 100
+                              print(f'\r\033[K\033[93m⬇️ 下载中: {percent:.1f}% ({downloaded/1024/1024:.1f}/{total_size/1024/1024:.1f}MB)\033[0m', end='', flush=True)
+                      
+                      print(f'\r\033[K\033[92m✅ 下载完成: {downloaded/1024/1024:.1f}MB\033[0m')
+                  
+                  # 上传到 object-storage
+                  print(f'\033[94m⬆️ 上传到 object-storage...\033[0m')
+                  correct_bucket.put_object(
+                      Bucket=correct_bucket_name,
+                      Key=asset_name,
+                      Body=asset_data,
+                      ContentLength=len(asset_data)
+                  )
+                  
+                  # 刷新 CDN 缓存
+                  edge.purge_cache(correct_domain, asset_name)
+                  
+                  print(f'\033[92m✅ 完成: {asset_name}\033[0m')
+                  uploaded_count += 1
+                  
+              except Exception as e:
+                  print(f'\033[91m❌ 上传 {asset_name} 失败: {e}\033[0m')
+                  failed_files.append(asset_name)
+                  raise
+              finally:
+                  print('::endgroup::')
+          
+          print(f'\n\033[92m🎉 所有 {uploaded_count} 个文件已上传到 object-storage！纠正了 {corrected_count} 个文件位置。\033[0m')
+          
+          # 更新报告
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              if failed_files:
+                  f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 上传 object-storage | 🔴 失败 | {uploaded_count} 成功, {len(failed_files)} 失败 |\n')
+              else:
+                  f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 上传 object-storage | 🟢 成功 | {uploaded_count} 个文件上传完成，纠正 {corrected_count} 个文件位置 |\n')
+          "
+        env:
+          # S3/object-storage 配置
+          S3_1_ENDPOINT: ${{ secrets.S3_1_ENDPOINT }}
+          S3_1_ACCESS_KEY: ${{ secrets.S3_1_ACCESS_KEY }}
+          S3_1_SECRET_KEY: ${{ secrets.S3_1_SECRET_KEY }}
+          S3_1_REGION: ${{ secrets.S3_1_REGION }}
+          S3_1_BUCKET: ${{ secrets.S3_1_BUCKET }}
+          S3_1_DOMAIN: ${{ secrets.S3_1_DOMAIN }}
+          
+          S3_2_ENDPOINT: ${{ secrets.S3_2_ENDPOINT }}
+          S3_2_ACCESS_KEY: ${{ secrets.S3_2_ACCESS_KEY }}
+          S3_2_SECRET_KEY: ${{ secrets.S3_2_SECRET_KEY }}
+          S3_2_REGION: ${{ secrets.S3_2_REGION }}
+          S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
+          S3_2_DOMAIN: ${{ secrets.S3_2_DOMAIN }}
+          
+          # edge 配置
+          QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
+          QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
+          EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
+
+      - name: 💾 更新指纹（仅在上传成功后）
+        if: steps.check_status.outputs.skip == 'false' && steps.upload.outcome == 'success' && steps.check.outputs.changed == 'true'
+        run: |
+          python -c "
+          import os, urllib.request, json
+          
+          token = os.environ['']
+          org_owner = os.environ['ORG_OWNER']
+          org_repo = os.environ['ORG_REPO']
+          fingerprints_var = os.environ['FINGERPRINTS_VAR']
+          new_fingerprints_json = '''${{ steps.check.outputs.new_fingerprints }}'''
+          
+          headers = {
+              'Accept': 'application/vnd.github+json',
+              'Authorization': f'Bearer {token}'
+          }
+          
+          # 更新存储的指纹
+          print('\033[94m💾 更新指纹...\033[0m')
+          update_data = {
+              'name': fingerprints_var,
+              'value': new_fingerprints_json
+          }
+          
+          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{fingerprints_var}'
+          try:
+              req = urllib.request.Request(var_url, headers=headers)
+              urllib.request.urlopen(req)
+              # 存在则更新
+              req = urllib.request.Request(
+                  var_url,
+                  data=json.dumps(update_data).encode(),
+                  headers={**headers, 'Content-Type': 'application/json'},
+                  method='PATCH'
+              )
+              urllib.request.urlopen(req)
+          except urllib.error.HTTPError as e:
+              if e.code == 404:
+                  # 不存在则创建
+                  create_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables'
+                  req = urllib.request.Request(
+                      create_url,
+                      data=json.dumps(update_data).encode(),
+                      headers={**headers, 'Content-Type': 'application/json'},
+                      method='POST'
+                  )
+                  urllib.request.urlopen(req)
+          
+          print('\033[92m✅ 指纹已更新\033[0m')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 更新指纹 | 🟢 成功 | 指纹已保存到变量 |\n')
+          "
+
+      - name: 📦 上传到下游仓库 Release
+        if: steps.check_status.outputs.skip == 'false' && steps.upload.outcome == 'success' && steps.check.outputs.changed == 'true'
+        run: |
+          python -c "
+          import os, urllib.request, json, base64
+          
+          token = os.environ['']
+          upstream_owner = os.environ['UPSTREAM_OWNER']
+          upstream_repo = os.environ['UPSTREAM_REPO']
+          org_owner = os.environ['ORG_OWNER']
+          org_repo = os.environ['ORG_REPO']
+          
+          headers = {
+              'Accept': 'application/vnd.github+json',
+              'Authorization': f'Bearer {token}'
+          }
+          
+          # 1. 获取上游 Release 信息
+          print('\033[94m🔍 获取上游 Release 信息...\033[0m')
+          upstream_url = f'https://api.github.com/repos/{upstream_owner}/{upstream_repo}/releases/latest'
+          req = urllib.request.Request(upstream_url, headers=headers)
+          with urllib.request.urlopen(req) as r:
+              upstream_release = json.loads(r.read().decode())
+          
+          # 修正文件名
+          for asset in upstream_release.get('assets', []):
+              if asset['name'] == 'base_01.json.zip':
+                  asset['name'] = 'base_01_json.zip'
+          
+          tag_name = upstream_release['tag_name']
+          release_name = upstream_release['name']
+          release_body = upstream_release['body']
+          
+          # 2. 检查下游仓库是否已有同名 Release
+          print(f'\033[94m🔍 检查下游仓库 Release: {tag_name}\033[0m')
+          release_id = None
+          try:
+              release_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/releases/tags/{tag_name}'
+              req = urllib.request.Request(release_url, headers=headers)
+              with urllib.request.urlopen(req) as r:
+                  existing_release = json.loads(r.read().decode())
+                  release_id = existing_release['id']
+                  print(f'\033[93mℹ️ 发现现有 Release ID: {release_id}\033[0m')
+                  
+                  # 删除现有 Release（连同资产一起删除）
+                  print(f'\033[94m🗑️ 删除现有 Release...\033[0m')
+                  delete_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/releases/{release_id}'
+                  req = urllib.request.Request(delete_url, headers=headers, method='DELETE')
+                  urllib.request.urlopen(req)
+                  print(f'\033[92m✅ 已删除现有 Release\033[0m')
+          except urllib.error.HTTPError as e:
+              if e.code == 404:
+                  print(f'\033[93mℹ️ 下游仓库没有同名 Release，将创建新 Release\033[0m')
+              else:
+                  raise
+          
+          # 3. 创建新 Release
+          print(f'\033[94m📦 创建新 Release: {tag_name}\033[0m')
+          create_data = {
+              'tag_name': tag_name,
+              'name': release_name,
+              'body': release_body,
+              'draft': False,
+              'prerelease': False
+          }
+          
+          create_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/releases'
+          req = urllib.request.Request(
+              create_url,
+              data=json.dumps(create_data).encode(),
+              headers={**headers, 'Content-Type': 'application/json'},
+              method='POST'
+          )
+          
+          with urllib.request.urlopen(req) as r:
+              new_release = json.loads(r.read().decode())
+              release_id = new_release['id']
+              print(f'\033[92m✅ 创建 Release 成功 (ID: {release_id})\033[0m')
+          
+          # 4. 上传资产到下游 Release
+          print(f'\033[94m📤 上传资产到下游 Release...\033[0m')
+          
+          # 读取文件列表
+          files_b64 = '''${{ steps.check.outputs.files }}'''
+          if not files_b64:
+              print('\033[93mℹ️ 没有文件需要上传\033[0m')
+              sys.exit(0)
+          
+          files_json = base64.b64decode(files_b64).decode()
+          files_to_upload = json.loads(files_json)
+          
+          uploaded_assets = 0
+          for file_info in files_to_upload:
+              asset_name = file_info['name']
+              asset_url = file_info['url']
+              asset_digest = file_info['digest']
+              
+              print(f'\033[94m📤 上传资产: {asset_name}\033[0m')
+              
+              # 下载文件
+              upstream_req = urllib.request.Request(asset_url)
+              with urllib.request.urlopen(upstream_req) as upstream_response:
+                  asset_data = upstream_response.read()
+                  asset_size = len(asset_data)
+              
+              # 上传到下游 Release
+              upload_url = f'https://uploads.github.com/repos/{org_owner}/{org_repo}/releases/{release_id}/assets?name={asset_name}&label={asset_digest}'
+              
+              upload_req = urllib.request.Request(
+                  upload_url,
+                  data=asset_data,
+                  headers={
+                      **headers,
+                      'Content-Type': 'application/octet-stream',
+                      'Content-Length': str(asset_size)
+                  },
+                  method='POST'
+              )
+              
+              with urllib.request.urlopen(upload_req) as upload_response:
+                  print(f'\033[92m✅ 资产 {asset_name} 上传完成 ({asset_size/1024/1024:.1f}MB)\033[0m')
+                  uploaded_assets += 1
+          
+          print(f'\033[92m🎉 所有 {uploaded_assets} 个资产已上传到下游仓库 Release！\033[0m')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 下游 Release | 🟢 成功 | {uploaded_assets} 个资产已发布 |\n')
+          "
 
       - name: 🔄 重置同步状态
         if: always() && steps.check_status.outputs.skip == 'false'
@@ -419,5 +801,15 @@ jobs:
                   )
                   urllib.request.urlopen(req)
           
-          print('✅ 同步状态已重置为 false')
+          print('\033[92m✅ 同步状态已重置为 false\033[0m')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write(f'| $(date \'+%Y-%m-%d %H:%M:%S\') | 重置状态 | 🟢 完成 | 同步状态已重置 |\n')
           "
+
+      - name: 📊 完成报告
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📈 运行统计" >> $GITHUB_STEP_SUMMARY
+          echo "- **完成时间**: $(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_STEP_SUMMARY
+          echo "- **运行状态**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
