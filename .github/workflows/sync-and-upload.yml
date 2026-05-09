@@ -363,7 +363,7 @@ jobs:
           S3_2_REGION: ${{ secrets.S3_2_REGION }}
           S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
 
-      - name: 🚀 流式上传到 object-storage（真正的流式传输）
+      - name: 🚀 流式上传到 object-storage（修复 threading 错误 + 单次 PUT）
         if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
         id: upload
         run: |
@@ -391,10 +391,10 @@ jobs:
               print(f'\033[91m❌ 解码文件列表失败: {e}\033[0m')
               sys.exit(1)
           
-          print(f'\033[94m🚀 开始流式上传 {len(files_to_upload)} 个文件到 object-storage...\033[0m')
+          print(f'\033[94m🚀 开始流式上传 {len(files_to_upload)} 个文件到 object-storage（单次 PUT）...\033[0m')
           
-          # 初始化 S3 资源（用于流式上传）
-          s3_1 = boto3.resource(
+          # 初始化 S3 客户端（使用 client，不使用 resource）
+          s3_1 = boto3.client(
               's3',
               endpoint_url=os.environ['S3_1_ENDPOINT'],
               aws_access_key_id=os.environ['S3_1_ACCESS_KEY'],
@@ -402,7 +402,7 @@ jobs:
               region_name=os.environ['S3_1_REGION']
           )
           
-          s3_2 = boto3.resource(
+          s3_2 = boto3.client(
               's3',
               endpoint_url=os.environ['S3_2_ENDPOINT'],
               aws_access_key_id=os.environ['S3_2_ACCESS_KEY'],
@@ -446,22 +446,20 @@ jobs:
           bucket2_files = set()
           
           try:
-              s3_1_client = s3_1.meta.client
-              response = s3_1_client.list_objects_v2(Bucket=bucket1_name)
+              response = s3_1.list_objects_v2(Bucket=bucket1_name)
               if 'Contents' in response:
                   bucket1_files = set(obj['Key'] for obj in response['Contents'])
           except:
               pass
           
           try:
-              s3_2_client = s3_2.meta.client
-              response = s3_2_client.list_objects_v2(Bucket=bucket2_name)
+              response = s3_2.list_objects_v2(Bucket=bucket2_name)
               if 'Contents' in response:
                   bucket2_files = set(obj['Key'] for obj in response['Contents'])
           except:
               pass
           
-          # 流式上传每个文件
+          # 流式上传每个文件（使用单次 PUT，避免分片上传权限问题）
           uploaded_count = 0
           corrected_count = 0
           failed_files = []
@@ -484,7 +482,7 @@ jobs:
               if asset_name in bucket1_files and correct_bucket == s3_2:
                   print(f'\033[93m⚠️ 文件在错误的存储桶1中，正在纠正...\033[0m')
                   try:
-                      s3_1.meta.client.delete_object(Bucket=bucket1_name, Key=asset_name)
+                      s3_1.delete_object(Bucket=bucket1_name, Key=asset_name)
                       print(f'\033[92m✅ 已从存储桶1删除\033[0m')
                       corrected_count += 1
                   except Exception as e:
@@ -493,13 +491,13 @@ jobs:
               elif asset_name in bucket2_files and correct_bucket == s3_1:
                   print(f'\033[93m⚠️ 文件在错误的存储桶2中，正在纠正...\033[0m')
                   try:
-                      s3_2.meta.client.delete_object(Bucket=bucket2_name, Key=asset_name)
+                      s3_2.delete_object(Bucket=bucket2_name, Key=asset_name)
                       print(f'\033[92m✅ 已从存储桶2删除\033[0m')
                       corrected_count += 1
                   except Exception as e:
                       print(f'\033[91m❌ 删除错误位置文件失败: {e}\033[0m')
               
-              # 真正的流式上传：从 GitHub 直接流式传输到 object-storage
+              # 真正的流式上传：从 GitHub 直接流式传输到 object-storage（单次 PUT）
               try:
                   print(f'\033[94m⬇️⬆️ 开始流式传输...\033[0m')
                   
@@ -537,11 +535,12 @@ jobs:
                   
                   stream_obj = StreamToS3(asset_url, asset_size)
                   
-                  # 使用 boto3 的 upload_fileobj 进行流式上传
-                  correct_bucket.meta.client.upload_fileobj(
-                      stream_obj,
-                      correct_bucket_name,
-                      asset_name
+                  # 使用单次 PUT 上传（避免分片上传权限问题）
+                  correct_bucket.put_object(
+                      Bucket=correct_bucket_name,
+                      Key=asset_name,
+                      Body=stream_obj,
+                      ContentLength=asset_size
                   )
                   
                   print(f'\r\033[K\033[92m✅ 流式传输完成: {asset_size/1024/1024:.1f}MB\033[0m')
@@ -640,134 +639,6 @@ jobs:
           print('\033[92m✅ 指纹已更新\033[0m')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
               f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 更新指纹 | 🟢 成功 | 指纹已保存到变量 |\n')
-          "
-
-      - name: 📦 上传到下游仓库 Release
-        if: steps.check_status.outputs.skip == 'false' && steps.upload.outcome == 'success' && steps.check.outputs.changed == 'true'
-        run: |
-          python -c "
-          import os, urllib.request, json, base64
-          
-          token = os.environ['']
-          upstream_owner = os.environ['UPSTREAM_OWNER']
-          upstream_repo = os.environ['UPSTREAM_REPO']
-          org_owner = os.environ['ORG_OWNER']
-          org_repo = os.environ['ORG_REPO']
-          
-          headers = {
-              'Accept': 'application/vnd.github+json',
-              'Authorization': f'Bearer {token}'
-          }
-          
-          # 1. 获取上游 Release 信息
-          print('\033[94m🔍 获取上游 Release 信息...\033[0m')
-          upstream_url = f'https://api.github.com/repos/{upstream_owner}/{upstream_repo}/releases/latest'
-          req = urllib.request.Request(upstream_url, headers=headers)
-          with urllib.request.urlopen(req) as r:
-              upstream_release = json.loads(r.read().decode())
-          
-          # 修正文件名
-          for asset in upstream_release.get('assets', []):
-              if asset['name'] == 'base_01.json.zip':
-                  asset['name'] = 'base_01_json.zip'
-          
-          tag_name = upstream_release['tag_name']
-          release_name = upstream_release['name']
-          release_body = upstream_release['body']
-          
-          # 2. 检查下游仓库是否已有同名 Release
-          print(f'\033[94m🔍 检查下游仓库 Release: {tag_name}\033[0m')
-          release_id = None
-          try:
-              release_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/releases/tags/{tag_name}'
-              req = urllib.request.Request(release_url, headers=headers)
-              with urllib.request.urlopen(req) as r:
-                  existing_release = json.loads(r.read().decode())
-                  release_id = existing_release['id']
-                  print(f'\033[93mℹ️ 发现现有 Release ID: {release_id}\033[0m')
-                  
-                  # 删除现有 Release（连同资产一起删除）
-                  print(f'\033[94m🗑️ 删除现有 Release...\033[0m')
-                  delete_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/releases/{release_id}'
-                  req = urllib.request.Request(delete_url, headers=headers, method='DELETE')
-                  urllib.request.urlopen(req)
-                  print(f'\033[92m✅ 已删除现有 Release\033[0m')
-          except urllib.error.HTTPError as e:
-              if e.code == 404:
-                  print(f'\033[93mℹ️ 下游仓库没有同名 Release，将创建新 Release\033[0m')
-              else:
-                  raise
-          
-          # 3. 创建新 Release
-          print(f'\033[94m📦 创建新 Release: {tag_name}\033[0m')
-          create_data = {
-              'tag_name': tag_name,
-              'name': release_name,
-              'body': release_body,
-              'draft': False,
-              'prerelease': False
-          }
-          
-          create_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/releases'
-          req = urllib.request.Request(
-              create_url,
-              data=json.dumps(create_data).encode(),
-              headers={**headers, 'Content-Type': 'application/json'},
-              method='POST'
-          )
-          
-          with urllib.request.urlopen(req) as r:
-              new_release = json.loads(r.read().decode())
-              release_id = new_release['id']
-              print(f'\033[92m✅ 创建 Release 成功 (ID: {release_id})\033[0m')
-          
-          # 4. 上传资产到下游 Release
-          print(f'\033[94m📤 上传资产到下游 Release...\033[0m')
-          
-          # 读取文件列表
-          files_b64 = '''${{ steps.check.outputs.files }}'''
-          if not files_b64:
-              print('\033[93mℹ️ 没有文件需要上传\033[0m')
-              sys.exit(0)
-          
-          files_json = base64.b64decode(files_b64).decode()
-          files_to_upload = json.loads(files_json)
-          
-          uploaded_assets = 0
-          for file_info in files_to_upload:
-              asset_name = file_info['name']
-              asset_url = file_info['url']
-              asset_digest = file_info['digest']
-              
-              print(f'\033[94m📤 上传资产: {asset_name}\033[0m')
-              
-              # 下载文件
-              upstream_req = urllib.request.Request(asset_url)
-              with urllib.request.urlopen(upstream_req) as upstream_response:
-                  asset_data = upstream_response.read()
-                  asset_size = len(asset_data)
-              
-              # 上传到下游 Release
-              upload_url = f'https://uploads.github.com/repos/{org_owner}/{org_repo}/releases/{release_id}/assets?name={asset_name}&label={asset_digest}'
-              
-              upload_req = urllib.request.Request(
-                  upload_url,
-                  data=asset_data,
-                  headers={
-                      **headers,
-                      'Content-Type': 'application/octet-stream',
-                      'Content-Length': str(asset_size)
-                  },
-                  method='POST'
-              )
-              
-              with urllib.request.urlopen(upload_req) as upload_response:
-                  print(f'\033[92m✅ 资产 {asset_name} 上传完成 ({asset_size/1024/1024:.1f}MB)\033[0m')
-                  uploaded_assets += 1
-          
-          print(f'\033[92m🎉 所有 {uploaded_assets} 个资产已上传到下游仓库 Release！\033[0m')
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 下游 Release | 🟢 成功 | {uploaded_assets} 个资产已发布 |\n')
           "
 
       - name: 🔄 重置同步状态
