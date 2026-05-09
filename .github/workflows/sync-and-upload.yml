@@ -61,8 +61,8 @@ jobs:
         run: |
           echo "检查上游仓库是否有内容更新..."
           
-          # 获取上游仓库 main 分支的最新 commit SHA
-          UPSTREAM_SHA=$(gh api repos/${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}/commits/main --jq '.[0].sha')
+          # 获取上游仓库 main 分支的最新 commit SHA（修复：使用 branches API）
+          UPSTREAM_SHA=$(gh api repos/${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}/branches/main --jq '.commit.sha')
           
           echo "上游最新 commit: $UPSTREAM_SHA"
           
@@ -95,6 +95,12 @@ jobs:
             --force
             
           echo "✅ 上游仓库内容同步完成"
+
+      - name: 📝 立即更新 Commit SHA 信息
+        if: steps.check_upstream.outputs.should_sync == 'true'
+        run: |
+          echo "立即更新 Variables 中的 Commit SHA..."
+          gh variable set LAST_SYNC_COMMIT_SHA --body "${{ steps.check_upstream.outputs.commit_sha }}"
 
       - name: 🐍 设置 Python
         uses: actions/setup-python@v5
@@ -345,7 +351,7 @@ jobs:
                   
                   gh_client = GitHubAPIClient(os.environ.get('', ''))
                   
-                  # 获取上游仓库的 Release（用于上传文件）
+                  # 关键修正：始终使用上游仓库获取 Release
                   owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
                   repo = os.environ.get('UPSTREAM_REPO', 'patch-front')
                   
@@ -376,7 +382,7 @@ jobs:
                   # 过滤列表
                   IGNORE_FILES = {'history-data-splited.tar.xz'}
                   
-                  # SHA256 比对（针对 Release 文件）
+                  # SHA256 比对
                   to_process = []
                   unchanged = []
                   deleted = []
@@ -519,12 +525,6 @@ jobs:
           if __name__ == "__main__":
               main()
           EOF
-
-      - name: 📝 更新 Commit SHA 信息
-        if: steps.check_upstream.outputs.should_sync == 'true'
-        run: |
-          echo "更新 Variables 中的 Commit SHA..."
-          gh variable set LAST_SYNC_COMMIT_SHA --body "${{ steps.check_upstream.outputs.commit_sha }}"
 
       - name: 📊 生成运行摘要
         if: always()
