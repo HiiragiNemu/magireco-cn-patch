@@ -1,701 +1,539 @@
-name: "🔄 同步上游并上传到 object-storage"
+name: 🔄 同步上游并上传到 S3
 
 on:
   schedule:
-    # 每15分钟运行一次
-    - cron: '*/15 * * * *'
-  workflow_dispatch:
+    - cron: '*/15 * * * *'  # 每15分钟运行一次
+  workflow_dispatch:  # 允许手动触发
     inputs:
       force_sync:
-        description: '强制同步（即使没有检测到变化）'
+        description: '强制同步（无视指纹）'
         required: false
         default: 'false'
         type: boolean
 
+# 关键：并发控制，确保同一时间只有一个实例运行
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true  # 如果已有运行中的任务，新任务直接取消（不排队）
+
 permissions:
-  actions: write
-  contents: write
+  contents: write  # 需要写入权限来同步 fork 和更新变量
 
 jobs:
   sync-and-upload:
     runs-on: ubuntu-latest
     env:
-      PYTHONUNBUFFERED: 1
+      PYTHONUNBUFFERED: 1  # 强制 Python 无缓冲输出
       : ${{ secrets. }}
+      # S3 配置
+      S3_1_ENDPOINT: ${{ secrets.S3_1_ENDPOINT }}
+      S3_1_ACCESS_KEY: ${{ secrets.S3_1_ACCESS_KEY }}
+      S3_1_SECRET_KEY: ${{ secrets.S3_1_SECRET_KEY }}
+      S3_1_REGION: ${{ secrets.S3_1_REGION }}
+      S3_1_BUCKET: ${{ secrets.S3_1_BUCKET }}
+      S3_1_DOMAIN: ${{ secrets.S3_1_DOMAIN }}
+      S3_2_ENDPOINT: ${{ secrets.S3_2_ENDPOINT }}
+      S3_2_ACCESS_KEY: ${{ secrets.S3_2_ACCESS_KEY }}
+      S3_2_SECRET_KEY: ${{ secrets.S3_2_SECRET_KEY }}
+      S3_2_REGION: ${{ secrets.S3_2_REGION }}
+      S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
+      S3_2_DOMAIN: ${{ secrets.S3_2_DOMAIN }}
+      # edge 配置
+      QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
+      QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
+      EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
+      # 仓库信息
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "patch-front"
-      ORG_OWNER: "MagirecoCN-Revival-Project"
-      ORG_REPO: "patch-front"
-      FINGERPRINTS_VAR: "LAST_RELEASE_FINGERPRINTS"
-      SYNC_STATUS_VAR: "SYNC_IN_PROGRESS"
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
 
     steps:
-      - name: 📝 初始化运行报告
-        run: |
-          echo "## 🚀 同步与上传运行报告" >> $GITHUB_STEP_SUMMARY
-          echo "| 时间 | 步骤 | 状态 | 详情 |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|------|------|------|" >> $GITHUB_STEP_SUMMARY
-          echo "| $(date +%Y-%m-%d_%H:%M:%S) | 初始化 | 🟢 开始 | 工作流启动 |" >> $GITHUB_STEP_SUMMARY
-
-      - name: 🔍 检查同步状态（第一步）
-        id: check_status
-        run: |
-          python -c "
-          import os, urllib.request, json
-          
-          token = os.environ['']
-          org_owner = os.environ['ORG_OWNER']
-          org_repo = os.environ['ORG_REPO']
-          sync_status_var = os.environ['SYNC_STATUS_VAR']
-          
-          headers = {
-              'Accept': 'application/vnd.github+json',
-              'Authorization': f'Bearer {token}'
-          }
-          
-          # 检查同步状态变量
-          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{sync_status_var}'
-          try:
-              req = urllib.request.Request(var_url, headers=headers)
-              with urllib.request.urlopen(req) as r:
-                  var_data = json.loads(r.read().decode())
-                  sync_in_progress = var_data.get('value', 'false')
-                  print(f'\033[94m当前同步状态: {sync_in_progress}\033[0m')
-                  
-                  if sync_in_progress == 'true' and os.environ.get('FORCE_SYNC') != 'true':
-                      print('\033[93m⏸️ 同步正在进行中，跳过本次运行\033[0m')
-                      with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-                          f.write('skip=true\n')
-                      # 更新报告
-                      with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                          f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 检查状态 | 🟡 跳过 | 同步进行中，跳过本次运行 |\n')
-                  else:
-                      with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-                          f.write('skip=false\n')
-                      with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                          f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 检查状态 | 🟢 继续 | 开始执行同步 |\n')
-          except urllib.error.HTTPError as e:
-              if e.code == 404:
-                  # 变量不存在，首次运行
-                  with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-                      f.write('skip=false\n')
-                  with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                      f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 检查状态 | 🟢 首次 | 未发现同步状态变量，首次运行 |\n')
-              else:
-                  raise
-          "
-
-      - name: ⏸️ 跳过运行
-        if: steps.check_status.outputs.skip == 'true'
-        run: |
-          echo -e "\033[93m⏸️ 同步正在进行中，跳过本次运行\033[0m"
-          exit 0
-
-      - name: 📥 检出代码
-        if: steps.check_status.outputs.skip == 'false'
+      - name: 📦 检出下游仓库
         uses: actions/checkout@v4
         with:
           token: ${{ secrets. }}
+          repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           fetch-depth: 0
 
+      - name: 🔍 检查上游更新
+        id: check_upstream
+        run: |
+          echo "检查上游仓库是否有更新..."
+          
+          # 获取上游最新 Release
+          UPSTREAM_RELEASE=$(gh api repos/${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}/releases/latest)
+          UPSTREAM_TAG=$(echo "$UPSTREAM_RELEASE" | jq -r '.tag_name')
+          UPSTREAM_ID=$(echo "$UPSTREAM_RELEASE" | jq -r '.id')
+          
+          echo "上游最新 Release: $UPSTREAM_TAG (ID: $UPSTREAM_ID)"
+          
+          # 获取 Variables 中存储的上次同步 ID
+          LAST_SYNC_ID="${{ vars.LAST_SYNC_RELEASE_ID || '0' }}"
+          
+          echo "上次同步 ID: $LAST_SYNC_ID"
+          
+          # 判断是否强制同步
+          FORCE_SYNC="${{ github.event.inputs.force_sync || 'false' }}"
+          
+          if [ "$FORCE_SYNC" = "true" ] || [ "$UPSTREAM_ID" != "$LAST_SYNC_ID" ]; then
+            echo "检测到新版本或强制同步，需要更新"
+            echo "should_sync=true" >> $GITHUB_OUTPUT
+            echo "release_id=$UPSTREAM_ID" >> $GITHUB_OUTPUT
+            echo "release_tag=$UPSTREAM_TAG" >> $GITHUB_OUTPUT
+          else
+            echo "无新版本，无需同步"
+            echo "should_sync=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🔄 同步上游 Fork
+        if: steps.check_upstream.outputs.should_sync == 'true'
+        run: |
+          echo "开始同步上游仓库..."
+          
+          # 使用 GitHub API 同步 fork
+          gh repo sync ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }} \
+            --source ${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }} \
+            --branch main \
+            --force
+            
+          echo "✅ 上游仓库同步完成"
+
       - name: 🐍 设置 Python
-        if: steps.check_status.outputs.skip == 'false'
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: 🔄 设置同步状态为进行中
-        if: steps.check_status.outputs.skip == 'false'
-        run: |
-          python -c "
-          import os, urllib.request, json
-          
-          token = os.environ['']
-          org_owner = os.environ['ORG_OWNER']
-          org_repo = os.environ['ORG_REPO']
-          sync_status_var = os.environ['SYNC_STATUS_VAR']
-          
-          headers = {
-              'Accept': 'application/vnd.github+json',
-              'Authorization': f'Bearer {token}'
-          }
-          
-          # 设置同步状态为 true
-          update_data = {
-              'name': sync_status_var,
-              'value': 'true'
-          }
-          
-          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{sync_status_var}'
-          try:
-              req = urllib.request.Request(var_url, headers=headers)
-              urllib.request.urlopen(req)
-              # 存在则更新
-              req = urllib.request.Request(
-                  var_url,
-                  data=json.dumps(update_data).encode(),
-                  headers={**headers, 'Content-Type': 'application/json'},
-                  method='PATCH'
-              )
-              urllib.request.urlopen(req)
-          except urllib.error.HTTPError as e:
-              if e.code == 404:
-                  # 不存在则创建
-                  create_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables'
-                  req = urllib.request.Request(
-                      create_url,
-                      data=json.dumps(update_data).encode(),
-                      headers={**headers, 'Content-Type': 'application/json'},
-                      method='POST'
-                  )
-                  urllib.request.urlopen(req)
-          
-          print('\033[92m✅ 同步状态已设置为进行中\033[0m')
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 设置状态 | 🟢 成功 | 同步状态设为进行中 |\n')
-          "
-
-      - name: 🔄 同步 Fork
-        if: steps.check_status.outputs.skip == 'false'
-        run: |
-          echo -e "\033[94m🔄 同步上游 Fork...\033[0m"
-          curl -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets. }}" \
-            https://api.github.com/repos/${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}/merge-upstream \
-            -d '{"branch":"main"}'
-          echo -e "\033[92m✅ Fork 同步完成\033[0m"
-          echo "| $(date +%Y-%m-%d_%H:%M:%S) | 同步 Fork | 🟢 成功 | 上游 Fork 已同步 |" >> $GITHUB_STEP_SUMMARY
-
-      - name: 🔍 检查 Release 更新并生成文件列表（基于单个文件指纹）
-        if: steps.check_status.outputs.skip == 'false'
-        id: check
-        run: |
-          python -c "
-          import os, urllib.request, json, hashlib, base64
-          
-          token = os.environ['']
-          upstream_owner = os.environ['UPSTREAM_OWNER']
-          upstream_repo = os.environ['UPSTREAM_REPO']
-          org_owner = os.environ['ORG_OWNER']
-          org_repo = os.environ['ORG_REPO']
-          fingerprints_var = os.environ['FINGERPRINTS_VAR']
-          
-          headers = {
-              'Accept': 'application/vnd.github+json',
-              'Authorization': f'Bearer {token}'
-          }
-          
-          # 1. 获取上游 Release
-          print('\033[94m🔍 获取上游 Release...\033[0m')
-          upstream_url = f'https://api.github.com/repos/{upstream_owner}/{upstream_repo}/releases/latest'
-          req = urllib.request.Request(upstream_url, headers=headers)
-          with urllib.request.urlopen(req) as r:
-              upstream = json.loads(r.read().decode())
-          
-          # 修正文件名：base_01.json.zip -> base_01_json.zip
-          for asset in upstream.get('assets', []):
-              if asset['name'] == 'base_01.json.zip':
-                  asset['name'] = 'base_01_json.zip'
-                  print('\033[93m📝 修正文件名: base_01.json.zip -> base_01_json.zip\033[0m')
-          
-          # 2. 获取存储的指纹（每个文件的指纹字典）
-          print('\033[94m🔍 获取存储的指纹...\033[0m')
-          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{fingerprints_var}'
-          try:
-              req = urllib.request.Request(var_url, headers=headers)
-              with urllib.request.urlopen(req) as r:
-                  var_data = json.loads(r.read().decode())
-                  stored_fingerprints_str = var_data.get('value', '{}')
-                  # 确保 stored_fingerprints_str 是有效的 JSON 字符串
-                  if not stored_fingerprints_str:
-                      stored_fingerprints_str = '{}'
-                  stored_fingerprints = json.loads(stored_fingerprints_str)
-                  print(f'\033[92m存储的指纹: {len(stored_fingerprints)} 个文件\033[0m')
-          except urllib.error.HTTPError as e:
-              if e.code == 404:
-                  stored_fingerprints = {}
-                  print('\033[93mℹ️ 未找到存储的指纹，首次运行\033[0m')
-              else:
-                  raise
-          except json.JSONDecodeError:
-              stored_fingerprints = {}
-              print('\033[93m⚠️ 存储的指纹格式无效，重置为空\033[0m')
-          
-          # 3. 比较每个文件的指纹，生成需要更新的文件列表
-          files_to_upload = []
-          upstream_fingerprints = {}
-          current_release_files = set()
-          
-          for asset in upstream.get('assets', []):
-              asset_name = asset['name']
-              asset_url = asset['browser_download_url']
-              asset_size = asset['size']
-              asset_digest = asset.get('digest', '')  # SHA256 指纹
-              
-              current_release_files.add(asset_name)
-              upstream_fingerprints[asset_name] = asset_digest
-              
-              # 如果这个文件没有指纹，或者指纹与存储的不同，则需要更新
-              if asset_name not in stored_fingerprints or stored_fingerprints[asset_name] != asset_digest:
-                  files_to_upload.append({
-                      'name': asset_name,
-                      'url': asset_url,
-                      'size': asset_size,
-                      'digest': asset_digest
-                  })
-                  print(f'\033[93m📦 {asset_name}: 需要更新 (指纹变化)\033[0m')
-              else:
-                  print(f'\033[92m📦 {asset_name}: 无需更新\033[0m')
-          
-          if files_to_upload:
-              print(f'\033[92m🆕 检测到 {len(files_to_upload)} 个文件需要更新\033[0m')
-              
-              # 使用 Base64 编码文件列表
-              files_json = json.dumps(files_to_upload)
-              files_b64 = base64.b64encode(files_json.encode()).decode()
-              
-              # 将上游指纹字典存储为 JSON 字符串，用于后续更新
-              upstream_fingerprints_json = json.dumps(upstream_fingerprints)
-              
-              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-                  f.write('changed=true\n')
-                  f.write(f'files={files_b64}\n')
-                  f.write(f'new_fingerprints={upstream_fingerprints_json}\n')
-                  f.write(f'current_files={json.dumps(list(current_release_files))}\n')
-              
-              # 更新报告
-              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                  f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 检查更新 | 🟢 有更新 | 发现 {len(files_to_upload)} 个文件需要更新 |\n')
-          else:
-              print('\033[93mℹ️ 没有文件需要更新\033[0m')
-              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-                  f.write('changed=false\n')
-              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                  f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 检查更新 | 🟡 无变化 | 所有文件均为最新 |\n')
-          "
-
       - name: 📦 安装依赖
-        if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
         run: |
-          pip install boto3
-          echo "| $(date +%Y-%m-%d_%H:%M:%S) | 安装依赖 | 🟢 成功 | boto3 已安装 |" >> $GITHUB_STEP_SUMMARY
+          pip install boto3 tencentcloud-sdk-python
 
-      - name: 🗑️ 清理过时文件（不在当前 Release 中的文件）
-        if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
+      - name: 🚀 运行同步脚本
+        id: sync_script
         run: |
-          python -c "
-          import os, urllib.request, json
-          import boto3
-          
-          # 读取当前 Release 中的文件列表
-          current_files_str = '${{ steps.check.outputs.current_files }}'
-          try:
-              current_files = json.loads(current_files_str) if current_files_str else []
-          except json.JSONDecodeError:
-              current_files = []
-          
-          # 初始化 S3 客户端
-          s3_1 = boto3.client(
-              's3',
-              endpoint_url=os.environ['S3_1_ENDPOINT'],
-              aws_access_key_id=os.environ['S3_1_ACCESS_KEY'],
-              aws_secret_access_key=os.environ['S3_1_SECRET_KEY'],
-              region_name=os.environ['S3_1_REGION']
-          )
-          
-          s3_2 = boto3.client(
-              's3',
-              endpoint_url=os.environ['S3_2_ENDPOINT'],
-              aws_access_key_id=os.environ['S3_2_ACCESS_KEY'],
-              aws_secret_access_key=os.environ['S3_2_SECRET_KEY'],
-              region_name=os.environ['S3_2_REGION']
-          )
-          
-          bucket1_name = os.environ['S3_1_BUCKET']
-          bucket2_name = os.environ['S3_2_BUCKET']
-          
-          deleted_count = 0
-          
-          # 检查存储桶1中的过时文件
-          print('\033[94m🗑️ 检查存储桶1中的过时文件...\033[0m')
-          try:
-              response = s3_1.list_objects_v2(Bucket=bucket1_name)
-              if 'Contents' in response:
-                  for obj in response['Contents']:
-                      file_name = obj['Key']
-                      if file_name not in current_files:
-                          print(f'\033[93m🗑️ 删除过时文件: {file_name}\033[0m')
-                          s3_1.delete_object(Bucket=bucket1_name, Key=file_name)
-                          deleted_count += 1
-          except Exception as e:
-              print(f'\033[91m❌ 检查存储桶1失败: {e}\033[0m')
-          
-          # 检查存储桶2中的过时文件
-          print('\033[94m🗑️ 检查存储桶2中的过时文件...\033[0m')
-          try:
-              response = s3_2.list_objects_v2(Bucket=bucket2_name)
-              if 'Contents' in response:
-                  for obj in response['Contents']:
-                      file_name = obj['Key']
-                      if file_name not in current_files:
-                          print(f'\033[93m🗑️ 删除过时文件: {file_name}\033[0m')
-                          s3_2.delete_object(Bucket=bucket2_name, Key=file_name)
-                          deleted_count += 1
-          except Exception as e:
-              print(f'\033[91m❌ 检查存储桶2失败: {e}\033[0m')
-          
-          print(f'\033[92m✅ 共删除 {deleted_count} 个过时文件\033[0m')
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 清理过时 | 🟢 成功 | 删除 {deleted_count} 个过时文件 |\n')
-          "
-        env:
-          # S3/object-storage 配置
-          S3_1_ENDPOINT: ${{ secrets.S3_1_ENDPOINT }}
-          S3_1_ACCESS_KEY: ${{ secrets.S3_1_ACCESS_KEY }}
-          S3_1_SECRET_KEY: ${{ secrets.S3_1_SECRET_KEY }}
-          S3_1_REGION: ${{ secrets.S3_1_REGION }}
-          S3_1_BUCKET: ${{ secrets.S3_1_BUCKET }}
-          
-          S3_2_ENDPOINT: ${{ secrets.S3_2_ENDPOINT }}
-          S3_2_ACCESS_KEY: ${{ secrets.S3_2_ACCESS_KEY }}
-          S3_2_SECRET_KEY: ${{ secrets.S3_2_SECRET_KEY }}
-          S3_2_REGION: ${{ secrets.S3_2_REGION }}
-          S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
+          python3 << 'EOF'
+          import os
+          import sys
+          import json
+          import time
+          import urllib.request
+          import urllib.error
+          from datetime import datetime
+          from io import BytesIO
 
-      - name: 🚀 流式上传到 object-storage（修复 threading 错误 + 单次 PUT）
-        if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
-        id: upload
-        run: |
-          python -c "
-          import os, json, sys, urllib.request, base64
-          import boto3
-          import io
-          import threading
-          
-          # 强制禁用输出缓冲
+          # 强制无缓冲输出
           sys.stdout.reconfigure(line_buffering=True)
           sys.stderr.reconfigure(line_buffering=True)
-          
-          # 读取 Base64 编码的文件列表
-          files_b64 = '''${{ steps.check.outputs.files }}'''
-          if not files_b64:
-              print('\033[93mℹ️ 没有文件需要上传\033[0m')
-              sys.exit(0)
-          
-          # Base64 解码
-          try:
-              files_json = base64.b64decode(files_b64).decode()
-              files_to_upload = json.loads(files_json)
-          except Exception as e:
-              print(f'\033[91m❌ 解码文件列表失败: {e}\033[0m')
-              sys.exit(1)
-          
-          print(f'\033[94m🚀 开始流式上传 {len(files_to_upload)} 个文件到 object-storage（单次 PUT）...\033[0m')
-          
-          # 初始化 S3 客户端（使用 client，不使用 resource）
-          s3_1 = boto3.client(
-              's3',
-              endpoint_url=os.environ['S3_1_ENDPOINT'],
-              aws_access_key_id=os.environ['S3_1_ACCESS_KEY'],
-              aws_secret_access_key=os.environ['S3_1_SECRET_KEY'],
-              region_name=os.environ['S3_1_REGION']
-          )
-          
-          s3_2 = boto3.client(
-              's3',
-              endpoint_url=os.environ['S3_2_ENDPOINT'],
-              aws_access_key_id=os.environ['S3_2_ACCESS_KEY'],
-              aws_secret_access_key=os.environ['S3_2_SECRET_KEY'],
-              region_name=os.environ['S3_2_REGION']
-          )
-          
-          # edge 客户端（简化版）
+
+          # 修正：正确的 boto3 导入
+          import boto3
+          from botocore.exceptions import ClientError
+          from tencentcloud.common import credential
+          from tencentcloud.common.profile.client_profile import ClientProfile
+          from tencentcloud.common.profile.http_profile import HttpProfile
+          from tencentcloud.teo.v20220901 import teo_client, models
+
+          # ==========================================
+          # 1. GitHub Actions 分组日志工具
+          # ==========================================
+          class ActionGroup:
+              @staticmethod
+              def start_group(title):
+                  print(f"::group::{title}")
+              @staticmethod
+              def end_group():
+                  print("::endgroup::")
+
+          # ==========================================
+          # 2. 日志与输出设置
+          # ==========================================
+          LOG_COLORS = {
+              'INFO': '\033[92m', 'WARN': '\033[93m', 'ERROR': '\033[91m', 'RESET': '\033[0m'
+          }
+
+          class ActionLogger:
+              def __init__(self):
+                  self.step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
+                  self.file_statuses = {}
+                  self.obsolete_files = []
+                  self.ignored_files = []
+                  self.token_info = {}
+                  self.start_time = datetime.now()
+                  
+              def init_summary(self):
+                  if self.step_summary_path:
+                      with open(self.step_summary_path, 'w', encoding='utf-8') as f:
+                          f.write("## 🚀 Action 运行报告\n\n")
+                          f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
+                          f.write("### 📋 文件处理状态\n\n| 文件名 | 状态 | 详细信息 |\n|--------|------|----------|\n")
+              
+              def update_file_status(self, filename, status, details=""):
+                  self.file_statuses[filename] = {'status': status, 'details': details}
+                  if self.step_summary_path:
+                      with open(self.step_summary_path, 'w', encoding='utf-8') as f:
+                          f.write("## 🚀 Action 运行报告\n\n")
+                          f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
+                          f.write("### 📋 文件处理状态\n\n| 文件名 | 状态 | 详细信息 |\n|--------|------|----------|\n")
+                          icons = {'无需操作':'⚪','排队中':'🟡','下载中':'🔵','上传中':'🟣','已上传':'🟢','已完成':'✅','已忽略':'⚫','失败':'❌'}
+                          for fname, info in self.file_statuses.items():
+                              icon = icons.get(info['status'], '⚪')
+                              f.write(f"| {fname} | {icon} {info['status']} | {info['details']} |\n")
+                          f.write("\n")
+              
+              def add_obsolete_files_section(self):
+                  if self.step_summary_path and self.obsolete_files:
+                      with open(self.step_summary_path, 'a', encoding='utf-8') as f:
+                          f.write("### 🗑️ 过时文件清理报告\n\n| 存储桶 | 文件名 | 状态 | 详细信息 |\n|--------|--------|------|----------|\n")
+                          for item in self.obsolete_files:
+                              icon = '✅' if item['status'] in ['已删除', '已纠正位置'] else '❌'
+                              f.write(f"| {item['bucket']} | {item['filename']} | {icon} {item['status']} | {item['details']} |\n")
+                          f.write("\n")
+              
+              def add_token_info_section(self):
+                  if self.step_summary_path and self.token_info:
+                      with open(self.step_summary_path, 'a', encoding='utf-8') as f:
+                          f.write("### 🔑 GitHub API Token 调用信息\n\n| 项目 | 值 |\n|------|----|\n")
+                          for key, value in self.token_info.items():
+                              f.write(f"| {key} | {value} |\n")
+                          f.write("\n")
+              
+              def log(self, message, level="INFO", filename=None, status=None, details=""):
+                  timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                  color = LOG_COLORS.get(level, '')
+                  print(f"{color}[{timestamp}] [{level}] {message}{LOG_COLORS['RESET']}")
+                  if filename and status:
+                      self.update_file_status(filename, status, details)
+              
+              def finalize_summary(self, processed_files):
+                  if self.step_summary_path:
+                      with open(self.step_summary_path, 'a', encoding='utf-8') as f:
+                          f.write(f"\n⏱️ **结束时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n")
+                          f.write(f"⏱️ **总耗时**: `{(datetime.now() - self.start_time).total_seconds():.2f}` 秒\n\n")
+                          self.add_token_info_section()
+                          success = sum(1 for f in processed_files if f['success'])
+                          fail = len(processed_files) - success
+                          if fail == 0:
+                              f.write("🟢 **状态**: 所有文件处理成功！\n")
+                          else:
+                              f.write(f"🟡 **状态**: 处理完成，{success} 个成功，{fail} 个失败。\n")
+
+          logger = ActionLogger()
+          logger.init_summary()
+
+          # ==========================================
+          # 3. GitHub API 客户端
+          # ==========================================
+          class GitHubAPIClient:
+              def __init__(self, token=None):
+                  self.token = token
+                  self.headers = {'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'}
+                  if token:
+                      self.headers['Authorization'] = f'Bearer {token}'
+                      logger.log("使用 Fine-grained Personal Access Token", "INFO")
+                      logger.token_info['Token 类型'] = 'Fine-grained'
+                      masked = token[:4] + '*' * (len(token)-8) + token[-4:] if len(token) > 8 else '*'*len(token)
+                      logger.token_info['Token 预览'] = masked
+                  else:
+                      logger.log("未提供 Token，匿名访问（可能受限）", "WARN")
+                      logger.token_info['Token 类型'] = '匿名'
+
+              def get_latest_release(self, owner, repo):
+                  url = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
+                  logger.log(f"调用 API: GET {url}", "INFO")
+                  req = urllib.request.Request(url, headers=self.headers)
+                  try:
+                      with urllib.request.urlopen(req) as res:
+                          logger.token_info['速率限制'] = res.headers.get('X-RateLimit-Limit', 'N/A')
+                          logger.token_info['剩余次数'] = res.headers.get('X-RateLimit-Remaining', 'N/A')
+                          return json.loads(res.read().decode())
+                  except urllib.error.HTTPError as e:
+                      if e.code == 404:
+                          logger.log(f"API 返回 404，仓库 {owner}/{repo} 可能没有 Release", "WARN")
+                          return None
+                      logger.log(f"API 调用失败: {e}", "ERROR")
+                      raise
+                  except Exception as e:
+                      logger.log(f"API 调用失败: {e}", "ERROR")
+                      raise
+
+          # ==========================================
+          # 4. S3 操作类（流式上传）
+          # ==========================================
+          class S3Handler:
+              def __init__(self, endpoint, access_key, secret_key, region, bucket, domain, name="S3"):
+                  self.name = name
+                  self.bucket = bucket
+                  self.domain = domain
+                  if endpoint.endswith('/'): endpoint = endpoint[:-1]
+                  self.s3_client = boto3.client('s3', endpoint_url=endpoint, aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
+
+              def list_files(self):
+                  try:
+                      paginator = self.s3_client.get_paginator('list_objects_v2')
+                      files = [obj['Key'] for page in paginator.paginate(Bucket=self.bucket) if 'Contents' in page for obj in page['Contents']]
+                      logger.log(f"[{self.name}] 列出 {len(files)} 个文件", "INFO")
+                      return files
+                  except Exception as e:
+                      logger.log(f"[{self.name}] 列出文件失败: {e}", "ERROR")
+                      return []
+
+              def delete_file(self, filename):
+                  try:
+                      self.s3_client.delete_object(Bucket=self.bucket, Key=filename)
+                      logger.log(f"[{self.name}] 删除 {filename} 成功", "INFO")
+                      return True
+                  except ClientError as e:
+                      if e.response['Error']['Code'] == '404':
+                          logger.log(f"[{self.name}] {filename} 不存在", "WARN")
+                          return True
+                      logger.log(f"[{self.name}] 删除 {filename} 失败: {e}", "ERROR")
+                      return False
+                  except Exception as e:
+                      logger.log(f"[{self.name}] 删除 {filename} 异常: {e}", "ERROR")
+                      return False
+
+              def upload_file_from_url(self, url, filename):
+                  try:
+                      logger.log(f"[{self.name}] 开始流式上传: {filename}", "INFO")
+                      req = urllib.request.Request(url)
+                      with urllib.request.urlopen(req) as response:
+                          file_data = response.read()
+                          file_size = len(file_data)
+                      self.s3_client.put_object(Bucket=self.bucket, Key=filename, Body=file_data, ContentLength=file_size)
+                      logger.log(f"[{self.name}] 流式上传 {filename} ({file_size/1024/1024:.2f} MB) 成功", "INFO")
+                      return True
+                  except Exception as e:
+                      logger.log(f"[{self.name}] 流式上传 {filename} 失败: {e}", "ERROR")
+                      return False
+
+          # ==========================================
+          # 5. edge 缓存刷新
+          # ==========================================
           class EdgeOneHandler:
               def __init__(self, secret_id, secret_key, zone_id):
-                  self.secret_id = secret_id
-                  self.secret_key = secret_key
                   self.zone_id = zone_id
-              
+                  cred = credential.Credential(secret_id, secret_key)
+                  http_profile = HttpProfile()
+                  http_profile.endpoint = "teo.tencentcloudapi.com"
+                  client_profile = ClientProfile()
+                  client_profile.httpProfile = http_profile
+                  self.client = teo_client.TeoClient(cred, "", client_profile)
+
+              def _mask_task_id(self, task_id):
+                  if not task_id or len(task_id) <= 8: return '*' * len(task_id) if task_id else '未知'
+                  return task_id[:4] + '*' * (len(task_id) - 8) + task_id[-4:]
+
               def purge_cache(self, domain, filename):
-                  # 简化的刷新逻辑，实际需要调用腾讯云 API
-                  print(f'\033[94m🔄 刷新 CDN 缓存: https://{domain}/{filename}\033[0m')
-                  return True
-          
-          edge = EdgeOneHandler(
-              os.environ['QCLOUD_SECRET_ID'],
-              os.environ['QCLOUD_SECRET_KEY'],
-              os.environ['EDGEONE_ZONE_ID']
-          )
-          
-          # 定义哪些文件应该在存储桶1
-          bucket1_targets = {
-              'cn_base_00_db.zip', 'base_01_json.zip', 'cn_base_02.zip',
-              'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip',
-              'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip',
-              'cn_magica_resource.zip'
-          }
-          
-          bucket1_name = os.environ['S3_1_BUCKET']
-          bucket2_name = os.environ['S3_2_BUCKET']
-          bucket1_domain = os.environ['S3_1_DOMAIN']
-          bucket2_domain = os.environ['S3_2_DOMAIN']
-          
-          # 获取两个存储桶的当前文件列表
-          bucket1_files = set()
-          bucket2_files = set()
-          
-          try:
-              response = s3_1.list_objects_v2(Bucket=bucket1_name)
-              if 'Contents' in response:
-                  bucket1_files = set(obj['Key'] for obj in response['Contents'])
-          except:
-              pass
-          
-          try:
-              response = s3_2.list_objects_v2(Bucket=bucket2_name)
-              if 'Contents' in response:
-                  bucket2_files = set(obj['Key'] for obj in response['Contents'])
-          except:
-              pass
-          
-          # 流式上传每个文件（使用单次 PUT，避免分片上传权限问题）
-          uploaded_count = 0
-          corrected_count = 0
-          failed_files = []
-          
-          for i, file_info in enumerate(files_to_upload, 1):
-              asset_name = file_info['name']
-              asset_url = file_info['url']
-              asset_size = file_info['size']
-              
-              # 确定正确的存储桶
-              correct_bucket = s3_1 if asset_name in bucket1_targets else s3_2
-              correct_bucket_name = bucket1_name if correct_bucket == s3_1 else bucket2_name
-              correct_domain = bucket1_domain if correct_bucket == s3_1 else bucket2_domain
-              
-              # 开始分组
-              print(f'::group::[{i}/{len(files_to_upload)}] 📤 上传: {asset_name} ({asset_size/1024/1024:.1f}MB)')
-              print(f'\033[94m目标存储桶: {correct_bucket_name}\033[0m')
-              
-              # 检查文件是否在错误的存储桶中
-              if asset_name in bucket1_files and correct_bucket == s3_2:
-                  print(f'\033[93m⚠️ 文件在错误的存储桶1中，正在纠正...\033[0m')
                   try:
-                      s3_1.delete_object(Bucket=bucket1_name, Key=asset_name)
-                      print(f'\033[92m✅ 已从存储桶1删除\033[0m')
-                      corrected_count += 1
+                      req = models.CreatePurgeTaskRequest()
+                      target_url = f"http://{domain}/{filename}"
+                      req.from_json_string(json.dumps({"ZoneId": self.zone_id, "Type": "purge_url", "Targets": [target_url]}))
+                      resp = self.client.CreatePurgeTask(req)
+                      masked_id = self._mask_task_id(resp.RequestId)
+                      logger.log(f"[edge] 提交刷新任务成功: {target_url} (ID: {masked_id})", "INFO")
+                      return True, masked_id
                   except Exception as e:
-                      print(f'\033[91m❌ 删除错误位置文件失败: {e}\033[0m')
-              
-              elif asset_name in bucket2_files and correct_bucket == s3_1:
-                  print(f'\033[93m⚠️ 文件在错误的存储桶2中，正在纠正...\033[0m')
-                  try:
-                      s3_2.delete_object(Bucket=bucket2_name, Key=asset_name)
-                      print(f'\033[92m✅ 已从存储桶2删除\033[0m')
-                      corrected_count += 1
-                  except Exception as e:
-                      print(f'\033[91m❌ 删除错误位置文件失败: {e}\033[0m')
-              
-              # 真正的流式上传：从 GitHub 直接流式传输到 object-storage（单次 PUT）
+                      logger.log(f"[edge] 刷新缓存失败: {e}", "ERROR")
+                      return False, str(e)
+
+          # ==========================================
+          # 6. 主逻辑
+          # ==========================================
+          def main():
               try:
-                  print(f'\033[94m⬇️⬆️ 开始流式传输...\033[0m')
+                  # 配置
+                  s3_1 = S3Handler(os.environ['S3_1_ENDPOINT'], os.environ['S3_1_ACCESS_KEY'], os.environ['S3_1_SECRET_KEY'], os.environ['S3_1_REGION'], os.environ['S3_1_BUCKET'], os.environ['S3_1_DOMAIN'], "存储桶1")
+                  s3_2 = S3Handler(os.environ['S3_2_ENDPOINT'], os.environ['S3_2_ACCESS_KEY'], os.environ['S3_2_SECRET_KEY'], os.environ['S3_2_REGION'], os.environ['S3_2_BUCKET'], os.environ['S3_2_DOMAIN'], "存储桶2")
+                  edge = EdgeOneHandler(os.environ['QCLOUD_SECRET_ID'], os.environ['QCLOUD_SECRET_KEY'], os.environ['EDGEONE_ZONE_ID'])
                   
-                  # 创建自定义的流式传输对象
-                  class StreamToS3:
-                      def __init__(self, url, total_size):
-                          self.url = url
-                          self.total_size = total_size
-                          self.downloaded = 0
-                          self.response = None
-                          self.lock = threading.Lock()
+                  gh_client = GitHubAPIClient(os.environ.get('', ''))
+                  
+                  # 关键修正：始终使用上游仓库获取 Release
+                  owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
+                  repo = os.environ.get('UPSTREAM_REPO', 'patch-front')
+                  
+                  # 获取当前 Release 及 SHA256
+                  release = gh_client.get_latest_release(owner, repo)
+                  if not release:
+                      logger.log("上游仓库没有 Release，无需处理", "INFO")
+                      logger.finalize_summary([])
+                      return
+                  
+                  current_map = {}
+                  for asset in release.get('assets', []):
+                      if not asset['name'].startswith('source code'):
+                          current_map[asset['name']] = asset.get('digest', '')
+                  
+                  logger.log(f"当前 Release 包含 {len(current_map)} 个文件。", "INFO")
+                  
+                  # 从 GitHub Variables 获取上次指纹
+                  import subprocess
+                  result = subprocess.run(['gh', 'variable', 'get', 'LAST_SYNC_FINGERPRINTS'], capture_output=True, text=True)
+                  old_map = {}
+                  if result.returncode == 0 and result.stdout.strip():
+                      try:
+                          old_map = json.loads(result.stdout.strip())
+                      except:
+                          old_map = {}
+                  
+                  # 过滤列表
+                  IGNORE_FILES = {'history-data-splited.tar.xz'}
+                  
+                  # SHA256 比对
+                  to_process = []
+                  unchanged = []
+                  deleted = []
+                  
+                  for fname, sha in current_map.items():
+                      if fname in IGNORE_FILES:
+                          logger.update_file_status(fname, "已忽略", "过滤列表")
+                      elif fname not in old_map:
+                          logger.update_file_status(fname, "排队中", "新文件")
+                          to_process.append(fname)
+                      elif sha and old_map[fname] != sha:
+                          logger.update_file_status(fname, "排队中", "文件已更新")
+                          to_process.append(fname)
+                      elif not sha:
+                          logger.update_file_status(fname, "排队中", "无SHA，按新文件处理")
+                          to_process.append(fname)
+                      else:
+                          logger.update_file_status(fname, "无需操作", "文件未变更")
+                          unchanged.append(fname)
+                  
+                  # 检查被删除的文件
+                  for fname in old_map:
+                      if fname not in current_map and fname not in IGNORE_FILES:
+                          deleted.append(fname)
+                  
+                  # 清理过时文件 & 纠正位置
+                  ActionGroup.start_group("🗑️ 清理过时文件 & 纠正位置")
+                  
+                  bucket1_files = s3_1.list_files()
+                  bucket2_files = s3_2.list_files()
+                  
+                  bucket1_targets = {
+                      'cn_base_00_db.zip', 'cn_base_01.json.zip', 'cn_base_02.zip', 
+                      'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip', 
+                      'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip', 
+                      'cn_magica_resource.zip'
+                  }
+                  
+                  # 处理存储桶1
+                  for fname in bucket1_files:
+                      if fname in deleted or fname not in current_map:
+                          if s3_1.delete_file(fname):
+                              logger.update_file_status(fname, "已完成", "已删除过时文件")
+                              logger.obsolete_files.append({'bucket':'存储桶1','filename':fname,'status':'已删除','details':'清理过时'})
+                      elif fname not in bucket1_targets:
+                          logger.log(f"文件 {fname} 在存储桶1中但应属于存储桶2，准备纠正", "WARN")
+                          logger.update_file_status(fname, "排队中", "纠正位置（移至存储桶2）")
+                          try:
+                              url = next(a['browser_download_url'] for a in release['assets'] if a['name'] == fname)
+                              if s3_2.upload_file_from_url(url, fname):
+                                  if s3_1.delete_file(fname):
+                                      logger.update_file_status(fname, "已完成", "已纠正位置（移至存储桶2）")
+                                      logger.obsolete_files.append({'bucket':'存储桶1→存储桶2','filename':fname,'status':'已纠正位置','details':'移至正确桶'})
+                                      if fname in to_process:
+                                          to_process.remove(fname)
+                                  else:
+                                      logger.update_file_status(fname, "失败", "从原桶删除失败")
+                              else:
+                                  logger.update_file_status(fname, "失败", "上传到目标桶失败")
+                          except Exception as e:
+                              logger.update_file_status(fname, "失败", f"纠正失败: {e}")
+                  
+                  # 处理存储桶2
+                  for fname in bucket2_files:
+                      if fname in deleted or fname not in current_map:
+                          if s3_2.delete_file(fname):
+                              logger.update_file_status(fname, "已完成", "已删除过时文件")
+                              logger.obsolete_files.append({'bucket':'存储桶2','filename':fname,'status':'已删除','details':'清理过时'})
+                      elif fname in bucket1_targets:
+                          logger.log(f"文件 {fname} 在存储桶2中但应属于存储桶1，准备纠正", "WARN")
+                          logger.update_file_status(fname, "排队中", "纠正位置（移至存储桶1）")
+                          try:
+                              url = next(a['browser_download_url'] for a in release['assets'] if a['name'] == fname)
+                              if s3_1.upload_file_from_url(url, fname):
+                                  if s3_2.delete_file(fname):
+                                      logger.update_file_status(fname, "已完成", "已纠正位置（移至存储桶1）")
+                                      logger.obsolete_files.append({'bucket':'存储桶2→存储桶1','filename':fname,'status':'已纠正位置','details':'移至正确桶'})
+                                      if fname in to_process:
+                                          to_process.remove(fname)
+                                  else:
+                                      logger.update_file_status(fname, "失败", "从原桶删除失败")
+                              else:
+                                  logger.update_file_status(fname, "失败", "上传到目标桶失败")
+                          except Exception as e:
+                              logger.update_file_status(fname, "失败", f"纠正失败: {e}")
+                  
+                  logger.add_obsolete_files_section()
+                  ActionGroup.end_group()
+                  
+                  if not to_process:
+                      logger.log("✅ 无新增或更新文件，任务结束。", "INFO")
+                      logger.finalize_summary([])
+                      return
+                  
+                  # 处理剩余文件
+                  processed = []
+                  for i, fname in enumerate(to_process, 1):
+                      ActionGroup.start_group(f"📦 文件 {i}/{len(to_process)}: {fname}")
+                      target_s3 = s3_1 if fname in bucket1_targets else s3_2
+                      logger.log(f"分类到 {target_s3.name}", "INFO")
                       
-                      def read(self, size=-1):
-                          # 这个方法会被 boto3 调用以获取数据
-                          if self.response is None:
-                              req = urllib.request.Request(self.url)
-                              self.response = urllib.request.urlopen(req)
-                          
-                          chunk = self.response.read(size if size != -1 else 8192)
-                          with self.lock:
-                              self.downloaded += len(chunk)
-                              if self.total_size > 0:
-                                  percent = (self.downloaded / self.total_size) * 100
-                                  print(f'\r\033[K\033[93m⬇️⬆️ 传输中: {percent:.1f}% ({self.downloaded/1024/1024:.1f}/{self.total_size/1024/1024:.1f}MB)\033[0m', end='', flush=True)
-                          return chunk
+                      url = next(a['browser_download_url'] for a in release['assets'] if a['name'] == fname)
+                      logger.update_file_status(fname, "上传中", f"流式传输至 {target_s3.name}")
                       
-                      def __iter__(self):
-                          return self
+                      if target_s3.upload_file_from_url(url, fname):
+                          logger.update_file_status(fname, "已上传", f"已上传到 {target_s3.name}")
+                          success, tid = edge.purge_cache(target_s3.domain, fname)
+                          if success:
+                              logger.update_file_status(fname, "已完成", f"CDN 已刷新 (ID: {tid})")
+                              processed.append({'filename': fname, 'success': True})
+                          else:
+                              logger.update_file_status(fname, "失败", f"CDN 刷新失败: {tid}")
+                              processed.append({'filename': fname, 'success': False})
+                      else:
+                          logger.update_file_status(fname, "失败", "S3 上传失败")
+                          processed.append({'filename': fname, 'success': False})
                       
-                      def __next__(self):
-                          chunk = self.read(8192)
-                          if not chunk:
-                              raise StopIteration
-                          return chunk
+                      ActionGroup.end_group()
                   
-                  stream_obj = StreamToS3(asset_url, asset_size)
+                  # 保存指纹到 GitHub Variables
+                  ActionGroup.start_group("💾 保存同步状态")
+                  final_map = old_map.copy()
+                  for fname in unchanged:
+                      final_map[fname] = old_map[fname]
+                  for fname in to_process:
+                      final_map[fname] = current_map[fname]
+                  for fname in deleted:
+                      final_map.pop(fname, None)
                   
-                  # 使用单次 PUT 上传（避免分片上传权限问题）
-                  correct_bucket.put_object(
-                      Bucket=correct_bucket_name,
-                      Key=asset_name,
-                      Body=stream_obj,
-                      ContentLength=asset_size
-                  )
+                  subprocess.run(['gh', 'variable', 'set', 'LAST_SYNC_FINGERPRINTS', '--body', json.dumps(final_map)], check=True)
+                  logger.log("✅ 文件指纹已保存到 GitHub Variables", "INFO")
+                  ActionGroup.end_group()
                   
-                  print(f'\r\033[K\033[92m✅ 流式传输完成: {asset_size/1024/1024:.1f}MB\033[0m')
-                  
-                  # 刷新 CDN 缓存
-                  edge.purge_cache(correct_domain, asset_name)
-                  
-                  print(f'\033[92m✅ 完成: {asset_name}\033[0m')
-                  uploaded_count += 1
+                  logger.finalize_summary(processed)
                   
               except Exception as e:
-                  print(f'\033[91m❌ 上传 {asset_name} 失败: {e}\033[0m')
-                  failed_files.append(asset_name)
-                  raise
-              finally:
-                  print('::endgroup::')
-          
-          print(f'\n\033[92m🎉 所有 {uploaded_count} 个文件已流式上传到 object-storage！纠正了 {corrected_count} 个文件位置。\033[0m')
-          
-          # 更新报告
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              if failed_files:
-                  f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 上传 object-storage | 🔴 失败 | {uploaded_count} 成功, {len(failed_files)} 失败 |\n')
-              else:
-                  f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 上传 object-storage | 🟢 成功 | {uploaded_count} 个文件流式上传完成，纠正 {corrected_count} 个文件位置 |\n')
-          "
-        env:
-          # S3/object-storage 配置
-          S3_1_ENDPOINT: ${{ secrets.S3_1_ENDPOINT }}
-          S3_1_ACCESS_KEY: ${{ secrets.S3_1_ACCESS_KEY }}
-          S3_1_SECRET_KEY: ${{ secrets.S3_1_SECRET_KEY }}
-          S3_1_REGION: ${{ secrets.S3_1_REGION }}
-          S3_1_BUCKET: ${{ secrets.S3_1_BUCKET }}
-          S3_1_DOMAIN: ${{ secrets.S3_1_DOMAIN }}
-          
-          S3_2_ENDPOINT: ${{ secrets.S3_2_ENDPOINT }}
-          S3_2_ACCESS_KEY: ${{ secrets.S3_2_ACCESS_KEY }}
-          S3_2_SECRET_KEY: ${{ secrets.S3_2_SECRET_KEY }}
-          S3_2_REGION: ${{ secrets.S3_2_REGION }}
-          S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
-          S3_2_DOMAIN: ${{ secrets.S3_2_DOMAIN }}
-          
-          # edge 配置
-          QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
-          QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
-          EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
+                  logger.log(f"❌ 脚本执行失败: {e}", "ERROR")
+                  sys.exit(1)
 
-      - name: 💾 更新指纹（仅在上传成功后）
-        if: steps.check_status.outputs.skip == 'false' && steps.upload.outcome == 'success' && steps.check.outputs.changed == 'true'
+          if __name__ == "__main__":
+              main()
+          EOF
+
+      - name: 📝 更新 Release 信息
+        if: steps.check_upstream.outputs.should_sync == 'true'
         run: |
-          python -c "
-          import os, urllib.request, json
-          
-          token = os.environ['']
-          org_owner = os.environ['ORG_OWNER']
-          org_repo = os.environ['ORG_REPO']
-          fingerprints_var = os.environ['FINGERPRINTS_VAR']
-          new_fingerprints_json = '''${{ steps.check.outputs.new_fingerprints }}'''
-          
-          headers = {
-              'Accept': 'application/vnd.github+json',
-              'Authorization': f'Bearer {token}'
-          }
-          
-          # 更新存储的指纹
-          print('\033[94m💾 更新指纹...\033[0m')
-          update_data = {
-              'name': fingerprints_var,
-              'value': new_fingerprints_json
-          }
-          
-          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{fingerprints_var}'
-          try:
-              req = urllib.request.Request(var_url, headers=headers)
-              urllib.request.urlopen(req)
-              # 存在则更新
-              req = urllib.request.Request(
-                  var_url,
-                  data=json.dumps(update_data).encode(),
-                  headers={**headers, 'Content-Type': 'application/json'},
-                  method='PATCH'
-              )
-              urllib.request.urlopen(req)
-          except urllib.error.HTTPError as e:
-              if e.code == 404:
-                  # 不存在则创建
-                  create_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables'
-                  req = urllib.request.Request(
-                      create_url,
-                      data=json.dumps(update_data).encode(),
-                      headers={**headers, 'Content-Type': 'application/json'},
-                      method='POST'
-                  )
-                  urllib.request.urlopen(req)
-          
-          print('\033[92m✅ 指纹已更新\033[0m')
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 更新指纹 | 🟢 成功 | 指纹已保存到变量 |\n')
-          "
+          echo "更新 Variables 中的 Release ID..."
+          gh variable set LAST_SYNC_RELEASE_ID --body "${{ steps.check_upstream.outputs.release_id }}"
 
-      - name: 🔄 重置同步状态
-        if: always() && steps.check_status.outputs.skip == 'false'
-        run: |
-          python -c "
-          import os, urllib.request, json
-          
-          token = os.environ['']
-          org_owner = os.environ['ORG_OWNER']
-          org_repo = os.environ['ORG_REPO']
-          sync_status_var = os.environ['SYNC_STATUS_VAR']
-          
-          headers = {
-              'Accept': 'application/vnd.github+json',
-              'Authorization': f'Bearer {token}'
-          }
-          
-          # 重置同步状态为 false
-          update_data = {
-              'name': sync_status_var,
-              'value': 'false'
-          }
-          
-          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{sync_status_var}'
-          try:
-              req = urllib.request.Request(var_url, headers=headers)
-              urllib.request.urlopen(req)
-              # 存在则更新
-              req = urllib.request.Request(
-                  var_url,
-                  data=json.dumps(update_data).encode(),
-                  headers={**headers, 'Content-Type': 'application/json'},
-                  method='PATCH'
-              )
-              urllib.request.urlopen(req)
-          except urllib.error.HTTPError as e:
-              if e.code == 404:
-                  # 不存在则创建
-                  create_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables'
-                  req = urllib.request.Request(
-                      create_url,
-                      data=json.dumps(update_data).encode(),
-                      headers={**headers, 'Content-Type': 'application/json'},
-                      method='POST'
-                  )
-                  urllib.request.urlopen(req)
-          
-          print('\033[92m✅ 同步状态已重置为 false\033[0m')
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write(f'| $(date +%Y-%m-%d_%H:%M:%S) | 重置状态 | 🟢 完成 | 同步状态已重置 |\n')
-          "
-
-      - name: 📊 完成报告
+      - name: 📊 生成运行摘要
         if: always()
         run: |
+          echo "## 🎉 同步任务完成" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📈 运行统计" >> $GITHUB_STEP_SUMMARY
-          echo "- **完成时间**: $(date +%Y-%m-%d_%H:%M:%S)" >> $GITHUB_STEP_SUMMARY
-          echo "- **运行状态**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "**上游仓库**: ${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}" >> $GITHUB_STEP_SUMMARY
+          echo "**下游仓库**: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}" >> $GITHUB_STEP_SUMMARY
+          echo "**同步状态**: ${{ steps.check_upstream.outputs.should_sync == 'true' && '已同步新版本' || '无新版本' }}" >> $GITHUB_STEP_SUMMARY
