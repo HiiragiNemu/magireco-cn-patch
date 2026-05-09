@@ -3,7 +3,7 @@ name: "🔄 同步上游仓库"
 on:
   schedule:
     - cron: '*/10 * * * *'
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch:
     inputs:
       force_sync:
         description: '强制同步（即使没有检测到变化）'
@@ -11,177 +11,77 @@ on:
         default: 'false'
         type: boolean
 
-env:
-  UPSTREAM_OWNER: "HiiragiNemu"
-  UPSTREAM_REPO: "magireco-cn-patch"
-  ORG_OWNER: "MagirecoCN-Revival-Project"
-  ORG_REPO: "magireco-cn-patch"
-  GH_TOKEN: ${{ secrets.GH_PAT }} # 需要创建具有 repo 权限的 PAT
-
 jobs:
-  check-and-sync:
+  sync:
     runs-on: ubuntu-latest
-    outputs:
-      content_changed: ${{ steps.check_commits.outputs.changed }}
-      release_changed: ${{ steps.check_releases.outputs.changed }}
+    env:
+      PYTHONUNBUFFERED: 1  # 强制 Python 无缓冲输出
     
     steps:
-      - name: 📥 检出组织仓库
+      - name: 📥 检出代码
         uses: actions/checkout@v4
         with:
-          repository: ${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}
-          token: ${{ secrets.GH_PAT }}
           fetch-depth: 0
 
-      - name: 🔧 配置 Git 用户
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: 🐍 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-      - name: ➕ 添加上游远程仓库
+      - name: 🔍 检查上游 Release 变化
+        id: check
         run: |
-          git remote add upstream https://github.com/${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}.git
-          git fetch upstream
+          python -c "
+          import os, urllib.request, json, hashlib;
+          
+          token = os.environ['GH_TOKEN'];
+          headers = {'Accept': 'application/vnd.github+json', 'Authorization': f'Bearer {token}'};
+          
+          # 获取上游 Release
+          upstream_url = 'https://api.github.com/repos/HiiragiNemu/magireco-cn-patch/releases/latest';
+          req = urllib.request.Request(upstream_url, headers=headers);
+          with urllib.request.urlopen(req) as r:
+              upstream = json.loads(r.read().decode());
+          
+          # 计算指纹
+          fingerprints = [];
+          for asset in upstream.get('assets', []):
+              name = asset['name'];
+              digest = asset.get('digest', '');
+              fingerprints.append(f'{name}:{digest}');
+          fingerprints.sort();
+          upstream_fp = hashlib.md5('|'.join(fingerprints).encode()).hexdigest();
+          
+          # 获取组织 Release
+          org_url = 'https://api.github.com/repos/MagirecoCN-Revival-Project/magireco-cn-patch/releases/latest';
+          try:
+              req = urllib.request.Request(org_url, headers=headers);
+              with urllib.request.urlopen(req) as r:
+                  org = json.loads(r.read().decode());
+              org_fp = hashlib.md5('|'.join(sorted([f'{a[\"name\"]}:{a.get(\"digest\", \"\")}' for a in org['assets']])).encode()).hexdigest();
+          except:
+              org_fp = '';
+          
+          if upstream_fp != org_fp:
+              print('changed=true');
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write('changed=true\\n');
+          else:
+              print('changed=false');
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write('changed=false\\n');
+          "
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: 🔍 检查上游 Commit 变化
-        id: check_commits
+      - name: 📦 同步上游 Release（流式传输）
+        if: steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true'
         run: |
-          # 获取上游最新 commit SHA
-          UPSTREAM_SHA=$(curl -s \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \
-            https://api.github.com/repos/${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}/commits/main \
-            | jq -r '.sha')
-          
-          # 获取本地最新 commit SHA
-          LOCAL_SHA=$(curl -s \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \
-            https://api.github.com/repos/${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}/commits/main \
-            | jq -r '.sha')
-          
-          echo "upstream_sha=$UPSTREAM_SHA" >> $GITHUB_OUTPUT
-          echo "local_sha=$LOCAL_SHA" >> $GITHUB_OUTPUT
-          
-          if [ "$UPSTREAM_SHA" != "$LOCAL_SHA" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "✅ 检测到上游有新的 Commit: $UPSTREAM_SHA"
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
-            echo "ℹ️ 上游没有新的 Commit"
-          fi
+          python .github/workflows/sync_release_streaming.py
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: 📥 同步上游代码
-        if: steps.check_commits.outputs.changed == 'true' || github.event.inputs.force_sync == 'true'
-        run: |
-          echo "🔄 开始同步上游代码..."
-          git checkout main
-          git merge upstream/main --no-edit --allow-unrelated-histories || true
-          git push origin main || echo "没有变化需要推送"
-
-      - name: 🔍 检查上游 Release 变化（使用 SHA256 指纹）
-        id: check_releases
-        run: |
-          # 获取上游最新 Release 的 SHA256 指纹
-          UPSTREAM_RELEASE=$(curl -s \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \
-            https://api.github.com/repos/${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}/releases/latest)
-          
-          # 获取组织仓库最新 Release 的 SHA256 指纹
-          ORG_RELEASE=$(curl -s \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \
-            https://api.github.com/repos/${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}/releases/latest)
-          
-          # 提取上游 Release 的指纹
-          UPSTREAM_FINGERPRINTS=$(echo "$UPSTREAM_RELEASE" | jq -r '.assets[] | "\(.name):\(.digest // "")"' | sort | md5sum | cut -d' ' -f1)
-          
-          # 提取组织仓库 Release 的指纹
-          ORG_FINGERPRINTS=$(echo "$ORG_RELEASE" | jq -r '.assets[]? | "\(.name):\(.digest // "")"' | sort | md5sum | cut -d' ' -f1)
-          
-          echo "upstream_fingerprints=$UPSTREAM_FINGERPRINTS" >> $GITHUB_OUTPUT
-          echo "org_fingerprints=$ORG_FINGERPRINTS" >> $GITHUB_OUTPUT
-          
-          if [ "$UPSTREAM_FINGERPRINTS" != "$ORG_FINGERPRINTS" ] && [ ! -z "$UPSTREAM_FINGERPRINTS" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "✅ 检测到上游 Release 有变化"
-            
-            # 保存上游 Release 信息供后续使用
-            echo "$UPSTREAM_RELEASE" > /tmp/upstream_release.json
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
-            echo "ℹ️ 上游 Release 没有变化"
-          fi
-
-      - name: 📦 同步上游 Release
-        if: steps.check_releases.outputs.changed == 'true' || github.event.inputs.force_sync == 'true'
-        run: |
-          echo "🔄 开始同步上游 Release..."
-          
-          # 读取上游 Release 信息
-          UPSTREAM_RELEASE=$(cat /tmp/upstream_release.json)
-          TAG_NAME=$(echo "$UPSTREAM_RELEASE" | jq -r '.tag_name')
-          RELEASE_NAME=$(echo "$UPSTREAM_RELEASE" | jq -r '.name')
-          RELEASE_BODY=$(echo "$UPSTREAM_RELEASE" | jq -r '.body')
-          
-          # 删除组织仓库的旧 Release（如果存在）
-          OLD_RELEASE_ID=$(curl -s \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \
-            https://api.github.com/repos/${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}/releases/tags/$TAG_NAME \
-            | jq -r '.id // empty')
-          
-          if [ ! -z "$OLD_RELEASE_ID" ]; then
-            echo "🗑️ 删除旧的 Release: $TAG_NAME (ID: $OLD_RELEASE_ID)"
-            curl -X DELETE \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \
-              https://api.github.com/repos/${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}/releases/$OLD_RELEASE_ID
-          fi
-          
-          # 创建新的 Release
-          echo "📦 创建新的 Release: $TAG_NAME"
-          NEW_RELEASE_RESPONSE=$(curl -s -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \
-            https://api.github.com/repos/${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}/releases \
-            -d "{
-              \"tag_name\": \"$TAG_NAME\",
-              \"name\": \"$RELEASE_NAME\",
-              \"body\": \"$RELEASE_BODY\",
-              \"draft\": false,
-              \"prerelease\": false
-            }")
-          
-          NEW_RELEASE_ID=$(echo "$NEW_RELEASE_RESPONSE" | jq -r '.id')
-          
-          # 下载并上传上游的每个资产
-          echo "$UPSTREAM_RELEASE" | jq -c '.assets[]' | while read asset; do
-            ASSET_NAME=$(echo "$asset" | jq -r '.name')
-            ASSET_URL=$(echo "$asset" | jq -r '.browser_download_url')
-            ASSET_SIZE=$(echo "$asset" | jq -r '.size')
-            ASSET_DIGEST=$(echo "$asset" | jq -r '.digest // ""')
-            
-            echo "⬇️ 下载资产: $ASSET_NAME"
-            curl -L -o "/tmp/$ASSET_NAME" "$ASSET_URL"
-            
-            echo "⬆️ 上传资产到组织仓库: $ASSET_NAME"
-            curl -X POST \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \
-              -H "Content-Type: application/octet-stream" \
-              --data-binary "@/tmp/$ASSET_NAME" \
-              "https://uploads.github.com/repos/${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}/releases/$NEW_RELEASE_ID/assets?name=$ASSET_NAME&label=$ASSET_DIGEST"
-            
-            # 清理临时文件
-            rm -f "/tmp/$ASSET_NAME"
-          done
-          
-          echo "✅ Release 同步完成"
-
-  trigger-r2-upload:
-    needs: check-and-sync
-    if: needs.check-and-sync.outputs.release_changed == 'true'
-    uses: ./.github/workflows/upload-to-r2.yml
-    secrets: inherit
+      - name: 🚀 触发 R2 上传
+        if: steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true'
+        uses: ./.github/workflows/upload-to-r2.yml
+        secrets: inherit
