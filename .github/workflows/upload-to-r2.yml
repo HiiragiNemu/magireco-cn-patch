@@ -2,7 +2,7 @@ name: "⌚️ 更新 Release 文件到 object-storage 存储桶"
 
 on:
   schedule:
-    - cron: '*/30 * * * *' # 每30分钟运行一次
+    - cron: '0 */2 * * *' 
   workflow_dispatch: # 允许手动触发
 
 jobs:
