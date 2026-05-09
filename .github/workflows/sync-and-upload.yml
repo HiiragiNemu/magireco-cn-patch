@@ -1,0 +1,423 @@
+name: "🔄 同步上游并上传到 object-storage"
+
+on:
+  schedule:
+    # 每15分钟运行一次
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      force_sync:
+        description: '强制同步（即使没有检测到变化）'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  sync-and-upload:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONUNBUFFERED: 1
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      ORG_OWNER: "MagirecoCN-Revival-Project"
+      ORG_REPO: "patch-front"
+      VAR_NAME: "LAST_RELEASE_FINGERPRINT"
+      SYNC_STATUS_VAR: "SYNC_IN_PROGRESS"  # 同步状态变量
+      FILE_LIST_VAR: "FILES_TO_UPLOAD"
+
+    steps:
+      - name: 🔍 检查同步状态（第一步）
+        id: check_status
+        run: |
+          python -c "
+          import os, urllib.request, json
+          
+          token = os.environ['']
+          org_owner = os.environ['ORG_OWNER']
+          org_repo = os.environ['ORG_REPO']
+          sync_status_var = os.environ['SYNC_STATUS_VAR']
+          
+          headers = {
+              'Accept': 'application/vnd.github+json',
+              'Authorization': f'Bearer {token}'
+          }
+          
+          # 检查同步状态变量
+          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{sync_status_var}'
+          try:
+              req = urllib.request.Request(var_url, headers=headers)
+              with urllib.request.urlopen(req) as r:
+                  var_data = json.loads(r.read().decode())
+                  sync_in_progress = var_data.get('value', 'false')
+                  print(f'当前同步状态: {sync_in_progress}')
+                  
+                  if sync_in_progress == 'true' and os.environ.get('FORCE_SYNC') != 'true':
+                      print('⚠️ 同步正在进行中，跳过本次运行')
+                      with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                          f.write('skip=true\n')
+                  else:
+                      with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                          f.write('skip=false\n')
+          except urllib.error.HTTPError as e:
+              if e.code == 404:
+                  # 变量不存在，首次运行
+                  with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                      f.write('skip=false\n')
+              else:
+                  raise
+          "
+
+      - name: 🛑 跳过运行
+        if: steps.check_status.outputs.skip == 'true'
+        run: |
+          echo "⚠️ 同步正在进行中，跳过本次运行"
+          exit 0
+
+      - name: 📥 检出代码
+        if: steps.check_status.outputs.skip == 'false'
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets. }}
+          fetch-depth: 0
+
+      - name: 🐍 设置 Python
+        if: steps.check_status.outputs.skip == 'false'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 🔄 设置同步状态为进行中
+        if: steps.check_status.outputs.skip == 'false'
+        run: |
+          python -c "
+          import os, urllib.request, json
+          
+          token = os.environ['']
+          org_owner = os.environ['ORG_OWNER']
+          org_repo = os.environ['ORG_REPO']
+          sync_status_var = os.environ['SYNC_STATUS_VAR']
+          
+          headers = {
+              'Accept': 'application/vnd.github+json',
+              'Authorization': f'Bearer {token}'
+          }
+          
+          # 设置同步状态为 true
+          update_data = {
+              'name': sync_status_var,
+              'value': 'true'
+          }
+          
+          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{sync_status_var}'
+          try:
+              req = urllib.request.Request(var_url, headers=headers)
+              urllib.request.urlopen(req)
+              # 存在则更新
+              req = urllib.request.Request(
+                  var_url,
+                  data=json.dumps(update_data).encode(),
+                  headers={**headers, 'Content-Type': 'application/json'},
+                  method='PATCH'
+              )
+              urllib.request.urlopen(req)
+          except urllib.error.HTTPError as e:
+              if e.code == 404:
+                  # 不存在则创建
+                  create_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables'
+                  req = urllib.request.Request(
+                      create_url,
+                      data=json.dumps(update_data).encode(),
+                      headers={**headers, 'Content-Type': 'application/json'},
+                      method='POST'
+                  )
+                  urllib.request.urlopen(req)
+          
+          print('✅ 同步状态已设置为进行中')
+          "
+
+      - name: 🔄 同步 Fork
+        if: steps.check_status.outputs.skip == 'false'
+        run: |
+          echo "🔄 同步上游 Fork..."
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets. }}" \
+            https://api.github.com/repos/${{ env.ORG_OWNER }}/${{ env.ORG_REPO }}/merge-upstream \
+            -d '{"branch":"main"}'
+          echo "✅ Fork 同步完成"
+
+      - name: 🔍 检查 Release 更新并生成文件列表
+        if: steps.check_status.outputs.skip == 'false'
+        id: check
+        run: |
+          python -c "
+          import os, urllib.request, json, hashlib
+          
+          token = os.environ['']
+          upstream_owner = os.environ['UPSTREAM_OWNER']
+          upstream_repo = os.environ['UPSTREAM_REPO']
+          org_owner = os.environ['ORG_OWNER']
+          org_repo = os.environ['ORG_REPO']
+          var_name = os.environ['VAR_NAME']
+          file_list_var = os.environ['FILE_LIST_VAR']
+          
+          headers = {
+              'Accept': 'application/vnd.github+json',
+              'Authorization': f'Bearer {token}'
+          }
+          
+          # 1. 获取上游 Release
+          print('🔍 获取上游 Release...')
+          upstream_url = f'https://api.github.com/repos/{upstream_owner}/{upstream_repo}/releases/latest'
+          req = urllib.request.Request(upstream_url, headers=headers)
+          with urllib.request.urlopen(req) as r:
+              upstream = json.loads(r.read().decode())
+          
+          # 计算上游指纹
+          fingerprints = []
+          for asset in upstream.get('assets', []):
+              name = asset['name']
+              digest = asset.get('digest', '')
+              fingerprints.append(f'{name}:{digest}')
+          fingerprints.sort()
+          upstream_fp = hashlib.md5('|'.join(fingerprints).encode()).hexdigest()
+          
+          print(f'上游指纹: {upstream_fp}')
+          
+          # 2. 获取存储的指纹
+          print('🔍 获取存储的指纹...')
+          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{var_name}'
+          try:
+              req = urllib.request.Request(var_url, headers=headers)
+              with urllib.request.urlopen(req) as r:
+                  var_data = json.loads(r.read().decode())
+                  stored_fp = var_data.get('value', '')
+                  print(f'存储的指纹: {stored_fp}')
+          except urllib.error.HTTPError as e:
+              if e.code == 404:
+                  stored_fp = ''
+                  print('ℹ️ 未找到存储的指纹，首次运行')
+              else:
+                  raise
+          
+          # 3. 比较指纹
+          force_sync = os.environ.get('FORCE_SYNC', 'false') == 'true'
+          if upstream_fp != stored_fp or force_sync:
+              print('🆕 检测到 Release 更新！')
+              
+              # 生成文件列表（只包含有变化的文件）
+              files_to_upload = []
+              for asset in upstream.get('assets', []):
+                  asset_name = asset['name']
+                  asset_url = asset['browser_download_url']
+                  asset_size = asset['size']
+                  asset_digest = asset.get('digest', '')
+                  
+                  files_to_upload.append({
+                      'name': asset_name,
+                      'url': asset_url,
+                      'size': asset_size,
+                      'digest': asset_digest
+                  })
+              
+              print(f'📋 需要上传的文件数: {len(files_to_upload)}')
+              
+              # 更新存储的指纹
+              print('💾 更新指纹...')
+              update_data = {
+                  'name': var_name,
+                  'value': upstream_fp
+              }
+              
+              try:
+                  req = urllib.request.Request(var_url, headers=headers)
+                  urllib.request.urlopen(req)
+                  # 存在则更新
+                  req = urllib.request.Request(
+                      var_url,
+                      data=json.dumps(update_data).encode(),
+                      headers={**headers, 'Content-Type': 'application/json'},
+                      method='PATCH'
+                  )
+                  urllib.request.urlopen(req)
+              except urllib.error.HTTPError as e:
+                  if e.code == 404:
+                      # 不存在则创建
+                      create_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{var_name}'
+                      req = urllib.request.Request(
+                          create_url,
+                          data=json.dumps(update_data).encode(),
+                          headers={**headers, 'Content-Type': 'application/json'},
+                          method='POST'
+                      )
+                      urllib.request.urlopen(req)
+              
+              print('✅ 指纹已更新')
+              
+              # 设置输出
+              files_json = json.dumps(files_to_upload)
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write('changed=true\n')
+                  f.write(f'files={files_json}\n')
+          else:
+              print('ℹ️ 没有 Release 更新')
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write('changed=false\n')
+          "
+
+      - name: 📦 安装依赖
+        if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
+        run: |
+          pip install boto3
+
+      - name: 🚀 流式上传到 object-storage
+        if: steps.check_status.outputs.skip == 'false' && (steps.check.outputs.changed == 'true' || github.event.inputs.force_sync == 'true')
+        run: |
+          python -c "
+          import os, json, sys, urllib.request
+          from io import BytesIO
+          import boto3
+          
+          # 强制禁用输出缓冲
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+          
+          # 读取文件列表
+          files_json = '''${{ steps.check.outputs.files }}'''
+          if not files_json:
+              print('❌ 没有文件需要上传')
+              sys.exit(1)
+          
+          files_to_upload = json.loads(files_json)
+          print(f'🚀 开始上传 {len(files_to_upload)} 个文件到 object-storage...')
+          
+          # 初始化 S3 客户端
+          # 存储桶1配置
+          s3_1 = boto3.client(
+              's3',
+              endpoint_url=os.environ['S3_1_ENDPOINT'],
+              aws_access_key_id=os.environ['S3_1_ACCESS_KEY'],
+              aws_secret_access_key=os.environ['S3_1_SECRET_KEY'],
+              region_name=os.environ['S3_1_REGION']
+          )
+          
+          # 存储桶2配置
+          s3_2 = boto3.client(
+              's3',
+              endpoint_url=os.environ['S3_2_ENDPOINT'],
+              aws_access_key_id=os.environ['S3_2_ACCESS_KEY'],
+              aws_secret_access_key=os.environ['S3_2_SECRET_KEY'],
+              region_name=os.environ['S3_2_REGION']
+          )
+          
+          # 定义哪些文件应该放在存储桶1
+          bucket1_targets = {
+              'cn_base_00_db.zip', 'cn_base_01.json.zip', 'cn_base_02.zip',
+              'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip',
+              'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip',
+              'cn_magica_resource.zip'
+          }
+          
+          # 流式上传每个文件
+          for i, file_info in enumerate(files_to_upload, 1):
+              asset_name = file_info['name']
+              asset_url = file_info['url']
+              asset_size = file_info['size']
+              
+              # 选择目标存储桶
+              target_s3 = s3_1 if asset_name in bucket1_targets else s3_2
+              bucket_name = os.environ['S3_1_BUCKET'] if target_s3 == s3_1 else os.environ['S3_2_BUCKET']
+              
+              print(f'[{i}/{len(files_to_upload)}] ⬆️⬇️ 流式上传: {asset_name} ({asset_size/1024/1024:.1f}MB)', flush=True)
+              
+              # 从 GitHub 下载并直接上传到 object-storage
+              try:
+                  # 从 GitHub 下载
+                  upstream_req = urllib.request.Request(asset_url)
+                  with urllib.request.urlopen(upstream_req) as upstream_response:
+                      asset_data = upstream_response.read()
+                      actual_size = len(asset_data)
+                  
+                  # 上传到 object-storage
+                  target_s3.put_object(
+                      Bucket=bucket_name,
+                      Key=asset_name,
+                      Body=asset_data,
+                      ContentLength=actual_size
+                  )
+                  
+                  print(f'[{i}/{len(files_to_upload)}] ✅ 完成: {asset_name}', flush=True)
+                  
+              except Exception as e:
+                  print(f'[{i}/{len(files_to_upload)}] ❌ 上传失败: {e}', flush=True)
+                  raise
+          
+          print(f'\n🎉 所有 {len(files_to_upload)} 个文件已上传到 object-storage！', flush=True)
+          "
+        env:
+          # S3/object-storage 配置
+          S3_1_ENDPOINT: ${{ secrets.S3_1_ENDPOINT }}
+          S3_1_ACCESS_KEY: ${{ secrets.S3_1_ACCESS_KEY }}
+          S3_1_SECRET_KEY: ${{ secrets.S3_1_SECRET_KEY }}
+          S3_1_REGION: ${{ secrets.S3_1_REGION }}
+          S3_1_BUCKET: ${{ secrets.S3_1_BUCKET }}
+          
+          S3_2_ENDPOINT: ${{ secrets.S3_2_ENDPOINT }}
+          S3_2_ACCESS_KEY: ${{ secrets.S3_2_ACCESS_KEY }}
+          S3_2_SECRET_KEY: ${{ secrets.S3_2_SECRET_KEY }}
+          S3_2_REGION: ${{ secrets.S3_2_REGION }}
+          S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
+
+      - name: 🔄 重置同步状态
+        if: always() && steps.check_status.outputs.skip == 'false'
+        run: |
+          python -c "
+          import os, urllib.request, json
+          
+          token = os.environ['']
+          org_owner = os.environ['ORG_OWNER']
+          org_repo = os.environ['ORG_REPO']
+          sync_status_var = os.environ['SYNC_STATUS_VAR']
+          
+          headers = {
+              'Accept': 'application/vnd.github+json',
+              'Authorization': f'Bearer {token}'
+          }
+          
+          # 重置同步状态为 false
+          update_data = {
+              'name': sync_status_var,
+              'value': 'false'
+          }
+          
+          var_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables/{sync_status_var}'
+          try:
+              req = urllib.request.Request(var_url, headers=headers)
+              urllib.request.urlopen(req)
+              # 存在则更新
+              req = urllib.request.Request(
+                  var_url,
+                  data=json.dumps(update_data).encode(),
+                  headers={**headers, 'Content-Type': 'application/json'},
+                  method='PATCH'
+              )
+              urllib.request.urlopen(req)
+          except urllib.error.HTTPError as e:
+              if e.code == 404:
+                  # 不存在则创建
+                  create_url = f'https://api.github.com/repos/{org_owner}/{org_repo}/actions/variables'
+                  req = urllib.request.Request(
+                      create_url,
+                      data=json.dumps(update_data).encode(),
+                      headers={**headers, 'Content-Type': 'application/json'},
+                      method='POST'
+                  )
+                  urllib.request.urlopen(req)
+          
+          print('✅ 同步状态已重置为 false')
+          "
