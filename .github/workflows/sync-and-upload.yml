@@ -246,6 +246,12 @@ jobs:
                           logger.token_info['速率限制'] = res.headers.get('X-RateLimit-Limit', 'N/A')
                           logger.token_info['剩余次数'] = res.headers.get('X-RateLimit-Remaining', 'N/A')
                           return json.loads(res.read().decode())
+                  except urllib.error.HTTPError as e:
+                      if e.code == 404:
+                          logger.log(f"API 返回 404，仓库 {owner}/{repo} 可能没有 Release", "WARN")
+                          return None
+                      logger.log(f"API 调用失败: {e}", "ERROR")
+                      raise
                   except Exception as e:
                       logger.log(f"API 调用失败: {e}", "ERROR")
                       raise
@@ -341,11 +347,18 @@ jobs:
                   edge = EdgeOneHandler(os.environ['QCLOUD_SECRET_ID'], os.environ['QCLOUD_SECRET_KEY'], os.environ['EDGEONE_ZONE_ID'])
                   
                   gh_client = GitHubAPIClient(os.environ.get('', ''))
-                  owner = os.environ.get('DOWNSTREAM_OWNER', 'MagirecoCN-Revival-Project')
-                  repo = os.environ.get('DOWNSTREAM_REPO', 'patch-front')
+                  
+                  # 关键修正：始终使用上游仓库获取 Release
+                  owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
+                  repo = os.environ.get('UPSTREAM_REPO', 'patch-front')
                   
                   # 获取当前 Release 及 SHA256
                   release = gh_client.get_latest_release(owner, repo)
+                  if not release:
+                      logger.log("上游仓库没有 Release，无需处理", "INFO")
+                      logger.finalize_summary([])
+                      return
+                  
                   current_map = {}
                   for asset in release.get('assets', []):
                       if not asset['name'].startswith('source code'):
