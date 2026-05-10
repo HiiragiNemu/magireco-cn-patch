@@ -1,8 +1,8 @@
 name: 🔄 同步上游并上传到 S3
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'  # 每15分钟运行一次
+  #schedule:
+    #- cron: '*/15 * * * *'  # 每15分钟运行一次
   workflow_dispatch:  # 允许手动触发
     inputs:
       force_sync:
