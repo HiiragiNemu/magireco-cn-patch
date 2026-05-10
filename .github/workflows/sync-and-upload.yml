@@ -10,6 +10,8 @@ on:
         required: false
         default: 'false'
         type: boolean
+  repository_dispatch:  # 新增：接收上游仓库的触发
+    types: [upstream-update]  # 对应上面发送的 event_type
 
 # 关键：并发控制，确保同一时间只有一个实例运行
 concurrency:
@@ -415,7 +417,7 @@ jobs:
                   bucket2_files = s3_2.list_files()
                   
                   bucket1_targets = {
-                      'cn_base_00_db.zip', 'cn_base_01.json.zip', 'cn_base_02.zip', 
+                      'cn_base_00_db.zip', 'cn_base_01_json.zip', 'cn_base_02.zip', 
                       'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip', 
                       'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip', 
                       'cn_magica_resource.zip'
