@@ -21,6 +21,7 @@ jobs:
   trigger-downstream:
     runs-on: ubuntu-latest
     env:
+      # 关键修正：使用 DOWNSTREAM_TRIGGER_TOKEN
       GH_TOKEN: ${{ secrets.DOWNSTREAM_TRIGGER_TOKEN }}
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
       DOWNSTREAM_REPO: "magireco-cn-patch"
