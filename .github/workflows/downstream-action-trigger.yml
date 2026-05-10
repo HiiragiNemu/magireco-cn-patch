@@ -21,7 +21,7 @@ jobs:
   trigger-downstream:
     runs-on: ubuntu-latest
     env:
-      # 关键修正：使用 DOWNSTREAM_TRIGGER_TOKEN
+      # 关键修正：使用  环境变量，值为你创建的 PAT
       : ${{ secrets.DOWNSTREAM_TRIGGER_TOKEN }}
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
       DOWNSTREAM_REPO: "patch-front"
