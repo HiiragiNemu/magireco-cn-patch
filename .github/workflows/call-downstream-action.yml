@@ -5,10 +5,10 @@ on:
     branches:
       - main
       - master
-  
+
   release:
     types: [published, unpublished, created, edited, deleted, released, prereleased]
-  
+
   workflow_dispatch:
 
 permissions:
@@ -21,21 +21,134 @@ jobs:
       : ${{ secrets.DOWNSTREAM_TRIGGER_TOKEN }}
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
       DOWNSTREAM_REPO: "patch-front"
-      
+
     steps:
       - name: 🔔 触发下游仓库同步
         run: |
-          echo "获取当前仓库最新 commit SHA..."
-          CURRENT_SHA=$(gh api repos/${{ github.repository }}/branches/main --jq '.commit.sha')
-          
-          echo "触发下游仓库: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}"
-          
-          RELEASE_ID=$(gh api repos/${{ github.repository }}/releases/latest --jq '.id' 2>/dev/null || echo "")
-          
-          gh api repos/${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}/dispatches \
-            --method POST \
-            --field event_type="upstream-update" \
-            --field client_payload[upstream_repo]="${{ github.repository }}" \
-            --field client_payload[upstream_sha]="$CURRENT_SHA" \
-            --field client_payload[upstream_release_id]="$RELEASE_ID" \
-            --field client_payload[triggered_by]="${{ github.actor }}"
+          python3 <<'SCRIPT_END'
+          import subprocess
+          import sys
+
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+
+          # ============================================================
+          # 颜色 / 样式工具
+          # ============================================================
+          class C:
+              RESET         = "\033[0m"
+              BOLD          = "\033[1m"
+              DIM           = "\033[2m"
+              RED           = "\033[31m"
+              GREEN         = "\033[32m"
+              YELLOW        = "\033[33m"
+              CYAN          = "\033[36m"
+              BRIGHT_GREEN  = "\033[92m"
+              BRIGHT_YELLOW = "\033[93m"
+              BRIGHT_BLUE   = "\033[94m"
+              BRIGHT_CYAN   = "\033[96m"
+              BRIGHT_WHITE  = "\033[97m"
+
+          def c(color, text):
+              return f"{color}{text}{C.RESET}"
+
+          def header(text):
+              bar = "═" * 60
+              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+
+          def section(text):
+              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+
+          def info(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
+
+          def ok(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
+
+          def warn(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
+
+          def err(text, indent=0):
+              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
+
+          def run_gh(args, check=True):
+              result = subprocess.run(
+                  ["gh"] + args,
+                  capture_output=True, text=True
+              )
+              if check and result.returncode != 0:
+                  raise Exception(result.stderr.strip() or result.stdout.strip())
+              return result.stdout.strip()
+
+          import os
+          UPSTREAM_REPO   = os.environ.get("GITHUB_REPOSITORY", "")
+          DOWNSTREAM_OWNER = os.environ.get("DOWNSTREAM_OWNER", "")
+          DOWNSTREAM_REPO  = os.environ.get("DOWNSTREAM_REPO", "")
+          ACTOR            = os.environ.get("GITHUB_ACTOR", "unknown")
+
+          # ============================================================
+          # 主流程
+          # ============================================================
+          header("触发下游仓库同步")
+
+          section("获取上游信息")
+          info(f"上游仓库: {c(C.BRIGHT_WHITE, UPSTREAM_REPO)}")
+
+          current_sha = run_gh([
+              "api", f"repos/{UPSTREAM_REPO}/branches/main",
+              "--jq", ".commit.sha"
+          ])
+          info(f"最新 SHA: {c(C.BRIGHT_CYAN, current_sha[:7])}")
+
+          release_id = ""
+          try:
+              release_id = run_gh([
+                  "api", f"repos/{UPSTREAM_REPO}/releases/latest",
+                  "--jq", ".id"
+              ])
+              info(f"最新 Release ID: {c(C.BRIGHT_CYAN, release_id)}")
+          except Exception:
+              warn("未找到 Release 或获取失败，release_id 留空")
+
+          section("触发下游")
+          downstream = f"{DOWNSTREAM_OWNER}/{DOWNSTREAM_REPO}"
+          info(f"目标仓库: {c(C.BRIGHT_WHITE, downstream)}")
+          info(f"触发者:   {c(C.BRIGHT_YELLOW, ACTOR)}")
+          info(f"事件类型: {c(C.DIM, 'upstream-update')}")
+
+          try:
+              run_gh([
+                  "api", f"repos/{downstream}/dispatches",
+                  "--method", "POST",
+                  "--field", "event_type=upstream-update",
+                  "--field", f"client_payload[upstream_repo]={UPSTREAM_REPO}",
+                  "--field", f"client_payload[upstream_sha]={current_sha}",
+                  "--field", f"client_payload[upstream_release_id]={release_id}",
+                  "--field", f"client_payload[triggered_by]={ACTOR}",
+              ])
+              ok(f"已成功触发下游仓库 {c(C.BRIGHT_GREEN, downstream)}")
+          except Exception as e:
+              err(f"触发失败: {e}")
+              sys.exit(1)
+
+          header("完成")
+          ok(f"上游: {c(C.BRIGHT_WHITE, UPSTREAM_REPO)} @ {c(C.BRIGHT_CYAN, current_sha[:7])}")
+          ok(f"下游: {c(C.BRIGHT_WHITE, downstream)} 已收到 dispatch 事件")
+          if release_id:
+              ok(f"Release ID: {c(C.BRIGHT_CYAN, release_id)}")
+          SCRIPT_END
+
+      - name: 📊 生成 GitHub Summary
+        if: always()
+        run: |
+          echo "## ⚙️ 下游触发报告" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 项目 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|----|" >> $GITHUB_STEP_SUMMARY
+          echo "| 上游仓库 | \`${{ github.repository }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 触发者 | \`${{ github.actor }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
