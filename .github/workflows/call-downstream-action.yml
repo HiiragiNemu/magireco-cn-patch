@@ -1,0 +1,41 @@
+name: ⚙️ 触发下游更新
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  
+  release:
+    types: [published, unpublished, created, edited, deleted, released, prereleased]
+  
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  trigger-downstream:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.DOWNSTREAM_TRIGGER_TOKEN }}
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "magireco-cn-patch"
+      
+    steps:
+      - name: 🔔 触发下游仓库同步
+        run: |
+          echo "获取当前仓库最新 commit SHA..."
+          CURRENT_SHA=$(gh api repos/${{ github.repository }}/branches/main --jq '.commit.sha')
+          
+          echo "触发下游仓库: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}"
+          
+          RELEASE_ID=$(gh api repos/${{ github.repository }}/releases/latest --jq '.id' 2>/dev/null || echo "")
+          
+          gh api repos/${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}/dispatches \
+            --method POST \
+            --field event_type="upstream-update" \
+            --field client_payload[upstream_repo]="${{ github.repository }}" \
+            --field client_payload[upstream_sha]="$CURRENT_SHA" \
+            --field client_payload[upstream_release_id]="$RELEASE_ID" \
+            --field client_payload[triggered_by]="${{ github.actor }}"
