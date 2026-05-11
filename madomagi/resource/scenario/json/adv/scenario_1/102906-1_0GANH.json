@@ -1,824 +1,824 @@
 {
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.2,
-                "bg": "black",
-                "item": [
-                    {
-                        "iPhoneXScale": 1,
-                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "bgm": "bgm20_song10",
-                "nameNarration": "かごめ",
-                "narrationCoverOpacity": 0,
-                "narrationEffect": "in",
-                "narrationHAlignment": "left",
-                "narrationPosX": 150,
-                "progressNarration": "[textBlack:これは過去を記した]@[textBlack:最初の４編よりも前にあった話。]@[textBlack:魔法少女たちを分かれさせる切っ掛けになった]@[textBlack:短いけれども大きな話。]",
-                "turnChangeOut": "fadeOut",
-                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-1"
-            },
-            {
-                "progressNarration": "[textBlack:これはその中でもネオマギウスについて調べて]@[textBlack:わかってきた過去の出来事。]",
-                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-2"
-            },
-            {
-                "progressNarration": "[textBlack:彼女たちが水面下で何をしていたのかを知ると、]@[textBlack:全てが着々と準備されていたことだってわかる。]",
-                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-3"
-            },
-            {
-                "progressNarration": "[textBlack:そして、リーダーのひめなさんには]@[textBlack:最初から描いていた結末が]@[textBlack:あったんじゃないかと思えてきた。]",
-                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-4"
-            },
-            {
-                "autoTurnLast": 1.5,
-                "bg": "white",
-                "bgm": "stop",
-                "item": [
-                    {
-                        "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
-                        "visible": "hide"
-                    }
-                ],
-                "narrationEffect": "out",
-                "turnChangeIn": "fadeIn",
-                "turnEffect": "blackFrame"
-            },
-            {
-                "bgm": "bgm23_magus01",
-                "nameNarration": "美由利",
-                "narration": "[textBlack:「那么那么！」]",
-                "narrationCoverOpacity": 0,
-                "narrationEffect": "in",
-                "turnChangeOut": "fadeOut",
-                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-5"
-            },
-            {
-                "nameNarration": "美由利",
-                "narration": "[textBlack:「受了伤而寻求改变的我们]@[textBlack:就有了能够紧紧相连在一起的因素了吧」]",
-                "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-6"
-            },
-            {
-                "autoTurnLast": 0.01,
-                "narrationEffect": "out",
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.01,
-                "item": [
-                    {
-                        "action": {
-                            "moveTo": {
-                                "duration": 0.4,
-                                "posY": 0
-                            }
-                        },
-                        "path": "resource/scenario/img/adv_roll_fade.png",
-                        "posX": 0,
-                        "posY": 1000,
-                        "scale": 6,
-                        "setVisible": 1,
-                        "zOrder": "messageFront"
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.01,
-                "bg": "bg_adv_19241.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 103201,
-                        "motion": 1,
-                        "pos": 1
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.01,
-                "item": [
-                    {
-                        "action": {
-                            "moveTo": {
-                                "duration": 0.4,
-                                "posY": -1000
-                            }
-                        },
-                        "path": "resource/scenario/img/adv_roll_fade.png"
-                    }
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103201,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-7"
-                    }
-                ],
-                "nameCenter": "美由利",
-                "textCenter": "美由这边的话就是，@没有燦大人就可能会伤到大家"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 103201
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 103101,
-                        "motion": 100,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-8"
-                    }
-                ],
-                "nameCenter": "灿",
-                "textCenter": "那我的伤，@应该就是失去了祭典吧"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 103101
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 103001,
-                        "motion": 300,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-9"
-                    }
-                ],
-                "nameCenter": "育梦",
-                "textCenter": "我的话，是被大家戏弄嘲笑呢"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 103001
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102901,
-                        "motion": 1,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-10"
-                    }
-                ],
-                "nameCenter": "时雨",
-                "textCenter": "我也会被别人在暗中说坏话@一旦一个人呆着就会被嘲笑…"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 102901
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 102801,
-                        "motion": 200,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-11"
-                    }
-                ],
-                "nameCenter": "姬奈",
-                "textCenter": "人家则是@被周围毁掉了自由的恋爱"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 102801,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-12"
-                    }
-                ],
-                "nameCenter": "姬奈",
-                "textCenter": "一想，发现可能确实是这样诶★"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102801,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-13"
-                    }
-                ],
-                "nameCenter": "姬奈",
-                "textCenter": "在每一次受伤，而想要改变之中@我们凝聚在了一起"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 102801,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-14"
-                    }
-                ],
-                "nameCenter": "姬奈",
-                "textCenter": "进而，能为彼此着想着而努力的话@那不就是最强了吗"
-            },
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_21741.jpg",
-                "bgm": "stop",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_001.exp3.json",
-                        "id": 102901,
-                        "motion": 1,
-                        "pos": 1
-                    }
-                ],
-                "turnChangeIn": "fadeIn",
-                "turnEffect": "stop"
-            },
-            {
-                "bgm": "bgm23_magus02",
-                "chara": [
-                    {
-                        "eyeClose": 1,
-                        "id": 102901,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-15"
-                    }
-                ],
-                "nameCenter": "时雨",
-                "textCenter": "（自那之后，我们就@为了彼此努力到了今天）",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 1,
-                        "id": 102901,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-16"
-                    }
-                ],
-                "nameCenter": "时雨",
-                "textCenter": "（为了扩散魔法少女至上主义，@并愈合自己的伤口…）"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 0,
-                        "id": 102901,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-17"
-                    }
-                ],
-                "nameCenter": "时雨",
-                "textCenter": "（虽然发生过以为姬死掉了之类的形形色色的事情）"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102901,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-18"
-                    }
-                ],
-                "nameCenter": "时雨",
-                "textCenter": "（但我们正一边在暗处行动@一边着实地朝着理想前进…）"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 102901,
-                        "pos": 0
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 103001,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-19"
-                    }
-                ],
-                "nameRight": "育梦",
-                "textRight": "小时雨看起来很高兴呢"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102901,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-20"
-                    }
-                ],
-                "nameLeft": "时雨",
-                "textLeft": "嗯，因为姬和教官来了之后@一切都在顺利地进行…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103001,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-21"
-                    }
-                ],
-                "nameRight": "育梦",
-                "textRight": "笠音小姐好像也愿意@来Neo-Magius"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103001,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-22"
-                    }
-                ],
-                "nameRight": "育梦",
-                "textRight": "而且，蓝家小姐和男票先生说的@不用战斗便可完成的逆转"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 103001,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-23"
-                    }
-                ],
-                "nameRight": "育梦",
-                "textRight": "也好像真的能够实现"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102901,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-24"
-                    }
-                ],
-                "nameLeft": "时雨",
-                "textLeft": "嗯…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 103101,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-25"
-                    }
-                ],
-                "nameRight": "灿",
-                "textRight": "对时女的本家的思想灌输@马上也要结束了"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103101,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-26"
-                    }
-                ],
-                "nameRight": "灿",
-                "textRight": "所以，有种至今都驱动着的触手@终于抓到了猎物的感觉呢"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_014.exp3.json",
-                        "id": 102901,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-27"
-                    }
-                ],
-                "nameLeft": "时雨",
-                "textLeft": "哇啊，不愧是教官…！"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 103101,
-                        "pos": 0
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 103201,
-                        "motion": 0,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-28"
-                    }
-                ],
-                "nameRight": "美由利",
-                "textRight": "不仅擅长战斗@还很有口才，脑袋也很聪明"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_014.exp3.json",
-                        "id": 103201,
-                        "motion": 400,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-29"
-                    }
-                ],
-                "nameRight": "美由利",
-                "textRight": "啊啊，美由好像要@再次迷上灿大人了！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 103101,
-                        "motion": 1,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-30"
-                    }
-                ],
-                "nameLeft": "灿",
-                "textLeft": "美由那边怎么样？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 103201,
-                        "motion": 1,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-31"
-                    }
-                ],
-                "nameRight": "美由利",
-                "textRight": "啊呜呜…"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 0,
-                        "id": 103201,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-32"
-                    }
-                ],
-                "nameRight": "美由利",
-                "textRight": "就算接触到和泉十七夜@我也一直被赶回来…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103101,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-33"
-                    }
-                ],
-                "nameLeft": "灿",
-                "textLeft": "毕竟对方是最强的敌人@就算是我应该也没办法吧"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 103201,
-                        "motion": 200,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-34"
-                    }
-                ],
-                "nameRight": "美由利",
-                "textRight": "灿大人也没办法吗!?"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103101,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-35"
-                    }
-                ],
-                "nameLeft": "灿",
-                "textLeft": "如果没有什么让她受挫折的导火索@大概很难把她拉进这边吧"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 103201,
-                        "motion": 300,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-36"
-                    }
-                ],
-                "nameRight": "美由利",
-                "textRight": "那么碰巧方便我们的事情@应该也不太会发生"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103201,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-37"
-                    }
-                ],
-                "nameRight": "美由利",
-                "textRight": "变成纯粹地赌一把了呢…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 103101,
-                        "motion": 0,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-38"
-                    }
-                ],
-                "nameLeft": "灿",
-                "textLeft": "是啊"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 103501,
-                        "motion": 1,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-39"
-                    }
-                ],
-                "nameRight": "亚历山德拉",
-                "textRight": "即便如此，居然能把除联盟之外的组织都成功离间，真是太厉害了♪"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103501,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-40"
-                    }
-                ],
-                "nameRight": "亚历山德拉",
-                "textRight": "作战的准备也很顺利，@现在一切都在正轨上呢"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 103501,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-41"
-                    }
-                ],
-                "nameRight": "亚历山德拉",
-                "textRight": "呜呼呼♪"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 103001,
-                        "motion": 1,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-42"
-                    }
-                ],
-                "nameLeft": "育梦",
-                "textLeft": "我记得，为了让我们的声音@传入神滨的人们耳中"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103001,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-43"
-                    }
-                ],
-                "nameLeft": "育梦",
-                "textLeft": "莎夏小姐@也一直在收集情报吧？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 103501,
-                        "motion": 200,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-44"
-                    }
-                ],
-                "nameRight": "亚历山德拉",
-                "textRight": "正是如此♪"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103501,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-45"
-                    }
-                ],
-                "nameRight": "亚历山德拉",
-                "textRight": "然后，我有件事情@想问问你们两位…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 103001,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-46"
-                    }
-                ],
-                "nameLeft": "育梦",
-                "textLeft": "我们？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 103501,
-                        "motion": 0,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-47"
-                    }
-                ],
-                "nameRight": "亚历山德拉",
-                "textRight": "是的，北养区的电波望远镜@还能启动吗？"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 103001,
-                        "pos": 2
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_001.exp3.json",
-                        "id": 102901,
-                        "motion": 100,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-48"
-                    }
-                ],
-                "nameLeft": "时雨",
-                "textLeft": "呃…@如果是灯花大人用的那个的话"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102901,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-49"
-                    }
-                ],
-                "nameLeft": "时雨",
-                "textLeft": "我们最后一次去的时候@它应该还能动…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102901,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-50"
-                    }
-                ],
-                "nameLeft": "时雨",
-                "textLeft": "对吧，育梦梦？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103001,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-51"
-                    }
-                ],
-                "nameRight": "育梦",
-                "textRight": "嗯，我觉得它@应该不会被那么轻易地废弃"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 103501,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-52"
-                    }
-                ],
-                "nameRight": "亚历山德拉",
-                "textRight": "那就太好了♪"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103501,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-53"
-                    }
-                ],
-                "nameRight": "亚历山德拉",
-                "textRight": "如果能使用电波望远镜，就能@高效地把小姬的声音传播出去了♪"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 102801,
-                        "motion": 200,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-54"
-                    }
-                ],
-                "nameLeft": "姬奈",
-                "textLeft": "呀哈★"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102801,
-                        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-55"
-                    }
-                ],
-                "nameLeft": "姬奈",
-                "textLeft": "这么一来，感觉人员呀行动方案呀@都快要定好成型啦"
-            },
-            {
-                "autoTurnLast": 2,
-                "bgm": "stop",
-                "turnChangeIn": "fadeIn"
-            }
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.2,
+        "bg": "black",
+        "item": [
+          {
+            "iPhoneXScale": 1,
+            "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "bgm": "bgm20_song10",
+        "nameNarration": "笼目",
+        "narrationCoverOpacity": 0,
+        "narrationEffect": "in",
+        "narrationHAlignment": "left",
+        "narrationPosX": 150,
+        "progressNarration": "[textBlack:这是记录着过去的]@[textBlack:发生得比最初的四篇还要早的故事。]@[textBlack:这也是成为了使得魔法少女们分裂的契机的]@[textBlack:简短但也重要的故事。]",
+        "turnChangeOut": "fadeOut",
+        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-1"
+      },
+      {
+        "progressNarration": "[textBlack:这是我特别着力调查过Neo-Magius后]@[textBlack:才得以知晓的过去的事情。]",
+        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-2"
+      },
+      {
+        "progressNarration": "[textBlack:只要知道她们在水面下做了些什么，]@[textBlack:就能明白一切都在被井井有条地准备着。]",
+        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-3"
+      },
+      {
+        "progressNarration": "[textBlack:然后，我不禁想到]@[textBlack:身为领导者的姬奈小姐]@[textBlack:是不是从最开始就已经设想好了结局呢。]",
+        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-4"
+      },
+      {
+        "autoTurnLast": 1.5,
+        "bg": "white",
+        "bgm": "stop",
+        "item": [
+          {
+            "path": "resource/scenario/img/51030_fishing_homura/51030_homura_dairy.jpg",
+            "visible": "hide"
+          }
+        ],
+        "narrationEffect": "out",
+        "turnChangeIn": "fadeIn",
+        "turnEffect": "blackFrame"
+      },
+      {
+        "bgm": "bgm23_magus01",
+        "nameNarration": "美由利",
+        "narration": "[textBlack:「那么那么！」]",
+        "narrationCoverOpacity": 0,
+        "narrationEffect": "in",
+        "turnChangeOut": "fadeOut",
+        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-5"
+      },
+      {
+        "nameNarration": "美由利",
+        "narration": "[textBlack:「受了伤而寻求改变的我们]@[textBlack:就有了能够紧紧相连在一起的因素了吧」]",
+        "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-6"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "narrationEffect": "out",
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.01,
+        "item": [
+          {
+            "action": {
+              "moveTo": {
+                "duration": 0.4,
+                "posY": 0
+              }
+            },
+            "path": "resource/scenario/img/adv_roll_fade.png",
+            "posX": 0,
+            "posY": 1000,
+            "scale": 6,
+            "setVisible": 1,
+            "zOrder": "messageFront"
+          }
         ]
-    },
-    "version": 3
+      },
+      {
+        "autoTurnLast": 0.01,
+        "bg": "bg_adv_19241.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 103201,
+            "motion": 1,
+            "pos": 1
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.01,
+        "item": [
+          {
+            "action": {
+              "moveTo": {
+                "duration": 0.4,
+                "posY": -1000
+              }
+            },
+            "path": "resource/scenario/img/adv_roll_fade.png"
+          }
+        ]
+      },
+      {
+        "chara": [
+          {
+            "id": 103201,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-7"
+          }
+        ],
+        "nameCenter": "美由利",
+        "textCenter": "美由这边的话就是，@没有燦大人就可能会伤到大家"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 103201
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 103101,
+            "motion": 100,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-8"
+          }
+        ],
+        "nameCenter": "灿",
+        "textCenter": "那我的伤，@应该就是失去了祭典吧"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 103101
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 103001,
+            "motion": 300,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-9"
+          }
+        ],
+        "nameCenter": "育梦",
+        "textCenter": "我的话，是被大家戏弄嘲笑呢"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 103001
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102901,
+            "motion": 1,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-10"
+          }
+        ],
+        "nameCenter": "时雨",
+        "textCenter": "我也会被别人在暗中说坏话@一旦一个人呆着就会被嘲笑…"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 102901
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 102801,
+            "motion": 200,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-11"
+          }
+        ],
+        "nameCenter": "姬奈",
+        "textCenter": "人家则是@被周围毁掉了自由的恋爱"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 102801,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-12"
+          }
+        ],
+        "nameCenter": "姬奈",
+        "textCenter": "一想，发现可能确实是这样诶★"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102801,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-13"
+          }
+        ],
+        "nameCenter": "姬奈",
+        "textCenter": "在每一次受伤，而想要改变之中@我们凝聚在了一起"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 102801,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-14"
+          }
+        ],
+        "nameCenter": "姬奈",
+        "textCenter": "进而，能为彼此着想着而努力的话@那不就是最强了吗"
+      },
+      {
+        "autoTurnLast": 1,
+        "bg": "bg_adv_21741.jpg",
+        "bgm": "stop",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 102901,
+            "motion": 1,
+            "pos": 1
+          }
+        ],
+        "turnChangeIn": "fadeIn",
+        "turnEffect": "stop"
+      },
+      {
+        "bgm": "bgm23_magus02",
+        "chara": [
+          {
+            "eyeClose": 1,
+            "id": 102901,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-15"
+          }
+        ],
+        "nameCenter": "时雨",
+        "textCenter": "（自那之后，我们就@为了彼此努力到了今天）",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 1,
+            "id": 102901,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-16"
+          }
+        ],
+        "nameCenter": "时雨",
+        "textCenter": "（为了扩散魔法少女至上主义，@并愈合自己的伤口…）"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 0,
+            "id": 102901,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-17"
+          }
+        ],
+        "nameCenter": "时雨",
+        "textCenter": "（虽然发生过以为姬死掉了之类的形形色色的事情）"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102901,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-18"
+          }
+        ],
+        "nameCenter": "时雨",
+        "textCenter": "（但我们正一边在暗处行动@一边着实地朝着理想前进…）"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 102901,
+            "pos": 0
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 103001,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-19"
+          }
+        ],
+        "nameRight": "育梦",
+        "textRight": "小时雨看起来很高兴呢"
+      },
+      {
+        "chara": [
+          {
+            "id": 102901,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-20"
+          }
+        ],
+        "nameLeft": "时雨",
+        "textLeft": "嗯，因为姬和教官来了之后@一切都在顺利地进行…"
+      },
+      {
+        "chara": [
+          {
+            "id": 103001,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-21"
+          }
+        ],
+        "nameRight": "育梦",
+        "textRight": "笠音小姐好像也愿意@来Neo-Magius"
+      },
+      {
+        "chara": [
+          {
+            "id": 103001,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-22"
+          }
+        ],
+        "nameRight": "育梦",
+        "textRight": "而且，蓝家小姐和男票先生说的@不用战斗便可完成的逆转"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 103001,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-23"
+          }
+        ],
+        "nameRight": "育梦",
+        "textRight": "也好像真的能够实现"
+      },
+      {
+        "chara": [
+          {
+            "id": 102901,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-24"
+          }
+        ],
+        "nameLeft": "时雨",
+        "textLeft": "嗯…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 103101,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-25"
+          }
+        ],
+        "nameRight": "灿",
+        "textRight": "对时女的本家的思想灌输@马上也要结束了"
+      },
+      {
+        "chara": [
+          {
+            "id": 103101,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-26"
+          }
+        ],
+        "nameRight": "灿",
+        "textRight": "所以，有种至今都驱动着的触手@终于抓到了猎物的感觉呢"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_014.exp3.json",
+            "id": 102901,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-27"
+          }
+        ],
+        "nameLeft": "时雨",
+        "textLeft": "哇啊，不愧是教官…！"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 103101,
+            "pos": 0
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 103201,
+            "motion": 0,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-28"
+          }
+        ],
+        "nameRight": "美由利",
+        "textRight": "不仅擅长战斗@还很有口才，脑袋也很聪明"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_014.exp3.json",
+            "id": 103201,
+            "motion": 400,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-29"
+          }
+        ],
+        "nameRight": "美由利",
+        "textRight": "啊啊，美由好像要@再次迷上灿大人了！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 103101,
+            "motion": 1,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-30"
+          }
+        ],
+        "nameLeft": "灿",
+        "textLeft": "美由那边怎么样？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 103201,
+            "motion": 1,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-31"
+          }
+        ],
+        "nameRight": "美由利",
+        "textRight": "啊呜呜…"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 0,
+            "id": 103201,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-32"
+          }
+        ],
+        "nameRight": "美由利",
+        "textRight": "就算接触到和泉十七夜@我也一直被赶回来…"
+      },
+      {
+        "chara": [
+          {
+            "id": 103101,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-33"
+          }
+        ],
+        "nameLeft": "灿",
+        "textLeft": "毕竟对方是最强的敌人@就算是我应该也没办法吧"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 103201,
+            "motion": 200,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-34"
+          }
+        ],
+        "nameRight": "美由利",
+        "textRight": "灿大人也没办法吗!?"
+      },
+      {
+        "chara": [
+          {
+            "id": 103101,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-35"
+          }
+        ],
+        "nameLeft": "灿",
+        "textLeft": "如果没有什么让她受挫折的导火索@大概很难把她拉进这边吧"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 103201,
+            "motion": 300,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-36"
+          }
+        ],
+        "nameRight": "美由利",
+        "textRight": "那么碰巧方便我们的事情@应该也不太会发生"
+      },
+      {
+        "chara": [
+          {
+            "id": 103201,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-37"
+          }
+        ],
+        "nameRight": "美由利",
+        "textRight": "变成纯粹地赌一把了呢…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 103101,
+            "motion": 0,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-38"
+          }
+        ],
+        "nameLeft": "灿",
+        "textLeft": "是啊"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 103501,
+            "motion": 1,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-39"
+          }
+        ],
+        "nameRight": "亚历山德拉",
+        "textRight": "即便如此，居然能把除联盟之外的组织都成功离间，真是太厉害了♪"
+      },
+      {
+        "chara": [
+          {
+            "id": 103501,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-40"
+          }
+        ],
+        "nameRight": "亚历山德拉",
+        "textRight": "作战的准备也很顺利，@现在一切都在正轨上呢"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 103501,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-41"
+          }
+        ],
+        "nameRight": "亚历山德拉",
+        "textRight": "呜呼呼♪"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 103001,
+            "motion": 1,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-42"
+          }
+        ],
+        "nameLeft": "育梦",
+        "textLeft": "我记得，为了让我们的声音@传入神滨的人们耳中"
+      },
+      {
+        "chara": [
+          {
+            "id": 103001,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-43"
+          }
+        ],
+        "nameLeft": "育梦",
+        "textLeft": "莎夏小姐@也一直在收集情报吧？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 103501,
+            "motion": 200,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-44"
+          }
+        ],
+        "nameRight": "亚历山德拉",
+        "textRight": "正是如此♪"
+      },
+      {
+        "chara": [
+          {
+            "id": 103501,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-45"
+          }
+        ],
+        "nameRight": "亚历山德拉",
+        "textRight": "然后，我有件事情@想问问你们两位…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 103001,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-46"
+          }
+        ],
+        "nameLeft": "育梦",
+        "textLeft": "我们？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 103501,
+            "motion": 0,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-47"
+          }
+        ],
+        "nameRight": "亚历山德拉",
+        "textRight": "是的，北养区的电波望远镜@还能启动吗？"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 103001,
+            "pos": 2
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 102901,
+            "motion": 100,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-48"
+          }
+        ],
+        "nameLeft": "时雨",
+        "textLeft": "呃…@如果是灯花大人用的那个的话"
+      },
+      {
+        "chara": [
+          {
+            "id": 102901,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-49"
+          }
+        ],
+        "nameLeft": "时雨",
+        "textLeft": "我们最后一次去的时候@它应该还能动…"
+      },
+      {
+        "chara": [
+          {
+            "id": 102901,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-50"
+          }
+        ],
+        "nameLeft": "时雨",
+        "textLeft": "对吧，育梦梦？"
+      },
+      {
+        "chara": [
+          {
+            "id": 103001,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-51"
+          }
+        ],
+        "nameRight": "育梦",
+        "textRight": "嗯，我觉得它@应该不会被那么轻易地废弃"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 103501,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-52"
+          }
+        ],
+        "nameRight": "亚历山德拉",
+        "textRight": "那就太好了♪"
+      },
+      {
+        "chara": [
+          {
+            "id": 103501,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-53"
+          }
+        ],
+        "nameRight": "亚历山德拉",
+        "textRight": "如果能使用电波望远镜，就能@高效地把小姬的声音传播出去了♪"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 102801,
+            "motion": 200,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-54"
+          }
+        ],
+        "nameLeft": "姬奈",
+        "textLeft": "呀哈★"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102801,
+            "voiceFullAuto": "fullvoice/section_102941/vo_full_102906-1-55"
+          }
+        ],
+        "nameLeft": "姬奈",
+        "textLeft": "这么一来，感觉人员呀行动方案呀@都快要定好成型啦"
+      },
+      {
+        "autoTurnLast": 2,
+        "bgm": "stop",
+        "turnChangeIn": "fadeIn"
+      }
+    ]
+  },
+  "version": 3
 }

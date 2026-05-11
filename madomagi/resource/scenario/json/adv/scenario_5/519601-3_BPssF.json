@@ -1,1156 +1,1156 @@
 {
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.01,
-                "bg": "white",
-                "nameNarration": "ひめな",
-                "narrationCoverOpacity": 0,
-                "narrationEffect": "in",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "bgm": "bgm23_magus04",
-                "narration": "[textBlack:…………]@[textBlack:…………]",
-                "turnChangeOut": "fadeOut",
-                "turnChangeOutTime": 1
-            },
-            {
-                "narration": "[textBlack:私チャン…気を失ってた？]"
-            },
-            {
-                "autoTurnLast": 1.7,
-                "item": [
-                    {
-                        "action": {
-                            "sequence": [
-                                {
-                                    "fadeTo": {
-                                        "duration": 0.6,
-                                        "opacity": 0
-                                    }
-                                },
-                                {
-                                    "fadeTo": {
-                                        "duration": 0.2,
-                                        "opacity": 80
-                                    }
-                                },
-                                {
-                                    "fadeTo": {
-                                        "duration": 0.8,
-                                        "opacity": 0
-                                    }
-                                }
-                            ]
-                        },
-                        "iPhoneXScale": 1,
-                        "opacity": 80,
-                        "path": "resource/scenario/img/pink.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "setVisible": 1,
-                        "zOrder": "bgFront"
-                    }
-                ],
-                "narrationEffect": "out"
-            },
-            {
-                "item": [
-                    {
-                        "path": "resource/scenario/img/pink.png",
-                        "visible": "hide"
-                    }
-                ],
-                "nameNarration": "ひめな",
-                "narration": "[textBlack:――っ!?]",
-                "narrationCoverOpacity": 0,
-                "narrationEffect": "in"
-            },
-            {
-                "narration": "[textBlack:頭の中に…]@[textBlack:誰かの記憶が…]"
-            },
-            {
-                "autoTurnLast": 2,
-                "item": [
-                    {
-                        "path": "resource/scenario/img/51196_historia_paxromana/51196_magia_record_alt2.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaBack"
-                    }
-                ],
-                "narrationEffect": "out"
-            },
-            {
-                "autoTurnLast": 1.5,
-                "bg": "bg_adv_65031.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 834901,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "narrationEffect": "out",
-                "turnChangeIn": "whiteIn",
-                "turnChangeInTime": 1.5,
-                "turnEffect": "sepiaFrame"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 834901,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "？？？",
-                "textCenter": "…コルネリア、ユニア",
-                "turnChangeOut": "whiteOut",
-                "turnChangeOutTime": 1.5
-            },
-            {
-                "chara": [
-                    {
-                        "id": 834901,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "？？？",
-                "textCenter": "ふたりは@マリウスのことが好きか？"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 834901
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 801600,
-                        "motion": 0,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 801601,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameRight": "ユニア",
-                "textRight": "はい！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 801600,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ユニア",
-                "textRight": "ユニアはマリウス様のことが@大好き～！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 834901,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "？？？",
-                "textLeft": "ははは、そうか@コルネリアはどうだ？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 801601,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "コルネリア",
-                "textRight": "あ…はい、お父様@私は…"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 801601,
-                        "pos": 0
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 801600,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ユニア",
-                "textRight": "お姉様も大好きだよね？@マリウス様！"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 801601,
-                        "pos": 2
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 834901,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリアの父",
-                "textLeft": "どうした、コルネリア？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 801601,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "コルネリア",
-                "textRight": "…あ…えっと"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 801601,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "コルネリア",
-                "textRight": "マリウス様は、その…@優しくて…とっても素敵な方で…"
-            },
-            {
-                "chara": [
-                    {
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 801601,
-                        "lipSynch": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "コルネリア",
-                "textRight": "…………"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 834901,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリアの父",
-                "textLeft": "はは、口に出すのは恥ずかしいか"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 834901,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリアの父",
-                "textLeft": "ふたりともマリウスと@仲良くやっているようで安心した"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 834901,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリアの父",
-                "textLeft": "将来、ふたりのどちらかが"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 834901,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリアの父",
-                "textLeft": "マリウスに嫁ぐことに@なるかもしれんからな"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 801601,
-                        "pos": 0
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "id": 801601,
-                        "mouthOpen": 1,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 801600,
-                        "motion": 0,
-                        "mouthOpen": 1,
-                        "pos": 2
-                    }
-                ],
-                "nameCenter": "コルネリア＆ユニア",
-                "textCenter": "えっ…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 801601,
-                        "mouthOpen": 0,
-                        "pos": 0
-                    },
-                    {
-                        "id": 801600,
-                        "mouthOpen": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "textLeft": "それって…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 801600,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ユニア",
-                "textRight": "マリウス様のお嫁さんに@なるってこと…？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 834901,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリアの父",
-                "textLeft": "そう@まだ少し先の話だがな"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 801601,
-                        "lipSynch": 0,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "textLeft": "…………"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 801601,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "textLeft": "私が…マリウス様の…"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 1.5,
-                "bg": "white",
-                "nameNarration": "ひめな",
-                "narrationCoverOpacity": 0,
-                "narrationEffect": "in",
-                "turnChangeIn": "whiteIn",
-                "turnChangeInTime": 1.5,
-                "turnEffect": "stop"
-            },
-            {
-                "narration": "[textBlack:今のって、誰かの夢…？]",
-                "turnChangeOut": "whiteOut",
-                "turnChangeOutTime": 1.5
-            },
-            {
-                "narration": "[textBlack:コルネリアとユニア…]@[textBlack:双子…かな？]@[textBlack:瓜ふたつの顔してたよね]"
-            },
-            {
-                "narration": "[textBlack:あれ…また…]@[textBlack:意識が…遠く…]"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "bgm": "stop"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "bg": "bg_adv_65031.jpg",
-                "narrationEffect": "out",
-                "turnChangeIn": "whiteIn",
-                "turnChangeInTime": 1.5
-            },
-            {
-                "autoTurnLast": 0.3,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 833600,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "nameNarration": "",
-                "narrationBg": "bg_adv_65031.jpg",
-                "narrationEffect": "in"
-            },
-            {
-                "narration": "＜西暦77年・初頭＞",
-                "turnChangeOut": "whiteOut",
-                "turnChangeOutTime": 1.5
-            },
-            {
-                "narration": "＜ポンペイ＞"
-            },
-            {
-                "bgm": "bgm01_anime02",
-                "chara": [
-                    {
-                        "id": 833600,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "？？？",
-                "narrationEffect": "out",
-                "textCenter": "…きて…@…ねえ、起きて！"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 833600
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102801,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 103201,
-                        "lipSynch": 0,
-                        "motion": 0,
-                        "pos": 1
-                    },
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102901,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameCenter": "みんな",
-                "textCenter": "…………@…………"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102801,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "ひめな",
-                "textLeft": "[chara:102801:effect_emotion_surprise_0][se:7226_shock]…はっ!?"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102801,
-                        "motion": 100,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "ひめな",
-                "textLeft": "みゆりん、しぐりん！@目を覚まして！"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 0,
-                        "id": 102901,
-                        "motion": 400,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "時雨",
-                "textRight": "…ん…？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103201,
-                        "motion": 300,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "ミユリ",
-                "textCenter": "うみゃうみゃ…@ミユはまだ眠いです…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102801,
-                        "motion": 200,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "ひめな",
-                "textLeft": "寝ぼけてる場合じゃないって！"
-            },
-            {
-                "autoTurnLast": 0.3,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 102801
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 103201
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 102901
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 833600,
-                        "motion": 1,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "？？？",
-                "textCenter": "目が覚めた？"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 833600,
-                        "pos": 0
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 833600,
-                        "motion": 100,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102801,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "textLeft": "私はコルネリア@あなたたちは、誰？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102801,
-                        "motion": 400,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ひめな",
-                "textRight": "えっ…コルネリア？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 833600,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "textLeft": "あれ…？@私を知ってるの？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102801,
-                        "lipSynch": 0,
-                        "motion": 1,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ひめな",
-                "textRight": "（さっきの夢の子だ…！）"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102801,
-                        "lipSynch": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ひめな",
-                "textRight": "（少し大きくなってるけど…@面影が残ってる）"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 102801,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ひめな",
-                "textRight": "ううん、初めましてだよね"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102801,
-                        "motion": 100,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ひめな",
-                "textRight": "私チャンはひめな★@こっちがみゆりんとしぐりんで…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 833600,
-                        "motion": 400,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "textLeft": "ひめな…@みゆりん…しぐりん？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102801,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ひめな",
-                "textRight": "そう、それから@[chara:102801:lipSynch_0][wait:0.8][chara:102801:cheek_0][chara:102801:face_mtn_ex_050.exp3.json][chara:102801:motion_400][chara:102801:lipSynch_1]あっ…！"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 833600
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 102801
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 103201,
-                        "motion": 400,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102901,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameLeft": "ミユリ",
-                "textLeft": "燦様たちがいないです！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102901,
-                        "motion": 100,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "時雨",
-                "textRight": "…うん、はぐむんと三輪さんも"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102801,
-                        "motion": 300,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "ひめな",
-                "textLeft": "どうしよ!?@３人とはぐれちゃった？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102901,
-                        "motion": 1,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "時雨",
-                "textRight": "近くに…倒れてたりしない？"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 102801
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 102901
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_65031.jpg",
-                "bgChangeEffect": "cameraPan"
-            },
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_65031.jpg",
-                "bgChangeEffect": "cameraPan"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 103201,
-                        "motion": 1,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 833600,
-                        "motion": 1,
-                        "pos": 0
-                    }
-                ],
-                "nameRight": "ミユリ",
-                "textRight": "…見あたらないです…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 833600,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "textLeft": "…何か事情があるの？@なんだか困ってるみたい"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 102801,
-                        "motion": 1,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ひめな",
-                "textRight": "うん…ぶっちゃけ@ここがどこかもわからないし"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 833600,
-                        "motion": 100,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "textLeft": "私の家よ@あなたたち、中庭に倒れてたの"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102801,
-                        "motion": 200,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ひめな",
-                "textRight": "あ…そうなんだ"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102801,
-                        "lipSynch": 0,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "ひめな",
-                "textRight": "（そういえば…@夢で見た場所と同じ？）"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 833600,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameNarration": "",
-                "narration": "ガヤガヤ…",
-                "narrationBg": "bg_adv_65031.jpg",
-                "narrationEffect": "in"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 833600,
-                        "motion": 400,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "narrationEffect": "out",
-                "textLeft": "いけない、人が来ちゃう@あっちに隠れてて！"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "bg": "bg_adv_65021.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 833600,
-                        "motion": 1,
-                        "pos": 1
-                    }
-                ],
-                "turnChangeIn": "rollInFast"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 833600,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "コルネリア",
-                "textCenter": "ここなら誰も来ないから@少し待っててくれる？",
-                "turnChangeOut": "rollOutFast"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 833600
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_051.exp3.json",
-                        "id": 102901,
-                        "motion": 400,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102801,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 103201,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "nameRight": "時雨",
-                "textRight": "う…うん…"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 102801
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 103201
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "id": 833600,
-                        "motion": 100,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "textLeft": "あ、お腹とかすいてない？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 833600,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルネリア",
-                "textLeft": "これ、私のおやつ@みんなで食べちゃっていいから"
-            },
-            {
-                "autoTurnLast": 1,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 833600
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 102801,
-                        "motion": 100,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 103201,
-                        "pos": 1
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102901,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameLeft": "ひめな",
-                "textLeft": "…かくまってくれたの？@すごくいい子じゃん！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 103201,
-                        "motion": 100,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "ミユリ",
-                "textCenter": "それにそれに@香ばしいお菓子もくれましたし"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102901,
-                        "motion": 300,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "時雨",
-                "textRight": "パンみたいな形だけど@チーズとハチミツの匂いがする…"
-            },
-            {
-                "autoTurnLast": 0.3,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 102801
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 103201
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 102901
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 101405,
-                        "motion": 100,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "ねむ",
-                "textCenter": "古代ローマ時代のチーズケーキだ@本で見たことがある"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 101405,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "ねむ",
-                "textCenter": "どうやら…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 101405,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "ねむ",
-                "textCenter": "火山噴火が起きる前の@ポンペイに着いたようだね"
-            },
-            {
-                "autoTurnLast": 2,
-                "turnChangeIn": "fadeIn"
-            }
-        ]
-    },
-    "version": 3
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.01,
+        "bg": "white",
+        "nameNarration": "姬奈",
+        "narrationCoverOpacity": 0,
+        "narrationEffect": "in",
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "bgm": "bgm23_magus04",
+        "narration": "[textBlack:…………]@[textBlack:…………]",
+        "turnChangeOut": "fadeOut",
+        "turnChangeOutTime": 1
+      },
+      {
+        "narration": "[textBlack:人家…刚才是失去意识了？]"
+      },
+      {
+        "autoTurnLast": 1.7,
+        "item": [
+          {
+            "action": {
+              "sequence": [
+                {
+                  "fadeTo": {
+                    "duration": 0.6,
+                    "opacity": 0
+                  }
+                },
+                {
+                  "fadeTo": {
+                    "duration": 0.2,
+                    "opacity": 80
+                  }
+                },
+                {
+                  "fadeTo": {
+                    "duration": 0.8,
+                    "opacity": 0
+                  }
+                }
+              ]
+            },
+            "iPhoneXScale": 1,
+            "opacity": 80,
+            "path": "resource/scenario/img/pink.png",
+            "posX": 0,
+            "posY": 0,
+            "setVisible": 1,
+            "zOrder": "bgFront"
+          }
+        ],
+        "narrationEffect": "out"
+      },
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/pink.png",
+            "visible": "hide"
+          }
+        ],
+        "nameNarration": "姬奈",
+        "narration": "[textBlack:――!?]",
+        "narrationCoverOpacity": 0,
+        "narrationEffect": "in"
+      },
+      {
+        "narration": "[textBlack:脑中…]@[textBlack:流入了不知是谁的记忆…]"
+      },
+      {
+        "autoTurnLast": 2,
+        "item": [
+          {
+            "path": "resource/scenario/img/51196_historia_paxromana/51196_magia_record_alt2.png",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaBack"
+          }
+        ],
+        "narrationEffect": "out"
+      },
+      {
+        "autoTurnLast": 1.5,
+        "bg": "bg_adv_65031.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 834901,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "narrationEffect": "out",
+        "turnChangeIn": "whiteIn",
+        "turnChangeInTime": 1.5,
+        "turnEffect": "sepiaFrame"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 834901,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "？？？",
+        "textCenter": "…科尔涅利娅，尤妮亚",
+        "turnChangeOut": "whiteOut",
+        "turnChangeOutTime": 1.5
+      },
+      {
+        "chara": [
+          {
+            "id": 834901,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "？？？",
+        "textCenter": "你们喜欢马里乌斯吗？"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 834901
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 801600,
+            "motion": 0,
+            "pos": 2
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 801601,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "nameRight": "尤妮亚",
+        "textRight": "是的！"
+      },
+      {
+        "chara": [
+          {
+            "id": 801600,
+            "pos": 2
+          }
+        ],
+        "nameRight": "尤妮亚",
+        "textRight": "尤妮亚最喜欢马里乌斯大人了~！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 834901,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "？？？",
+        "textLeft": "哈哈哈，是吗@科尔涅利娅呢？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 801601,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "nameRight": "科尔内利亚",
+        "textRight": "啊…是，父亲大人@我…"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 801601,
+            "pos": 0
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 801600,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "nameRight": "尤妮亚",
+        "textRight": "姐姐大人也最喜欢了吧？@马里乌斯大人！"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 801601,
+            "pos": 2
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 834901,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚的父亲",
+        "textLeft": "怎么了，科尔涅利娅？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 801601,
+            "pos": 2
+          }
+        ],
+        "nameRight": "科尔内利亚",
+        "textRight": "…啊…呃"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 801601,
+            "pos": 2
+          }
+        ],
+        "nameRight": "科尔内利亚",
+        "textRight": "马里乌斯大人，那个…@他是个又温柔…又十分出色的人…"
+      },
+      {
+        "chara": [
+          {
+            "face": "mtn_ex_030.exp3.json",
+            "id": 801601,
+            "lipSynch": 0,
+            "pos": 2
+          }
+        ],
+        "nameRight": "科尔内利亚",
+        "textRight": "…………"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 834901,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚的父亲",
+        "textLeft": "哈哈，不好意思说出口来吗"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 834901,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚的父亲",
+        "textLeft": "你们和马里乌斯大人的关系@似乎都很好，我也放心了"
+      },
+      {
+        "chara": [
+          {
+            "id": 834901,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚的父亲",
+        "textLeft": "毕竟将来，你们两人中的一个"
+      },
+      {
+        "chara": [
+          {
+            "id": 834901,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚的父亲",
+        "textLeft": "说不定就会嫁给马里乌斯啊"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 801601,
+            "pos": 0
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "id": 801601,
+            "mouthOpen": 1,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 801600,
+            "motion": 0,
+            "mouthOpen": 1,
+            "pos": 2
+          }
+        ],
+        "nameCenter": "科尔内利亚＆尤妮亚",
+        "textCenter": "诶…"
+      },
+      {
+        "chara": [
+          {
+            "id": 801601,
+            "mouthOpen": 0,
+            "pos": 0
+          },
+          {
+            "id": 801600,
+            "mouthOpen": 0,
+            "pos": 2
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "textLeft": "您的意思是…"
+      },
+      {
+        "chara": [
+          {
+            "id": 801600,
+            "pos": 2
+          }
+        ],
+        "nameRight": "尤妮亚",
+        "textRight": "我们会成为@马里乌斯大人的新娘吗…？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 834901,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚的父亲",
+        "textLeft": "对@虽然还是很久以后的事就是了"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 801601,
+            "lipSynch": 0,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "textLeft": "…………"
+      },
+      {
+        "chara": [
+          {
+            "id": 801601,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "textLeft": "我是…马里乌斯大人的…"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 1.5,
+        "bg": "white",
+        "nameNarration": "姬奈",
+        "narrationCoverOpacity": 0,
+        "narrationEffect": "in",
+        "turnChangeIn": "whiteIn",
+        "turnChangeInTime": 1.5,
+        "turnEffect": "stop"
+      },
+      {
+        "narration": "[textBlack:刚才那是，某个人的梦吗…？]",
+        "turnChangeOut": "whiteOut",
+        "turnChangeOutTime": 1.5
+      },
+      {
+        "narration": "[textBlack:科尔涅利娅和尤妮亚…]@[textBlack:是双胞胎…吗？]@[textBlack:她们俩的脸长得一模一样呢]"
+      },
+      {
+        "narration": "[textBlack:奇怪…意识…]@[textBlack:又开始…远离…]"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "bgm": "stop"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "bg": "bg_adv_65031.jpg",
+        "narrationEffect": "out",
+        "turnChangeIn": "whiteIn",
+        "turnChangeInTime": 1.5
+      },
+      {
+        "autoTurnLast": 0.3,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 833600,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "nameNarration": "",
+        "narrationBg": "bg_adv_65031.jpg",
+        "narrationEffect": "in"
+      },
+      {
+        "narration": "<公元77年初>",
+        "turnChangeOut": "whiteOut",
+        "turnChangeOutTime": 1.5
+      },
+      {
+        "narration": "<庞贝>"
+      },
+      {
+        "bgm": "bgm01_anime02",
+        "chara": [
+          {
+            "id": 833600,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "？？？",
+        "narrationEffect": "out",
+        "textCenter": "…醒…@…喂，快醒醒！"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 833600
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102801,
+            "motion": 0,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 103201,
+            "lipSynch": 0,
+            "motion": 0,
+            "pos": 1
+          },
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102901,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "nameCenter": "大家",
+        "textCenter": "…………@…………"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102801,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "姬奈",
+        "textLeft": "[chara:102801:effect_emotion_surprise_0][se:7226_shock]…哈！？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102801,
+            "motion": 100,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "姬奈",
+        "textLeft": "美由儿，时雨儿！@快醒醒！"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 0,
+            "id": 102901,
+            "motion": 400,
+            "pos": 2
+          }
+        ],
+        "nameRight": "时雨",
+        "textRight": "…嗯…？"
+      },
+      {
+        "chara": [
+          {
+            "id": 103201,
+            "motion": 300,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "美由利",
+        "textCenter": "呜喵呜喵…@美由还是好困…"
+      },
+      {
+        "chara": [
+          {
+            "id": 102801,
+            "motion": 200,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "姬奈",
+        "textLeft": "现在可不是该睡昏头的时候啊！"
+      },
+      {
+        "autoTurnLast": 0.3,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 102801
+          },
+          {
+            "effect": "fadeout",
+            "id": 103201
+          },
+          {
+            "effect": "fadeout",
+            "id": 102901
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 833600,
+            "motion": 1,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "？？？",
+        "textCenter": "你们醒了吗？"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 833600,
+            "pos": 0
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 833600,
+            "motion": 100,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102801,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "textLeft": "我是科尔涅利娅@你们是谁？"
+      },
+      {
+        "chara": [
+          {
+            "id": 102801,
+            "motion": 400,
+            "pos": 2
+          }
+        ],
+        "nameRight": "姬奈",
+        "textRight": "诶…科尔涅利娅？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 833600,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "textLeft": "嗯…？@你们认识我吗？"
+      },
+      {
+        "chara": [
+          {
+            "id": 102801,
+            "lipSynch": 0,
+            "motion": 1,
+            "pos": 2
+          }
+        ],
+        "nameRight": "姬奈",
+        "textRight": "（是刚才梦里的那个孩子…！）"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102801,
+            "lipSynch": 0,
+            "pos": 2
+          }
+        ],
+        "nameRight": "姬奈",
+        "textRight": "（虽然稍微长大了些…@但脸还保留着当时的特点）"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 102801,
+            "pos": 2
+          }
+        ],
+        "nameRight": "姬奈",
+        "textRight": "不，我们是初次见面吧"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102801,
+            "motion": 100,
+            "pos": 2
+          }
+        ],
+        "nameRight": "姬奈",
+        "textRight": "人家是蓝家姬奈★@这两位是美由儿和时雨儿…"
+      },
+      {
+        "chara": [
+          {
+            "id": 833600,
+            "motion": 400,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "textLeft": "姬奈…@美由儿…时雨儿？"
+      },
+      {
+        "chara": [
+          {
+            "id": 102801,
+            "pos": 2
+          }
+        ],
+        "nameRight": "姬奈",
+        "textRight": "对，还有@[chara:102801:lipSynch_0][wait:0.8][chara:102801:cheek_0][chara:102801:face_mtn_ex_050.exp3.json][chara:102801:motion_400][chara:102801:lipSynch_1]啊…！"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 833600
+          },
+          {
+            "effect": "fadeout",
+            "id": 102801
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 103201,
+            "motion": 400,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102901,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "nameLeft": "美由利",
+        "textLeft": "灿大人她们不在这里！"
+      },
+      {
+        "chara": [
+          {
+            "id": 102901,
+            "motion": 100,
+            "pos": 2
+          }
+        ],
+        "nameRight": "时雨",
+        "textRight": "…嗯，育梦梦和三轮小姐也是"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102801,
+            "motion": 300,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "姬奈",
+        "textLeft": "怎么办！？@我们和她们仨走散了？"
+      },
+      {
+        "chara": [
+          {
+            "id": 102901,
+            "motion": 1,
+            "pos": 2
+          }
+        ],
+        "nameRight": "时雨",
+        "textRight": "会不会…是倒在这附近了？"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 102801
+          },
+          {
+            "effect": "fadeout",
+            "id": 102901
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 1,
+        "bg": "bg_adv_65031.jpg",
+        "bgChangeEffect": "cameraPan"
+      },
+      {
+        "autoTurnLast": 1,
+        "bg": "bg_adv_65031.jpg",
+        "bgChangeEffect": "cameraPan"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 103201,
+            "motion": 1,
+            "pos": 2
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 833600,
+            "motion": 1,
+            "pos": 0
+          }
+        ],
+        "nameRight": "美由利",
+        "textRight": "…完全找不到…"
+      },
+      {
+        "chara": [
+          {
+            "id": 833600,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "textLeft": "…你们遇到什么问题了吗？@总感觉看起来很困扰的样子"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 102801,
+            "motion": 1,
+            "pos": 2
+          }
+        ],
+        "nameRight": "姬奈",
+        "textRight": "嗯…直说@人家我们根本就不知道这里是哪"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 833600,
+            "motion": 100,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "textLeft": "这里是我家哦@你们倒在了这里的中庭"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102801,
+            "motion": 200,
+            "pos": 2
+          }
+        ],
+        "nameRight": "姬奈",
+        "textRight": "啊…这样啊"
+      },
+      {
+        "chara": [
+          {
+            "id": 102801,
+            "lipSynch": 0,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "nameRight": "姬奈",
+        "textRight": "（说起来…这里和梦里@看到的地方是一样的？）"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 833600,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "nameNarration": "",
+        "narration": "（吵吵嚷嚷…）",
+        "narrationBg": "bg_adv_65031.jpg",
+        "narrationEffect": "in"
+      },
+      {
+        "chara": [
+          {
+            "id": 833600,
+            "motion": 400,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "narrationEffect": "out",
+        "textLeft": "不好，有人要来了@快藏到那里去！"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "bg": "bg_adv_65021.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 833600,
+            "motion": 1,
+            "pos": 1
+          }
+        ],
+        "turnChangeIn": "rollInFast"
+      },
+      {
+        "chara": [
+          {
+            "id": 833600,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "科尔内利亚",
+        "textCenter": "这里就不会有人来了@你们能稍微等一会吗？",
+        "turnChangeOut": "rollOutFast"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 833600
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_051.exp3.json",
+            "id": 102901,
+            "motion": 400,
+            "pos": 2
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102801,
+            "motion": 0,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 103201,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "nameRight": "时雨",
+        "textRight": "嗯…嗯…"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 102801
+          },
+          {
+            "effect": "fadeout",
+            "id": 103201
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "id": 833600,
+            "motion": 100,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "textLeft": "啊，你们肚子有没有饿？"
+      },
+      {
+        "chara": [
+          {
+            "id": 833600,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "科尔内利亚",
+        "textLeft": "这是我的点心@你们分着吃吧"
+      },
+      {
+        "autoTurnLast": 1,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 833600
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 102801,
+            "motion": 100,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 103201,
+            "pos": 1
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102901,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "nameLeft": "姬奈",
+        "textLeft": "…她是把我们藏起来了吗？@多好的孩子啊！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 103201,
+            "motion": 100,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "美由利",
+        "textCenter": "而且而且@她还给了我们香喷喷的点心"
+      },
+      {
+        "chara": [
+          {
+            "id": 102901,
+            "motion": 300,
+            "pos": 2
+          }
+        ],
+        "nameRight": "时雨",
+        "textRight": "虽然形状有点像面包@但有种奶酪和蜂蜜的气味…"
+      },
+      {
+        "autoTurnLast": 0.3,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 102801
+          },
+          {
+            "effect": "fadeout",
+            "id": 103201
+          },
+          {
+            "effect": "fadeout",
+            "id": 102901
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 101405,
+            "motion": 100,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "音梦",
+        "textCenter": "是古罗马时期的奶酪蛋糕@我在书上看到过"
+      },
+      {
+        "chara": [
+          {
+            "id": 101405,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "音梦",
+        "textCenter": "看来…"
+      },
+      {
+        "chara": [
+          {
+            "id": 101405,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "音梦",
+        "textCenter": "我们已经到了@火山喷发之前的庞贝呢"
+      },
+      {
+        "autoTurnLast": 2,
+        "turnChangeIn": "fadeIn"
+      }
+    ]
+  },
+  "version": 3
 }
