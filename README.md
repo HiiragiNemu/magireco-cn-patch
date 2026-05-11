@@ -9,6 +9,9 @@
 ### 魔法纪录中文资源打包：
 [![MagiaCN Asset Pipeline](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/auto_build.yml/badge.svg)](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/auto_build.yml)
 
+### 自动触发下游仓库们更新：
+[![🚀 触发下游同步](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/downstream-action-trigger.yml/badge.svg)](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/downstream-action-trigger.yml)
+
 ### 自动更新组织下游并上传S3：
 [![🔄 同步上游并上传到 S3](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml)
 
