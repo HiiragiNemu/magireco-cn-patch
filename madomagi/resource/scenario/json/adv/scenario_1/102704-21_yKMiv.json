@@ -1,781 +1,781 @@
 {
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.01,
-                "bg": "bg_adv_16151.jpg",
-                "bgm": "stop",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100100,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.01,
+        "bg": "bg_adv_16151.jpg",
+        "bgm": "stop",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100100,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "bgm": "bgm01_battle07",
+        "chara": [
+          {
+            "id": 100100,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-1"
+          }
+        ],
+        "nameCenter": "彩羽",
+        "textCenter": "十七夜小姐的伤没关系的@紧急处理已经结束了…！",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 100100
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "bg_adv_16151.jpg",
+        "bgChangeEffect": "cameraPan"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100200,
+            "motion": 201,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-2"
+          }
+        ],
+        "nameCenter": "八千代",
+        "textCenter": "从现在开始@我们的任务就是保护好她！"
+      },
+      {
+        "chara": [
+          {
+            "id": 100200,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-3"
+          }
+        ],
+        "nameCenter": "八千代",
+        "textCenter": "直到桃子她们打倒魔女为止@我们都会把她们拦在这里的！"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 100200
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "bg_adv_16151.jpg",
+        "bgChangeEffect": "cameraPan"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 101500,
+            "motion": 200,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-4"
+          }
+        ],
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare.png",
+            "posX": 300,
+            "posY": 0,
+            "scale": 1.5,
+            "setVisible": 0,
+            "visible": "appear",
+            "zOrder": "messageFront"
+          }
+        ],
+        "nameCenter": "忧",
+        "textCenter": "嗯！"
+      },
+      {
+        "chara": [
+          {
+            "id": 101500,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-5"
+          }
+        ],
+        "nameCenter": "忧",
+        "textCenter": "这里就由我和莎奈姐姐@来阻止住她们的动作！"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "item": [
+          {
+            "action": {
+              "moveTo": {
+                "duration": 0.4,
+                "posY": 500
+              }
             },
-            {
-                "bgm": "bgm01_battle07",
-                "chara": [
-                    {
-                        "id": 100100,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-1"
-                    }
-                ],
-                "nameCenter": "伊吕波",
-                "textCenter": "十七夜小姐的伤没关系的@紧急处理已经结束了…！",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 100100
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "bg_adv_16151.jpg",
-                "bgChangeEffect": "cameraPan"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100200,
-                        "motion": 201,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-2"
-                    }
-                ],
-                "nameCenter": "八千代",
-                "textCenter": "从现在开始@我们的任务就是保护好她！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100200,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-3"
-                    }
-                ],
-                "nameCenter": "八千代",
-                "textCenter": "直到桃子她们打倒魔女为止@我们都会把她们拦在这里的！"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 100200
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "bg_adv_16151.jpg",
-                "bgChangeEffect": "cameraPan"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 101500,
-                        "motion": 200,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-4"
-                    }
-                ],
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare.png",
-                        "posX": 300,
-                        "posY": 0,
-                        "scale": 1.5,
-                        "setVisible": 0,
-                        "visible": "appear",
-                        "zOrder": "messageFront"
-                    }
-                ],
-                "nameCenter": "忧",
-                "textCenter": "嗯！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 101500,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-5"
-                    }
-                ],
-                "nameCenter": "忧",
-                "textCenter": "这里就由我和莎奈姐姐@来阻止住她们的动作！"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "item": [
-                    {
-                        "action": {
-                            "moveTo": {
-                                "duration": 0.4,
-                                "posY": 500
-                            }
-                        },
-                        "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare.png"
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 101500
-                    }
-                ],
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare.png",
-                        "visible": "hide"
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 770102,
-                        "motion": 400,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-6"
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 103600,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameRight": "",
-                "textRight": "在空中飘来飘去的@好烦人啊…！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 103600,
-                        "motion": 400,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-7"
-                    }
-                ],
-                "nameLeft": "丽",
-                "textLeft": "哇哇！有铁球飞出来了！@那个盾就像惊吓盒子一样！"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 770102
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 103600
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 100400,
-                        "motion": 0,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-8"
-                    }
-                ],
-                "nameCenter": "莎奈",
-                "textCenter": "你们的周围@不管放着什么都不奇怪…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100400,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-9"
-                    }
-                ],
-                "nameCenter": "莎奈",
-                "textCenter": "要是不注意@可是会受伤的哦…!?"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 100400
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "bg_adv_16151.jpg",
-                "bgChangeEffect": "cameraPan"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100500,
-                        "motion": 200,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-10"
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 102100,
-                        "motion": 300,
-                        "pos": 2
-                    }
-                ],
-                "nameLeft": "菲莉希亚",
-                "textLeft": "[flashEffect:flashWhite2][surround:0001_jump01]呶呜…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100500,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-11"
-                    }
-                ],
-                "nameLeft": "菲莉希亚",
-                "textLeft": "可恶，明明很想打倒这家伙@为什么老是没法称心如意啊"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-12"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "猜猜看吧，下次我会@从哪里攻击过来呢"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 102100,
-                        "motion": 400,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-13"
-                    }
-                ],
-                "flashEffect": "flashWhiteSlow2",
-                "nameRight": "结菜",
-                "textRight": "对象变更…！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 100500,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-14"
-                    }
-                ],
-                "nameLeft": "菲莉希亚",
-                "textLeft": "是从右边吗！"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 102100,
-                        "motion": 0,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-15"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "[surround:1021A03][chara:100500:effect_7001_attack02]不…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_060.exp3.json",
-                        "id": 100500,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-16"
-                    }
-                ],
-                "nameLeft": "菲莉希亚",
-                "textLeft": "[surround:1021A04][chara:100500:effect_7003_damage02][bgEffect:shakeSmall]呜哇！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-17"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "让我就这样将你手中的@[textYellow:心魔]石也收下吧"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 100500,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-18"
-                    }
-                ],
-                "nameLeft": "菲莉希亚",
-                "textLeft": "谁会那样做啊！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100500,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-19"
-                    }
-                ],
-                "nameLeft": "菲莉希亚",
-                "textLeft": "我可是已经决定了再也不会@从这个讨厌的[textYellow:心魔]那里逃开了！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-20"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "真是毫不相关的事情呢"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100100,
-                        "motion": 100,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-21"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "那个[textYellow:心魔]是小菲莉@决定好了要背负下去的嫌恶感"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-22"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "直到主动托付给某人为止@她都不会将它交给任何人"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 102100,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-23"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "环伊吕波…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 100500,
-                        "motion": 0,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-24"
-                    }
-                ],
-                "nameRight": "菲莉希亚",
-                "textRight": "喂，你那边没问题吗"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 100100,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-25"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "嗯，最首要的十七夜小姐的@紧急处理已经做完了"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-26"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "小光她们那里也有@小鹤乃她们在战斗"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100100,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-27"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "小菲莉也去她们那里帮忙吧"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 100100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-28"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "我觉得你和红晴小姐的@相性大概不太好"
-            },
-            {
-                "autoTurnLast": 2,
-                "chara": [
-                    {
-                        "id": 100500,
-                        "voiceFull": "fullvoice/section_102704/vo_full_102704-21-29"
-                    }
-                ],
-                "enableSkipAutoTurn": 1,
-                "nameRight": "菲莉希亚",
-                "textRight": "虽然很想自己打倒…@但是，我知道了"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 100500,
-                        "motion": 200,
-                        "pos": 2
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 100500,
-                        "voiceFullStop": "fullvoice/section_102704/vo_full_102704-21-29"
-                    }
-                ],
-                "enableSkipAutoTurn": 0,
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102100,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-30"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "呵呵，你实在是太温柔了呢@环伊吕波"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-31"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "虽然最开始还以为会是@由比鹤乃来打到我"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-32"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "但大概是因为她真的可能会杀了我所以你才过来了吧"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100100,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-33"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "如果你是这么想的，就请把自己@做过的事情想得再不好一点吧！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-34"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "对于魔法少女来说，@愿望是切实而无可代替的存在"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-35"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "就是因为你触及了那里，还伤害了我们的同伴，我们才会这么生气！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 102100,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-36"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "那，就带着你的愤怒放马过来吧"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-37"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "我也会用自己的愤怒回敬@收下你的[textYellow:心魔]石的"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "flashEffect": "explosion",
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.5,
-                "bg": "bg_adv_24031.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100100,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 102100,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "turnChangeIn": "whiteIn"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-38"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "在二木也是这样的吗…？@蹂躏他人的愿望这种事情…！",
-                "turnChangeOut": "whiteOut"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 102100,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-39"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "那是当然的吧"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-40"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "如果知道了愿望，就会暴露出弱点@就算被逼入绝望的境地也不奇怪"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-41"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "我们生活的世界太不同了"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 100100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-42"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "…你就算做到那个地步@也想要存活下来吧…？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-43"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "一直在像这样@寻求着救赎吧…？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100100,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-44"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "就不能考虑一下，@二木之外的人们也是一样的吗…？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 102100,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-45"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "但是，我们怀抱着仇恨@对你们的救赎并没有兴趣"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-46"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "我所期望的只有@二木的孩子们的幸福而已"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 102100,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-47"
-                    }
-                ],
-                "nameRight": "结菜",
-                "textRight": "说到底，所有人都获得@幸福这种事就是不可能的哦"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 100100,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-48"
-                    }
-                ],
-                "nameLeft": "伊吕波",
-                "textLeft": "但是，洗雪仇恨和获得幸福@可不是一回事啊，红晴小姐!!"
-            },
-            {
-                "autoTurnLast": 2,
-                "turnChangeIn": "fadeIn"
-            }
+            "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare.png"
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 101500
+          }
+        ],
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter6/102704_ui_magicsquare.png",
+            "visible": "hide"
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 770102,
+            "motion": 400,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-6"
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 103600,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "nameRight": "",
+        "textRight": "在空中飘来飘去的@好烦人啊…！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 103600,
+            "motion": 400,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-7"
+          }
+        ],
+        "nameLeft": "丽",
+        "textLeft": "哇哇！有铁球飞出来了！@那个盾就像惊吓盒子一样！"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 770102
+          },
+          {
+            "effect": "fadeout",
+            "id": 103600
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 100400,
+            "motion": 0,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-8"
+          }
+        ],
+        "nameCenter": "莎奈",
+        "textCenter": "你们的周围@不管放着什么都不奇怪…"
+      },
+      {
+        "chara": [
+          {
+            "id": 100400,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-9"
+          }
+        ],
+        "nameCenter": "莎奈",
+        "textCenter": "要是不注意@可是会受伤的哦…!?"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 100400
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "bg_adv_16151.jpg",
+        "bgChangeEffect": "cameraPan"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100500,
+            "motion": 200,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-10"
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 102100,
+            "motion": 300,
+            "pos": 2
+          }
+        ],
+        "nameLeft": "菲莉希亚",
+        "textLeft": "[flashEffect:flashWhite2][surround:0001_jump01]呶呜…"
+      },
+      {
+        "chara": [
+          {
+            "id": 100500,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-11"
+          }
+        ],
+        "nameLeft": "菲莉希亚",
+        "textLeft": "可恶，明明很想打倒这家伙@为什么老是没法称心如意啊"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-12"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "猜猜看吧，下次我会@从哪里攻击过来呢"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 102100,
+            "motion": 400,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-13"
+          }
+        ],
+        "flashEffect": "flashWhiteSlow2",
+        "nameRight": "结菜",
+        "textRight": "对象变更…！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 100500,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-14"
+          }
+        ],
+        "nameLeft": "菲莉希亚",
+        "textLeft": "是从右边吗！"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 102100,
+            "motion": 0,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-15"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "[surround:1021A03][chara:100500:effect_7001_attack02]不…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_060.exp3.json",
+            "id": 100500,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-16"
+          }
+        ],
+        "nameLeft": "菲莉希亚",
+        "textLeft": "[surround:1021A04][chara:100500:effect_7003_damage02][bgEffect:shakeSmall]呜哇！"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-17"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "让我就这样将你手中的@[textYellow:心魔]石也收下吧"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 100500,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-18"
+          }
+        ],
+        "nameLeft": "菲莉希亚",
+        "textLeft": "谁会那样做啊！"
+      },
+      {
+        "chara": [
+          {
+            "id": 100500,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-19"
+          }
+        ],
+        "nameLeft": "菲莉希亚",
+        "textLeft": "我可是已经决定了再也不会@从这个讨厌的[textYellow:心魔]那里逃开了！"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-20"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "真是毫不相关的事情呢"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100100,
+            "motion": 100,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-21"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "那个[textYellow:心魔]是小菲莉@决定好了要背负下去的嫌恶感"
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-22"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "直到主动托付给某人为止@她都不会将它交给任何人"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 102100,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-23"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "环彩羽…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 100500,
+            "motion": 0,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-24"
+          }
+        ],
+        "nameRight": "菲莉希亚",
+        "textRight": "喂，你那边没问题吗"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 100100,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-25"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "嗯，最首要的十七夜小姐的@紧急处理已经做完了"
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-26"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "小光她们那里也有@小鹤乃她们在战斗"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100100,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-27"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "小菲莉也去她们那里帮忙吧"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 100100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-28"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "我觉得你和红晴小姐的@相性大概不太好"
+      },
+      {
+        "autoTurnLast": 2,
+        "chara": [
+          {
+            "id": 100500,
+            "voiceFull": "fullvoice/section_102704/vo_full_102704-21-29"
+          }
+        ],
+        "enableSkipAutoTurn": 1,
+        "nameRight": "菲莉希亚",
+        "textRight": "虽然很想自己打倒…@但是，我知道了"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 100500,
+            "motion": 200,
+            "pos": 2
+          }
         ]
-    },
-    "version": 3
+      },
+      {
+        "autoTurnLast": 0.5,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 100500,
+            "voiceFullStop": "fullvoice/section_102704/vo_full_102704-21-29"
+          }
+        ],
+        "enableSkipAutoTurn": 0,
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102100,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-30"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "呵呵，你实在是太温柔了呢@环彩羽"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-31"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "虽然最开始还以为会是@由比鹤乃来打到我"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-32"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "但大概是因为她真的可能会杀了我所以你才过来了吧"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100100,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-33"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "如果你是这么想的，就请把自己@做过的事情想得再不好一点吧！"
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-34"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "对于魔法少女来说，@愿望是切实而无可代替的存在"
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-35"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "就是因为你触及了那里，还伤害了我们的同伴，我们才会这么生气！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 102100,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-36"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "那，就带着你的愤怒放马过来吧"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-37"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "我也会用自己的愤怒回敬@收下你的[textYellow:心魔]石的"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "flashEffect": "explosion",
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.5,
+        "bg": "bg_adv_24031.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100100,
+            "motion": 0,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 102100,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "turnChangeIn": "whiteIn"
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-38"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "在二木也是这样的吗…？@蹂躏他人的愿望这种事情…！",
+        "turnChangeOut": "whiteOut"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 102100,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-39"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "那是当然的吧"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-40"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "如果知道了愿望，就会暴露出弱点@就算被逼入绝望的境地也不奇怪"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-41"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "我们生活的世界太不同了"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 100100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-42"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "…你就算做到那个地步@也想要存活下来吧…？"
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-43"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "一直在像这样@寻求着救赎吧…？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100100,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-44"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "就不能考虑一下，@二木之外的人们也是一样的吗…？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 102100,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-45"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "但是，我们怀抱着仇恨@对你们的救赎并没有兴趣"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-46"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "我所期望的只有@二木的孩子们的幸福而已"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 102100,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-47"
+          }
+        ],
+        "nameRight": "结菜",
+        "textRight": "说到底，所有人都获得@幸福这种事就是不可能的哦"
+      },
+      {
+        "chara": [
+          {
+            "id": 100100,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_102704/vo_full_102704-21-48"
+          }
+        ],
+        "nameLeft": "彩羽",
+        "textLeft": "但是，洗雪仇恨和获得幸福@可不是一回事啊，红晴小姐!!"
+      },
+      {
+        "autoTurnLast": 2,
+        "turnChangeIn": "fadeIn"
+      }
+    ]
+  },
+  "version": 3
 }
