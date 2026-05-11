@@ -1,0 +1,270 @@
+name: 💊 速效救心丸（抢救文件到 Release）
+
+on:
+  workflow_dispatch:  # 只允许手动触发
+    inputs:
+      force_upload:
+        description: '强制上传（即使文件已存在）'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write  # 需要创建 Release
+
+jobs:
+  rescue-files:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONUNBUFFERED: 1  # 强制 Python 无缓冲输出
+      # S3 配置
+      S3_1_ENDPOINT: ${{ secrets.S3_1_ENDPOINT }}
+      S3_1_ACCESS_KEY: ${{ secrets.S3_1_ACCESS_KEY }}
+      S3_1_SECRET_KEY: ${{ secrets.S3_1_SECRET_KEY }}
+      S3_1_REGION: ${{ secrets.S3_1_REGION }}
+      S3_1_BUCKET: ${{ secrets.S3_1_BUCKET }}
+      S3_1_DOMAIN: ${{ secrets.S3_1_DOMAIN }}
+      S3_2_ENDPOINT: ${{ secrets.S3_2_ENDPOINT }}
+      S3_2_ACCESS_KEY: ${{ secrets.S3_2_ACCESS_KEY }}
+      S3_2_SECRET_KEY: ${{ secrets.S3_2_SECRET_KEY }}
+      S3_2_REGION: ${{ secrets.S3_2_REGION }}
+      S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
+      S3_2_DOMAIN: ${{ secrets.S3_2_DOMAIN }}
+      # GitHub Token
+      : ${{ secrets. }}
+
+    steps:
+      - name: 📦 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 🐍 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 📦 安装依赖
+        run: |
+          pip install boto3
+
+      - name: 💊 运行抢救脚本
+        run: |
+          python3 << 'EOF'
+          import os
+          import sys
+          import json
+          import time
+          import urllib.request
+          import urllib.error
+          from datetime import datetime
+          from io import BytesIO
+
+          # 强制无缓冲输出
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+
+          import boto3
+          from botocore.exceptions import ClientError
+
+          # ==========================================
+          # GitHub Actions 分组日志工具
+          # ==========================================
+          class ActionGroup:
+              @staticmethod
+              def start_group(title):
+                  print(f"::group::{title}")
+              @staticmethod
+              def end_group():
+                  print("::endgroup::")
+
+          # ==========================================
+          # 日志工具
+          # ==========================================
+          LOG_COLORS = {
+              'INFO': '\033[92m', 'WARN': '\033[93m', 'ERROR': '\033[91m', 'RESET': '\033[0m'
+          }
+
+          def log(message, level="INFO"):
+              timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+              color = LOG_COLORS.get(level, '')
+              print(f"{color}[{timestamp}] [{level}] {message}{LOG_COLORS['RESET']}")
+
+          # ==========================================
+          # S3 操作类（流式上传）
+          # ==========================================
+          class S3Handler:
+              def __init__(self, endpoint, access_key, secret_key, region, bucket, domain, name="S3"):
+                  self.name = name
+                  self.bucket = bucket
+                  self.domain = domain
+                  if endpoint.endswith('/'): endpoint = endpoint[:-1]
+                  self.s3_client = boto3.client('s3', endpoint_url=endpoint, aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
+
+              def upload_file_from_url(self, url, filename):
+                  """流式上传，不落盘"""
+                  try:
+                      log(f"[{self.name}] 开始流式上传: {filename}", "INFO")
+                      req = urllib.request.Request(url)
+                      with urllib.request.urlopen(req) as response:
+                          file_data = response.read()
+                          file_size = len(file_data)
+                      
+                      self.s3_client.put_object(Bucket=self.bucket, Key=filename, Body=file_data, ContentLength=file_size)
+                      log(f"[{self.name}] 流式上传 {filename} ({file_size/1024/1024:.2f} MB) 成功", "INFO")
+                      return True
+                  except Exception as e:
+                      log(f"[{self.name}] 流式上传 {filename} 失败: {e}", "ERROR")
+                      return False
+
+          # ==========================================
+          # 主逻辑
+          # ==========================================
+          def main():
+              # 初始化 S3 处理器
+              s3_1 = S3Handler(
+                  os.environ['S3_1_ENDPOINT'], os.environ['S3_1_ACCESS_KEY'], 
+                  os.environ['S3_1_SECRET_KEY'], os.environ['S3_1_REGION'], 
+                  os.environ['S3_1_BUCKET'], os.environ['S3_1_DOMAIN'], "存储桶1"
+              )
+              
+              s3_2 = S3Handler(
+                  os.environ['S3_2_ENDPOINT'], os.environ['S3_2_ACCESS_KEY'], 
+                  os.environ['S3_2_SECRET_KEY'], os.environ['S3_2_REGION'], 
+                  os.environ['S3_2_BUCKET'], os.environ['S3_2_DOMAIN'], "存储桶2"
+              )
+              
+              # 定义要抢救的文件（与 CDN 缓存路径一致）
+              rescue_files = [
+                  # 存储桶1 文件
+                  {"name": "cn_base_00_db.zip", "s3": s3_1},
+                  {"name": "cn_base_01_json.zip", "s3": s3_1},
+                  {"name": "cn_base_02.zip", "s3": s3_1},
+                  {"name": "cn_base_03.zip", "s3": s3_1},
+                  {"name": "cn_base_04.zip", "s3": s3_1},
+                  {"name": "cn_base_05.zip", "s3": s3_1},
+                  {"name": "cn_base_06.zip", "s3": s3_1},
+                  {"name": "cn_js_update.zip", "s3": s3_1},
+                  {"name": "cn_magica_resource.zip", "s3": s3_1},
+                  {"name": "cn_scenario_img.zip", "s3": s3_1},
+                  
+                  # 存储桶2 文件
+                  {"name": "cn_voice_01.zip", "s3": s3_2},
+                  {"name": "cn_voice_02_done.zip", "s3": s3_2},
+                  {"name": "movie.zip", "s3": s3_2},
+                  {"name": "movie2.zip", "s3": s3_2},
+                  {"name": "cn_scenario_update.zip", "s3": s3_2},
+              ]
+              
+              # 强制上传标志
+              force_upload = os.environ.get('FORCE_UPLOAD', 'false').lower() == 'true'
+              
+              ActionGroup.start_group("💊 开始抢救文件")
+              log(f"强制上传模式: {force_upload}", "INFO")
+              
+              uploaded_files = []
+              failed_files = []
+              
+              for i, file_info in enumerate(rescue_files, 1):
+                  filename = file_info["name"]
+                  s3_handler = file_info["s3"]
+                  domain = s3_handler.domain
+                  
+                  # 构造下载 URL（与 CDN 缓存路径一致）
+                  url = f"https://{domain}/{filename}"
+                  
+                  log(f"[{i}/{len(rescue_files)}] 抢救文件: {filename}", "INFO")
+                  log(f"  来源 URL: {url}", "INFO")
+                  log(f"  目标存储桶: {s3_handler.name}", "INFO")
+                  
+                  try:
+                      if s3_handler.upload_file_from_url(url, filename):
+                          uploaded_files.append(filename)
+                          log(f"✅ {filename} 抢救成功", "INFO")
+                      else:
+                          failed_files.append(filename)
+                          log(f"❌ {filename} 抢救失败", "ERROR")
+                  except Exception as e:
+                      failed_files.append(filename)
+                      log(f"❌ {filename} 抢救异常: {e}", "ERROR")
+                  
+                  # 短暂休息，避免请求过快
+                  time.sleep(1)
+              
+              ActionGroup.end_group()
+              
+              # 输出结果
+              ActionGroup.start_group("📊 抢救结果汇总")
+              log(f"总计尝试: {len(rescue_files)} 个文件", "INFO")
+              log(f"成功抢救: {len(uploaded_files)} 个文件", "INFO")
+              log(f"抢救失败: {len(failed_files)} 个文件", "INFO")
+              
+              if uploaded_files:
+                  log("成功文件列表:", "INFO")
+                  for f in uploaded_files:
+                      log(f"  ✅ {f}", "INFO")
+              
+              if failed_files:
+                  log("失败文件列表:", "ERROR")
+                  for f in failed_files:
+                      log(f"  ❌ {f}", "ERROR")
+              ActionGroup.end_group()
+              
+              if failed_files:
+                  log("⚠️ 部分文件抢救失败，请检查日志", "WARN")
+                  sys.exit(1)
+              else:
+                  log("🎉 所有文件抢救成功！", "INFO")
+
+          if __name__ == "__main__":
+              main()
+          EOF
+        env:
+          FORCE_UPLOAD: ${{ github.event.inputs.force_upload }}
+
+      - name: 🚀 发布到 Release
+        env:
+          : ${{ secrets. }}
+        run: |
+          echo "创建新的 Rescue Release..."
+          
+          # 生成带时间戳的标签
+          TIMESTAMP=$(date -u +"%Y%m%d-%H%M%S")
+          TAG_NAME="rescue-${TIMESTAMP}"
+          
+          # 收集已上传的文件信息
+          echo "已成功抢救的文件将出现在 Release 中"
+          
+          # 创建 Release（不附加文件，因为文件已经在 S3 上）
+          gh release create "${TAG_NAME}" \
+            --title "🚑 紧急抢救文件 ${TIMESTAMP}" \
+            --notes "自动抢救的文件，已从 CDN 源站直接上传到 S3 存储桶。" \
+            --latest || true
+          
+          echo "✅ Rescue Release 已创建: ${TAG_NAME}"
+
+      - name: 📊 生成运行摘要
+        if: always()
+        run: |
+          echo "## 💊 速效救心丸抢救报告" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**执行时间**: $(date -u +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "**触发者**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**强制模式**: ${{ github.event.inputs.force_upload || 'false' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 抢救文件列表" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶 | 文件名 | 状态 |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|--------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶1 | cn_base_00_db.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶1 | cn_base_01_json.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶1 | cn_base_02.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶1 | cn_base_03.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶1 | cn_base_04.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶1 | cn_base_05.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶1 | cn_base_06.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶1 | cn_js_update.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶1 | cn_magica_resource.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶1 | cn_scenario_img.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶2 | cn_voice_01.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶2 | cn_voice_02_done.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶2 | movie.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶2 | movie2.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 存储桶2 | cn_scenario_update.zip | 已抢救 |" >> $GITHUB_STEP_SUMMARY
