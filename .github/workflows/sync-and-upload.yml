@@ -1,33 +1,29 @@
 name: 🔄 同步上游并上传到 S3
 
 on:
-  #schedule:
-    #- cron: '*/15 * * * *'  # 每15分钟运行一次
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
     inputs:
       force_sync:
         description: '强制同步（无视指纹）'
         required: false
         default: 'false'
         type: boolean
-  repository_dispatch:  # 新增：接收上游仓库的触发
-    types: [upstream-update]  # 对应上面发送的 event_type
+  repository_dispatch:
+    types: [upstream-update]
 
-# 关键：并发控制，确保同一时间只有一个实例运行
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true  # 如果已有运行中的任务，新任务直接取消（不排队）
+  cancel-in-progress: true
 
 permissions:
-  contents: write  # 需要写入权限来同步 fork 和更新变量
+  contents: write
 
 jobs:
   sync-and-upload:
     runs-on: ubuntu-latest
     env:
-      PYTHONUNBUFFERED: 1  # 强制 Python 无缓冲输出
+      PYTHONUNBUFFERED: "1"
       : ${{ secrets. }}
-      # S3 配置
       S3_1_ENDPOINT: ${{ secrets.S3_1_ENDPOINT }}
       S3_1_ACCESS_KEY: ${{ secrets.S3_1_ACCESS_KEY }}
       S3_1_SECRET_KEY: ${{ secrets.S3_1_SECRET_KEY }}
@@ -40,11 +36,9 @@ jobs:
       S3_2_REGION: ${{ secrets.S3_2_REGION }}
       S3_2_BUCKET: ${{ secrets.S3_2_BUCKET }}
       S3_2_DOMAIN: ${{ secrets.S3_2_DOMAIN }}
-      # edge 配置
       QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
       QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
       EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
-      # 仓库信息
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "patch-front"
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
@@ -58,51 +52,230 @@ jobs:
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           fetch-depth: 0
 
-      - name: 🔍 检查上游内容更新（比较 commit SHA）
+      - name: 🔍 检查上游内容更新
         id: check_upstream
         run: |
-          echo "检查上游仓库是否有内容更新..."
-          
-          # 获取上游仓库 main 分支的最新 commit SHA（修复：使用 branches API）
-          UPSTREAM_SHA=$(gh api repos/${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}/branches/main --jq '.commit.sha')
-          
-          echo "上游最新 commit: $UPSTREAM_SHA"
-          
-          # 获取 Variables 中存储的上次同步 commit SHA
-          LAST_SYNC_SHA="${{ vars.LAST_SYNC_COMMIT_SHA || '0' }}"
-          
-          echo "上次同步 commit: $LAST_SYNC_SHA"
-          
-          # 判断是否强制同步
-          FORCE_SYNC="${{ github.event.inputs.force_sync || 'false' }}"
-          
-          if [ "$FORCE_SYNC" = "true" ] || [ "$UPSTREAM_SHA" != "$LAST_SYNC_SHA" ]; then
-            echo "检测到新内容或强制同步，需要更新"
-            echo "should_sync=true" >> $GITHUB_OUTPUT
-            echo "commit_sha=$UPSTREAM_SHA" >> $GITHUB_OUTPUT
-          else
-            echo "无新内容，无需同步"
-            echo "should_sync=false" >> $GITHUB_OUTPUT
-          fi
+          python3 <<'SCRIPT_END'
+          import subprocess
+          import sys
+          import os
 
-      - name: 🔄 同步上游 Fork（同步代码内容）
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+
+          class C:
+              RESET         = "\033[0m"
+              BOLD          = "\033[1m"
+              DIM           = "\033[2m"
+              RED           = "\033[31m"
+              GREEN         = "\033[32m"
+              YELLOW        = "\033[33m"
+              CYAN          = "\033[36m"
+              BRIGHT_GREEN  = "\033[92m"
+              BRIGHT_YELLOW = "\033[93m"
+              BRIGHT_BLUE   = "\033[94m"
+              BRIGHT_CYAN   = "\033[96m"
+              BRIGHT_WHITE  = "\033[97m"
+
+          def c(color, text):
+              return f"{color}{text}{C.RESET}"
+
+          def header(text):
+              bar = "═" * 60
+              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+
+          def section(text):
+              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+
+          def info(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
+
+          def ok(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
+
+          def warn(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
+
+          def err(text, indent=0):
+              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
+
+          def skip(text, indent=0):
+              print(f"{'  '*indent}{c(C.DIM, '⏭  ' + text)}", flush=True)
+
+          def set_output(key, value):
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"{key}={value}\n")
+
+          UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
+          UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
+          FORCE_SYNC     = os.environ.get("INPUT_FORCE_SYNC", "false")
+
+          header("检查上游内容更新")
+
+          section("获取上游 commit SHA")
+          info(f"上游仓库: {c(C.BRIGHT_WHITE, f'{UPSTREAM_OWNER}/{UPSTREAM_REPO}')}")
+
+          result = subprocess.run(
+              ["gh", "api",
+               f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/branches/main",
+               "--jq", ".commit.sha"],
+              capture_output=True, text=True
+          )
+          if result.returncode != 0:
+              err(f"获取上游 SHA 失败: {result.stderr.strip()}")
+              sys.exit(1)
+
+          upstream_sha   = result.stdout.strip()
+          last_sync_sha  = os.environ.get("LAST_SYNC_COMMIT_SHA", "0")
+
+          info(f"上游最新 SHA: {c(C.BRIGHT_CYAN, upstream_sha[:7])}")
+          info(f"上次同步 SHA: {c(C.DIM, last_sync_sha[:7] if last_sync_sha != '0' else 'N/A')}")
+
+          section("判断是否需要同步")
+          if FORCE_SYNC == "true":
+              warn("强制同步模式，跳过 SHA 比对")
+              should_sync = True
+          elif upstream_sha != last_sync_sha:
+              ok("检测到新内容，需要同步")
+              should_sync = True
+          else:
+              skip("SHA 一致，无新内容")
+              should_sync = False
+
+          set_output("should_sync", "true" if should_sync else "false")
+          set_output("commit_sha", upstream_sha)
+          SCRIPT_END
+
+      - name: 🔄 同步上游 Fork
         if: steps.check_upstream.outputs.should_sync == 'true'
         run: |
-          echo "开始同步上游仓库内容..."
-          
-          # 使用 GitHub API 同步 fork（同步代码内容）
-          gh repo sync ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }} \
-            --source ${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }} \
-            --branch main \
-            --force
-            
-          echo "✅ 上游仓库内容同步完成"
+          python3 <<'SCRIPT_END'
+          import subprocess
+          import sys
+          import os
 
-      - name: 📝 立即更新 Commit SHA 信息
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+
+          class C:
+              RESET        = "\033[0m"
+              BOLD         = "\033[1m"
+              DIM          = "\033[2m"
+              RED          = "\033[31m"
+              BRIGHT_GREEN = "\033[92m"
+              BRIGHT_BLUE  = "\033[94m"
+              BRIGHT_WHITE = "\033[97m"
+              CYAN         = "\033[36m"
+
+          def c(color, text):
+              return f"{color}{text}{C.RESET}"
+
+          def header(text):
+              bar = "═" * 60
+              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+
+          def section(text):
+              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+
+          def info(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
+
+          def ok(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
+
+          def err(text, indent=0):
+              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
+
+          UPSTREAM_OWNER   = os.environ["UPSTREAM_OWNER"]
+          UPSTREAM_REPO    = os.environ["UPSTREAM_REPO"]
+          DOWNSTREAM_OWNER = os.environ["DOWNSTREAM_OWNER"]
+          DOWNSTREAM_REPO  = os.environ["DOWNSTREAM_REPO"]
+
+          header("同步上游 Fork 内容")
+          section("执行 repo sync")
+          info(f"来源: {c(C.BRIGHT_WHITE, f'{UPSTREAM_OWNER}/{UPSTREAM_REPO}')}")
+          info(f"目标: {c(C.BRIGHT_WHITE, f'{DOWNSTREAM_OWNER}/{DOWNSTREAM_REPO}')}")
+
+          result = subprocess.run([
+              "gh", "repo", "sync",
+              f"{DOWNSTREAM_OWNER}/{DOWNSTREAM_REPO}",
+              "--source", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
+              "--branch", "main",
+              "--force"
+          ], capture_output=True, text=True)
+
+          if result.returncode != 0:
+              err(f"同步失败: {result.stderr.strip()}")
+              sys.exit(1)
+
+          ok("上游仓库内容同步完成")
+          SCRIPT_END
+
+      - name: 📝 更新 Commit SHA
         if: steps.check_upstream.outputs.should_sync == 'true'
         run: |
-          echo "立即更新 Variables 中的 Commit SHA..."
-          gh variable set LAST_SYNC_COMMIT_SHA --body "${{ steps.check_upstream.outputs.commit_sha }}"
+          python3 <<'SCRIPT_END'
+          import subprocess
+          import sys
+          import os
+
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+
+          class C:
+              RESET        = "\033[0m"
+              BOLD         = "\033[1m"
+              DIM          = "\033[2m"
+              RED          = "\033[31m"
+              BRIGHT_GREEN = "\033[92m"
+              BRIGHT_BLUE  = "\033[94m"
+              BRIGHT_CYAN  = "\033[96m"
+              BRIGHT_WHITE = "\033[97m"
+              CYAN         = "\033[36m"
+
+          def c(color, text):
+              return f"{color}{text}{C.RESET}"
+
+          def header(text):
+              bar = "═" * 60
+              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+
+          def section(text):
+              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+
+          def info(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
+
+          def ok(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
+
+          def err(text, indent=0):
+              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
+
+          sha = os.environ.get("COMMIT_SHA", "")
+
+          header("更新同步状态")
+          section("写入 GitHub Variables")
+          info(f"SHA: {c(C.BRIGHT_CYAN, sha[:7] if sha else 'N/A')}")
+
+          result = subprocess.run(
+              ["gh", "variable", "set", "LAST_SYNC_COMMIT_SHA", "--body", sha],
+              capture_output=True, text=True
+          )
+          if result.returncode != 0:
+              err(f"写入失败: {result.stderr.strip()}")
+              sys.exit(1)
+
+          ok("LAST_SYNC_COMMIT_SHA 已更新")
+          SCRIPT_END
+        env:
+          COMMIT_SHA: ${{ steps.check_upstream.outputs.commit_sha }}
 
       - name: 🐍 设置 Python
         uses: actions/setup-python@v5
@@ -110,27 +283,25 @@ jobs:
           python-version: '3.10'
 
       - name: 📦 安装依赖
-        run: |
-          pip install boto3 tencentcloud-sdk-python
+        run: pip install boto3 tencentcloud-sdk-python
 
       - name: 🚀 运行同步脚本（上传 Release 文件）
         id: sync_script
         run: |
-          python3 << 'EOF'
+          python3 <<'SCRIPT_END'
           import os
           import sys
           import json
           import time
+          import subprocess
           import urllib.request
           import urllib.error
           from datetime import datetime
           from io import BytesIO
 
-          # 强制无缓冲输出
           sys.stdout.reconfigure(line_buffering=True)
           sys.stderr.reconfigure(line_buffering=True)
 
-          # 修正：正确的 boto3 导入
           import boto3
           from botocore.exceptions import ClientError
           from tencentcloud.common import credential
@@ -138,113 +309,175 @@ jobs:
           from tencentcloud.common.profile.http_profile import HttpProfile
           from tencentcloud.teo.v20220901 import teo_client, models
 
-          # ==========================================
-          # 1. GitHub Actions 分组日志工具
-          # ==========================================
+          # ============================================================
+          # 颜色 / 样式工具
+          # ============================================================
+          class C:
+              RESET         = "\033[0m"
+              BOLD          = "\033[1m"
+              DIM           = "\033[2m"
+              RED           = "\033[31m"
+              GREEN         = "\033[32m"
+              YELLOW        = "\033[33m"
+              CYAN          = "\033[36m"
+              BRIGHT_GREEN  = "\033[92m"
+              BRIGHT_YELLOW = "\033[93m"
+              BRIGHT_BLUE   = "\033[94m"
+              BRIGHT_CYAN   = "\033[96m"
+              BRIGHT_WHITE  = "\033[97m"
+
+          def c(color, text):
+              return f"{color}{text}{C.RESET}"
+
+          def header(text):
+              bar = "═" * 60
+              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+
+          def section(text):
+              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+
+          def info(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
+
+          def ok(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
+
+          def warn(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
+
+          def err(text, indent=0):
+              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
+
+          def skip(text, indent=0):
+              print(f"{'  '*indent}{c(C.DIM, '⏭  ' + text)}", flush=True)
+
+          def progress_bar(current, total, width=30, label=""):
+              pct    = current / total if total else 1.0
+              filled = int(width * pct)
+              bar    = c(C.BRIGHT_GREEN, "█" * filled) + c(C.DIM, "░" * (width - filled))
+              pct_s  = c(C.BOLD + C.BRIGHT_WHITE, f"{pct*100:5.1f}%")
+              lbl    = c(C.DIM, f" {label}") if label else ""
+              print(f"  [{bar}] {pct_s}{lbl}", flush=True)
+
+          def human_size(size_bytes):
+              for unit in ["B", "KB", "MB", "GB"]:
+                  if size_bytes < 1024:
+                      return f"{size_bytes:.1f} {unit}"
+                  size_bytes /= 1024
+              return f"{size_bytes:.1f} TB"
+
           class ActionGroup:
               @staticmethod
               def start_group(title):
-                  print(f"::group::{title}")
+                  print(f"::group::{title}", flush=True)
               @staticmethod
               def end_group():
-                  print("::endgroup::")
+                  print("::endgroup::", flush=True)
 
-          # ==========================================
-          # 2. 日志与输出设置
-          # ==========================================
-          LOG_COLORS = {
-              'INFO': '\033[92m', 'WARN': '\033[93m', 'ERROR': '\033[91m', 'RESET': '\033[0m'
-          }
-
+          # ============================================================
+          # GitHub Actions Step Summary 管理
+          # ============================================================
           class ActionLogger:
               def __init__(self):
                   self.step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
-                  self.file_statuses = {}
-                  self.obsolete_files = []
-                  self.ignored_files = []
-                  self.token_info = {}
-                  self.start_time = datetime.now()
-                  
+                  self.file_statuses     = {}
+                  self.obsolete_files    = []
+                  self.token_info        = {}
+                  self.start_time        = datetime.now()
+
               def init_summary(self):
                   if self.step_summary_path:
                       with open(self.step_summary_path, 'w', encoding='utf-8') as f:
                           f.write("## 🚀 Action 运行报告\n\n")
                           f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
-                          f.write("### 📋 文件处理状态\n\n| 文件名 | 状态 | 详细信息 |\n|--------|------|----------|\n")
-              
+                          f.write("### 📋 文件处理状态\n\n")
+                          f.write("| 文件名 | 状态 | 详细信息 |\n|--------|------|----------|\n")
+
+              def _rewrite_summary(self):
+                  if not self.step_summary_path:
+                      return
+                  icons = {
+                      '无需操作': '⚪', '排队中': '🟡', '下载中': '🔵',
+                      '上传中': '🟣', '已上传': '🟢', '已完成': '✅',
+                      '已忽略': '⚫', '失败': '❌'
+                  }
+                  with open(self.step_summary_path, 'w', encoding='utf-8') as f:
+                      f.write("## 🚀 Action 运行报告\n\n")
+                      f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
+                      f.write("### 📋 文件处理状态\n\n")
+                      f.write("| 文件名 | 状态 | 详细信息 |\n|--------|------|----------|\n")
+                      for fname, info_data in self.file_statuses.items():
+                          icon = icons.get(info_data['status'], '⚪')
+                          f.write(f"| {fname} | {icon} {info_data['status']} | {info_data['details']} |\n")
+                      f.write("\n")
+
               def update_file_status(self, filename, status, details=""):
                   self.file_statuses[filename] = {'status': status, 'details': details}
-                  if self.step_summary_path:
-                      with open(self.step_summary_path, 'w', encoding='utf-8') as f:
-                          f.write("## 🚀 Action 运行报告\n\n")
-                          f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
-                          f.write("### 📋 文件处理状态\n\n| 文件名 | 状态 | 详细信息 |\n|--------|------|----------|\n")
-                          icons = {'无需操作':'⚪','排队中':'🟡','下载中':'🔵','上传中':'🟣','已上传':'🟢','已完成':'✅','已忽略':'⚫','失败':'❌'}
-                          for fname, info in self.file_statuses.items():
-                              icon = icons.get(info['status'], '⚪')
-                              f.write(f"| {fname} | {icon} {info['status']} | {info['details']} |\n")
-                          f.write("\n")
-              
+                  self._rewrite_summary()
+
               def add_obsolete_files_section(self):
                   if self.step_summary_path and self.obsolete_files:
                       with open(self.step_summary_path, 'a', encoding='utf-8') as f:
-                          f.write("### 🗑️ 过时文件清理报告\n\n| 存储桶 | 文件名 | 状态 | 详细信息 |\n|--------|--------|------|----------|\n")
+                          f.write("### 🗑️ 过时文件清理报告\n\n")
+                          f.write("| 存储桶 | 文件名 | 状态 | 详细信息 |\n|--------|--------|------|----------|\n")
                           for item in self.obsolete_files:
                               icon = '✅' if item['status'] in ['已删除', '已纠正位置'] else '❌'
                               f.write(f"| {item['bucket']} | {item['filename']} | {icon} {item['status']} | {item['details']} |\n")
                           f.write("\n")
-              
+
               def add_token_info_section(self):
                   if self.step_summary_path and self.token_info:
                       with open(self.step_summary_path, 'a', encoding='utf-8') as f:
-                          f.write("### 🔑 GitHub API Token 调用信息\n\n| 项目 | 值 |\n|------|----|\n")
+                          f.write("### 🔑 GitHub API Token 调用信息\n\n")
+                          f.write("| 项目 | 值 |\n|------|----|\n")
                           for key, value in self.token_info.items():
                               f.write(f"| {key} | {value} |\n")
                           f.write("\n")
-              
-              def log(self, message, level="INFO", filename=None, status=None, details=""):
-                  timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                  color = LOG_COLORS.get(level, '')
-                  print(f"{color}[{timestamp}] [{level}] {message}{LOG_COLORS['RESET']}")
-                  if filename and status:
-                      self.update_file_status(filename, status, details)
-              
+
               def finalize_summary(self, processed_files):
-                  if self.step_summary_path:
-                      with open(self.step_summary_path, 'a', encoding='utf-8') as f:
-                          f.write(f"\n⏱️ **结束时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n")
-                          f.write(f"⏱️ **总耗时**: `{(datetime.now() - self.start_time).total_seconds():.2f}` 秒\n\n")
-                          self.add_token_info_section()
-                          success = sum(1 for f in processed_files if f['success'])
-                          fail = len(processed_files) - success
-                          if fail == 0:
-                              f.write("🟢 **状态**: 所有文件处理成功！\n")
-                          else:
-                              f.write(f"🟡 **状态**: 处理完成，{success} 个成功，{fail} 个失败。\n")
+                  if not self.step_summary_path:
+                      return
+                  with open(self.step_summary_path, 'a', encoding='utf-8') as f:
+                      f.write(f"\n⏱️ **结束时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n")
+                      elapsed = (datetime.now() - self.start_time).total_seconds()
+                      f.write(f"⏱️ **总耗时**: `{elapsed:.2f}` 秒\n\n")
+                      self.add_token_info_section()
+                      success = sum(1 for f in processed_files if f['success'])
+                      fail    = len(processed_files) - success
+                      if fail == 0:
+                          f.write("🟢 **状态**: 所有文件处理成功！\n")
+                      else:
+                          f.write(f"🟡 **状态**: 处理完成，{success} 个成功，{fail} 个失败。\n")
 
           logger = ActionLogger()
           logger.init_summary()
 
-          # ==========================================
-          # 3. GitHub API 客户端
-          # ==========================================
+          # ============================================================
+          # GitHub API 客户端
+          # ============================================================
           class GitHubAPIClient:
               def __init__(self, token=None):
-                  self.token = token
-                  self.headers = {'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'}
+                  self.token   = token
+                  self.headers = {
+                      'Accept': 'application/vnd.github+json',
+                      'X-GitHub-Api-Version': '2022-11-28'
+                  }
                   if token:
                       self.headers['Authorization'] = f'Bearer {token}'
-                      logger.log("使用 Fine-grained Personal Access Token", "INFO")
+                      masked = (token[:4] + '*' * (len(token) - 8) + token[-4:]
+                                if len(token) > 8 else '*' * len(token))
                       logger.token_info['Token 类型'] = 'Fine-grained'
-                      masked = token[:4] + '*' * (len(token)-8) + token[-4:] if len(token) > 8 else '*'*len(token)
                       logger.token_info['Token 预览'] = masked
+                      info(f"Token: {c(C.DIM, masked)}")
                   else:
-                      logger.log("未提供 Token，匿名访问（可能受限）", "WARN")
+                      warn("未提供 Token，匿名访问（可能受限）")
                       logger.token_info['Token 类型'] = '匿名'
 
               def get_latest_release(self, owner, repo):
                   url = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
-                  logger.log(f"调用 API: GET {url}", "INFO")
+                  info(f"请求: {c(C.DIM, url)}")
                   req = urllib.request.Request(url, headers=self.headers)
                   try:
                       with urllib.request.urlopen(req) as res:
@@ -253,191 +486,265 @@ jobs:
                           return json.loads(res.read().decode())
                   except urllib.error.HTTPError as e:
                       if e.code == 404:
-                          logger.log(f"API 返回 404，仓库 {owner}/{repo} 可能没有 Release", "WARN")
+                          warn(f"仓库 {owner}/{repo} 暂无 Release")
                           return None
-                      logger.log(f"API 调用失败: {e}", "ERROR")
-                      raise
-                  except Exception as e:
-                      logger.log(f"API 调用失败: {e}", "ERROR")
                       raise
 
-          # ==========================================
-          # 4. S3 操作类（流式上传）
-          # ==========================================
+          # ============================================================
+          # S3 操作类
+          # ============================================================
           class S3Handler:
-              def __init__(self, endpoint, access_key, secret_key, region, bucket, domain, name="S3"):
-                  self.name = name
+              def __init__(self, endpoint, access_key, secret_key,
+                           region, bucket, domain, name="S3"):
+                  self.name   = name
                   self.bucket = bucket
                   self.domain = domain
-                  if endpoint.endswith('/'): endpoint = endpoint[:-1]
-                  self.s3_client = boto3.client('s3', endpoint_url=endpoint, aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
+                  ep = endpoint.rstrip('/')
+                  self.s3_client = boto3.client(
+                      's3', endpoint_url=ep,
+                      aws_access_key_id=access_key,
+                      aws_secret_access_key=secret_key,
+                      region_name=region
+                  )
 
               def list_files(self):
                   try:
                       paginator = self.s3_client.get_paginator('list_objects_v2')
-                      files = [obj['Key'] for page in paginator.paginate(Bucket=self.bucket) if 'Contents' in page for obj in page['Contents']]
-                      logger.log(f"[{self.name}] 列出 {len(files)} 个文件", "INFO")
+                      files = [
+                          obj['Key']
+                          for page in paginator.paginate(Bucket=self.bucket)
+                          if 'Contents' in page
+                          for obj in page['Contents']
+                      ]
+                      info(f"[{c(C.BRIGHT_WHITE, self.name)}] 列出 {c(C.BOLD, str(len(files)))} 个文件")
                       return files
                   except Exception as e:
-                      logger.log(f"[{self.name}] 列出文件失败: {e}", "ERROR")
+                      err(f"[{self.name}] 列出文件失败: {e}")
                       return []
 
               def delete_file(self, filename):
                   try:
                       self.s3_client.delete_object(Bucket=self.bucket, Key=filename)
-                      logger.log(f"[{self.name}] 删除 {filename} 成功", "INFO")
+                      ok(f"[{c(C.BRIGHT_WHITE, self.name)}] 删除: {filename}", indent=1)
                       return True
                   except ClientError as e:
                       if e.response['Error']['Code'] == '404':
-                          logger.log(f"[{self.name}] {filename} 不存在", "WARN")
+                          skip(f"[{self.name}] {filename} 不存在", indent=1)
                           return True
-                      logger.log(f"[{self.name}] 删除 {filename} 失败: {e}", "ERROR")
+                      err(f"[{self.name}] 删除失败: {e}", indent=1)
                       return False
                   except Exception as e:
-                      logger.log(f"[{self.name}] 删除 {filename} 异常: {e}", "ERROR")
+                      err(f"[{self.name}] 删除异常: {e}", indent=1)
                       return False
 
               def upload_file_from_url(self, url, filename):
                   try:
-                      logger.log(f"[{self.name}] 开始流式上传: {filename}", "INFO")
+                      info(f"[{c(C.BRIGHT_WHITE, self.name)}] 流式上传: "
+                           f"{c(C.BRIGHT_CYAN, filename)}", indent=1)
                       req = urllib.request.Request(url)
                       with urllib.request.urlopen(req) as response:
-                          file_data = response.read()
-                          file_size = len(file_data)
-                      self.s3_client.put_object(Bucket=self.bucket, Key=filename, Body=file_data, ContentLength=file_size)
-                      logger.log(f"[{self.name}] 流式上传 {filename} ({file_size/1024/1024:.2f} MB) 成功", "INFO")
+                          file_data  = response.read()
+                          file_size  = len(file_data)
+                      self.s3_client.put_object(
+                          Bucket=self.bucket, Key=filename,
+                          Body=file_data, ContentLength=file_size
+                      )
+                      ok(f"[{c(C.BRIGHT_WHITE, self.name)}] 上传完成: "
+                         f"{filename} {c(C.DIM, '(' + human_size(file_size) + ')')}",
+                         indent=1)
                       return True
                   except Exception as e:
-                      logger.log(f"[{self.name}] 流式上传 {filename} 失败: {e}", "ERROR")
+                      err(f"[{self.name}] 上传失败: {e}", indent=1)
                       return False
 
-          # ==========================================
-          # 5. edge 缓存刷新
-          # ==========================================
+          # ============================================================
+          # edge 缓存刷新
+          # ============================================================
           class EdgeOneHandler:
               def __init__(self, secret_id, secret_key, zone_id):
                   self.zone_id = zone_id
-                  cred = credential.Credential(secret_id, secret_key)
-                  http_profile = HttpProfile()
-                  http_profile.endpoint = "teo.tencentcloudapi.com"
-                  client_profile = ClientProfile()
-                  client_profile.httpProfile = http_profile
-                  self.client = teo_client.TeoClient(cred, "", client_profile)
+                  cred         = credential.Credential(secret_id, secret_key)
+                  hp           = HttpProfile()
+                  hp.endpoint  = "teo.tencentcloudapi.com"
+                  cp           = ClientProfile()
+                  cp.httpProfile = hp
+                  self.client  = teo_client.TeoClient(cred, "", cp)
 
-              def _mask_task_id(self, task_id):
-                  if not task_id or len(task_id) <= 8: return '*' * len(task_id) if task_id else '未知'
+              def _mask(self, task_id):
+                  if not task_id or len(task_id) <= 8:
+                      return '*' * len(task_id) if task_id else '未知'
                   return task_id[:4] + '*' * (len(task_id) - 8) + task_id[-4:]
 
               def purge_cache(self, domain, filename):
                   try:
-                      req = models.CreatePurgeTaskRequest()
+                      req        = models.CreatePurgeTaskRequest()
                       target_url = f"http://{domain}/{filename}"
-                      req.from_json_string(json.dumps({"ZoneId": self.zone_id, "Type": "purge_url", "Targets": [target_url]}))
-                      resp = self.client.CreatePurgeTask(req)
-                      masked_id = self._mask_task_id(resp.RequestId)
-                      logger.log(f"[edge] 提交刷新任务成功: {target_url} (ID: {masked_id})", "INFO")
-                      return True, masked_id
+                      req.from_json_string(json.dumps({
+                          "ZoneId": self.zone_id,
+                          "Type": "purge_url",
+                          "Targets": [target_url]
+                      }))
+                      resp    = self.client.CreatePurgeTask(req)
+                      task_id = self._mask(resp.RequestId)
+                      ok(f"[edge] 缓存刷新: {c(C.DIM, target_url)} "
+                         f"{c(C.DIM, '(ID: ' + task_id + ')')}", indent=1)
+                      return True, task_id
                   except Exception as e:
-                      logger.log(f"[edge] 刷新缓存失败: {e}", "ERROR")
+                      err(f"[edge] 刷新失败: {e}", indent=1)
                       return False, str(e)
 
-          # ==========================================
-          # 6. 主逻辑
-          # ==========================================
+          # ============================================================
+          # 主逻辑
+          # ============================================================
           def main():
               try:
-                  # 配置
-                  s3_1 = S3Handler(os.environ['S3_1_ENDPOINT'], os.environ['S3_1_ACCESS_KEY'], os.environ['S3_1_SECRET_KEY'], os.environ['S3_1_REGION'], os.environ['S3_1_BUCKET'], os.environ['S3_1_DOMAIN'], "存储桶1")
-                  s3_2 = S3Handler(os.environ['S3_2_ENDPOINT'], os.environ['S3_2_ACCESS_KEY'], os.environ['S3_2_SECRET_KEY'], os.environ['S3_2_REGION'], os.environ['S3_2_BUCKET'], os.environ['S3_2_DOMAIN'], "存储桶2")
-                  edge = EdgeOneHandler(os.environ['QCLOUD_SECRET_ID'], os.environ['QCLOUD_SECRET_KEY'], os.environ['EDGEONE_ZONE_ID'])
-                  
+                  header("初始化配置")
+
+                  section("S3 & edge 客户端")
+                  s3_1 = S3Handler(
+                      os.environ['S3_1_ENDPOINT'], os.environ['S3_1_ACCESS_KEY'],
+                      os.environ['S3_1_SECRET_KEY'], os.environ['S3_1_REGION'],
+                      os.environ['S3_1_BUCKET'],    os.environ['S3_1_DOMAIN'],
+                      "存储桶1"
+                  )
+                  s3_2 = S3Handler(
+                      os.environ['S3_2_ENDPOINT'], os.environ['S3_2_ACCESS_KEY'],
+                      os.environ['S3_2_SECRET_KEY'], os.environ['S3_2_REGION'],
+                      os.environ['S3_2_BUCKET'],    os.environ['S3_2_DOMAIN'],
+                      "存储桶2"
+                  )
+                  edge = EdgeOneHandler(
+                      os.environ['QCLOUD_SECRET_ID'],
+                      os.environ['QCLOUD_SECRET_KEY'],
+                      os.environ['EDGEONE_ZONE_ID']
+                  )
+                  ok("S3 × 2 + edge 客户端已初始化")
+
+                  section("GitHub API 客户端")
                   gh_client = GitHubAPIClient(os.environ.get('', ''))
-                  
-                  # 关键修正：始终使用上游仓库获取 Release
+
                   owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
-                  repo = os.environ.get('UPSTREAM_REPO', 'patch-front')
-                  
-                  # 获取当前 Release 及 SHA256
+                  repo  = os.environ.get('UPSTREAM_REPO',  'patch-front')
+
+                  # --------------------------------------------------
+                  # 获取 Release
+                  # --------------------------------------------------
+                  header("获取上游 Release 信息")
+                  section(f"{owner}/{repo} 最新 Release")
+
                   release = gh_client.get_latest_release(owner, repo)
                   if not release:
-                      logger.log("上游仓库没有 Release，无需处理", "INFO")
+                      warn("上游仓库没有 Release，无需处理")
                       logger.finalize_summary([])
                       return
-                  
-                  current_map = {}
-                  for asset in release.get('assets', []):
-                      if not asset['name'].startswith('source code'):
-                          current_map[asset['name']] = asset.get('digest', '')
-                  
-                  logger.log(f"当前 Release 包含 {len(current_map)} 个文件。", "INFO")
-                  
-                  # 从 GitHub Variables 获取上次文件指纹
-                  import subprocess
-                  result = subprocess.run(['gh', 'variable', 'get', 'LAST_SYNC_FINGERPRINTS'], capture_output=True, text=True)
+
+                  info(f"Release: {c(C.BRIGHT_WHITE, release.get('name') or release.get('tag_name'))}")
+                  info(f"发布时间: {c(C.DIM, release.get('published_at', 'N/A'))}")
+
+                  current_map = {
+                      a['name']: a.get('digest', '')
+                      for a in release.get('assets', [])
+                      if not a['name'].startswith('source code')
+                  }
+                  info(f"包含 {c(C.BOLD, str(len(current_map)))} 个 asset")
+
+                  # --------------------------------------------------
+                  # 读取历史指纹
+                  # --------------------------------------------------
+                  header("比对文件指纹")
+                  section("读取历史指纹")
+
+                  result = subprocess.run(
+                      ['gh', 'variable', 'get', 'LAST_SYNC_FINGERPRINTS'],
+                      capture_output=True, text=True
+                  )
                   old_map = {}
                   if result.returncode == 0 and result.stdout.strip():
                       try:
                           old_map = json.loads(result.stdout.strip())
-                      except:
-                          old_map = {}
-                  
-                  # 过滤列表
+                          info(f"历史指纹: {c(C.BOLD, str(len(old_map)))} 个文件")
+                      except Exception:
+                          warn("历史指纹解析失败，视为首次同步")
+                  else:
+                      info("无历史指纹，视为首次同步")
+
                   IGNORE_FILES = {'history-data-splited.tar.xz'}
-                  
-                  # SHA256 比对
+
+                  section("SHA256 比对")
                   to_process = []
-                  unchanged = []
-                  deleted = []
-                  
+                  unchanged  = []
+                  deleted    = []
+
                   for fname, sha in current_map.items():
                       if fname in IGNORE_FILES:
+                          skip(f"{fname} → 过滤列表")
                           logger.update_file_status(fname, "已忽略", "过滤列表")
                       elif fname not in old_map:
+                          info(f"{c(C.BRIGHT_YELLOW, fname)} → 新文件")
                           logger.update_file_status(fname, "排队中", "新文件")
                           to_process.append(fname)
                       elif sha and old_map[fname] != sha:
+                          info(f"{c(C.BRIGHT_YELLOW, fname)} → SHA 变更")
                           logger.update_file_status(fname, "排队中", "文件已更新")
                           to_process.append(fname)
                       elif not sha:
+                          warn(f"{fname} → 无 SHA，按新文件处理")
                           logger.update_file_status(fname, "排队中", "无SHA，按新文件处理")
                           to_process.append(fname)
                       else:
+                          skip(f"{fname} → 无变更")
                           logger.update_file_status(fname, "无需操作", "文件未变更")
                           unchanged.append(fname)
-                  
-                  # 检查被删除的文件
+
                   for fname in old_map:
                       if fname not in current_map and fname not in IGNORE_FILES:
+                          warn(f"{fname} → 已从 Release 中删除")
                           deleted.append(fname)
-                  
+
+                  info(f"待处理: {c(C.BRIGHT_YELLOW, str(len(to_process)))} | "
+                       f"无变更: {c(C.DIM, str(len(unchanged)))} | "
+                       f"已删除: {c(C.RED, str(len(deleted)))}")
+
+                  # --------------------------------------------------
                   # 清理过时文件 & 纠正位置
+                  # --------------------------------------------------
                   ActionGroup.start_group("🗑️ 清理过时文件 & 纠正位置")
-                  
+                  header("清理过时文件 & 纠正文件位置")
+
                   bucket1_files = s3_1.list_files()
                   bucket2_files = s3_2.list_files()
-                  
+
                   bucket1_targets = {
-                      'cn_base_00_db.zip', 'cn_base_01_json.zip', 'cn_base_02.zip', 
-                      'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip', 
-                      'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip', 
+                      'cn_base_00_db.zip', 'cn_base_01_json.zip', 'cn_base_02.zip',
+                      'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip',
+                      'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip',
                       'cn_magica_resource.zip'
                   }
-                  
-                  # 处理存储桶1
+
+                  section("处理存储桶1")
                   for fname in bucket1_files:
                       if fname in deleted or fname not in current_map:
                           if s3_1.delete_file(fname):
                               logger.update_file_status(fname, "已完成", "已删除过时文件")
-                              logger.obsolete_files.append({'bucket':'存储桶1','filename':fname,'status':'已删除','details':'清理过时'})
+                              logger.obsolete_files.append({
+                                  'bucket': '存储桶1', 'filename': fname,
+                                  'status': '已删除', 'details': '清理过时'
+                              })
                       elif fname not in bucket1_targets:
-                          logger.log(f"文件 {fname} 在存储桶1中但应属于存储桶2，准备纠正", "WARN")
+                          warn(f"{fname} 位于存储桶1但应属于存储桶2，纠正...", indent=1)
                           logger.update_file_status(fname, "排队中", "纠正位置（移至存储桶2）")
                           try:
-                              url = next(a['browser_download_url'] for a in release['assets'] if a['name'] == fname)
+                              url = next(
+                                  a['browser_download_url']
+                                  for a in release['assets'] if a['name'] == fname
+                              )
                               if s3_2.upload_file_from_url(url, fname):
                                   if s3_1.delete_file(fname):
-                                      logger.update_file_status(fname, "已完成", "已纠正位置（移至存储桶2）")
-                                      logger.obsolete_files.append({'bucket':'存储桶1→存储桶2','filename':fname,'status':'已纠正位置','details':'移至正确桶'})
+                                      logger.update_file_status(fname, "已完成", "已纠正位置（→存储桶2）")
+                                      logger.obsolete_files.append({
+                                          'bucket': '存储桶1→存储桶2', 'filename': fname,
+                                          'status': '已纠正位置', 'details': '移至正确桶'
+                                      })
                                       if fname in to_process:
                                           to_process.remove(fname)
                                   else:
@@ -446,22 +753,31 @@ jobs:
                                   logger.update_file_status(fname, "失败", "上传到目标桶失败")
                           except Exception as e:
                               logger.update_file_status(fname, "失败", f"纠正失败: {e}")
-                  
-                  # 处理存储桶2
+
+                  section("处理存储桶2")
                   for fname in bucket2_files:
                       if fname in deleted or fname not in current_map:
                           if s3_2.delete_file(fname):
                               logger.update_file_status(fname, "已完成", "已删除过时文件")
-                              logger.obsolete_files.append({'bucket':'存储桶2','filename':fname,'status':'已删除','details':'清理过时'})
+                              logger.obsolete_files.append({
+                                  'bucket': '存储桶2', 'filename': fname,
+                                  'status': '已删除', 'details': '清理过时'
+                              })
                       elif fname in bucket1_targets:
-                          logger.log(f"文件 {fname} 在存储桶2中但应属于存储桶1，准备纠正", "WARN")
+                          warn(f"{fname} 位于存储桶2但应属于存储桶1，纠正...", indent=1)
                           logger.update_file_status(fname, "排队中", "纠正位置（移至存储桶1）")
                           try:
-                              url = next(a['browser_download_url'] for a in release['assets'] if a['name'] == fname)
+                              url = next(
+                                  a['browser_download_url']
+                                  for a in release['assets'] if a['name'] == fname
+                              )
                               if s3_1.upload_file_from_url(url, fname):
                                   if s3_2.delete_file(fname):
-                                      logger.update_file_status(fname, "已完成", "已纠正位置（移至存储桶1）")
-                                      logger.obsolete_files.append({'bucket':'存储桶2→存储桶1','filename':fname,'status':'已纠正位置','details':'移至正确桶'})
+                                      logger.update_file_status(fname, "已完成", "已纠正位置（→存储桶1）")
+                                      logger.obsolete_files.append({
+                                          'bucket': '存储桶2→存储桶1', 'filename': fname,
+                                          'status': '已纠正位置', 'details': '移至正确桶'
+                                      })
                                       if fname in to_process:
                                           to_process.remove(fname)
                                   else:
@@ -470,25 +786,40 @@ jobs:
                                   logger.update_file_status(fname, "失败", "上传到目标桶失败")
                           except Exception as e:
                               logger.update_file_status(fname, "失败", f"纠正失败: {e}")
-                  
+
                   logger.add_obsolete_files_section()
                   ActionGroup.end_group()
-                  
+
                   if not to_process:
-                      logger.log("✅ 无新增或更新文件，任务结束。", "INFO")
+                      header("无需处理")
+                      ok("无新增或更新文件，任务结束")
                       logger.finalize_summary([])
                       return
-                  
-                  # 处理剩余文件
-                  processed = []
+
+                  # --------------------------------------------------
+                  # 上传文件
+                  # --------------------------------------------------
+                  header(f"上传文件（共 {len(to_process)} 个）")
+                  processed    = []
+                  total_files  = len(to_process)
+
                   for i, fname in enumerate(to_process, 1):
-                      ActionGroup.start_group(f"📦 文件 {i}/{len(to_process)}: {fname}")
+                      ActionGroup.start_group(f"[{i}/{total_files}] 📦 {fname}")
+
+                      print(flush=True)
+                      progress_bar(i - 1, total_files,
+                                   label=f"文件进度 {i-1}/{total_files}")
+
                       target_s3 = s3_1 if fname in bucket1_targets else s3_2
-                      logger.log(f"分类到 {target_s3.name}", "INFO")
-                      
-                      url = next(a['browser_download_url'] for a in release['assets'] if a['name'] == fname)
+                      info(f"文件: {c(C.BRIGHT_WHITE, fname)}")
+                      info(f"目标: {c(C.BRIGHT_YELLOW, target_s3.name)}")
+
+                      url = next(
+                          a['browser_download_url']
+                          for a in release['assets'] if a['name'] == fname
+                      )
                       logger.update_file_status(fname, "上传中", f"流式传输至 {target_s3.name}")
-                      
+
                       if target_s3.upload_file_from_url(url, fname):
                           logger.update_file_status(fname, "已上传", f"已上传到 {target_s3.name}")
                           success, tid = edge.purge_cache(target_s3.domain, fname)
@@ -501,11 +832,17 @@ jobs:
                       else:
                           logger.update_file_status(fname, "失败", "S3 上传失败")
                           processed.append({'filename': fname, 'success': False})
-                      
+
+                      progress_bar(i, total_files,
+                                   label=f"文件进度 {i}/{total_files}")
                       ActionGroup.end_group()
-                  
-                  # 保存文件指纹到 GitHub Variables
+
+                  # --------------------------------------------------
+                  # 保存指纹
+                  # --------------------------------------------------
                   ActionGroup.start_group("💾 保存同步状态")
+                  header("保存文件指纹")
+
                   final_map = old_map.copy()
                   for fname in unchanged:
                       final_map[fname] = old_map[fname]
@@ -513,26 +850,45 @@ jobs:
                       final_map[fname] = current_map[fname]
                   for fname in deleted:
                       final_map.pop(fname, None)
-                  
-                  subprocess.run(['gh', 'variable', 'set', 'LAST_SYNC_FINGERPRINTS', '--body', json.dumps(final_map)], check=True)
-                  logger.log("✅ 文件指纹已保存到 GitHub Variables", "INFO")
+
+                  subprocess.run(
+                      ['gh', 'variable', 'set', 'LAST_SYNC_FINGERPRINTS',
+                       '--body', json.dumps(final_map)],
+                      check=True
+                  )
+                  ok(f"文件指纹已保存（{c(C.BOLD, str(len(final_map)))} 个）")
                   ActionGroup.end_group()
-                  
+
                   logger.finalize_summary(processed)
-                  
+
+                  header("全部完成")
+                  success_count = sum(1 for p in processed if p['success'])
+                  fail_count    = len(processed) - success_count
+                  ok(f"成功: {c(C.BOLD, str(success_count))} 个文件")
+                  if fail_count:
+                      err(f"失败: {fail_count} 个文件")
+                  else:
+                      ok("全部文件处理成功，无错误")
+
               except Exception as e:
-                  logger.log(f"❌ 脚本执行失败: {e}", "ERROR")
+                  err(f"脚本执行失败: {e}")
+                  import traceback
+                  traceback.print_exc()
                   sys.exit(1)
 
           if __name__ == "__main__":
               main()
-          EOF
+          SCRIPT_END
 
       - name: 📊 生成运行摘要
         if: always()
         run: |
           echo "## 🎉 同步任务完成" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**上游仓库**: ${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}" >> $GITHUB_STEP_SUMMARY
-          echo "**下游仓库**: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}" >> $GITHUB_STEP_SUMMARY
-          echo "**同步状态**: ${{ steps.check_upstream.outputs.should_sync == 'true' && '已同步新内容' || '无新内容' }}" >> $GITHUB_STEP_SUMMARY
+          echo "| 项目 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|----|" >> $GITHUB_STEP_SUMMARY
+          echo "| 上游仓库 | \`${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
