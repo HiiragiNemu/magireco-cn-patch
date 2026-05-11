@@ -1,18 +1,13 @@
 name: 🚀 触发下游同步
 
 on:
-  # 监听上游仓库的 push 事件（任何分支）
   push:
     branches:
       - main
       - master
-  
-  # 监听上游仓库的 Release 事件
   release:
     types: [published, edited, released]
-  
-  # 允许手动触发
-  workflow_dispatch:
+  workflow_dispatch: # 保留手动触发以便测试
 
 permissions:
   contents: read
@@ -21,48 +16,38 @@ jobs:
   trigger-downstream:
     runs-on: ubuntu-latest
     env:
-      # 关键修正：使用  环境变量，值为你创建的 PAT
+      # 关键：这里引用的是上游仓库里你添加的 Secret 名称
       : ${{ secrets.DOWNSTREAM_TRIGGER_TOKEN }}
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
       DOWNSTREAM_REPO: "patch-front"
       
     steps:
-      - name: 🔍 获取最新信息
+      - name: 🔍 获取上游最新 Commit SHA
         id: get_info
         run: |
           echo "获取上游最新 commit..."
-          COMMIT_SHA=$(gh api repos/${{ github.repository }}/commits/main --jq '.[0].sha')
+          # 获取上游自身最新 commit 的 SHA
+          COMMIT_SHA=$(gh api repos/${{ github.repository }}/branches/main --jq '.commit.sha')
           echo "commit_sha=$COMMIT_SHA" >> $GITHUB_OUTPUT
-          
-          echo "获取上游最新 Release..."
-          RELEASE_ID=$(gh api repos/${{ github.repository }}/releases/latest --jq '.id' 2>/dev/null || echo "")
-          echo "release_id=$RELEASE_ID" >> $GITHUB_OUTPUT
-          
-          echo "上游仓库: ${{ github.repository }}"
           echo "最新 commit: $COMMIT_SHA"
-          echo "最新 Release ID: $RELEASE_ID"
 
       - name: 🚀 触发下游仓库 Action
         run: |
-          echo "触发下游仓库的 sync-and-upload.yml..."
+          echo "向上游发送 Repository Dispatch 事件..."
           
-          # 使用 repository dispatch 触发下游仓库
+          # 向下游仓库发送自定义事件
           gh api repos/${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}/dispatches \
             --method POST \
             --field event_type="upstream-update" \
-            --field client_payload[upstream_repo]="${{ github.repository }}" \
             --field client_payload[upstream_sha]="${{ steps.get_info.outputs.commit_sha }}" \
-            --field client_payload[upstream_release_id]="${{ steps.get_info.outputs.release_id }}" \
             --field client_payload[triggered_by]="${{ github.actor }}"
           
-          echo "✅ 已成功触发下游仓库的 Action"
+          echo "✅ 下游仓库已成功收到触发信号！"
 
-      - name: 📊 生成摘要
+      - name: 📊 生成运行摘要
         if: always()
         run: |
-          echo "## 🚀 触发下游同步完成" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**上游仓库**: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
-          echo "**下游仓库**: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}" >> $GITHUB_STEP_SUMMARY
-          echo "**触发原因**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "**触发者**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "## 🚀 触发下游同步报告" >> $GITHUB_STEP_SUMMARY
+          echo "- **触发事件**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **上游 Commit**: ${{ steps.get_info.outputs.commit_sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **目标下游**: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}" >> $GITHUB_STEP_SUMMARY
