@@ -1,519 +1,519 @@
 {
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.2,
-                "bg": "black",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 102100,
-                        "motion": 1,
-                        "pos": 1
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.2,
+        "bg": "black",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 102100,
+            "motion": 1,
+            "pos": 1
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "bgm": "bgm03_story10",
+        "chara": [
+          {
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-1"
+          }
+        ],
+        "nameNarration": "结菜",
+        "narration": "「联盟和时女一族所戒备的@就是被地理上有利的我们@打个措手不及，甚至一网打尽」",
+        "narrationEffect": "in",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-2"
+          }
+        ],
+        "narration": "「以此为条件，可以认为@她们会在缩小要打倒的敌人范围基础上@以不引人注目的少数人侵入这里」"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-3"
+          }
+        ],
+        "narration": "「会成为她们攻击焦点的@当然就是持有着[textYellow:心魔]石的我们三姐妹」"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-4"
+          }
+        ],
+        "narration": "「恐怕她们会将目标缩小到我们每个人@再攻击过来，尝试杀了我们@又或者，毕竟她们那么天真@目的也可能是为了交涉而抓捕我们」"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-5"
+          }
+        ],
+        "narration": "「所以，先设想好几种情况@再行动吧…」"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "bg": "black",
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics1.jpg",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear"
+          }
+        ],
+        "narrationEffect": "out",
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "nameNarration": "结菜",
+        "narration": "如果所有成员都来了，那就太感激了@就如刚才说过的一样，由我们一起@对联盟和时女一族造成打击",
+        "narrationAnchor": "bottom",
+        "narrationCoverOpacity": 110,
+        "narrationEffect": "in",
+        "narrationFontSize": 30,
+        "narrationLineMargin": 10,
+        "narrationLineSpace": 20,
+        "turnChangeOut": "fadeOut",
+        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-6"
+      },
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics3.jpg",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear"
+          }
+        ],
+        "narration": "其次，如果只出现了一两个人@就对她们各个击破",
+        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-7"
+      },
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics2.jpg",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear"
+          },
+          {
+            "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics3.jpg",
+            "visible": "hide"
+          }
+        ],
+        "narration": "如果她们在某种程度上一起攻击过来，@就把敌人分割开",
+        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-8"
+      },
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics4.jpg",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear"
+          },
+          {
+            "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics2.jpg",
+            "visible": "hide"
+          }
+        ],
+        "narration": "在分隔之后，就像各个击破的时候一样@利用地理优势逐个击溃@或者最低限度地让她们分散开来…",
+        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-9"
+      },
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics4.jpg",
+            "visible": "hide"
+          }
+        ],
+        "narration": "然后，只要能找到@让联盟和时女一族聚到一起的机会@让开一条逃跑路线让她们会合",
+        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-10"
+      },
+      {
+        "narration": "就能不费吹灰之力地消灭掉她们了",
+        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-11"
+      },
+      {
+        "autoTurnLast": 0.1
+      },
+      {
+        "autoTurnLast": 1,
+        "bg": "bg_adv_21723.jpg",
+        "bgm": "stop",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_021.exp3.json",
+            "id": 100101,
+            "motion": 0,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_040.exp3.json",
+            "id": 100401,
+            "motion": 1,
+            "pos": 2
+          }
+        ],
+        "narrationEffect": "out",
+        "turnChangeIn": "fadeIn",
+        "turnChangeInTime": 1.2
+      },
+      {
+        "autoTurnLast": 2,
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "item": [
+          {
+            "action": {
+              "moveTo": {
+                "duration": 0.4,
+                "posY": 0
+              }
             },
-            {
-                "bgm": "bgm03_story10",
-                "chara": [
-                    {
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-1"
-                    }
-                ],
-                "nameNarration": "结菜",
-                "narration": "「联盟和时女一族所戒备的@就是被地理上有利的我们@打个措手不及，甚至一网打尽」",
-                "narrationEffect": "in",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-2"
-                    }
-                ],
-                "narration": "「以此为条件，可以认为@她们会在缩小要打倒的敌人范围基础上@以不引人注目的少数人侵入这里」"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-3"
-                    }
-                ],
-                "narration": "「会成为她们攻击焦点的@当然就是持有着[textYellow:心魔]石的我们三姐妹」"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-4"
-                    }
-                ],
-                "narration": "「恐怕她们会将目标缩小到我们每个人@再攻击过来，尝试杀了我们@又或者，毕竟她们那么天真@目的也可能是为了交涉而抓捕我们」"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-5"
-                    }
-                ],
-                "narration": "「所以，先设想好几种情况@再行动吧…」"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "bg": "black",
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics1.jpg",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear"
-                    }
-                ],
-                "narrationEffect": "out",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "nameNarration": "结菜",
-                "narration": "如果所有成员都来了，那就太感激了@就如刚才说过的一样，由我们一起@对联盟和时女一族造成打击",
-                "narrationAnchor": "bottom",
-                "narrationCoverOpacity": 110,
-                "narrationEffect": "in",
-                "narrationFontSize": 30,
-                "narrationLineMargin": 10,
-                "narrationLineSpace": 20,
-                "turnChangeOut": "fadeOut",
-                "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-6"
-            },
-            {
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics3.jpg",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear"
-                    }
-                ],
-                "narration": "其次，如果只出现了一两个人@就对她们各个击破",
-                "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-7"
-            },
-            {
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics2.jpg",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear"
-                    },
-                    {
-                        "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics3.jpg",
-                        "visible": "hide"
-                    }
-                ],
-                "narration": "如果她们在某种程度上一起攻击过来，@就把敌人分割开",
-                "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-8"
-            },
-            {
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics4.jpg",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear"
-                    },
-                    {
-                        "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics2.jpg",
-                        "visible": "hide"
-                    }
-                ],
-                "narration": "在分隔之后，就像各个击破的时候一样@利用地理优势逐个击溃@或者最低限度地让她们分散开来…",
-                "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-9"
-            },
-            {
-                "item": [
-                    {
-                        "path": "resource/scenario/img/part2_chapter7/102802_pb_tactics4.jpg",
-                        "visible": "hide"
-                    }
-                ],
-                "narration": "然后，只要能找到@让联盟和时女一族聚到一起的机会@让开一条逃跑路线让她们会合",
-                "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-10"
-            },
-            {
-                "narration": "就能不费吹灰之力地消灭掉她们了",
-                "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-11"
-            },
-            {
-                "autoTurnLast": 0.1
-            },
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_21723.jpg",
-                "bgm": "stop",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_021.exp3.json",
-                        "id": 100101,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_040.exp3.json",
-                        "id": 100401,
-                        "motion": 1,
-                        "pos": 2
-                    }
-                ],
-                "narrationEffect": "out",
-                "turnChangeIn": "fadeIn",
-                "turnChangeInTime": 1.2
-            },
-            {
-                "autoTurnLast": 2,
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 0.01,
-                "item": [
-                    {
-                        "action": {
-                            "moveTo": {
-                                "duration": 0.4,
-                                "posY": 0
-                            }
-                        },
-                        "path": "resource/scenario/img/adv_roll_fade.png",
-                        "posX": 0,
-                        "posY": 3000,
-                        "scale": 6,
-                        "setVisible": 1,
-                        "zOrder": "messageFront"
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.01,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 100101
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 100401
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.01,
-                "bg": "bg_adv_21563.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 102100,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "item": [
-                    {
-                        "action": {
-                            "moveTo": {
-                                "duration": 0.4,
-                                "posY": -3000
-                            }
-                        },
-                        "path": "resource/scenario/img/adv_roll_fade.png"
-                    }
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-12"
-                    }
-                ],
-                "nameCenter": "结菜",
-                "surround": "7003_wind",
-                "textCenter": "果然只派少数人来了呢…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-13"
-                    }
-                ],
-                "nameCenter": "结菜",
-                "textCenter": "如果一开始就能让@持有[textYellow:心魔]石的我们受到打击"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-14"
-                    }
-                ],
-                "nameCenter": "结菜",
-                "textCenter": "就能挫了这边的风头@让我们难以行动"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-15"
-                    }
-                ],
-                "nameCenter": "结菜",
-                "textCenter": "到这里为止还是预想的范围内"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "bg": "bg_adv_narration.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 102100,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 302100,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "surround": "stop",
-                "turnChangeIn": "rollInFast",
-                "turnEffect": "thinking"
-            },
-            {
-                "bgm": "bgm23_promised06",
-                "chara": [
-                    {
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-16"
-                    }
-                ],
-                "nameLeft": "结菜",
-                "textLeft": "朔夜，把你那边的同伴@派一个到这边来…",
-                "turnChangeOut": "rollOutFast"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-17"
-                    }
-                ],
-                "nameRight": "铃鹿 朔夜",
-                "textRight": "联盟来了吗？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-18"
-                    }
-                ],
-                "nameLeft": "结菜",
-                "textLeft": "嗯，环伊吕波和二叶莎奈@她们现在好像在探查魔力"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302100,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-19"
-                    }
-                ],
-                "nameRight": "铃鹿 朔夜",
-                "textRight": "我知道了"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302100,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-20"
-                    }
-                ],
-                "nameRight": "铃鹿 朔夜",
-                "textRight": "看起来和结菜设想的一样@我会派个没去过神滨的孩子过去的"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-21"
-                    }
-                ],
-                "nameLeft": "结菜",
-                "textLeft": "嗯"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-22"
-                    }
-                ],
-                "nameLeft": "结菜",
-                "textLeft": "让她去附近的快餐店吧…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302100,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-23"
-                    }
-                ],
-                "nameRight": "铃鹿 朔夜",
-                "textRight": "我知道了"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "bg": "bg_adv_21563.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 102100,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "turnChangeIn": "fadeIn",
-                "turnEffect": "stop"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-24"
-                    }
-                ],
-                "nameCenter": "结菜",
-                "textCenter": "看我反过来挫挫你们的锐气",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_21111.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 800200,
-                        "motion": 0,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102101,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 800200,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-25"
-                    }
-                ],
-                "nameRight": "",
-                "textRight": "只是像这样说话就可以了吗？",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102101,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-26"
-                    }
-                ],
-                "nameLeft": "结菜",
-                "textLeft": "嗯"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102101,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-27"
-                    }
-                ],
-                "nameLeft": "结菜",
-                "textLeft": "只要让敌人看见我们@看似无任何察觉的谈笑的样子"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102101,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-28"
-                    }
-                ],
-                "nameLeft": "结菜",
-                "textLeft": "在和你分别之后@对面应该就会主动来接触我了"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102101,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-29"
-                    }
-                ],
-                "nameLeft": "结菜",
-                "textLeft": "…………"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 102101,
-                        "lipSynch": 0,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-30"
-                    }
-                ],
-                "nameLeft": "结菜",
-                "textLeft": "（不过，应该还是@上一层保险会比较稳妥吧…）"
-            },
-            {
-                "autoTurnLast": 2,
-                "bgm": "stop",
-                "turnChangeIn": "fadeIn"
-            }
+            "path": "resource/scenario/img/adv_roll_fade.png",
+            "posX": 0,
+            "posY": 3000,
+            "scale": 6,
+            "setVisible": 1,
+            "zOrder": "messageFront"
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.01,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 100101
+          },
+          {
+            "effect": "fadeout",
+            "id": 100401
+          }
         ]
-    },
-    "version": 3
+      },
+      {
+        "autoTurnLast": 0.01,
+        "bg": "bg_adv_21563.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 102100,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "item": [
+          {
+            "action": {
+              "moveTo": {
+                "duration": 0.4,
+                "posY": -3000
+              }
+            },
+            "path": "resource/scenario/img/adv_roll_fade.png"
+          }
+        ]
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-12"
+          }
+        ],
+        "nameCenter": "结菜",
+        "surround": "7003_wind",
+        "textCenter": "果然只派少数人来了呢…"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-13"
+          }
+        ],
+        "nameCenter": "结菜",
+        "textCenter": "如果一开始就能让@持有[textYellow:心魔]石的我们受到打击"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-14"
+          }
+        ],
+        "nameCenter": "结菜",
+        "textCenter": "就能挫了这边的风头@让我们难以行动"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-15"
+          }
+        ],
+        "nameCenter": "结菜",
+        "textCenter": "到这里为止还是预想的范围内"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "bg": "bg_adv_narration.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 102100,
+            "motion": 0,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 302100,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "surround": "stop",
+        "turnChangeIn": "rollInFast",
+        "turnEffect": "thinking"
+      },
+      {
+        "bgm": "bgm23_promised06",
+        "chara": [
+          {
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-16"
+          }
+        ],
+        "nameLeft": "结菜",
+        "textLeft": "朔夜，把你那边的同伴@派一个到这边来…",
+        "turnChangeOut": "rollOutFast"
+      },
+      {
+        "chara": [
+          {
+            "id": 302100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-17"
+          }
+        ],
+        "nameRight": "铃鹿 朔夜",
+        "textRight": "联盟来了吗？"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-18"
+          }
+        ],
+        "nameLeft": "结菜",
+        "textLeft": "嗯，环彩羽和二叶莎奈@她们现在好像在探查魔力"
+      },
+      {
+        "chara": [
+          {
+            "id": 302100,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-19"
+          }
+        ],
+        "nameRight": "铃鹿 朔夜",
+        "textRight": "我知道了"
+      },
+      {
+        "chara": [
+          {
+            "id": 302100,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-20"
+          }
+        ],
+        "nameRight": "铃鹿 朔夜",
+        "textRight": "看起来和结菜设想的一样@我会派个没去过神滨的孩子过去的"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-21"
+          }
+        ],
+        "nameLeft": "结菜",
+        "textLeft": "嗯"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-22"
+          }
+        ],
+        "nameLeft": "结菜",
+        "textLeft": "让她去附近的快餐店吧…"
+      },
+      {
+        "chara": [
+          {
+            "id": 302100,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-23"
+          }
+        ],
+        "nameRight": "铃鹿 朔夜",
+        "textRight": "我知道了"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "bg": "bg_adv_21563.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 102100,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "turnChangeIn": "fadeIn",
+        "turnEffect": "stop"
+      },
+      {
+        "chara": [
+          {
+            "id": 102100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-24"
+          }
+        ],
+        "nameCenter": "结菜",
+        "textCenter": "看我反过来挫挫你们的锐气",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 1,
+        "bg": "bg_adv_21111.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 800200,
+            "motion": 0,
+            "pos": 2
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102101,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "chara": [
+          {
+            "id": 800200,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-25"
+          }
+        ],
+        "nameRight": "",
+        "textRight": "只是像这样说话就可以了吗？",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "id": 102101,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-26"
+          }
+        ],
+        "nameLeft": "结菜",
+        "textLeft": "嗯"
+      },
+      {
+        "chara": [
+          {
+            "id": 102101,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-27"
+          }
+        ],
+        "nameLeft": "结菜",
+        "textLeft": "只要让敌人看见我们@看似无任何察觉的谈笑的样子"
+      },
+      {
+        "chara": [
+          {
+            "id": 102101,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-28"
+          }
+        ],
+        "nameLeft": "结菜",
+        "textLeft": "在和你分别之后@对面应该就会主动来接触我了"
+      },
+      {
+        "chara": [
+          {
+            "id": 102101,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-29"
+          }
+        ],
+        "nameLeft": "结菜",
+        "textLeft": "…………"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 102101,
+            "lipSynch": 0,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_102802/vo_full_102802-2-30"
+          }
+        ],
+        "nameLeft": "结菜",
+        "textLeft": "（不过，应该还是@上一层保险会比较稳妥吧…）"
+      },
+      {
+        "autoTurnLast": 2,
+        "bgm": "stop",
+        "turnChangeIn": "fadeIn"
+      }
+    ]
+  },
+  "version": 3
 }
