@@ -1,10 +1,15 @@
-name: 🔄 同步上游并上传到 S3
+name: 🔄 同步上游和最新 APK 、打包热更新文件并上传到 S3
 
 on:
   workflow_dispatch:
     inputs:
       force_sync:
         description: '强制同步（无视指纹）'
+        required: false
+        default: 'false'
+        type: boolean
+      publish_hotfix:
+        description: '发布热更新包（将 _new 文件覆盖正式文件）'
         required: false
         default: 'false'
         type: boolean
@@ -50,7 +55,13 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
-          fetch-depth: 0
+          fetch-depth: 2
+
+      - name: 🔧 配置 Git
+        run: |
+          git config user.name "MagiaCN AutoBot"
+          git config user.email "bot@magiacn.com"
+          git config rebase.autoStash true
 
       - name: 🔍 检查上游内容更新
         id: check_upstream
@@ -111,6 +122,7 @@ jobs:
           UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
           UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
           FORCE_SYNC     = os.environ.get("INPUT_FORCE_SYNC", "false")
+          PUBLISH_HOTFIX = os.environ.get("INPUT_PUBLISH_HOTFIX", "false")
 
           header("检查上游内容更新")
 
@@ -144,9 +156,19 @@ jobs:
               skip("SHA 一致，无新内容")
               should_sync = False
 
+          section("判断是否发布热更新包")
+          if PUBLISH_HOTFIX == "true":
+              ok("发布热更新包模式已开启")
+          else:
+              skip("不发布热更新包")
+
           set_output("should_sync", "true" if should_sync else "false")
           set_output("commit_sha", upstream_sha)
+          set_output("publish_hotfix", PUBLISH_HOTFIX)
           SCRIPT_END
+        env:
+          INPUT_FORCE_SYNC: ${{ inputs.force_sync }}
+          INPUT_PUBLISH_HOTFIX: ${{ inputs.publish_hotfix }}
 
       - name: 🔄 同步上游 Fork
         if: steps.check_upstream.outputs.should_sync == 'true'
@@ -231,11 +253,11 @@ jobs:
               BOLD         = "\033[1m"
               DIM          = "\033[2m"
               RED          = "\033[31m"
-              BRIGHT_GREEN = "\033[92m"
-              BRIGHT_BLUE  = "\033[94m"
-              BRIGHT_CYAN  = "\033[96m"
-              BRIGHT_WHITE = "\033[97m"
-              CYAN         = "\033[36m"
+              BRIGHT_GREEN  = "\033[92m"
+              BRIGHT_BLUE   = "\033[94m"
+              BRIGHT_CYAN   = "\033[96m"
+              BRIGHT_WHITE  = "\033[97m"
+              CYAN          = "\033[36m"
 
           def c(color, text):
               return f"{color}{text}{C.RESET}"
@@ -277,6 +299,298 @@ jobs:
         env:
           COMMIT_SHA: ${{ steps.check_upstream.outputs.commit_sha }}
 
+      - name: 🔍 检测变动范围
+        id: detect
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "ALL")
+          echo "变动文件:"; echo "$CHANGED"
+
+          HAS_SCENARIO=0
+          HAS_JS=0
+
+          echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/json/' && HAS_SCENARIO=1 || true
+          echo "$CHANGED" | grep -qE '^magica/' && HAS_JS=1 || true
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            HAS_SCENARIO=1
+            HAS_JS=1
+          fi
+
+          echo "has_scenario=$HAS_SCENARIO" >> $GITHUB_OUTPUT
+          echo "has_js=$HAS_JS" >> $GITHUB_OUTPUT
+          mkdir -p _artifacts
+
+      - name: "[JS] 打包 cn_js_update_new.zip"
+        if: steps.detect.outputs.has_js == '1'
+        run: |
+          pip3 install requests 2>/dev/null || true
+          python3 Build_JS_Injector.py
+
+          zip -r cn_js_update_new.zip magica/
+
+          python3 - <<'PYEOF'
+          import json
+          import hashlib
+          import os
+
+          json_file = "version_js_new.json"
+          zip_file  = "cn_js_update_new.zip"
+
+          if os.path.exists(json_file):
+              with open(json_file, 'r') as f:
+                  data = json.load(f)
+          else:
+              data = {"version": 0, "size": 0, "md5": ""}
+
+          with open(zip_file, 'rb') as f:
+              zip_data = f.read()
+
+          data["version"] += 1
+          data["size"]     = len(zip_data)
+          data["md5"]      = hashlib.md5(zip_data).hexdigest()
+
+          with open(json_file, 'w') as f:
+              json.dump(data, f, indent=2)
+
+          print(f"✅ version_js_new.json 已更新: v{data['version']}, size={data['size']}, md5={data['md5']}")
+          PYEOF
+
+          cp cn_js_update_new.zip _artifacts/
+          cp version_js_new.json  _artifacts/
+
+      - name: "[SCENARIO] 打包 cn_scenario_update_new.zip"
+        if: steps.detect.outputs.has_scenario == '1'
+        run: |
+          mkdir -p _pack_scn/madomagi/resource/scenario/json
+          cp -r madomagi/resource/scenario/json/. _pack_scn/madomagi/resource/scenario/json/
+          cd _pack_scn && zip -r ../cn_scenario_update_new.zip madomagi/ && cd ..
+
+          python3 - <<'PYEOF'
+          import json
+          import hashlib
+          import os
+
+          json_file = "version_scenario_new.json"
+          zip_file  = "cn_scenario_update_new.zip"
+
+          if os.path.exists(json_file):
+              with open(json_file, 'r') as f:
+                  data = json.load(f)
+          else:
+              data = {"version": 0, "size": 0, "md5": ""}
+
+          with open(zip_file, 'rb') as f:
+              zip_data = f.read()
+
+          data["version"] += 1
+          data["size"]     = len(zip_data)
+          data["md5"]      = hashlib.md5(zip_data).hexdigest()
+
+          with open(json_file, 'w') as f:
+              json.dump(data, f, indent=2)
+
+          print(f"✅ version_scenario_new.json 已更新: v{data['version']}, size={data['size']}, md5={data['md5']}")
+          PYEOF
+
+          cp cn_scenario_update_new.zip _artifacts/
+          cp version_scenario_new.json  _artifacts/
+
+      - name: 🚀 上传热更新包到上游 Release
+        if: steps.detect.outputs.has_js == '1' || steps.detect.outputs.has_scenario == '1'
+        run: |
+          python3 <<'SCRIPT_END'
+          import subprocess
+          import sys
+          import os
+
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+
+          class C:
+              RESET         = "\033[0m"
+              BOLD          = "\033[1m"
+              DIM           = "\033[2m"
+              RED           = "\033[31m"
+              BRIGHT_GREEN  = "\033[92m"
+              BRIGHT_YELLOW = "\033[93m"
+              BRIGHT_BLUE   = "\033[94m"
+              BRIGHT_CYAN   = "\033[96m"
+              BRIGHT_WHITE  = "\033[97m"
+              CYAN          = "\033[36m"
+
+          def c(color, text):
+              return f"{color}{text}{C.RESET}"
+
+          def header(text):
+              bar = "═" * 60
+              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+
+          def section(text):
+              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+
+          def info(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
+
+          def ok(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
+
+          def warn(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
+
+          def err(text, indent=0):
+              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
+
+          def skip(text, indent=0):
+              print(f"{'  '*indent}{c(C.DIM, '⏭  ' + text)}", flush=True)
+
+          UPSTREAM_OWNER   = os.environ["UPSTREAM_OWNER"]
+          UPSTREAM_REPO    = os.environ["UPSTREAM_REPO"]
+          PUBLISH_HOTFIX   = os.environ.get("PUBLISH_HOTFIX", "false")
+          ARTIFACTS_DIR    = "_artifacts"
+
+          NEW_TO_FINAL = {
+              "cn_js_update_new.zip":       "cn_js_update.zip",
+              "version_js_new.json":        "version_js.json",
+              "cn_scenario_update_new.zip": "cn_scenario_update.zip",
+              "version_scenario_new.json":  "version_scenario.json",
+          }
+
+          header("上传热更新包到上游 Release")
+
+          section("获取上游 Release 信息")
+          result = subprocess.run(
+              ["gh", "api",
+               f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/latest",
+               "--jq", ".id"],
+              capture_output=True, text=True
+          )
+          if result.returncode != 0 or not result.stdout.strip():
+              err("获取上游 Release 失败，跳过上传")
+              sys.exit(1)
+
+          release_id = result.stdout.strip()
+          info(f"Release ID: {c(C.BRIGHT_CYAN, release_id)}")
+
+          result = subprocess.run(
+              ["gh", "api",
+               f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/{release_id}/assets",
+               "--jq", "[.[] | {id: .id, name: .name}]"],
+              capture_output=True, text=True
+          )
+          import json
+          existing_assets = {}
+          if result.returncode == 0 and result.stdout.strip():
+              try:
+                  for asset in json.loads(result.stdout.strip()):
+                      existing_assets[asset['name']] = asset['id']
+              except Exception:
+                  warn("解析现有 asset 列表失败，将直接尝试上传")
+
+          info(f"现有 asset: {c(C.BRIGHT_WHITE, str(list(existing_assets.keys())))}")
+
+          artifacts = [f for f in os.listdir(ARTIFACTS_DIR) if os.path.isfile(os.path.join(ARTIFACTS_DIR, f))]
+          if not artifacts:
+              warn("_artifacts 目录为空，跳过上传")
+              sys.exit(0)
+
+          section("上传 _new 文件到 Release")
+          for fname in artifacts:
+              fpath = os.path.join(ARTIFACTS_DIR, fname)
+              info(f"上传: {c(C.BRIGHT_WHITE, fname)}")
+
+              if fname in existing_assets:
+                  del_result = subprocess.run(
+                      ["gh", "api",
+                       f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/assets/{existing_assets[fname]}",
+                       "--method", "DELETE"],
+                      capture_output=True, text=True
+                  )
+                  if del_result.returncode == 0:
+                      ok(f"已删除旧 asset: {fname}", indent=1)
+                  else:
+                      warn(f"删除旧 asset 失败: {del_result.stderr.strip()}", indent=1)
+
+              up_result = subprocess.run(
+                  ["gh", "release", "upload", "latest", fpath,
+                   "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
+                   "--clobber"],
+                  capture_output=True, text=True
+              )
+              if up_result.returncode == 0:
+                  ok(f"上传成功: {fname}", indent=1)
+              else:
+                  err(f"上传失败: {up_result.stderr.strip()}", indent=1)
+
+          if PUBLISH_HOTFIX == "true":
+              section("发布热更新包（_new → 正式文件）")
+
+              result = subprocess.run(
+                  ["gh", "api",
+                   f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/{release_id}/assets",
+                   "--jq", "[.[] | {id: .id, name: .name, url: .browser_download_url}]"],
+                  capture_output=True, text=True
+              )
+              current_assets = {}
+              if result.returncode == 0 and result.stdout.strip():
+                  try:
+                      for asset in json.loads(result.stdout.strip()):
+                          current_assets[asset['name']] = asset
+                  except Exception:
+                      err("解析 asset 列表失败")
+                      sys.exit(1)
+
+              import urllib.request
+              for new_name, final_name in NEW_TO_FINAL.items():
+                  if new_name not in current_assets:
+                      skip(f"{new_name} 不在 Release 中，跳过")
+                      continue
+
+                  info(f"{c(C.BRIGHT_YELLOW, new_name)} → {c(C.BRIGHT_GREEN, final_name)}")
+
+                  try:
+                      with urllib.request.urlopen(current_assets[new_name]['url']) as resp:
+                          file_data = resp.read()
+                  except Exception as e:
+                      err(f"下载 {new_name} 失败: {e}", indent=1)
+                      continue
+
+                  tmp_path = f"/tmp/{final_name}"
+                  with open(tmp_path, 'wb') as f:
+                      f.write(file_data)
+
+                  if final_name in current_assets:
+                      del_result = subprocess.run(
+                          ["gh", "api",
+                           f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/assets/{current_assets[final_name]['id']}",
+                           "--method", "DELETE"],
+                          capture_output=True, text=True
+                      )
+                      if del_result.returncode == 0:
+                          ok(f"已删除旧正式文件: {final_name}", indent=1)
+                      else:
+                          warn(f"删除旧正式文件失败: {del_result.stderr.strip()}", indent=1)
+
+                  up_result = subprocess.run(
+                      ["gh", "release", "upload", "latest", f"{tmp_path}#{final_name}",
+                       "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
+                       "--clobber"],
+                      capture_output=True, text=True
+                  )
+                  if up_result.returncode == 0:
+                      ok(f"已发布正式文件: {final_name}", indent=1)
+                  else:
+                      err(f"发布失败: {up_result.stderr.strip()}", indent=1)
+
+              ok("热更新包发布完成")
+          else:
+              skip("未开启发布热更新包，_new 文件已上传供预览，正式文件不变")
+
+          SCRIPT_END
+        env:
+          PUBLISH_HOTFIX: ${{ steps.check_upstream.outputs.publish_hotfix }}
+
       - name: 🐍 设置 Python
         uses: actions/setup-python@v5
         with:
@@ -285,19 +599,256 @@ jobs:
       - name: 📦 安装依赖
         run: pip install boto3 tencentcloud-sdk-python
 
-      - name: 🚀 运行同步脚本（上传 Release 文件）
+      - name: 📲 同步客户端 APK 到上游 Release
+        id: sync_apk
+        run: |
+          python3 <<'SCRIPT_END'
+          import subprocess
+          import sys
+          import os
+          import json
+          import urllib.request
+          import urllib.error
+
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+
+          class C:
+              RESET         = "\033[0m"
+              BOLD          = "\033[1m"
+              DIM           = "\033[2m"
+              RED           = "\033[31m"
+              BRIGHT_GREEN  = "\033[92m"
+              BRIGHT_YELLOW = "\033[93m"
+              BRIGHT_BLUE   = "\033[94m"
+              BRIGHT_CYAN   = "\033[96m"
+              BRIGHT_WHITE  = "\033[97m"
+              CYAN          = "\033[36m"
+
+          def c(color, text):
+              return f"{color}{text}{C.RESET}"
+
+          def header(text):
+              bar = "═" * 60
+              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+
+          def section(text):
+              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+
+          def info(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
+
+          def ok(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
+
+          def warn(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
+
+          def err(text, indent=0):
+              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
+
+          def skip(text, indent=0):
+              print(f"{'  '*indent}{c(C.DIM, '⏭  ' + text)}", flush=True)
+
+          def human_size(size_bytes):
+              for unit in ["B", "KB", "MB", "GB"]:
+                  if size_bytes < 1024:
+                      return f"{size_bytes:.1f} {unit}"
+                  size_bytes /= 1024
+              return f"{size_bytes:.1f} TB"
+
+          def set_output(key, value):
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"{key}={value}\n")
+
+          UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
+          UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
+          CLIENT_OWNER   = "MagirecoCN-Revival-Project"
+          CLIENT_REPO    = "magireco-client-patch"
+          GH_TOKEN       = os.environ.get("GH_TOKEN", "")
+
+          GH_HEADERS = {
+              "Accept": "application/vnd.github+json",
+              "X-GitHub-Api-Version": "2022-11-28",
+          }
+          if GH_TOKEN:
+              GH_HEADERS["Authorization"] = f"Bearer {GH_TOKEN}"
+
+          def fetch_release(owner, repo):
+              url = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
+              req = urllib.request.Request(url, headers=GH_HEADERS)
+              try:
+                  with urllib.request.urlopen(req) as resp:
+                      return json.loads(resp.read().decode())
+              except urllib.error.HTTPError as e:
+                  if e.code == 404:
+                      return None
+                  raise
+
+          def delete_asset(asset_id, name):
+              url = (
+                  f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
+                  f"/releases/assets/{asset_id}"
+              )
+              req = urllib.request.Request(url, headers=GH_HEADERS, method="DELETE")
+              try:
+                  with urllib.request.urlopen(req):
+                      pass
+                  ok(f"已删除旧 asset: {name}", indent=1)
+                  return True
+              except Exception as e:
+                  warn(f"删除 [{name}] 失败: {e}", indent=1)
+                  return False
+
+          def upload_asset_to_upstream(release_tag, local_path, display_name):
+              upstream_release = fetch_release(UPSTREAM_OWNER, UPSTREAM_REPO)
+              if not upstream_release:
+                  err("重新获取上游 Release 失败")
+                  return False
+              cur_map = {a["name"]: a for a in upstream_release.get("assets", [])}
+              if display_name in cur_map:
+                  delete_asset(cur_map[display_name]["id"], display_name)
+
+              upload_arg = f"{local_path}#{display_name}"
+              result = subprocess.run(
+                  [
+                      "gh", "release", "upload", release_tag, upload_arg,
+                      "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
+                      "--clobber",
+                  ],
+                  capture_output=True, text=True
+              )
+              if result.returncode == 0:
+                  ok(f"已上传: {display_name}", indent=1)
+                  return True
+              else:
+                  err(f"上传失败 [{display_name}]: {result.stderr.strip()}", indent=1)
+                  return False
+
+          def main():
+              header("同步客户端 APK 到上游 Release")
+
+              section("读取历史 APK 同步记录")
+              result = subprocess.run(
+                  ["gh", "variable", "get", "LAST_APK_RELEASE_TAG"],
+                  capture_output=True, text=True
+              )
+              last_apk_tag = result.stdout.strip() if result.returncode == 0 else ""
+              if last_apk_tag:
+                  info(f"上次同步 tag: {c(C.DIM, last_apk_tag)}")
+              else:
+                  info("无历史记录，视为首次同步")
+
+              section(f"获取 {CLIENT_OWNER}/{CLIENT_REPO} 最新 Release")
+              client_release = fetch_release(CLIENT_OWNER, CLIENT_REPO)
+              if not client_release:
+                  warn(f"{CLIENT_OWNER}/{CLIENT_REPO} 暂无 Release，跳过 APK 同步")
+                  set_output("apk_synced", "false")
+                  return
+
+              client_tag  = client_release.get("tag_name", "")
+              client_name = client_release.get("name") or client_tag
+              info(f"最新 Release: {c(C.BRIGHT_WHITE, client_name)}")
+              info(f"Tag:          {c(C.BRIGHT_CYAN, client_tag)}")
+
+              section("比对 tag")
+              if client_tag and client_tag == last_apk_tag:
+                  skip(f"APK tag 未变化（{client_tag}），无需同步")
+                  set_output("apk_synced", "false")
+                  return
+              ok(f"检测到新 APK: {c(C.BRIGHT_CYAN, client_tag)}")
+
+              section("筛选 APK 文件")
+              apk_assets = [
+                  a for a in client_release.get("assets", [])
+                  if a["name"].lower().endswith(".apk")
+              ]
+              if not apk_assets:
+                  warn("该 Release 中未找到 .apk 文件，跳过")
+                  set_output("apk_synced", "false")
+                  return
+
+              if len(apk_assets) > 1:
+                  warn(f"检测到 {len(apk_assets)} 个 APK，"
+                       f"只使用第一个: "
+                       f"{c(C.BRIGHT_WHITE, apk_assets[0]['name'])}")
+              asset = apk_assets[0]
+              fname = asset["name"]
+              info(f"原始文件名: {c(C.BRIGHT_WHITE, fname)}")
+              info(f"目标文件名: {c(C.BRIGHT_CYAN, 'client.apk')}")
+              info(f"大小:       {c(C.DIM, human_size(asset['size']))}")
+
+              section(f"获取 {UPSTREAM_OWNER}/{UPSTREAM_REPO} Release tag")
+              upstream_release = fetch_release(UPSTREAM_OWNER, UPSTREAM_REPO)
+              if not upstream_release:
+                  err("获取上游 Release 失败，无法上传 APK")
+                  set_output("apk_synced", "false")
+                  sys.exit(1)
+              upstream_tag = upstream_release.get("tag_name", "latest")
+              info(f"上游 Release tag: {c(C.BRIGHT_CYAN, upstream_tag)}")
+
+              section("下载 APK")
+              work_dir = "/tmp/apk_sync"
+              os.makedirs(work_dir, exist_ok=True)
+              dst_path = os.path.join(work_dir, fname)
+
+              try:
+                  dl_req = urllib.request.Request(
+                      asset["browser_download_url"], headers=GH_HEADERS
+                  )
+                  with urllib.request.urlopen(dl_req) as resp:
+                      data = resp.read()
+                  with open(dst_path, "wb") as f:
+                      f.write(data)
+                  ok(f"已下载: {fname}  "
+                     f"{c(C.DIM, human_size(len(data)))}", indent=1)
+              except Exception as e:
+                  err(f"下载失败: {e}", indent=1)
+                  set_output("apk_synced", "false")
+                  sys.exit(1)
+
+              section("上传为 client.apk 到上游 Release")
+              info(f"{c(C.BRIGHT_WHITE, fname)} "
+                   f"→ {c(C.BRIGHT_CYAN, 'client.apk')}")
+              if not upload_asset_to_upstream(upstream_tag, dst_path, "client.apk"):
+                  set_output("apk_synced", "false")
+                  sys.exit(1)
+
+              section("保存 APK 同步记录")
+              save_result = subprocess.run(
+                  ["gh", "variable", "set", "LAST_APK_RELEASE_TAG",
+                   "--body", client_tag],
+                  capture_output=True, text=True
+              )
+              if save_result.returncode == 0:
+                  ok(f"LAST_APK_RELEASE_TAG = {c(C.BRIGHT_CYAN, client_tag)}")
+              else:
+                  warn(f"保存 tag 失败: {save_result.stderr.strip()}")
+
+              set_output("apk_synced", "true")
+
+              header("APK 同步完成")
+              ok(f"来源: {c(C.BRIGHT_WHITE, fname)}  "
+                 f"{c(C.DIM, '(' + client_tag + ')')}")
+              ok(f"目标: {c(C.BRIGHT_CYAN, 'client.apk')} → 上游 Release")
+
+          if __name__ == "__main__":
+              main()
+          SCRIPT_END
+
+      - name: 🚀 运行同步脚本（上传 Release 文件到 S3）
         id: sync_script
         run: |
           python3 <<'SCRIPT_END'
           import os
           import sys
           import json
-          import time
           import subprocess
           import urllib.request
           import urllib.error
           from datetime import datetime
-          from io import BytesIO
 
           sys.stdout.reconfigure(line_buffering=True)
           sys.stderr.reconfigure(line_buffering=True)
@@ -309,22 +860,17 @@ jobs:
           from tencentcloud.common.profile.http_profile import HttpProfile
           from tencentcloud.teo.v20220901 import teo_client, models
 
-          # ============================================================
-          # 颜色 / 样式工具
-          # ============================================================
           class C:
               RESET         = "\033[0m"
               BOLD          = "\033[1m"
               DIM           = "\033[2m"
               RED           = "\033[31m"
-              GREEN         = "\033[32m"
-              YELLOW        = "\033[33m"
-              CYAN          = "\033[36m"
               BRIGHT_GREEN  = "\033[92m"
               BRIGHT_YELLOW = "\033[93m"
               BRIGHT_BLUE   = "\033[94m"
               BRIGHT_CYAN   = "\033[96m"
               BRIGHT_WHITE  = "\033[97m"
+              CYAN          = "\033[36m"
 
           def c(color, text):
               return f"{color}{text}{C.RESET}"
@@ -376,9 +922,6 @@ jobs:
               def end_group():
                   print("::endgroup::", flush=True)
 
-          # ============================================================
-          # GitHub Actions Step Summary 管理
-          # ============================================================
           class ActionLogger:
               def __init__(self):
                   self.step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
@@ -454,9 +997,6 @@ jobs:
           logger = ActionLogger()
           logger.init_summary()
 
-          # ============================================================
-          # GitHub API 客户端
-          # ============================================================
           class GitHubAPIClient:
               def __init__(self, token=None):
                   self.token   = token
@@ -490,9 +1030,6 @@ jobs:
                           return None
                       raise
 
-          # ============================================================
-          # S3 操作类
-          # ============================================================
           class S3Handler:
               def __init__(self, endpoint, access_key, secret_key,
                            region, bucket, domain, name="S3"):
@@ -557,9 +1094,6 @@ jobs:
                       err(f"[{self.name}] 上传失败: {e}", indent=1)
                       return False
 
-          # ============================================================
-          # EdgeOne 缓存刷新
-          # ============================================================
           class EdgeOneHandler:
               def __init__(self, secret_id, secret_key, zone_id):
                   self.zone_id = zone_id
@@ -593,9 +1127,6 @@ jobs:
                       err(f"[EdgeOne] 刷新失败: {e}", indent=1)
                       return False, str(e)
 
-          # ============================================================
-          # 主逻辑
-          # ============================================================
           def main():
               try:
                   header("初始化配置")
@@ -626,9 +1157,6 @@ jobs:
                   owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
                   repo  = os.environ.get('UPSTREAM_REPO',  'magireco-cn-patch')
 
-                  # --------------------------------------------------
-                  # 获取 Release
-                  # --------------------------------------------------
                   header("获取上游 Release 信息")
                   section(f"{owner}/{repo} 最新 Release")
 
@@ -636,21 +1164,29 @@ jobs:
                   if not release:
                       warn("上游仓库没有 Release，无需处理")
                       logger.finalize_summary([])
+                      with open(os.environ["GITHUB_OUTPUT"], "a") as _f:
+                          _f.write("has_zip_changes=false\n")
                       return
 
                   info(f"Release: {c(C.BRIGHT_WHITE, release.get('name') or release.get('tag_name'))}")
                   info(f"发布时间: {c(C.DIM, release.get('published_at', 'N/A'))}")
 
+                  S3_IGNORE_SUFFIXES = ('_new.zip', '_new.json')
+                  S3_IGNORE_FILES = {
+                      'offline-package.zip',
+                      'offline_package_checksum.txt',
+                      'versions.json',
+                  }
+
                   current_map = {
                       a['name']: a.get('digest', '')
                       for a in release.get('assets', [])
                       if not a['name'].startswith('source code')
+                      and not any(a['name'].endswith(s) for s in S3_IGNORE_SUFFIXES)
+                      and a['name'] not in S3_IGNORE_FILES
                   }
-                  info(f"包含 {c(C.BOLD, str(len(current_map)))} 个 asset")
+                  info(f"包含 {c(C.BOLD, str(len(current_map)))} 个 asset（已过滤 _new / offline 文件）")
 
-                  # --------------------------------------------------
-                  # 读取历史指纹
-                  # --------------------------------------------------
                   header("比对文件指纹")
                   section("读取历史指纹")
 
@@ -668,7 +1204,12 @@ jobs:
                   else:
                       info("无历史指纹，视为首次同步")
 
-                  IGNORE_FILES = {'puella-historia-splited.tar.xz'}
+                  IGNORE_FILES = {
+                      'puella-historia-splited.tar.xz',
+                      'offline-package.zip',
+                      'offline_package_checksum.txt',
+                      'versions.json',
+                  }
 
                   section("SHA256 比对")
                   to_process = []
@@ -705,9 +1246,12 @@ jobs:
                        f"无变更: {c(C.DIM, str(len(unchanged)))} | "
                        f"已删除: {c(C.RED, str(len(deleted)))}")
 
-                  # --------------------------------------------------
-                  # 清理过时文件 & 纠正位置
-                  # --------------------------------------------------
+                  has_zip_changes = any(f.endswith(".zip") for f in to_process)
+                  with open(os.environ["GITHUB_OUTPUT"], "a") as _f:
+                      _f.write(f"has_zip_changes={'true' if has_zip_changes else 'false'}\n")
+                  info(f"Release zip 文件变化: "
+                       f"{c(C.BRIGHT_YELLOW if has_zip_changes else C.DIM, str(has_zip_changes))}")
+
                   ActionGroup.start_group("🗑️ 清理过时文件 & 纠正位置")
                   header("清理过时文件 & 纠正文件位置")
 
@@ -796,9 +1340,6 @@ jobs:
                       logger.finalize_summary([])
                       return
 
-                  # --------------------------------------------------
-                  # 上传文件
-                  # --------------------------------------------------
                   header(f"上传文件（共 {len(to_process)} 个）")
                   processed    = []
                   total_files  = len(to_process)
@@ -837,9 +1378,27 @@ jobs:
                                    label=f"文件进度 {i}/{total_files}")
                       ActionGroup.end_group()
 
-                  # --------------------------------------------------
-                  # 保存指纹
-                  # --------------------------------------------------
+                  # ──────────────────────────────────────────────────────────
+                  # 新增：清除两个域名根目录的 CDN 缓存
+                  # ──────────────────────────────────────────────────────────
+                  if processed:
+                      ActionGroup.start_group("🧹 清除域名根目录 CDN 缓存")
+                      header("清除域名根目录 CDN 缓存")
+                      section("刷新存储桶1域名根目录")
+                      success1, tid1 = edgeone.purge_cache(s3_1.domain, "")
+                      if success1:
+                          ok(f"已刷新: http://{s3_1.domain}/ (ID: {tid1})")
+                      else:
+                          warn(f"刷新失败: {tid1}")
+
+                      section("刷新存储桶2域名根目录")
+                      success2, tid2 = edgeone.purge_cache(s3_2.domain, "")
+                      if success2:
+                          ok(f"已刷新: http://{s3_2.domain}/ (ID: {tid2})")
+                      else:
+                          warn(f"刷新失败: {tid2}")
+                      ActionGroup.end_group()
+
                   ActionGroup.start_group("💾 保存同步状态")
                   header("保存文件指纹")
 
@@ -880,6 +1439,282 @@ jobs:
               main()
           SCRIPT_END
 
+      - name: 📦 构建并上传 offline-package.zip
+        if: |
+          steps.sync_script.outputs.has_zip_changes == 'true' ||
+          steps.check_upstream.outputs.publish_hotfix == 'true'
+        run: |
+          python3 <<'SCRIPT_END'
+          import subprocess
+          import sys
+          import os
+          import json
+          import hashlib
+          import zipfile
+          import urllib.request
+          import urllib.error
+          from datetime import datetime, timezone
+
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+
+          class C:
+              RESET         = "\033[0m"
+              BOLD          = "\033[1m"
+              DIM           = "\033[2m"
+              RED           = "\033[31m"
+              BRIGHT_GREEN  = "\033[92m"
+              BRIGHT_YELLOW = "\033[93m"
+              BRIGHT_BLUE   = "\033[94m"
+              BRIGHT_CYAN   = "\033[96m"
+              BRIGHT_WHITE  = "\033[97m"
+              CYAN          = "\033[36m"
+
+          def c(color, text):
+              return f"{color}{text}{C.RESET}"
+
+          def header(text):
+              bar = "═" * 60
+              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+
+          def section(text):
+              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+
+          def info(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
+
+          def ok(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
+
+          def warn(text, indent=0):
+              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
+
+          def err(text, indent=0):
+              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
+
+          def skip(text, indent=0):
+              print(f"{'  '*indent}{c(C.DIM, '⏭  ' + text)}", flush=True)
+
+          def human_size(size_bytes):
+              for unit in ["B", "KB", "MB", "GB"]:
+                  if size_bytes < 1024:
+                      return f"{size_bytes:.1f} {unit}"
+                  size_bytes /= 1024
+              return f"{size_bytes:.1f} TB"
+
+          UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
+          UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
+          GH_TOKEN       = os.environ.get("GH_TOKEN", "")
+
+          EXCLUDE_FROM_OFFLINE = {
+              "offline-package.zip",
+              "offline_package_checksum.txt",
+              "versions.json",
+              "puella-historia-splited.tar.xz",
+          }
+          NEW_SUFFIXES = ("_new.zip", "_new.json")
+
+          GH_HEADERS = {
+              "Accept": "application/vnd.github+json",
+              "X-GitHub-Api-Version": "2022-11-28",
+          }
+          if GH_TOKEN:
+              GH_HEADERS["Authorization"] = f"Bearer {GH_TOKEN}"
+
+          RELEASE_API = (
+              f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
+              "/releases/latest"
+          )
+
+          def fetch_release():
+              req = urllib.request.Request(RELEASE_API, headers=GH_HEADERS)
+              try:
+                  with urllib.request.urlopen(req) as resp:
+                      return json.loads(resp.read().decode())
+              except urllib.error.HTTPError as e:
+                  err(f"获取 Release 失败: HTTP {e.code}")
+                  sys.exit(1)
+
+          def delete_asset(release_id, asset_id, name):
+              del_url = (
+                  f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
+                  f"/releases/assets/{asset_id}"
+              )
+              del_req = urllib.request.Request(
+                  del_url, headers=GH_HEADERS, method="DELETE"
+              )
+              try:
+                  with urllib.request.urlopen(del_req):
+                      pass
+                  ok(f"已删除旧 asset: {name}", indent=1)
+                  return True
+              except Exception as e:
+                  warn(f"删除 [{name}] 失败: {e}", indent=1)
+                  return False
+
+          def upload_asset(release_tag, local_path, display_name):
+              release_now = fetch_release()
+              cur_map     = {a["name"]: a for a in release_now.get("assets", [])}
+
+              if display_name in cur_map:
+                  delete_asset(
+                      release_now["id"],
+                      cur_map[display_name]["id"],
+                      display_name
+                  )
+
+              upload_arg = f"{local_path}#{display_name}"
+              result = subprocess.run(
+                  [
+                      "gh", "release", "upload", release_tag, upload_arg,
+                      "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
+                      "--clobber",
+                  ],
+                  capture_output=True, text=True
+              )
+              if result.returncode == 0:
+                  ok(f"已上传: {display_name}", indent=1)
+                  return True
+              else:
+                  err(f"上传失败 [{display_name}]: {result.stderr.strip()}", indent=1)
+                  return False
+
+          def main():
+              header("构建 offline-package.zip")
+
+              section("获取上游 Release 信息")
+              release     = fetch_release()
+              release_tag = release.get("tag_name", "latest")
+              info(f"Release: {c(C.BRIGHT_WHITE, release.get('name') or release_tag)}")
+              info(f"Tag:     {c(C.BRIGHT_CYAN, release_tag)}")
+
+              assets    = release.get("assets", [])
+              asset_map = {a["name"]: a for a in assets}
+
+              section("筛选 zip 文件")
+              zip_assets = [
+                  a for a in assets
+                  if a["name"].endswith(".zip")
+                  and a["name"] not in EXCLUDE_FROM_OFFLINE
+                  and not any(a["name"].endswith(s) for s in NEW_SUFFIXES)
+              ]
+
+              if not zip_assets:
+                  warn("Release 中无可用 zip 文件，跳过构建")
+                  sys.exit(0)
+
+              info(f"共 {c(C.BOLD, str(len(zip_assets)))} 个 zip 文件将打入离线包:")
+              for a in zip_assets:
+                  info(f"{c(C.BRIGHT_WHITE, a['name'])}  "
+                       f"{c(C.DIM, human_size(a['size']))}", indent=1)
+
+              section("下载 zip 文件")
+              work_dir = "/tmp/offline_build"
+              os.makedirs(work_dir, exist_ok=True)
+
+              downloaded = []
+              for asset in zip_assets:
+                  fname    = asset["name"]
+                  dl_url   = asset["browser_download_url"]
+                  dst_path = os.path.join(work_dir, fname)
+                  info(f"下载: {c(C.BRIGHT_CYAN, fname)}  "
+                       f"{c(C.DIM, human_size(asset['size']))}")
+                  try:
+                      dl_req = urllib.request.Request(dl_url, headers=GH_HEADERS)
+                      with urllib.request.urlopen(dl_req) as resp:
+                          data = resp.read()
+                      with open(dst_path, "wb") as f:
+                          f.write(data)
+                      ok(f"已下载: {fname}  "
+                         f"{c(C.DIM, human_size(len(data)))}", indent=1)
+                      downloaded.append(dst_path)
+                  except Exception as e:
+                      err(f"下载失败 [{fname}]: {e}", indent=1)
+                      sys.exit(1)
+
+              section("生成 version.json")
+              now_ts            = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+              version_json_path = os.path.join(work_dir, "version.json")
+              with open(version_json_path, "w", encoding="utf-8") as f:
+                  json.dump({"version": now_ts}, f, indent=2)
+              ok(f"version = {c(C.BRIGHT_CYAN, now_ts)}")
+
+              section("打包 offline-package.zip")
+              offline_zip_path = "/tmp/offline-package.zip"
+              with zipfile.ZipFile(
+                  offline_zip_path, "w", zipfile.ZIP_DEFLATED
+              ) as zf:
+                  zf.write(version_json_path, arcname="version.json")
+                  ok("已写入: version.json", indent=1)
+                  for fpath in downloaded:
+                      arcname = os.path.basename(fpath)
+                      zf.write(fpath, arcname=arcname)
+                      ok(f"已写入: {arcname}", indent=1)
+
+              offline_size = os.path.getsize(offline_zip_path)
+              ok(f"打包完成: {c(C.BRIGHT_WHITE, 'offline-package.zip')}  "
+                 f"{c(C.DIM, human_size(offline_size))}")
+
+              section("计算 MD5")
+              with open(offline_zip_path, "rb") as f:
+                  offline_md5 = hashlib.md5(f.read()).hexdigest().lower()
+              ok(f"MD5: {c(C.BRIGHT_CYAN, offline_md5)}")
+
+              section("上传 offline-package.zip")
+              if not upload_asset(release_tag, offline_zip_path, "offline-package.zip"):
+                  sys.exit(1)
+
+              section("更新 versions.json")
+              versions_local = "/tmp/versions.json"
+
+              if "versions.json" in asset_map:
+                  dl_url = asset_map["versions.json"]["browser_download_url"]
+                  try:
+                      dl_req = urllib.request.Request(dl_url, headers=GH_HEADERS)
+                      with urllib.request.urlopen(dl_req) as resp:
+                          existing_versions = json.loads(resp.read().decode())
+                      info("已读取现有 versions.json，仅更新 offline-package 键")
+                  except Exception as e:
+                      warn(f"读取现有 versions.json 失败，新建文件: {e}")
+                      existing_versions = {}
+              else:
+                  info("Release 中无 versions.json，新建文件")
+                  existing_versions = {}
+
+              existing_versions["offline-package"] = now_ts
+              with open(versions_local, "w", encoding="utf-8") as f:
+                  json.dump(existing_versions, f, indent=2, ensure_ascii=False)
+              ok(f"versions.json[offline-package] = {c(C.BRIGHT_CYAN, now_ts)}")
+
+              if not upload_asset(release_tag, versions_local, "versions.json"):
+                  sys.exit(1)
+
+              section("更新 offline_package_checksum.txt")
+              checksum_local = "/tmp/offline_package_checksum.txt"
+              with open(checksum_local, "w", encoding="utf-8") as f:
+                  f.write(offline_md5)
+              info(f"内容: {c(C.BRIGHT_CYAN, offline_md5)}")
+
+              if not upload_asset(
+                  release_tag, checksum_local, "offline_package_checksum.txt"
+              ):
+                  sys.exit(1)
+
+              header("offline-package 构建完成")
+              ok(f"版本号:  {c(C.BRIGHT_CYAN, now_ts)}")
+              ok(f"包大小:  {c(C.BRIGHT_WHITE, human_size(offline_size))}")
+              ok(f"MD5:     {c(C.BRIGHT_CYAN, offline_md5)}")
+              ok("以下文件已同步至上游 Release：")
+              ok("  offline-package.zip", indent=1)
+              ok("  versions.json（仅 offline-package 键已更新）", indent=1)
+              ok("  offline_package_checksum.txt", indent=1)
+
+          if __name__ == "__main__":
+              main()
+          SCRIPT_END
+
       - name: 📊 生成运行摘要
         if: always()
         run: |
@@ -890,5 +1725,8 @@ jobs:
           echo "| 上游仓库 | \`${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ 已发布正式热更新' || '⏭️ 未发布（预览模式）' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| APK 同步 | ${{ steps.sync_apk.outputs.apk_synced == 'true' && '✅ 已同步新 APK' || '⏭️ 无新 APK' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 离线包构建 | ${{ (steps.sync_script.outputs.has_zip_changes == 'true' || steps.check_upstream.outputs.publish_hotfix == 'true') && '✅ 已更新离线包' || '⏭️ 未触发' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
