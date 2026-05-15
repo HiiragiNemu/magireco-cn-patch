@@ -1,5 +1,54 @@
 name: 🔄 同步上游并上传到 S3
 
+# ╔════════════════════════════════════════════════════════════════════╗
+# ║   schema 迁移 v2 —— 与 magireco-client-patch 4.x 客户端对齐         ║
+# ╠════════════════════════════════════════════════════════════════════╣
+# ║                                                                    ║
+# ║ 配置文件总览                                                        ║
+# ║ ───────                                                            ║
+# ║   主配置 configure.json：                                          ║
+# ║     ▸ 仓库根目录 /configure.json                                   ║
+# ║     ▸ /configures/configure.json   ← Action 读取的权威来源          ║
+# ║     ▸ 上游 Release asset                                           ║
+# ║                                                                    ║
+# ║   兼容映射（旧客户端仍能解析）：                                     ║
+# ║     ▸ /version_scenario.json /version_js.json                      ║
+# ║     ▸ /configures/version_scenario.json /configures/version_js.json║
+# ║     ▸ Release 上的同名 asset                                        ║
+# ║                                                                    ║
+# ║ 热更新流程                                                          ║
+# ║ ───────                                                            ║
+# ║   1. 每次 sync：                                                   ║
+# ║        ▸ 从 /configures/version_*.json 读取当前官方版本号           ║
+# ║        ▸ 重新生成 cn_*_update_new.zip                              ║
+# ║        ▸ 写 version_*_new.json（version+1, size, md5）             ║
+# ║        ▸ 同步到 /、/configures/、Release 三处                      ║
+# ║        ▸ 提交 _new 文件到 git，official 文件不动                    ║
+# ║                                                                    ║
+# ║   2. 手动勾选 publish_hotfix=true 时：                              ║
+# ║        ▸ 把 *_new 文件去掉 _new 后缀覆盖正式文件（在 3 处）         ║
+# ║        ▸ 同步更新 /configures/configure.json 的 hotfix.{scenario,  ║
+# ║          js} 子块（version/size/md5），以及 / 和 Release 的副本    ║
+# ║        ▸ 一次性 commit + push 所有 official + configure.json 变更  ║
+# ║                                                                    ║
+# ║ 离线包流程                                                          ║
+# ║ ───────                                                            ║
+# ║   ▸ 内层文件不再叫 version.json，改成 configure.json，内容是        ║
+# ║       {"offline_package": {"version": "<timestamp>"}}              ║
+# ║   ▸ 完整包 MD5 不再写到 offline_package_checksum.txt（已废弃），    ║
+# ║       改成写入 /configures/configure.json#offline_package.md5      ║
+# ║   ▸ 离线包版本号写入 /configures/configure.json#offline_package    ║
+# ║       .version，并镜像到根目录和 Release                            ║
+# ║                                                                    ║
+# ║ S3 同步                                                            ║
+# ║ ───────                                                            ║
+# ║   ▸ versions.json / offline_package_checksum.txt 不再生成，        ║
+# ║       自动从 S3 桶里清理                                            ║
+# ║   ▸ configure.json 同步到 S3（客户端从 S3 拉它）                    ║
+# ║   ▸ version_scenario.json / version_js.json 也同步（兼容老客户端）  ║
+# ║                                                                    ║
+# ╚════════════════════════════════════════════════════════════════════╝
+
 on:
   workflow_dispatch:
     inputs:
@@ -9,7 +58,7 @@ on:
         default: 'false'
         type: boolean
       publish_hotfix:
-        description: '发布热更新包（将 _new 文件覆盖正式文件）'
+        description: '发布热更新包（将 _new 文件覆盖正式文件，同步 configure.json#hotfix）'
         required: false
         default: 'false'
         type: boolean
@@ -53,14 +102,67 @@ jobs:
       UPSTREAM_REPO: "patch-front"
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
       DOWNSTREAM_REPO: "patch-front"
+      # 一处定义、全局复用——所有读写 configure.json 的步骤都拿这两个值
+      CONFIG_DIR: "configures"
+      CONFIG_FILE: "configure.json"
 
     steps:
+      - name: 🛡 安全护栏（校验所有可写仓库都在白名单中）
+        # 这是本 workflow 的"硬刹车"。下面列出的三组 owner/repo 是
+        # **唯一**允许被本 workflow 读/写/删的仓库——任何一项与白名单
+        # 不一致就 fail-fast，绝不向陌生仓库发请求。要新增允许的仓库
+        # 请直接改这份白名单，不要绕过它。
+        run: |
+          python3 <<'SCRIPT_END'
+          import os, sys
+          ALLOW_UPSTREAM   = {"HiiragiNemu/patch-front"}
+          ALLOW_DOWNSTREAM = {"MagirecoCN-Revival-Project/patch-front"}
+          # APK 源仓库——只 GET、不写，所以白名单宽松一点也行，但仍然写死
+          ALLOW_CLIENT     = {"MagirecoCN-Revival-Project/magireco-client-patch"}
+
+          upstream   = f"{os.environ['UPSTREAM_OWNER']}/{os.environ['UPSTREAM_REPO']}"
+          downstream = f"{os.environ['DOWNSTREAM_OWNER']}/{os.environ['DOWNSTREAM_REPO']}"
+
+          failed = False
+          if upstream not in ALLOW_UPSTREAM:
+              print(f"::error::上游仓库 {upstream} 不在白名单中")
+              print(f"::error::允许: {sorted(ALLOW_UPSTREAM)}")
+              failed = True
+          if downstream not in ALLOW_DOWNSTREAM:
+              print(f"::error::下游仓库 {downstream} 不在白名单中")
+              print(f"::error::允许: {sorted(ALLOW_DOWNSTREAM)}")
+              failed = True
+          if failed:
+              print("::error::出于安全考虑，本 workflow 只允许操作上述指定仓库；")
+              print("::error::请检查 env / secrets / .github/workflows/syncandupload.yml")
+              sys.exit(1)
+
+          print(f"✔ 上游 OK:   {upstream}")
+          print(f"✔ 下游 OK:   {downstream}")
+          print(f"✔ APK 源仓库白名单（只读）: {sorted(ALLOW_CLIENT)}")
+          SCRIPT_END
+
       - name: 📦 检出下游仓库
         uses: actions/checkout@v4
         with:
           token: ${{ secrets. }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           fetch-depth: 2
+
+      - name: 🛡 安全护栏（校验 origin 指向预期下游仓库）
+        # checkout 完后立刻校验本地 git 的 origin URL，确认我们真的
+        # 是在操作预期的下游仓库——后续所有 git push 都会推到 origin，
+        # 这一步保证那个 origin 不是别的仓库。
+        run: |
+          ORIGIN_URL=$(git remote get-url origin)
+          EXPECTED="${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}"
+          echo "origin URL : $ORIGIN_URL"
+          echo "expected   : $EXPECTED"
+          if ! echo "$ORIGIN_URL" | grep -qiE "[/:]${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}(\.git)?\$"; then
+            echo "::error::origin URL 不匹配预期下游仓库，拒绝继续"
+            exit 1
+          fi
+          echo "✔ origin 校验通过"
 
       - name: 🔧 配置 Git
         run: |
@@ -84,41 +186,25 @@ jobs:
               BOLD          = "\033[1m"
               DIM           = "\033[2m"
               RED           = "\033[31m"
-              GREEN         = "\033[32m"
-              YELLOW        = "\033[33m"
-              CYAN          = "\033[36m"
               BRIGHT_GREEN  = "\033[92m"
               BRIGHT_YELLOW = "\033[93m"
               BRIGHT_BLUE   = "\033[94m"
               BRIGHT_CYAN   = "\033[96m"
               BRIGHT_WHITE  = "\033[97m"
+              CYAN          = "\033[36m"
 
-          def c(color, text):
-              return f"{color}{text}{C.RESET}"
-
+          def c(color, text): return f"{color}{text}{C.RESET}"
           def header(text):
               bar = "═" * 60
               print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
               print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
-
-          def section(text):
-              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
-
-          def info(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
-
-          def ok(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
-
-          def warn(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
-
-          def err(text, indent=0):
-              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
-
-          def skip(text, indent=0):
-              print(f"{'  '*indent}{c(C.DIM, '⏭  ' + text)}", flush=True)
+          def section(text): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+          def info(t, i=0):  print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, i=0):    print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, i=0):  print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, i=0):   print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, i=0):  print(f"{'  '*i}{c(C.DIM, '⏭  ' + t)}", flush=True)
 
           def set_output(key, value):
               with open(os.environ["GITHUB_OUTPUT"], "a") as f:
@@ -164,9 +250,9 @@ jobs:
 
           section("判断是否发布热更新包")
           if PUBLISH_HOTFIX == "true":
-              ok("发布热更新包模式已开启")
+              ok("发布热更新包模式已开启 —— _new → official + 同步 configure.json#hotfix")
           else:
-              skip("不发布热更新包")
+              skip("不发布热更新包（_new 文件仍会更新供预览）")
 
           section("判断是否手动构建离线包")
           if BUILD_OFFLINE == "true":
@@ -187,131 +273,88 @@ jobs:
       - name: 🔄 同步上游 Fork
         if: steps.check_upstream.outputs.should_sync == 'true'
         run: |
-          python3 <<'SCRIPT_END'
-          import subprocess
-          import sys
-          import os
-
-          sys.stdout.reconfigure(line_buffering=True)
-          sys.stderr.reconfigure(line_buffering=True)
-
-          class C:
-              RESET        = "\033[0m"
-              BOLD         = "\033[1m"
-              DIM          = "\033[2m"
-              RED          = "\033[31m"
-              BRIGHT_GREEN = "\033[92m"
-              BRIGHT_BLUE  = "\033[94m"
-              BRIGHT_WHITE = "\033[97m"
-              CYAN         = "\033[36m"
-
-          def c(color, text):
-              return f"{color}{text}{C.RESET}"
-
-          def header(text):
-              bar = "═" * 60
-              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
-              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
-
-          def section(text):
-              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
-
-          def info(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
-
-          def ok(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
-
-          def err(text, indent=0):
-              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
-
-          UPSTREAM_OWNER   = os.environ["UPSTREAM_OWNER"]
-          UPSTREAM_REPO    = os.environ["UPSTREAM_REPO"]
-          DOWNSTREAM_OWNER = os.environ["DOWNSTREAM_OWNER"]
-          DOWNSTREAM_REPO  = os.environ["DOWNSTREAM_REPO"]
-
-          header("同步上游 Fork 内容")
-          section("执行 repo sync")
-          info(f"来源: {c(C.BRIGHT_WHITE, f'{UPSTREAM_OWNER}/{UPSTREAM_REPO}')}")
-          info(f"目标: {c(C.BRIGHT_WHITE, f'{DOWNSTREAM_OWNER}/{DOWNSTREAM_REPO}')}")
-
-          result = subprocess.run([
-              "gh", "repo", "sync",
-              f"{DOWNSTREAM_OWNER}/{DOWNSTREAM_REPO}",
-              "--source", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
-              "--branch", "main",
-              "--force"
-          ], capture_output=True, text=True)
-
-          if result.returncode != 0:
-              err(f"同步失败: {result.stderr.strip()}")
-              sys.exit(1)
-
-          ok("上游仓库内容同步完成")
-          SCRIPT_END
+          gh repo sync "${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}" \
+              --source "${UPSTREAM_OWNER}/${UPSTREAM_REPO}" \
+              --branch main --force
+          # 重新拉取，让本地 workspace 含上游最新内容
+          git fetch origin main
+          git reset --hard origin/main
 
       - name: 📝 更新 Commit SHA
         if: steps.check_upstream.outputs.should_sync == 'true'
         run: |
+          gh variable set LAST_SYNC_COMMIT_SHA --body "${{ steps.check_upstream.outputs.commit_sha }}"
+
+      # ───────────────────────────────────────────────────────────────
+      # 📋 读取 /configures/configure.json 作为权威基准
+      # ───────────────────────────────────────────────────────────────
+      - name: 📋 读取 configure.json 基准
+        id: read_config
+        run: |
           python3 <<'SCRIPT_END'
-          import subprocess
-          import sys
+          import json
           import os
+          import sys
 
           sys.stdout.reconfigure(line_buffering=True)
-          sys.stderr.reconfigure(line_buffering=True)
 
           class C:
-              RESET        = "\033[0m"
-              BOLD         = "\033[1m"
-              DIM          = "\033[2m"
-              RED          = "\033[31m"
+              RESET         = "\033[0m"
+              BOLD          = "\033[1m"
+              DIM           = "\033[2m"
+              RED           = "\033[31m"
               BRIGHT_GREEN  = "\033[92m"
+              BRIGHT_YELLOW = "\033[93m"
               BRIGHT_BLUE   = "\033[94m"
               BRIGHT_CYAN   = "\033[96m"
               BRIGHT_WHITE  = "\033[97m"
               CYAN          = "\033[36m"
 
-          def c(color, text):
-              return f"{color}{text}{C.RESET}"
-
-          def header(text):
+          def c(col, t): return f"{col}{t}{C.RESET}"
+          def header(t):
               bar = "═" * 60
               print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+          def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
+          def info(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
 
-          def section(text):
-              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+          CFG_DIR = os.environ["CONFIG_DIR"]
+          CFG_FILE = os.environ["CONFIG_FILE"]
+          src = os.path.join(CFG_DIR, CFG_FILE)
 
-          def info(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
-
-          def ok(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
-
-          def err(text, indent=0):
-              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
-
-          sha = os.environ.get("COMMIT_SHA", "")
-
-          header("更新同步状态")
-          section("写入 GitHub Variables")
-          info(f"SHA: {c(C.BRIGHT_CYAN, sha[:7] if sha else 'N/A')}")
-
-          result = subprocess.run(
-              ["gh", "variable", "set", "LAST_SYNC_COMMIT_SHA", "--body", sha],
-              capture_output=True, text=True
-          )
-          if result.returncode != 0:
-              err(f"写入失败: {result.stderr.strip()}")
+          header("读取 /configures/configure.json")
+          if not os.path.isfile(src):
+              err(f"找不到 {src}！")
+              err("请先在仓库 /configures/ 下提交一份初始 configure.json，"
+                  "至少包含 client.{version,fake_name,fake_version}、"
+                  "available_lines 等静态字段。")
               sys.exit(1)
 
-          ok("LAST_SYNC_COMMIT_SHA 已更新")
+          with open(src, "r", encoding="utf-8") as f:
+              cfg = json.load(f)
+
+          section("当前权威字段")
+          info(f"client.version       = {c(C.BRIGHT_CYAN, cfg.get('client', {}).get('version', '?'))}")
+          info(f"offline_package.ver  = {c(C.BRIGHT_CYAN, cfg.get('offline_package', {}).get('version', '(unset)'))}")
+          info(f"hotfix.scenario.ver  = {c(C.BRIGHT_CYAN, str(cfg.get('hotfix', {}).get('scenario', {}).get('version', 0)))}")
+          info(f"hotfix.js.ver        = {c(C.BRIGHT_CYAN, str(cfg.get('hotfix', {}).get('js', {}).get('version', 0)))}")
+
+          # 把当前的 hotfix 版本号导出，供后续 _new 步骤当 baseline
+          scn_ver = int(cfg.get("hotfix", {}).get("scenario", {}).get("version", 0) or 0)
+          js_ver  = int(cfg.get("hotfix", {}).get("js",       {}).get("version", 0) or 0)
+          op_ver  = cfg.get("offline_package", {}).get("version", "")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"scenario_baseline={scn_ver}\n")
+              f.write(f"js_baseline={js_ver}\n")
+              f.write(f"offline_package_baseline={op_ver}\n")
+
+          ok("基准已导出到 step outputs")
           SCRIPT_END
-        env:
-          COMMIT_SHA: ${{ steps.check_upstream.outputs.commit_sha }}
 
       - name: 🔍 检测变动范围
         id: detect
@@ -334,6 +377,12 @@ jobs:
           echo "has_js=$HAS_JS" >> $GITHUB_OUTPUT
           mkdir -p _artifacts
 
+      # ───────────────────────────────────────────────────────────────
+      # [JS] 打包 cn_js_update_new.zip
+      #   ▸ baseline = configures/version_js.json#version（从权威源读）
+      #   ▸ 产物：version_js_new.json 写到 /, /configures/, _artifacts/
+      #   ▸ 产物：cn_js_update_new.zip 写到 /, _artifacts/
+      # ───────────────────────────────────────────────────────────────
       - name: "[JS] 打包 cn_js_update_new.zip"
         if: steps.detect.outputs.has_js == '1'
         run: |
@@ -343,35 +392,67 @@ jobs:
           zip -r cn_js_update_new.zip magica/
 
           python3 - <<'PYEOF'
-          import json
-          import hashlib
-          import os
+          import json, hashlib, os, shutil
 
-          json_file = "version_js_new.json"
-          zip_file  = "cn_js_update_new.zip"
+          CFG_DIR  = os.environ["CONFIG_DIR"]
+          ZIP_NEW  = "cn_js_update_new.zip"
+          NAME     = "version_js"            # base name, 没有 _new / .json
+          BASELINE = int(os.environ.get("BASELINE_VERSION", "0") or 0)
 
-          if os.path.exists(json_file):
-              with open(json_file, 'r') as f:
-                  data = json.load(f)
-          else:
-              data = {"version": 0, "size": 0, "md5": ""}
+          # 权威官方文件——/configures/version_js.json
+          official_path = os.path.join(CFG_DIR, f"{NAME}.json")
+          # 三处 _new 输出路径
+          out_paths = [
+              f"{NAME}_new.json",                      # 仓库根目录
+              os.path.join(CFG_DIR, f"{NAME}_new.json"),  # /configures/
+              os.path.join("_artifacts", f"{NAME}_new.json"),  # 上传 Release 用
+          ]
 
-          with open(zip_file, 'rb') as f:
+          # version 计数：以 /configures/version_js.json 当前的 version 作为
+          # baseline，bump 后写入 _new 文件。也兼容 _new 已经存在的场景：
+          # 如果 _new.version > baseline，沿用 _new（避免覆盖）
+          base = BASELINE
+          if os.path.exists(official_path):
+              try:
+                  with open(official_path, "r") as f:
+                      official = json.load(f)
+                  base = max(base, int(official.get("version", 0) or 0))
+              except Exception:
+                  pass
+          existing_new = out_paths[1] if os.path.exists(out_paths[1]) else (
+              out_paths[0] if os.path.exists(out_paths[0]) else None
+          )
+          if existing_new:
+              try:
+                  with open(existing_new, "r") as f:
+                      ex = json.load(f)
+                  base = max(base, int(ex.get("version", 0) or 0))
+              except Exception:
+                  pass
+
+          with open(ZIP_NEW, "rb") as f:
               zip_data = f.read()
+          data = {
+              "version": base + 1,
+              "size":    len(zip_data),
+              "md5":     hashlib.md5(zip_data).hexdigest().lower(),
+          }
+          os.makedirs("_artifacts", exist_ok=True)
+          os.makedirs(CFG_DIR, exist_ok=True)
+          for p in out_paths:
+              with open(p, "w") as f:
+                  json.dump(data, f, indent=2)
+              print(f"✅ 写入 {p}: v{data['version']}, size={data['size']}, md5={data['md5']}")
 
-          data["version"] += 1
-          data["size"]     = len(zip_data)
-          data["md5"]      = hashlib.md5(zip_data).hexdigest().lower()
-
-          with open(json_file, 'w') as f:
-              json.dump(data, f, indent=2)
-
-          print(f"✅ version_js_new.json 已更新: v{data['version']}, size={data['size']}, md5={data['md5']}")
+          # 把 zip 也复制到 _artifacts 供后续上传 Release
+          shutil.copy2(ZIP_NEW, os.path.join("_artifacts", ZIP_NEW))
           PYEOF
+        env:
+          BASELINE_VERSION: ${{ steps.read_config.outputs.js_baseline }}
 
-          cp cn_js_update_new.zip _artifacts/
-          cp version_js_new.json  _artifacts/
-
+      # ───────────────────────────────────────────────────────────────
+      # [SCENARIO] 同上
+      # ───────────────────────────────────────────────────────────────
       - name: "[SCENARIO] 打包 cn_scenario_update_new.zip"
         if: steps.detect.outputs.has_scenario == '1'
         run: |
@@ -380,42 +461,72 @@ jobs:
           cd _pack_scn && zip -r ../cn_scenario_update_new.zip madomagi/ && cd ..
 
           python3 - <<'PYEOF'
-          import json
-          import hashlib
-          import os
+          import json, hashlib, os, shutil
 
-          json_file = "version_scenario_new.json"
-          zip_file  = "cn_scenario_update_new.zip"
+          CFG_DIR  = os.environ["CONFIG_DIR"]
+          ZIP_NEW  = "cn_scenario_update_new.zip"
+          NAME     = "version_scenario"
+          BASELINE = int(os.environ.get("BASELINE_VERSION", "0") or 0)
 
-          if os.path.exists(json_file):
-              with open(json_file, 'r') as f:
-                  data = json.load(f)
-          else:
-              data = {"version": 0, "size": 0, "md5": ""}
+          official_path = os.path.join(CFG_DIR, f"{NAME}.json")
+          out_paths = [
+              f"{NAME}_new.json",
+              os.path.join(CFG_DIR, f"{NAME}_new.json"),
+              os.path.join("_artifacts", f"{NAME}_new.json"),
+          ]
 
-          with open(zip_file, 'rb') as f:
+          base = BASELINE
+          if os.path.exists(official_path):
+              try:
+                  with open(official_path, "r") as f:
+                      official = json.load(f)
+                  base = max(base, int(official.get("version", 0) or 0))
+              except Exception:
+                  pass
+          existing_new = out_paths[1] if os.path.exists(out_paths[1]) else (
+              out_paths[0] if os.path.exists(out_paths[0]) else None
+          )
+          if existing_new:
+              try:
+                  with open(existing_new, "r") as f:
+                      ex = json.load(f)
+                  base = max(base, int(ex.get("version", 0) or 0))
+              except Exception:
+                  pass
+
+          with open(ZIP_NEW, "rb") as f:
               zip_data = f.read()
+          data = {
+              "version": base + 1,
+              "size":    len(zip_data),
+              "md5":     hashlib.md5(zip_data).hexdigest().lower(),
+          }
+          os.makedirs("_artifacts", exist_ok=True)
+          os.makedirs(CFG_DIR, exist_ok=True)
+          for p in out_paths:
+              with open(p, "w") as f:
+                  json.dump(data, f, indent=2)
+              print(f"✅ 写入 {p}: v{data['version']}, size={data['size']}, md5={data['md5']}")
 
-          data["version"] += 1
-          data["size"]     = len(zip_data)
-          data["md5"]      = hashlib.md5(zip_data).hexdigest().lower()
-
-          with open(json_file, 'w') as f:
-              json.dump(data, f, indent=2)
-
-          print(f"✅ version_scenario_new.json 已更新: v{data['version']}, size={data['size']}, md5={data['md5']}")
+          shutil.copy2(ZIP_NEW, os.path.join("_artifacts", ZIP_NEW))
           PYEOF
+        env:
+          BASELINE_VERSION: ${{ steps.read_config.outputs.scenario_baseline }}
 
-          cp cn_scenario_update_new.zip _artifacts/
-          cp version_scenario_new.json  _artifacts/
-
+      # ───────────────────────────────────────────────────────────────
+      # 🚀 上传 _new + (publish_hotfix=true 时) 转正 + 改 configure.json
+      # ───────────────────────────────────────────────────────────────
       - name: 🚀 上传热更新包到上游 Release
+        id: hotfix_publish
         if: steps.detect.outputs.has_js == '1' || steps.detect.outputs.has_scenario == '1'
         run: |
           python3 <<'SCRIPT_END'
           import subprocess
           import sys
           import os
+          import json
+          import shutil
+          import urllib.request
 
           sys.stdout.reconfigure(line_buffering=True)
           sys.stderr.reconfigure(line_buffering=True)
@@ -432,38 +543,27 @@ jobs:
               BRIGHT_WHITE  = "\033[97m"
               CYAN          = "\033[36m"
 
-          def c(color, text):
-              return f"{color}{text}{C.RESET}"
-
-          def header(text):
+          def c(col, t): return f"{col}{t}{C.RESET}"
+          def header(t):
               bar = "═" * 60
               print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+          def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
+          def info(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, i=0): print(f"{'  '*i}{c(C.DIM, '⏭  ' + t)}", flush=True)
 
-          def section(text):
-              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
+          UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
+          UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
+          PUBLISH        = os.environ.get("PUBLISH_HOTFIX", "false") == "true"
+          ARTIFACTS_DIR  = "_artifacts"
+          CFG_DIR        = os.environ["CONFIG_DIR"]
+          CFG_FILE       = os.environ["CONFIG_FILE"]
 
-          def info(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
-
-          def ok(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
-
-          def warn(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
-
-          def err(text, indent=0):
-              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
-
-          def skip(text, indent=0):
-              print(f"{'  '*indent}{c(C.DIM, '⏭  ' + text)}", flush=True)
-
-          UPSTREAM_OWNER   = os.environ["UPSTREAM_OWNER"]
-          UPSTREAM_REPO    = os.environ["UPSTREAM_REPO"]
-          PUBLISH_HOTFIX   = os.environ.get("PUBLISH_HOTFIX", "false")
-          ARTIFACTS_DIR    = "_artifacts"
-
+          # _new → official 名字映射
           NEW_TO_FINAL = {
               "cn_js_update_new.zip":       "cn_js_update.zip",
               "version_js_new.json":        "version_js.json",
@@ -473,134 +573,174 @@ jobs:
 
           header("上传热更新包到上游 Release")
 
+          # ── 1. 拿当前 Release 信息（id + asset 列表）
           section("获取上游 Release 信息")
-          result = subprocess.run(
-              ["gh", "api",
-               f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/latest",
-               "--jq", ".id"],
+          rel = subprocess.run(
+              ["gh", "api", f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/latest"],
               capture_output=True, text=True
           )
-          if result.returncode != 0 or not result.stdout.strip():
-              err("获取上游 Release 失败，跳过上传")
+          if rel.returncode != 0 or not rel.stdout.strip():
+              err("获取上游 Release 失败")
               sys.exit(1)
+          release = json.loads(rel.stdout)
+          release_id  = release["id"]
+          release_tag = release.get("tag_name", "latest")
+          existing_assets = {a["name"]: a for a in release.get("assets", [])}
+          info(f"Release tag: {c(C.BRIGHT_CYAN, release_tag)}  id={release_id}")
 
-          release_id = result.stdout.strip()
-          info(f"Release ID: {c(C.BRIGHT_CYAN, release_id)}")
-
-          result = subprocess.run(
-              ["gh", "api",
-               f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/{release_id}/assets",
-               "--jq", "[.[] | {id: .id, name: .name}]"],
-              capture_output=True, text=True
-          )
-          import json
-          existing_assets = {}
-          if result.returncode == 0 and result.stdout.strip():
-              try:
-                  for asset in json.loads(result.stdout.strip()):
-                      existing_assets[asset['name']] = asset['id']
-              except Exception:
-                  warn("解析现有 asset 列表失败，将直接尝试上传")
-
-          info(f"现有 asset: {c(C.BRIGHT_WHITE, str(list(existing_assets.keys())))}")
-
-          artifacts = [f for f in os.listdir(ARTIFACTS_DIR) if os.path.isfile(os.path.join(ARTIFACTS_DIR, f))]
-          if not artifacts:
-              warn("_artifacts 目录为空，跳过上传")
-              sys.exit(0)
-
-          section("上传 _new 文件到 Release")
-          for fname in artifacts:
-              fpath = os.path.join(ARTIFACTS_DIR, fname)
-              info(f"上传: {c(C.BRIGHT_WHITE, fname)}")
-
-              if fname in existing_assets:
-                  del_result = subprocess.run(
-                      ["gh", "api",
-                       f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/assets/{existing_assets[fname]}",
-                       "--method", "DELETE"],
-                      capture_output=True, text=True
-                  )
-                  if del_result.returncode == 0:
-                      ok(f"已删除旧 asset: {fname}", indent=1)
-                  else:
-                      warn(f"删除旧 asset 失败: {del_result.stderr.strip()}", indent=1)
-
-              up_result = subprocess.run(
-                  ["gh", "release", "upload", "latest", fpath,
-                   "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
-                   "--clobber"],
-                  capture_output=True, text=True
-              )
-              if up_result.returncode == 0:
-                  ok(f"上传成功: {fname}", indent=1)
-              else:
-                  err(f"上传失败: {up_result.stderr.strip()}", indent=1)
-
-          if PUBLISH_HOTFIX == "true":
-              section("发布热更新包（_new → 正式文件）")
-
-              result = subprocess.run(
-                  ["gh", "api",
-                   f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/{release_id}/assets",
-                   "--jq", "[.[] | {id: .id, name: .name, url: .browser_download_url}]"],
-                  capture_output=True, text=True
-              )
-              current_assets = {}
-              if result.returncode == 0 and result.stdout.strip():
-                  try:
-                      for asset in json.loads(result.stdout.strip()):
-                          current_assets[asset['name']] = asset
-                  except Exception:
-                      err("解析 asset 列表失败")
-                      sys.exit(1)
-
-              import urllib.request
-              for new_name, final_name in NEW_TO_FINAL.items():
-                  if new_name not in current_assets:
-                      skip(f"{new_name} 不在 Release 中，跳过")
+          # ── 2. 上传所有 _artifacts 里的 _new 文件
+          section("上传 _new 文件到 Release（预览）")
+          if not os.path.isdir(ARTIFACTS_DIR):
+              warn("_artifacts 目录不存在，跳过")
+          else:
+              for fname in os.listdir(ARTIFACTS_DIR):
+                  fpath = os.path.join(ARTIFACTS_DIR, fname)
+                  if not os.path.isfile(fpath):
                       continue
-
-                  info(f"{c(C.BRIGHT_YELLOW, new_name)} → {c(C.BRIGHT_GREEN, final_name)}")
-
-                  try:
-                      with urllib.request.urlopen(current_assets[new_name]['url']) as resp:
-                          file_data = resp.read()
-                  except Exception as e:
-                      err(f"下载 {new_name} 失败: {e}", indent=1)
-                      continue
-
-                  tmp_path = f"/tmp/{final_name}"
-                  with open(tmp_path, 'wb') as f:
-                      f.write(file_data)
-
-                  if final_name in current_assets:
-                      del_result = subprocess.run(
+                  info(f"上传: {c(C.BRIGHT_WHITE, fname)}")
+                  if fname in existing_assets:
+                      subprocess.run(
                           ["gh", "api",
-                           f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/assets/{current_assets[final_name]['id']}",
+                           f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
+                           f"/releases/assets/{existing_assets[fname]['id']}",
                            "--method", "DELETE"],
                           capture_output=True, text=True
                       )
-                      if del_result.returncode == 0:
-                          ok(f"已删除旧正式文件: {final_name}", indent=1)
-                      else:
-                          warn(f"删除旧正式文件失败: {del_result.stderr.strip()}", indent=1)
-
-                  up_result = subprocess.run(
-                      ["gh", "release", "upload", "latest", f"{tmp_path}#{final_name}",
+                  up = subprocess.run(
+                      ["gh", "release", "upload", release_tag, fpath,
                        "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
                        "--clobber"],
                       capture_output=True, text=True
                   )
-                  if up_result.returncode == 0:
-                      ok(f"已发布正式文件: {final_name}", indent=1)
+                  if up.returncode == 0:
+                      ok(f"上传成功: {fname}", indent=1)
                   else:
-                      err(f"发布失败: {up_result.stderr.strip()}", indent=1)
+                      err(f"上传失败: {up.stderr.strip()}", indent=1)
 
-              ok("热更新包发布完成")
+          # ── 3. 如果没勾发布热更新，到此为止
+          if not PUBLISH:
+              section("publish_hotfix=false，跳过转正")
+              skip("_new 文件已上传到 Release 供预览，official + configure.json 不变")
+              with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+                  fh.write("hotfix_published=false\n")
+              sys.exit(0)
+
+          # ── 4. publish_hotfix=true：把 _new 文件去掉 _new 后缀
+          section("发布热更新包（_new → official，覆盖正式文件）")
+
+          # 4a. 同 official 名字的 asset 先删
+          # 重新拉 asset 列表，因为上一步刚上传过新文件
+          rel2 = subprocess.run(
+              ["gh", "api", f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/latest"],
+              capture_output=True, text=True
+          )
+          assets2 = {a["name"]: a for a in json.loads(rel2.stdout).get("assets", [])}
+
+          # 4b. 转正：基于本地 _artifacts 文件直接重命名上传
+          for new_name, final_name in NEW_TO_FINAL.items():
+              src = os.path.join(ARTIFACTS_DIR, new_name)
+              if not os.path.isfile(src):
+                  skip(f"{new_name} 在本地 _artifacts/ 不存在（本次未生成），跳过")
+                  continue
+              info(f"{c(C.BRIGHT_YELLOW, new_name)} → {c(C.BRIGHT_GREEN, final_name)}")
+
+              # 删 Release 上同名 official asset
+              if final_name in assets2:
+                  subprocess.run(
+                      ["gh", "api",
+                       f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
+                       f"/releases/assets/{assets2[final_name]['id']}",
+                       "--method", "DELETE"],
+                      capture_output=True, text=True
+                  )
+                  ok(f"已删旧 official: {final_name}", indent=1)
+
+              # 上传 _new 内容作为 official
+              up_arg = f"{src}#{final_name}"
+              up = subprocess.run(
+                  ["gh", "release", "upload", release_tag, up_arg,
+                   "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
+                   "--clobber"],
+                  capture_output=True, text=True
+              )
+              if up.returncode != 0:
+                  err(f"上传 official 失败: {up.stderr.strip()}", indent=1)
+                  continue
+              ok(f"已发布 official: {final_name}", indent=1)
+
+              # 4c. 把本地 official JSON 同步到 / 和 /configures/（仅 .json）
+              if final_name.endswith(".json"):
+                  with open(src, "rb") as f:
+                      data = f.read()
+                  for dst in [final_name, os.path.join(CFG_DIR, final_name)]:
+                      with open(dst, "wb") as f:
+                          f.write(data)
+                  ok(f"同步 official → /, /{CFG_DIR}/", indent=1)
+
+          # ── 5. 同步 configure.json#hotfix 子块（在 3 处）
+          section("同步 configure.json#hotfix 子块")
+          cfg_official = os.path.join(CFG_DIR, CFG_FILE)
+          if not os.path.isfile(cfg_official):
+              err(f"权威 {cfg_official} 不存在，无法更新 hotfix 块")
+              sys.exit(1)
+          with open(cfg_official, "r", encoding="utf-8") as f:
+              cfg = json.load(f)
+          if "hotfix" not in cfg or not isinstance(cfg["hotfix"], dict):
+              cfg["hotfix"] = {}
+
+          updated_blocks = []
+          for short, ver_name in [("scenario", "version_scenario"),
+                                  ("js",       "version_js")]:
+              official_json = os.path.join(CFG_DIR, f"{ver_name}.json")
+              if not os.path.isfile(official_json):
+                  skip(f"{official_json} 不存在，跳过 hotfix.{short}")
+                  continue
+              with open(official_json, "r", encoding="utf-8") as f:
+                  meta = json.load(f)
+              cfg["hotfix"][short] = {
+                  "version": int(meta.get("version", 0) or 0),
+                  "size":    int(meta.get("size",    0) or 0),
+                  "md5":     str(meta.get("md5",     "")).lower(),
+              }
+              updated_blocks.append(short)
+              ok(f"hotfix.{short} = v{cfg['hotfix'][short]['version']}, "
+                 f"size={cfg['hotfix'][short]['size']}, "
+                 f"md5={cfg['hotfix'][short]['md5']}")
+
+          if not updated_blocks:
+              warn("没有任何 official version_*.json 可供同步，hotfix 块未更新")
           else:
-              skip("未开启发布热更新包，_new 文件已上传供预览，正式文件不变")
+              # 写回三处
+              cfg_text = json.dumps(cfg, indent=2, ensure_ascii=False) + "\n"
+              for dst in [cfg_official, CFG_FILE]:  # /configures/configure.json + /configure.json
+                  with open(dst, "w", encoding="utf-8") as f:
+                      f.write(cfg_text)
+                  ok(f"已写入 {dst}")
+              # 上传到 Release
+              tmp = f"/tmp/{CFG_FILE}"
+              with open(tmp, "w", encoding="utf-8") as f:
+                  f.write(cfg_text)
+              if CFG_FILE in {a["name"] for a in json.loads(
+                      subprocess.run(["gh", "api",
+                          f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/latest"],
+                          capture_output=True, text=True).stdout
+                  ).get("assets", [])}:
+                  # 删旧再上传
+                  pass  # gh release upload --clobber 会自动覆盖
+              up = subprocess.run(
+                  ["gh", "release", "upload", release_tag, f"{tmp}#{CFG_FILE}",
+                   "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
+                   "--clobber"],
+                  capture_output=True, text=True
+              )
+              if up.returncode == 0:
+                  ok(f"已上传 {CFG_FILE} 到 Release")
+              else:
+                  err(f"上传 {CFG_FILE} 失败: {up.stderr.strip()}")
 
+          ok("热更新包发布 + configure.json#hotfix 同步完成")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write("hotfix_published=true\n")
           SCRIPT_END
         env:
           PUBLISH_HOTFIX: ${{ steps.check_upstream.outputs.publish_hotfix }}
@@ -625,7 +765,6 @@ jobs:
           import urllib.error
 
           sys.stdout.reconfigure(line_buffering=True)
-          sys.stderr.reconfigure(line_buffering=True)
 
           class C:
               RESET         = "\033[0m"
@@ -639,43 +778,26 @@ jobs:
               BRIGHT_WHITE  = "\033[97m"
               CYAN          = "\033[36m"
 
-          def c(color, text):
-              return f"{color}{text}{C.RESET}"
-
-          def header(text):
+          def c(col, t): return f"{col}{t}{C.RESET}"
+          def header(t):
               bar = "═" * 60
               print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
-
-          def section(text):
-              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
-
-          def info(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
-
-          def ok(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
-
-          def warn(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
-
-          def err(text, indent=0):
-              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
-
-          def skip(text, indent=0):
-              print(f"{'  '*indent}{c(C.DIM, '⏭  ' + text)}", flush=True)
-
-          def human_size(size_bytes):
-              for unit in ["B", "KB", "MB", "GB"]:
-                  if size_bytes < 1024:
-                      return f"{size_bytes:.1f} {unit}"
-                  size_bytes /= 1024
-              return f"{size_bytes:.1f} TB"
-
-          def set_output(key, value):
+          def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
+          def info(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, i=0): print(f"{'  '*i}{c(C.DIM, '⏭  ' + t)}", flush=True)
+          def human_size(n):
+              for u in ["B", "KB", "MB", "GB"]:
+                  if n < 1024: return f"{n:.1f} {u}"
+                  n /= 1024
+              return f"{n:.1f} TB"
+          def set_output(k, v):
               with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-                  f.write(f"{key}={value}\n")
+                  f.write(f"{k}={v}\n")
 
           UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
           UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
@@ -697,19 +819,15 @@ jobs:
                   with urllib.request.urlopen(req) as resp:
                       return json.loads(resp.read().decode())
               except urllib.error.HTTPError as e:
-                  if e.code == 404:
-                      return None
+                  if e.code == 404: return None
                   raise
 
           def delete_asset(asset_id, name):
-              url = (
-                  f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
-                  f"/releases/assets/{asset_id}"
-              )
+              url = (f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
+                     f"/releases/assets/{asset_id}")
               req = urllib.request.Request(url, headers=GH_HEADERS, method="DELETE")
               try:
-                  with urllib.request.urlopen(req):
-                      pass
+                  with urllib.request.urlopen(req): pass
                   ok(f"已删除旧 asset: {name}", indent=1)
                   return True
               except Exception as e:
@@ -724,22 +842,18 @@ jobs:
               cur_map = {a["name"]: a for a in upstream_release.get("assets", [])}
               if display_name in cur_map:
                   delete_asset(cur_map[display_name]["id"], display_name)
-
               upload_arg = f"{local_path}#{display_name}"
               result = subprocess.run(
-                  [
-                      "gh", "release", "upload", release_tag, upload_arg,
-                      "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
-                      "--clobber",
-                  ],
+                  ["gh", "release", "upload", release_tag, upload_arg,
+                   "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
+                   "--clobber"],
                   capture_output=True, text=True
               )
               if result.returncode == 0:
                   ok(f"已上传: {display_name}", indent=1)
                   return True
-              else:
-                  err(f"上传失败 [{display_name}]: {result.stderr.strip()}", indent=1)
-                  return False
+              err(f"上传失败 [{display_name}]: {result.stderr.strip()}", indent=1)
+              return False
 
           def main():
               header("同步客户端 APK 到上游 Release")
@@ -786,8 +900,7 @@ jobs:
 
               if len(apk_assets) > 1:
                   warn(f"检测到 {len(apk_assets)} 个 APK，"
-                       f"只使用第一个: "
-                       f"{c(C.BRIGHT_WHITE, apk_assets[0]['name'])}")
+                       f"只使用第一个: {c(C.BRIGHT_WHITE, apk_assets[0]['name'])}")
               asset = apk_assets[0]
               fname = asset["name"]
               info(f"原始文件名: {c(C.BRIGHT_WHITE, fname)}")
@@ -807,7 +920,6 @@ jobs:
               work_dir = "/tmp/apk_sync"
               os.makedirs(work_dir, exist_ok=True)
               dst_path = os.path.join(work_dir, fname)
-
               try:
                   dl_req = urllib.request.Request(
                       asset["browser_download_url"], headers=GH_HEADERS
@@ -816,16 +928,14 @@ jobs:
                       data = resp.read()
                   with open(dst_path, "wb") as f:
                       f.write(data)
-                  ok(f"已下载: {fname}  "
-                     f"{c(C.DIM, human_size(len(data)))}", indent=1)
+                  ok(f"已下载: {fname}  {c(C.DIM, human_size(len(data)))}", indent=1)
               except Exception as e:
                   err(f"下载失败: {e}", indent=1)
                   set_output("apk_synced", "false")
                   sys.exit(1)
 
               section("上传为 client.apk 到上游 Release")
-              info(f"{c(C.BRIGHT_WHITE, fname)} "
-                   f"→ {c(C.BRIGHT_CYAN, 'client.apk')}")
+              info(f"{c(C.BRIGHT_WHITE, fname)} → {c(C.BRIGHT_CYAN, 'client.apk')}")
               if not upload_asset_to_upstream(upstream_tag, dst_path, "client.apk"):
                   set_output("apk_synced", "false")
                   sys.exit(1)
@@ -842,16 +952,19 @@ jobs:
                   warn(f"保存 tag 失败: {save_result.stderr.strip()}")
 
               set_output("apk_synced", "true")
-
               header("APK 同步完成")
-              ok(f"来源: {c(C.BRIGHT_WHITE, fname)}  "
-                 f"{c(C.DIM, '(' + client_tag + ')')}")
+              ok(f"来源: {c(C.BRIGHT_WHITE, fname)}  {c(C.DIM, '(' + client_tag + ')')}")
               ok(f"目标: {c(C.BRIGHT_CYAN, 'client.apk')} → 上游 Release")
 
           if __name__ == "__main__":
               main()
           SCRIPT_END
 
+      # ───────────────────────────────────────────────────────────────
+      # 🚀 同步 Release 文件到 S3
+      #   v2 改动：S3 忽略列表去掉 versions.json / offline_package_checksum.txt，
+      #            configure.json 不在忽略列表（必须同步到 S3，客户端从 S3 拉它）
+      # ───────────────────────────────────────────────────────────────
       - name: 🚀 运行同步脚本（上传 Release 文件到 S3）
         id: sync_script
         run: |
@@ -865,7 +978,6 @@ jobs:
           from datetime import datetime
 
           sys.stdout.reconfigure(line_buffering=True)
-          sys.stderr.reconfigure(line_buffering=True)
 
           import boto3
           from botocore.exceptions import ClientError
@@ -886,217 +998,57 @@ jobs:
               BRIGHT_WHITE  = "\033[97m"
               CYAN          = "\033[36m"
 
-          def c(color, text):
-              return f"{color}{text}{C.RESET}"
-
-          def header(text):
+          def c(col, t): return f"{col}{t}{C.RESET}"
+          def header(t):
               bar = "═" * 60
               print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
-
-          def section(text):
-              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
-
-          def info(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
-
-          def ok(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
-
-          def warn(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
-
-          def err(text, indent=0):
-              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
-
-          def skip(text, indent=0):
-              print(f"{'  '*indent}{c(C.DIM, '⏭  ' + text)}", flush=True)
-
-          def progress_bar(current, total, width=30, label=""):
-              pct    = current / total if total else 1.0
-              filled = int(width * pct)
-              bar    = c(C.BRIGHT_GREEN, "█" * filled) + c(C.DIM, "░" * (width - filled))
-              pct_s  = c(C.BOLD + C.BRIGHT_WHITE, f"{pct*100:5.1f}%")
-              lbl    = c(C.DIM, f" {label}") if label else ""
-              print(f"  [{bar}] {pct_s}{lbl}", flush=True)
-
-          def human_size(size_bytes):
-              for unit in ["B", "KB", "MB", "GB"]:
-                  if size_bytes < 1024:
-                      return f"{size_bytes:.1f} {unit}"
-                  size_bytes /= 1024
-              return f"{size_bytes:.1f} TB"
-
-          def detect_token_type(token: str) -> str:
-              if token.startswith("github_pat_"):
-                  return "Fine-grained PAT"
-              elif token.startswith("ghp_"):
-                  return "Classic PAT"
-              elif token.startswith("ghs_"):
-                  return "GitHub Actions Token"
-              elif token.startswith("gho_"):
-                  return "OAuth Token"
-              elif token.startswith("ghr_"):
-                  return "Refresh Token"
-              else:
-                  return "未知类型"
-
-          class ActionGroup:
-              @staticmethod
-              def start_group(title):
-                  print(f"::group::{title}", flush=True)
-              @staticmethod
-              def end_group():
-                  print("::endgroup::", flush=True)
-
-          class ActionLogger:
-              def __init__(self):
-                  self.step_summary_path = os.environ.get('GITHUB_STEP_SUMMARY')
-                  self.file_statuses     = {}
-                  self.obsolete_files    = []
-                  self.token_info        = {}
-                  self.start_time        = datetime.now()
-
-              def init_summary(self):
-                  if self.step_summary_path:
-                      with open(self.step_summary_path, 'w', encoding='utf-8') as f:
-                          f.write("## 🚀 Action 运行报告\n\n")
-                          f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
-                          f.write("### 📋 文件处理状态\n\n")
-                          f.write("| 文件名 | 状态 | 详细信息 |\n|--------|------|----------|\n")
-
-              def _rewrite_summary(self):
-                  if not self.step_summary_path:
-                      return
-                  icons = {
-                      '无需操作': '⚪', '排队中': '🟡', '下载中': '🔵',
-                      '上传中': '🟣', '已上传': '🟢', '已完成': '✅',
-                      '已忽略': '⚫', '失败': '❌'
-                  }
-                  with open(self.step_summary_path, 'w', encoding='utf-8') as f:
-                      f.write("## 🚀 Action 运行报告\n\n")
-                      f.write(f"⏱️ **开始时间**: `{self.start_time.strftime('%Y-%m-%d %H:%M:%S')}`\n\n")
-                      f.write("### 📋 文件处理状态\n\n")
-                      f.write("| 文件名 | 状态 | 详细信息 |\n|--------|------|----------|\n")
-                      for fname, info_data in self.file_statuses.items():
-                          icon = icons.get(info_data['status'], '⚪')
-                          f.write(f"| {fname} | {icon} {info_data['status']} | {info_data['details']} |\n")
-                      f.write("\n")
-
-              def update_file_status(self, filename, status, details=""):
-                  self.file_statuses[filename] = {'status': status, 'details': details}
-                  self._rewrite_summary()
-
-              def add_obsolete_files_section(self):
-                  if self.step_summary_path and self.obsolete_files:
-                      with open(self.step_summary_path, 'a', encoding='utf-8') as f:
-                          f.write("### 🗑️ 过时文件清理报告\n\n")
-                          f.write("| 存储桶 | 文件名 | 状态 | 详细信息 |\n|--------|--------|------|----------|\n")
-                          for item in self.obsolete_files:
-                              icon = '✅' if item['status'] in ['已删除', '已纠正位置'] else '❌'
-                              f.write(f"| {item['bucket']} | {item['filename']} | {icon} {item['status']} | {item['details']} |\n")
-                          f.write("\n")
-
-              def add_token_info_section(self):
-                  if self.step_summary_path and self.token_info:
-                      with open(self.step_summary_path, 'a', encoding='utf-8') as f:
-                          f.write("### 🔑 GitHub API Token 调用信息\n\n")
-                          f.write("| 项目 | 值 |\n|------|----|\n")
-                          for key, value in self.token_info.items():
-                              f.write(f"| {key} | {value} |\n")
-                          f.write("\n")
-
-              def finalize_summary(self, processed_files):
-                  if not self.step_summary_path:
-                      return
-                  with open(self.step_summary_path, 'a', encoding='utf-8') as f:
-                      f.write(f"\n⏱️ **结束时间**: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`\n")
-                      elapsed = (datetime.now() - self.start_time).total_seconds()
-                      f.write(f"⏱️ **总耗时**: `{elapsed:.2f}` 秒\n\n")
-                      self.add_token_info_section()
-                      success = sum(1 for f in processed_files if f['success'])
-                      fail    = len(processed_files) - success
-                      if fail == 0:
-                          f.write("🟢 **状态**: 所有文件处理成功！\n")
-                      else:
-                          f.write(f"🟡 **状态**: 处理完成，{success} 个成功，{fail} 个失败。\n")
-
-          logger = ActionLogger()
-          logger.init_summary()
+          def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
+          def info(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, i=0): print(f"{'  '*i}{c(C.DIM, '⏭  ' + t)}", flush=True)
+          def human_size(n):
+              for u in ["B", "KB", "MB", "GB"]:
+                  if n < 1024: return f"{n:.1f} {u}"
+                  n /= 1024
+              return f"{n:.1f} TB"
 
           # ══════════════════════════════════════════════════════════════
-          # S3 上传过滤规则（集中管理）
-          # 凡匹配以下任一规则的文件，在所有 S3 相关逻辑中均会被完全跳过：
-          #   不进入 current_map（不参与指纹比对、不触发上传）
-          #   不在存储桶清理/纠错遍历中被删除或移动
-          # ──────────────────────────────────────────────────────────────
-          # 精确文件名：整个文件名完全匹配才忽略
+          # S3 上传过滤规则 v2
+          # ══════════════════════════════════════════════════════════════
+          # configure.json     → 必须同步到 S3（客户端从 S3 拉它）
+          # version_*.json     → 兼容老客户端，也同步
+          # version_*_new.json → 预览版，不上 S3
+          # versions.json / offline_package_checksum.txt → schema v2 已废弃
           S3_IGNORE_EXACT = {
-              'offline-package.zip',           # 离线包完整压缩文件（由分卷替代）
-              'offline_package_checksum.txt',  # 离线包校验文件
-              'versions.json',                 # 版本索引文件
-              'history-data-splited.tar.xz',# 大型历史存档，不经 S3 分发
+              'offline-package.zip',
+              'offline_package_checksum.txt',
+              'versions.json',
+              'history-data-splited.tar.xz',
           }
-          # 前缀：文件名以此开头则忽略
           S3_IGNORE_PREFIXES = (
-              'offline-package.zip.',          # 离线包分卷（.001 .002 ...）
-              'source code',                   # GitHub 自动生成的源码压缩包
+              'offline-package.zip.',
+              'source code',
           )
-          # 后缀：文件名以此结尾则忽略
           S3_IGNORE_SUFFIXES = (
-              '_new.zip',                      # 热更新预览包（未正式发布）
-              '_new.json',                     # 热更新预览版本描述文件
+              '_new.zip',
+              '_new.json',
           )
 
           def should_ignore_for_s3(name: str) -> bool:
-              """
-              判断一个 Release asset 是否应被 S3 同步逻辑完全忽略。
-              所有 S3 过滤规则的唯一入口，修改过滤策略只需改动上方三个常量。
-              """
-              if name in S3_IGNORE_EXACT:
-                  return True
-              if any(name.startswith(p) for p in S3_IGNORE_PREFIXES):
-                  return True
-              if any(name.endswith(s) for s in S3_IGNORE_SUFFIXES):
-                  return True
+              if name in S3_IGNORE_EXACT: return True
+              if any(name.startswith(p) for p in S3_IGNORE_PREFIXES): return True
+              if any(name.endswith(s) for s in S3_IGNORE_SUFFIXES): return True
               return False
-          # ══════════════════════════════════════════════════════════════
 
-          class GitHubAPIClient:
-              def __init__(self, token=None):
-                  self.token   = token
-                  self.headers = {
-                      'Accept': 'application/vnd.github+json',
-                      'X-GitHub-Api-Version': '2022-11-28'
-                  }
-                  if token:
-                      self.headers['Authorization'] = f'Bearer {token}'
-                      masked = (token[:4] + '*' * (len(token) - 8) + token[-4:]
-                                if len(token) > 8 else '*' * len(token))
-                      token_type = detect_token_type(token)
-                      logger.token_info['Token 类型'] = token_type
-                      logger.token_info['Token 预览'] = masked
-                      info(f"Token 类型: {c(C.BRIGHT_CYAN, token_type)}")
-                      info(f"Token 预览: {c(C.DIM, masked)}")
-                  else:
-                      warn("未提供 Token，匿名访问（可能受限）")
-                      logger.token_info['Token 类型'] = '匿名'
-
-              def get_latest_release(self, owner, repo):
-                  url = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
-                  info(f"请求: {c(C.DIM, url)}")
-                  req = urllib.request.Request(url, headers=self.headers)
-                  try:
-                      with urllib.request.urlopen(req) as res:
-                          logger.token_info['速率限制'] = res.headers.get('X-RateLimit-Limit', 'N/A')
-                          logger.token_info['剩余次数'] = res.headers.get('X-RateLimit-Remaining', 'N/A')
-                          return json.loads(res.read().decode())
-                  except urllib.error.HTTPError as e:
-                      if e.code == 404:
-                          warn(f"仓库 {owner}/{repo} 暂无 Release")
-                          return None
-                      raise
+          # 强制清理 S3 上的废弃文件（即便它已经不在 Release 中也要删）
+          S3_FORCE_PURGE = {
+              'versions.json',
+              'offline_package_checksum.txt',
+          }
 
           class S3Handler:
               def __init__(self, endpoint, access_key, secret_key,
@@ -1111,22 +1063,16 @@ jobs:
                       aws_secret_access_key=secret_key,
                       region_name=region
                   )
-
               def list_files(self):
                   try:
                       paginator = self.s3_client.get_paginator('list_objects_v2')
-                      files = [
-                          obj['Key']
-                          for page in paginator.paginate(Bucket=self.bucket)
-                          if 'Contents' in page
-                          for obj in page['Contents']
-                      ]
+                      files = [obj['Key'] for page in paginator.paginate(Bucket=self.bucket)
+                               if 'Contents' in page for obj in page['Contents']]
                       info(f"[{c(C.BRIGHT_WHITE, self.name)}] 列出 {c(C.BOLD, str(len(files)))} 个文件")
                       return files
                   except Exception as e:
                       err(f"[{self.name}] 列出文件失败: {e}")
                       return []
-
               def delete_file(self, filename):
                   try:
                       self.s3_client.delete_object(Bucket=self.bucket, Key=filename)
@@ -1141,7 +1087,6 @@ jobs:
                   except Exception as e:
                       err(f"[{self.name}] 删除异常: {e}", indent=1)
                       return False
-
               def upload_file_from_url(self, url, filename):
                   try:
                       info(f"[{c(C.BRIGHT_WHITE, self.name)}] 流式上传: "
@@ -1171,12 +1116,6 @@ jobs:
                   cp           = ClientProfile()
                   cp.httpProfile = hp
                   self.client  = teo_client.TeoClient(cred, "", cp)
-
-              def _mask(self, task_id):
-                  if not task_id or len(task_id) <= 8:
-                      return '*' * len(task_id) if task_id else '未知'
-                  return task_id[:4] + '*' * (len(task_id) - 8) + task_id[-4:]
-
               def purge_cache(self, domain, filename):
                   try:
                       req        = models.CreatePurgeTaskRequest()
@@ -1187,317 +1126,191 @@ jobs:
                           "Targets": [target_url]
                       }))
                       resp    = self.client.CreatePurgeTask(req)
-                      task_id = self._mask(resp.RequestId)
-                      ok(f"[edge] 缓存刷新: {c(C.DIM, target_url)} "
-                         f"{c(C.DIM, '(ID: ' + task_id + ')')}", indent=1)
+                      task_id = resp.RequestId
+                      ok(f"[edge] 缓存刷新: {c(C.DIM, target_url)}", indent=1)
                       return True, task_id
                   except Exception as e:
                       err(f"[edge] 刷新失败: {e}", indent=1)
                       return False, str(e)
 
           def main():
+              header("初始化")
+              s3_1 = S3Handler(
+                  os.environ['S3_1_ENDPOINT'], os.environ['S3_1_ACCESS_KEY'],
+                  os.environ['S3_1_SECRET_KEY'], os.environ['S3_1_REGION'],
+                  os.environ['S3_1_BUCKET'],    os.environ['S3_1_DOMAIN'], "存储桶1"
+              )
+              s3_2 = S3Handler(
+                  os.environ['S3_2_ENDPOINT'], os.environ['S3_2_ACCESS_KEY'],
+                  os.environ['S3_2_SECRET_KEY'], os.environ['S3_2_REGION'],
+                  os.environ['S3_2_BUCKET'],    os.environ['S3_2_DOMAIN'], "存储桶2"
+              )
+              edge = EdgeOneHandler(
+                  os.environ['QCLOUD_SECRET_ID'],
+                  os.environ['QCLOUD_SECRET_KEY'],
+                  os.environ['EDGEONE_ZONE_ID']
+              )
+              ok("S3 × 2 + edge 已初始化")
+
+              owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
+              repo  = os.environ.get('UPSTREAM_REPO',  'patch-front')
+
+              GH_HEADERS = {
+                  'Accept': 'application/vnd.github+json',
+                  'X-GitHub-Api-Version': '2022-11-28',
+              }
+              if os.environ.get(''):
+                  GH_HEADERS['Authorization'] = f"Bearer {os.environ['']}"
+
+              header(f"获取 {owner}/{repo} 最新 Release")
               try:
-                  header("初始化配置")
-
-                  section("S3 & edge 客户端")
-                  s3_1 = S3Handler(
-                      os.environ['S3_1_ENDPOINT'], os.environ['S3_1_ACCESS_KEY'],
-                      os.environ['S3_1_SECRET_KEY'], os.environ['S3_1_REGION'],
-                      os.environ['S3_1_BUCKET'],    os.environ['S3_1_DOMAIN'],
-                      "存储桶1"
+                  req = urllib.request.Request(
+                      f"https://api.github.com/repos/{owner}/{repo}/releases/latest",
+                      headers=GH_HEADERS
                   )
-                  s3_2 = S3Handler(
-                      os.environ['S3_2_ENDPOINT'], os.environ['S3_2_ACCESS_KEY'],
-                      os.environ['S3_2_SECRET_KEY'], os.environ['S3_2_REGION'],
-                      os.environ['S3_2_BUCKET'],    os.environ['S3_2_DOMAIN'],
-                      "存储桶2"
-                  )
-                  edge = EdgeOneHandler(
-                      os.environ['QCLOUD_SECRET_ID'],
-                      os.environ['QCLOUD_SECRET_KEY'],
-                      os.environ['EDGEONE_ZONE_ID']
-                  )
-                  ok("S3 × 2 + edge 客户端已初始化")
-
-                  section("GitHub API 客户端")
-                  gh_client = GitHubAPIClient(os.environ.get('', ''))
-
-                  owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
-                  repo  = os.environ.get('UPSTREAM_REPO',  'patch-front')
-
-                  header("获取上游 Release 信息")
-                  section(f"{owner}/{repo} 最新 Release")
-
-                  release = gh_client.get_latest_release(owner, repo)
-                  if not release:
-                      warn("上游仓库没有 Release，无需处理")
-                      logger.finalize_summary([])
-                      with open(os.environ["GITHUB_OUTPUT"], "a") as _f:
-                          _f.write("has_zip_changes=false\n")
+                  with urllib.request.urlopen(req) as resp:
+                      release = json.loads(resp.read().decode())
+              except urllib.error.HTTPError as e:
+                  if e.code == 404:
+                      warn("上游仓库无 Release，跳过")
+                      with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+                          fh.write("has_zip_changes=false\n")
                       return
+                  raise
 
-                  info(f"Release: {c(C.BRIGHT_WHITE, release.get('name') or release.get('tag_name'))}")
-                  info(f"发布时间: {c(C.DIM, release.get('published_at', 'N/A'))}")
+              info(f"Release: {c(C.BRIGHT_WHITE, release.get('name') or release.get('tag_name'))}")
+              current_map = {
+                  a['name']: a.get('digest', '')
+                  for a in release.get('assets', [])
+                  if not should_ignore_for_s3(a['name'])
+              }
+              info(f"包含 {c(C.BOLD, str(len(current_map)))} 个待同步 asset")
 
-                  # current_map：只收录"需要同步到 S3"的文件
-                  # 过滤逻辑全部委托给 should_ignore_for_s3()，不在此处散写条件
-                  current_map = {
-                      a['name']: a.get('digest', '')
-                      for a in release.get('assets', [])
-                      if not should_ignore_for_s3(a['name'])
-                  }
-                  info(f"包含 {c(C.BOLD, str(len(current_map)))} 个 asset（已过滤不需上传 S3 的文件）")
+              header("比对文件指纹")
+              result = subprocess.run(
+                  ['gh', 'variable', 'get', 'LAST_SYNC_FINGERPRINTS'],
+                  capture_output=True, text=True
+              )
+              old_map = {}
+              if result.returncode == 0 and result.stdout.strip():
+                  try:
+                      old_map = json.loads(result.stdout.strip())
+                      info(f"历史指纹: {c(C.BOLD, str(len(old_map)))} 个文件")
+                  except Exception:
+                      warn("历史指纹解析失败，视为首次同步")
 
-                  header("比对文件指纹")
-                  section("读取历史指纹")
-
-                  result = subprocess.run(
-                      ['gh', 'variable', 'get', 'LAST_SYNC_FINGERPRINTS'],
-                      capture_output=True, text=True
-                  )
-                  old_map = {}
-                  if result.returncode == 0 and result.stdout.strip():
-                      try:
-                          old_map = json.loads(result.stdout.strip())
-                          info(f"历史指纹: {c(C.BOLD, str(len(old_map)))} 个文件")
-                      except Exception:
-                          warn("历史指纹解析失败，视为首次同步")
+              to_process, unchanged, deleted = [], [], []
+              for fname, sha in current_map.items():
+                  if fname not in old_map:
+                      info(f"{c(C.BRIGHT_YELLOW, fname)} → 新文件")
+                      to_process.append(fname)
+                  elif sha and old_map[fname] != sha:
+                      info(f"{c(C.BRIGHT_YELLOW, fname)} → 已更新")
+                      to_process.append(fname)
+                  elif not sha:
+                      to_process.append(fname)
                   else:
-                      info("无历史指纹，视为首次同步")
+                      unchanged.append(fname)
+              for fname in old_map:
+                  if fname not in current_map:
+                      deleted.append(fname)
 
-                  section("SHA256 比对")
-                  to_process = []
-                  unchanged  = []
-                  deleted    = []
+              has_zip_changes = any(f.endswith(".zip") for f in to_process)
+              with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+                  fh.write(f"has_zip_changes={'true' if has_zip_changes else 'false'}\n")
 
-                  # current_map 中的文件已经过 should_ignore_for_s3() 过滤，
-                  # 此处无需再做任何额外的文件名判断
-                  for fname, sha in current_map.items():
-                      if fname not in old_map:
-                          info(f"{c(C.BRIGHT_YELLOW, fname)} → 新文件")
-                          logger.update_file_status(fname, "排队中", "新文件")
-                          to_process.append(fname)
-                      elif sha and old_map[fname] != sha:
-                          info(f"{c(C.BRIGHT_YELLOW, fname)} → SHA 变更")
-                          logger.update_file_status(fname, "排队中", "文件已更新")
-                          to_process.append(fname)
-                      elif not sha:
-                          warn(f"{fname} → 无 SHA，按新文件处理")
-                          logger.update_file_status(fname, "排队中", "无SHA，按新文件处理")
-                          to_process.append(fname)
-                      else:
-                          skip(f"{fname} → 无变更")
-                          logger.update_file_status(fname, "无需操作", "文件未变更")
-                          unchanged.append(fname)
+              header("清理过时 / 强制清理废弃 schema 文件")
+              bucket1_files = s3_1.list_files()
+              bucket2_files = s3_2.list_files()
+              bucket1_targets = {
+                  'cn_base_00_db.zip', 'cn_base_01_json.zip', 'cn_base_02.zip',
+                  'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip',
+                  'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip',
+                  'cn_magica_resource.zip'
+              }
 
-                  for fname in old_map:
-                      if fname not in current_map:
-                          warn(f"{fname} → 已从 Release 中删除")
-                          deleted.append(fname)
-
-                  info(f"待处理: {c(C.BRIGHT_YELLOW, str(len(to_process)))} | "
-                       f"无变更: {c(C.DIM, str(len(unchanged)))} | "
-                       f"已删除: {c(C.RED, str(len(deleted)))}")
-
-                  has_zip_changes = any(f.endswith(".zip") for f in to_process)
-                  with open(os.environ["GITHUB_OUTPUT"], "a") as _f:
-                      _f.write(f"has_zip_changes={'true' if has_zip_changes else 'false'}\n")
-                  info(f"Release zip 文件变化: "
-                       f"{c(C.BRIGHT_YELLOW if has_zip_changes else C.DIM, str(has_zip_changes))}")
-
-                  ActionGroup.start_group("🗑️ 清理过时文件 & 纠正位置")
-                  header("清理过时文件 & 纠正文件位置")
-
-                  bucket1_files = s3_1.list_files()
-                  bucket2_files = s3_2.list_files()
-
-                  bucket1_targets = {
-                      'cn_base_00_db.zip', 'cn_base_01_json.zip', 'cn_base_02.zip',
-                      'cn_base_03.zip', 'cn_base_04.zip', 'cn_base_05.zip',
-                      'cn_base_06.zip', 'cn_hotupdate.zip', 'cn_js_update.zip',
-                      'cn_magica_resource.zip'
-                  }
-
-                  section("处理存储桶1")
-                  for fname in bucket1_files:
-                      # 凡被 should_ignore_for_s3() 判为忽略的文件，
-                      # 在 S3 中发现时同样跳过，不做删除或移动
+              def cleanup_bucket(s3, files, targets, peer):
+                  for fname in files:
+                      # schema v2 强制清理废弃文件
+                      if fname in S3_FORCE_PURGE:
+                          warn(f"{fname} → schema v2 已废弃，强制清理", indent=1)
+                          s3.delete_file(fname)
+                          continue
                       if should_ignore_for_s3(fname):
-                          skip(f"{fname} → 过滤规则命中，跳过", indent=1)
                           continue
                       if fname in deleted or fname not in current_map:
-                          if s3_1.delete_file(fname):
-                              logger.update_file_status(fname, "已完成", "已删除过时文件")
-                              logger.obsolete_files.append({
-                                  'bucket': '存储桶1', 'filename': fname,
-                                  'status': '已删除', 'details': '清理过时'
-                              })
-                      elif fname not in bucket1_targets:
-                          warn(f"{fname} 位于存储桶1但应属于存储桶2，纠正...", indent=1)
-                          logger.update_file_status(fname, "排队中", "纠正位置（移至存储桶2）")
+                          s3.delete_file(fname)
+                      elif fname not in targets:
+                          warn(f"{fname} 在 {s3.name} 但应在 {peer.name}，纠正", indent=1)
                           try:
-                              url = next(
-                                  a['browser_download_url']
-                                  for a in release['assets'] if a['name'] == fname
-                              )
-                              if s3_2.upload_file_from_url(url, fname):
-                                  if s3_1.delete_file(fname):
-                                      logger.update_file_status(fname, "已完成", "已纠正位置（→存储桶2）")
-                                      logger.obsolete_files.append({
-                                          'bucket': '存储桶1→存储桶2', 'filename': fname,
-                                          'status': '已纠正位置', 'details': '移至正确桶'
-                                      })
-                                      if fname in to_process:
-                                          to_process.remove(fname)
-                                  else:
-                                      logger.update_file_status(fname, "失败", "从原桶删除失败")
-                              else:
-                                  logger.update_file_status(fname, "失败", "上传到目标桶失败")
+                              url = next(a['browser_download_url']
+                                         for a in release['assets']
+                                         if a['name'] == fname)
+                              if peer.upload_file_from_url(url, fname):
+                                  s3.delete_file(fname)
+                                  if fname in to_process:
+                                      to_process.remove(fname)
                           except Exception as e:
-                              logger.update_file_status(fname, "失败", f"纠正失败: {e}")
+                              err(f"纠正失败: {e}", indent=1)
 
-                  section("处理存储桶2")
-                  for fname in bucket2_files:
-                      # 同上，忽略文件跳过
-                      if should_ignore_for_s3(fname):
-                          skip(f"{fname} → 过滤规则命中，跳过", indent=1)
-                          continue
-                      if fname in deleted or fname not in current_map:
-                          if s3_2.delete_file(fname):
-                              logger.update_file_status(fname, "已完成", "已删除过时文件")
-                              logger.obsolete_files.append({
-                                  'bucket': '存储桶2', 'filename': fname,
-                                  'status': '已删除', 'details': '清理过时'
-                              })
-                      elif fname in bucket1_targets:
-                          warn(f"{fname} 位于存储桶2但应属于存储桶1，纠正...", indent=1)
-                          logger.update_file_status(fname, "排队中", "纠正位置（移至存储桶1）")
-                          try:
-                              url = next(
-                                  a['browser_download_url']
-                                  for a in release['assets'] if a['name'] == fname
-                              )
-                              if s3_1.upload_file_from_url(url, fname):
-                                  if s3_2.delete_file(fname):
-                                      logger.update_file_status(fname, "已完成", "已纠正位置（→存储桶1）")
-                                      logger.obsolete_files.append({
-                                          'bucket': '存储桶2→存储桶1', 'filename': fname,
-                                          'status': '已纠正位置', 'details': '移至正确桶'
-                                      })
-                                      if fname in to_process:
-                                          to_process.remove(fname)
-                                  else:
-                                      logger.update_file_status(fname, "失败", "从原桶删除失败")
-                              else:
-                                  logger.update_file_status(fname, "失败", "上传到目标桶失败")
-                          except Exception as e:
-                              logger.update_file_status(fname, "失败", f"纠正失败: {e}")
+              section("处理存储桶1")
+              cleanup_bucket(s3_1, bucket1_files, bucket1_targets, s3_2)
+              section("处理存储桶2")
+              # 桶2 的"应有"集合 = current_map - bucket1_targets
+              bucket2_targets = set(current_map.keys()) - bucket1_targets
+              cleanup_bucket(s3_2, bucket2_files, bucket2_targets, s3_1)
 
-                  logger.add_obsolete_files_section()
-                  ActionGroup.end_group()
+              if not to_process:
+                  header("无新增/更新文件")
+                  return
 
-                  if not to_process:
-                      header("无需处理")
-                      ok("无新增或更新文件，任务结束")
-                      logger.finalize_summary([])
-                      return
-
-                  header(f"上传文件（共 {len(to_process)} 个）")
-                  processed    = []
-                  total_files  = len(to_process)
-
-                  for i, fname in enumerate(to_process, 1):
-                      ActionGroup.start_group(f"[{i}/{total_files}] 📦 {fname}")
-
-                      print(flush=True)
-                      progress_bar(i - 1, total_files,
-                                   label=f"文件进度 {i-1}/{total_files}")
-
-                      target_s3 = s3_1 if fname in bucket1_targets else s3_2
-                      info(f"文件: {c(C.BRIGHT_WHITE, fname)}")
-                      info(f"目标: {c(C.BRIGHT_YELLOW, target_s3.name)}")
-
-                      url = next(
-                          a['browser_download_url']
-                          for a in release['assets'] if a['name'] == fname
-                      )
-                      logger.update_file_status(fname, "上传中", f"流式传输至 {target_s3.name}")
-
-                      if target_s3.upload_file_from_url(url, fname):
-                          logger.update_file_status(fname, "已上传", f"已上传到 {target_s3.name}")
-                          success, tid = edge.purge_cache(target_s3.domain, fname)
-                          if success:
-                              logger.update_file_status(fname, "已完成", f"CDN 已刷新 (ID: {tid})")
-                              processed.append({'filename': fname, 'success': True})
-                          else:
-                              logger.update_file_status(fname, "失败", f"CDN 刷新失败: {tid}")
-                              processed.append({'filename': fname, 'success': False})
-                      else:
-                          logger.update_file_status(fname, "失败", "S3 上传失败")
-                          processed.append({'filename': fname, 'success': False})
-
-                      progress_bar(i, total_files,
-                                   label=f"文件进度 {i}/{total_files}")
-                      ActionGroup.end_group()
-
-                  if processed:
-                      ActionGroup.start_group("🧹 清除域名根目录 CDN 缓存")
-                      header("清除域名根目录 CDN 缓存")
-                      section("刷新存储桶1域名根目录")
-                      success1, tid1 = edge.purge_cache(s3_1.domain, "")
-                      if success1:
-                          ok(f"已刷新: http://{s3_1.domain}/ (ID: {tid1})")
-                      else:
-                          warn(f"刷新失败: {tid1}")
-
-                      section("刷新存储桶2域名根目录")
-                      success2, tid2 = edge.purge_cache(s3_2.domain, "")
-                      if success2:
-                          ok(f"已刷新: http://{s3_2.domain}/ (ID: {tid2})")
-                      else:
-                          warn(f"刷新失败: {tid2}")
-                      ActionGroup.end_group()
-
-                  ActionGroup.start_group("💾 保存同步状态")
-                  header("保存文件指纹")
-
-                  final_map = old_map.copy()
-                  for fname in unchanged:
-                      final_map[fname] = old_map[fname]
-                  for fname in to_process:
-                      final_map[fname] = current_map[fname]
-                  for fname in deleted:
-                      final_map.pop(fname, None)
-
-                  subprocess.run(
-                      ['gh', 'variable', 'set', 'LAST_SYNC_FINGERPRINTS',
-                       '--body', json.dumps(final_map)],
-                      check=True
-                  )
-                  ok(f"文件指纹已保存（{c(C.BOLD, str(len(final_map)))} 个）")
-                  ActionGroup.end_group()
-
-                  logger.finalize_summary(processed)
-
-                  header("全部完成")
-                  success_count = sum(1 for p in processed if p['success'])
-                  fail_count    = len(processed) - success_count
-                  ok(f"成功: {c(C.BOLD, str(success_count))} 个文件")
-                  if fail_count:
-                      err(f"失败: {fail_count} 个文件")
+              header(f"上传 {len(to_process)} 个文件")
+              processed = []
+              for fname in to_process:
+                  target_s3 = s3_1 if fname in bucket1_targets else s3_2
+                  url = next(a['browser_download_url']
+                             for a in release['assets'] if a['name'] == fname)
+                  if target_s3.upload_file_from_url(url, fname):
+                      edge.purge_cache(target_s3.domain, fname)
+                      processed.append(fname)
                   else:
-                      ok("全部文件处理成功，无错误")
+                      err(f"上传失败: {fname}")
 
-              except Exception as e:
-                  err(f"脚本执行失败: {e}")
-                  import traceback
-                  traceback.print_exc()
-                  sys.exit(1)
+              if processed:
+                  header("刷新根目录 CDN 缓存")
+                  edge.purge_cache(s3_1.domain, "")
+                  edge.purge_cache(s3_2.domain, "")
+
+              header("保存指纹")
+              final_map = old_map.copy()
+              for fname in unchanged: final_map[fname] = old_map[fname]
+              for fname in to_process: final_map[fname] = current_map[fname]
+              for fname in deleted: final_map.pop(fname, None)
+              subprocess.run(
+                  ['gh', 'variable', 'set', 'LAST_SYNC_FINGERPRINTS',
+                   '--body', json.dumps(final_map)],
+                  check=True
+              )
+              ok(f"指纹已保存（{c(C.BOLD, str(len(final_map)))} 个）")
 
           if __name__ == "__main__":
-              main()
+              try:
+                  main()
+              except Exception as e:
+                  err(f"脚本失败: {e}")
+                  import traceback; traceback.print_exc()
+                  sys.exit(1)
           SCRIPT_END
 
+      # ───────────────────────────────────────────────────────────────
+      # 📦 构建并上传 offline-package.zip（分卷）
+      #   v2 改动：
+      #     - 内层文件 version.json → configure.json
+      #       内容 {"offline_package": {"version": "<timestamp>"}}
+      #     - 不再写 versions.json / offline_package_checksum.txt
+      #     - 改成更新 /configures/configure.json 的 offline_package 子块
+      #       并镜像到 / 和 Release
+      # ───────────────────────────────────────────────────────────────
       - name: 📦 构建并上传 offline-package.zip（分卷）
         if: |
           steps.sync_script.outputs.has_zip_changes == 'true' ||
@@ -1505,80 +1318,52 @@ jobs:
           steps.check_upstream.outputs.build_offline == 'true'
         run: |
           python3 <<'SCRIPT_END'
-          import subprocess
-          import sys
-          import os
-          import json
-          import hashlib
-          import zipfile
-          import math
-          import shutil
-          import urllib.request
-          import urllib.error
+          import subprocess, sys, os, json, hashlib, zipfile, math, shutil
+          import urllib.request, urllib.error
           from datetime import datetime, timezone
 
           sys.stdout.reconfigure(line_buffering=True)
-          sys.stderr.reconfigure(line_buffering=True)
 
           class C:
-              RESET         = "\033[0m"
-              BOLD          = "\033[1m"
-              DIM           = "\033[2m"
-              RED           = "\033[31m"
-              BRIGHT_GREEN  = "\033[92m"
-              BRIGHT_YELLOW = "\033[93m"
-              BRIGHT_BLUE   = "\033[94m"
-              BRIGHT_CYAN   = "\033[96m"
-              BRIGHT_WHITE  = "\033[97m"
-              CYAN          = "\033[36m"
+              RESET = "\033[0m"; BOLD = "\033[1m"; DIM = "\033[2m"; RED = "\033[31m"
+              BRIGHT_GREEN = "\033[92m"; BRIGHT_YELLOW = "\033[93m"
+              BRIGHT_BLUE = "\033[94m"; BRIGHT_CYAN = "\033[96m"
+              BRIGHT_WHITE = "\033[97m"; CYAN = "\033[36m"
 
-          def c(color, text):
-              return f"{color}{text}{C.RESET}"
-
-          def header(text):
+          def c(col, t): return f"{col}{t}{C.RESET}"
+          def header(t):
               bar = "═" * 60
               print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+          def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
+          def info(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, i=0): print(f"{'  '*i}{c(C.DIM, '⏭  ' + t)}", flush=True)
+          def human_size(n):
+              for u in ["B", "KB", "MB", "GB"]:
+                  if n < 1024: return f"{n:.1f} {u}"
+                  n /= 1024
+              return f"{n:.1f} TB"
 
-          def section(text):
-              print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
-
-          def info(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {text}", flush=True)
-
-          def ok(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {text}", flush=True)
-
-          def warn(text, indent=0):
-              print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {text}", flush=True)
-
-          def err(text, indent=0):
-              print(f"{'  '*indent}{c(C.RED, '✘')} {text}", flush=True)
-
-          def skip(text, indent=0):
-              print(f"{'  '*indent}{c(C.DIM, '⏭  ' + text)}", flush=True)
-
-          def human_size(size_bytes):
-              for unit in ["B", "KB", "MB", "GB"]:
-                  if size_bytes < 1024:
-                      return f"{size_bytes:.1f} {unit}"
-                  size_bytes /= 1024
-              return f"{size_bytes:.1f} TB"
-
-          # 单卷最大字节数（1900 MiB，留约 147 MiB 余量）
           SPLIT_SIZE = 1900 * 1024 * 1024
-
-          UPSTREAM_OWNER      = os.environ["UPSTREAM_OWNER"]
-          UPSTREAM_REPO       = os.environ["UPSTREAM_REPO"]
-                      = os.environ.get("", "")
+          UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
+          UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
+                 = os.environ.get("", "")
+          CFG_DIR        = os.environ["CONFIG_DIR"]
+          CFG_FILE       = os.environ["CONFIG_FILE"]
           OFFLINE_PART_PREFIX = "offline-package.zip."
 
+          # 这些文件不能进离线包
           EXCLUDE_FROM_OFFLINE = {
               "offline-package.zip",
-              "offline_package_checksum.txt",
-              "versions.json",
+              "offline_package_checksum.txt",     # v2 已废弃
+              "versions.json",                    # v2 已废弃
+              "configure.json",                   # 不打入离线包，离线包内部自带一份精简版
               "history-data-splited.tar.xz",
+              "client.apk",
           }
           NEW_SUFFIXES = ("_new.zip", "_new.json")
 
@@ -1604,16 +1389,11 @@ jobs:
                   sys.exit(1)
 
           def delete_asset(asset_id, name):
-              del_url = (
-                  f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
-                  f"/releases/assets/{asset_id}"
-              )
-              del_req = urllib.request.Request(
-                  del_url, headers=GH_HEADERS, method="DELETE"
-              )
+              url = (f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
+                     f"/releases/assets/{asset_id}")
+              req = urllib.request.Request(url, headers=GH_HEADERS, method="DELETE")
               try:
-                  with urllib.request.urlopen(del_req):
-                      pass
+                  with urllib.request.urlopen(req): pass
                   ok(f"已删除旧 asset: {name}", indent=1)
                   return True
               except Exception as e:
@@ -1621,38 +1401,30 @@ jobs:
                   return False
 
           def upload_asset(release_tag, local_path, display_name):
-              """上传前删除同名旧 asset，再上传，不影响其他文件。"""
               release_now = fetch_release()
-              cur_map     = {a["name"]: a for a in release_now.get("assets", [])}
-
+              cur_map = {a["name"]: a for a in release_now.get("assets", [])}
               if display_name in cur_map:
                   delete_asset(cur_map[display_name]["id"], display_name)
-
               upload_arg = f"{local_path}#{display_name}"
               result = subprocess.run(
-                  [
-                      "gh", "release", "upload", release_tag, upload_arg,
-                      "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
-                      "--clobber",
-                  ],
+                  ["gh", "release", "upload", release_tag, upload_arg,
+                   "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
+                   "--clobber"],
                   capture_output=True, text=True
               )
               if result.returncode == 0:
                   ok(f"已上传: {display_name}", indent=1)
                   return True
-              else:
-                  err(f"上传失败 [{display_name}]: {result.stderr.strip()}", indent=1)
-                  return False
+              err(f"上传失败 [{display_name}]: {result.stderr.strip()}", indent=1)
+              return False
 
           def split_file(src_path, out_dir, chunk_size):
-              """按 chunk_size 切分文件，输出 offline-package.zip.001, .002 ..."""
               parts = []
               with open(src_path, "rb") as f:
                   idx = 1
                   while True:
                       chunk = f.read(chunk_size)
-                      if not chunk:
-                          break
+                      if not chunk: break
                       part_name = f"offline-package.zip.{idx:03d}"
                       part_path = os.path.join(out_dir, part_name)
                       with open(part_path, "wb") as pf:
@@ -1662,32 +1434,16 @@ jobs:
                       idx += 1
               return parts
 
-          def delete_old_parts(cur_map):
-              """删除 Release 中已有的所有旧分卷。"""
-              old_parts = [
-                  name for name in cur_map
-                  if name.startswith(OFFLINE_PART_PREFIX)
-              ]
-              if not old_parts:
-                  skip("无旧分卷需要删除")
-                  return
-              for name in old_parts:
-                  delete_asset(cur_map[name]["id"], name)
-
           def main():
-              header("构建 offline-package.zip（分卷上传）")
+              header("构建 offline-package.zip（v2: 内层 configure.json）")
 
-              # ── 1. 获取 Release ──────────────────────────────────────
-              section("获取上游 Release 信息")
-              release     = fetch_release()
+              section("获取上游 Release")
+              release = fetch_release()
               release_tag = release.get("tag_name", "latest")
               info(f"Release: {c(C.BRIGHT_WHITE, release.get('name') or release_tag)}")
-              info(f"Tag:     {c(C.BRIGHT_CYAN, release_tag)}")
-
-              assets    = release.get("assets", [])
+              assets = release.get("assets", [])
               asset_map = {a["name"]: a for a in assets}
 
-              # ── 2. 筛选 zip 文件 ─────────────────────────────────────
               section("筛选 zip 文件")
               zip_assets = [
                   a for a in assets
@@ -1696,179 +1452,193 @@ jobs:
                   and not a["name"].startswith(OFFLINE_PART_PREFIX)
                   and not any(a["name"].endswith(s) for s in NEW_SUFFIXES)
               ]
-
               if not zip_assets:
-                  warn("Release 中无可用 zip 文件，跳过构建")
+                  warn("Release 无可用 zip，跳过构建")
                   sys.exit(0)
-
-              info(f"共 {c(C.BOLD, str(len(zip_assets)))} 个 zip 文件将打入离线包:")
+              info(f"共 {c(C.BOLD, str(len(zip_assets)))} 个 zip:")
               for a in zip_assets:
                   info(f"{c(C.BRIGHT_WHITE, a['name'])}  "
                        f"{c(C.DIM, human_size(a['size']))}", indent=1)
 
-              # ── 3. 下载所有 zip 文件 ─────────────────────────────────
               section("下载 zip 文件")
               work_dir = "/tmp/offline_build"
               os.makedirs(work_dir, exist_ok=True)
-
               downloaded = []
-              for asset in zip_assets:
-                  fname    = asset["name"]
-                  dl_url   = asset["browser_download_url"]
+              for a in zip_assets:
+                  fname = a["name"]
                   dst_path = os.path.join(work_dir, fname)
-                  info(f"下载: {c(C.BRIGHT_CYAN, fname)}  "
-                       f"{c(C.DIM, human_size(asset['size']))}")
-                  try:
-                      dl_req = urllib.request.Request(dl_url, headers=GH_HEADERS)
-                      with urllib.request.urlopen(dl_req) as resp:
-                          data = resp.read()
-                      with open(dst_path, "wb") as f:
-                          f.write(data)
-                      ok(f"已下载: {fname}  "
-                         f"{c(C.DIM, human_size(len(data)))}", indent=1)
-                      downloaded.append(dst_path)
-                  except Exception as e:
-                      err(f"下载失败 [{fname}]: {e}", indent=1)
-                      sys.exit(1)
+                  info(f"下载: {c(C.BRIGHT_CYAN, fname)}")
+                  dl_req = urllib.request.Request(a["browser_download_url"],
+                                                   headers=GH_HEADERS)
+                  with urllib.request.urlopen(dl_req) as resp:
+                      data = resp.read()
+                  with open(dst_path, "wb") as f:
+                      f.write(data)
+                  downloaded.append(dst_path)
 
-              # ── 4. 生成 version.json ─────────────────────────────────
-              section("生成 version.json")
-              now_ts            = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
-              version_json_path = os.path.join(work_dir, "version.json")
-              with open(version_json_path, "w", encoding="utf-8") as f:
-                  json.dump({"version": now_ts}, f, indent=2)
-              ok(f"version = {c(C.BRIGHT_CYAN, now_ts)}")
+              section("生成内层 configure.json")
+              now_ts = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+              # schema v2：离线包内层只用 offline_package.version；
+              # 客户端的 ResourceFlow.readInnerOfflinePackageVersion()
+              # 同时支持嵌套对象和扁平字符串两种形式，这里用嵌套形式与
+              # 服务端 configure.json 保持一致。
+              inner_path = os.path.join(work_dir, CFG_FILE)
+              with open(inner_path, "w", encoding="utf-8") as f:
+                  json.dump({"offline_package": {"version": now_ts}}, f, indent=2)
+              ok(f"内层 {CFG_FILE} = {c(C.BRIGHT_CYAN, now_ts)}")
 
-              # ── 5. 打包完整 offline-package.zip ─────────────────────
               section("打包 offline-package.zip")
-              offline_zip_path = "/tmp/offline-package.zip"
-              with zipfile.ZipFile(
-                  offline_zip_path, "w", zipfile.ZIP_DEFLATED
-              ) as zf:
-                  zf.write(version_json_path, arcname="version.json")
-                  ok("已写入: version.json", indent=1)
-                  for fpath in downloaded:
-                      arcname = os.path.basename(fpath)
-                      zf.write(fpath, arcname=arcname)
-                      ok(f"已写入: {arcname}", indent=1)
+              offline_zip = "/tmp/offline-package.zip"
+              with zipfile.ZipFile(offline_zip, "w", zipfile.ZIP_DEFLATED) as zf:
+                  zf.write(inner_path, arcname=CFG_FILE)
+                  ok(f"已写入: {CFG_FILE}", indent=1)
+                  for fp in downloaded:
+                      zf.write(fp, arcname=os.path.basename(fp))
+                      ok(f"已写入: {os.path.basename(fp)}", indent=1)
+              offline_size = os.path.getsize(offline_zip)
+              ok(f"完成: {human_size(offline_size)}")
 
-              offline_size = os.path.getsize(offline_zip_path)
-              ok(f"打包完成: {c(C.BRIGHT_WHITE, 'offline-package.zip')}  "
-                 f"{c(C.DIM, human_size(offline_size))}")
-
-              # ── 6. 计算完整包 MD5 ────────────────────────────────────
-              section("计算完整包 MD5")
-              with open(offline_zip_path, "rb") as f:
+              section("MD5")
+              with open(offline_zip, "rb") as f:
                   offline_md5 = hashlib.md5(f.read()).hexdigest().lower()
               ok(f"MD5: {c(C.BRIGHT_CYAN, offline_md5)}")
 
-              # ── 7. 判断是否需要分卷 ──────────────────────────────────
-              section("判断是否需要分卷")
-              need_split  = offline_size > SPLIT_SIZE
-              total_parts = math.ceil(offline_size / SPLIT_SIZE)
-
-              if need_split:
-                  warn(f"完整包 {human_size(offline_size)} 超过单卷上限 "
-                       f"{human_size(SPLIT_SIZE)}，将切分为 {total_parts} 卷")
-              else:
-                  info(f"完整包 {human_size(offline_size)} 未超限，以单卷形式上传")
-                  total_parts = 1
-
-              # ── 8. 切分或直接复制为 .001 ────────────────────────────
+              section("分卷 / 单卷")
+              need_split = offline_size > SPLIT_SIZE
               parts_dir = "/tmp/offline_parts"
               os.makedirs(parts_dir, exist_ok=True)
-
               if need_split:
-                  section("切分分卷")
-                  part_paths = split_file(offline_zip_path, parts_dir, SPLIT_SIZE)
+                  total_parts = math.ceil(offline_size / SPLIT_SIZE)
+                  warn(f"超 {human_size(SPLIT_SIZE)}，切 {total_parts} 卷")
+                  part_paths = split_file(offline_zip, parts_dir, SPLIT_SIZE)
               else:
-                  single_part = os.path.join(parts_dir, "offline-package.zip.001")
-                  shutil.copy2(offline_zip_path, single_part)
-                  part_paths = [single_part]
-                  ok(f"单卷: offline-package.zip.001  "
-                     f"{c(C.DIM, human_size(offline_size))}", indent=1)
+                  single = os.path.join(parts_dir, "offline-package.zip.001")
+                  shutil.copy2(offline_zip, single)
+                  part_paths = [single]
+                  ok("单卷模式 (offline-package.zip.001)")
 
-              # ── 9. 清理旧分卷 ────────────────────────────────────────
               section("清理旧分卷")
-              release_now = fetch_release()
-              cur_map     = {a["name"]: a for a in release_now.get("assets", [])}
-              delete_old_parts(cur_map)
+              cur_assets = {a["name"]: a for a in fetch_release().get("assets", [])}
+              for name in list(cur_assets):
+                  if name.startswith(OFFLINE_PART_PREFIX):
+                      delete_asset(cur_assets[name]["id"], name)
 
-              # ── 10. 上传新分卷 ───────────────────────────────────────
-              section(f"上传 {len(part_paths)} 个分卷到 Release")
-              for part_path in part_paths:
-                  display_name = os.path.basename(part_path)
-                  info(f"上传: {c(C.BRIGHT_CYAN, display_name)}  "
-                       f"{c(C.DIM, human_size(os.path.getsize(part_path)))}")
-                  if not upload_asset(release_tag, part_path, display_name):
+              section(f"上传 {len(part_paths)} 个分卷")
+              for pp in part_paths:
+                  if not upload_asset(release_tag, pp, os.path.basename(pp)):
                       sys.exit(1)
 
-              # ── 11. 更新 versions.json ───────────────────────────────
-              section("更新 versions.json")
-              versions_local = "/tmp/versions.json"
+              # ── v2 关键改动：把 offline_package 信息写到 configure.json 的 3 处
+              section(f"更新 {CFG_DIR}/{CFG_FILE} 的 offline_package 子块")
+              cfg_official = os.path.join(CFG_DIR, CFG_FILE)
+              if not os.path.isfile(cfg_official):
+                  err(f"权威 {cfg_official} 不存在")
+                  sys.exit(1)
+              with open(cfg_official, "r", encoding="utf-8") as f:
+                  cfg = json.load(f)
+              if not isinstance(cfg.get("offline_package"), dict):
+                  cfg["offline_package"] = {}
+              cfg["offline_package"]["version"] = now_ts
+              cfg["offline_package"]["md5"]     = offline_md5
+              cfg_text = json.dumps(cfg, indent=2, ensure_ascii=False) + "\n"
 
-              if "versions.json" in asset_map:
-                  dl_url = asset_map["versions.json"]["browser_download_url"]
-                  try:
-                      dl_req = urllib.request.Request(dl_url, headers=GH_HEADERS)
-                      with urllib.request.urlopen(dl_req) as resp:
-                          existing_versions = json.loads(resp.read().decode())
-                      info("已读取现有 versions.json，仅更新 offline-package 键")
-                  except Exception as e:
-                      warn(f"读取现有 versions.json 失败，新建文件: {e}")
-                      existing_versions = {}
-              else:
-                  info("Release 中无 versions.json，新建文件")
-                  existing_versions = {}
-
-              existing_versions["offline-package"] = now_ts
-              with open(versions_local, "w", encoding="utf-8") as f:
-                  json.dump(existing_versions, f, indent=2, ensure_ascii=False)
-              ok(f"versions.json[offline-package] = {c(C.BRIGHT_CYAN, now_ts)}")
-
-              if not upload_asset(release_tag, versions_local, "versions.json"):
+              # 写到 /configures/configure.json 和 /configure.json
+              for dst in [cfg_official, CFG_FILE]:
+                  with open(dst, "w", encoding="utf-8") as f:
+                      f.write(cfg_text)
+                  ok(f"已写入 {dst}")
+              # 上传到 Release
+              tmp = f"/tmp/{CFG_FILE}"
+              with open(tmp, "w", encoding="utf-8") as f:
+                  f.write(cfg_text)
+              if not upload_asset(release_tag, tmp, CFG_FILE):
                   sys.exit(1)
 
-              # ── 12. 更新 offline_package_checksum.txt ────────────────
-              section("更新 offline_package_checksum.txt")
-              checksum_local = "/tmp/offline_package_checksum.txt"
-              with open(checksum_local, "w", encoding="utf-8") as f:
-                  f.write(offline_md5)
-              info(f"内容（完整包 MD5）: {c(C.BRIGHT_CYAN, offline_md5)}")
-
-              if not upload_asset(
-                  release_tag, checksum_local, "offline_package_checksum.txt"
-              ):
-                  sys.exit(1)
-
-              # ── 完成 ─────────────────────────────────────────────────
               header("offline-package 构建完成")
               ok(f"版本号:     {c(C.BRIGHT_CYAN, now_ts)}")
               ok(f"完整包大小: {c(C.BRIGHT_WHITE, human_size(offline_size))}")
               ok(f"完整包 MD5: {c(C.BRIGHT_CYAN, offline_md5)}")
               ok(f"分卷数量:   {c(C.BRIGHT_WHITE, str(len(part_paths)))}")
-              ok("以下文件已同步至上游 Release：")
-              for part_path in part_paths:
-                  ok(f"  {os.path.basename(part_path)}", indent=1)
-              ok("  versions.json（仅 offline-package 键已更新）", indent=1)
-              ok("  offline_package_checksum.txt（完整包 MD5）", indent=1)
+              ok(f"已同步到 / + /{CFG_DIR}/ + Release 的 {CFG_FILE}")
 
           if __name__ == "__main__":
               main()
           SCRIPT_END
 
+      # ───────────────────────────────────────────────────────────────
+      # 💾 提交全部配置变更回 git
+      #   - _new files (always)
+      #   - official version_*.json (when publish_hotfix)
+      #   - configure.json updates (when publish_hotfix or offline rebuilt)
+      # ───────────────────────────────────────────────────────────────
+      - name: 💾 提交配置变更回仓库
+        if: always()
+        run: |
+          set -e
+
+          # 二次安全护栏：在真正 push 之前再确认一次 origin URL
+          ORIGIN_URL=$(git remote get-url origin)
+          if ! echo "$ORIGIN_URL" | grep -qiE "[/:]${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}(\.git)?\$"; then
+            echo "::error::push 前 origin 校验失败：$ORIGIN_URL"
+            exit 1
+          fi
+
+          # 只 stage 我们已知名字的配置文件，绝不 git add -A 任意路径，
+          # 避免误把别的临时产物（_artifacts/ / 上游同步进来的资源等）
+          # 当成配置变更提交回去。
+          git add \
+              configure.json \
+              version_scenario.json version_scenario_new.json \
+              version_js.json       version_js_new.json \
+              "${CONFIG_DIR}/configure.json" \
+              "${CONFIG_DIR}/version_scenario.json" "${CONFIG_DIR}/version_scenario_new.json" \
+              "${CONFIG_DIR}/version_js.json"       "${CONFIG_DIR}/version_js_new.json" \
+              2>/dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "ℹ 配置文件无变更可提交"
+            exit 0
+          fi
+
+          # commit 消息描述本次干了什么
+          MSG="ci: sync configure.json + version_*.json"
+          if [ "${{ steps.check_upstream.outputs.publish_hotfix }}" = "true" ]; then
+            MSG="$MSG (hotfix published)"
+          fi
+          if [ "${{ steps.check_upstream.outputs.build_offline }}" = "true" ] || \
+             [ "${{ steps.sync_script.outputs.has_zip_changes }}" = "true" ]; then
+            MSG="$MSG (offline-package rebuilt)"
+          fi
+          # [skip ci] 阻止本 push 触发自身
+          MSG="$MSG [skip ci]"
+
+          git commit -m "$MSG"
+
+          # 重试推送（最多 4 次，2 / 4 / 8 / 16 秒退避）
+          for delay in 0 2 4 8 16; do
+            [ "$delay" -gt 0 ] && sleep "$delay"
+            if git push origin HEAD:main; then
+              echo "✔ push 成功"
+              exit 0
+            fi
+            echo "⚠ push 失败，rebase 后重试..."
+            git pull --rebase origin main || true
+          done
+          echo "::warning::配置文件 commit push 失败 4 次，请手动检查"
+
       - name: 📊 生成运行摘要
         if: always()
         run: |
-          echo "## 🎉 同步任务完成" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎉 同步任务完成（schema v2）" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| 项目 | 值 |" >> $GITHUB_STEP_SUMMARY
           echo "|------|----|" >> $GITHUB_STEP_SUMMARY
           echo "| 上游仓库 | \`${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 配置目录 | \`${{ env.CONFIG_DIR }}/${{ env.CONFIG_FILE }}\` (权威) + \`/${{ env.CONFIG_FILE }}\` + Release |" >> $GITHUB_STEP_SUMMARY
           echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ 已发布正式热更新' || '⏭️ 未发布（预览模式）' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ _new → official + 同步 configure.json#hotfix' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| APK 同步 | ${{ steps.sync_apk.outputs.apk_synced == 'true' && '✅ 已同步新 APK' || '⏭️ 无新 APK' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 离线包构建 | ${{ (steps.sync_script.outputs.has_zip_changes == 'true' || steps.check_upstream.outputs.publish_hotfix == 'true' || steps.check_upstream.outputs.build_offline == 'true') && '✅ 已更新离线包' || '⏭️ 未触发' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 离线包构建 | ${{ (steps.sync_script.outputs.has_zip_changes == 'true' || steps.check_upstream.outputs.publish_hotfix == 'true' || steps.check_upstream.outputs.build_offline == 'true') && '✅ 已重建（更新 configure.json#offline_package）' || '⏭️ 未触发' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
