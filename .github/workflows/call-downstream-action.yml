@@ -1,5 +1,14 @@
 name: ⚙️ 触发下游更新
 
+# 上游 patch-front（HiiragiNemu）有更新时，通知下游
+# patch-front（MagirecoCN-Revival-Project）的 syncandupload.yml
+# 启动同步流程。
+#
+# 这份 workflow 本身不读写任何配置文件，只触发下游 workflow，所以
+# 配置文件 schema 从扁平 versions.json 迁移到嵌套 configure.json
+# 之后这里完全不需要改动；唯一更新是把 README 注释里旧的字段名也
+# 顺便对齐一下。
+
 on:
   push:
     branches:
@@ -23,6 +32,22 @@ jobs:
       DOWNSTREAM_REPO: "patch-front"
 
     steps:
+      - name: 🛡 安全护栏（校验目标仓库白名单）
+        # 出于安全考虑写死下游仓库白名单——即便 secrets / env 被误改成
+        # 别的 owner/repo，这里也会立刻 fail-fast，绝不向陌生仓库发
+        # repository_dispatch 事件。要新增允许的仓库请改这份白名单。
+        run: |
+          python3 <<'SCRIPT_END'
+          import os, sys
+          ALLOW_DOWNSTREAM = {"MagirecoCN-Revival-Project/patch-front"}
+          downstream = f"{os.environ['DOWNSTREAM_OWNER']}/{os.environ['DOWNSTREAM_REPO']}"
+          if downstream not in ALLOW_DOWNSTREAM:
+              print(f"::error::下游仓库 {downstream} 不在白名单中")
+              print(f"::error::允许的仓库: {sorted(ALLOW_DOWNSTREAM)}")
+              sys.exit(1)
+          print(f"✔ 下游 OK: {downstream}")
+          SCRIPT_END
+
       - name: 🔔 触发下游仓库同步
         run: |
           python3 <<'SCRIPT_END'
@@ -83,7 +108,7 @@ jobs:
               return result.stdout.strip()
 
           import os
-          UPSTREAM_REPO   = os.environ.get("GITHUB_REPOSITORY", "")
+          UPSTREAM_REPO    = os.environ.get("GITHUB_REPOSITORY", "")
           DOWNSTREAM_OWNER = os.environ.get("DOWNSTREAM_OWNER", "")
           DOWNSTREAM_REPO  = os.environ.get("DOWNSTREAM_REPO", "")
           ACTOR            = os.environ.get("GITHUB_ACTOR", "unknown")
