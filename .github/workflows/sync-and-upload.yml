@@ -929,7 +929,6 @@ jobs:
               return f"{size_bytes:.1f} TB"
 
           def detect_token_type(token: str) -> str:
-              """根据 token 前缀判断类型"""
               if token.startswith("github_pat_"):
                   return "Fine-grained PAT"
               elif token.startswith("ghp_"):
@@ -1214,6 +1213,7 @@ jobs:
                       for a in release.get('assets', [])
                       if not a['name'].startswith('source code')
                       and not any(a['name'].endswith(s) for s in S3_IGNORE_SUFFIXES)
+                      and not a['name'].startswith('offline-package.zip.')
                       and a['name'] not in S3_IGNORE_FILES
                   }
                   info(f"包含 {c(C.BOLD, str(len(current_map)))} 个 asset（已过滤 _new / offline 文件）")
@@ -1467,7 +1467,7 @@ jobs:
               main()
           SCRIPT_END
 
-      - name: 📦 构建并上传 offline-package.zip
+      - name: 📦 构建并上传 offline-package.zip（分卷）
         if: |
           steps.sync_script.outputs.has_zip_changes == 'true' ||
           steps.check_upstream.outputs.publish_hotfix == 'true' ||
@@ -1480,6 +1480,8 @@ jobs:
           import json
           import hashlib
           import zipfile
+          import math
+          import shutil
           import urllib.request
           import urllib.error
           from datetime import datetime, timezone
@@ -1533,9 +1535,13 @@ jobs:
                   size_bytes /= 1024
               return f"{size_bytes:.1f} TB"
 
-          UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
-          UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
-                 = os.environ.get("", "")
+          # 单卷最大字节数（1900 MiB，留约 147 MiB 余量）
+          SPLIT_SIZE = 1900 * 1024 * 1024
+
+          UPSTREAM_OWNER     = os.environ["UPSTREAM_OWNER"]
+          UPSTREAM_REPO      = os.environ["UPSTREAM_REPO"]
+                     = os.environ.get("", "")
+          OFFLINE_PART_PREFIX = "offline-package.zip."
 
           EXCLUDE_FROM_OFFLINE = {
               "offline-package.zip",
@@ -1566,7 +1572,7 @@ jobs:
                   err(f"获取 Release 失败: HTTP {e.code}")
                   sys.exit(1)
 
-          def delete_asset(release_id, asset_id, name):
+          def delete_asset(asset_id, name):
               del_url = (
                   f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
                   f"/releases/assets/{asset_id}"
@@ -1584,15 +1590,12 @@ jobs:
                   return False
 
           def upload_asset(release_tag, local_path, display_name):
+              """上传前删除同名旧 asset，再上传，不影响其他文件。"""
               release_now = fetch_release()
               cur_map     = {a["name"]: a for a in release_now.get("assets", [])}
 
               if display_name in cur_map:
-                  delete_asset(
-                      release_now["id"],
-                      cur_map[display_name]["id"],
-                      display_name
-                  )
+                  delete_asset(cur_map[display_name]["id"], display_name)
 
               upload_arg = f"{local_path}#{display_name}"
               result = subprocess.run(
@@ -1610,9 +1613,40 @@ jobs:
                   err(f"上传失败 [{display_name}]: {result.stderr.strip()}", indent=1)
                   return False
 
-          def main():
-              header("构建 offline-package.zip")
+          def split_file(src_path, out_dir, chunk_size):
+              """按 chunk_size 切分文件，输出 offline-package.zip.001, .002 ..."""
+              parts = []
+              with open(src_path, "rb") as f:
+                  idx = 1
+                  while True:
+                      chunk = f.read(chunk_size)
+                      if not chunk:
+                          break
+                      part_name = f"offline-package.zip.{idx:03d}"
+                      part_path = os.path.join(out_dir, part_name)
+                      with open(part_path, "wb") as pf:
+                          pf.write(chunk)
+                      parts.append(part_path)
+                      ok(f"分卷 {part_name}: {human_size(len(chunk))}", indent=1)
+                      idx += 1
+              return parts
 
+          def delete_old_parts(cur_map):
+              """删除 Release 中已有的所有旧分卷。"""
+              old_parts = [
+                  name for name in cur_map
+                  if name.startswith(OFFLINE_PART_PREFIX)
+              ]
+              if not old_parts:
+                  skip("无旧分卷需要删除")
+                  return
+              for name in old_parts:
+                  delete_asset(cur_map[name]["id"], name)
+
+          def main():
+              header("构建 offline-package.zip（分卷上传）")
+
+              # ── 1. 获取 Release ──────────────────────────────────────
               section("获取上游 Release 信息")
               release     = fetch_release()
               release_tag = release.get("tag_name", "latest")
@@ -1622,11 +1656,13 @@ jobs:
               assets    = release.get("assets", [])
               asset_map = {a["name"]: a for a in assets}
 
+              # ── 2. 筛选 zip 文件 ─────────────────────────────────────
               section("筛选 zip 文件")
               zip_assets = [
                   a for a in assets
                   if a["name"].endswith(".zip")
                   and a["name"] not in EXCLUDE_FROM_OFFLINE
+                  and not a["name"].startswith(OFFLINE_PART_PREFIX)
                   and not any(a["name"].endswith(s) for s in NEW_SUFFIXES)
               ]
 
@@ -1639,6 +1675,7 @@ jobs:
                   info(f"{c(C.BRIGHT_WHITE, a['name'])}  "
                        f"{c(C.DIM, human_size(a['size']))}", indent=1)
 
+              # ── 3. 下载所有 zip 文件 ─────────────────────────────────
               section("下载 zip 文件")
               work_dir = "/tmp/offline_build"
               os.makedirs(work_dir, exist_ok=True)
@@ -1663,6 +1700,7 @@ jobs:
                       err(f"下载失败 [{fname}]: {e}", indent=1)
                       sys.exit(1)
 
+              # ── 4. 生成 version.json ─────────────────────────────────
               section("生成 version.json")
               now_ts            = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
               version_json_path = os.path.join(work_dir, "version.json")
@@ -1670,6 +1708,7 @@ jobs:
                   json.dump({"version": now_ts}, f, indent=2)
               ok(f"version = {c(C.BRIGHT_CYAN, now_ts)}")
 
+              # ── 5. 打包完整 offline-package.zip ─────────────────────
               section("打包 offline-package.zip")
               offline_zip_path = "/tmp/offline-package.zip"
               with zipfile.ZipFile(
@@ -1686,15 +1725,54 @@ jobs:
               ok(f"打包完成: {c(C.BRIGHT_WHITE, 'offline-package.zip')}  "
                  f"{c(C.DIM, human_size(offline_size))}")
 
-              section("计算 MD5")
+              # ── 6. 计算完整包 MD5 ────────────────────────────────────
+              section("计算完整包 MD5")
               with open(offline_zip_path, "rb") as f:
                   offline_md5 = hashlib.md5(f.read()).hexdigest().lower()
               ok(f"MD5: {c(C.BRIGHT_CYAN, offline_md5)}")
 
-              section("上传 offline-package.zip")
-              if not upload_asset(release_tag, offline_zip_path, "offline-package.zip"):
-                  sys.exit(1)
+              # ── 7. 判断是否需要分卷 ──────────────────────────────────
+              section("判断是否需要分卷")
+              need_split  = offline_size > SPLIT_SIZE
+              total_parts = math.ceil(offline_size / SPLIT_SIZE)
 
+              if need_split:
+                  warn(f"完整包 {human_size(offline_size)} 超过单卷上限 "
+                       f"{human_size(SPLIT_SIZE)}，将切分为 {total_parts} 卷")
+              else:
+                  info(f"完整包 {human_size(offline_size)} 未超限，以单卷形式上传")
+                  total_parts = 1
+
+              # ── 8. 切分或直接复制为 .001 ────────────────────────────
+              parts_dir = "/tmp/offline_parts"
+              os.makedirs(parts_dir, exist_ok=True)
+
+              if need_split:
+                  section("切分分卷")
+                  part_paths = split_file(offline_zip_path, parts_dir, SPLIT_SIZE)
+              else:
+                  single_part = os.path.join(parts_dir, "offline-package.zip.001")
+                  shutil.copy2(offline_zip_path, single_part)
+                  part_paths = [single_part]
+                  ok(f"单卷: offline-package.zip.001  "
+                     f"{c(C.DIM, human_size(offline_size))}", indent=1)
+
+              # ── 9. 清理旧分卷 ────────────────────────────────────────
+              section("清理旧分卷")
+              release_now = fetch_release()
+              cur_map     = {a["name"]: a for a in release_now.get("assets", [])}
+              delete_old_parts(cur_map)
+
+              # ── 10. 上传新分卷 ───────────────────────────────────────
+              section(f"上传 {len(part_paths)} 个分卷到 Release")
+              for part_path in part_paths:
+                  display_name = os.path.basename(part_path)
+                  info(f"上传: {c(C.BRIGHT_CYAN, display_name)}  "
+                       f"{c(C.DIM, human_size(os.path.getsize(part_path)))}")
+                  if not upload_asset(release_tag, part_path, display_name):
+                      sys.exit(1)
+
+              # ── 11. 更新 versions.json ───────────────────────────────
               section("更新 versions.json")
               versions_local = "/tmp/versions.json"
 
@@ -1720,25 +1798,29 @@ jobs:
               if not upload_asset(release_tag, versions_local, "versions.json"):
                   sys.exit(1)
 
+              # ── 12. 更新 offline_package_checksum.txt ────────────────
               section("更新 offline_package_checksum.txt")
               checksum_local = "/tmp/offline_package_checksum.txt"
               with open(checksum_local, "w", encoding="utf-8") as f:
                   f.write(offline_md5)
-              info(f"内容: {c(C.BRIGHT_CYAN, offline_md5)}")
+              info(f"内容（完整包 MD5）: {c(C.BRIGHT_CYAN, offline_md5)}")
 
               if not upload_asset(
                   release_tag, checksum_local, "offline_package_checksum.txt"
               ):
                   sys.exit(1)
 
+              # ── 完成 ─────────────────────────────────────────────────
               header("offline-package 构建完成")
-              ok(f"版本号:  {c(C.BRIGHT_CYAN, now_ts)}")
-              ok(f"包大小:  {c(C.BRIGHT_WHITE, human_size(offline_size))}")
-              ok(f"MD5:     {c(C.BRIGHT_CYAN, offline_md5)}")
+              ok(f"版本号:     {c(C.BRIGHT_CYAN, now_ts)}")
+              ok(f"完整包大小: {c(C.BRIGHT_WHITE, human_size(offline_size))}")
+              ok(f"完整包 MD5: {c(C.BRIGHT_CYAN, offline_md5)}")
+              ok(f"分卷数量:   {c(C.BRIGHT_WHITE, str(len(part_paths)))}")
               ok("以下文件已同步至上游 Release：")
-              ok("  offline-package.zip", indent=1)
+              for part_path in part_paths:
+                  ok(f"  {os.path.basename(part_path)}", indent=1)
               ok("  versions.json（仅 offline-package 键已更新）", indent=1)
-              ok("  offline_package_checksum.txt", indent=1)
+              ok("  offline_package_checksum.txt（完整包 MD5）", indent=1)
 
           if __name__ == "__main__":
               main()
