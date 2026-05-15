@@ -1,4 +1,4 @@
-name: 🔄 同步上游和最新 APK 、打包热更新文件并上传到 S3
+name: 🔄 同步上游并上传到 S3
 
 on:
   workflow_dispatch:
@@ -10,6 +10,11 @@ on:
         type: boolean
       publish_hotfix:
         description: '发布热更新包（将 _new 文件覆盖正式文件）'
+        required: false
+        default: 'false'
+        type: boolean
+      build_offline:
+        description: '手动构建离线包'
         required: false
         default: 'false'
         type: boolean
@@ -123,6 +128,7 @@ jobs:
           UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
           FORCE_SYNC     = os.environ.get("INPUT_FORCE_SYNC", "false")
           PUBLISH_HOTFIX = os.environ.get("INPUT_PUBLISH_HOTFIX", "false")
+          BUILD_OFFLINE  = os.environ.get("INPUT_BUILD_OFFLINE", "false")
 
           header("检查上游内容更新")
 
@@ -139,8 +145,8 @@ jobs:
               err(f"获取上游 SHA 失败: {result.stderr.strip()}")
               sys.exit(1)
 
-          upstream_sha   = result.stdout.strip()
-          last_sync_sha  = os.environ.get("LAST_SYNC_COMMIT_SHA", "0")
+          upstream_sha  = result.stdout.strip()
+          last_sync_sha = os.environ.get("LAST_SYNC_COMMIT_SHA", "0")
 
           info(f"上游最新 SHA: {c(C.BRIGHT_CYAN, upstream_sha[:7])}")
           info(f"上次同步 SHA: {c(C.DIM, last_sync_sha[:7] if last_sync_sha != '0' else 'N/A')}")
@@ -162,13 +168,21 @@ jobs:
           else:
               skip("不发布热更新包")
 
+          section("判断是否手动构建离线包")
+          if BUILD_OFFLINE == "true":
+              ok("手动构建离线包模式已开启")
+          else:
+              skip("不手动构建离线包")
+
           set_output("should_sync", "true" if should_sync else "false")
           set_output("commit_sha", upstream_sha)
           set_output("publish_hotfix", PUBLISH_HOTFIX)
+          set_output("build_offline", BUILD_OFFLINE)
           SCRIPT_END
         env:
           INPUT_FORCE_SYNC: ${{ inputs.force_sync }}
           INPUT_PUBLISH_HOTFIX: ${{ inputs.publish_hotfix }}
+          INPUT_BUILD_OFFLINE: ${{ inputs.build_offline }}
 
       - name: 🔄 同步上游 Fork
         if: steps.check_upstream.outputs.should_sync == 'true'
@@ -347,7 +361,7 @@ jobs:
 
           data["version"] += 1
           data["size"]     = len(zip_data)
-          data["md5"]      = hashlib.md5(zip_data).hexdigest()
+          data["md5"]      = hashlib.md5(zip_data).hexdigest().lower()
 
           with open(json_file, 'w') as f:
               json.dump(data, f, indent=2)
@@ -384,7 +398,7 @@ jobs:
 
           data["version"] += 1
           data["size"]     = len(zip_data)
-          data["md5"]      = hashlib.md5(zip_data).hexdigest()
+          data["md5"]      = hashlib.md5(zip_data).hexdigest().lower()
 
           with open(json_file, 'w') as f:
               json.dump(data, f, indent=2)
@@ -914,6 +928,21 @@ jobs:
                   size_bytes /= 1024
               return f"{size_bytes:.1f} TB"
 
+          def detect_token_type(token: str) -> str:
+              """根据 token 前缀判断类型"""
+              if token.startswith("github_pat_"):
+                  return "Fine-grained PAT"
+              elif token.startswith("ghp_"):
+                  return "Classic PAT"
+              elif token.startswith("ghs_"):
+                  return "GitHub Actions Token"
+              elif token.startswith("gho_"):
+                  return "OAuth Token"
+              elif token.startswith("ghr_"):
+                  return "Refresh Token"
+              else:
+                  return "未知类型"
+
           class ActionGroup:
               @staticmethod
               def start_group(title):
@@ -1008,9 +1037,11 @@ jobs:
                       self.headers['Authorization'] = f'Bearer {token}'
                       masked = (token[:4] + '*' * (len(token) - 8) + token[-4:]
                                 if len(token) > 8 else '*' * len(token))
-                      logger.token_info['Token 类型'] = 'classic'
+                      token_type = detect_token_type(token)
+                      logger.token_info['Token 类型'] = token_type
                       logger.token_info['Token 预览'] = masked
-                      info(f"Token: {c(C.DIM, masked)}")
+                      info(f"Token 类型: {c(C.BRIGHT_CYAN, token_type)}")
+                      info(f"Token 预览: {c(C.DIM, masked)}")
                   else:
                       warn("未提供 Token，匿名访问（可能受限）")
                       logger.token_info['Token 类型'] = '匿名'
@@ -1378,9 +1409,6 @@ jobs:
                                    label=f"文件进度 {i}/{total_files}")
                       ActionGroup.end_group()
 
-                  # ──────────────────────────────────────────────────────────
-                  # 新增：清除两个域名根目录的 CDN 缓存
-                  # ──────────────────────────────────────────────────────────
                   if processed:
                       ActionGroup.start_group("🧹 清除域名根目录 CDN 缓存")
                       header("清除域名根目录 CDN 缓存")
@@ -1442,7 +1470,8 @@ jobs:
       - name: 📦 构建并上传 offline-package.zip
         if: |
           steps.sync_script.outputs.has_zip_changes == 'true' ||
-          steps.check_upstream.outputs.publish_hotfix == 'true'
+          steps.check_upstream.outputs.publish_hotfix == 'true' ||
+          steps.check_upstream.outputs.build_offline == 'true'
         run: |
           python3 <<'SCRIPT_END'
           import subprocess
@@ -1727,6 +1756,6 @@ jobs:
           echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ 已发布正式热更新' || '⏭️ 未发布（预览模式）' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| APK 同步 | ${{ steps.sync_apk.outputs.apk_synced == 'true' && '✅ 已同步新 APK' || '⏭️ 无新 APK' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 离线包构建 | ${{ (steps.sync_script.outputs.has_zip_changes == 'true' || steps.check_upstream.outputs.publish_hotfix == 'true') && '✅ 已更新离线包' || '⏭️ 未触发' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 离线包构建 | ${{ (steps.sync_script.outputs.has_zip_changes == 'true' || steps.check_upstream.outputs.publish_hotfix == 'true' || steps.check_upstream.outputs.build_offline == 'true') && '✅ 已更新离线包' || '⏭️ 未触发' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
