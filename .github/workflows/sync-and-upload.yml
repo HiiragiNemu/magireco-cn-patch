@@ -1025,6 +1025,44 @@ jobs:
           logger = ActionLogger()
           logger.init_summary()
 
+          # ══════════════════════════════════════════════════════════════
+          # S3 上传过滤规则（集中管理）
+          # 凡匹配以下任一规则的文件，在所有 S3 相关逻辑中均会被完全跳过：
+          #   不进入 current_map（不参与指纹比对、不触发上传）
+          #   不在存储桶清理/纠错遍历中被删除或移动
+          # ──────────────────────────────────────────────────────────────
+          # 精确文件名：整个文件名完全匹配才忽略
+          S3_IGNORE_EXACT = {
+              'offline-package.zip',           # 离线包完整压缩文件（由分卷替代）
+              'offline_package_checksum.txt',  # 离线包校验文件
+              'versions.json',                 # 版本索引文件
+              'history-data-splited.tar.xz',# 大型历史存档，不经 S3 分发
+          }
+          # 前缀：文件名以此开头则忽略
+          S3_IGNORE_PREFIXES = (
+              'offline-package.zip.',          # 离线包分卷（.001 .002 ...）
+              'source code',                   # GitHub 自动生成的源码压缩包
+          )
+          # 后缀：文件名以此结尾则忽略
+          S3_IGNORE_SUFFIXES = (
+              '_new.zip',                      # 热更新预览包（未正式发布）
+              '_new.json',                     # 热更新预览版本描述文件
+          )
+
+          def should_ignore_for_s3(name: str) -> bool:
+              """
+              判断一个 Release asset 是否应被 S3 同步逻辑完全忽略。
+              所有 S3 过滤规则的唯一入口，修改过滤策略只需改动上方三个常量。
+              """
+              if name in S3_IGNORE_EXACT:
+                  return True
+              if any(name.startswith(p) for p in S3_IGNORE_PREFIXES):
+                  return True
+              if any(name.endswith(s) for s in S3_IGNORE_SUFFIXES):
+                  return True
+              return False
+          # ══════════════════════════════════════════════════════════════
+
           class GitHubAPIClient:
               def __init__(self, token=None):
                   self.token   = token
@@ -1201,22 +1239,14 @@ jobs:
                   info(f"Release: {c(C.BRIGHT_WHITE, release.get('name') or release.get('tag_name'))}")
                   info(f"发布时间: {c(C.DIM, release.get('published_at', 'N/A'))}")
 
-                  S3_IGNORE_SUFFIXES = ('_new.zip', '_new.json')
-                  S3_IGNORE_FILES = {
-                      'offline-package.zip',
-                      'offline_package_checksum.txt',
-                      'versions.json',
-                  }
-
+                  # current_map：只收录"需要同步到 S3"的文件
+                  # 过滤逻辑全部委托给 should_ignore_for_s3()，不在此处散写条件
                   current_map = {
                       a['name']: a.get('digest', '')
                       for a in release.get('assets', [])
-                      if not a['name'].startswith('source code')
-                      and not any(a['name'].endswith(s) for s in S3_IGNORE_SUFFIXES)
-                      and not a['name'].startswith('offline-package.zip.')
-                      and a['name'] not in S3_IGNORE_FILES
+                      if not should_ignore_for_s3(a['name'])
                   }
-                  info(f"包含 {c(C.BOLD, str(len(current_map)))} 个 asset（已过滤 _new / offline 文件）")
+                  info(f"包含 {c(C.BOLD, str(len(current_map)))} 个 asset（已过滤不需上传 S3 的文件）")
 
                   header("比对文件指纹")
                   section("读取历史指纹")
@@ -1235,23 +1265,15 @@ jobs:
                   else:
                       info("无历史指纹，视为首次同步")
 
-                  IGNORE_FILES = {
-                      'history-data-splited.tar.xz',
-                      'offline-package.zip',
-                      'offline_package_checksum.txt',
-                      'versions.json',
-                  }
-
                   section("SHA256 比对")
                   to_process = []
                   unchanged  = []
                   deleted    = []
 
+                  # current_map 中的文件已经过 should_ignore_for_s3() 过滤，
+                  # 此处无需再做任何额外的文件名判断
                   for fname, sha in current_map.items():
-                      if fname in IGNORE_FILES:
-                          skip(f"{fname} → 过滤列表")
-                          logger.update_file_status(fname, "已忽略", "过滤列表")
-                      elif fname not in old_map:
+                      if fname not in old_map:
                           info(f"{c(C.BRIGHT_YELLOW, fname)} → 新文件")
                           logger.update_file_status(fname, "排队中", "新文件")
                           to_process.append(fname)
@@ -1269,7 +1291,7 @@ jobs:
                           unchanged.append(fname)
 
                   for fname in old_map:
-                      if fname not in current_map and fname not in IGNORE_FILES:
+                      if fname not in current_map:
                           warn(f"{fname} → 已从 Release 中删除")
                           deleted.append(fname)
 
@@ -1298,6 +1320,11 @@ jobs:
 
                   section("处理存储桶1")
                   for fname in bucket1_files:
+                      # 凡被 should_ignore_for_s3() 判为忽略的文件，
+                      # 在 S3 中发现时同样跳过，不做删除或移动
+                      if should_ignore_for_s3(fname):
+                          skip(f"{fname} → 过滤规则命中，跳过", indent=1)
+                          continue
                       if fname in deleted or fname not in current_map:
                           if s3_1.delete_file(fname):
                               logger.update_file_status(fname, "已完成", "已删除过时文件")
@@ -1331,6 +1358,10 @@ jobs:
 
                   section("处理存储桶2")
                   for fname in bucket2_files:
+                      # 同上，忽略文件跳过
+                      if should_ignore_for_s3(fname):
+                          skip(f"{fname} → 过滤规则命中，跳过", indent=1)
+                          continue
                       if fname in deleted or fname not in current_map:
                           if s3_2.delete_file(fname):
                               logger.update_file_status(fname, "已完成", "已删除过时文件")
@@ -1538,9 +1569,9 @@ jobs:
           # 单卷最大字节数（1900 MiB，留约 147 MiB 余量）
           SPLIT_SIZE = 1900 * 1024 * 1024
 
-          UPSTREAM_OWNER     = os.environ["UPSTREAM_OWNER"]
-          UPSTREAM_REPO      = os.environ["UPSTREAM_REPO"]
-                     = os.environ.get("", "")
+          UPSTREAM_OWNER      = os.environ["UPSTREAM_OWNER"]
+          UPSTREAM_REPO       = os.environ["UPSTREAM_REPO"]
+                      = os.environ.get("", "")
           OFFLINE_PART_PREFIX = "offline-package.zip."
 
           EXCLUDE_FROM_OFFLINE = {
