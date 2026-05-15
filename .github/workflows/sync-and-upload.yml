@@ -1008,7 +1008,7 @@ jobs:
                       self.headers['Authorization'] = f'Bearer {token}'
                       masked = (token[:4] + '*' * (len(token) - 8) + token[-4:]
                                 if len(token) > 8 else '*' * len(token))
-                      logger.token_info['Token 类型'] = 'Fine-grained'
+                      logger.token_info['Token 类型'] = 'classic'
                       logger.token_info['Token 预览'] = masked
                       info(f"Token: {c(C.DIM, masked)}")
                   else:
