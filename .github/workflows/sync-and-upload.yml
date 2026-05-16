@@ -287,6 +287,10 @@ jobs:
 
       # ───────────────────────────────────────────────────────────────
       # 📋 读取 /configures/configure.json 作为权威基准
+      #   首次跑到一份老 schema 文件（来自旧版 versions.json 的迁移
+      #   产物，含扁平 client_version / 字符串 offline_package /
+      #   scenario_update 等键）时会自动 migrate 成新嵌套 schema 并
+      #   写回 / 和 /configures/ 两处。
       # ───────────────────────────────────────────────────────────────
       - name: 📋 读取 configure.json 基准
         id: read_config
@@ -322,7 +326,7 @@ jobs:
           def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
           def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
 
-          CFG_DIR = os.environ["CONFIG_DIR"]
+          CFG_DIR  = os.environ["CONFIG_DIR"]
           CFG_FILE = os.environ["CONFIG_FILE"]
           src = os.path.join(CFG_DIR, CFG_FILE)
 
@@ -337,16 +341,105 @@ jobs:
           with open(src, "r", encoding="utf-8") as f:
               cfg = json.load(f)
 
-          section("当前权威字段")
-          info(f"client.version       = {c(C.BRIGHT_CYAN, cfg.get('client', {}).get('version', '?'))}")
-          info(f"offline_package.ver  = {c(C.BRIGHT_CYAN, cfg.get('offline_package', {}).get('version', '(unset)'))}")
-          info(f"hotfix.scenario.ver  = {c(C.BRIGHT_CYAN, str(cfg.get('hotfix', {}).get('scenario', {}).get('version', 0)))}")
-          info(f"hotfix.js.ver        = {c(C.BRIGHT_CYAN, str(cfg.get('hotfix', {}).get('js', {}).get('version', 0)))}")
+          # ── 老 schema → 新 schema 自动迁移 ───────────────────────
+          # 输入可能是旧版 versions.json 的扁平结构：
+          #   client_version / client-fake-name / client-fake-version
+          #   offline_package（字符串）/ offline-package（kebab，字符串）
+          #   offline_package_md5
+          #   scenario_update / js_update
+          # 这里把它们规范成新嵌套结构：
+          #   client.{version, fake_name, fake_version}
+          #   offline_package.{version, md5}
+          #   hotfix.{scenario, js}
+          section("规范化 schema（如有老字段则就地迁移）")
+          changed = False
 
-          # 把当前的 hotfix 版本号导出，供后续 _new 步骤当 baseline
-          scn_ver = int(cfg.get("hotfix", {}).get("scenario", {}).get("version", 0) or 0)
-          js_ver  = int(cfg.get("hotfix", {}).get("js",       {}).get("version", 0) or 0)
-          op_ver  = cfg.get("offline_package", {}).get("version", "")
+          # client.*
+          if not isinstance(cfg.get("client"), dict):
+              cfg["client"] = {}
+              changed = True
+          for old, new in [
+              ("client_version",      "version"),
+              ("client_fake_name",    "fake_name"),
+              ("client-fake-name",    "fake_name"),
+              ("client_fake_version", "fake_version"),
+              ("client-fake-version", "fake_version"),
+          ]:
+              if old in cfg:
+                  val = cfg.pop(old)
+                  if isinstance(val, str) and val:
+                      cfg["client"].setdefault(new, val)
+                      ok(f"迁移 {old!r} → client.{new}", indent=1)
+                      changed = True
+
+          # offline_package.*
+          op = cfg.get("offline_package")
+          if isinstance(op, str):
+              cfg["offline_package"] = {"version": op}
+              ok(f"迁移 offline_package（字符串） → offline_package.version", indent=1)
+              changed = True
+          elif not isinstance(op, dict):
+              cfg["offline_package"] = {}
+              changed = True
+          if "offline-package" in cfg:
+              kebab_val = cfg.pop("offline-package")
+              if isinstance(kebab_val, str) and kebab_val:
+                  # 旧仓库里有 "offline-package"（kebab）和 "offline_package"
+                  # 同时存在的奇葩情况。kebab 那个一般是时间戳格式，更新，
+                  # 优先用它。
+                  cfg["offline_package"]["version"] = kebab_val
+                  ok(f"迁移 'offline-package' (kebab) → offline_package.version", indent=1)
+                  changed = True
+          if "offline_package_md5" in cfg:
+              md5 = cfg.pop("offline_package_md5")
+              if isinstance(md5, str) and md5:
+                  cfg["offline_package"].setdefault("md5", md5.strip().lower())
+                  ok("迁移 offline_package_md5 → offline_package.md5", indent=1)
+                  changed = True
+
+          # hotfix.*
+          if not isinstance(cfg.get("hotfix"), dict):
+              cfg["hotfix"] = {}
+              changed = True
+          for old_key, new_key in [("scenario_update", "scenario"),
+                                    ("js_update",       "js")]:
+              if old_key in cfg:
+                  val = cfg.pop(old_key)
+                  if isinstance(val, dict):
+                      cfg["hotfix"].setdefault(new_key, val)
+                      ok(f"迁移 {old_key} → hotfix.{new_key}", indent=1)
+                      changed = True
+
+          if changed:
+              warn("schema 已迁移，写回 / 和 /configures/")
+              cfg_text = json.dumps(cfg, indent=2, ensure_ascii=False) + "\n"
+              for dst in [src, CFG_FILE]:
+                  with open(dst, "w", encoding="utf-8") as f:
+                      f.write(cfg_text)
+                  ok(f"已写回 {dst}", indent=1)
+          else:
+              info("schema 已经是新格式，无需迁移")
+
+          # ── 防御式读取：每一层都先 isinstance(dict) 检查 ──────────
+          section("当前权威字段")
+          def safe_get(d, *path, default=None):
+              cur = d
+              for k in path:
+                  if not isinstance(cur, dict):
+                      return default
+                  cur = cur.get(k)
+                  if cur is None:
+                      return default
+              return cur
+
+          info(f"client.version       = {c(C.BRIGHT_CYAN, str(safe_get(cfg, 'client', 'version', default='?')))}")
+          info(f"offline_package.ver  = {c(C.BRIGHT_CYAN, str(safe_get(cfg, 'offline_package', 'version', default='(unset)')))}")
+          info(f"hotfix.scenario.ver  = {c(C.BRIGHT_CYAN, str(safe_get(cfg, 'hotfix', 'scenario', 'version', default=0)))}")
+          info(f"hotfix.js.ver        = {c(C.BRIGHT_CYAN, str(safe_get(cfg, 'hotfix', 'js', 'version', default=0)))}")
+
+          scn_ver = int(safe_get(cfg, 'hotfix', 'scenario', 'version', default=0) or 0)
+          js_ver  = int(safe_get(cfg, 'hotfix', 'js',       'version', default=0) or 0)
+          op_ver  = safe_get(cfg, 'offline_package', 'version', default='') or ''
 
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
               f.write(f"scenario_baseline={scn_ver}\n")
