@@ -200,11 +200,11 @@ jobs:
               print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
           def section(text): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
-          def info(t, i=0):  print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, i=0):    print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, i=0):  print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, i=0):   print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
-          def skip(t, i=0):  print(f"{'  '*i}{c(C.DIM, '⏭  ' + t)}", flush=True)
+          def info(t, indent=0):  print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, indent=0):    print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, indent=0):  print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, indent=0):   print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, indent=0):  print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
 
           def set_output(key, value):
               with open(os.environ["GITHUB_OUTPUT"], "a") as f:
@@ -321,10 +321,10 @@ jobs:
               print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
           def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
-          def info(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
+          def info(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, indent=0): print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
 
           CFG_DIR  = os.environ["CONFIG_DIR"]
           CFG_FILE = os.environ["CONFIG_FILE"]
@@ -643,11 +643,11 @@ jobs:
               print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
           def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
-          def info(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
-          def skip(t, i=0): print(f"{'  '*i}{c(C.DIM, '⏭  ' + t)}", flush=True)
+          def info(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, indent=0): print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, indent=0): print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
 
           UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
           UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
@@ -878,11 +878,11 @@ jobs:
               print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
           def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
-          def info(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
-          def skip(t, i=0): print(f"{'  '*i}{c(C.DIM, '⏭  ' + t)}", flush=True)
+          def info(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, indent=0): print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, indent=0): print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
           def human_size(n):
               for u in ["B", "KB", "MB", "GB"]:
                   if n < 1024: return f"{n:.1f} {u}"
@@ -1098,11 +1098,11 @@ jobs:
               print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
           def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
-          def info(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
-          def skip(t, i=0): print(f"{'  '*i}{c(C.DIM, '⏭  ' + t)}", flush=True)
+          def info(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, indent=0): print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, indent=0): print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
           def human_size(n):
               for u in ["B", "KB", "MB", "GB"]:
                   if n < 1024: return f"{n:.1f} {u}"
@@ -1430,11 +1430,11 @@ jobs:
               print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
               print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
           def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
-          def info(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, i=0): print(f"{'  '*i}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, i=0): print(f"{'  '*i}{c(C.RED, '✘')} {t}", flush=True)
-          def skip(t, i=0): print(f"{'  '*i}{c(C.DIM, '⏭  ' + t)}", flush=True)
+          def info(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, indent=0): print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, indent=0): print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
           def human_size(n):
               for u in ["B", "KB", "MB", "GB"]:
                   if n < 1024: return f"{n:.1f} {u}"
