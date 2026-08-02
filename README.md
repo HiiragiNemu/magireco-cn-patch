@@ -12,8 +12,5 @@
 ### 自动更新组织下游并上传S3：
 [![🔄 同步上游并上传到 S3](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml)
 
-### 清除存储桶文件（手动）：
-[![🗑️ 清空存储桶文件](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/delete-all-files.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/delete-all-files.yml)
-
 ### 清除CDN缓存（手动）：
 [![🧹 清空CDN缓存](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/purge-all-cache.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/purge-all-cache.yml)
