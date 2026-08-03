@@ -35,6 +35,12 @@ name: 🔄 同步上游并上传到 R2
 # ║   ▸ 每上传一个文件，刷新 EdgeOne（R2_DOMAIN，腾讯云 TEO）           ║
 # ║     与阿里云 ESA（ESA_DOMAIN，PurgeCaches Type=file）               ║
 # ║                                                                    ║
+# ║ 本仓库快照 Release                                                  ║
+# ║ ───────                                                            ║
+# ║   ▸ 每次运行把上游最新 Release 的【全部】asset 镜像到本仓库：       ║
+# ║       1. YYYYmmdd-HHMMSS（UTC）命名的 Release —— 历史快照          ║
+# ║       2. 名为 latest 的 Release —— 滚动覆盖（先删后建）             ║
+# ║                                                                    ║
 # ╚════════════════════════════════════════════════════════════════════╝
 
 on:
@@ -1200,6 +1206,198 @@ jobs:
           CONFIRM_CLEANUP: ${{ steps.check_upstream.outputs.confirm_cleanup }}
 
       # ───────────────────────────────────────────────────────────────
+      # 🏷 创建/覆盖本仓库快照 Release（v3 新增）
+      #   ▸ 把上游最新 Release 的【全部】asset（无黑名单）镜像到本仓库：
+      #       1. 以 UTC 日期时间命名的 Release（YYYYmmdd-HHMMSS，历史快照，
+      #          每次运行新建一个）
+      #       2. 叫 latest 的 Release（滚动最新，先删后建实现"覆盖"）
+      #   ▸ 注意：GitHub 单个 asset 上限 2GiB，超限文件跳过并告警
+      # ───────────────────────────────────────────────────────────────
+      - name: 🏷 创建/覆盖本仓库快照 Release
+        id: mirror_release
+        if: always()
+        run: |
+          python3 <<'SCRIPT_END'
+          import subprocess
+          import sys
+          import os
+          import json
+          import urllib.request
+          import urllib.error
+          from datetime import datetime, timezone
+
+          sys.stdout.reconfigure(line_buffering=True)
+          sys.stderr.reconfigure(line_buffering=True)
+
+          class C:
+              RESET         = "\033[0m"
+              BOLD          = "\033[1m"
+              DIM           = "\033[2m"
+              RED           = "\033[31m"
+              BRIGHT_GREEN  = "\033[92m"
+              BRIGHT_YELLOW = "\033[93m"
+              BRIGHT_BLUE   = "\033[94m"
+              BRIGHT_CYAN   = "\033[96m"
+              BRIGHT_WHITE  = "\033[97m"
+              CYAN          = "\033[36m"
+
+          def c(col, t): return f"{col}{t}{C.RESET}"
+          def header(t):
+              bar = "═" * 60
+              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
+              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
+              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
+          def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
+          def info(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
+          def ok(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
+          def warn(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
+          def err(t, indent=0): print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
+          def skip(t, indent=0): print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
+          def human_size(n):
+              for u in ["B", "KB", "MB", "GB"]:
+                  if n < 1024: return f"{n:.1f} {u}"
+                  n /= 1024
+              return f"{n:.1f} TB"
+          def set_output(k, v):
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"{k}={v}\n")
+
+          UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
+          UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
+          GH_TOKEN       = os.environ.get("GH_TOKEN", "")
+          # 本仓库 = workflow 所在仓库（即下游仓库）
+          MIRROR_REPO    = os.environ.get("GITHUB_REPOSITORY") or \
+                           f"{os.environ['DOWNSTREAM_OWNER']}/{os.environ['DOWNSTREAM_REPO']}"
+
+          # GitHub 单个 Release asset 上限 2GiB
+          MAX_ASSET = 2 * 1024**3
+
+          GH_HEADERS = {
+              "Accept": "application/vnd.github+json",
+              "X-GitHub-Api-Version": "2022-11-28",
+          }
+          if GH_TOKEN:
+              GH_HEADERS["Authorization"] = f"Bearer {GH_TOKEN}"
+
+          def run(args):
+              return subprocess.run(args, capture_output=True, text=True)
+
+          def recreate_release(tag, title, notes, files):
+              """先删后建，实现"覆盖"语义；再把 files 全部传上去"""
+              section(f"重建 Release: {c(C.BRIGHT_CYAN, tag)}")
+              view = run(["gh", "release", "view", tag, "--repo", MIRROR_REPO])
+              if view.returncode == 0:
+                  dl = run(["gh", "release", "delete", tag,
+                            "--repo", MIRROR_REPO, "--yes", "--cleanup-tag"])
+                  if dl.returncode == 0:
+                      ok(f"已删除旧 Release（含 tag）: {tag}", indent=1)
+                  else:
+                      warn(f"删除旧 Release 失败: {dl.stderr.strip()}", indent=1)
+
+              cr = run(["gh", "release", "create", tag,
+                        "--repo", MIRROR_REPO,
+                        "--title", title, "--notes", notes])
+              if cr.returncode != 0:
+                  err(f"创建 Release [{tag}] 失败: {cr.stderr.strip()}", indent=1)
+                  return False
+              ok(f"已创建 Release: {tag}", indent=1)
+
+              uploaded = 0
+              for p in files:
+                  up = run(["gh", "release", "upload", tag, p,
+                            "--repo", MIRROR_REPO, "--clobber"])
+                  if up.returncode == 0:
+                      ok(f"已上传: {os.path.basename(p)}", indent=2)
+                      uploaded += 1
+                  else:
+                      err(f"上传失败 [{os.path.basename(p)}]: "
+                          f"{up.stderr.strip()}", indent=2)
+              ok(f"Release [{tag}] 共上传 {uploaded}/{len(files)} 个文件", indent=1)
+              return uploaded == len(files)
+
+          def main():
+              header("镜像上游 Release 全部文件到本仓库")
+              info(f"来源: {c(C.BRIGHT_WHITE, f'{UPSTREAM_OWNER}/{UPSTREAM_REPO}')}")
+              info(f"目标: {c(C.BRIGHT_WHITE, MIRROR_REPO)}")
+
+              section("获取上游最新 Release")
+              try:
+                  req = urllib.request.Request(
+                      f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
+                      "/releases/latest",
+                      headers=GH_HEADERS
+                  )
+                  with urllib.request.urlopen(req) as resp:
+                      release = json.loads(resp.read().decode())
+              except urllib.error.HTTPError as e:
+                  if e.code == 404:
+                      warn("上游仓库无 Release，跳过镜像")
+                      set_output("snapshot_tag", "")
+                      set_output("mirrored", "false")
+                      return
+                  raise
+
+              upstream_tag = release.get("tag_name", "")
+              assets = release.get("assets", [])
+              info(f"上游 Release: {c(C.BRIGHT_CYAN, upstream_tag)}"
+                   f"（{c(C.BOLD, str(len(assets)))} 个 asset）")
+              if not assets:
+                  warn("上游 Release 无任何 asset，跳过镜像")
+                  set_output("snapshot_tag", "")
+                  set_output("mirrored", "false")
+                  return
+
+              section("下载全部 asset")
+              work_dir = "/tmp/release_mirror"
+              os.makedirs(work_dir, exist_ok=True)
+              downloaded = []
+              for a in assets:
+                  fname = a["name"]
+                  size  = a.get("size", 0)
+                  if size > MAX_ASSET:
+                      warn(f"{fname}（{human_size(size)}）超过 2GiB 上限，跳过",
+                           indent=1)
+                      continue
+                  dst = os.path.join(work_dir, fname)
+                  info(f"下载: {c(C.BRIGHT_CYAN, fname)}  "
+                       f"{c(C.DIM, human_size(size))}", indent=1)
+                  try:
+                      dl_req = urllib.request.Request(
+                          a["browser_download_url"], headers=GH_HEADERS)
+                      with urllib.request.urlopen(dl_req) as resp:
+                          data = resp.read()
+                      with open(dst, "wb") as f:
+                          f.write(data)
+                      downloaded.append(dst)
+                  except Exception as e:
+                      err(f"下载失败 [{fname}]: {e}", indent=1)
+
+              if not downloaded:
+                  err("没有可镜像的文件，终止")
+                  set_output("snapshot_tag", "")
+                  set_output("mirrored", "false")
+                  sys.exit(1)
+
+              ts = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+              notes = (f"上游 {UPSTREAM_OWNER}/{UPSTREAM_REPO} Release "
+                       f"`{upstream_tag}` 全量镜像（{ts} UTC，由 workflow 自动生成）")
+
+              # 1. 日期时间命名的历史快照（每次新建）
+              recreate_release(ts, ts, notes, downloaded)
+              # 2. 滚动 latest（先删后建，覆盖）
+              recreate_release("latest", "latest", notes, downloaded)
+
+              header("镜像完成")
+              ok(f"快照 Release: {c(C.BRIGHT_CYAN, ts)}")
+              ok(f"滚动 Release: {c(C.BRIGHT_CYAN, 'latest')}")
+              set_output("snapshot_tag", ts)
+              set_output("mirrored", "true")
+
+          if __name__ == "__main__":
+              main()
+          SCRIPT_END
+
+      # ───────────────────────────────────────────────────────────────
       # 💾 提交全部配置变更回 git
       #   - _new files (always)
       #   - official version_*.json (when publish_hotfix)
@@ -1267,6 +1465,7 @@ jobs:
           echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| APK 同步 | ${{ steps.sync_apk.outputs.apk_synced == 'true' && '✅ 已同步新 APK' || '⏭️ 无新 APK' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| R2 过时文件清理 | ${{ steps.check_upstream.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| CDN 刷新 | EdgeOne（\`${{ env.R2_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
