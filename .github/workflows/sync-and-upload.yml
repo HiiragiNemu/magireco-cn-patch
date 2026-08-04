@@ -1,9 +1,11 @@
 name: 🔄 同步上游并上传到 R2
 
 # ╔════════════════════════════════════════════════════════════════════╗
-# ║   v3 —— 移除 configure.json / 离线包；单 R2 桶；                    ║
+# ║   v3.1 —— 移除 configure.json / 离线包；单 R2 桶；                  ║
 # ║   EdgeOne + 阿里云 ESA + Cloudflare 三 CDN 刷新；                   ║
-# ║   R2 过时文件需手动确认清理                                         ║
+# ║   R2 过时文件需手动确认清理；                                       ║
+# ║   版本 json 以【同一个 commit】推送上下游（fork 页不分叉）；      ║
+# ║   每次新建/同步 Release 后强制校准 Latest 徽标到 tag=latest         ║
 # ╠════════════════════════════════════════════════════════════════════╣
 # ║                                                                    ║
 # ║ 热更新流程                                                          ║
@@ -12,7 +14,8 @@ name: 🔄 同步上游并上传到 R2
 # ║        ▸ 重新生成 cn_*_update_new.zip                              ║
 # ║        ▸ 写 version_*_new.json（version+1, size, md5）             ║
 # ║        ▸ 同步到 /、/configures/、Release 三处                      ║
-# ║        ▸ 提交 _new 文件到 git，official 文件不动                    ║
+# ║        ▸ 提交 _new 文件到 git（同一 commit 推送并对齐上下游），     ║
+# ║          official 文件不动                                         ║
 # ║                                                                    ║
 # ║   2. 手动勾选 publish_hotfix=true 时：                              ║
 # ║        ▸ 把 *_new 文件去掉 _new 后缀覆盖正式文件                     ║
@@ -235,7 +238,9 @@ jobs:
               sys.exit(1)
 
           upstream_sha  = result.stdout.strip()
-          last_sync_sha = os.environ.get("LAST_SYNC_COMMIT_SHA", "0")
+          # 仓库变量不会自动注入 env，必须靠下面 env: 显式带入；
+          # 空串也归一化成 "0"（首次运行 / 变量未设置）
+          last_sync_sha = os.environ.get("LAST_SYNC_COMMIT_SHA") or "0"
 
           info(f"上游最新 SHA: {c(C.BRIGHT_CYAN, upstream_sha[:7])}")
           info(f"上次同步 SHA: {c(C.DIM, last_sync_sha[:7] if last_sync_sha != '0' else 'N/A')}")
@@ -272,6 +277,10 @@ jobs:
           INPUT_FORCE_SYNC: ${{ inputs.force_sync }}
           INPUT_PUBLISH_HOTFIX: ${{ inputs.publish_hotfix }}
           INPUT_CONFIRM_CLEANUP: ${{ inputs.confirm_cleanup }}
+          # ⚠ 仓库变量（Settings → Variables）不会自动注入 env，必须显式
+          # 带进来——否则 os.environ.get 永远拿到默认值 "0"，SHA 比对形同
+          # 虚设，等于每次运行都在强制全量同步
+          LAST_SYNC_COMMIT_SHA: ${{ vars.LAST_SYNC_COMMIT_SHA }}
 
       - name: 🔄 同步上游 Fork
         if: steps.check_upstream.outputs.should_sync == 'true'
@@ -285,11 +294,6 @@ jobs:
           # 重新拉取，让本地 workspace 含上游最新内容
           git fetch origin main
           git reset --hard origin/main
-
-      - name: 📝 更新 Commit SHA
-        if: steps.check_upstream.outputs.should_sync == 'true'
-        run: |
-          gh variable set LAST_SYNC_COMMIT_SHA --body "${{ steps.check_upstream.outputs.commit_sha }}"
 
       - name: 🔍 检测变动范围
         id: detect
@@ -672,6 +676,10 @@ jobs:
           import urllib.error
 
           sys.stdout.reconfigure(line_buffering=True)
+
+          import socket
+          # 兜底超时：防止某个 urlopen 无限挂起，把整个 job 卡到 6 小时上限
+          socket.setdefaulttimeout(600)
 
           import boto3
           from botocore.exceptions import ClientError
@@ -1112,7 +1120,11 @@ jobs:
           import urllib.request
           import urllib.error
           import urllib.parse
+          import socket
           from datetime import datetime, timezone
+
+          # 兜底超时：防止某个 urlopen 无限挂起，把整个 job 卡到 6 小时上限
+          socket.setdefaulttimeout(600)
 
           sys.stdout.reconfigure(line_buffering=True)
           sys.stderr.reconfigure(line_buffering=True)
@@ -1223,6 +1235,11 @@ jobs:
               仓库里真正被标记为 Latest 的 Release，
               `GET /repos/:owner/:repo/releases/latest` 也才会稳定返回它。
               """
+              # tag 不存在时静默跳过（比如上游无 Release 的空跑、或首次
+              # 镜像建 latest 失败），避免 finally 兜底时刷无意义告警
+              if gh_api_json([f"repos/{MIRROR_REPO}/releases/tags/{tag}"]) is None:
+                  skip(f"[{tag}] Release 不存在，无需校准 'Latest' 徽标", indent=1)
+                  return False
               r = run(["gh", "release", "edit", tag,
                        "--repo", MIRROR_REPO, "--latest"])
               if r.returncode == 0:
@@ -1425,6 +1442,11 @@ jobs:
               else:
                   skip("本次只有移除没有新增/更新，不建快照")
 
+              # 快照建完立刻校准一次：虽然 create 时带了 --latest=false
+              # 不会抢徽标，这里再强制一次做双保险——后面的全量上传耗时
+              # 较长，即使中途被并发取消/异常打断，徽标也已经在正确位置
+              mark_as_latest("latest")
+
               # ── 2. latest：全量同步 ──
               #    只要检测到"有任何变化"，就把 upstream 当前【全部】asset
               #    重新上传一遍（同名先删再传），并删除 upstream 已经没有的
@@ -1459,1427 +1481,43 @@ jobs:
               set_output("mirrored", "true")
 
           if __name__ == "__main__":
-              main()
-          SCRIPT_END
-
-      # ───────────────────────────────────────────────────────────────
-      # 💾 提交全部配置变更回 git
-      #   - _new files (always)
-      #   - official version_*.json (when publish_hotfix)
-      # ───────────────────────────────────────────────────────────────
-      - name: 💾 提交配置变更回仓库
-        if: always()
-        run: |
-          set -e
-
-          # 二次安全护栏：在真正 push 之前再确认一次 origin URL
-          ORIGIN_URL=$(git remote get-url origin)
-          if ! echo "$ORIGIN_URL" | grep -qiE "[/:]${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}(\.git)?\$"; then
-            echo "::error::push 前 origin 校验失败：$ORIGIN_URL"
-            exit 1
-          fi
-
-          # 只 stage 我们已知名字的配置文件，绝不 git add -A 任意路径，
-          # 避免误把别的临时产物（_artifacts/ / 上游同步进来的资源等）
-          # 当成配置变更提交回去。
-          # 注意：official version_*.json 只在 /configures/ 下维护，
-          # 根目录不再提交 official 副本（_new 预览文件仍写根目录）。
-          git add \
-              version_scenario_new.json \
-              version_js_new.json \
-              "${CONFIG_DIR}/version_scenario.json" "${CONFIG_DIR}/version_scenario_new.json" \
-              "${CONFIG_DIR}/version_js.json"       "${CONFIG_DIR}/version_js_new.json" \
-              2>/dev/null || true
-
-          if git diff --cached --quiet; then
-            echo "ℹ 配置文件无变更可提交"
-            exit 0
-          fi
-
-          # commit 消息描述本次干了什么
-          MSG="ci: sync version_*.json"
-          if [ "${{ steps.check_upstream.outputs.publish_hotfix }}" = "true" ]; then
-            MSG="$MSG (hotfix published)"
-          fi
-          # [skip ci] 阻止本 push 触发自身
-          MSG="$MSG [skip ci]"
-
-          git commit -m "$MSG"
-
-          # 重试推送（最多 4 次，2 / 4 / 8 / 16 秒退避）
-          for delay in 0 2 4 8 16; do
-            [ "$delay" -gt 0 ] && sleep "$delay"
-            if git push origin HEAD:main; then
-              echo "✔ push 成功"
-              exit 0
-            fi
-            echo "⚠ push 失败，rebase 后重试..."
-            git pull --rebase origin main || true
-          done
-          echo "::warning::配置文件 commit push 失败 4 次，请手动检查"
-
-      - name: 📊 生成运行摘要
-        if: always()
-        run: |
-          echo "## 🎉 同步任务完成（v3）" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| 项目 | 值 |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|----|" >> $GITHUB_STEP_SUMMARY
-          echo "| 上游仓库 | \`${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| R2 存储桶 | \`${{ env.R2_BUCKET }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| R2 过时文件清理 | ${{ steps.check_upstream.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量，已校准 Latest 徽标）', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| CDN 刷新 | EdgeOne（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ Cloudflare（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
-          echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: write
-
-jobs:
-  sync-and-upload:
-    runs-on: ubuntu-latest
-    env:
-      PYTHONUNBUFFERED: "1"
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
-      R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
-      R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
-      R2_REGION: ${{ secrets.R2_REGION }}
-      R2_BUCKET: ${{ secrets.R2_BUCKET }}
-      QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
-      QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
-      EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
-      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
-      ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
-      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
-      ESA_SITE_ID: ${{ secrets.ESA_SITE_ID }}
-      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-      CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
-      UPSTREAM_OWNER: "HiiragiNemu"
-      UPSTREAM_REPO: "magireco-cn-patch"
-      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
-      DOWNSTREAM_REPO: "magireco-cn-patch"
-      CONFIG_DIR: "configures"
-
-    steps:
-      - name: 🛡 安全护栏（校验所有可写仓库都在白名单中）
-        # 这是本 workflow 的"硬刹车"。下面列出的三组 owner/repo 是
-        # **唯一**允许被本 workflow 读/写/删的仓库——任何一项与白名单
-        # 不一致就 fail-fast，绝不向陌生仓库发请求。要新增允许的仓库
-        # 请直接改这份白名单，不要绕过它。
-        run: |
-          python3 <<'SCRIPT_END'
-          import os, sys
-          ALLOW_UPSTREAM   = {"HiiragiNemu/magireco-cn-patch"}
-          ALLOW_DOWNSTREAM = {"MagirecoCN-Revival-Project/magireco-cn-patch"}
-
-          upstream   = f"{os.environ['UPSTREAM_OWNER']}/{os.environ['UPSTREAM_REPO']}"
-          downstream = f"{os.environ['DOWNSTREAM_OWNER']}/{os.environ['DOWNSTREAM_REPO']}"
-
-          failed = False
-          if upstream not in ALLOW_UPSTREAM:
-              print(f"::error::上游仓库 {upstream} 不在白名单中")
-              print(f"::error::允许: {sorted(ALLOW_UPSTREAM)}")
-              failed = True
-          if downstream not in ALLOW_DOWNSTREAM:
-              print(f"::error::下游仓库 {downstream} 不在白名单中")
-              print(f"::error::允许: {sorted(ALLOW_DOWNSTREAM)}")
-              failed = True
-          if failed:
-              print("::error::出于安全考虑，本 workflow 只允许操作上述指定仓库；")
-              print("::error::请检查 env / secrets / .github/workflows/syncandupload.yml")
-              sys.exit(1)
-
-          print(f"✔ 上游 OK:   {upstream}")
-          print(f"✔ 下游 OK:   {downstream}")
-          SCRIPT_END
-
-      - name: 📦 检出下游仓库
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
-          # 需要完整历史：detect 步骤要 diff「上次同步点 → 最新」的整个
-          # 区间，浅克隆拿不到旧提交
-          fetch-depth: 0
-
-      - name: 🛡 安全护栏（校验 origin 指向预期下游仓库）
-        # checkout 完后立刻校验本地 git 的 origin URL，确认我们真的
-        # 是在操作预期的下游仓库——后续所有 git push 都会推到 origin，
-        # 这一步保证那个 origin 不是别的仓库。
-        run: |
-          ORIGIN_URL=$(git remote get-url origin)
-          EXPECTED="${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}"
-          echo "origin URL : $ORIGIN_URL"
-          echo "expected   : $EXPECTED"
-          if ! echo "$ORIGIN_URL" | grep -qiE "[/:]${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}(\.git)?\$"; then
-            echo "::error::origin URL 不匹配预期下游仓库，拒绝继续"
-            exit 1
-          fi
-          echo "✔ origin 校验通过"
-
-      - name: 🔧 配置 Git
-        run: |
-          git config user.name "MagiaCN AutoBot"
-          git config user.email "bot@magiacn.com"
-          git config rebase.autoStash true
-
-      - name: 🔍 检查上游内容更新
-        id: check_upstream
-        run: |
-          python3 <<'SCRIPT_END'
-          import subprocess
-          import sys
-          import os
-
-          sys.stdout.reconfigure(line_buffering=True)
-          sys.stderr.reconfigure(line_buffering=True)
-
-          class C:
-              RESET         = "\033[0m"
-              BOLD          = "\033[1m"
-              DIM           = "\033[2m"
-              RED           = "\033[31m"
-              BRIGHT_GREEN  = "\033[92m"
-              BRIGHT_YELLOW = "\033[93m"
-              BRIGHT_BLUE   = "\033[94m"
-              BRIGHT_CYAN   = "\033[96m"
-              BRIGHT_WHITE  = "\033[97m"
-              CYAN          = "\033[36m"
-
-          def c(color, text): return f"{color}{text}{C.RESET}"
-          def header(text):
-              bar = "═" * 60
-              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {text}"))
-              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
-          def section(text): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + text)}", flush=True)
-          def info(t, indent=0):  print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, indent=0):    print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, indent=0):  print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, indent=0):   print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
-          def skip(t, indent=0):  print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
-
-          def set_output(key, value):
-              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-                  f.write(f"{key}={value}\n")
-
-          UPSTREAM_OWNER  = os.environ["UPSTREAM_OWNER"]
-          UPSTREAM_REPO   = os.environ["UPSTREAM_REPO"]
-          FORCE_SYNC      = os.environ.get("INPUT_FORCE_SYNC", "false")
-          PUBLISH_HOTFIX  = os.environ.get("INPUT_PUBLISH_HOTFIX", "false")
-          CONFIRM_CLEANUP = os.environ.get("INPUT_CONFIRM_CLEANUP", "false")
-
-          header("检查上游内容更新")
-
-          section("获取上游 commit SHA")
-          info(f"上游仓库: {c(C.BRIGHT_WHITE, f'{UPSTREAM_OWNER}/{UPSTREAM_REPO}')}")
-
-          result = subprocess.run(
-              ["gh", "api",
-               f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/branches/main",
-               "--jq", ".commit.sha"],
-              capture_output=True, text=True
-          )
-          if result.returncode != 0:
-              err(f"获取上游 SHA 失败: {result.stderr.strip()}")
-              sys.exit(1)
-
-          upstream_sha  = result.stdout.strip()
-          last_sync_sha = os.environ.get("LAST_SYNC_COMMIT_SHA", "0")
-
-          info(f"上游最新 SHA: {c(C.BRIGHT_CYAN, upstream_sha[:7])}")
-          info(f"上次同步 SHA: {c(C.DIM, last_sync_sha[:7] if last_sync_sha != '0' else 'N/A')}")
-
-          section("判断是否需要同步")
-          if FORCE_SYNC == "true":
-              warn("强制同步模式，跳过 SHA 比对")
-              should_sync = True
-          elif upstream_sha != last_sync_sha:
-              ok("检测到新内容，需要同步")
-              should_sync = True
-          else:
-              skip("SHA 一致，无新内容")
-              should_sync = False
-
-          section("判断是否发布热更新包")
-          if PUBLISH_HOTFIX == "true":
-              ok("发布热更新包模式已开启 —— _new → official")
-          else:
-              skip("不发布热更新包（_new 文件仍会更新供预览）")
-
-          section("判断是否确认清理 R2 过时文件")
-          if CONFIRM_CLEANUP == "true":
-              warn("确认清理模式：PENDING_DELETIONS 及本次检测到的 R2 过时文件将被真正删除")
-          else:
-              skip("不清理 R2 过时文件（仅记录到 PENDING_DELETIONS）")
-
-          set_output("should_sync", "true" if should_sync else "false")
-          set_output("commit_sha", upstream_sha)
-          set_output("publish_hotfix", PUBLISH_HOTFIX)
-          set_output("confirm_cleanup", CONFIRM_CLEANUP)
-          SCRIPT_END
-        env:
-          INPUT_FORCE_SYNC: ${{ inputs.force_sync }}
-          INPUT_PUBLISH_HOTFIX: ${{ inputs.publish_hotfix }}
-          INPUT_CONFIRM_CLEANUP: ${{ inputs.confirm_cleanup }}
-
-      - name: 🔄 同步上游 Fork
-        if: steps.check_upstream.outputs.should_sync == 'true'
-        run: |
-          gh repo sync "${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}" \
-              --source "${UPSTREAM_OWNER}/${UPSTREAM_REPO}" \
-              --branch main --force
-          # 记录同步前的下游 HEAD——detect 步骤以它为起点 diff，
-          # 这样上游一次推多个 commit 也能全部纳入变动范围
-          echo "PRE_SYNC_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-          # 重新拉取，让本地 workspace 含上游最新内容
-          git fetch origin main
-          git reset --hard origin/main
-
-      - name: 📝 更新 Commit SHA
-        if: steps.check_upstream.outputs.should_sync == 'true'
-        run: |
-          gh variable set LAST_SYNC_COMMIT_SHA --body "${{ steps.check_upstream.outputs.commit_sha }}"
-
-      - name: 🔍 检测变动范围
-        id: detect
-        run: |
-          # 对比「同步前的下游 HEAD → 同步后的最新 HEAD」整个区间，
-          # 而不是只看最后一个 commit——否则上游一次推多个 commit 时，
-          # 只有 HEAD 那个 commit 的文件会被检测到，其余全部漏掉。
-          # PRE_SYNC_SHA 为空说明本次没有同步（无新内容），变动为空。
-          if [ -n "$PRE_SYNC_SHA" ]; then
-            CHANGED=$(git diff --name-only "$PRE_SYNC_SHA" HEAD 2>/dev/null || echo "ALL")
-          else
-            CHANGED=""
-          fi
-          echo "变动文件:"; echo "$CHANGED"
-
-          HAS_SCENARIO=0
-          HAS_JS=0
-
-          echo "$CHANGED" | grep -qE '^madomagi/(resource/scenario/json/|engine_i18n\.tsv)' && HAS_SCENARIO=1 || true
-          echo "$CHANGED" | grep -qE '^magica/' && HAS_JS=1 || true
-
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            HAS_SCENARIO=1
-            HAS_JS=1
-          fi
-
-          echo "has_scenario=$HAS_SCENARIO" >> $GITHUB_OUTPUT
-          echo "has_js=$HAS_JS" >> $GITHUB_OUTPUT
-          mkdir -p _artifacts
-
-      # ───────────────────────────────────────────────────────────────
-      # [JS] 打包 cn_js_update_new.zip
-      #   ▸ baseline 直接取 /configures/version_js.json#version
-      #     （script 内自取，并与已有 _new 取 max，无需外部输入）
-      #   ▸ 产物：version_js_new.json 写到 /, /configures/, _artifacts/
-      #   ▸ 产物：cn_js_update_new.zip 写到 /, _artifacts/
-      # ───────────────────────────────────────────────────────────────
-      - name: "[JS] 打包 cn_js_update_new.zip"
-        if: steps.detect.outputs.has_js == '1'
-        run: |
-          pip3 install requests 2>/dev/null || true
-          python3 Build_JS_Injector.py
-
-          zip -r cn_js_update_new.zip magica/
-
-          python3 - <<'PYEOF'
-          import json, hashlib, os, shutil
-
-          CFG_DIR  = os.environ["CONFIG_DIR"]
-          ZIP_NEW  = "cn_js_update_new.zip"
-          NAME     = "version_js"            # base name, 没有 _new / .json
-
-          # 权威官方文件——/configures/version_js.json
-          official_path = os.path.join(CFG_DIR, f"{NAME}.json")
-          # 三处 _new 输出路径
-          out_paths = [
-              f"{NAME}_new.json",                      # 仓库根目录
-              os.path.join(CFG_DIR, f"{NAME}_new.json"),  # /configures/
-              os.path.join("_artifacts", f"{NAME}_new.json"),  # 上传 Release 用
-          ]
-
-          # version 计数：以 /configures/version_js.json 当前的 version 作为
-          # baseline，bump 后写入 _new 文件。也兼容 _new 已经存在的场景：
-          # 如果 _new.version > baseline，沿用 _new（避免覆盖）
-          base = 0
-          if os.path.exists(official_path):
-              try:
-                  with open(official_path, "r") as f:
-                      official = json.load(f)
-                  base = max(base, int(official.get("version", 0) or 0))
-              except Exception:
-                  pass
-          existing_new = out_paths[1] if os.path.exists(out_paths[1]) else (
-              out_paths[0] if os.path.exists(out_paths[0]) else None
-          )
-          if existing_new:
-              try:
-                  with open(existing_new, "r") as f:
-                      ex = json.load(f)
-                  base = max(base, int(ex.get("version", 0) or 0))
-              except Exception:
-                  pass
-
-          with open(ZIP_NEW, "rb") as f:
-              zip_data = f.read()
-          data = {
-              "version": base + 1,
-              "size":    len(zip_data),
-              "md5":     hashlib.md5(zip_data).hexdigest().lower(),
-          }
-          os.makedirs("_artifacts", exist_ok=True)
-          os.makedirs(CFG_DIR, exist_ok=True)
-          for p in out_paths:
-              with open(p, "w") as f:
-                  json.dump(data, f, indent=2)
-              print(f"✅ 写入 {p}: v{data['version']}, size={data['size']}, md5={data['md5']}")
-
-          # 把 zip 也复制到 _artifacts 供后续上传 Release
-          shutil.copy2(ZIP_NEW, os.path.join("_artifacts", ZIP_NEW))
-          PYEOF
-
-      # ───────────────────────────────────────────────────────────────
-      # [SCENARIO] 同上
-      # ───────────────────────────────────────────────────────────────
-      - name: "[SCENARIO] 打包 cn_scenario_update_new.zip"
-        if: steps.detect.outputs.has_scenario == '1'
-        run: |
-          mkdir -p _pack_scn/madomagi/resource/scenario/json
-          cp -r madomagi/resource/scenario/json/. _pack_scn/madomagi/resource/scenario/json/
-          # 引擎硬编码串翻译表（cocos Label 钩子读取 files/madomagi/engine_i18n.tsv）
-          [ -f madomagi/engine_i18n.tsv ] && cp madomagi/engine_i18n.tsv _pack_scn/madomagi/ || true
-          cd _pack_scn && zip -r ../cn_scenario_update_new.zip madomagi/ && cd ..
-
-          python3 - <<'PYEOF'
-          import json, hashlib, os, shutil
-
-          CFG_DIR  = os.environ["CONFIG_DIR"]
-          ZIP_NEW  = "cn_scenario_update_new.zip"
-          NAME     = "version_scenario"
-
-          official_path = os.path.join(CFG_DIR, f"{NAME}.json")
-          out_paths = [
-              f"{NAME}_new.json",
-              os.path.join(CFG_DIR, f"{NAME}_new.json"),
-              os.path.join("_artifacts", f"{NAME}_new.json"),
-          ]
-
-          base = 0
-          if os.path.exists(official_path):
-              try:
-                  with open(official_path, "r") as f:
-                      official = json.load(f)
-                  base = max(base, int(official.get("version", 0) or 0))
-              except Exception:
-                  pass
-          existing_new = out_paths[1] if os.path.exists(out_paths[1]) else (
-              out_paths[0] if os.path.exists(out_paths[0]) else None
-          )
-          if existing_new:
-              try:
-                  with open(existing_new, "r") as f:
-                      ex = json.load(f)
-                  base = max(base, int(ex.get("version", 0) or 0))
-              except Exception:
-                  pass
-
-          with open(ZIP_NEW, "rb") as f:
-              zip_data = f.read()
-          data = {
-              "version": base + 1,
-              "size":    len(zip_data),
-              "md5":     hashlib.md5(zip_data).hexdigest().lower(),
-          }
-          os.makedirs("_artifacts", exist_ok=True)
-          os.makedirs(CFG_DIR, exist_ok=True)
-          for p in out_paths:
-              with open(p, "w") as f:
-                  json.dump(data, f, indent=2)
-              print(f"✅ 写入 {p}: v{data['version']}, size={data['size']}, md5={data['md5']}")
-
-          shutil.copy2(ZIP_NEW, os.path.join("_artifacts", ZIP_NEW))
-          PYEOF
-
-      # ───────────────────────────────────────────────────────────────
-      # 🚀 上传 _new + (publish_hotfix=true 时) 转正
-      #   v3 修复"虚空链接"bug：
-      #     旧实现用 `gh release upload <tag> <本地_new文件>#<正式名>` 转正，
-      #     但 `#` 后缀只是显示标签（label），asset 的真实 name 仍是
-      #     *_new.*——下载 URL 按 name 走，于是网页端显示正式名、点击却
-      #     跳到 _new 下载链接；手机端只显示 name（带 _new）。
-      #     现在：本地复制成正式文件名再上传，并在转正后删除 _new 预览 asset。
-      # ───────────────────────────────────────────────────────────────
-      - name: 🚀 上传热更新包到上游 Release
-        id: hotfix_publish
-        if: steps.detect.outputs.has_js == '1' || steps.detect.outputs.has_scenario == '1'
-        run: |
-          python3 <<'SCRIPT_END'
-          import subprocess
-          import sys
-          import os
-          import json
-          import shutil
-          import urllib.request
-
-          sys.stdout.reconfigure(line_buffering=True)
-          sys.stderr.reconfigure(line_buffering=True)
-
-          class C:
-              RESET         = "\033[0m"
-              BOLD          = "\033[1m"
-              DIM           = "\033[2m"
-              RED           = "\033[31m"
-              BRIGHT_GREEN  = "\033[92m"
-              BRIGHT_YELLOW = "\033[93m"
-              BRIGHT_BLUE   = "\033[94m"
-              BRIGHT_CYAN   = "\033[96m"
-              BRIGHT_WHITE  = "\033[97m"
-              CYAN          = "\033[36m"
-
-          def c(col, t): return f"{col}{t}{C.RESET}"
-          def header(t):
-              bar = "═" * 60
-              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
-              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
-          def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
-          def info(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, indent=0): print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
-          def skip(t, indent=0): print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
-
-          UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
-          UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
-          PUBLISH        = os.environ.get("PUBLISH_HOTFIX", "false") == "true"
-          ARTIFACTS_DIR  = "_artifacts"
-          CFG_DIR        = os.environ["CONFIG_DIR"]
-
-          # _new → official 名字映射
-          NEW_TO_FINAL = {
-              "cn_js_update_new.zip":       "cn_js_update.zip",
-              "version_js_new.json":        "version_js.json",
-              "cn_scenario_update_new.zip": "cn_scenario_update.zip",
-              "version_scenario_new.json":  "version_scenario.json",
-          }
-
-          def fetch_assets():
-              r = subprocess.run(
-                  ["gh", "api", f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/latest"],
-                  capture_output=True, text=True
-              )
-              if r.returncode != 0 or not r.stdout.strip():
-                  return None, None
-              rel = json.loads(r.stdout)
-              return rel, {a["name"]: a for a in rel.get("assets", [])}
-
-          def delete_asset(asset_id, name):
-              r = subprocess.run(
-                  ["gh", "api",
-                   f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
-                   f"/releases/assets/{asset_id}",
-                   "--method", "DELETE"],
-                  capture_output=True, text=True
-              )
-              if r.returncode == 0:
-                  ok(f"已删除 asset: {name}", indent=1)
-              else:
-                  warn(f"删除 [{name}] 失败: {r.stderr.strip()}", indent=1)
-
-          header("上传热更新包到上游 Release")
-
-          # ── 1. 拿当前 Release 信息（id + asset 列表）
-          section("获取上游 Release 信息")
-          release, existing_assets = fetch_assets()
-          if release is None:
-              err("获取上游 Release 失败")
-              sys.exit(1)
-          release_tag = release.get("tag_name", "latest")
-          info(f"Release tag: {c(C.BRIGHT_CYAN, release_tag)}  id={release['id']}")
-
-          # ── 2. 上传所有 _artifacts 里的 _new 文件
-          section("上传 _new 文件到 Release（预览）")
-          if not os.path.isdir(ARTIFACTS_DIR):
-              warn("_artifacts 目录不存在，跳过")
-          else:
-              for fname in os.listdir(ARTIFACTS_DIR):
-                  fpath = os.path.join(ARTIFACTS_DIR, fname)
-                  if not os.path.isfile(fpath):
-                      continue
-                  info(f"上传: {c(C.BRIGHT_WHITE, fname)}")
-                  if fname in existing_assets:
-                      delete_asset(existing_assets[fname]["id"], fname)
-                  up = subprocess.run(
-                      ["gh", "release", "upload", release_tag, fpath,
-                       "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
-                       "--clobber"],
-                      capture_output=True, text=True
-                  )
-                  if up.returncode == 0:
-                      ok(f"上传成功: {fname}", indent=1)
-                  else:
-                      err(f"上传失败: {up.stderr.strip()}", indent=1)
-
-          # ── 3. 如果没勾发布热更新，到此为止
-          if not PUBLISH:
-              section("publish_hotfix=false，跳过转正")
-              skip("_new 文件已上传到 Release 供预览，official 文件不变")
-              with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
-                  fh.write("hotfix_published=false\n")
-              sys.exit(0)
-
-          # ── 4. publish_hotfix=true：把 _new 文件去掉 _new 后缀
-          section("发布热更新包（_new → official，覆盖正式文件）")
-
-          # 重新拉 asset 列表，因为上一步刚上传过新文件
-          _, assets2 = fetch_assets()
-          if assets2 is None:
-              err("重新获取 Release 失败")
-              sys.exit(1)
-
-          promote_dir = "/tmp/promote"
-          os.makedirs(promote_dir, exist_ok=True)
-
-          for new_name, final_name in NEW_TO_FINAL.items():
-              src = os.path.join(ARTIFACTS_DIR, new_name)
-              if not os.path.isfile(src):
-                  skip(f"{new_name} 在本地 _artifacts/ 不存在（本次未生成），跳过")
-                  continue
-              info(f"{c(C.BRIGHT_YELLOW, new_name)} → {c(C.BRIGHT_GREEN, final_name)}")
-
-              # 4a. 删 Release 上同名 official asset
-              if final_name in assets2:
-                  delete_asset(assets2[final_name]["id"], final_name)
-
-              # 4b. 本地复制成正式文件名再上传（不用 #label 语法！），
-              #     保证 asset 的 name == final_name，下载链接正确
-              staged = os.path.join(promote_dir, final_name)
-              shutil.copy2(src, staged)
-              up = subprocess.run(
-                  ["gh", "release", "upload", release_tag, staged,
-                   "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
-                   "--clobber"],
-                  capture_output=True, text=True
-              )
-              if up.returncode != 0:
-                  err(f"上传 official 失败: {up.stderr.strip()}", indent=1)
-                  continue
-              ok(f"已发布 official: {final_name}", indent=1)
-
-              # 4c. 转正后删除 Release 上的 _new 预览 asset——否则网页端会
-              #     同时显示带 _new 和不带 _new 两个条目
-              if new_name in assets2:
-                  delete_asset(assets2[new_name]["id"], new_name)
-
-              # 4d. 把本地 official JSON 同步到 /configures/（仅 .json）
-              #     根目录不再放 official version_*.json——baseline 只以
-              #     /configures/ 为准，根目录留一份带 size/md5 的副本
-              #     容易误导人
-              if final_name.endswith(".json"):
-                  with open(src, "rb") as f:
-                      data = f.read()
-                  with open(os.path.join(CFG_DIR, final_name), "wb") as f:
-                      f.write(data)
-                  ok(f"同步 official → /{CFG_DIR}/", indent=1)
-
-          ok("热更新包发布完成")
-          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
-              fh.write("hotfix_published=true\n")
-          SCRIPT_END
-        env:
-          PUBLISH_HOTFIX: ${{ steps.check_upstream.outputs.publish_hotfix }}
-
-      - name: 🐍 设置 Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: 📦 安装依赖
-        run: pip install boto3 tencentcloud-sdk-python alibabacloud_esa20240910
-
-      # ───────────────────────────────────────────────────────────────
-      # 🚀 同步 Release 文件到 R2（单桶）
-      #   v3 改动：
-      #     - 双 S3 桶 → 单 R2 桶
-      #     - 黑名单：puella-historia*（前缀）+ *.apk（后缀）
-      #     - GitHub 上已不存在的文件不主动删除，先记入
-      #       PENDING_DELETIONS 变量；confirm_cleanup=true 时才删除
-      #     - CDN 刷新：EdgeOne（EDGEONE_DOMAIN）+ 阿里云 ESA（ESA_DOMAIN）
-      #       + Cloudflare（CLOUDFLARE_DOMAIN）
-      # ───────────────────────────────────────────────────────────────
-      - name: 🚀 运行同步脚本（上传 Release 文件到 R2）
-        id: sync_script
-        run: |
-          python3 <<'SCRIPT_END'
-          import os
-          import sys
-          import json
-          import subprocess
-          import urllib.request
-          import urllib.error
-
-          sys.stdout.reconfigure(line_buffering=True)
-
-          import boto3
-          from botocore.exceptions import ClientError
-          from tencentcloud.common import credential
-          from tencentcloud.common.profile.client_profile import ClientProfile
-          from tencentcloud.common.profile.http_profile import HttpProfile
-          from tencentcloud.teo.v20220901 import teo_client, models
-          from alibabacloud_esa20240910.client import Client as EsaClient
-          from alibabacloud_esa20240910 import models as esa_models
-          from alibabacloud_tea_openapi import models as open_api_models
-
-          class C:
-              RESET         = "\033[0m"
-              BOLD          = "\033[1m"
-              DIM           = "\033[2m"
-              RED           = "\033[31m"
-              BRIGHT_GREEN  = "\033[92m"
-              BRIGHT_YELLOW = "\033[93m"
-              BRIGHT_BLUE   = "\033[94m"
-              BRIGHT_CYAN   = "\033[96m"
-              BRIGHT_WHITE  = "\033[97m"
-              CYAN          = "\033[36m"
-
-          def c(col, t): return f"{col}{t}{C.RESET}"
-          def header(t):
-              bar = "═" * 60
-              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
-              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
-          def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
-          def info(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, indent=0): print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
-          def skip(t, indent=0): print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
-          def human_size(n):
-              for u in ["B", "KB", "MB", "GB"]:
-                  if n < 1024: return f"{n:.1f} {u}"
-                  n /= 1024
-              return f"{n:.1f} TB"
-
-          # ══════════════════════════════════════════════════════════════
-          # R2 上传过滤规则 v3
-          # ══════════════════════════════════════════════════════════════
-          # puella-historia*  → 大体积历史数据包，不走 R2
-          # *.apk             → 客户端安装包，只留在 GitHub Release
-          R2_IGNORE_PREFIXES = (
-              'puella-historia',
-          )
-          R2_IGNORE_SUFFIXES = (
-              '.apk',
-          )
-
-          def should_ignore_for_r2(name: str) -> bool:
-              if any(name.startswith(p) for p in R2_IGNORE_PREFIXES): return True
-              if any(name.endswith(s) for s in R2_IGNORE_SUFFIXES): return True
-              return False
-
-          class R2Handler:
-              def __init__(self, endpoint, access_key, secret_key,
-                           region, bucket, name="R2"):
-                  self.name   = name
-                  self.bucket = bucket
-                  ep = endpoint.rstrip('/')
-                  self.s3_client = boto3.client(
-                      's3', endpoint_url=ep,
-                      aws_access_key_id=access_key,
-                      aws_secret_access_key=secret_key,
-                      region_name=region
-                  )
-              def list_files(self):
-                  try:
-                      paginator = self.s3_client.get_paginator('list_objects_v2')
-                      files = [obj['Key'] for page in paginator.paginate(Bucket=self.bucket)
-                               if 'Contents' in page for obj in page['Contents']]
-                      info(f"[{c(C.BRIGHT_WHITE, self.name)}] 列出 {c(C.BOLD, str(len(files)))} 个文件")
-                      return files
-                  except Exception as e:
-                      err(f"[{self.name}] 列出文件失败: {e}")
-                      return []
-              def delete_file(self, filename):
-                  try:
-                      self.s3_client.delete_object(Bucket=self.bucket, Key=filename)
-                      ok(f"[{c(C.BRIGHT_WHITE, self.name)}] 删除: {filename}", indent=1)
-                      return True
-                  except ClientError as e:
-                      if e.response['Error']['Code'] == '404':
-                          skip(f"[{self.name}] {filename} 不存在", indent=1)
-                          return True
-                      err(f"[{self.name}] 删除失败: {e}", indent=1)
-                      return False
-                  except Exception as e:
-                      err(f"[{self.name}] 删除异常: {e}", indent=1)
-                      return False
-              def upload_file_from_url(self, url, filename):
-                  try:
-                      info(f"[{c(C.BRIGHT_WHITE, self.name)}] 流式上传: "
-                           f"{c(C.BRIGHT_CYAN, filename)}", indent=1)
-                      req = urllib.request.Request(url)
-                      with urllib.request.urlopen(req) as response:
-                          file_size = int(
-                              response.headers.get('Content-Length') or 0)
-                          # 真正的流式：upload_fileobj 分块边下边传
-                          # （超过 8MiB 自动走 multipart），不再先把整个
-                          # 文件读进内存再一次性 put——大文件耗时近减半
-                          self.s3_client.upload_fileobj(
-                              response, self.bucket, filename)
-                      ok(f"[{c(C.BRIGHT_WHITE, self.name)}] 上传完成: "
-                         f"{filename} {c(C.DIM, '(' + human_size(file_size) + ')')}",
-                         indent=1)
-                      return True
-                  except Exception as e:
-                      err(f"[{self.name}] 上传失败: {e}", indent=1)
-                      return False
-
-          class EdgeOneHandler:
-              def __init__(self, secret_id, secret_key, zone_id):
-                  self.zone_id = zone_id
-                  cred         = credential.Credential(secret_id, secret_key)
-                  hp           = HttpProfile()
-                  hp.endpoint  = "teo.tencentcloudapi.com"
-                  cp           = ClientProfile()
-                  cp.httpProfile = hp
-                  self.client  = teo_client.TeoClient(cred, "", cp)
-              def purge_cache(self, domain, filename):
-                  if not domain:
-                      warn("[EdgeOne] 未配置 EDGEONE_DOMAIN，跳过", indent=1)
-                      return False, "not configured"
-                  try:
-                      req        = models.CreatePurgeTaskRequest()
-                      target_url = f"http://{domain}/{filename}"
-                      req.from_json_string(json.dumps({
-                          "ZoneId": self.zone_id,
-                          "Type": "purge_url",
-                          "Targets": [target_url]
-                      }))
-                      resp    = self.client.CreatePurgeTask(req)
-                      task_id = resp.RequestId
-                      ok(f"[EdgeOne] 缓存刷新: {c(C.DIM, target_url)}", indent=1)
-                      return True, task_id
-                  except Exception as e:
-                      err(f"[EdgeOne] 刷新失败: {e}", indent=1)
-                      return False, str(e)
-
-          class EsaHandler:
-              """阿里云 ESA 缓存刷新（PurgeCaches, Type=file）"""
-              def __init__(self, access_key_id, access_key_secret, site_id, domain):
-                  self.site_id = int(site_id)
-                  self.domain  = domain
-                  cfg = open_api_models.Config(
-                      access_key_id=access_key_id,
-                      access_key_secret=access_key_secret,
-                      endpoint="esa.cn-hangzhou.aliyuncs.com",
-                  )
-                  self.client = EsaClient(cfg)
-              def purge_files(self, urls):
-                  try:
-                      req = esa_models.PurgeCachesRequest(
-                          site_id=self.site_id,
-                          type="file",
-                          content=esa_models.PurgeCachesRequestContent(files=urls),
-                      )
-                      resp = self.client.purge_caches(req)
-                      task_id = getattr(resp.body, "task_id", None)
-                      ok(f"[ESA] 缓存刷新: {c(C.DIM, ', '.join(urls))}"
-                         + (f" (TaskId={task_id})" if task_id else ""), indent=1)
-                      return True
-                  except Exception as e:
-                      err(f"[ESA] 刷新失败: {e}", indent=1)
-                      return False
-              def purge_cache(self, filename):
-                  url = f"http://{self.domain}/{filename}" if filename \
-                        else f"http://{self.domain}/"
-                  return self.purge_files([url])
-
-          class CloudflareHandler:
-              """Cloudflare CDN 缓存刷新（Purge Cache by URL）
-
-              认证方式：API Token（Bearer）。按 URL 精确清除，
-              与 EdgeOne 的 purge_url 对应。
-              """
-              API_BASE = "https://api.cloudflare.com/client/v4"
-
-              def __init__(self, api_token, zone_id):
-                  self.api_token = api_token
-                  self.zone_id   = zone_id
-
-              def purge_cache(self, domain, filename):
-                  if not self.api_token or not self.zone_id:
-                      warn("[Cloudflare] 未配置 CLOUDFLARE_API_TOKEN / "
-                           "CLOUDFLARE_ZONE_ID，跳过", indent=1)
-                      return False, "not configured"
-                  if not domain:
-                      warn("[Cloudflare] 未配置 CLOUDFLARE_DOMAIN，跳过",
-                           indent=1)
-                      return False, "not configured"
-                  try:
-                      target_url = (f"http://{domain}/{filename}" if filename
-                                    else f"http://{domain}/")
-                      req = urllib.request.Request(
-                          f"{self.API_BASE}/zones/{self.zone_id}/purge_cache",
-                          data=json.dumps({"files": [target_url]}).encode(),
-                          headers={
-                              "Authorization": f"Bearer {self.api_token}",
-                              "Content-Type": "application/json",
-                          },
-                          method="POST",
-                      )
-                      with urllib.request.urlopen(req) as resp:
-                          body = json.loads(resp.read().decode())
-                      if not body.get("success"):
-                          raise Exception(body.get("errors"))
-                      ok(f"[Cloudflare] 缓存刷新: {c(C.DIM, target_url)}",
-                         indent=1)
-                      return True, target_url
-                  except Exception as e:
-                      err(f"[Cloudflare] 刷新失败: {e}", indent=1)
-                      return False, str(e)
-
-          def get_variable(name):
-              r = subprocess.run(['gh', 'variable', 'get', name],
-                                 capture_output=True, text=True)
-              return r.stdout.strip() if r.returncode == 0 else ""
-
-          def set_variable(name, body):
-              subprocess.run(['gh', 'variable', 'set', name, '--body', body],
-                             capture_output=True, text=True)
-
-          def main():
-              CONFIRM_CLEANUP = os.environ.get("CONFIRM_CLEANUP", "false") == "true"
-
-              header("初始化")
-              r2 = R2Handler(
-                  os.environ['R2_ENDPOINT'], os.environ['R2_ACCESS_KEY'],
-                  os.environ['R2_SECRET_KEY'], os.environ['R2_REGION'],
-                  os.environ['R2_BUCKET'], "R2"
-              )
-              edgeone = EdgeOneHandler(
-                  os.environ['QCLOUD_SECRET_ID'],
-                  os.environ['QCLOUD_SECRET_KEY'],
-                  os.environ['EDGEONE_ZONE_ID']
-              )
-              edgeone_domain = os.environ.get('EDGEONE_DOMAIN', '').strip()
-              esa = EsaHandler(
-                  os.environ['ALIBABA_CLOUD_ACCESS_KEY_ID'],
-                  os.environ['ALIBABA_CLOUD_ACCESS_KEY_SECRET'],
-                  os.environ['ESA_SITE_ID'],
-                  os.environ['ESA_DOMAIN']
-              )
-              cloudflare = CloudflareHandler(
-                  os.environ.get('CLOUDFLARE_API_TOKEN', ''),
-                  os.environ.get('CLOUDFLARE_ZONE_ID', '')
-              )
-              cf_domain = os.environ.get('CLOUDFLARE_DOMAIN', '').strip()
-              ok("R2 + EdgeOne + 阿里云 ESA + Cloudflare 已初始化")
-
-              owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
-              repo  = os.environ.get('UPSTREAM_REPO',  'magireco-cn-patch')
-
-              GH_HEADERS = {
-                  'Accept': 'application/vnd.github+json',
-                  'X-GitHub-Api-Version': '2022-11-28',
-              }
-              if os.environ.get('GH_TOKEN'):
-                  GH_HEADERS['Authorization'] = f"Bearer {os.environ['GH_TOKEN']}"
-
-              header(f"获取 {owner}/{repo} 最新 Release")
-              try:
-                  req = urllib.request.Request(
-                      f"https://api.github.com/repos/{owner}/{repo}/releases/latest",
-                      headers=GH_HEADERS
-                  )
-                  with urllib.request.urlopen(req) as resp:
-                      release = json.loads(resp.read().decode())
-              except urllib.error.HTTPError as e:
-                  if e.code == 404:
-                      warn("上游仓库无 Release，跳过")
-                      return
-                  raise
-
-              info(f"Release: {c(C.BRIGHT_WHITE, release.get('name') or release.get('tag_name'))}")
-              current_map = {
-                  a['name']: a.get('digest', '')
-                  for a in release.get('assets', [])
-                  if not should_ignore_for_r2(a['name'])
-              }
-              info(f"包含 {c(C.BOLD, str(len(current_map)))} 个待同步 asset")
-
-              header("比对文件指纹")
-              old_raw = get_variable('LAST_SYNC_FINGERPRINTS')
-              old_map = {}
-              if old_raw:
-                  try:
-                      old_map = json.loads(old_raw)
-                      info(f"历史指纹: {c(C.BOLD, str(len(old_map)))} 个文件")
-                  except Exception:
-                      warn("历史指纹解析失败，视为首次同步")
-
-              to_process, unchanged, deleted = [], [], []
-              for fname, sha in current_map.items():
-                  if fname not in old_map:
-                      info(f"{c(C.BRIGHT_YELLOW, fname)} → 新文件")
-                      to_process.append(fname)
-                  elif sha and old_map[fname] != sha:
-                      info(f"{c(C.BRIGHT_YELLOW, fname)} → 已更新")
-                      to_process.append(fname)
-                  elif not sha:
-                      to_process.append(fname)
-                  else:
-                      unchanged.append(fname)
-              for fname in old_map:
-                  if fname not in current_map:
-                      deleted.append(fname)
-
-              # ════════════════════════════════════════════════════════
-              # 过时文件处理（v3：不主动删除，需手动确认）
-              #   R2 上存在、但 GitHub Release 已不存在的文件 → 记入
-              #   PENDING_DELETIONS 变量；只有 confirm_cleanup=true
-              #   手动运行时才真正删除。
-              # ════════════════════════════════════════════════════════
-              header("检查 R2 过时文件（GitHub 已不存在）")
-              r2_files = r2.list_files()
-              stale_now = sorted({
-                  f for f in r2_files
-                  if not should_ignore_for_r2(f) and f not in current_map
-              })
-
-              prev_pending = []
-              pend_raw = get_variable('PENDING_DELETIONS')
-              if pend_raw:
-                  try:
-                      prev_pending = json.loads(pend_raw)
-                      if not isinstance(prev_pending, list):
-                          prev_pending = []
-                  except Exception:
-                      warn("PENDING_DELETIONS 解析失败，按空列表处理")
-              stale_all = sorted(set(stale_now) | set(prev_pending))
-
-              if not stale_all:
-                  ok("无过时文件")
-                  if CONFIRM_CLEANUP:
-                      info("confirm_cleanup=true，但没有待清理文件")
-              elif not CONFIRM_CLEANUP:
-                  warn(f"检测到 {c(C.BOLD, str(len(stale_all)))} 个 GitHub 上已不存在的文件，"
-                       "按规则【不主动删除】：")
-                  for fname in stale_all:
-                      warn(f"待清理: {fname}", indent=1)
-                  warn("确认无误后，请手动运行本 workflow 并勾选 "
-                       "confirm_cleanup=true 执行删除")
-                  set_variable('PENDING_DELETIONS',
-                               json.dumps(stale_all, ensure_ascii=False))
-                  ok("待清理列表已写入 PENDING_DELETIONS 仓库变量")
-              else:
-                  header(f"确认清理：删除 {len(stale_all)} 个 R2 过时文件")
-                  for fname in stale_all:
-                      if r2.delete_file(fname):
-                          # 删完顺手刷掉三个 CDN 上的残留缓存
-                          edgeone.purge_cache(edgeone_domain, fname)
-                          esa.purge_cache(fname)
-                          cloudflare.purge_cache(cf_domain, fname)
-                  set_variable('PENDING_DELETIONS', '[]')
-                  ok("PENDING_DELETIONS 已清空")
-
-              if not to_process:
-                  header("无新增/更新文件")
-                  return
-
-              header(f"上传 {len(to_process)} 个文件")
-              processed = []
-              for fname in to_process:
-                  url = next(a['browser_download_url']
-                             for a in release['assets'] if a['name'] == fname)
-                  if r2.upload_file_from_url(url, fname):
-                      edgeone.purge_cache(edgeone_domain, fname)
-                      esa.purge_cache(fname)
-                      cloudflare.purge_cache(cf_domain, fname)
-                      processed.append(fname)
-                  else:
-                      err(f"上传失败: {fname}")
-
-              if processed:
-                  header("刷新根目录 CDN 缓存")
-                  edgeone.purge_cache(edgeone_domain, "")
-                  esa.purge_cache("")
-                  cloudflare.purge_cache(cf_domain, "")
-
-              header("保存指纹")
-              final_map = old_map.copy()
-              for fname in unchanged: final_map[fname] = old_map[fname]
-              for fname in to_process: final_map[fname] = current_map[fname]
-              for fname in deleted: final_map.pop(fname, None)
-              subprocess.run(
-                  ['gh', 'variable', 'set', 'LAST_SYNC_FINGERPRINTS',
-                   '--body', json.dumps(final_map)],
-                  check=True
-              )
-              ok(f"指纹已保存（{c(C.BOLD, str(len(final_map)))} 个）")
-
-          if __name__ == "__main__":
+              exit_code = 0
               try:
                   main()
+              except SystemExit as e:
+                  # main() 内部的 sys.exit(...)：保留原退出码
+                  exit_code = int(e.code or 0)
               except Exception as e:
-                  err(f"脚本失败: {e}")
+                  err(f"脚本异常: {e}")
                   import traceback; traceback.print_exc()
-                  sys.exit(1)
-          SCRIPT_END
-        env:
-          CONFIRM_CLEANUP: ${{ steps.check_upstream.outputs.confirm_cleanup }}
-
-      # ───────────────────────────────────────────────────────────────
-      # 🏷 镜像上游 Release 到本仓库（快照增量 + latest 全量）
-      #   ▸ 先与下游 latest 做 diff（digest/size），完全没变化直接跳过
-      #   ▸ 两种 Release 不同处理：
-      #       1. YYYYmmdd-HHMMSS（UTC）日期快照 —— 只放【本次变化】的
-      #          asset，相当于变更记录，体积小、上传快
-      #       2. latest —— 【全量镜像】：只要检测到 upstream 有任何变化，
-      #          就把 upstream 当前的【全部】asset 重新上传一遍（同名先
-      #          删再传），并删除 upstream 已移除的文件。
-      #          这样能保证 latest 每次都是 upstream 的完整快照，
-      #          不会因为历史遗漏/漏传导致下游直接读 latest 时因缺文件报错。
-      #          代价：只要有任何文件变化，所有文件都会被重新下载+上传，
-      #          比纯增量慢，但正确性优先。
-      #   ▸ 上传为流式：上游下载 URL 直连 uploads.github.com，
-      #     不落盘、内存恒定；失败自动回退「落盘 + gh release upload」
-      #   ▸ 首次运行（下游无 latest）全量上传一次
-      #   ▸ 注意：GitHub 单个 asset 上限 2GiB，超限文件跳过并告警
-      # ───────────────────────────────────────────────────────────────
-      - name: 🏷 创建/覆盖本仓库快照 Release
-        id: mirror_release
-        if: always()
-        run: |
-          python3 <<'SCRIPT_END'
-          import subprocess
-          import sys
-          import os
-          import json
-          import shutil
-          import urllib.request
-          import urllib.error
-          import urllib.parse
-          from datetime import datetime, timezone
-
-          sys.stdout.reconfigure(line_buffering=True)
-          sys.stderr.reconfigure(line_buffering=True)
-
-          class C:
-              RESET         = "\033[0m"
-              BOLD          = "\033[1m"
-              DIM           = "\033[2m"
-              RED           = "\033[31m"
-              BRIGHT_GREEN  = "\033[92m"
-              BRIGHT_YELLOW = "\033[93m"
-              BRIGHT_BLUE   = "\033[94m"
-              BRIGHT_CYAN   = "\033[96m"
-              BRIGHT_WHITE  = "\033[97m"
-              CYAN          = "\033[36m"
-
-          def c(col, t): return f"{col}{t}{C.RESET}"
-          def header(t):
-              bar = "═" * 60
-              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
-              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
-          def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
-          def info(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, indent=0): print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
-          def skip(t, indent=0): print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
-          def human_size(n):
-              for u in ["B", "KB", "MB", "GB"]:
-                  if n < 1024: return f"{n:.1f} {u}"
-                  n /= 1024
-              return f"{n:.1f} TB"
-          def set_output(k, v):
-              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-                  f.write(f"{k}={v}\n")
-
-          UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
-          UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
-          GH_TOKEN       = os.environ.get("GH_TOKEN", "")
-          # 本仓库 = workflow 所在仓库（即下游仓库）
-          MIRROR_REPO    = os.environ.get("GITHUB_REPOSITORY") or \
-                           f"{os.environ['DOWNSTREAM_OWNER']}/{os.environ['DOWNSTREAM_REPO']}"
-
-          # GitHub 单个 Release asset 上限 2GiB
-          MAX_ASSET = 2 * 1024**3
-
-          GH_HEADERS = {
-              "Accept": "application/vnd.github+json",
-              "X-GitHub-Api-Version": "2022-11-28",
-          }
-          if GH_TOKEN:
-              GH_HEADERS["Authorization"] = f"Bearer {GH_TOKEN}"
-
-          def run(args):
-              return subprocess.run(args, capture_output=True, text=True)
-
-          def gh_api_json(args):
-              r = run(["gh", "api"] + args)
-              if r.returncode != 0 or not r.stdout.strip():
-                  return None
-              try:
-                  return json.loads(r.stdout)
-              except Exception:
-                  return None
-
-          def asset_changed(up, dn):
-              """digest 两边都有就比 digest，否则退化为比 size"""
-              u_digest, u_size = up
-              d_digest, d_size = dn
-              if u_digest and d_digest:
-                  return u_digest != d_digest
-              return u_size != d_size
-
-          def create_release(tag, title, notes):
-              """只新建（不删除既有 Release），返回 release 对象"""
-              r = run(["gh", "release", "create", tag,
-                       "--repo", MIRROR_REPO,
-                       "--title", title, "--notes", notes])
-              if r.returncode != 0:
-                  err(f"创建 Release [{tag}] 失败: {r.stderr.strip()}", indent=1)
-                  return None
-              ok(f"已创建 Release: {tag}", indent=1)
-              return gh_api_json([f"repos/{MIRROR_REPO}/releases/tags/{tag}"])
-
-          def delete_asset(asset, tag):
-              r = run(["gh", "api",
-                       f"repos/{MIRROR_REPO}/releases/assets/{asset['id']}",
-                       "--method", "DELETE"])
-              if r.returncode == 0:
-                  ok(f"[{tag}] 已删除 asset: {asset['name']}", indent=1)
-                  return True
-              warn(f"[{tag}] 删除 [{asset['name']}] 失败: "
-                   f"{r.stderr.strip()}", indent=1)
-              return False
-
-          def stream_upload_asset(upload_url_tpl, tag, fname, size, src_url):
-              """上游下载 URL → uploads.github.com 直连流式上传（不落盘）。
-
-              http.client 对带 read() 的 body 按块发送——下载与上传
-              同时进行，内存占用恒定，大文件耗时近减半。
-              失败时回退：流式下载到磁盘 + gh release upload。
-              """
-              upload_url = (upload_url_tpl.split("{?")[0]
-                            + "?name=" + urllib.parse.quote(fname))
-              try:
-                  dl_req = urllib.request.Request(src_url, headers=GH_HEADERS)
-                  src = urllib.request.urlopen(dl_req)
+                  exit_code = 1
+              finally:
+                  # 强制校准：无论本次运行成功/失败、新建了几个快照
+                  # Release，只要 tag=latest 存在，"Latest" 徽标必须
+                  # 落在它上面——这是本步骤最后一道保险
                   try:
-                      up_req = urllib.request.Request(
-                          upload_url,
-                          data=src,  # file-like → 分块流式发送
-                          headers=dict(
-                              GH_HEADERS,
-                              **{"Content-Type": "application/octet-stream",
-                                 "Content-Length": str(size)}),
-                          method="POST",
-                      )
-                      with urllib.request.urlopen(up_req) as resp:
-                          json.loads(resp.read().decode())
-                  finally:
-                      src.close()
-                  ok(f"[{tag}] 流式上传: {fname}", indent=2)
-                  return True
-              except Exception as e:
-                  warn(f"[{tag}] 流式上传失败，回退落盘方式: {e}", indent=2)
-
-              try:
-                  work_dir = "/tmp/release_mirror"
-                  os.makedirs(work_dir, exist_ok=True)
-                  dst = os.path.join(work_dir, fname)
-                  dl_req = urllib.request.Request(src_url, headers=GH_HEADERS)
-                  with urllib.request.urlopen(dl_req) as resp, \
-                       open(dst, "wb") as f:
-                      shutil.copyfileobj(resp, f, 1024 * 1024)
-                  up = run(["gh", "release", "upload", tag, dst,
-                            "--repo", MIRROR_REPO, "--clobber"])
-                  if up.returncode == 0:
-                      ok(f"[{tag}] 已上传（落盘）: {fname}", indent=2)
-                      return True
-                  err(f"[{tag}] 落盘上传也失败 [{fname}]: "
-                      f"{up.stderr.strip()}", indent=2)
-              except Exception as e2:
-                  err(f"[{tag}] 落盘上传也失败 [{fname}]: {e2}", indent=2)
-              return False
-
-          def upload_to_release(rel, tag, name, up_asset, dn_assets):
-              """往指定 Release 传一个 asset；同名旧 asset 先删（API 不允许同名覆盖）"""
-              if name in dn_assets:
-                  delete_asset(dn_assets[name], tag)
-              return stream_upload_asset(
-                  rel["upload_url"], tag, name,
-                  up_asset[1], up_asset[2])
-
-          def main():
-              header("镜像上游 Release 到本仓库（快照增量 + latest 全量）")
-              info(f"来源: {c(C.BRIGHT_WHITE, f'{UPSTREAM_OWNER}/{UPSTREAM_REPO}')}")
-              info(f"目标: {c(C.BRIGHT_WHITE, MIRROR_REPO)}")
-
-              section("获取上游最新 Release")
-              try:
-                  req = urllib.request.Request(
-                      f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
-                      "/releases/latest",
-                      headers=GH_HEADERS
-                  )
-                  with urllib.request.urlopen(req) as resp:
-                      release = json.loads(resp.read().decode())
-              except urllib.error.HTTPError as e:
-                  if e.code == 404:
-                      warn("上游仓库无 Release，跳过镜像")
-                      set_output("snapshot_tag", "")
-                      set_output("mirrored", "false")
-                      return
-                  raise
-
-              upstream_tag = release.get("tag_name", "")
-              assets = release.get("assets", [])
-              info(f"上游 Release: {c(C.BRIGHT_CYAN, upstream_tag)}"
-                   f"（{c(C.BOLD, str(len(assets)))} 个 asset）")
-              if not assets:
-                  warn("上游 Release 无任何 asset，跳过镜像")
-                  set_output("snapshot_tag", "")
-                  set_output("mirrored", "false")
-                  return
-
-              # name → (digest, size, 下载 URL)，超限文件不进镜像
-              upstream_map = {}
-              for a in assets:
-                  if a.get("size", 0) > MAX_ASSET:
-                      warn(f"{a['name']}（{human_size(a['size'])}）"
-                           "超过 2GiB 上限，跳过", indent=1)
-                      continue
-                  upstream_map[a["name"]] = (
-                      a.get("digest") or "", a.get("size", 0),
-                      a["browser_download_url"])
-
-              # ── 与下游 latest 比对，仅用于生成"变更快照"和判断本次是否需要动作 ──
-              section("与下游 latest Release 比对（用于变更快照 / 是否跳过判定）")
-              dn_rel = gh_api_json(
-                  [f"repos/{MIRROR_REPO}/releases/tags/latest"])
-              dn_assets = ({a["name"]: a for a in dn_rel.get("assets", [])}
-                           if dn_rel else {})
-              dn_map = {n: (a.get("digest") or "", a.get("size", 0))
-                        for n, a in dn_assets.items()}
-
-              # 首次镜像：下游还没有 latest，全量上传一次
-              if dn_rel is None:
-                  info("下游尚无 latest Release，首次全量镜像")
-                  rel = create_release(
-                      "latest", "latest",
-                      f"上游 {UPSTREAM_OWNER}/{UPSTREAM_REPO} Release "
-                      f"`{upstream_tag}` 首次全量镜像（由 workflow 自动生成）")
-                  if not rel:
-                      set_output("snapshot_tag", "")
-                      set_output("mirrored", "false")
-                      sys.exit(1)
-                  fails = 0
-                  for name, up in upstream_map.items():
-                      if not stream_upload_asset(rel["upload_url"], "latest",
-                                                 name, up[1], up[2]):
-                          fails += 1
-                  header("首次全量镜像完成")
-                  ok(f"滚动 Release: {c(C.BRIGHT_CYAN, 'latest')}"
-                     f"（{len(upstream_map) - fails}/{len(upstream_map)}）")
-                  if fails:
-                      warn(f"{fails} 个文件上传失败，下次运行会自动补齐")
-                  set_output("snapshot_tag", "")
-                  set_output("mirrored", "true")
-                  return
-
-              # diff 仅用于：① 判断是否有任何变化（没变化就跳过，省得白跑）
-              #             ② 生成变更快照 Release 的内容和 notes
-              diff_upload = [n for n in upstream_map
-                             if n not in dn_map
-                             or asset_changed(upstream_map[n][:2], dn_map[n])]
-              diff_delete = [n for n in dn_map if n not in upstream_map]
-
-              if not diff_upload and not diff_delete:
-                  ok("上游 Release 与下游 latest 完全一致，跳过镜像")
-                  set_output("snapshot_tag", "")
-                  set_output("mirrored", "false")
-                  return
-
-              for n in sorted(diff_upload):
-                  tag = "新增" if n not in dn_map else "更新"
-                  info(f"{tag}: {c(C.BRIGHT_YELLOW, n)}", indent=1)
-              for n in sorted(diff_delete):
-                  info(f"移除: {c(C.BRIGHT_YELLOW, n)}", indent=1)
-
-              ts = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
-              change_lines = (
-                  [f"- 新增 `{n}`" for n in sorted(diff_upload) if n not in dn_map]
-                  + [f"- 更新 `{n}`" for n in sorted(diff_upload) if n in dn_map]
-                  + [f"- 移除 `{n}`" for n in sorted(diff_delete)])
-              notes = (f"上游 {UPSTREAM_OWNER}/{UPSTREAM_REPO} Release "
-                       f"`{upstream_tag}` 变更快照（{ts} UTC，自动生成）\n\n"
-                       + "\n".join(change_lines))
-
-              # ── 1. 日期时间快照：只放本次变化的文件（变更记录，行为不变）──
-              if diff_upload:
-                  section(f"创建变更快照 Release: {ts}")
-                  snap_rel = create_release(ts, ts, notes)
-                  if snap_rel:
-                      for n in diff_upload:
-                          stream_upload_asset(snap_rel["upload_url"], ts,
-                                              n, upstream_map[n][1],
-                                              upstream_map[n][2])
-              else:
-                  skip("本次只有移除没有新增/更新，不建快照")
-
-              # ── 2. latest：全量同步 ──
-              #    只要检测到"有任何变化"，就把 upstream 当前【全部】asset
-              #    重新上传一遍（同名先删再传），并删除 upstream 已经没有的
-              #    文件，确保 latest 每次都是 upstream 的完整镜像，
-              #    不会因为历史遗漏 / 漏传导致下游读到不完整的文件集。
-              section("全量同步 latest Release（重新上传全部 upstream 文件）")
-              for n in diff_delete:
-                  delete_asset(dn_assets[n], "latest")
-
-              all_names = list(upstream_map.keys())
-              fails = 0
-              for n in all_names:
-                  if not upload_to_release(dn_rel, "latest", n,
-                                           upstream_map[n], dn_assets):
-                      fails += 1
-
-              header("镜像完成")
-              ok(f"变更快照: {c(C.BRIGHT_CYAN, ts) if diff_upload else '（无）'}")
-              ok(f"滚动 Release: {c(C.BRIGHT_CYAN, 'latest')} "
-                 f"（全量上传 {len(all_names) - fails}/{len(all_names)}，"
-                 f"移除 {len(diff_delete)}）")
-              if fails:
-                  warn(f"{fails} 个文件上传失败，下次运行会自动补齐")
-              set_output("snapshot_tag", ts if diff_upload else "")
-              set_output("mirrored", "true")
-
-          if __name__ == "__main__":
-              main()
+                      mark_as_latest("latest")
+                  except Exception:
+                      pass
+              sys.exit(exit_code)
           SCRIPT_END
 
       # ───────────────────────────────────────────────────────────────
-      # 💾 提交全部配置变更回 git
-      #   - _new files (always)
-      #   - official version_*.json (when publish_hotfix)
+      # 💾 提交配置变更，并以【同一个 commit】同步上下游
+      #   设计要点（专治 GitHub fork 页 "N ahead / M behind" 分叉显示）：
+      #   ▸ 版本 json 只在本地 commit 一次，然后把这个 commit 的
+      #     【同一个 SHA】直接 push 到上游 main，再用 gh repo sync
+      #     把下游 main 对齐到上游——任何时刻上下游都指向完全相同
+      #     的 commit 对象，fork 页永远显示 up to date。
+      #   ▸ 不能用 Contents API 分别往两个仓库提交：即使文件内容
+      #     一样，committer/时间不同也会产生两个不同 SHA，照样分叉。
+      #   ▸ stage 只允许已知名字的配置文件，绝不 git add -A；
+      #     official version_*.json 只在 /configures/ 下维护，
+      #     根目录只放 _new 预览副本。
+      #   ▸ GH_TOKEN 需要对上游仓库有 contents:write 权限。
       # ───────────────────────────────────────────────────────────────
-      - name: 💾 提交配置变更回仓库
+      - name: 💾 提交配置变更并同步推送上下游
+        id: commit_configs
         if: always()
         run: |
           set -e
@@ -2890,6 +1528,13 @@ jobs:
             echo "::error::push 前 origin 校验失败：$ORIGIN_URL"
             exit 1
           fi
+          # 上游 push 目标由 env 拼出（env 已在 job 第一步过了白名单），
+          # token 只出现在命令行参数里，不落盘到 git remote 配置
+          UPSTREAM_PUSH_URL="https://x-access-token:${GH_TOKEN}@github.com/${UPSTREAM_OWNER}/${UPSTREAM_REPO}.git"
+          case "$UPSTREAM_PUSH_URL" in
+            *github.com/${UPSTREAM_OWNER}/${UPSTREAM_REPO}.git) ;;
+            *) echo "::error::上游 push URL 异常，拒绝继续"; exit 1 ;;
+          esac
 
           # 只 stage 我们已知名字的配置文件，绝不 git add -A 任意路径，
           # 避免误把别的临时产物（_artifacts/ / 上游同步进来的资源等）
@@ -2905,6 +1550,7 @@ jobs:
 
           if git diff --cached --quiet; then
             echo "ℹ 配置文件无变更可提交"
+            echo "committed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -2913,27 +1559,71 @@ jobs:
           if [ "${{ steps.check_upstream.outputs.publish_hotfix }}" = "true" ]; then
             MSG="$MSG (hotfix published)"
           fi
-          # [skip ci] 阻止本 push 触发自身
+          # [skip ci] 阻止本 push 触发上游/自身的其他 workflow
           MSG="$MSG [skip ci]"
-
           git commit -m "$MSG"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
 
-          # 重试推送（最多 4 次，2 / 4 / 8 / 16 秒退避）
+          # 1) 先推上游（最多 5 次，0 / 2 / 4 / 8 / 16 秒退避）。
+          #    若上游 main 在运行期间被别人推过，rebase 把新 commit 包进来
+          #    再推——最终 HEAD 依然会同时落到上下游，两边仍是同一 SHA。
+          PUSHED=0
           for delay in 0 2 4 8 16; do
             [ "$delay" -gt 0 ] && sleep "$delay"
-            if git push origin HEAD:main; then
-              echo "✔ push 成功"
-              exit 0
+            if git push "$UPSTREAM_PUSH_URL" HEAD:main; then
+              PUSHED=1
+              break
             fi
-            echo "⚠ push 失败，rebase 后重试..."
-            git pull --rebase origin main || true
+            echo "⚠ 上游 push 失败，rebase 上游最新后重试..."
+            git pull --rebase "$UPSTREAM_PUSH_URL" main || true
           done
-          echo "::warning::配置文件 commit push 失败 4 次，请手动检查"
+          if [ "$PUSHED" != "1" ]; then
+            echo "::error::配置 commit 推送上游失败 5 次；本次游标不会更新，下次运行自动重建并重推"
+            exit 1
+          fi
+          echo "✔ 已推送上游 main: $(git rev-parse --short HEAD)"
+
+          # 2) 下游 main 对齐到上游 main（= 刚推上去的同一个 commit SHA），
+          #    fork 页面保持 up to date，不出现 ahead/behind 分叉；
+          #    失败则整步失败、游标不动，下次运行 force-sync 自动修复
+          if ! gh repo sync "${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}" \
+              --source "${UPSTREAM_OWNER}/${UPSTREAM_REPO}" \
+              --branch main --force; then
+            echo "::error::下游对齐失败；下次运行 force-sync 会自动修复，本次游标不更新"
+            exit 1
+          fi
+
+          FINAL_SHA=$(git rev-parse HEAD)
+          echo "FINAL_SYNC_SHA=$FINAL_SHA" >> "$GITHUB_ENV"
+          echo "sha=$FINAL_SHA" >> "$GITHUB_OUTPUT"
+          echo "short_sha=${FINAL_SHA:0:7}" >> "$GITHUB_OUTPUT"
+          echo "✔ 上下游已对齐到同一 commit: ${FINAL_SHA:0:7}"
+
+      # ───────────────────────────────────────────────────────────────
+      # 📝 更新同步游标（LAST_SYNC_COMMIT_SHA）
+      #   刻意放在所有关键步骤之后、且不带 if: always()——前面任何一步
+      #   失败（R2 上传 / Release 镜像 / json 回写）本步骤都会被跳过，
+      #   游标保持旧值，下次运行才能再次检测到 SHA 差异并重试，
+      #   避免"失败却先把游标更新了"导致改动永久丢失。
+      # ───────────────────────────────────────────────────────────────
+      - name: 📝 更新 Commit SHA（同步游标）
+        # should_sync=true：正常同步流程；committed=true：手动重打包
+        # 等 SHA 没变但产生了新 json commit 的场景也要把游标推过去
+        if: steps.check_upstream.outputs.should_sync == 'true' || steps.commit_configs.outputs.committed == 'true'
+        run: |
+          # 优先记录「上下游最终对齐的 commit」（含本次 json 同步），
+          # 下次运行不会被 bot 自己的 commit 触发空转一轮；
+          # 没有新 commit 时退回记录运行开始时的上游 SHA。
+          if [ -n "$FINAL_SYNC_SHA" ]; then
+            gh variable set LAST_SYNC_COMMIT_SHA --body "$FINAL_SYNC_SHA"
+          else
+            gh variable set LAST_SYNC_COMMIT_SHA --body "${{ steps.check_upstream.outputs.commit_sha }}"
+          fi
 
       - name: 📊 生成运行摘要
         if: always()
         run: |
-          echo "## 🎉 同步任务完成（v3）" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎉 同步任务完成（v3.1）" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| 项目 | 值 |" >> $GITHUB_STEP_SUMMARY
           echo "|------|----|" >> $GITHUB_STEP_SUMMARY
@@ -2942,8 +1632,9 @@ jobs:
           echo "| R2 存储桶 | \`${{ env.R2_BUCKET }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 版本 json 同步 | ${{ steps.commit_configs.outputs.committed == 'true' && format('✅ 同一 commit {0} 已推送并对齐上下游（fork 不分叉）', steps.commit_configs.outputs.short_sha) || '⏭️ 无配置变更' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| R2 过时文件清理 | ${{ steps.check_upstream.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量）', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量，已校准 Latest 徽标）', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| CDN 刷新 | EdgeOne（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ Cloudflare（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
