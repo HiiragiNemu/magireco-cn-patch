@@ -1,0 +1,105 @@
+<div id='EventAccomplishRecovery'>
+  <div id="recoveryHead">
+    <div id='remainText' class='flexBox'>
+      <div class='remainNumImgWrap flexBox'> <% _.forEach(String(userEventAccomplish.remainCount).split(''),function(txt){ %> <span class='num num<%= txt %>'></span> <% }) %> </div>
+      <span class='remainMax'>/<%= eventMaster.parameterMap.CURE_COUNT %>次</span>
+    </div>
+    <p class='remainRecoveryText'>回复次数16时重置</p>
+    <div id="sortBtn" class="se_tabs sb_gold_02 TE"><span class="b_screen"></span></div>
+    <div class='orderBtn TE' data-id=""></div>
+  </div>
+  <div id='charaOuterWrap' class='commonFrame2'>
+    <h2>请选择要回复的魔法少女</h2>
+    <p class='recoveryCaution ts_white'>没有需要回复的魔法少女</p>
+    <div id="scrollOuter">
+      <div class="scrollInner">
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/template" id="charaWrapTemp"> <%="<% if(model.reviveAtDisp) { %\>"%>
+		<p class='reviveAtDisp'><%="<%= model.reviveAtDisp %\>"%></p>
+	<%="<% } %\>"%>
+	<div class='statusWrap'>
+		<dl>
+			<%="<% var hp = (model.hp + model.addendHp + model.composeAttribute.composed.HP) - model.damage %\>"%>
+			<%="<% hp = (hp <= 0) ? 1 : hp %\>"%>
+			<%="<% hp = (model.isDeath) ? 0 : hp %\>"%>
+			<%="<% var hpGauge = ((model.hp + model.addendHp + model.composeAttribute.composed.HP) - model.damage) / (model.hp + model.addendHp + model.composeAttribute.composed.HP) * 100 %\>"%>
+			<%="<% hpGauge = (Math.ceil(hpGauge) <= 0) ? 1 : Math.ceil(hpGauge) %\>"%>
+			<%="<% hpGauge = (model.isDeath) ? 0 : hpGauge %\>"%>
+			<dt>HP</dt>
+			<dd class='hpGauge'>
+				<div class='gaugeInner01'><div class='gaugeBg' style='width: <%="<%= hpGauge %\>"%>%'></div></div>
+			</dd>
+			<dd class='hp'><%="<%= hp %\>"%></dd>
+		</dl>
+		<dl>
+			<dt>MP</dt>
+			<dd class='mpGauge'>
+				<div class='gaugeInner01'><div class='gaugeBg' style='width:<%="<%= model.dp %\>"%>%'></div></div>
+				<div class='gaugeInner02'><div class='gaugeBg' style='width:<%="<%= model.mp %\>"%>%'></div></div>
+			</dd>
+			<dd class='mp'><%="<%= model.dp + model.mp %\>"%></dd>
+		</dl>
+		<dl>
+			<dt>ATK</dt>
+			<dd><%="<%= (model.attack + model.addendAttack + model.composeAttribute.composed.ATTACK) %\>"%></dd>
+		</dl>
+		<dl>
+			<dt>DEF</dt>
+			<dd><%="<%= (model.defense + model.addendDefense + model.composeAttribute.composed.DEFENSE) %\>"%></dd>
+		</dl>
+	</div>
+
+	<span class='prm'>
+		<span class="prm_userCardId"><%="<%= model.userCardId %\>"%></span>
+		<span class="prm_charaId"><%="<%= model.charaId %\>"%></span>
+		<span class="prm_att"><%="<%= model.card.attributeId %\>"%></span>
+		<%="<% var getTimeArr = model.createdAt.split(' '); %\>"%>
+		<%="<% var getTime1   = getTimeArr[0].split('/'); %\>"%>
+		<%="<% var getTime2   = getTimeArr[1].split(':'); %\>"%>
+		<%="<% var getDate    = new Date(Number(getTime1[0]), Number(getTime1[1]) - 1, Number(getTime1[2]), Number(getTime2[0]), Number(getTime2[1]), Number(getTime2[2])); %\>"%>
+		<span class="prm_get"><%="<%= getDate.getTime() %\>"%></span>
+		<span class="prm_atk"><%="<%= (model.attack + model.addendAttack + model.composeAttribute.composed.ATTACK) %\>"%></span>
+		<span class="prm_def"><%="<%= (model.defense + model.addendDefense + model.composeAttribute.composed.DEFENSE) %\>"%></span>
+		<span class="prm_hp"><%="<%= (model.hp + model.addendHp + model.composeAttribute.composed.HP) %\>"%></span>
+		<span class="prm_level"><%="<%= model.level %\>"%></span>
+		<span class="prm_eplv"><%="<%= model.episodeLevel %\>"%></span>
+		<span class="prm_rank"><%="<%= model.card.rank.split('_')[1] %\>"%></span>
+		<span class="prm_rev"><%="<%= model.revision %\>"%></span>
+		<span class="prm_mlv"><%="<%= model.magiaLevel %\>"%></span>
+		<span class="prm_mp"><%="<%= model.mp + model.dp %\>"%></span>
+		<%="<% if(model.revivedAt) { %\>"%>
+			<%="<% var reviveTimeArr = model.revivedAt.split(' '); %\>"%>
+			<%="<% var reviveTime1   = reviveTimeArr[0].split('/'); %\>"%>
+			<%="<% var reviveTime2   = reviveTimeArr[1].split(':'); %\>"%>
+			<%="<% var reviveDate    = new Date(Number(reviveTime1[0]), Number(reviveTime1[1]) - 1, Number(reviveTime1[2]), Number(reviveTime2[0]), Number(reviveTime2[1]), Number(reviveTime2[2])); %\>"%>
+			<span class="prm_revivedAt"><%="<%= reviveDate.getTime() %\>"%></span>
+		<%="<% } else { %\>"%>
+			<span class="prm_revivedAt">0</span>
+		<%="<% } %\>"%>
+	</span>
+
+	<%="<% className = 'userCharaIcon ' + model.card.attributeId + ' ' + model.card.rank + ' userCardId' + model.userCharaId %\>"%>
+	<div class='<%="<%= className %\>"%>'>
+		<%="<% att   = 'att_' + model.card.attributeId.toLowerCase() %\>"%>
+		<%="<% star  = 'star_' + model.card.rank.toLowerCase() %\>"%>
+		<%="<% frame = 'frame_' + model.card.rank.toLowerCase() %\>"%>
+		<%="<% bg    = 'bg_' + model.card.attributeId.toLowerCase() %\>"%>
+		<span class='eventIcon'></span>
+		<span class='att' data-nativebgkey='<%="<%= att %\>"%>' data-src='resource/image_native/card/frame/<%="<%= att %\>"%>.png'></span>
+		<span class='star' data-nativebgkey='<%="<%= star %\>"%>' data-src='resource/image_native/card/frame/<%="<%= star %\>"%>.png'></span>
+		<span class='rank' data-nativebgkey='<%="<%= frame %\>"%>' data-src='resource/image_native/card/frame/<%="<%= frame %\>"%>.png'></span>
+		<img data-nativeimgkey='card_<%="<%= model.displayCardId %\>"%>_f' data-src='resource/image_native/card/image/card_<%="<%= model.displayCardId %\>"%>_f.png'>
+		<span class="lv"><span><%="<%= model.level %\>"%></span></span>
+		<span class="atk"><%="<%= (model.attack + model.addendAttack + model.composeAttribute.composed.ATTACK) %\>"%></span>
+		<span class='def'><%="<%= (model.defense + model.addendDefense + model.composeAttribute.composed.DEFENSE) %\>"%></span>
+		<span class='hp'><%="<%= (model.hp + model.addendHp + model.composeAttribute.composed.HP) %\>"%></span>
+		<span class='eplv'><%="<%= model.episodeLevel %\>"%></span>
+		<span class='get'><%="<%= model.createdAt.split(' ')[0].substring( model.createdAt.split(' ')[0].length, 2 ) %\>"%></span>
+		<span class="bg" data-nativebgkey='<%="<%= bg %\>"%>' data-src='resource/image_native/card/frame/<%="<%= bg %\>"%>.png'></span>
+		<span class='rev'><%="<%= model.revision %\>"%></span>
+		<span class='mlv'><%="<%= model.magiaLevel %\>"%></span>
+	</div>
+</script>

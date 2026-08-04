@@ -1,0 +1,75 @@
+<div id="BackdoorLive2d">
+  <div id='charaListShow' class='b_pink btn'>キャラリスト表示</div>
+  <div class='wrap'>
+    <div id="backdoorListWrap">
+      <div class="backdoorList">
+        <div id='backdoorLive2dList'></div>
+        <div class="commonFrame3">
+          <p class="common_title_frame">魔法少女</p>
+          <div class="commonFrame4 voiceBtn" data-voice="01">01:自己紹介</div>
+          <div class="commonFrame4 voiceBtn" data-voice="02">02:自己紹介(ガチャ獲得時)</div>
+        </div>
+        <div class="commonFrame3">
+          <p class="common_title_frame">剧情</p>
+          <div class="commonFrame4 voiceBtn" data-voice="03">03:魔法少女ストーリー1話クリア</div>
+          <div class="commonFrame4 voiceBtn" data-voice="04">04:魔法少女ストーリー2話クリア</div>
+          <div class="commonFrame4 voiceBtn" data-voice="05">05:魔法少女ストーリー3話クリア</div>
+        </div>
+        <div class="commonFrame3">
+          <p class="common_title_frame">育成</p>
+          <div class="commonFrame4 voiceBtn" data-voice="13">13:強化完了</div>
+          <div class="commonFrame4 voiceBtn" data-voice="14">14:強化(Lv最大時)</div>
+          <div class="commonFrame4 voiceBtn" data-voice="15">15:エピソードLvアップ</div>
+          <div class="commonFrame4 voiceBtn" data-voice="16">16:魔力解放①</div>
+          <div class="commonFrame4 voiceBtn" data-voice="17">17:魔力解放②</div>
+          <div class="commonFrame4 voiceBtn" data-voice="18">18:魔力解放③</div>
+          <div class="commonFrame4 voiceBtn" data-voice="19">19:マギアLvアップ</div>
+          <div class="commonFrame4 voiceBtn" data-voice="20">20:魔法少女覚醒①</div>
+          <div class="commonFrame4 voiceBtn" data-voice="21">21:魔法少女覚醒②</div>
+          <div class="commonFrame4 voiceBtn" data-voice="22">22:魔法少女覚醒③</div>
+          <div class="commonFrame4 voiceBtn" data-voice="23">23:魔法少女覚醒④</div>
+        </div>
+        <div class="commonFrame3">
+          <p class="common_title_frame">ホーム</p>
+          <div class="commonFrame4 voiceBtn" data-voice="24">24:ログイン①(初回ログイン時)</div>
+          <div class="commonFrame4 voiceBtn" data-voice="25">25:ログイン②(朝)</div>
+          <div class="commonFrame4 voiceBtn" data-voice="26">26:ログイン③(昼)</div>
+          <div class="commonFrame4 voiceBtn" data-voice="27">27:ログイン④(夜)</div>
+          <div class="commonFrame4 voiceBtn" data-voice="28">28:ログイン⑤(深夜)</div>
+          <div class="commonFrame4 voiceBtn" data-voice="29">29:ログイン⑥(その他)</div>
+          <div class="commonFrame4 voiceBtn" data-voice="30">30:ログイン⑦(AP最大時)</div>
+          <div class="commonFrame4 voiceBtn" data-voice="31">31:ログイン⑧(BP最大時)</div>
+          <div class="commonFrame4 voiceBtn" data-voice="32">32:ログイン⑨(GVG)</div>
+          <div class="commonFrame4 voiceBtn" data-voice="33">33:魔法少女タップ①</div>
+          <div class="commonFrame4 voiceBtn" data-voice="34">34:魔法少女タップ②</div>
+          <div class="commonFrame4 voiceBtn" data-voice="35">35:魔法少女タップ③</div>
+          <div class="commonFrame4 voiceBtn" data-voice="36">36:魔法少女タップ④</div>
+          <div class="commonFrame4 voiceBtn" data-voice="37">37:魔法少女タップ⑤</div>
+          <div class="commonFrame4 voiceBtn" data-voice="38">38:魔法少女タップ⑥</div>
+          <div class="commonFrame4 voiceBtn" data-voice="39">39:魔法少女タップ⑦</div>
+          <div class="commonFrame4 voiceBtn" data-voice="40">40:魔法少女タップ⑧</div>
+          <div class="commonFrame4 voiceBtn" data-voice="41">41:魔法少女タップ⑨</div>
+        </div>
+        <div class="commonFrame3">
+          <p class="common_title_frame">关卡</p>
+          <div class="commonFrame4 voiceBtn" data-voice="42">42:クエスト開始</div>
+          <div class="commonFrame4 voiceBtn" data-voice="43">43:クエスト勝利①</div>
+          <div class="commonFrame4 voiceBtn" data-voice="44">44:クエスト勝利②</div>
+          <div class="commonFrame4 voiceBtn" data-voice="45">45:クエスト勝利③</div>
+          <div class="commonFrame4 voiceBtn" data-voice="46">46:クエスト勝利④</div>
+        </div>
+        <div class="commonFrame3">
+          <p class="common_title_frame">对战</p>
+          <div class="commonFrame4 voiceBtn" data-voice="63">63:マギア発動①</div>
+          <div class="commonFrame4 voiceBtn" data-voice="64">64:マギア発動②</div>
+          <div class="commonFrame4 voiceBtn" data-voice="65">65:マギア発動③</div>
+          <div class="commonFrame4 voiceBtn" data-voice="66">66:マギア発動④</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/template" id="Live2dList"> <%="<% if(model.live2dList) { %\>"%>
+		<%="<% _.forEach(model.live2dList,function(txt,index){ %\>"%><li class='live2dChangeBtn mb_pink <%="<% if(index == 0) { %\>"%>selected<%="<% } %\>"%>' data-live2did='<%="<%= txt.live2dId %\>"%>' data-voicePrefixNo='<%="<%= txt.voicePrefixNo %\>"%>'><%="<%= txt.description %\>"%></li><%="<% }) %\>"%>
+	<%="<% } %\>"%>
+</script>

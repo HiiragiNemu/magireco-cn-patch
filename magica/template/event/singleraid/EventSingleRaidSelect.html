@@ -1,0 +1,169 @@
+<%
+	var eventId        = eventObj.eventId;
+	var pointType      = pointModel.point.pointType;
+	var missionType    = pointModel.point.missionType;
+	var isChallenge    = pointType == "CHALLENGE";
+	var isBoss         = pointType == "BOSS" || pointType == "EXTRA_BOSS";
+	var isExBoss       = pointType == "EXTRA_BOSS";
+
+	var isMissionClear = (pointModel.completedAt) ? "clear" : "";
+	var isClear        = (pointModel.clearedAt)   ? true    : false;
+
+	var pageClass = isBoss ? "typeBoss" : isChallenge ? "challenge" : "";
+	var colorClass = isBoss ? "colorB" : isChallenge ? "colorD" : "colorA";
+
+	var missionCountArr         = String(pointModel.point.missionRequiredCount - pointModel.missionCount).split("");
+	var missionRequiredCountArr = String(pointModel.point.missionRequiredCount).split("");
+	var missionCountText        = (pointModel.point.missionType == "ENEMY_COUNT") ? "体" :
+								  (pointModel.point.missionType == "MAGIA_COUNT") ? "回" : "";
+
+	var missionRatio = isBoss ? (pointModel.point.missionRequiredCount - pointModel.missionCount) /
+	pointModel.point.missionRequiredCount * 100 : pointModel.missionCount / pointModel.point.missionRequiredCount * 100;
+
+	var chapterTitle = isBoss ? "第" + pointModel.point.areaNo + "章 " + "BOSS" :
+												"第" + pointModel.point.areaNo + "章 " + "エリア" + pointModel.point.areaSubNo;
+
+	var pointTitle   = isChallenge ? "チャレンジエリア " + pointModel.point.areaSubNo : pointModel.point.title;
+
+	var areaMissionTitle = (pointType == "BOSS" || pointType == "EXTRA_BOSS") ? "ボスを倒そう！" :
+						   (missionType == "TOTAL_DAMAGE") ?  pointModel.point.missionRequiredCount + "ダメージ与えよう！" :
+						   (missionType == "MAGIA_COUNT")  ? "マギアを" + pointModel.point.missionRequiredCount + "回使おう！" :
+						   "敵を" + pointModel.point.missionRequiredCount + "体倒そう！";
+%> <style type='text/css'>
+  .memoriaEquip
+  {
+    background: url("/magica/resource/image_web/event/singleraid/<%= eventId %>/quest/memoria_equip.png") left top no-repeat;
+  }
+
+</style>
+<div style='display: none;'>
+  <img src="/magica/resource/image_web/event/singleraid/common/quest/boss_num_0.png" alt="">
+  <img src="/magica/resource/image_web/event/singleraid/common/quest/boss_num_1.png" alt="">
+  <img src="/magica/resource/image_web/event/singleraid/common/quest/boss_num_2.png" alt="">
+  <img src="/magica/resource/image_web/event/singleraid/common/quest/boss_num_3.png" alt="">
+  <img src="/magica/resource/image_web/event/singleraid/common/quest/boss_num_4.png" alt="">
+  <img src="/magica/resource/image_web/event/singleraid/common/quest/boss_num_5.png" alt="">
+  <img src="/magica/resource/image_web/event/singleraid/common/quest/boss_num_6.png" alt="">
+  <img src="/magica/resource/image_web/event/singleraid/common/quest/boss_num_7.png" alt="">
+  <img src="/magica/resource/image_web/event/singleraid/common/quest/boss_num_8.png" alt="">
+  <img src="/magica/resource/image_web/event/singleraid/common/quest/boss_num_9.png" alt="">
+</div>
+<div id='EventSingleRaidSelect' class='<%= pageClass %>'>
+  <div id='titleWrap'>
+    <p class='chapter<% if(isChallenge) { %> hide<% } %>'><%= chapterTitle %></p>
+    <p class='title c_purple'><%= pointTitle %></p>
+  </div> <% if (window.isBrowser) { %> <div class="debugArea">
+    <div class="debugBtn TE sb_gold_01" data-mode="missionClearAnim">任务完成</div>
+  </div> <% } %> <div class="charaSerif">
+    <span class="charaName"><%= pointModel.point.displayCharaName %></span>
+    <p class="serifFont"><%= pointModel.point.displayCharaMessage %></p>
+  </div>
+  <div id="areaMissionWrap">
+    <div class='missionState <%= isMissionClear %>'>
+      <div class='text'></div>
+      <div class='icon'></div>
+    </div>
+    <div class="missionTitle <%= colorClass %>"> <%= areaMissionTitle %> </div>
+    <div class="gaugeWrap">
+      <div class='gargeOuterWrap'>
+        <div id='areaMissionGauge' class='gaugeInner' style="width:<%= missionRatio %>%;">
+          <div class="gauge"></div>
+        </div>
+      </div>
+    </div>
+    <div id='arenaMissionCountWrap' class='countWrap'> <% if(isBoss) { %> <div id="arenaMissionCount" class='flexBox'> <% _.each(missionCountArr, function(num) { %> <div class='num<%= num %>'></div> <% }); %> </div>
+      <div class='sla'></div> <% _.each(missionRequiredCountArr, function(num) { %> <div class='num<%= num %>'></div> <% }); %> <% } else { %> <p class=' <%= colorClass %>'>
+        <span id='arenaMissionCount' class=' <%= colorClass %>'><%= pointModel.missionCount %></span>/<%= pointModel.point.missionRequiredCount %><%= missionCountText %>
+      </p> <% } %>
+    </div>
+    <div class="rewardWrap">
+      <div class="title"></div>
+      <div class='flexBox'> <% _.each(pointModel.missionRewardObjArr,function(model){ %> <!-- isMissionClear -->
+        <span class="treasure <%= isMissionClear %>"> <% if(isMissionClear !== 'clear') { %> <img class="treasureImg" src='/magica/resource/image_web/common/treasure/<%= model.chestColor.toLowerCase() %>.png' alt=''> <% } %> <% var itemCode = model.itemCode.toLowerCase(); %> <% if(itemCode.indexOf('memoria') !== -1){ %> <img class="itemImg" src='/magica/resource/image_web/memoria/<%= itemCode %>.png' alt=''> <% } else if(itemCode.indexOf('gift') !== -1) { %> <img class="itemImg" data-nativeimgkey='<%= itemCode %>' data-src='resource/image_native/gift/<%= itemCode %>.png'> <% } else if(itemCode.indexOf('event') !== -1) { %> <img class="itemImg" src='/magica/resource/image_web/item/event/<%= itemCode %>.png' alt=''> <% } else { %> <img class="itemImg" src='/magica/resource/image_web/item/main/<%= itemCode %>.png' alt=''> <% } %> </span> <% }); %>
+      </div>
+    </div>
+    <div class='bg'></div>
+  </div>
+  <div id="questListWrap" class="scrollOuter commonFrame2">
+    <div class="scrollInner">
+      <div id="questDetailWrap">
+        <div class='turn'>回合限制<span><%= section.questBattleList[0].questBattle.limitTurn %></span></div>
+        <div class='needAp pointFrame'>消耗 AP<span><%= section.questBattleList[0].questBattle.ap %></span></div>
+        <div class='missionBtn sb_gold_01 TE se_tabs'>任务</div>
+      </div>
+      <ul id="questLinkList" class="first">
+      </ul> <% if(isMissionClear !== "clear" && isClear && isExBoss) { %> <% if(!eventObj.parameterMap.HINT_SHOP_ID){ %> <div class='memoriaEquip show'></div> <% }else{ %> <div class='memoriaEquip show linkBtn se_decide' data-href='#/ShopTop/<%= eventObj.parameterMap.HINT_SHOP_ID %>'></div> <% } %> <% } else { %> <div class='memoriaEquip'></div> <% } %>
+    </div>
+  </div>
+  <div class='cautionWrap'>
+  </div>
+</div>
+<script type="text/template" id='questPartsTemp'> <%="<% console.log('questListModel:',model) %\>"%>
+	<%="<% var mission1 = (model.missionStatus1 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission2 = (model.missionStatus2 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission3 = (model.missionStatus3 === 'CLEARED') ? 'cleared' : null %\>"%>
+
+	<%="<% var questState = (model.cleared) ? 'clear' : 'new' %\>"%>
+	<%="<%     questState = (mission1 && mission2 && mission3) ? 'comp' : questState %\>"%>
+
+	<%="<% if(model.canPlay) { %\>"%>
+		<span class='questState <%="<%= questState %\>"%>'></span>
+	<%="<% } %\>"%>
+
+	<div class="firstView">
+		<span class='questTitle <%="<%= model.fontColor %\>"%>'><%="<%= model.title %\>"%></span>
+		<ul class='mission'>
+			<li class='<%="<%= mission1 %\>"%>'></li>
+			<li class='<%="<%= mission2 %\>"%>'></li>
+			<li class='<%="<%= mission3 %\>"%>'></li>
+		</ul>
+	</div>
+
+	<ul class='secondView <%="<%= model.fontColor %\>"%>'>
+		<li class='<%="<%= mission1 %\>"%>'><%="<%= model.questBattle.missionMaster1.description %\>"%></li>
+		<li class='<%="<%= mission2 %\>"%>'><%="<%= model.questBattle.missionMaster2.description %\>"%></li>
+		<li class='<%="<%= mission3 %\>"%>'><%="<%= model.questBattle.missionMaster3.description %\>"%></li>
+	</ul>
+
+	<span class="treasure">
+		<%="<% if(questState === 'comp') { %\>"%>
+			<%="<% var itemCode = model.missionRewardObj.itemCode.toLowerCase(); %\>"%>
+			<div class="title clear"></div>
+			<%="<% if(itemCode.indexOf('gift') !== -1) { %\>"%>
+				<img data-nativeimgkey='<%="<%= itemCode %\>"%>' data-src='resource/image_native/gift/<%="<%= itemCode %\>"%>.png' class="giftImg">
+			<%="<% } else if(itemCode.indexOf('event') !== -1) { %\>"%>
+				<img class="itemImg" src='/magica/resource/image_web/item/event/<%="<%= itemCode %\>"%>.png' alt=''>
+			<%="<% } else { %\>"%>
+				<img class="itemImg" src='/magica/resource/image_web/item/main/<%="<%= itemCode %\>"%>.png' alt=''>
+			<%="<% } %\>"%>
+		<%="<% } else { %\>"%>
+			<div class="title"></div>
+			<img class="treasureImg" src='/magica/resource/image_web/common/treasure/<%="<%= model.missionRewardObj.chestColor.toLowerCase() %\>"%>.png' alt=''>
+		<%="<% } %\>"%>
+	</span>
+
+	<span class="touchObj"></span>
+
+	<span class="params">
+		<span class="questType" data-questtype='SINGLERAID'></span>
+		<span class="questIndex" data-questindex='<%="<%= model.questBattle.sectionIndex %\>"%>'></span>
+	</span>
+</script>
+<script type="text/template" id="raidAnimationTemp"> <div class="raidAnimationDom">
+		<div class="animDoms">
+			<div class="raidStar01_1"></div>
+			<div class="raidStar01_2 fadeAnim"></div>
+			<div class="raidStar02"></div>
+			<div class="raidTx01 fadeAnim"></div>
+			<div class="raidTx02 fadeAnim"></div>
+			<div class="raidTx03 fadeAnim"></div>
+			<div class="raidTx04 fadeAnim"></div>
+			<div class="raidFlag01 fadeAnim"></div>
+			<div class="raidFlag02 fadeAnim"></div>
+			<div class="raidCircle01"></div>
+			<div class="raidCircle02"></div>
+		</div>
+		<div id="missionClearBg"></div>
+		<div id="missionClearMaskBg"></div>
+	</div>
+</script>

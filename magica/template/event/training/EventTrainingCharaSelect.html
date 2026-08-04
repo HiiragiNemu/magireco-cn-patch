@@ -1,0 +1,74 @@
+<% var eventId = (eventMaster) ? eventMaster.eventId : '1022'; %> <% var shopId  = (eventMaster) ? eventMaster.shopId  : '0'; %> <div id='EventTrainingCharaSelect'>
+  <div id='eventLogo'>
+    <img src="/magica/resource/image_web/event/training/<%= eventId %>/logo.png" alt="">
+  </div>
+  <div id='helpBtn' class='se_decide TE sb_gold_02' data-eventid="<%= eventId %>">玩法</div>
+  <div id='archiveBtn' class='se_decide TE sb_gold_02 linkBtn' data-href="#/StoryCollection/<%= eventId %>">回顾</div>
+  <div class="charaSerif">
+    <span class="charaName">八云 御魂</span>
+    <p class="serifFont"><%= eventTraining.message %></p>
+  </div>
+  <div id='charaSelectWrap'>
+    <div class="charaOuter">
+      <div class='btnWrap'>
+        <p>请选择要特训的魔法少女</p>
+        <div id='decideBtn' class='btn b_pink off TE se_decide'>确定</div>
+      </div>
+    </div>
+  </div>
+  <div class='charaSelectBg'></div>
+</div>
+<script type="text/template" id="CharaPartsTemp"> <span class='prm_charaId'><%="<%= model.charaId || '' %\>"%></span>
+	<div class='headBg'></div>
+	<div class='bottomBg'></div>
+	<div class="select"></div>
+	<div class="tapArea"></div>
+
+	<div class="maskWrap">
+		<%="<% if(model.displayCardId) { %\>"%>
+			<%="<% if(model.img['card_' + model.displayCardId + '_v']) { %\>"%>
+				<%="<% var _img = ''; %\>"%>
+				<%="<% if(!window.isBrowser) _img += 'data:image/png;base64,' %\>"%>
+				<%="<% _img += model.img['card_' + model.displayCardId + '_v'] %\>"%>
+
+				<img class="charaImg" src='<%="<%= _img %\>"%>' alt=''>
+			<%="<% } else { %\>"%>
+				<img class="charaImg"
+					 data-nativeimgkey='card_<%="<%= model.displayCardId %\>"%>_v'
+					 data-src='resource/image_native/card/image/card_<%="<%= model.displayCardId %\>"%>_v.png' alt=''>
+			<%="<% } %\>"%>
+		<%="<% } %\>"%>
+
+		<%="<% if(model.card) { %\>"%>
+		<div class="status">
+			<div id="attribute"><span class='type_f <%="<%= model.chara.attributeId %\>"%>'></span></div>
+			<p id="level" class="ts_gold">Lv <%="<%= model.level %\>"%></p>
+			<div id="rare" class='<%="<%= model.card.rank %\>"%>'>
+				<%="<% var i = 0; %\>"%>
+				<%="<% var maxRare = model.maxRare; %\>"%>
+				<%="<% while(i < maxRare) { %\>"%>
+					<span></span>
+					<%="<% i=(i+1)|0; %\>"%>
+				<%="<% } %\>"%>
+			</div>
+
+			<div class="epTitle"></div>
+			<p class='epLevel'><%="<%= model.episodeLevel %\>"%></p>
+			<div class="epGaugeWrap">
+				<div class="epGaugeInner" style='width:<%="<%= model.epExpRatio %\>"%>%;'>
+					<div class="gauge"></div>
+				</div>
+			</div>
+			<dl class="charaStatus">
+				<dt class="c_gold">HP</dt>
+				<dd><%="<%= model.hp %\>"%></dd>
+				<dt class="c_gold">ATK</dt>
+				<dd><%="<%= model.attack %\>"%></dd>
+				<dt class="c_gold">DEF</dt>
+				<dd><%="<%= model.defense %\>"%></dd>
+			</dl>
+		</div>
+		<%="<% } %\>"%>
+	</div>
+	<div class="bg"></div>
+</script>

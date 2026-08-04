@@ -1,0 +1,428 @@
+<style type="text/css">
+  #CompleteAnimation
+  {
+    width: 1024px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  #CompleteAnimation.finish div
+  {
+    -webkit-animation: .25s finishCommon ease-in-out 0s 1 normal;
+    -webkit-animation-fill-mode: both;
+  }
+
+  #completeText
+  {
+    width: 616px;
+    height: 80px;
+    background: url('/magica/resource/image_web/event/accomplish/common/anim/anim_text_story.png') left center no-repeat;
+    position: fixed;
+    left: 205px;
+    top: -webkit-calc(50% - 63px);
+    z-index: 13;
+    -webkit-animation: .25s animText ease-in-out .8s 1 normal;
+    -webkit-animation-fill-mode: forwards;
+    opacity: 0;
+  }
+
+  #completeText.challenge
+  {
+    background: url('/magica/resource/image_web/event/accomplish/common/anim/anim_text_challenge.png') left center no-repeat;
+  }
+
+  .completeMark
+  {
+    width: 616px;
+    height: 100px;
+    background: url('/magica/resource/image_web/event/accomplish/common/anim/anim_text_complete.png') left center no-repeat;
+    position: fixed;
+    left: 205px;
+    top: -webkit-calc(50% - 19px);
+    z-index: 12;
+    -webkit-animation: .25s animMark ease-in-out .8s 1 normal;
+    -webkit-animation-fill-mode: forwards;
+    opacity: 0;
+  }
+
+  .completeLine
+  {
+    width: 520px;
+    height: 152px;
+    background: url('/magica/resource/image_web/event/accomplish/common/anim/anim_line.png') left center no-repeat;
+    position: fixed;
+    top: -webkit-calc(50% - 81px);
+    left: 254px;
+    z-index: 11;
+    -webkit-animation: .37s animLine ease-in-out .93s 1 normal;
+    -webkit-animation-fill-mode: forwards;
+    opacity: 0;
+  }
+
+  .completeEf,
+  .completeEfOverlay
+  {
+    width: 616px;
+    height: 334px;
+    background: url('/magica/resource/image_web/event/accomplish/common/anim/anim_bg_complete.png') left center no-repeat;
+    position: fixed;
+    top: -webkit-calc(50% - 173px);
+    left: 205px;
+  }
+
+  .completeEf
+  {
+    z-index: 10;
+    -webkit-animation: .25s animBg ease-in-out .8s 1 normal;
+    -webkit-animation-fill-mode: forwards;
+    opacity: 0;
+  }
+
+  .completeEfOverlay
+  {
+    z-index: 11;
+    mix-blend-mode: screen;
+    -webkit-animation: .5s animBgOverlay ease-in-out 1.05s 1 normal;
+    -webkit-animation-fill-mode: forwards;
+    opacity: 0;
+  }
+
+  #storyClearBg
+  {
+    width: 100%;
+    height: 100%;
+    background: url('/magica/resource/image_web/page/quest/animation/clear_mask.png') left center no-repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
+    -webkit-animation: .167s clearMaskFadeIn ease-in-out .5s 1 normal;
+    -webkit-animation-fill-mode: forwards;
+    opacity: 0;
+    z-index: 2;
+  }
+
+  #storyClearMaskBg
+  {
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    -webkit-animation: .167s clearBgMaskFadeIn ease-in-out .5s 1 normal;
+    -webkit-animation-fill-mode: forwards;
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .challengeOpenWrap
+  {
+    width: 410px;
+    height: 40px;
+    position: fixed;
+    top: -webkit-calc(50% + 196px);
+    left: 308px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, .6);
+    font-size: 22px;
+    text-align: center;
+    color: #f7f2b4;
+    line-height: 40px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 6),
+      -1px 1px 1px rgba(0, 0, 0, 6),
+      1px -1px 1px rgba(0, 0, 0, 6),
+      -1px -1px 1px rgba(0, 0, 0, 6);
+    -webkit-animation: .5s challengeOpen linear .8s 1 normal;
+    -webkit-animation-fill-mode: forwards;
+    opacity: 0;
+    z-index: 12;
+  }
+
+  @-webkit-keyframes animText
+  {
+    0%
+    {
+      -webkit-transform: translateY(-45px) translateZ(0);
+      opacity: 0;
+    }
+
+    100%
+    {
+      -webkit-transform: translateY(0) translateZ(0);
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes animMark
+  {
+    0%
+    {
+      -webkit-transform: translateY(45px) translateZ(0);
+      opacity: 0;
+    }
+
+    100%
+    {
+      -webkit-transform: translateY(0) translateZ(0);
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes animLine
+  {
+    0%
+    {
+      -webkit-transform: scaleX(0) scaleY(1) translateZ(0);
+      opacity: 0;
+    }
+
+    100%
+    {
+      -webkit-transform: scaleX(1) scaleY(1) translateZ(0);
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes animBg
+  {
+    0%
+    {
+      -webkit-transform: scaleX(0.2) scaleY(0.9) translateZ(0);
+      opacity: 0;
+    }
+
+    100%
+    {
+      -webkit-transform: scaleX(1) scaleY(1) translateZ(0);
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes animBgOverlay
+  {
+    0%
+    {
+      -webkit-transform: scaleX(1) scaleY(1) translateZ(0);
+      opacity: .2;
+    }
+
+    100%
+    {
+      -webkit-transform: scaleX(1.8) scaleY(1.8) translateZ(0);
+      opacity: 0;
+    }
+  }
+
+  @-webkit-keyframes clearMaskFadeIn
+  {
+    0%
+    {
+      -webkit-transform: scaleY(0);
+      opacity: 0;
+    }
+
+    100%
+    {
+      -webkit-transform: scaleY(1);
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes clearBgMaskFadeIn
+  {
+    0%
+    {
+      opacity: 0;
+    }
+
+    100%
+    {
+      opacity: .6;
+    }
+  }
+
+  @-webkit-keyframes challengeOpen
+  {
+
+    0%,
+    49%
+    {
+      opacity: 0;
+    }
+
+    50%,
+    100%
+    {
+      opacity: 1;
+    }
+  }
+
+  /* QuestCommon.css 共通アニメーション */
+  @-webkit-keyframes finishCommon
+  {
+    0%
+    {
+      -webkit-transform: scaleY(1);
+      opacity: 1;
+    }
+
+    100%
+    {
+      -webkit-transform: scaleY(0);
+      opacity: 0;
+    }
+  }
+
+  /* scss移植用
+	#CompleteAnimation{
+		width: 1024px;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		&.finish div{
+			-webkit-animation: .25s finishCommon ease-in-out 0s 1 normal;
+			-webkit-animation-fill-mode: both;
+		}
+
+		#completeText{
+			width: 616px;
+			height: 80px;
+			background: url('/magica/resource/image_web/event/accomplish/common/anim/anim_text_story.png') left center no-repeat;
+			position: fixed;
+			left: 205px;
+			top: -webkit-calc(50% - 63px);
+			z-index:13;
+
+			-webkit-animation: .25s animText ease-in-out .8s 1 normal;
+			-webkit-animation-fill-mode: forwards;
+
+			opacity: 0;
+			&.challenge{
+				background: url('/magica/resource/image_web/event/accomplish/common/anim/anim_text_challenge.png') left center no-repeat;
+			}
+		}
+		.completeMark{
+			width: 616px;
+			height: 100px;
+			background: url('/magica/resource/image_web/event/accomplish/common/anim/anim_text_complete.png') left center no-repeat;
+			position: fixed;
+			left: 205px;
+			top: -webkit-calc(50% - 19px);
+			z-index:12;
+
+			-webkit-animation: .25s animMark ease-in-out .8s 1 normal;
+			-webkit-animation-fill-mode: forwards;
+
+			opacity: 0;
+		}
+		.completeLine{
+			width: 520px;
+			height: 152px;
+			background: url('/magica/resource/image_web/event/accomplish/common/anim/anim_line.png') left center no-repeat;
+			position: fixed;
+			top: -webkit-calc(50% - 81px);
+			left: 254px;
+			z-index: 11;
+
+			-webkit-animation: .37s animLine ease-in-out .93s 1 normal;
+			-webkit-animation-fill-mode: forwards;
+
+			opacity: 0;
+		}
+		.completeEf, .completeEfOverlay{
+			width: 616px;
+			height: 334px;
+			background: url('/magica/resource/image_web/event/accomplish/common/anim/anim_bg_complete.png') left center no-repeat;
+			position: fixed;
+			top: -webkit-calc(50% - 173px);
+			left: 205px;
+		}
+		.completeEf{
+			z-index: 10;
+
+			-webkit-animation: .25s animBg ease-in-out .8s 1 normal;
+			-webkit-animation-fill-mode: forwards;
+
+			opacity: 0;
+		}
+		.completeEfOverlay{
+			z-index: 11;
+			mix-blend-mode: screen;
+
+			-webkit-animation: .5s animBgOverlay ease-in-out 1.05s 1 normal;
+			-webkit-animation-fill-mode: forwards;
+
+			opacity: 0;
+		}
+		#storyClearBg {
+			width: 100%;
+			height: 100%;
+			background: url('/magica/resource/image_web/page/quest/animation/clear_mask.png') left center no-repeat;
+
+			position: fixed;
+			top: 0;
+			left: 0;
+
+			-webkit-animation: .167s clearMaskFadeIn ease-in-out .5s 1 normal;
+			-webkit-animation-fill-mode: forwards;
+
+			opacity: 0;
+			z-index: 2;
+
+		}
+		#storyClearMaskBg {
+			width: 100%;
+			height: 100%;
+			background: #000000;
+
+			position: fixed;
+			top: 0;
+			left: 0;
+
+			-webkit-animation: .167s clearBgMaskFadeIn ease-in-out .5s 1 normal;
+			-webkit-animation-fill-mode: forwards;
+
+			opacity: 0;
+			z-index: 1;
+		}
+		.challengeOpenWrap{
+			width: 410px;
+			height: 40px;
+			position: fixed;
+			top: -webkit-calc(50% + 196px);
+			left: 308px;
+
+			border-radius: 20px;
+			background:rgba(0,0,0,.6);
+
+			font-size:22px;
+			text-align: center;
+			color:#f7f2b4;
+
+			line-height: 40px;
+			text-shadow : 1px 1px 1px rgba(0,0,0,6),
+						  -1px 1px 1px rgba(0,0,0,6),
+						  1px -1px 1px rgba(0,0,0,6),
+						  -1px -1px 1px rgba(0,0,0,6);
+
+			-webkit-animation: .5s challengeOpen linear .8s 1 normal;
+			-webkit-animation-fill-mode: forwards;
+
+			opacity: 0;
+			z-index:12;
+		}
+	}
+	*/
+
+</style>
+<div id="CompleteAnimation">
+  <div id="completeText" class="<%= type %>"></div>
+  <div class="completeMark"></div>
+  <div class="completeLine"></div>
+  <div class="completeEfOverlay"></div>
+  <div class="completeEf"></div> <% if(type === "story"){ %> <div class="challengeOpenWrap">挑战关卡已解放!</div> <% } %> <div id="storyClearBg"></div>
+  <div id="storyClearMaskBg"></div>
+</div>

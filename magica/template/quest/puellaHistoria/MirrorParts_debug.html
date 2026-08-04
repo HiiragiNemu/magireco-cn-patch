@@ -1,0 +1,42 @@
+<div id="nativeTouchWrap"></div>
+<div class="adjustSec">
+  <div class="adjustBtn btn sb_gold_01 TE" id="adjustBtn"> 调整魂与镜 </div>
+  <div class="overviewSampleBtn btn sb_gold_01 TE" id="overviewSampleBtn"> 概要弹窗 </div>
+  <div class="openStorySampleBtn btn sb_gold_01 TE" id="openStorySampleBtn"> 解放弹窗 </div>
+  <div class="clearMovieSampleBtn btn sb_gold_01 TE" id="clearMovieSampleBtn"> 通关演出显示 </div>
+</div>
+<script id="adjustPopupTemp" type="text/template"> <div class="title">【魂之器】</div>
+	X坐标:<input type="number" class="number" id="soulX">
+	Y坐标:<input type="number" class="number" id="soulY">
+	缩放:<input type="number" class="number" id="soulScale">
+	<br><br>
+	<div class="title">【镜】</div>
+	初始X坐标:<input type="number" class="number" id="startX">
+	初始Y坐标:<input type="number" class="number" id="startY">
+	缩放:<input type="number" class="number" id="mirrorScale">
+	<br><br>
+	镜宽:<input type="number" class="number" id="mirrorW">
+	<div class="title">【iPad用】</div>镜纵向偏移:<input type="number" class="number" id="mirrorLag">
+	<br><br>
+	※缩放比例「1」为100%
+</script>
+<script id="clearCheckPopupTemp" type="text/template"> <div class="title">【魂之器】</div>
+	opened:<input type="number" class="number" id="opened">
+	<br>
+	<div class="title">【镜:1】</div>
+	state:<input type="number" class="number" id="state_1">
+	isClear:<input type="text" class="text" id="isClear_1">
+	openUp:<input type="number" class="number" id="openUp_1">
+	<br>
+	<div class="title">【镜:2】</div>
+	state:<input type="number" class="number" id="state_2">
+	isClear:<input type="text" class="text" id="isClear_2">
+	openUp:<input type="number" class="number" id="openUp_2">
+	<br>
+	<div class="title">【镜:3】</div>
+	state:<input type="number" class="number" id="state_3">
+	isClear:<input type="text" class="text" id="isClear_3">
+	openUp:<input type="number" class="number" id="openUp_3">
+	<br><br>
+	※isClear请填入「true」「false」
+</script>

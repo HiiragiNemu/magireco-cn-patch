@@ -1,0 +1,50 @@
+<div class="currentRankingSec">
+  <div class="currentRanking">
+    <span class="title">当前排名</span>
+    <span class="num"><%= model.rankInfo.orderRank %>名</span>
+  </div>
+  <div class="maxRanking">
+    <span class="title">最高排名</span>
+    <span class="num"><%= model.rankInfo.highestOrderRank %>名</span>
+  </div>
+</div>
+<ul class="btnSec common_tab">
+  <li class="changeBtn TE rank" data-id="rank"></li>
+  <li class="changeBtn TE daily" data-id="daily"></li>
+  <li class="changeBtn TE lastRank" data-id="lastRank"></li>
+</ul>
+<div id="listWrap" class="">
+  <div class="listScrollInner" id="listText">
+    <div class="explainTextSec">
+      <span class="text rank">
+        ■升段报酬<br>
+        刷新排行榜最高排名,即可获得魔法石。
+      </span>
+      <span class="text daily">
+        ■每日报酬<br>
+        根据活动期间达到的排行榜最高排名<br>
+        每天可获得1次「段位奖章」。
+      </span>
+      <span class="text lastRank">
+        ■最终排名报酬<br>
+        根据活动结束后确定的排行榜排名<br>
+        可以获得徽章和「御魂勋章」。
+      </span>
+    </div>
+    <table class="listTable dailyMaxRank">
+      <%= model.dailyList %>
+      <%= model.maxRankList %>
+    </table>
+    <div class="lastRankTableSec">
+      <table class="listTable lastRank">
+        <tr>
+          <th class="empty"></th>
+          <th>徽章</th>
+          <th>御魂勋章</th>
+        </tr>
+        <%= model.lastRankingList %>
+      </table>
+      <div class="blindSec"></div>
+    </div>
+  </div>
+</div>

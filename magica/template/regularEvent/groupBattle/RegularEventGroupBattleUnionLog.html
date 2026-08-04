@@ -1,0 +1,19 @@
+<div id="RegularEventGroupBattleUnionLog">
+  <!-- タイトル -->
+  <div id="eventLogo"></div>
+  <div id="title">势力图</div>
+  <!-- 勢力図リスト -->
+  <div id="unionSelectWrap">
+    <div id="unionSelectCaution"></div>
+    <div id="unionSelectBtnList"> <% _.forEach(charaUnionResultList,function(union){ %> <div class="name"><%= union.name %></div>
+      <div class="score"><%= union.score %></div>
+      <div class="gauge" style="height:<%= union.score %>%"></div> <% if (isChampion) { %><div class="champion"></div><% } %> <% }) %>
+    </div>
+  </div>
+  <!-- グループ情報 -->
+  <div id="userGroupWrap">
+    <div id="userUnion">所属势力:<%= userUnion.name %></div>
+    <div id="userName"><%= gameUser.name %></div>
+    <div id="userGp">持有GP:<%= userUnion.score %></div> <% if (1) { %> <div class="btn changePageBtn TE b_white" data-pageid="PAGE_UNION_LOG">小组首页</div> <% } %>
+  </div>
+</div>

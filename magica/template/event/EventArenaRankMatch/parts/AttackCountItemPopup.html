@@ -1,0 +1,23 @@
+<div class="<%= model.statusClass %>">
+  <div class="canUse">
+    使用<span class='c_pink'>1张</span><span class='c_pink'><%= model.attackCountInfo.itemName %></span><br> 即可回复<span class='c_pink'>1次</span>镜界排位赛的对战次数。<br> 要使用几个?<br> （本日剩余对战次数 <span class='c_pink'><%= model.attackCountInfo.num %>/<%= model.attackCountInfo.numMax %></span>）<br>
+  </div>
+  <div class="amountSelectWrap">
+    <span class="titles c_gold">使用数</span>
+    <div id="amountMinus" class="TE se_decide"><span class='b_screen'></span></div>
+    <div id="amountPlus" class="TE se_decide"><span class='b_screen'></span></div>
+    <div class="amountNums">
+      <span id="amountSelects">1</span>/<span id="amountMax"><%= model.maxNum %></span>
+    </div>
+    <div class="btn sb_gold_02 se_decide TE maxBtn"><span class="b_screen"></span>MAX</div>
+  </div>
+  <div class="itemInfoWrap">
+    <img class='useItemIcon' src="/magica/resource/image_web/event/arenaRankMatch/common/top/icon_rank_match_battle_recovery_f.png" />
+    <div class='stoneA pointFrame'> 持有 <span class="num"> <%= model.attackCountInfo.itemNum %> <span class="remain">
+          <span class="arrow">&#9654;</span>
+          <span id="itemUseNum"><%= model.attackCountInfo.itemUseNum %></span>
+        </span>
+      </span>
+    </div>
+  </div>
+</div>

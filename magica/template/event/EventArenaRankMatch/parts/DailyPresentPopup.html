@@ -1,0 +1,19 @@
+<div id="itemList">
+  <div id="itemScrollOuter">
+    <div class="itemScrollInner" id="listSec">
+    </div>
+  </div>
+  <div class="rankSec">
+    <span class="title">排名</span>
+    <span class="num"><%= model.userRank %>名</span>
+  </div>
+</div>
+<div class="textSec"> 已领取每日报酬。<br> ※领取的道具已直接发放。 </div>
+<!-- アイテム用テンプレート -->
+<script id="itemTemp" type="text/template"> <div class="item">
+  <p class="numWrap c_white">
+    <span class="getNum ts_gold">×<%='<%= model.num %\>'%></span>
+  </p>
+  <img src="<%='<%= model.img %\>'%>" alt="" class="img">
+</div>
+</script>

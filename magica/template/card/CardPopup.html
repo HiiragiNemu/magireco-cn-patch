@@ -1,0 +1,26 @@
+	<span class="closeDefault se_cancel popupCloseBtn TE"></span>
+	<div id="cardDetailPopup">
+	  <div class="popupCardImage">
+	    <img src="<%= resDir %>/magica/resource/image_web/card_n/card_n_<%= model.cardId %>_c.png">
+	  </div>
+	  <div class="popupDetailWrap">
+	    <span class="cardName"><%= _.escape(model.card.cardName) %></span>
+	    <span class="cardRare">RARE：<%= model.card.rank %></span>
+	    <span class="cardLevel">Lv：<%= model.level %>/<%= model.maxLevel %></span>
+	    <span class="cardCost">BP：<%= model.battleCost %></span><br>
+	    <span class="cardHp">HP：<%= model.hp %></span>
+	    <span class="cardAttack">ATK：<%= model.attack %></span>
+	    <span class="cardDefence">DEF：<%= model.defense %></span>
+	    <span class="cardSpeed">SPD：<%= spdRank %></span>
+	    <div class="wrapCol">
+	      <div class="cardSkillWrap">
+	        <span class="skillName"><%= model.card.cardSkill.name %>&nbsp;&nbsp;</span>
+	        <span class="skillDes"><%= model.card.cardSkill.description %></span>
+	      </div>
+	      <div class="cardDiskWrap">
+	        <span class="diskName">初始盘</span>
+	        <span class="diskList">presetDiskList</span>
+	      </div>
+	    </div>
+	  </div>
+	</div>

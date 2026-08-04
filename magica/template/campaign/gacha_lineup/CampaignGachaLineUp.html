@@ -1,0 +1,48 @@
+<div id="CampaignGachaLineUp">
+  <div class="titleWrap">
+    <img src="/magica/resource/image_web/campaign/gacha_lineup/<%= campaign.id %>/gacha_<%= campaign.id %>_banner_l.png">
+  </div>
+  <div class="charaSelectWrap">
+    <div id="leftArrow" class="se_tabs TE"></div>
+    <div id="rightArrow" class="se_tabs TE"></div>
+    <div id="btnWrap">
+      <div class="btnWrapInner"> <% var evenNumber = false; %> <% var baseNumber = gachaList.length %> <% _.each(gachaList,function(model,index){ %> <%
+						var orderNum = (evenNumber) ? baseNumber - index : baseNumber + index;
+						evenNumber = (evenNumber) ? false : true;
+					%> <div class="cardBtn se_decide TE linkBtn<% if(index === 0){ %> forcus<% }%>" data-href="#/GachaTop/<%= model.gachaId %>" style="order:<%= orderNum %>;-webkit-order:<%= orderNum %>" id="btnImage<%= model.gachaId %>">
+          <div class="iconLine"></div>
+          <div class="iconWrap">
+            <img data-nativeimgkey="card_<%= model.cardId %>_m" data-src="resource/image_native/card/image/card_<%= model.cardId %>_m.png" alt="">
+          </div>
+          <div class="effect"></div>
+          <div class="redFrame"></div>
+        </div> <% if(gachaList.length > 5 && index > gachaList.length - 5){ %> <% var dummyOrder = (index % 2 !== 0) ? 999 - index : -999 + index; %> <div class="cardBtn se_decide TE linkBtn" data-href="#/GachaTop/<%= model.gachaId %>" style="order:<%= dummyOrder %>;-webkit-order:<%= dummyOrder %>" id="btnImage<%= model.gachaId %>">
+          <div class="iconLine"></div>
+          <div class="iconWrap">
+            <img data-nativeimgkey="card_<%= model.cardId %>_m" data-src="resource/image_native/card/image/card_<%= model.cardId %>_m.png" alt="">
+          </div>
+        </div> <% } %> <% }) %> </div>
+    </div>
+  </div>
+  <div class="sideFrame">
+    <img src="/magica/resource/image_web/campaign/gacha_lineup/<%= campaign.id %>/gachatop_bg.png">
+  </div>
+  <div class="charaImageWrap"> <% _.each(gachaList,function(model,index){ %> <img id="cardImage<%= model.gachaId %>" data-nativeimgkey="card_<%= model.cardId %>_l" data-src="resource/image_native/card/image/card_<%= model.cardId %>_l.png" alt="" <% if(index === 0){%> class="show" <%}%>>
+		<% }) %> </div>
+    <div id="listPopupBtn" class="TE se_decide">
+    </div>
+    <script id="listPopTemp" type="text/template"> <div class="popupInner">
+		<span class="closeDefault se_cancel popupCloseBtn TE"></span>
+		<p id="popupInfoDetailTitle" class="popupTitle">选择对象一览</p>
+
+		<div id="scrollOuter">
+			<div class="scrollInner">
+				<%='<% _.each(model.gachaList,function(txt){ %\>'%>
+					<div class="TE se_decide linkBtn banners" data-href="#/GachaTop/<%='<%= txt.gachaId %\>'%>">
+						<img src="/magica/resource/image_web/campaign/gacha_lineup/<%='<%= model.campaignId %\>'%>/lineup_banner_<%='<%= txt.gachaId %\>'%>_m.png">
+					</div>
+				<%='<% }) %\>'%>
+			</div>
+		</div>
+	</div>
+</script>

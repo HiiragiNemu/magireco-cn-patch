@@ -1,0 +1,91 @@
+<%
+	var deck = [];
+	var _deck = model.userDeck;
+	var _card = model.userCardList;
+	for(var i = 1; i < 10; i++){
+		var searchName1 = "questPositionId"+i;
+		var searchName2 = "userCardId"+i;
+		var position    = _deck[searchName1];
+		var card        = _.findWhere(_card,{id:_deck[searchName2]});
+		if(position && card){
+			deck[position] = card;
+		}
+	}
+
+	var eventId = eventMaster.eventId;
+	console.log(eventMaster)
+%> <div id="arenaConfirm" class='EventArenaMission'>
+  <div class="closeBtn se_cancel"></div>
+  <div id="confirmFormation"> <% for(var i=1;i<10;i++){ %> <% if(model.userDeck.formationSheet["place"+i]){ %> <div class="formationCols col<%= i %> on"> <% if(deck[i]){ %> <% var cardData = deck[i]; %> <div class="userCharaIcon <%= cardData.card.rank %> <%= cardData.card.attributeId %>"> <% att = 'att_' + cardData.card.attributeId.toLowerCase(); %> <% star = 'star_' + cardData.card.rank.toLowerCase(); %> <% frame = 'frame_' + cardData.card.rank.toLowerCase(); %> <% bg = 'bg_' + cardData.card.attributeId.toLowerCase(); %> <span class="att" data-nativebgkey='<%= att %>' data-src='resource/image_native/card/frame/<%= att %>.png'></span>
+        <span class="star" data-nativebgkey='<%= star %>' data-src='resource/image_native/card/frame/<%= star %>.png'></span>
+        <span class="rank" data-nativebgkey='<%= frame %>' data-src='resource/image_native/card/frame/<%= frame %>.png'></span>
+        <img data-nativeimgkey='card_<%= cardData.displayCardId %>_f' data-src='resource/image_native/card/image/card_<%= cardData.displayCardId %>_f.png'>
+        <span class="lv"><span><%= cardData.level %></span></span>
+        <span class="bg" data-nativebgkey='<%= bg %>' data-src='resource/image_native/card/frame/<%= bg %>.png'></span>
+      </div> <% } %> <% var effectArr = []; %> <div class="formationEffect"> <% effectArr[i] = model.userDeck.formationSheet['place'+i].split(','); %> <% if(effectArr[i][0].split('_')[2].indexOf('0') == -1) { %> <% formationAtt = effectArr[i][0].split('_')[0].toLowerCase(); %> <img class="attIcon" src='/magica/resource/image_web/common/chara/att_<%= formationAtt %>.png'>
+        <div class="effective"> <% _.forEach(effectArr[i],function(txt){ %> <% var fileName = txt.toLowerCase().split('_')[1]+'_'+txt.toLowerCase().split('_')[2] %> <% if(fileName.indexOf('0') == -1) { %> <img src='/magica/resource/image_web/icon/formation/<%= fileName %>.png'> <% } %> <% }) %> </div> <% } %>
+      </div>
+    </div> <% } %> <% } %> </div>
+  <div class="formationArrow"></div>
+  <div id="confirmInfo">
+    <div class="confirmHeader">对战对手</div>
+    <div class="confirmLvWrap colorE">Rank<%= model.userRank %></div>
+    <div class="confirmNameWrap colorC"><%= _.escape(model.userName) %></div>
+    <div class="confirmPower colorC"><%= model.userRatingPoint %></div>
+    <div class="confirmPoint colorC"><%= model.userEventArenaMission.eventPoint %>Pt</div> <% var diffBonusArr  = ["0.8","1.0","1.2"]; %> <div class="confirmBonus">&nbsp;获得&nbsp;Pt×<%= diffBonusArr[model.difficult] %></div>
+    <div class="diffMark diff<%= model.difficult %>"></div>
+    <div class="leaderImage">
+      <img data-nativeimgkey='card_<%= model.leaderUserCard.displayCardId %>_m' data-src='resource/image_native/card/image/card_<%= model.leaderUserCard.displayCardId %>_m.png'>
+    </div>
+  </div>
+  <div id='eventItemWrap'>
+    <div class="title"></div>
+    <div class="lvWrap colorE">Rank<%= pageModel.gameUser.level %></div>
+    <div class="nameWrap colorC"><%= _.escape(pageModel.user.loginName) %></div>
+    <div class="power colorC"><%= pageModel.userArenaMissionStageMatch.userRatingPoint %></div>
+    <div class="leaderImage"> <% var arenaDeck = _.findWhere(pageModel.userDeckList,{"deckType":22}); %> <%
+				if(arenaDeck.questEpisodeUserCardId) {
+					var leaderCard = _.findWhere(pageModel.userCardList,{"id":(arenaDeck.questEpisodeUserCardId)});
+				} else {
+					// debug
+					var leaderCard = _.findWhere(pageModel.userCardList,{"id":(arenaDeck.userCard1)});
+				}
+			%> <img data-nativeimgkey='card_<%= leaderCard.displayCardId %>_m' data-src='resource/image_native/card/image/card_<%= leaderCard.displayCardId %>_m.png'>
+    </div>
+    <div id="itemUseWrap">
+      <div class='cancelBtn sb_gold_02 TE'>取消选择</div>
+      <div class='controller flexBox'>
+        <div class='item <%= (buffItem.hp.quantity) ? "" : "off" %>' data-id='hp'>
+          <img src="/magica/resource/image_web/item/event/<%= buffItem.hp.itemId.toLowerCase() %>.png" alt="">
+          <p class='itemNum'>×<span class='c_white quantity'><%= buffItem.hp.quantity %></span></p>
+          <p class='selectNum'>0</p>
+        </div>
+        <div class='item <%= (buffItem.atk.quantity) ? "" : "off" %>' data-id='atk'>
+          <img src="/magica/resource/image_web/item/event/<%= buffItem.atk.itemId.toLowerCase() %>.png" alt="">
+          <p class='itemNum'>×<span class='c_white quantity'><%= buffItem.atk.quantity %></span></p>
+          <p class='selectNum'>0</p>
+        </div>
+        <div class='item <%= (buffItem.def.quantity) ? "" : "off" %>' data-id='def'>
+          <img src="/magica/resource/image_web/item/event/<%= buffItem.def.itemId.toLowerCase() %>.png" alt="">
+          <p class='itemNum'>×<span class='c_white quantity'><%= buffItem.def.quantity %></span></p>
+          <p class='selectNum'>0</p>
+        </div>
+      </div>
+      <div class='effectView'>
+        <div class='effect hp'>
+          <p class='text typeA ts_white'>+<span class='per typeA ts_white'>0</span>%</p>
+          <img src="/magica/resource/image_web/event/arenaMission/<%= eventId %>/confirm/bg_hp.png" alt="">
+        </div>
+        <div class='effect atk'>
+          <p class='text typeB ts_white'>+<span class='per typeB ts_white'>0</span>%</p>
+          <img src="/magica/resource/image_web/event/arenaMission/<%= eventId %>/confirm/bg_atk.png" alt="">
+        </div>
+        <div class='effect def'>
+          <p class='text typeC ts_white'>+<span class='per typeC ts_white'>0</span>%</p>
+          <img src="/magica/resource/image_web/event/arenaMission/<%= eventId %>/confirm/bg_def.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="battleStartBtn" class="se_kettei02"></div>
+</div>

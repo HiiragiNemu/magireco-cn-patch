@@ -1,0 +1,16 @@
+<div id="popupRp"> <% var nowRp = _.findWhere(model,{statusId:"RP"}); %> <% var maxRp = _.findWhere(model,{statusId:"MAX_RP"}); %> <ul class="rpPointWrap"> <% for(var i=0;i<maxRp.point;i++){ %> <li<% if(nowRp.point>i){ %> class="on" <% } %>>
+      </li> <% } %> </ul>
+</div>
+<p id="rpTextWrap" class="c_red"> <% if(nowRp.point >= maxRp.point){ %> RP已满。 <% }else if(quantity < 1){ %> 没有RP回复药。 <% }else{ %> <span class="cureCheck">要使用RP回复药全部回复吗?</span> <% } %> </p>
+<div id="rpImageWrap" class="commonFrame4">
+  <style type="text/css">
+    #rpImageWrap:before
+    {
+      background: url('/magica/resource/image_web/item/event/event_raid_<%= userEventRaid.eventId %>_cure_rp.png') left top no-repeat;
+    }
+
+  </style>
+  <span class="nameWrap">RP回复药</span>
+  <p class="itemRemain"><span class="pointFrame">持有数</span><br><%= quantity %></p>
+  <span id="decideUse" class="mb_pink cureBtn se_decide TE popupCloseBtn<% if(quantity < 1 || nowRp.point === maxRp.point){ %> off<% } %>"><span class="b_screen"></span>回复</span>
+</div>

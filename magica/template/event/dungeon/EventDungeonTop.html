@@ -1,0 +1,246 @@
+<%
+	var pointCompText = '全ポイントを通過しました';
+
+	var symbolImgPathArr = [];
+	var popBgImgPathArr = [];
+	for(var i=0; i<mapIconTypeMax; i++) {
+		symbolImgPathArr.push("/magica/resource/image_web/event/dungeon/" + eventId + "/symbol_area_0" + (i+1) + ".png");
+		popBgImgPathArr.push("/magica/resource/image_web/event/dungeon/" + eventId + "/bg_area_0" + (i+1) + ".png");
+	}
+%> <div id='EventDungeonTop'> <% if (window.isDebug) { %> <ul id="debugArea">
+    <li class="debugClearBtn sb_gold_01 TE" data-mission1="firstClear" data-mission2="firstClear" data-mission3="firstClear" data-firstclear="1" data-firstcomp="1">通关(首通·首次集齐)</li>
+    <li class="debugClearBtn sb_gold_01 TE" data-mission1="cleared" data-mission2="" data-mission3="" data-firstclear="0" data-firstcomp="0">通关(已获得·未集齐)</li>
+    <li class="debugClearBtn sb_gold_01 TE" data-mission1="cleared" data-mission2="cleared" data-mission3="cleared" data-firstclear="0" data-firstcomp="0">通关(已获得·已集齐)</li>
+    <li class="debugFailedBtn sb_gold_02 TE on">全灭</li>
+    <li class="debugunitNaviBtn sb_gold_01 TE on">队伍编成导航</li>
+    <li class="debugDisplayBtn sb_gold_01 TE on">30秒隐藏调试菜单</li>
+  </ul> <% } %> <div id='helpBtn' class='se_decide TE mb_white' data-eventid="<%= eventId %>">玩法</div>
+  <div id="partInfoWrap"></div>
+  <div id="areaWrap">
+    <style type="text/css">
+      <% for (var i=0; i<symbolImgPathArr.length; i++)
+      {
+        %>.chapter.icon<%=i+1 %>:after
+        {
+          background: url(<%= symbolImgPathArr[i] %>) left top no-repeat;
+        }
+
+        <%
+      }
+
+      %>
+
+    </style>
+    <div class="scrollInner">
+      <ul id="lineList"></ul>
+      <ul id="areaList"></ul>
+    </div>
+  </div>
+</div>
+<script type="text/template" id="PartInfoParts"> <%="<% var closeClass = (partNum > 1) ? '' : 'close'; %\>"%>
+		<%="<% var itemFileName = (itemId) ? itemId.toLowerCase() : 'event_dungeon_' + eventId + '_exchange_' + eventPartNo; %\>"%>
+
+	<div id='sideWrap' class="part<%="<%= eventPartNo %\>"%>">
+		<div id='eventLogo' class='<%="<%= closeClass %\>"%>'>
+			<img src="/magica/resource/image_web/event/dungeon/<%= eventId %>/logo.png" alt="">
+		</div>
+
+		<div class="live2dArea"></div>
+
+		<div id='eventShopWrap' class='<%="<%= closeClass %\>"%>'>
+			<div class="itemNumWrap">
+				<img class="shopItemImg" src="/magica/resource/image_web/item/event/<%="<%= itemFileName %\>"%>.png" >
+				<p class="numWrap c_gold">×<span class='num c_gold'><%="<%= itemQuantity %\>"%></span></p>
+			</div>
+			<div id="shopBtn" class="se_decide TE"></div>
+		</div>
+
+		<div id='partLinkBtn' class='<%="<%= closeClass %\>"%> se_tabs TE'></div>
+		<div class='overWrap'></div>
+	</div>
+</script>
+<!-- エリアパーツ -->
+<script type="text/template" id="AreaListParts"> <%="<% var mission1 = (model.missionCleared1) ? 'cleared' : null %\>"%>
+	<%="<% var mission2 = (model.missionCleared2) ? 'cleared' : null %\>"%>
+	<%="<% var mission3 = (model.missionCleared3) ? 'cleared' : null %\>"%>
+
+	<%="<% var areaState = (!model.sectionModel.cleared) ? 'new' : 'clear' %\>"%>
+	<%="<%     areaState = (mission1 && mission2 && mission3) ? 'comp' : areaState %\>"%>
+
+	<%="<% var className = 'chapter scrollElm TE se_decide icon' + model.area.mapIconType %\>"%>
+	<%="<%     className += ' ' + model.sectionModel.section.parameter.split('=')[1].toLowerCase() %\>"%>
+
+	<div class='<%="<%= className %\>"%>'>
+
+		<span class="title c_white"><%="<%= model.sectionModel.section.title %\>"%></span>
+
+		<span class='areaState <%="<%= areaState %\>"%>'></span>
+
+		<div class="difficultyFrame">
+			<dt>难度</dt>
+			<dd class="c_white"><%="<%= model.sectionModel.section.difficulty %\>"%></dd>
+		</div>
+
+		<div class="missionFrame">
+			<dt>任务</dt>
+			<dd>
+				<ul class="missionList">
+					<li class='<%="<%= mission1 %\>"%>'></li>
+					<li class='<%="<%= mission2 %\>"%>'></li>
+					<li class='<%="<%= mission3 %\>"%>'></li>
+				</ul>
+			</dd>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="AreaConfirmParts"> <div class="closeBtn se_cancel TE"></div>
+
+	<div class='arrow right hide TE se_tabs'></div>
+	<div class='arrow left hide TE se_tabs'></div>
+
+	<span class="decideBtn btn b_pink TE se_decide">确定</span>
+</script>
+<script type="text/template" id="AreaDetailParts"> <style type="text/css">
+		<% for (var i=0; i<symbolImgPathArr.length; i++) { %>
+		.symbolImg.icon<%= i+1 %> {
+			background: url(<%= symbolImgPathArr[i] %>) left top no-repeat;
+		}
+		<% } %>
+
+		<% for (var i=0; i<popBgImgPathArr.length; i++) { %>
+		.bg.type<%= i+1 %> {
+			background: url(<%= popBgImgPathArr[i] %>) left top no-repeat;
+		}
+		<% } %>
+	</style>
+
+	<%="<% var mission1 = (model.missionCleared1) ? 'cleared' : null %\>"%>
+	<%="<% var mission2 = (model.missionCleared2) ? 'cleared' : null %\>"%>
+	<%="<% var mission3 = (model.missionCleared3) ? 'cleared' : null %\>"%>
+
+	<%="<% var areaState = (!model.sectionModel.cleared) ? 'new' : 'clear' %\>"%>
+	<%="<%     areaState = (mission1 && mission2 && mission3) ? 'comp' : areaState %\>"%>
+
+	<%="<% var areaType = model.sectionModel.section.parameter.split('=')[1].toLowerCase() %\>"%>
+
+	<p class='header <%="<%= areaType %\>"%>'></p>
+
+	<p class='bg type<%="<%= model.area.mapIconType %\>"%>'></p>
+
+	<p class="title"><%="<%= model.sectionModel.section.title %\>"%></p>
+
+	<%="<% if(model.pointComplete) { %\>"%>
+		<span class="pointNum pointFrame type_b">已通过全部点位</span>
+	<%="<% } else { %\>"%>
+		<span class="pointNum pointFrame type_b">
+			通过点位数 <%="<%= model.clearPointNum %\>"%>/<%="<%= model.totalPointNum %\>"%>
+		</span>
+	<%="<% } %\>"%>
+
+	<div class="areaInfoWrap">
+
+		<div class="pointFrame difficultyFrame">
+			难度 <span class="num"><%="<%= model.sectionModel.section.difficulty %\>"%></span>
+		</div>
+
+		<div class="pointFrame battleNumFrame">
+			战斗数 <span class="num"><%="<%= model.area.battleNumTxt %\>"%></span>
+		</div>
+
+		<div class="clearRewardWrap">
+			<p class="pointFrame ">区域通关报酬</p>
+			<div class="treasure">
+				<%="<% if(areaState !== 'new') { %\>"%>
+					<%="<% var itemCode = model.clearRewardCode.itemCode.toLowerCase(); %\>"%>
+					<%="<% var rewardType = model.clearRewardCode.rewardType; %\>"%>
+					<div class="title get"></div>
+					<%="<% if(rewardType === 'GIFT') { %\>"%>
+						<img class="itemImg" data-nativeimgkey='<%="<%= itemCode %\>"%>' data-src='resource/image_native/gift/<%="<%= itemCode %\>"%>.png'>
+					<%="<% } else if(rewardType === 'LIVE2D') { %\>"%>
+						<div class="charaIcon">
+							<div class="charaMaskWrap">
+								<img data-nativeimgkey='mini_<%="<%= itemCode %\>"%>00_d' data-src='resource/image_native/mini/image/mini_<%="<%= itemCode %\>"%>00_d.png'>
+							</div>
+						</div>
+						<img class='itemImg' src='/magica/resource/image_web/item/main/live2d.png'>
+					<%="<% } else if(rewardType === 'DOPPEL') { %\>"%>
+						<div class="charaIcon">
+							<div class="charaMaskWrap">
+								<img data-nativeimgkey='mini_<%="<%= itemCode %\>"%>_d' data-src='resource/image_native/mini/image/mini_<%="<%= itemCode %\>"%>_d.png'>
+							</div>
+						</div>
+						<img class="itemImg" src='/magica/resource/image_web/item/main/doppel.png' alt=''>
+					<%="<% } else if(rewardType == 'PIECE') { %\>"%>
+						<img class="itemImg" src='/magica/resource/image_web/memoria/<%="<%= itemCode %\>"%>.png' alt=''>
+					<%="<% } else if(rewardType == 'GEM') { %\>"%>
+						<img class="itemImg gem" data-nativeimgkey='<%="<%= itemCode %\>"%>' data-src='resource/image_native/chara/<%="<%= itemCode %\>"%>.png' alt=''>
+					<%="<% } else { %\>"%>
+						<%="<% var subPath = (itemCode.indexOf('event_') > -1) ? 'event' : 'main'; %\>"%>
+						<%="<% var _itemCode = (itemCode.indexOf('event_dungeon') > -1 && itemCode.indexOf('cure_cp') > -1) ? 'event_dungeon_cure_cp' : itemCode; %\>"%>
+						<img class="itemImg" src='/magica/resource/image_web/item/<%="<%= subPath %\>"%>/<%="<%= _itemCode %\>"%>.png' alt=''>
+					<%="<% } %\>"%>
+					<%="<% if(model.clearRewardCode.quantity) { %\>"%>
+					<span class="rewardNum ts_gold">×<%="<%= model.clearRewardCode.quantity %\>"%></span>
+					<%="<% } %\>"%>
+				<%="<% } else { %\>"%>
+					<img class="treasureImg" src='/magica/resource/image_web/common/treasure/<%="<%= model.clearRewardCode.chestColor.toLowerCase() %\>"%>.png' alt=''>
+				<%="<% } %\>"%>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="missionFrame commonFrame3">
+		<div class="frameTitle"></div>
+
+		<ul class="missionList">
+			<li><span class='star <%="<%= mission1 %\>"%>'></span><span class='desc'><%="<%= model.area.missionDescription1 %\>"%></span></li>
+			<li><span class='star <%="<%= mission2 %\>"%>'></span><span class='desc'><%="<%= model.area.missionDescription2 %\>"%></span></li>
+			<li><span class='star <%="<%= mission3 %\>"%>'></span><span class='desc'><%="<%= model.area.missionDescription3 %\>"%></span></li>
+		</ul>
+		<div class="treasure">
+			<%="<% if(areaState === 'comp') { %\>"%>
+				<%="<% var itemCode = model.missionRewardCode.itemCode.toLowerCase(); %\>"%>
+				<%="<% var rewardType = model.missionRewardCode.rewardType; %\>"%>
+				<div class="title clear"></div>
+				<%="<% if(rewardType === 'GIFT') { %\>"%>
+					<img class='itemImg' data-nativeimgkey='<%="<%= itemCode %\>"%>' data-src='resource/image_native/gift/<%="<%= itemCode %\>"%>.png'>
+				<%="<% } else if(rewardType === 'LIVE2D') { %\>"%>
+					<div class="charaIcon">
+						<div class="charaMaskWrap">
+							<img data-nativeimgkey='mini_<%="<%= itemCode %\>"%>00_d' data-src='resource/image_native/mini/image/mini_<%="<%= itemCode %\>"%>00_d.png'>
+						</div>
+					</div>
+					<img class='itemImg' src='/magica/resource/image_web/item/main/live2d.png'>
+				<%="<% } else if(rewardType === 'DOPPEL') { %\>"%>
+					<div class="charaIcon">
+						<div class="charaMaskWrap">
+							<img data-nativeimgkey='mini_<%="<%= itemCode %\>"%>_d' data-src='resource/image_native/mini/image/mini_<%="<%= itemCode %\>"%>_d.png'>
+						</div>
+					</div>
+					<img class="itemImg" src='/magica/resource/image_web/item/main/doppel.png' alt=''>
+				<%="<% } else if(rewardType == 'PIECE') { %\>"%>
+					<img class="itemImg" src='/magica/resource/image_web/memoria/<%="<%= itemCode %\>"%>.png' alt=''>
+				<%="<% } else if(rewardType == 'GEM') { %\>"%>
+					<img class="itemImg gem" data-nativeimgkey='<%="<%= itemCode %\>"%>' data-src='resource/image_native/chara/<%="<%= itemCode %\>"%>.png' alt=''>
+				<%="<% } else { %\>"%>
+					<%="<% var subPath = (itemCode.indexOf('event_') > -1) ? 'event' : 'main'; %\>"%>
+					<%="<% var _itemCode = (itemCode.indexOf('event_dungeon') > -1 && itemCode.indexOf('cure_cp') > -1) ? 'event_dungeon_cure_cp' : itemCode; %\>"%>
+					<img class="itemImg" src='/magica/resource/image_web/item/<%="<%= subPath %\>"%>/<%="<%= _itemCode %\>"%>.png' alt=''>
+				<%="<% } %\>"%>
+				<%="<% if(model.missionRewardCode.quantity) { %\>"%>
+				<span class="rewardNum ts_gold">×<%="<%= model.missionRewardCode.quantity %\>"%></span>
+				<%="<% } %\>"%>
+			<%="<% } else { %\>"%>
+				<div class="title mission"></div>
+				<img class="treasureImg" src='/magica/resource/image_web/common/treasure/<%="<%= model.missionRewardCode.chestColor.toLowerCase() %\>"%>.png' alt=''>
+			<%="<% } %\>"%>
+		</div>
+	</div>
+
+	<div class="descriptionFrame commonFrame3">
+		<div class="frameTitle"></div>
+	 	<div class="desc"><%="<%= model.area.captureInfo %\>"%></div>
+	</div>
+	<div class='symbolImg icon<%="<%= model.area.mapIconType %\>"%>'></div>
+</script>

@@ -1,0 +1,39 @@
+<div id="CampaignSummerMissionList" class="">
+  <div class="live2dArea"></div>
+  <span id="campaignTimeArea">开放期间<br /><span id="campaignTime"></span></span>
+  <span id="nextTimeArea">下次任务追加时间为<span id="nexTime"></span>。</span>
+  <!-- 一覧 -->
+  <div id="listWrap" class="commonFrame2">
+    <h2 id="listTitle"></h2>
+    <!-- デイリー残り時間表示 -->
+    <span id="dailyTime" class="c_gold"><br>剩余<span id="dailyTimeNum" class="c_gold"></span></span>
+    <!-- イベントミッション残り時間表示 -->
+    <span id="eventTime" class="c_gold">领取期限<br><span id="eventTimeNum" class="c_gold"></span>为止</span>
+    <!-- イベントミッションリスト -->
+    <div id="missionScrollWrap">
+    </div>
+  </div>
+  <!-- 一括受け取りボタン -->
+  <div class="mb_pink off se_decide" id="allReserve">一键领取</div>
+</div>
+<!-- ミッションリストパーツ -->
+<script type="text/template" id="missionParts"> <span class="missionTitleWrap"><%='<%= model.challenge.displayName %\>'%></span>
+
+	<%='<% if(model.challenge.isDetailView) { %\>'%>
+	<!-- 詳細ポップアップ -->
+	<div class="itemDetailPopup"></div>
+	<div class="itemBg"></div>
+	<%='<% } %\>'%>
+
+	<%= "<% if(model.challenge.rewardDescription) { %\>" %>
+	<span class="missionDescription"><%='<%= model.challenge.rewardDescription %\>'%></span>
+	<%= "<% } %\>" %>
+
+	<span class="missionCompleteNum c_gold"><%='<%= model.clearedCount %\>'%>/<%='<%= model.challenge.count %\>'%></span>
+
+	<div class="missionGuageWrap">
+		<div class="missionGuageInner"><div class="missionGuage"></div></div>
+	</div>
+
+	<span class="btn b_white se_decide missionBtn TE"><span class="b_screen"></span></span>
+</script>

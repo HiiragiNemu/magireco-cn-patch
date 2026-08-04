@@ -1,0 +1,83 @@
+<div id="FriendSearch">
+  <div id="searchArea">
+    <!-- <span class="btn linkBtn" data-href="#/MyPage">返回主页</span> -->
+    <div id="rankForm">
+      <h2>Rank</h2>
+      <select id="rankSelect">
+        <option selected="selected" value="0">不指定</option>
+        <option value="1">Rank1〜</option>
+        <option value="10">Rank10〜</option>
+        <option value="20">Rank20〜</option>
+        <option value="40">Rank40〜</option>
+        <option value="60">Rank60〜</option>
+        <option value="80">Rank80〜</option>
+        <option value="100">Rank100〜</option>
+      </select>
+    </div>
+    <div id="leaderLevelForm">
+      <h2>支援LV</h2>
+      <select id="leaderLevelSelect">
+        <option selected="selected" value="0">不指定</option>
+        <option value="1">LV1〜</option>
+        <option value="20">LV20〜</option>
+        <option value="40">LV40〜</option>
+        <option value="60">LV60〜</option>
+        <option value="70">LV70〜</option>
+        <option value="80">LV80〜</option>
+        <option value="90">LV90〜</option>
+      </select>
+    </div>
+    <div id="userNameForm">
+      <h2>用户名</h2>
+      <div class="clearfix">
+        <input type="text" id="userNameInput" class="commonInput" />
+      </div>
+    </div>
+    <div id="leaderAttributeForm">
+      <h2>支援属性</h2>
+      <select id="leaderAttributeSelect">
+        <option selected="selected" value="0">不指定</option>
+        <option value="FIRE">火属性</option>
+        <option value="WATER">水属性</option>
+        <option value="TIMBER">木属性</option>
+        <option value="LIGHT">光属性</option>
+        <option value="DARK">暗属性</option>
+      </select>
+    </div>
+    <div id="friendIdForm">
+      <h2>好友ID</h2>
+      <div class="clearfix">
+        <input type="text" id="friendIdInput" class="commonInput" />
+      </div>
+    </div>
+    <div id="lastLoginForm">
+      <h2>最后登录</h2>
+      <select id="leaderAttributeSelect">
+        <option selected="selected" value="0">不指定</option>
+        <option value="900">15 分钟以内</option>
+        <option value="21600">6小时内</option>
+        <option value="86400">24小时内</option>
+        <option value="259200">3天内</option>
+      </select>
+    </div>
+  </div>
+  <div class="searchBtnWrap">
+    <span id="recommendRunBtn" class="btn b_white popupCloseBtn TE"><span class="b_screen"></span>推荐搜索</span>
+    <span id="searchRunBtn" class="btn b_white popupCloseBtn TE"><span class="b_screen"></span>搜索</span>
+  </div>
+</div>
+<!-- ユーザーパーツ -->
+<script type="text/template" id="ResultParts"> <div class="wrap">
+		<img src="<%='<%= resDir %\>'%>/magica/resource/image_web/page/follow/dummyIcon.png" class="followImage">
+		<div class="infoWrap">
+			<span class="userLevel"><%="<%=model.rank%\>"%></span>
+			<span class="userName"><%="<%=_.escape(model.username)%\>"%></span><br>
+			<span class="loginTime">登录时间&nbsp;<%= "<%= model.loginTimeLag %\>" %></span>
+			<div class="iconWrap">
+				<span class="followIcon"></span>
+				<span class="followerIcon"></span>
+				<span class="blockIcon"></span>
+			</div>
+		</div>
+	</div>
+</script>

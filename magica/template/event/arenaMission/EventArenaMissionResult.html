@@ -1,0 +1,139 @@
+<%
+	var battle      = model.userArenaBattle;
+	var quest       = model.userQuestBattleResultList[0];
+	var result      = model.userArenaBattleResultList[0];
+	var userEventArenaMission = model.userEventArenaMission;
+
+	// ボーナス関連
+	var consectiveBonusArr = [0,0,1,2,3,5,7,10];
+	var turnBonusArr       = [1.5,1.5,1.5,1.4,1.3,1.2,1.1];
+	var difficultyBonusArr = [0.8,1,1.2];
+	var consectiveBonus = (userEventArenaMission.consecutiveWins < 8) ? consectiveBonusArr[userEventArenaMission.consecutiveWins] : 0;
+	var turnBonus       = (quest.turns > 6) ? 1 : turnBonusArr[quest.turns];
+	var matchDiff       = (result.arenaBattleOpponentType === "HIGHER") ? 2 : (result.arenaBattleOpponentType === "SAME") ? 1 : 0;
+	var difficultyBonus = difficultyBonusArr[matchDiff];
+
+	console.log("resultModel:",model)
+%> <div id="EventArenaMissionResult" class='EventArenaMission'> <% if(model.playedStageModel) { %> <div id="resultTitle" class='colorF'><%= model.playedStageModel.eventArenaMissionStage.stageName %></div> <% } %> <div id="enemyBtn">
+    <div id="enemyClip" class='se_decide'></div>
+    <div class="enemyTitle"></div>
+    <img class="enemyImage" data-nativeimgkey='card_<%= model.enemyData.leaderUserCard.displayCardId %>_s' data-src='resource/image_native/card/image/card_<%= model.enemyData.leaderUserCard.displayCardId %>_s.png'>
+    <div class="enemyNameRank">
+      <div class="enemyRank colorE">Rank<%= model.enemyData.userRank %></div>
+      <div class="enemyName colorC"><%= _.escape(model.enemyData.userName) %></div>
+    </div>
+  </div>
+  <div id="touchScreen"></div>
+  <div id="rankupFlash"></div>
+  <div id="stageClearBg"></div>
+  <div id="stageClearWrap">
+    <div id='scTitle'></div>
+    <div id='scTitleL'></div>
+    <div id='scTitleR'></div>
+    <div id="scStarL"></div>
+    <div id="scStarR"></div>
+    <div id='scCircle00'></div>
+    <div id='scCircle01'></div>
+    <div id='scCircle02'></div>
+    <div id='scCircle06'></div>
+    <div id='scCircle07'></div>
+    <div id='scCircle08'></div>
+    <div id="scEfBg01"></div>
+    <div id="scEfBg02"></div>
+    <div id="scEf01"></div>
+    <div id="scEf02"></div>
+    <div class="touch_screen"></div>
+    <!-- アイテム画像 -->
+    <div id="rewardItemIcon"> <% if(model.rewardData.rewardType == 'live2d' || model.rewardData.rewardType == 'doppel') { %> <div class="imgWrap">
+        <div class="charaIcon">
+          <div class="maskWrap">
+            <img data-nativeimgkey='mini_<%= model.rewardData.itemData.itemCode %>00_d' data-src='resource/image_native/mini/image/mini_<%= model.rewardData.itemData.itemCode %>00_d.png'>
+          </div>
+        </div>
+        <img src='/magica/resource/image_web/item/main/live2d.png' alt=''>
+      </div> <% } else if(model.rewardData.rewardType == 'memoria') { %> <img data-nativeimgkey='<%= model.rewardData.itemData.itemCode %>' data-src='resource/image_native/memoria/<%= model.rewardData.itemData.itemCode %>.png' alt=''> <% } else if(model.rewardData.rewardType == 'gem') { %> <div class="imgWrap">
+        <img src='/magica/resource/image_web/item/frame/item_frame03.png' alt=''>
+        <img data-nativeimgkey='<%= model.rewardData.itemData.itemCode %>' data-src='resource/image_native/chara/<%= model.rewardData.itemData.itemCode %>.png' alt=''>
+      </div> <% } else { %> <img src="/magica/resource/image_web/item/<%= model.rewardData.rewardType %>/<%= model.rewardData.itemData.itemCode.toLowerCase() %>.png"> <% } %> </div>
+    <!-- アイテム説明 --> <% if(model.rewardData.rewardType == 'live2d') { %> <div class='textWrap'> <%= model.rewardData.displayName %>到手了<br>
+      <span class='c_red'>可以换上获得的服装</span>
+    </div> <% } else if(model.rewardData.rewardType == 'memoria') { %> <div class='textWrap'> 记忆结晶「<%= model.rewardData.displayName %>」到手了<br>
+      <span class='c_red'>记忆结晶已直接发放</span>
+    </div> <% } else if(model.rewardData.rewardType == 'gem') { %> <div class='textWrap'> <%= model.rewardData.displayName %>的命运宝石到手了<br>
+      <span class='c_red'>命运宝石已直接发放</span>
+    </div> <% } else { %> <div class='textWrap'> <%= model.rewardData.displayName %>到手了<br>
+      <span class='c_red'>道具已直接发放</span>
+    </div> <% } %>
+  </div>
+  <div id="mainWrap">
+    <div id="flowWrap">
+      <div id="resultMark" <% if(result.arenaBattleStatus !== "WIN"){ %> class="lose" <% } %>> <% if(result.arenaBattleStatus === "WIN"){ %> <div class="resultDeco winLeft"></div>
+        <div class="resultString W"></div>
+        <div class="resultString I"></div>
+        <div class="resultString N"></div>
+        <div class="resultDeco winRight"></div>
+        <div class="winCircle1"></div>
+        <div class="winCircle2"></div>
+        <div class="winCircle3"></div>
+        <div class="winCircle4"></div>
+        <div class="resultWinAdd"></div>
+        <div class="resultWin"></div> <% } %>
+      </div>
+      <div id="missionWrap" class='flexBox'> <% _.forEach(model.missionData,function(txt){ %> <div class='mission <%= txt.classTxt %> <%= (txt.classTxt !== "off") ? "colorD" : "" %>'>
+          <div class='effect'></div>
+          <div class='icon'> <% var coin = (txt.classTxt !== "off") ? "on" : "off" %> <img src="/magica/resource/image_web/event/arenaMission/<%= model.eventModel.eventId %>/result/coin_<%= coin %>.png" alt="">
+          </div>
+          <div class="text">
+            <p><%= txt.text %></p>
+          </div>
+          <div class='bg'></div>
+        </div> <% }) %> </div>
+      <div id="pointsWrap">
+        <div id="subInfo">
+          <div class="consective"><%= userEventArenaMission.consecutiveWins %></div>
+        </div> <% if(!model.playedStageModel.rewardDone) { %> <div id="arenaPoints">
+          <div class="getPoint colorC">+<%= this.model.getPoint %></div>
+          <div class="totalPoint colorC"><%= userEventArenaMission.eventPoint %>Pt</div>
+        </div>
+        <div id="requireWrap">
+          <p class="requireFirst colorB">至关卡通关</p>
+          <p class="requireSecond colorB">还有<span id="leftCount" class='colorB'><%= model.eventPointObj.firstViewPoint %></span>Pt</p>
+        </div> <% } else { %> <div class="maxRank c_red">已通关的关卡点<%= model.eventModel.viewParameterMap.EVENT_POINT_NAME%>无法获得</div>
+        <div id="arenaPoints">
+          <div class="getPoint colorC" style='opacity: 0;'>+0</div>
+          <div class="totalPoint colorC"><%= userEventArenaMission.eventPoint %>Pt</div>
+        </div> <% } %> <ul class="resultPointTitle">
+          <li>基本</li>
+          <li>连胜加成</li>
+          <li>回合加成</li>
+          <li>对手加成</li>
+        </ul>
+        <ul class="resultPointNums"> <% if(!model.playedStageModel.rewardDone) { %> <li><% if(result.arenaBattleStatus !== "WIN"){ %>3<% }else{ %>10<% } %>Pt</li>
+          <li><% if(result.arenaBattleStatus !== "WIN"){ %>-<% }else{ %><%= consectiveBonus %>Pt<% } %></li>
+          <li><% if(result.arenaBattleStatus !== "WIN"){ %>-<% }else{ %>×<%= turnBonus %><% } %></li>
+          <li><% if(result.arenaBattleStatus !== "WIN"){ %>-<% }else{ %>×<%= difficultyBonus %><% } %></li> <% } else { %> <li>-</li>
+          <li>-</li>
+          <li>-</li>
+          <li>-</li> <% } %>
+        </ul>
+      </div>
+      <div class="touch_screen"></div>
+    </div>
+  </div>
+  <div id="resultMirror">
+    <div class="mirrorReflec">
+      <div class="reflecMirror">
+        <img src="/magica/resource/image_web/page/arena/result/reflection.png">
+      </div>
+    </div>
+    <div class="mirrorWrap"></div> <% if(result.arenaBattleStatus === "WIN"){ %> <div class="mirrorMemberWrap">
+      <div class="members_left mirror_left2"> <% if(model.arenaDecks.noneLeader[2]){ %> <img data-nativeimgkey='card_<%= model.arenaDecks.noneLeader[2].displayCardId %>_m' data-src='resource/image_native/card/image/card_<%= model.arenaDecks.noneLeader[2].displayCardId %>_m.png'> <% } %> </div>
+      <div class="members_left mirror_left1"> <% if(model.arenaDecks.noneLeader[0]){ %> <img data-nativeimgkey='card_<%= model.arenaDecks.noneLeader[0].displayCardId %>_m' data-src='resource/image_native/card/image/card_<%= model.arenaDecks.noneLeader[0].displayCardId %>_m.png'> <% } %> </div>
+      <div class="leader">
+        <img data-nativeimgkey='card_<%= model.arenaDecks.leaderCard.displayCardId %>_m' data-src='resource/image_native/card/image/card_<%= model.arenaDecks.leaderCard.displayCardId %>_m.png'>
+      </div>
+      <div class="members_right mirror_right1"> <% if(model.arenaDecks.noneLeader[1]){ %> <img data-nativeimgkey='card_<%= model.arenaDecks.noneLeader[1].displayCardId %>_m' data-src='resource/image_native/card/image/card_<%= model.arenaDecks.noneLeader[1].displayCardId %>_m.png'> <% } %> </div>
+      <div class="members_right mirror_right2"> <% if(model.arenaDecks.noneLeader[3]){ %> <img data-nativeimgkey='card_<%= model.arenaDecks.noneLeader[3].displayCardId %>_m' data-src='resource/image_native/card/image/card_<%= model.arenaDecks.noneLeader[3].displayCardId %>_m.png'> <% } %> </div>
+    </div> <% } %>
+  </div>
+</div>
