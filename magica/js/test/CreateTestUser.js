@@ -25,7 +25,7 @@ define("underscore backbone backboneCommon ajaxControl text!../../template/test/
           {
             title: "成功",
             popupId: "successPopup",
-            content: "ゲームユーザーが作成されました",
+            content: "游戏 用户 已创建",
             decideBtnText: "返回主页"
           }, null, function()
           {
