@@ -107,8 +107,6 @@ jobs:
           import os, sys
           ALLOW_UPSTREAM   = {"HiiragiNemu/patch-front"}
           ALLOW_DOWNSTREAM = {"MagirecoCN-Revival-Project/patch-front"}
-          # APK 源仓库——只 GET、不写，所以白名单宽松一点也行，但仍然写死
-          ALLOW_CLIENT     = {"MagirecoCN-Revival-Project/magireco-client-patch"}
 
           upstream   = f"{os.environ['UPSTREAM_OWNER']}/{os.environ['UPSTREAM_REPO']}"
           downstream = f"{os.environ['DOWNSTREAM_OWNER']}/{os.environ['DOWNSTREAM_REPO']}"
@@ -129,7 +127,6 @@ jobs:
 
           print(f"✔ 上游 OK:   {upstream}")
           print(f"✔ 下游 OK:   {downstream}")
-          print(f"✔ APK 源仓库白名单（只读）: {sorted(ALLOW_CLIENT)}")
           SCRIPT_END
 
       - name: 📦 检出下游仓库
@@ -621,215 +618,6 @@ jobs:
 
       - name: 📦 安装依赖
         run: pip install boto3 tencentcloud-sdk-python alibabacloud_esa20240910
-
-      - name: 📲 同步客户端 APK 到上游 Release
-        id: sync_apk
-        run: |
-          python3 <<'SCRIPT_END'
-          import subprocess
-          import sys
-          import os
-          import json
-          import urllib.request
-          import urllib.error
-
-          sys.stdout.reconfigure(line_buffering=True)
-
-          class C:
-              RESET         = "\033[0m"
-              BOLD          = "\033[1m"
-              DIM           = "\033[2m"
-              RED           = "\033[31m"
-              BRIGHT_GREEN  = "\033[92m"
-              BRIGHT_YELLOW = "\033[93m"
-              BRIGHT_BLUE   = "\033[94m"
-              BRIGHT_CYAN   = "\033[96m"
-              BRIGHT_WHITE  = "\033[97m"
-              CYAN          = "\033[36m"
-
-          def c(col, t): return f"{col}{t}{C.RESET}"
-          def header(t):
-              bar = "═" * 60
-              print(f"\n{c(C.BOLD + C.BRIGHT_BLUE, bar)}")
-              print(c(C.BOLD + C.BRIGHT_WHITE, f"  {t}"))
-              print(f"{c(C.BOLD + C.BRIGHT_BLUE, bar)}\n", flush=True)
-          def section(t): print(f"\n{c(C.BOLD + C.CYAN, '┌─ ' + t)}", flush=True)
-          def info(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_BLUE, 'ℹ')} {t}", flush=True)
-          def ok(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_GREEN, '✔')} {t}", flush=True)
-          def warn(t, indent=0): print(f"{'  '*indent}{c(C.BRIGHT_YELLOW, '⚠')} {t}", flush=True)
-          def err(t, indent=0): print(f"{'  '*indent}{c(C.RED, '✘')} {t}", flush=True)
-          def skip(t, indent=0): print(f"{'  '*indent}{c(C.DIM, '⏭  ' + t)}", flush=True)
-          def human_size(n):
-              for u in ["B", "KB", "MB", "GB"]:
-                  if n < 1024: return f"{n:.1f} {u}"
-                  n /= 1024
-              return f"{n:.1f} TB"
-          def set_output(k, v):
-              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-                  f.write(f"{k}={v}\n")
-
-          UPSTREAM_OWNER = os.environ["UPSTREAM_OWNER"]
-          UPSTREAM_REPO  = os.environ["UPSTREAM_REPO"]
-          CLIENT_OWNER   = "MagirecoCN-Revival-Project"
-          CLIENT_REPO    = "magireco-client-patch"
-                 = os.environ.get("", "")
-
-          GH_HEADERS = {
-              "Accept": "application/vnd.github+json",
-              "X-GitHub-Api-Version": "2022-11-28",
-          }
-          if :
-              GH_HEADERS["Authorization"] = f"Bearer {}"
-
-          def fetch_release(owner, repo):
-              url = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
-              req = urllib.request.Request(url, headers=GH_HEADERS)
-              try:
-                  with urllib.request.urlopen(req) as resp:
-                      return json.loads(resp.read().decode())
-              except urllib.error.HTTPError as e:
-                  if e.code == 404: return None
-                  raise
-
-          def delete_asset(asset_id, name):
-              url = (f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
-                     f"/releases/assets/{asset_id}")
-              req = urllib.request.Request(url, headers=GH_HEADERS, method="DELETE")
-              try:
-                  with urllib.request.urlopen(req): pass
-                  ok(f"已删除旧 asset: {name}", indent=1)
-                  return True
-              except Exception as e:
-                  warn(f"删除 [{name}] 失败: {e}", indent=1)
-                  return False
-
-          def upload_asset_to_upstream(release_tag, local_path):
-              # local_path 的文件名即最终 asset 名（不用 #label 改名，
-              # 避免出现"显示名与下载链接不一致"的虚空链接）
-              display_name = os.path.basename(local_path)
-              upstream_release = fetch_release(UPSTREAM_OWNER, UPSTREAM_REPO)
-              if not upstream_release:
-                  err("重新获取上游 Release 失败")
-                  return False
-              cur_map = {a["name"]: a for a in upstream_release.get("assets", [])}
-              if display_name in cur_map:
-                  delete_asset(cur_map[display_name]["id"], display_name)
-              result = subprocess.run(
-                  ["gh", "release", "upload", release_tag, local_path,
-                   "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
-                   "--clobber"],
-                  capture_output=True, text=True
-              )
-              if result.returncode == 0:
-                  ok(f"已上传: {display_name}", indent=1)
-                  return True
-              err(f"上传失败 [{display_name}]: {result.stderr.strip()}", indent=1)
-              return False
-
-          def main():
-              header("同步客户端 APK 到上游 Release")
-
-              section("读取历史 APK 同步记录")
-              result = subprocess.run(
-                  ["gh", "variable", "get", "LAST_APK_RELEASE_TAG"],
-                  capture_output=True, text=True
-              )
-              last_apk_tag = result.stdout.strip() if result.returncode == 0 else ""
-              if last_apk_tag:
-                  info(f"上次同步 tag: {c(C.DIM, last_apk_tag)}")
-              else:
-                  info("无历史记录，视为首次同步")
-
-              section(f"获取 {CLIENT_OWNER}/{CLIENT_REPO} 最新 Release")
-              client_release = fetch_release(CLIENT_OWNER, CLIENT_REPO)
-              if not client_release:
-                  warn(f"{CLIENT_OWNER}/{CLIENT_REPO} 暂无 Release，跳过 APK 同步")
-                  set_output("apk_synced", "false")
-                  return
-
-              client_tag  = client_release.get("tag_name", "")
-              client_name = client_release.get("name") or client_tag
-              info(f"最新 Release: {c(C.BRIGHT_WHITE, client_name)}")
-              info(f"Tag:          {c(C.BRIGHT_CYAN, client_tag)}")
-
-              section("比对 tag")
-              if client_tag and client_tag == last_apk_tag:
-                  skip(f"APK tag 未变化（{client_tag}），无需同步")
-                  set_output("apk_synced", "false")
-                  return
-              ok(f"检测到新 APK: {c(C.BRIGHT_CYAN, client_tag)}")
-
-              section("筛选 APK 文件")
-              apk_assets = [
-                  a for a in client_release.get("assets", [])
-                  if a["name"].lower().endswith(".apk")
-              ]
-              if not apk_assets:
-                  warn("该 Release 中未找到 .apk 文件，跳过")
-                  set_output("apk_synced", "false")
-                  return
-
-              if len(apk_assets) > 1:
-                  warn(f"检测到 {len(apk_assets)} 个 APK，"
-                       f"只使用第一个: {c(C.BRIGHT_WHITE, apk_assets[0]['name'])}")
-              asset = apk_assets[0]
-              fname = asset["name"]
-              info(f"原始文件名: {c(C.BRIGHT_WHITE, fname)}")
-              info(f"目标文件名: {c(C.BRIGHT_CYAN, 'client.apk')}")
-              info(f"大小:       {c(C.DIM, human_size(asset['size']))}")
-
-              section(f"获取 {UPSTREAM_OWNER}/{UPSTREAM_REPO} Release tag")
-              upstream_release = fetch_release(UPSTREAM_OWNER, UPSTREAM_REPO)
-              if not upstream_release:
-                  err("获取上游 Release 失败，无法上传 APK")
-                  set_output("apk_synced", "false")
-                  sys.exit(1)
-              upstream_tag = upstream_release.get("tag_name", "latest")
-              info(f"上游 Release tag: {c(C.BRIGHT_CYAN, upstream_tag)}")
-
-              section("下载 APK（直接存为 client.apk）")
-              work_dir = "/tmp/apk_sync"
-              os.makedirs(work_dir, exist_ok=True)
-              # 下载时就用最终文件名保存，上传后 asset name 即为 client.apk
-              dst_path = os.path.join(work_dir, "client.apk")
-              try:
-                  dl_req = urllib.request.Request(
-                      asset["browser_download_url"], headers=GH_HEADERS
-                  )
-                  with urllib.request.urlopen(dl_req) as resp:
-                      data = resp.read()
-                  with open(dst_path, "wb") as f:
-                      f.write(data)
-                  ok(f"已下载: {fname} → client.apk  {c(C.DIM, human_size(len(data)))}", indent=1)
-              except Exception as e:
-                  err(f"下载失败: {e}", indent=1)
-                  set_output("apk_synced", "false")
-                  sys.exit(1)
-
-              section("上传 client.apk 到上游 Release")
-              if not upload_asset_to_upstream(upstream_tag, dst_path):
-                  set_output("apk_synced", "false")
-                  sys.exit(1)
-
-              section("保存 APK 同步记录")
-              save_result = subprocess.run(
-                  ["gh", "variable", "set", "LAST_APK_RELEASE_TAG",
-                   "--body", client_tag],
-                  capture_output=True, text=True
-              )
-              if save_result.returncode == 0:
-                  ok(f"LAST_APK_RELEASE_TAG = {c(C.BRIGHT_CYAN, client_tag)}")
-              else:
-                  warn(f"保存 tag 失败: {save_result.stderr.strip()}")
-
-              set_output("apk_synced", "true")
-              header("APK 同步完成")
-              ok(f"来源: {c(C.BRIGHT_WHITE, fname)}  {c(C.DIM, '(' + client_tag + ')')}")
-              ok(f"目标: {c(C.BRIGHT_CYAN, 'client.apk')} → 上游 Release")
-
-          if __name__ == "__main__":
-              main()
-          SCRIPT_END
 
       # ───────────────────────────────────────────────────────────────
       # 🚀 同步 Release 文件到 object-storage（单桶）
@@ -1463,7 +1251,6 @@ jobs:
           echo "| object-storage 存储桶 | \`${{ env.R2_BUCKET }}\`（\`${{ env.R2_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
           echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| APK 同步 | ${{ steps.sync_apk.outputs.apk_synced == 'true' && '✅ 已同步新 APK' || '⏭️ 无新 APK' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| object-storage 过时文件清理 | ${{ steps.check_upstream.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| CDN 刷新 | edge（\`${{ env.R2_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
