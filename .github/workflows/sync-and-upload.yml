@@ -300,7 +300,7 @@ jobs:
           HAS_SCENARIO=0
           HAS_JS=0
 
-          echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/json/' && HAS_SCENARIO=1 || true
+          echo "$CHANGED" | grep -qE '^madomagi/(resource/scenario/json/|engine_i18n\.tsv)' && HAS_SCENARIO=1 || true
           echo "$CHANGED" | grep -qE '^magica/' && HAS_JS=1 || true
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -391,6 +391,8 @@ jobs:
         run: |
           mkdir -p _pack_scn/madomagi/resource/scenario/json
           cp -r madomagi/resource/scenario/json/. _pack_scn/madomagi/resource/scenario/json/
+          # 引擎硬编码串翻译表（cocos Label 钩子读取 files/madomagi/engine_i18n.tsv）
+          [ -f madomagi/engine_i18n.tsv ] && cp madomagi/engine_i18n.tsv _pack_scn/madomagi/ || true
           cd _pack_scn && zip -r ../cn_scenario_update_new.zip madomagi/ && cd ..
 
           python3 - <<'PYEOF'
