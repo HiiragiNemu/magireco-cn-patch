@@ -1,0 +1,26 @@
+name: Temporary full Simplified Chinese localization
+on:
+  push:
+    branches: [automation/full-cn-v4-20260804]
+    paths: [_automation/full-cn-v4/RUN]
+permissions:
+  contents: read
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: python -m pip install argostranslate opencc-python-reimplemented deep-translator
+      - run: python _automation/full-cn-v4/full_cn_translate.py
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cn-js-update-v4-full-cn
+          path: _automation/full-cn-v4/output/*
+          if-no-files-found: error
+          retention-days: 3
