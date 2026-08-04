@@ -14,7 +14,8 @@ name: 🔄 同步上游并上传到 object-storage
 # ║        ▸ 提交 _new 文件到 git，official 文件不动                    ║
 # ║                                                                    ║
 # ║   2. 手动勾选 publish_hotfix=true 时：                              ║
-# ║        ▸ 把 *_new 文件去掉 _new 后缀覆盖正式文件（在 3 处）         ║
+# ║        ▸ 把 *_new 文件去掉 _new 后缀覆盖正式文件                     ║
+# ║          （Release + /configures/；根目录不放 official version）    ║
 # ║        ▸ 转正方式：先在本地把文件复制成最终文件名再上传。           ║
 # ║          不要用 `gh release upload <tag> <file>#<name>` —— `#`     ║
 # ║          后面只是"显示标签（label）"，asset 真实 name 仍是本地      ║
@@ -595,14 +596,16 @@ jobs:
               if new_name in assets2:
                   delete_asset(assets2[new_name]["id"], new_name)
 
-              # 4d. 把本地 official JSON 同步到 / 和 /configures/（仅 .json）
+              # 4d. 把本地 official JSON 同步到 /configures/（仅 .json）
+              #     根目录不再放 official version_*.json——baseline 只以
+              #     /configures/ 为准，根目录留一份带 size/md5 的副本
+              #     容易误导人
               if final_name.endswith(".json"):
                   with open(src, "rb") as f:
                       data = f.read()
-                  for dst in [final_name, os.path.join(CFG_DIR, final_name)]:
-                      with open(dst, "wb") as f:
-                          f.write(data)
-                  ok(f"同步 official → /, /{CFG_DIR}/", indent=1)
+                  with open(os.path.join(CFG_DIR, final_name), "wb") as f:
+                      f.write(data)
+                  ok(f"同步 official → /{CFG_DIR}/", indent=1)
 
           ok("热更新包发布完成")
           with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
@@ -1205,9 +1208,11 @@ jobs:
           # 只 stage 我们已知名字的配置文件，绝不 git add -A 任意路径，
           # 避免误把别的临时产物（_artifacts/ / 上游同步进来的资源等）
           # 当成配置变更提交回去。
+          # 注意：official version_*.json 只在 /configures/ 下维护，
+          # 根目录不再提交 official 副本（_new 预览文件仍写根目录）。
           git add \
-              version_scenario.json version_scenario_new.json \
-              version_js.json       version_js_new.json \
+              version_scenario_new.json \
+              version_js_new.json \
               "${CONFIG_DIR}/version_scenario.json" "${CONFIG_DIR}/version_scenario_new.json" \
               "${CONFIG_DIR}/version_js.json"       "${CONFIG_DIR}/version_js_new.json" \
               2>/dev/null || true
