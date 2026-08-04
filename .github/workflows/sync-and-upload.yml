@@ -42,7 +42,11 @@ name: 🔄 同步上游并上传到 object-storage
 # ║ ───────                                                            ║
 # ║   ▸ 每次运行把上游最新 Release 的【全部】asset 镜像到本仓库：       ║
 # ║       1. YYYYmmdd-HHMMSS（UTC）命名的 Release —— 历史快照          ║
-# ║       2. 名为 latest 的 Release —— 滚动覆盖（先删后建）             ║
+# ║          （只放本次变化的文件，作为变更记录）                       ║
+# ║       2. 名为 latest 的 Release —— 全量镜像：只要检测到 upstream    ║
+# ║          有任何变化，就把全部 asset 重新上传一遍（同名先删再传），  ║
+# ║          并删除 upstream 已不存在的文件，确保 latest 始终是         ║
+# ║          upstream 的完整快照，避免下游程序读取 latest 时因缺文件报错 ║
 # ║                                                                    ║
 # ╚════════════════════════════════════════════════════════════════════╝
 
@@ -1074,16 +1078,21 @@ jobs:
           CONFIRM_CLEANUP: ${{ steps.check_upstream.outputs.confirm_cleanup }}
 
       # ───────────────────────────────────────────────────────────────
-      # 🏷 镜像上游 Release 到本仓库（增量 + 流式）
-      #   ▸ 先与下游 latest 做 diff（digest/size），无差异直接跳过
+      # 🏷 镜像上游 Release 到本仓库（快照增量 + latest 全量）
+      #   ▸ 先与下游 latest 做 diff（digest/size），完全没变化直接跳过
       #   ▸ 两种 Release 不同处理：
       #       1. YYYYmmdd-HHMMSS（UTC）日期快照 —— 只放【本次变化】的
       #          asset，相当于变更记录，体积小、上传快
-      #       2. latest —— 增量同步到与上游一致：只传新增/变化，
-      #          删除上游已移除的，没动的不碰（不再先删后建）
+      #       2. latest —— 【全量镜像】：只要检测到 upstream 有任何变化，
+      #          就把 upstream 当前的【全部】asset 重新上传一遍（同名先
+      #          删再传），并删除 upstream 已移除的文件。
+      #          这样能保证 latest 每次都是 upstream 的完整快照，
+      #          不会因为历史遗漏/漏传导致下游直接读 latest 时因缺文件报错。
+      #          代价：只要有任何文件变化，所有文件都会被重新下载+上传，
+      #          比纯增量慢，但正确性优先。
       #   ▸ 上传为流式：上游下载 URL 直连 uploads.github.com，
       #     不落盘、内存恒定；失败自动回退「落盘 + gh release upload」
-      #   ▸ 首次运行（下游无 latest）才全量上传一次
+      #   ▸ 首次运行（下游无 latest）全量上传一次
       #   ▸ 注意：GitHub 单个 asset 上限 2GiB，超限文件跳过并告警
       # ───────────────────────────────────────────────────────────────
       - name: 🏷 创建/覆盖本仓库快照 Release
@@ -1255,7 +1264,7 @@ jobs:
                   up_asset[1], up_asset[2])
 
           def main():
-              header("镜像上游 Release 到本仓库（增量 + 流式）")
+              header("镜像上游 Release 到本仓库（快照增量 + latest 全量）")
               info(f"来源: {c(C.BRIGHT_WHITE, f'{UPSTREAM_OWNER}/{UPSTREAM_REPO}')}")
               info(f"目标: {c(C.BRIGHT_WHITE, MIRROR_REPO)}")
 
@@ -1297,8 +1306,8 @@ jobs:
                       a.get("digest") or "", a.get("size", 0),
                       a["browser_download_url"])
 
-              # ── 与下游 latest 比对，算出增量 ──
-              section("与下游 latest Release 比对（增量同步）")
+              # ── 与下游 latest 比对，仅用于生成"变更快照"和判断本次是否需要动作 ──
+              section("与下游 latest Release 比对（用于变更快照 / 是否跳过判定）")
               dn_rel = gh_api_json(
                   [f"repos/{MIRROR_REPO}/releases/tags/latest"])
               dn_assets = ({a["name"]: a for a in dn_rel.get("assets", [])}
@@ -1306,7 +1315,7 @@ jobs:
               dn_map = {n: (a.get("digest") or "", a.get("size", 0))
                         for n, a in dn_assets.items()}
 
-              # 首次镜像：下游还没有 latest，全量上传一次（仅此一次慢）
+              # 首次镜像：下游还没有 latest，全量上传一次
               if dn_rel is None:
                   info("下游尚无 latest Release，首次全量镜像")
                   rel = create_release(
@@ -1331,61 +1340,70 @@ jobs:
                   set_output("mirrored", "true")
                   return
 
-              to_upload = [n for n in upstream_map
-                           if n not in dn_map
-                           or asset_changed(upstream_map[n][:2], dn_map[n])]
-              to_delete = [n for n in dn_map if n not in upstream_map]
+              # diff 仅用于：① 判断是否有任何变化（没变化就跳过，省得白跑）
+              #             ② 生成变更快照 Release 的内容和 notes
+              diff_upload = [n for n in upstream_map
+                             if n not in dn_map
+                             or asset_changed(upstream_map[n][:2], dn_map[n])]
+              diff_delete = [n for n in dn_map if n not in upstream_map]
 
-              if not to_upload and not to_delete:
+              if not diff_upload and not diff_delete:
                   ok("上游 Release 与下游 latest 完全一致，跳过镜像")
                   set_output("snapshot_tag", "")
                   set_output("mirrored", "false")
                   return
 
-              for n in sorted(to_upload):
+              for n in sorted(diff_upload):
                   tag = "新增" if n not in dn_map else "更新"
                   info(f"{tag}: {c(C.BRIGHT_YELLOW, n)}", indent=1)
-              for n in sorted(to_delete):
+              for n in sorted(diff_delete):
                   info(f"移除: {c(C.BRIGHT_YELLOW, n)}", indent=1)
 
               ts = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
               change_lines = (
-                  [f"- 新增 `{n}`" for n in sorted(to_upload) if n not in dn_map]
-                  + [f"- 更新 `{n}`" for n in sorted(to_upload) if n in dn_map]
-                  + [f"- 移除 `{n}`" for n in sorted(to_delete)])
+                  [f"- 新增 `{n}`" for n in sorted(diff_upload) if n not in dn_map]
+                  + [f"- 更新 `{n}`" for n in sorted(diff_upload) if n in dn_map]
+                  + [f"- 移除 `{n}`" for n in sorted(diff_delete)])
               notes = (f"上游 {UPSTREAM_OWNER}/{UPSTREAM_REPO} Release "
                        f"`{upstream_tag}` 变更快照（{ts} UTC，自动生成）\n\n"
                        + "\n".join(change_lines))
 
-              # ── 1. 日期时间快照：只放本次变化的文件（变更记录）──
-              if to_upload:
+              # ── 1. 日期时间快照：只放本次变化的文件（变更记录，行为不变）──
+              if diff_upload:
                   section(f"创建变更快照 Release: {ts}")
                   snap_rel = create_release(ts, ts, notes)
                   if snap_rel:
-                      for n in to_upload:
+                      for n in diff_upload:
                           stream_upload_asset(snap_rel["upload_url"], ts,
                                               n, upstream_map[n][1],
                                               upstream_map[n][2])
               else:
                   skip("本次只有移除没有新增/更新，不建快照")
 
-              # ── 2. latest：增量同步到与上游一致（不删重建）──
-              section("增量同步 latest Release")
-              for n in to_delete:
+              # ── 2. latest：全量同步 ──
+              #    只要检测到"有任何变化"，就把 upstream 当前【全部】asset
+              #    重新上传一遍（同名先删再传），并删除 upstream 已经没有的
+              #    文件，确保 latest 每次都是 upstream 的完整镜像，
+              #    不会因为历史遗漏 / 漏传导致下游读到不完整的文件集。
+              section("全量同步 latest Release（重新上传全部 upstream 文件）")
+              for n in diff_delete:
                   delete_asset(dn_assets[n], "latest")
+
+              all_names = list(upstream_map.keys())
               fails = 0
-              for n in to_upload:
+              for n in all_names:
                   if not upload_to_release(dn_rel, "latest", n,
                                            upstream_map[n], dn_assets):
                       fails += 1
 
               header("镜像完成")
-              ok(f"变更快照: {c(C.BRIGHT_CYAN, ts) if to_upload else '（无）'}")
+              ok(f"变更快照: {c(C.BRIGHT_CYAN, ts) if diff_upload else '（无）'}")
               ok(f"滚动 Release: {c(C.BRIGHT_CYAN, 'latest')} "
-                 f"（上传 {len(to_upload) - fails}，移除 {len(to_delete)}）")
+                 f"（全量上传 {len(all_names) - fails}/{len(all_names)}，"
+                 f"移除 {len(diff_delete)}）")
               if fails:
                   warn(f"{fails} 个文件上传失败，下次运行会自动补齐")
-              set_output("snapshot_tag", ts if to_upload else "")
+              set_output("snapshot_tag", ts if diff_upload else "")
               set_output("mirrored", "true")
 
           if __name__ == "__main__":
@@ -1461,7 +1479,7 @@ jobs:
           echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| object-storage 过时文件清理 | ${{ steps.check_upstream.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量）', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| CDN 刷新 | edge（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ CDN（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
