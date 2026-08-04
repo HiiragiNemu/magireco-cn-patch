@@ -1,1152 +1,1152 @@
 {
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.01,
-                "bg": "black",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "nameNarration": "",
-                "narration": "―序幕―",
-                "narrationBg": "",
-                "narrationEffect": "in",
-                "narrationFontSize": 37,
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 0.01,
-                "bg": "black",
-                "item": [
-                    {
-                        "iPhoneXScale": 1,
-                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_la_reine.jpg",
-                        "posX": 0,
-                        "posY": 125,
-                        "visible": "appear"
-                    }
-                ],
-                "narrationEffect": "out",
-                "turnChangeIn": "fadeIn",
-                "turnEffect": "sepiaFrame"
-            },
-            {
-                "autoTurnFirst": 0.1,
-                "bgm": "bgm05_event04",
-                "item": [
-                    {
-                        "action": {
-                            "spawn": [
-                                {
-                                    "moveTo": {
-                                        "duration": 12,
-                                        "posX": 0,
-                                        "posY": -125
-                                    }
-                                }
-                            ]
-                        },
-                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_la_reine.jpg"
-                    }
-                ],
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 1
-            },
-            {
-                "nameNarration": "塔鲁特",
-                "narration": "―塔鲁特―@想要将这个世界拖入黑暗的人…",
-                "narrationAnchor": "bottom",
-                "narrationCoverOpacity": 110,
-                "narrationEffect": "in",
-                "narrationFontSize": 30,
-                "narrationLineMargin": 35,
-                "narrationLineSpace": 20
-            },
-            {
-                "narration": "―塔鲁特―@伊莎贝拉·德·巴伐利亚"
-            },
-            {
-                "autoTurnLast": 2,
-                "narrationEffect": "out"
-            },
-            {
-                "autoTurnLast": 0.01,
-                "bg": "black",
-                "item": [
-                    {
-                        "iPhoneXScale": 1,
-                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg",
-                        "posX": 0,
-                        "posY": 125,
-                        "visible": "appear"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "item": [
-                    {
-                        "action": {
-                            "spawn": [
-                                {
-                                    "moveTo": {
-                                        "duration": 3.5,
-                                        "posX": 0,
-                                        "posY": -125
-                                    }
-                                }
-                            ]
-                        },
-                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg"
-                    }
-                ],
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "nameNarration": "塔鲁特",
-                "narration": "就此@我将结束这一切",
-                "narrationAnchor": "bottom",
-                "narrationCoverOpacity": 110,
-                "narrationEffect": "in",
-                "narrationFontSize": 30,
-                "narrationLineMargin": 35,
-                "narrationLineSpace": 20
-            },
-            {
-                "flashEffect": "flashWhiteSlow2",
-                "narration": "「要有光」…"
-            },
-            {
-                "flashEffect": "explosion",
-                "item": [
-                    {
-                        "action": {
-                            "sequence": [
-                                {
-                                    "moveTo": {
-                                        "duration": 0.05,
-                                        "posX": -30,
-                                        "posY": -125
-                                    }
-                                },
-                                {
-                                    "moveTo": {
-                                        "duration": 0.05,
-                                        "posX": 30,
-                                        "posY": -100
-                                    }
-                                },
-                                {
-                                    "moveTo": {
-                                        "duration": 0.05,
-                                        "posX": -30,
-                                        "posY": -125
-                                    }
-                                },
-                                {
-                                    "moveTo": {
-                                        "duration": 0.05,
-                                        "posX": 30,
-                                        "posY": -100
-                                    }
-                                },
-                                {
-                                    "moveTo": {
-                                        "duration": 0.05,
-                                        "posX": 0,
-                                        "posY": -125
-                                    }
-                                }
-                            ]
-                        },
-                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg"
-                    }
-                ],
-                "jingle": "4028D10",
-                "narration": "「天堂之门（La Porte de Paradis）」",
-                "turnEffect": "promist"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "narrationEffect": "out"
-            },
-            {
-                "autoTurnLast": 0.01,
-                "turnChangeIn": "whiteIn",
-                "turnChangeInTime": 1.3
-            },
-            {
-                "autoTurnLast": 1.5,
-                "item": [
-                    {
-                        "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg",
-                        "visible": "hide"
-                    }
-                ],
-                "textClear": 1,
-                "turnEffect": "stop"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "white",
-                "bgm": "stop",
-                "narrationBg": "",
-                "narrationCoverOpacity": 0,
-                "narrationEffect": "in",
-                "turnEffect": "sepiaFrame"
-            },
-            {
-                "jingle": "4028D20",
-                "nameNarration": "",
-                "narration": "[textBlack:（碰撞声）]",
-                "turnChangeOut": "whiteOut"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "narrationEffect": "out",
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_21372.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 102003,
-                        "motion": 0,
-                        "pos": 1,
-                        "soulGem": 0
-                    }
-                ],
-                "turnChangeIn": "whiteIn",
-                "turnChangeInTime": 1.2,
-                "turnEffect": "stop"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "…………@…………",
-                "turnChangeOut": "whiteOut",
-                "turnChangeOutTime": 1.2
-            },
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_20121.jpg",
-                "turnChangeIn": "fadeIn",
-                "turnEffect": "sepiaFrame"
-            },
-            {
-                "bgm": "bgm05_event05",
-                "nameNarration": "",
-                "narration": "「…根据以上的理由、教会将」",
-                "narrationBg": "",
-                "narrationCoverOpacity": 0,
-                "narrationEffect": "in",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "narration": "「自称Jeanne La Pucelle之人@认定为异端」"
-            },
-            {
-                "narration": "「处以火刑」"
-            },
-            {
-                "autoTurnLast": 2,
-                "bg": "black",
-                "item": [
-                    {
-                        "iPhoneXScale": 1,
-                        "path": "resource/scenario/img/51102_singleraid_tart3/memoria_1511.jpg",
-                        "posX": 0,
-                        "posY": 125,
-                        "visible": "appear"
-                    }
-                ],
-                "narrationEffect": "out",
-                "turnChangeIn": "fadeIn",
-                "turnChangeInTime": 1
-            },
-            {
-                "autoTurnFirst": 0.1,
-                "item": [
-                    {
-                        "action": {
-                            "spawn": [
-                                {
-                                    "moveTo": {
-                                        "duration": 12,
-                                        "posX": 0,
-                                        "posY": -125
-                                    }
-                                }
-                            ]
-                        },
-                        "path": "resource/scenario/img/51102_singleraid_tart3/memoria_1511.jpg"
-                    }
-                ],
-                "turnChangeOut": "fadeOut",
-                "turnChangeOutTime": 1
-            },
-            {
-                "autoTurnLast": 1
-            },
-            {
-                "nameNarration": "拉・海尔",
-                "narration": "―拉・海尔―@那个小女孩…@“圣少女”是我们的战友！",
-                "narrationAnchor": "bottom",
-                "narrationCoverOpacity": 110,
-                "narrationEffect": "in",
-                "narrationFontSize": 30,
-                "narrationLineMargin": 10,
-                "narrationLineSpace": 20
-            },
-            {
-                "narration": "―拉・海尔―@帮助她@正是我们应该做的"
-            },
-            {
-                "narration": "La Pucelle！La Pucelle!!@La Pucelle！La Pucelle!!"
-            },
-            {
-                "autoTurnLast": 1
-            },
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_31121.jpg",
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 402101,
-                        "motion": 100,
-                        "pos": 1
-                    }
-                ],
-                "narrationEffect": "out",
-                "turnChangeIn": "fadeIn",
-                "turnChangeInTime": 2
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 1,
-                        "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
-                        "zOrder": "messageBack"
-                    }
-                ],
-                "autoTurnLast": 0.1
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 2,
-                        "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
-                        "zOrder": "messageBack"
-                    }
-                ],
-                "autoTurnLast": 0.1
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 3,
-                        "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
-                        "zOrder": "bgFront"
-                    }
-                ],
-                "autoTurnLast": 0.1
-            },
-            {
-                "chara": [
-                    {
-                        "id": 402101,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "塔鲁特",
-                "textCenter": "…………",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 402101
-                    }
-                ],
-                "deleteArmatureList": [
-                    1
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "deleteArmatureList": [
-                    2
-                ]
-            },
-            {
-                "autoTurnLast": 0.1,
-                "deleteArmatureList": [
-                    3
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 402301,
-                        "motion": 0,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 2,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 402601,
-                        "lipSynch": 0,
-                        "motion": 400,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "爱丽莎·瑟尔斯加",
-                "textLeft": "[chara:402601:effect_emotion_surprise_0][se:7226_shock]――!?"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 2,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 402601,
-                        "motion": 1,
-                        "mouthOpen": 1
-                    }
-                ],
-                "textBg": "shout",
-                "textLeft": "火已经!!"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 2,
-                        "id": 402301,
-                        "motion": 1,
-                        "tear": 1
-                    },
-                    {
-                        "id": 402601,
-                        "mouthOpen": 0
-                    }
-                ],
-                "nameRight": "梅丽莎·德·维尼奥勒",
-                "textRight": "塔鲁特!@塔鲁特!!"
-            },
-            {
-                "autoTurnLast": 1.6,
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 402101,
-                        "motion": 100,
-                        "pos": 1
-                    }
-                ],
-                "turnChangeIn": "rollInFast"
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 1,
-                        "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
-                        "zOrder": "messageBack"
-                    }
-                ],
-                "autoTurnLast": 0.1
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 2,
-                        "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
-                        "zOrder": "messageBack"
-                    }
-                ],
-                "autoTurnLast": 0.1
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 3,
-                        "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
-                        "zOrder": "bgFront"
-                    }
-                ],
-                "autoTurnLast": 0.1
-            },
-            {
-                "chara": [
-                    {
-                        "id": 402101,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "塔鲁特",
-                "textCenter": "…………@…………",
-                "turnChangeOut": "rollOutFast"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 402900,
-                        "motion": 400,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 2,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 402601,
-                        "lipSynch": 0,
-                        "motion": 1,
-                        "pos": 0,
-                        "tear": 1
-                    },
-                    {
-                        "cheek": 2,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 402301,
-                        "lipSynch": 0,
-                        "motion": 300,
-                        "pos": 1,
-                        "tear": 1
-                    }
-                ],
-                "deleteArmatureList": [
-                    1
-                ],
-                "turnChangeIn": "rollInFast"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "deleteArmatureList": [
-                    2
-                ]
-            },
-            {
-                "autoTurnLast": 0.1,
-                "deleteArmatureList": [
-                    3
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "id": 402900
-                    }
-                ],
-                "nameRight": "佩尔内勒·弗拉梅尔",
-                "textRight": "我…在此祈祷",
-                "turnChangeOut": "rollOutFast"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 402900
-                    }
-                ],
-                "nameRight": "佩尔内勒·弗拉梅尔",
-                "textRight": "圣女的…@“圣少女”传说的终章…"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.01,
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 402101,
-                        "motion": 100,
-                        "pos": 1
-                    }
-                ],
-                "turnChangeIn": "rollInFast"
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 1,
-                        "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
-                        "zOrder": "messageBack"
-                    }
-                ],
-                "autoTurnLast": 0.1
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 2,
-                        "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
-                        "zOrder": "messageBack"
-                    }
-                ],
-                "autoTurnLast": 0.1
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 3,
-                        "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
-                        "zOrder": "bgFront"
-                    }
-                ],
-                "autoTurnLast": 1.5
-            },
-            {
-                "chara": [
-                    {
-                        "id": 402101,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "塔鲁特",
-                "textCenter": "…………@…………",
-                "turnChangeOut": "rollOutFast"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "black",
-                "deleteArmatureList": [
-                    1,
-                    2,
-                    3
-                ],
-                "item": [
-                    {
-                        "iPhoneXScale": 1,
-                        "path": "resource/scenario/img/51102_singleraid_tart3/memoria_1508.jpg",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "nameNarration": "塔鲁特",
-                "narration": "―塔鲁特―@所有的一切…",
-                "narrationAnchor": "bottom",
-                "narrationCoverOpacity": 110,
-                "narrationEffect": "in",
-                "narrationFontSize": 30,
-                "narrationLineMargin": 35,
-                "narrationLineSpace": 20,
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "narration": "―塔鲁特―@谢谢（Merci Vremont）"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "narrationEffect": "out"
-            },
-            {
-                "autoTurnLast": 2.5,
-                "bg": "bg_adv_21372.jpg",
-                "bgm": "stop",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_001.exp3.json",
-                        "id": 102003,
-                        "motion": 0,
-                        "pos": 1,
-                        "soulGem": 0
-                    }
-                ],
-                "turnChangeIn": "whiteIn",
-                "turnChangeInTime": 2,
-                "turnEffect": "stop"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "…………",
-                "turnChangeOut": "whiteOut",
-                "turnChangeOutTime": 2
-            },
-            {
-                "autoTurnLast": 0.01,
-                "bg": "white",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "nameNarration": "???",
-                "narration": "[textBlack:「…拜托了」]",
-                "narrationBg": "white",
-                "narrationCoverOpacity": 0,
-                "narrationEffect": "in",
-                "surround": "7202_telepathy",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "narration": "[textBlack:「不要糟蹋了、她的愿望」]"
-            },
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_21173.jpg",
-                "narrationEffect": "out",
-                "surround": "stop",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "autoTurnLast": 2,
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 2,
-                "bg": "bg_adv_21171.jpg",
-                "bgChangeEffect": "fade"
-            },
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_21012.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_001.exp3.json",
-                        "id": 102003,
-                        "motion": 0,
-                        "pos": 1,
-                        "soulGem": 0
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "bgm": "bgm01_anime02",
-                "chara": [
-                    {
-                        "id": 102003,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "…………",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 1,
-                "chara": [
-                    {
-                        "eyeClose": 0,
-                        "id": 102003
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102003,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "哈啊…@[chara:102003:lipSynch_0][wait:1.0][chara:102003:cheek_0][chara:102003:face_mtn_ex_030.exp3.json][chara:102003:lipSynch_1]刚刚的梦是…什么？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102003,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "欸…？"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 102003
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 2,
-                "item": [
-                    {
-                        "path": "resource/scenario/img/51158_tower_tart2/51158_kagome_magical_pencil.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaBack"
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.2,
-                "item": [
-                    {
-                        "path": "resource/scenario/img/51158_tower_tart2/51158_kagome_magical_pencil.png",
-                        "visible": "hide"
-                    }
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102003,
-                        "motion": 300,
-                        "pos": 1,
-                        "soulGem": 0
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "自动铅笔…？@原来我拿着它睡着了啊…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "确实是我的…东西吧？@不过…是什么时候买的来着"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "id": 102003,
-                        "lipSynch": 0,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "…………"
-            },
-            {
-                "bg": "bg_adv_21012.jpg",
-                "chara": [
-                    {
-                        "id": 102003,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 800600,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameNarration": "",
-                "narration": "咚，咚",
-                "narrationBg": "bg_adv_21012.jpg",
-                "narrationEffect": "in"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 800600
-                    }
-                ],
-                "nameRight": "",
-                "narrationEffect": "out",
-                "textRight": "早上好@佐鸟笼目"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102003,
-                        "motion": 0
-                    }
-                ],
-                "nameLeft": "笼目",
-                "textLeft": "啊…护士小姐"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 800600
-                    }
-                ],
-                "nameRight": "",
-                "textRight": "今天是出院的日子呢@恭喜！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 102003,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "笼目",
-                "textLeft": "…谢…谢谢"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 800600
-                    }
-                ],
-                "nameRight": "",
-                "textRight": "早餐，就给你放在这里了@那我就先走了…"
-            },
-            {
-                "bg": "bg_adv_21012.jpg",
-                "chara": [
-                    {
-                        "id": 102003,
-                        "motion": 0,
-                        "pos": 1
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 800600
-                    }
-                ],
-                "nameNarration": "",
-                "narration": "砰…",
-                "narrationBg": "bg_adv_21012.jpg",
-                "narrationEffect": "in"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "lipSynch": 0,
-                        "motion": 200
-                    }
-                ],
-                "nameCenter": "小阿鲁",
-                "narrationEffect": "out",
-                "textCenter": "＜…嗯，你是@小笼目吗？＞"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 102003,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "…诶…？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "motion": 400
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "…诶…诶诶!?"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "（小阿鲁…）"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_053.exp3.json",
-                        "id": 102003,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "（自己说话了…!?）"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "小阿鲁",
-                "textCenter": "＜可以问一下吗？这是哪里？＞"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "motion": 300
-                    }
-                ],
-                "nameCenter": "笼目",
-                "textCenter": "…嗯…"
-            },
-            {
-                "autoTurnLast": 2,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_053.exp3.json",
-                        "id": 102003,
-                        "motion": 1,
-                        "pos": 1,
-                        "soulGem": 0
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "小阿鲁",
-                "textCenter": "＜这样吗…这里对我来说@似乎是未来的世界！＞",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "小阿鲁",
-                "textCenter": "＜那个，希望你能帮我一件事！>"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "小阿鲁",
-                "textCenter": "＜希望你能与我一起调查@一位被世人称作＞"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 102003,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameCenter": "小阿鲁",
-                "textCenter": "＜“圣少女”贞德…@或者说Jeanne d'Arc的人！＞"
-            },
-            {
-                "autoTurnLast": 2,
-                "bg": "black",
-                "bgm": "stop",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bgm": "bgm03_story23"
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 1,
-                        "filePath": "resource/image_native/effect/story/adv_eve_1159.ExportJson",
-                        "zOrder": "charaFront"
-                    }
-                ],
-                "autoTurnLast": 0.1,
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 2,
-                "turnChangeIn": "fadeIn"
-            }
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.01,
+        "bg": "black",
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "nameNarration": "",
+        "narration": "—序—",
+        "narrationBg": "",
+        "narrationEffect": "in",
+        "narrationFontSize": 37,
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "bg": "black",
+        "item": [
+          {
+            "iPhoneXScale": 1,
+            "path": "resource/scenario/img/51102_singleraid_tart3/51102_la_reine.jpg",
+            "posX": 0,
+            "posY": 125,
+            "visible": "appear"
+          }
+        ],
+        "narrationEffect": "out",
+        "turnChangeIn": "fadeIn",
+        "turnEffect": "sepiaFrame"
+      },
+      {
+        "autoTurnFirst": 0.1,
+        "bgm": "bgm05_event04",
+        "item": [
+          {
+            "action": {
+              "spawn": [
+                {
+                  "moveTo": {
+                    "duration": 12,
+                    "posX": 0,
+                    "posY": -125
+                  }
+                }
+              ]
+            },
+            "path": "resource/scenario/img/51102_singleraid_tart3/51102_la_reine.jpg"
+          }
+        ],
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 1
+      },
+      {
+        "nameNarration": "塔鲁特",
+        "narration": "―塔鲁特―@企图让这个世界堕入黑暗之人…",
+        "narrationAnchor": "bottom",
+        "narrationCoverOpacity": 110,
+        "narrationEffect": "in",
+        "narrationFontSize": 30,
+        "narrationLineMargin": 35,
+        "narrationLineSpace": 20
+      },
+      {
+        "narration": "―塔鲁特―@伊萨博・德・巴伐利亚"
+      },
+      {
+        "autoTurnLast": 2,
+        "narrationEffect": "out"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "bg": "black",
+        "item": [
+          {
+            "iPhoneXScale": 1,
+            "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg",
+            "posX": 0,
+            "posY": 125,
+            "visible": "appear"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "item": [
+          {
+            "action": {
+              "spawn": [
+                {
+                  "moveTo": {
+                    "duration": 3.5,
+                    "posX": 0,
+                    "posY": -125
+                  }
+                }
+              ]
+            },
+            "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg"
+          }
+        ],
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "nameNarration": "塔鲁特",
+        "narration": "就用这一击将你终结",
+        "narrationAnchor": "bottom",
+        "narrationCoverOpacity": 110,
+        "narrationEffect": "in",
+        "narrationFontSize": 30,
+        "narrationLineMargin": 35,
+        "narrationLineSpace": 20
+      },
+      {
+        "flashEffect": "flashWhiteSlow2",
+        "narration": "「光啊」…"
+      },
+      {
+        "flashEffect": "explosion",
+        "item": [
+          {
+            "action": {
+              "sequence": [
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": -30,
+                    "posY": -125
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 30,
+                    "posY": -100
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": -30,
+                    "posY": -125
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 30,
+                    "posY": -100
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": -125
+                  }
+                }
+              ]
+            },
+            "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg"
+          }
+        ],
+        "jingle": "4028D10",
+        "narration": "「天国之门（La porte du paradis）」",
+        "turnEffect": "promist"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "narrationEffect": "out"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "turnChangeIn": "whiteIn",
+        "turnChangeInTime": 1.3
+      },
+      {
+        "autoTurnLast": 1.5,
+        "item": [
+          {
+            "path": "resource/scenario/img/51102_singleraid_tart3/51102_tart_heavens_door.jpg",
+            "visible": "hide"
+          }
+        ],
+        "textClear": 1,
+        "turnEffect": "stop"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "white",
+        "bgm": "stop",
+        "narrationBg": "",
+        "narrationCoverOpacity": 0,
+        "narrationEffect": "in",
+        "turnEffect": "sepiaFrame"
+      },
+      {
+        "jingle": "4028D20",
+        "nameNarration": "",
+        "narration": "[textBlack:铛啷]",
+        "turnChangeOut": "whiteOut"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "narrationEffect": "out",
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 1,
+        "bg": "bg_adv_21372.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 102003,
+            "motion": 0,
+            "pos": 1,
+            "soulGem": 0
+          }
+        ],
+        "turnChangeIn": "whiteIn",
+        "turnChangeInTime": 1.2,
+        "turnEffect": "stop"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "…………@…………",
+        "turnChangeOut": "whiteOut",
+        "turnChangeOutTime": 1.2
+      },
+      {
+        "autoTurnLast": 1,
+        "bg": "bg_adv_20121.jpg",
+        "turnChangeIn": "fadeIn",
+        "turnEffect": "sepiaFrame"
+      },
+      {
+        "bgm": "bgm05_event05",
+        "nameNarration": "",
+        "narration": "「…出于以上的理由，教会将」",
+        "narrationBg": "",
+        "narrationCoverOpacity": 0,
+        "narrationEffect": "in",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "narration": "「自称为圣女贞德（Jeanne La Pucelle）之人@认定为异端」"
+      },
+      {
+        "narration": "「处以火刑」"
+      },
+      {
+        "autoTurnLast": 2,
+        "bg": "black",
+        "item": [
+          {
+            "iPhoneXScale": 1,
+            "path": "resource/scenario/img/51102_singleraid_tart3/memoria_1511.jpg",
+            "posX": 0,
+            "posY": 125,
+            "visible": "appear"
+          }
+        ],
+        "narrationEffect": "out",
+        "turnChangeIn": "fadeIn",
+        "turnChangeInTime": 1
+      },
+      {
+        "autoTurnFirst": 0.1,
+        "item": [
+          {
+            "action": {
+              "spawn": [
+                {
+                  "moveTo": {
+                    "duration": 12,
+                    "posX": 0,
+                    "posY": -125
+                  }
+                }
+              ]
+            },
+            "path": "resource/scenario/img/51102_singleraid_tart3/memoria_1511.jpg"
+          }
+        ],
+        "turnChangeOut": "fadeOut",
+        "turnChangeOutTime": 1
+      },
+      {
+        "autoTurnLast": 1
+      },
+      {
+        "nameNarration": "拉·海尔",
+        "narration": "―拉・伊尔―@那个小姑娘…@“圣少女”是我们的战友！",
+        "narrationAnchor": "bottom",
+        "narrationCoverOpacity": 110,
+        "narrationEffect": "in",
+        "narrationFontSize": 30,
+        "narrationLineMargin": 10,
+        "narrationLineSpace": 20
+      },
+      {
+        "narration": "―拉・伊尔―@现在我们该做的事@就是去拯救她"
+      },
+      {
+        "narration": "La Pucelle！La Pucelle！！@La Pucelle！La Pucelle！！"
+      },
+      {
+        "autoTurnLast": 1
+      },
+      {
+        "autoTurnLast": 1,
+        "bg": "bg_adv_31121.jpg",
+        "chara": [
+          {
+            "cheek": 1,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 402101,
+            "motion": 100,
+            "pos": 1
+          }
+        ],
+        "narrationEffect": "out",
+        "turnChangeIn": "fadeIn",
+        "turnChangeInTime": 2
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 1,
+            "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
+            "zOrder": "messageBack"
+          }
+        ],
+        "autoTurnLast": 0.1
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 2,
+            "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
+            "zOrder": "messageBack"
+          }
+        ],
+        "autoTurnLast": 0.1
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 3,
+            "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
+            "zOrder": "bgFront"
+          }
+        ],
+        "autoTurnLast": 0.1
+      },
+      {
+        "chara": [
+          {
+            "id": 402101,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "塔鲁特",
+        "textCenter": "…………",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 402101
+          }
+        ],
+        "deleteArmatureList": [
+          1
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "deleteArmatureList": [
+          2
         ]
-    },
-    "version": 3
+      },
+      {
+        "autoTurnLast": 0.1,
+        "deleteArmatureList": [
+          3
+        ]
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 402301,
+            "motion": 0,
+            "pos": 2
+          },
+          {
+            "cheek": 2,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 402601,
+            "lipSynch": 0,
+            "motion": 400,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "爱丽莎·瑟尔斯加",
+        "textLeft": "[chara:402601:effect_emotion_surprise_0][se:7226_shock]――!?"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 2,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 402601,
+            "motion": 1,
+            "mouthOpen": 1
+          }
+        ],
+        "textBg": "shout",
+        "textLeft": "火已经！！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 2,
+            "id": 402301,
+            "motion": 1,
+            "tear": 1
+          },
+          {
+            "id": 402601,
+            "mouthOpen": 0
+          }
+        ],
+        "nameRight": "梅丽莎･ド･ヴィニョル",
+        "textRight": "塔鲁特！@塔鲁特！！"
+      },
+      {
+        "autoTurnLast": 1.6,
+        "chara": [
+          {
+            "cheek": 1,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 402101,
+            "motion": 100,
+            "pos": 1
+          }
+        ],
+        "turnChangeIn": "rollInFast"
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 1,
+            "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
+            "zOrder": "messageBack"
+          }
+        ],
+        "autoTurnLast": 0.1
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 2,
+            "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
+            "zOrder": "messageBack"
+          }
+        ],
+        "autoTurnLast": 0.1
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 3,
+            "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
+            "zOrder": "bgFront"
+          }
+        ],
+        "autoTurnLast": 0.1
+      },
+      {
+        "chara": [
+          {
+            "id": 402101,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "塔鲁特",
+        "textCenter": "…………@…………",
+        "turnChangeOut": "rollOutFast"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 402900,
+            "motion": 400,
+            "pos": 2
+          },
+          {
+            "cheek": 2,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 402601,
+            "lipSynch": 0,
+            "motion": 1,
+            "pos": 0,
+            "tear": 1
+          },
+          {
+            "cheek": 2,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 402301,
+            "lipSynch": 0,
+            "motion": 300,
+            "pos": 1,
+            "tear": 1
+          }
+        ],
+        "deleteArmatureList": [
+          1
+        ],
+        "turnChangeIn": "rollInFast"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "deleteArmatureList": [
+          2
+        ]
+      },
+      {
+        "autoTurnLast": 0.1,
+        "deleteArmatureList": [
+          3
+        ]
+      },
+      {
+        "chara": [
+          {
+            "id": 402900
+          }
+        ],
+        "nameRight": "佩尔内勒·弗拉梅尔",
+        "textRight": "我也…一起祈祷吧",
+        "turnChangeOut": "rollOutFast"
+      },
+      {
+        "chara": [
+          {
+            "id": 402900
+          }
+        ],
+        "nameRight": "佩尔内勒·弗拉梅尔",
+        "textRight": "在圣女…@“圣少女”的传说的最后…"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 0.01,
+        "chara": [
+          {
+            "cheek": 1,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 402101,
+            "motion": 100,
+            "pos": 1
+          }
+        ],
+        "turnChangeIn": "rollInFast"
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 1,
+            "filePath": "resource/image_native/effect/story/general/4004_red_flame.ExportJson",
+            "zOrder": "messageBack"
+          }
+        ],
+        "autoTurnLast": 0.1
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 2,
+            "filePath": "resource/image_native/effect/story/general/3004_sparks.ExportJson",
+            "zOrder": "messageBack"
+          }
+        ],
+        "autoTurnLast": 0.1
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 3,
+            "filePath": "resource/image_native/effect/story/general/6002_sparks.ExportJson",
+            "zOrder": "bgFront"
+          }
+        ],
+        "autoTurnLast": 1.5
+      },
+      {
+        "chara": [
+          {
+            "id": 402101,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "塔鲁特",
+        "textCenter": "…………@…………",
+        "turnChangeOut": "rollOutFast"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "black",
+        "deleteArmatureList": [
+          1,
+          2,
+          3
+        ],
+        "item": [
+          {
+            "iPhoneXScale": 1,
+            "path": "resource/scenario/img/51102_singleraid_tart3/memoria_1508.jpg",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "nameNarration": "塔鲁特",
+        "narration": "―塔鲁特―@对一切的事物…",
+        "narrationAnchor": "bottom",
+        "narrationCoverOpacity": 110,
+        "narrationEffect": "in",
+        "narrationFontSize": 30,
+        "narrationLineMargin": 35,
+        "narrationLineSpace": 20,
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "narration": "―塔鲁特―@致以感谢（Merci Vraiment）"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "narrationEffect": "out"
+      },
+      {
+        "autoTurnLast": 2.5,
+        "bg": "bg_adv_21372.jpg",
+        "bgm": "stop",
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 102003,
+            "motion": 0,
+            "pos": 1,
+            "soulGem": 0
+          }
+        ],
+        "turnChangeIn": "whiteIn",
+        "turnChangeInTime": 2,
+        "turnEffect": "stop"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "…………",
+        "turnChangeOut": "whiteOut",
+        "turnChangeOutTime": 2
+      },
+      {
+        "autoTurnLast": 0.01,
+        "bg": "white",
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "nameNarration": "？？？",
+        "narration": "[textBlack:「…拜托了」]",
+        "narrationBg": "white",
+        "narrationCoverOpacity": 0,
+        "narrationEffect": "in",
+        "surround": "7202_telepathy",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "narration": "[textBlack:「请不要让她的愿望化为乌有」]"
+      },
+      {
+        "autoTurnLast": 1,
+        "bg": "bg_adv_21173.jpg",
+        "narrationEffect": "out",
+        "surround": "stop",
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "autoTurnLast": 2,
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 2,
+        "bg": "bg_adv_21171.jpg",
+        "bgChangeEffect": "fade"
+      },
+      {
+        "autoTurnLast": 1,
+        "bg": "bg_adv_21012.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 102003,
+            "motion": 0,
+            "pos": 1,
+            "soulGem": 0
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "bgm": "bgm01_anime02",
+        "chara": [
+          {
+            "id": 102003,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "…………",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 1,
+        "chara": [
+          {
+            "eyeClose": 0,
+            "id": 102003
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102003,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "哈…@[chara:102003:lipSynch_0][wait:1.0][chara:102003:cheek_0][chara:102003:face_mtn_ex_030.exp3.json][chara:102003:lipSynch_1]刚才的梦…是什么？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102003,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "诶…？"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 102003
+          }
+        ],
+        "textClear": 1
+      },
+      {
+        "autoTurnLast": 2,
+        "item": [
+          {
+            "path": "resource/scenario/img/51158_tower_tart2/51158_kagome_magical_pencil.png",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaBack"
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.2,
+        "item": [
+          {
+            "path": "resource/scenario/img/51158_tower_tart2/51158_kagome_magical_pencil.png",
+            "visible": "hide"
+          }
+        ]
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102003,
+            "motion": 300,
+            "pos": 1,
+            "soulGem": 0
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "自动铅笔…？@我拿着它睡着了…"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "这确实是我的…吧？@但是…是什么时候买的来着"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "id": 102003,
+            "lipSynch": 0,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "…………"
+      },
+      {
+        "bg": "bg_adv_21012.jpg",
+        "chara": [
+          {
+            "id": 102003,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 800600,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "nameNarration": "",
+        "narration": "咚，咚",
+        "narrationBg": "bg_adv_21012.jpg",
+        "narrationEffect": "in"
+      },
+      {
+        "chara": [
+          {
+            "id": 800600
+          }
+        ],
+        "nameRight": "",
+        "narrationEffect": "out",
+        "textRight": "早上好，佐鸟笼目小姐"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102003,
+            "motion": 0
+          }
+        ],
+        "nameLeft": "笼目",
+        "textLeft": "啊…护士小姐"
+      },
+      {
+        "chara": [
+          {
+            "id": 800600
+          }
+        ],
+        "nameRight": "",
+        "textRight": "今天你就出院了呢，恭喜！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 102003,
+            "pos": 0
+          }
+        ],
+        "nameLeft": "笼目",
+        "textLeft": "…谢…谢谢"
+      },
+      {
+        "chara": [
+          {
+            "id": 800600
+          }
+        ],
+        "nameRight": "",
+        "textRight": "我把早饭放在这里了@再见…"
+      },
+      {
+        "bg": "bg_adv_21012.jpg",
+        "chara": [
+          {
+            "id": 102003,
+            "motion": 0,
+            "pos": 1
+          },
+          {
+            "effect": "fadeout",
+            "id": 800600
+          }
+        ],
+        "nameNarration": "",
+        "narration": "啪嗒…",
+        "narrationBg": "bg_adv_21012.jpg",
+        "narrationEffect": "in"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "lipSynch": 0,
+            "motion": 200
+          }
+        ],
+        "nameCenter": "小阿鲁",
+        "narrationEffect": "out",
+        "textCenter": "<…哼，你叫小笼目啊？>"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 102003,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "…诶…？"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "motion": 400
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "…诶…诶诶！？"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "（小阿鲁…）"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_053.exp3.json",
+            "id": 102003,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "（擅自说话了…！？）"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "小阿鲁",
+        "textCenter": "<我能问问题吗？这里是哪里？>"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "motion": 300
+          }
+        ],
+        "nameCenter": "笼目",
+        "textCenter": "…那…个…"
+      },
+      {
+        "autoTurnLast": 2,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_053.exp3.json",
+            "id": 102003,
+            "motion": 1,
+            "pos": 1,
+            "soulGem": 0
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "小阿鲁",
+        "textCenter": "<这样啊…这里好像是@对我而言的未来的世界呢！>",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "小阿鲁",
+        "textCenter": "<那个，我有事想拜托你！@希望你能和我一起调查>"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "小阿鲁",
+        "textCenter": "<叫做“圣少女”贞德…>"
+      },
+      {
+        "chara": [
+          {
+            "id": 102003,
+            "lipSynch": 0
+          }
+        ],
+        "nameCenter": "小阿鲁",
+        "textCenter": "<或者贞德・达尔克的@人的事情！>"
+      },
+      {
+        "autoTurnLast": 2,
+        "bg": "black",
+        "bgm": "stop",
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bgm": "bgm03_story23"
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 1,
+            "filePath": "resource/image_native/effect/story/adv_eve_1159.ExportJson",
+            "zOrder": "charaFront"
+          }
+        ],
+        "autoTurnLast": 0.1,
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 2,
+        "turnChangeIn": "fadeIn"
+      }
+    ]
+  },
+  "version": 3
 }
