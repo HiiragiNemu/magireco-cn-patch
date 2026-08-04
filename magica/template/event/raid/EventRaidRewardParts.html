@@ -1,0 +1,70 @@
+<div class="closeBtn se_cancel TE"></div>
+<div class="line_up"></div>
+<div class="title"><img src="/magica/resource/image_web/event/raid/common/reward/reward.png" /></div>
+<div class="title_s"></div>
+<!-- 一覧 -->
+<div id="rewardPopupListWrap">
+  <ul id="rewardPopupList" class="scrollInner"></ul>
+</div>
+<div class="line_down"></div>
+<div class="btn b_white se_decide closeBtn TE"><span class="b_screen"></span>OK</div>
+<script type="text/template" id="rewardPopupListParts"> <div class="header"></div>
+
+		<div class="bossImgWrap">
+			<img class="bossImg" src='/magica/resource/image_web/event/raid/<%= eventId %>/top/img_boss_<%="<%= parseInt(model.bossId/100) %\>"%>.png'>
+		</div>
+		<div class="badge"></div>
+
+		<div id="attribute">
+			<span class="type_f <%="<%= model.raidBoss.attributeId %\>"%>"></span>
+		</div>
+
+		<div class="name c_white"><%="<%= model.raidBoss.name %\>"%></div>
+
+		<div class="lv c_white">Lv<%="<%= model.raidBoss.level %\>"%></div>
+
+		<%="<% if(model.sendRewardCodes) { %\>"%>
+		<div class="joinRewardWrap rewardWrap pointFrame02">
+			<ul class="logRewardList">
+			<%="<% var rewardCodeArr = model.sendRewardCodes.split(','); %\>"%>
+			<%="<% _.forEach(rewardCodeArr,function(txt){ %\>"%>
+				<%="<% var rewardCode = txt.split('_'); %\>"%>
+				<li class="rewardImg">
+					<%="<% var quantity = rewardCode[rewardCode.length-1]; %\>"%>
+					<%="<% if (rewardCode[0]=='GIFT') { %\>"%>
+						<%="<% var imgPath = 'item_gift_' + rewardCode[1]; %\>"%>
+						<img data-nativeimgkey="gift_<%='<%= imgPath %\>'%>" data-src="resource/image_native/gift/<%='<%= imgPath %\>'%>.png">
+					<%="<% } else { %\>"%>
+						<%="<% rewardCode.shift(); rewardCode.pop(); var imgPath = ((txt.indexOf('EVENT_') > -1)? 'event':'main') + '/' + rewardCode.join('_').toLowerCase(); %\>"%>
+						<img src="/magica/resource/image_web/item/<%='<%= imgPath %\>'%>.png" />
+					<%="<% } %\>"%>
+					<span class="quantity">×<%='<%= quantity %\>'%></span>
+				</li>
+			<%="<% }) %\>"%>
+			</ul>
+			<div class="c_white rewardTitle">对战<br />参加</div>
+		</div>
+		<%="<% } %\>"%>
+		<%="<% if(model.raidBoss.discoverRewardCodes && model.type == 'SELF') { %\>"%>
+		<div class="discoverRewardWrap rewardWrap pointFrame02">
+			<ul class="logRewardList">
+			<%="<% var rewardCodeArr = model.raidBoss.discoverRewardCodes.split(','); %\>"%>
+			<%="<% _.forEach(rewardCodeArr,function(txt){ %\>"%>
+				<%="<% var rewardCode = txt.split('_'); %\>"%>
+				<li class="rewardImg">
+					<%="<% var quantity = rewardCode[rewardCode.length-1]; %\>"%>
+					<%="<% if (rewardCode[0]=='GIFT') { %\>"%>
+						<%="<% var imgPath = 'item_gift_' + rewardCode[1]; %\>"%>
+						<img data-nativeimgkey="gift_<%='<%= imgPath %\>'%>" data-src="resource/image_native/gift/<%='<%= imgPath %\>'%>.png">
+					<%="<% } else { %\>"%>
+						<%="<% rewardCode.shift(); rewardCode.pop(); var imgPath = ((txt.indexOf('EVENT_') > -1)? 'event':'main') + '/' + rewardCode.join('_').toLowerCase(); %\>"%>
+						<img src="/magica/resource/image_web/item/<%='<%= imgPath %\>'%>.png" />
+					<%="<% } %\>"%>
+					<span class="quantity">×<%='<%= quantity %\>'%></span>
+				</li>
+			<%="<% }) %\>"%>
+			</ul>
+			<div class="c_white rewardTitle">首次<br />对战</div>
+		</div>
+		<%="<% } %\>"%>
+</script>

@@ -1,0 +1,110 @@
+<div id="ComposeTop">
+  <div id="mainWrap">
+    <span class="linkBtn closeBtn" data-href="#/MyPage"></span>
+    <div id="composeHelpTxt"></div>
+    <div id="targetCard"></div>
+    <div id="statusWrap">
+      <p id="statusTitle c_purple">强化结果</p>
+      <div id="beforeStatus">
+      </div>
+      <div id="afterStatus">
+      </div>
+    </div>
+    <ul id="useItem" class="clearfix">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <div id="limitBreakWrap" class="hide"></div>
+    <span id="runBtn"></span>
+    <div id="hasRiche">
+      <p>持有金额</p>
+      <span class="riche"><%= gameUser.riche %></span>
+    </div>
+    <div id="costRiche">
+      <p>合计费用</p>
+      <span class="riche">0</span>
+    </div>
+  </div>
+  <div id="cardListWrap">
+    <span class="closeBtn wrapClose" data-wrap-id="cardListWrap"></span>
+    <div id="cardWrap"></div>
+  </div>
+  <div id="itemListWrap">
+    <span class="closeBtn wrapClose" data-wrap-id="itemListWrap"></span>
+    <div id="itemWrap">
+      <ul id="itemList"></ul>
+    </div>
+    <span id="useItemDecideBtn" class="btn">确定</span>
+    <span id="useItemResetBtn" class="btn">取消选择</span>
+  </div>
+  <div id="cardDetailWrap">cardDetailWrap</div>
+</div>
+<!-- 強化対象選択カードリストtemplate -->
+<script type="text/template" id="CardListParts"> <%="<%if(model.level == model.maxLevel && model.lbCount != 4){ %\>"%>
+		<span class="lvMax">可以觉醒</span>
+	<%="<%}%\>"%>
+	<span class="lv">Lv. <%="<%=model.level%\>/<%=model.maxLevel%\>"%></span>
+	<img src='<%="<%= resDir %\>"%>/magica/resource/image_web/card_s/<%="<%= model.cardId %\>"%>.png' width="120" alt=''>
+</script>
+<!-- 強化素材選択アイテムリストtemplate -->
+<script type="text/template" id="ItemListParts"> <span class="select">已选择</span>
+	<%="<%= model.item.name %\> "%>
+</script>
+<!-- ステータスtemplate -->
+<script type="text/template" id="StatusParts"> <p>Lv:<%="<span class='lv'\><%= model.level %\></span\>/<%= model.maxLevel %\>"%></p>
+	<p>exp:<%="<span class='exp'\><%= model.experience %\></span\>"%></p>
+	<p class="lbCount_3">界限突破:<%="<%= model.lbCount %\>"%></p>
+	<p class="epLv_2">篇章Lv:<span>-</span></p>
+	<p>距下一级:<%="<span class='nextExp'\></span\>"%></p>
+</script>
+<!-- 限界突破template -->
+<script type="text/template" id="LimitBreakParts"> <p>觉醒:<%="<%= model.lbCount %\>"%></p>
+
+	<div class="LbBtns clearfix">
+		<div class="btnWrap" data-id="LIMIT_BREAK_N">
+			<span class="lbBtn">觉醒1</span>
+			<p>需要:<span class="need">○</span>个</p>
+			<p>持有数:<span class="quantity"><%="<%= this.LIMIT_BREAK_N %\>"%></span>个</p>
+		</div>
+		<div class="btnWrap" data-id="LIMIT_BREAK_R">
+			<span class="lbBtn">觉醒2</span>
+			<p>需要:<span class="need">○</span>个</p>
+			<p>持有数:<span class="quantity"><%="<%= this.LIMIT_BREAK_R %\>"%></span>个</p>
+		</div>
+		<div class="btnWrap" data-id="LIMIT_BREAK_SR">
+			<span class="lbBtn">觉醒3</span>
+			<p>需要:<span class="need">○</span>个</p>
+			<p>持有数:<span class="quantity"><%="<%= this.LIMIT_BREAK_SR %\>"%></span>个</p>
+		</div>
+		<div class="btnWrap" data-id="LIMIT_BREAK_SSR">
+			<span class="lbBtn">觉醒4</span>
+			<p>需要:<span class="need">○</span>个</p>
+			<p>持有数:<span class="quantity"><%="<%= this.LIMIT_BREAK_SSR %\>"%></span>个</p>
+		</div>
+	</div>
+</script>
+<!-- 限界突破template -->
+<script type="text/template" id="LimitBreakPopup"> <div class="popupInner">
+		<span class="closeDefault se_cancel popupCloseBtn TE"></span>
+		<p id="popupInfoDetailTitle" class="popupTitle">界限突破</p>
+
+		<div class="popupTextArea">
+			要界限突破吗?
+		</div>
+
+		<table class="popupBtnArea" width="400" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td><span class="canselBtn popupCloseBtn TE"><span class='b_screen'></span>取消</span></td>
+				<td><span id="lbRunBtn" class="decideBtn btnGreen TE"><span class='b_screen'></span>界限突破!</span></td>
+			</tr>
+		</table>
+	</div>
+</script>

@@ -1,0 +1,124 @@
+<%
+	var eventId = model.eventMaster.eventId;
+	var shopId  = model.eventMaster.shopId;
+%> <div id='EventTower' class='EventTowerTop'>
+  <div class="live2dArea"></div>
+  <div id='eventLogo'>
+    <img src="/magica/resource/image_web/event/tower/<%= eventId %>/logo.png" alt="">
+  </div>
+  <div id='missionLinkBtn' class='ts_pink TE se_decide linkBtn' data-href="#/MissionTop/<%= eventId %>"> 限时<br>任务 </div>
+  <div id='helpBtn' class='se_decide TE sb_gold_02' data-eventid="<%= eventId %>">玩法</div>
+  <div id="eventShopWrap">
+    <div class="itemNumWrap">
+      <img class="shopItemImg" src="/magica/resource/image_web/item/event/event_tower_<%= eventId %>_exchange_1.png">
+      <p class="numWrap c_gold">×<span class='num c_gold'>-</span></p>
+    </div>
+    <div class="shopLinkBtn se_decide TE linkBtn" data-href="#/ShopTop/<%= shopId %>"></div>
+  </div>
+  <div id='btnWrap'>
+    <div id='tabBtns'>
+      <span class='normal se_tabs TE' data-id='normal' style='background: url("/magica/resource/image_web/event/tower/<%= eventId %>/tab_normal_off.png") left top no-repeat;'>剧情</span>
+      <span class='challengeWrap se_tabs TE'>
+        <span class='challenge btnWrap' data-id='challenge' style='background: url("/magica/resource/image_web/event/tower/<%= eventId %>/tab_challenge_off.png"); left top no-repeat'>挑战</span>
+        <span class='offIcon'></span>
+      </span>
+    </div>
+  </div>
+  <div class='questItemNumWrap'>
+    <img class="apItemImg" src="/magica/resource/image_web/item/event/event_tower_<%= eventId %>_key.png"> ×<span class='num'>-</span>
+  </div>
+  <span class="btn sb_gold_01 se_tabs missionBtn TE"><span class="b_screen"></span>任务</span>
+  <div id='questWrap' class='commonFrame2'>
+    <h2 id='questWrapTitle' class=''>◆ 关卡</h2>
+    <div id="scrollOuter">
+      <div class="scrollInner first">
+        <div class='allClear'></div>
+        <style type='text/css'>
+          #normalQuest .quest
+          {
+            background: url("/magica/resource/image_web/event/tower/<%= eventId %>/bg_quest_n.png") left top no-repeat;
+          }
+
+          #challengeQuest .quest
+          {
+            background: url("/magica/resource/image_web/event/tower/<%= eventId %>/bg_quest_c.png") left top no-repeat;
+          }
+
+        </style>
+        <div id='normalQuest'></div>
+        <div id='challengeQuest'></div>
+      </div>
+    </div>
+  </div>
+  <div id='charaSerif' class="charaSerif off">
+    <span class="charaName"></span>
+    <p class="serifFont"></p>
+  </div>
+</div>
+<!-- クエストパーツ -->
+<script type="text/template" id="QuestListParts"> <%="<% var mission1 = (model.missionStatus1 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission2 = (model.missionStatus2 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission3 = (model.missionStatus3 === 'CLEARED') ? 'cleared' : null %\>"%>
+
+	<%="<% var questState = (model.cleared) ? 'clear' : 'new' %\>"%>
+	<%="<%     questState = (mission1 && mission2 && mission3) ? 'comp' : questState %\>"%>
+
+	<%="<% var questConsumeType = model.questBattle.consumeType %\>"%>
+
+	<%="<% if(questConsumeType == 'NORMAL') { %\>"%>
+		<p class="pointFrame apFrame">
+			消耗 AP<span><%="<%= model.questBattle.ap %\>"%></span>
+		</p>
+	<%="<% } else { %\>"%>
+		<p class="pointFrame apItemFrame">
+			<img class="apItemImg" src="/magica/resource/image_web/common/icon/event/icon_event_tower_<%= eventId %>_key_f.png"">
+			消费<span><%="<%= model.questBattle.needItemNum %\>"%></span>
+		</p>
+	<%="<% } %\>"%>
+
+	<p class="pointFrame difficultyFrame">
+		难度 <span><%="<%= model.questBattle.difficulty %\>"%></span>
+	</p>
+
+	<span class='questState <%="<%= questState %\>"%>'></span>
+	<div class="firstView">
+		<span class="questTitle c_white"><%="<%= model.questTitle %\>"%></span>
+		<ul class="mission">
+			<li class='<%="<%= mission1 %\>"%>'></li>
+			<li class='<%="<%= mission2 %\>"%>'></li>
+			<li class='<%="<%= mission3 %\>"%>'></li>
+		</ul>
+	</div>
+
+	<ul class="secondView">
+		<li class='<%="<%= mission1 %\>"%>'><%="<%= model.questBattle.missionMaster1.description %\>"%></li>
+		<li class='<%="<%= mission2 %\>"%>'><%="<%= model.questBattle.missionMaster2.description %\>"%></li>
+		<li class='<%="<%= mission3 %\>"%>'><%="<%= model.questBattle.missionMaster3.description %\>"%></li>
+	</ul>
+
+	<span class="treasure">
+		<%="<% if(questState === 'comp') { %\>"%>
+			<%="<% var itemCode = model.missionRewardCode.itemCode.toLowerCase(); %\>"%>
+			<div class="title clear"></div>
+			<%="<% if(itemCode.indexOf('gift') !== -1) { %\>"%>
+				<img data-nativeimgkey='<%="<%= itemCode %\>"%>' data-src='resource/image_native/gift/<%="<%= itemCode %\>"%>.png' class="giftImg">
+			<%="<% } else if(itemCode.indexOf('event') !== -1) { %\>"%>
+				<img class="itemImg" src='/magica/resource/image_web/item/event/<%="<%= itemCode %\>"%>.png' alt=''>
+			<%="<% } else { %\>"%>
+				<img class="itemImg" src='/magica/resource/image_web/item/main/<%="<%= itemCode %\>"%>.png' alt=''>
+
+			<%="<% } %\>"%>
+		<%="<% } else { %\>"%>
+			<div class="title"></div>
+			<img class="treasureImg" src='/magica/resource/image_web/common/treasure/<%="<%= model.chestColor.toLowerCase() %\>"%>.png' alt=''>
+		<%="<% } %\>"%>
+	</span>
+
+	<span class="touchObj"></span>
+
+	<span class="params">
+		<span class="sectionId" data-sectionid='<%="<%= model.questBattle.sectionId %\>"%>'></span>
+		<span class="questType" data-questtype='<%="<%= model.questType %\>"%>'></span>
+		<span class="questIndex" data-questindex='<%="<%= model.questBattle.sectionIndex %\>"%>'></span>
+	</span>
+</script>

@@ -1,0 +1,22 @@
+<div class="bossNameSec">
+  <span>分株</span><br> 象征的魔女<%= model.index %>
+</div><br>
+<p class="difficultyLevelSec pointFrame">
+  <span class="title">难度</span>
+  <span class="num"><%= model.questBattle.difficulty %></span>
+</p><br>
+<div class="rewardSec">
+  <div class="title">获得报酬</div>
+  <div class="line"></div>
+  <div class="img">
+    <img src="/magica/resource/image_web/item/event/event_raid_1198_exchange_1.png">
+    <div class="num ts_gold">×<%= model.bossUseItemQuantity %></div>
+  </div>
+</div><br>
+<p class="apSec pointFrame">
+  <span class="title">消耗 AP</span>
+  <span class="num"><%= model.questBattle.ap %></span>
+</p><br>
+<div class="TE decideBtn btn b_puellaHistoria se_decide">
+  <span class="b_screen"></span> 战斗
+</div>

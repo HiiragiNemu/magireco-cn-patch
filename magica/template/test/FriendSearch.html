@@ -1,0 +1,66 @@
+<div id="FriendSearch">
+  <div id="searchArea">
+    <div id="rankForm">
+      <h2>Rank</h2>
+      <select id="rankSelect">
+        <option selected="selected" value="0">不指定</option>
+        <option value="1">Rank1〜</option>
+        <option value="10">Rank10〜</option>
+        <option value="20">Rank20〜</option>
+        <option value="40">Rank40〜</option>
+        <option value="60">Rank60〜</option>
+        <option value="80">Rank80〜</option>
+        <option value="100">Rank100〜</option>
+      </select>
+    </div>
+    <div id="leaderLevelForm">
+      <h2>助っ人ユニットLV</h2>
+      <select id="leaderLevelSelect">
+        <option selected="selected" value="0">不指定</option>
+        <option value="1">LV1〜</option>
+        <option value="20">LV20〜</option>
+        <option value="40">LV40〜</option>
+        <option value="60">LV60〜</option>
+        <option value="70">LV70〜</option>
+        <option value="80">LV80〜</option>
+        <option value="90">LV90〜</option>
+      </select>
+    </div>
+    <div id="userNameForm">
+      <h2>用户名</h2>
+      <div class="clearfix">
+        <input type="text" id="userNameInput" class="commonInput" />
+      </div>
+    </div>
+    <div id="leaderAttributeForm">
+      <h2>助っ人ユニット属性</h2>
+      <select id="leaderAttributeSelect">
+        <option selected="selected" value="0">不指定</option>
+        <option value="FIRE">火属性</option>
+        <option value="WATER">水属性</option>
+        <option value="TIMBER">木属性</option>
+        <option value="LIGHT">光属性</option>
+        <option value="DARK">暗属性</option>
+      </select>
+    </div>
+    <div id="friendIdForm">
+      <h2>好友ID</h2>
+      <div class="clearfix">
+        <input type="text" id="friendIdInput" class="commonInput" />
+      </div>
+    </div>
+  </div>
+  <span id="searchRunBtn" class="btn small">検索</span>
+  <div class="scrollOuter">
+    <div id="resultWrap" class="scrollInner"></div>
+  </div>
+</div>
+<!-- ユーザーパーツ -->
+<script type="text/template" id="ResultParts"> <p class="loginName">ユーザー名 : <%="<%= _.escape(model.username) %\>"%></p>
+	<p class="rank">Rank : <%="<%= model.rank %\>"%></p>
+	<p>助っ人ユニットレベル : <%="<%= model.level %\>"%></p>
+	<p>助っ人ユニット属性 : <%="<%= model.attribute %\>"%></p>
+	<p>フレンドID : <%="<%= model.personalid %\>"%></p>
+	<p>最終ログイン時間 : <%="<%= model.lastaccessdate %\>"%></p>
+	<span class="btn follow">フォローする</p>
+</script>

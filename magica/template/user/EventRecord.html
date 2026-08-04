@@ -1,0 +1,53 @@
+<div id="EventRecord">
+	<div id="header">心魔战 战绩</div>
+
+	<div id="scrollOuter">
+		<div id="groupBattleResultList" class="resultList scrollInner">
+			<% _.each(groupBattleResultList,function(model,index){ %>
+				<% var isSpecial = model.eventMaster.viewParameterMap && model.eventMaster.viewParameterMap.SPECIAL; %>
+				<% var resultClass = isSpecial ? "special" : ""; %>
+			<div class="result <%= resultClass %>">
+				<div class="logoWrap">
+					<% if (!isSpecial) { %>
+					<img class="stone" src="/magica/resource/image_web/regularEvent/groupBattle/<%= model.eventMaster.viewParameterMap.BOSS_ID %>/stone_on.png"/>
+					<% } %>
+					<img class="title" src="/magica/resource/image_web/regularEvent/groupBattle/<%= model.eventMaster.viewParameterMap.BOSS_ID %>/title_s.png"/>
+				</div>
+				<%
+					var startTime = model.eventMaster.startAt;
+					if (model.eventMaster.regularEventGroupBattle && model.eventMaster.regularEventGroupBattle.preliminaryRoundStartAt) {
+						startTime = model.eventMaster.regularEventGroupBattle.preliminaryRoundStartAt;
+					}
+				%>
+				<div class="date">开放期间　<%= startTime.slice(0,11) %> ～ <%= model.eventMaster.endAt.slice(0,11) %></div>
+
+				<div class="dailyDamageWrap infoWrap">
+					<div class="gbFontWhite">单日最大伤害</div>
+					<div class=""><%= model.maxDailyDamage %></div>
+				</div>
+				<div class="totalPointWrap infoWrap">
+					<div class="gbFontWhite">累计GP</div>
+					<div class=""><%= model.total.totalGp %></div>
+				</div>
+				<div class="gradeBg"></div>
+				<div class="gradeIcon grade<%= model.total.grade %>"></div>
+
+				<p class="dailyTitle">每日伤害徽章</p>
+
+				<div class="dailyList">
+					<% for(var i=0;i<5;++i){ %>
+					<div class="dailyWrap">
+						<div class="gbFontWhite"><%= i+1 %>天</div>
+						<% var dailyModel = _.findWhere(model.daily,{"days":i+1}); %>
+						<% if (dailyModel) { %>
+						<div class="emblemIcon emblem<%= dailyModel.emblem %>"></div>
+						<% } else { %>
+						<div class="noEntry">-</div>
+						<% } %>
+					</div>
+					<% } %>
+				</div>
+			</div>
+			<% }) %>
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<div id="popupCp"> <% var nowCp = _.findWhere(model,{statusId:"CP"}); %> <% var maxCp = _.findWhere(model,{statusId:"MAX_CP"}); %> <ul class="cpPointWrap"> <% for(var i=0;i<maxCp.point;i++){ %> <li<% if(nowCp.point>i){ %> class="on" <% } %>>
+      </li> <% } %> </ul>
+</div>
+<p id="cpTextWrap" class="c_red"> <% if(nowCp.point >= maxCp.point){ %> CP已满。 <% }else if(quantity < 1){ %> 没有CP回复药。 <% }else{ %> <span class="cureCheck">要使用CP回复药全部回复吗?</span> <% } %> </p>
+<div id="cpImageWrap" class="commonFrame4">
+  <img src="/magica/resource/image_web/item/event/event_dungeon_cure_cp.png" />
+  <span class="nameWrap">CP回复药</span>
+  <p class="itemRemain"><span class="pointFrame">持有数</span><br><%= quantity %></p>
+  <span id="decideUse" class="mb_pink cureBtn se_decide TE popupCloseBtn<% if(quantity < 1 || nowCp.point === maxCp.point){ %> off<% } %>"><span class="b_screen"></span>回复</span>
+</div>

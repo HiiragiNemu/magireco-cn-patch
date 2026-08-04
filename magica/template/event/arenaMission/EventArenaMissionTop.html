@@ -1,0 +1,157 @@
+<div id='EventArenaMissionTop' class='EventArenaMission'> <%
+		var eventId = eventModel.eventId;
+		var ptName  = eventModel.viewParameterMap.EVENT_POINT_NAME;
+		var eventPt = userEventArenaMission.eventPoint;
+	%> <div id="eventLogo"></div>
+  <div id='helpBtn' class='se_decide TE sb_gold_02' data-eventid="<%= eventId %>">玩法</div>
+  <div id="clearRewardBtn" class='TE se_decide'></div>
+  <!-- <div id='missionLinkBtn' class='ts_pink TE se_decide linkBtn' data-href="#/MissionTop/<%= eventId %>"></div> -->
+  <div id="eventShopWrap">
+    <div class="itemNumWrap">
+      <img class="shopItemImg" src="/magica/resource/image_web/item/event/event_arenamission_<%= eventId %>_exchange.png">
+      <p class="numWrap colorA">×<span class='num colorA'><%= exchangeItemNum %></span></p>
+    </div>
+    <div class="shopLinkBtn se_decide TE linkBtn" data-href="#/ShopTop/<%= eventModel.shopId %>"></div>
+  </div>
+  <div id="partyPtWrap">
+    <p class='point colorC'><%= eventPt %><span class='colorC'> Pt</span></p>
+    <p class='caution colorB'>已通关的关卡点<%= ptName %>无法获得</p>
+    <p class="sb_gold_01 missionBtn se_tabs TE"><span class="b_screen"></span>任务</p>
+  </div>
+  <div id="stageListWrap" class="first">
+    <div class="scrollInner"></div>
+  </div>
+</div>
+<script type="text/template" id="ClearRewardPopTemp"> <div class='popupInner'>
+	<p class="popupTitle">关卡点通关报酬一览</p>
+	<span class="closeDefault se_cancel popupCloseBtn TE"></span>
+	<div id="stageClearRewardList" class="hiddenWrap">
+		<div class="scrollInner">
+			<%="<% _.each(model.eventArenaMissionStageList, function(stage,index){ %\>"%>
+				<%="<% console.log(stage) %\>"%>
+				<div class='commonFrame3'>
+					<p class='index'><%="<%= index + 1 %\>"%></p>
+					<p class='stageName'><%="<%= stage.eventArenaMissionStage.stageName %\>"%></p>
+
+					<div class='clearCondition flexBox'>
+						<p class='title c_gold'>通关条件</p>
+						<p class='text'>
+							<%="<%= model.eventModel.viewParameterMap.EVENT_POINT_NAME %\>"%>
+							<%="<%= stage.eventArenaMissionStage.needClearPoint %\>"%>Pt达成
+						</p>
+					</div>
+					<div class='openDate flexBox'>
+						<p class='title c_gold'>解放时间</p>
+						<p class='text'>
+							<%="<%= stage.openDateText %\>"%>
+						</p>
+					</div>
+					<div class='reward'>
+						<p class='title pointFrame'>通关报酬</p>
+						<p class='rewardName'><%="<%= stage.eventArenaMissionStage.stageClearReward.displayName %\>"%></p>
+
+						<%="<% if(stage.rewardType == 'live2d') { %\>"%>
+							<div class="imgWrap">
+								<div class="charaIcon">
+									<div class="maskWrap">
+										<img data-nativeimgkey='mini_<%="<%= stage.stageClearRewardData.itemCode %\>"%>00_d' data-src='resource/image_native/mini/image/mini_<%="<%= stage.stageClearRewardData.itemCode %\>"%>00_d.png'>
+									</div>
+								</div>
+								<img src='/magica/resource/image_web/item/main/live2d.png' alt=''>
+							</div>
+						<%="<% } else if(stage.rewardType == 'memoria') { %\>"%>
+							<img data-nativeimgkey='<%="<%=stage.stageClearRewardData.itemCode %\>"%>' data-src='resource/image_native/memoria/<%="<%=stage.stageClearRewardData.itemCode %\>"%>.png' alt=''>
+						<%="<% } else if(stage.rewardType == 'gem') { %\>"%>
+							<div class="imgWrap">
+								<img src='/magica/resource/image_web/item/frame/item_frame03.png' alt=''>
+								<img data-nativeimgkey='<%="<%=stage.stageClearRewardData.itemCode %\>"%>' data-src='resource/image_native/chara/<%="<%=stage.stageClearRewardData.itemCode %\>"%>.png' alt=''>
+							</div>
+						<%="<% } else { %\>"%>
+							<img src='/magica/resource/image_web/item/<%="<%= stage.rewardType %\>"%>/<%="<%=stage.stageClearRewardData.itemCode.toLowerCase() %\>"%>.png'>
+						<%="<% } %\>"%>
+
+						<p class='quantity'>×<%="<%= stage.eventArenaMissionStage.stageClearReward.quantity %\>"%></p>
+					</div>
+				</div>
+			<%="<% }); %\>"%>
+		</div>
+	</div>
+</div>
+</script>
+<script type="text/template" id="ClearConditionTemplate"> <div class='clearConditionWrap'>
+		<p class='point colorC'><%="<%= model.eventArenaMissionStage.needClearPoint %\>"%><span class='colorC'>Pt达成</span></p>
+	</div>
+	<div class='clearRewardTitle'></div>
+</script>
+<script type="text/template" id="StageTemplate"> <%="<% console.log(model) %\>"%>
+
+	<%="<% var openDate = null; %\>"%>
+	<%="<% if(model.eventArenaMissionStage.openDate) { %\>"%>
+		<%="<% var _openDate = model.eventArenaMissionStage.openDate.split(' '); %\>"%>
+		<%="<% _openDateA = _openDate[0].split('/'); %\>"%>
+		<%="<% _openDateB = _openDate[1].split(':'); %\>"%>
+		<%="<% openDate = _openDateA[1] + '月' + _openDateA[2] + '日' + _openDateB[0] + ':' + _openDateB[1]; %\>"%>
+	<%="<% } %\>"%>
+
+	<%="<% var mission1 = (model.missionStatus1 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission2 = (model.missionStatus2 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission3 = (model.missionStatus3 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var questState = (model.rewardDone) ? 'clear' : 'new' %\>"%>
+	<%="<%     questState = (mission1 && mission2 && mission3 && model.rewardDone) ? 'comp' : questState %\>"%>
+
+	<%="<% if(model.canPlay) { %\>"%>
+		<span class='stageState <%="<%= questState %\>"%>'></span>
+	<%="<% } %\>"%>
+
+	<div class="firstView">
+		<span class="stageTitle colorD"><%="<%= model.eventArenaMissionStage.stageName %\>"%></span>
+
+		<%="<% if(model.canPlay) { %\>"%>
+			<p class='missionTitle colorB'>任务</p>
+			<ul class="mission">
+				<li class='<%="<%= mission1 %\>"%>'/>
+				<li class='<%="<%= mission2 %\>"%>'/>
+				<li class='<%="<%= mission3 %\>"%>'/>
+			</ul>
+		<%="<% } else if(openDate) { %\>"%>
+			<p class='openDate colorB'><%="<%= openDate %\>"%>预定解放</p>
+		<%="<% } %\>"%>
+	</div>
+
+	<%="<% if(model.canPlay) { %\>"%>
+		<ul class="secondView missionText">
+			<li class='<%="<%= mission1 %\>"%> colorD'><%="<%= model.eventArenaMissionStage.missionMaster1.description %\>"%></li>
+			<li class='<%="<%= mission2 %\>"%> colorD'><%="<%= model.eventArenaMissionStage.missionMaster2.description %\>"%></li>
+			<li class='<%="<%= mission3 %\>"%> colorD'><%="<%= model.eventArenaMissionStage.missionMaster3.description %\>"%></li>
+		</ul>
+	<%="<% } %\>"%>
+
+	<span class="stageReward">
+		<%="<% if(model.rewardType == 'live2d') { %\>"%>
+			<div class="imgWrap">
+				<div class="charaIcon">
+					<div class="maskWrap">
+						<img data-nativeimgkey='mini_<%="<%= model.stageClearRewardData.itemCode %\>"%>00_d' data-src='resource/image_native/mini/image/mini_<%="<%= model.stageClearRewardData.itemCode %\>"%>00_d.png'>
+					</div>
+				</div>
+				<img src='/magica/resource/image_web/item/main/live2d.png' alt=''>
+			</div>
+		<%="<% } else if(model.rewardType == 'memoria') { %\>"%>
+			<img class='rewardImg' data-nativeimgkey='<%="<%=model.stageClearRewardData.itemCode %\>"%>' data-src='resource/image_native/memoria/<%="<%=model.stageClearRewardData.itemCode %\>"%>.png' alt=''>
+		<%="<% } else if(model.rewardType == 'gem') { %\>"%>
+			<div class="imgWrap">
+				<img src='/magica/resource/image_web/item/frame/item_frame03.png' alt=''>
+				<img data-nativeimgkey='<%="<%=model.stageClearRewardData.itemCode %\>"%>' data-src='resource/image_native/chara/<%="<%=model.stageClearRewardData.itemCode %\>"%>.png' alt=''>
+			</div>
+		<%="<% } else { %\>"%>
+			<img class='rewardImg' src='/magica/resource/image_web/item/<%="<%= model.rewardType %\>"%>/<%="<%=model.stageClearRewardData.itemCode.toLowerCase() %\>"%>.png'>
+		<%="<% } %\>"%>
+
+		<%="<% if(model.rewardDone) { %\>"%>
+			<span class='getIcon'></span>
+		<%="<% } %\>"%>
+	</span>
+
+	<span class="params">
+	</span>
+</script>

@@ -1,0 +1,274 @@
+<style type='text/css'>
+  .normal #questWrapTitle:before
+  {
+    background: url('/magica/resource/image_web/event/accomplish/<%= eventId %>/title_story.png') left top no-repeat;
+  }
+
+  .normal .quest
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/bg_quest_n.png") left top no-repeat;
+  }
+
+  .challenge #questWrapTitle:before
+  {
+    background: url('/magica/resource/image_web/event/accomplish/<%= eventId %>/title_challenge.png') left top no-repeat;
+  }
+
+  .challenge .quest
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/bg_quest_c.png") left top no-repeat;
+  }
+
+  .normal .quest.typeBoss,
+  .challenge .quest.typeBoss
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/bg_quest_boss.png") left top no-repeat;
+  }
+
+  .normal .quest.typeBoss:before,
+  .challenge .quest.typeBoss:before
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/icon_boss.png") left top no-repeat;
+  }
+
+  .normal .gauge .cnt
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/bg_current_num_n.png") left top no-repeat;
+  }
+
+  .challenge .gauge .cnt
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/bg_current_num_c.png") left top no-repeat;
+  }
+
+  .normal .cnt .cnt0
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_n_0.png") left top no-repeat;
+  }
+
+  .normal .cnt .cnt1
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_n_1.png") left top no-repeat;
+  }
+
+  .normal .cnt .cnt2
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_n_2.png") left top no-repeat;
+  }
+
+  .normal .cnt .cnt3
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_n_3.png") left top no-repeat;
+  }
+
+  .normal .cnt .cnt4
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_n_4.png") left top no-repeat;
+  }
+
+  .normal .cnt .cnt5
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_n_5.png") left top no-repeat;
+  }
+
+  .normal .cnt .cnt6
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_n_6.png") left top no-repeat;
+  }
+
+  .normal .cnt .cnt7
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_n_7.png") left top no-repeat;
+  }
+
+  .normal .cnt .cnt8
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_n_8.png") left top no-repeat;
+  }
+
+  .normal .cnt .cnt9
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_n_9.png") left top no-repeat;
+  }
+
+  .challenge .cnt .cnt0
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_c_0.png") left top no-repeat;
+  }
+
+  .challenge .cnt .cnt1
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_c_1.png") left top no-repeat;
+  }
+
+  .challenge .cnt .cnt2
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_c_2.png") left top no-repeat;
+  }
+
+  .challenge .cnt .cnt3
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_c_3.png") left top no-repeat;
+  }
+
+  .challenge .cnt .cnt4
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_c_4.png") left top no-repeat;
+  }
+
+  .challenge .cnt .cnt5
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_c_5.png") left top no-repeat;
+  }
+
+  .challenge .cnt .cnt6
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_c_6.png") left top no-repeat;
+  }
+
+  .challenge .cnt .cnt7
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_c_7.png") left top no-repeat;
+  }
+
+  .challenge .cnt .cnt8
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_c_8.png") left top no-repeat;
+  }
+
+  .challenge .cnt .cnt9
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/current_num_c_9.png") left top no-repeat;
+  }
+
+  .normal .gauge
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/progress_gauge_n_t.png") left top no-repeat,
+      url("/magica/resource/image_web/event/accomplish/<%= eventId %>/progress_gauge_n_b.png") left bottom no-repeat,
+      url("/magica/resource/image_web/event/accomplish/<%= eventId %>/progress_gauge_n_c.png") left top repeat-y;
+  }
+
+  .challenge .gauge
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/progress_gauge_c_t.png") left top no-repeat,
+      url("/magica/resource/image_web/event/accomplish/<%= eventId %>/progress_gauge_c_b.png") left bottom no-repeat,
+      url("/magica/resource/image_web/event/accomplish/<%= eventId %>/progress_gauge_c_c.png") left top repeat-y;
+  }
+
+  #gaugeWrap:before
+  {
+    background: url("/magica/resource/image_web/event/accomplish/<%= eventId %>/icon_complete.png") left top no-repeat;
+  }
+
+</style>
+<div id='EventAccomplishTop'>
+  <div id='eventLogo'>
+    <img src="/magica/resource/image_web/event/accomplish/<%= eventId %>/logo.png" alt="">
+  </div>
+  <div id='recoveryLinkBtn' class='ts_pink TE se_decide linkBtn' data-href='#/EventAccomplishRecovery'></div>
+  <div id='helpBtn' class='se_decide TE sb_gold_02' data-eventid="<%= eventId %>">玩法</div>
+  <div id='archiveBtn' class='se_decide TE sb_gold_02 linkBtn' data-href="#/StoryCollection/<%= eventId %>">回顾</div>
+  <div id="eventShopWrap">
+    <div class="itemNumWrap">
+      <img class="shopItemImg" src="/magica/resource/image_web/item/event/event_accomplish_<%= eventId %>_exchange_1.png">
+      <p class="numWrap c_gold">×<span id='itemNum' class='num c_gold'>-</span></p>
+    </div>
+    <div class="shopLinkBtn se_decide TE linkBtn" data-href="#/ShopTop/<%= shopId %>"></div>
+  </div>
+  <div id='schedulePopBtn' class='TE se_decide'>
+  </div>
+  <div class="charaSerif">
+    <span id='charaName' class="charaName"></span>
+    <p id='charaSerif' class="serifFont"></p>
+  </div>
+  <div id='gaugeWrap' class='<%= questMode%>'>
+    <div class='gaugeInner'>
+      <div id='gauge' class='gauge'>
+        <div class='cnt'> <% _.forEach(String(clearCnt).split(''),function(txt){ %> <span class='cnt<%= txt %>'></span> <% }) %> </div>
+      </div>
+    </div>
+  </div>
+  <span class="btn sb_gold_01 se_tabs missionBtn TE"><span class="b_screen"></span>任务</span>
+  <div id='questWrap' class='commonFrame2 <%= questMode%>'>
+    <h2 id='questWrapTitle' class=''></h2>
+    <div id="scrollOuter">
+      <div class="scrollInner first">
+        <div class='allClear'></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  -->
+<script type="text/template" id="ScheduleTemp"> <div class="popupInner">
+		<span class="closeDefault popupCloseBtn se_cancel TE"></span>
+		<p id="popupInfoDetailTitle" class="popupTitle common_title">小节通关报酬一览</p>
+		<p class='text'>击破每5关出现一次的BOSS,即可获得特别报酬。</p>
+		<p class='c_gold text2'>挑战关卡将在通关全部剧情关卡后解放。</p>
+		<img src='/magica/resource/image_web/event/accomplish/<%= eventId %>/reward_header.png' />
+		<div id='popScrollOuter'>
+			<div class='popScrollInner'>
+				<img src='/magica/resource/image_web/event/accomplish/<%= eventId %>/reward_list.png' />
+			</div>
+		</div>
+	</div>
+</script>
+<!-- クエストパーツ -->
+<script type="text/template" id="QuestListParts"> <%="<% var mission1 = (model.missionStatus1 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission2 = (model.missionStatus2 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission3 = (model.missionStatus3 === 'CLEARED') ? 'cleared' : null %\>"%>
+
+	<%="<% var questState = (model.cleared) ? 'clear' : 'new' %\>"%>
+	<%="<%     questState = (mission1 && mission2 && mission3) ? 'comp' : questState %\>"%>
+
+	<%="<% var questConsumeType = model.questBattle.consumeType %\>"%>
+
+	<p class="pointFrame apFrame">
+		消耗 AP<span><%="<%= model.questBattle.ap %\>"%></span>
+	</p>
+
+	<p class="pointFrame difficultyFrame">
+		难度 <span><%="<%= model.questBattle.difficulty %\>"%></span>
+	</p>
+
+	<span class='questState <%="<%= questState %\>"%>'></span>
+	<div class="firstView">
+		<span class="questTitle c_white"><%="<%= model.questTitle %\>"%></span>
+		<ul class="mission">
+			<li class='<%="<%= mission1 %\>"%>'></li>
+			<li class='<%="<%= mission2 %\>"%>'></li>
+			<li class='<%="<%= mission3 %\>"%>'></li>
+		</ul>
+	</div>
+
+	<ul class="secondView">
+		<li class='<%="<%= mission1 %\>"%>'><%="<%= model.questBattle.missionMaster1.description %\>"%></li>
+		<li class='<%="<%= mission2 %\>"%>'><%="<%= model.questBattle.missionMaster2.description %\>"%></li>
+		<li class='<%="<%= mission3 %\>"%>'><%="<%= model.questBattle.missionMaster3.description %\>"%></li>
+	</ul>
+
+	<span class="treasure">
+		<%="<% if(questState === 'comp') { %\>"%>
+			<%="<% var itemCode = model.missionRewardCode.itemCode.toLowerCase(); %\>"%>
+			<div class="title clear"></div>
+			<%="<% if(itemCode.indexOf('gift') !== -1) { %\>"%>
+				<img data-nativeimgkey='<%="<%= itemCode %\>"%>' data-src='resource/image_native/gift/<%="<%= itemCode %\>"%>.png' class="itemImg">
+			<%="<% } else if(itemCode.indexOf('event') !== -1) { %\>"%>
+				<img class="itemImg" src='/magica/resource/image_web/item/event/<%="<%= itemCode %\>"%>.png' alt=''>
+			<%="<% } else { %\>"%>
+				<img class="itemImg" src='/magica/resource/image_web/item/main/<%="<%= itemCode %\>"%>.png' alt=''>
+
+			<%="<% } %\>"%>
+		<%="<% } else { %\>"%>
+			<div class="title"></div>
+			<img class="treasureImg" src='/magica/resource/image_web/common/treasure/<%="<%= model.chestColor.toLowerCase() %\>"%>.png' alt=''>
+		<%="<% } %\>"%>
+	</span>
+
+	<span class="touchObj"></span>
+
+	<span class="params">
+		<span class="sectionId" data-sectionid='<%="<%= model.questBattle.sectionId %\>"%>'></span>
+		<span class="questType" data-questtype='<%="<%= model.questType %\>"%>'></span>
+		<span class="questBattleId" data-questbattleid='<%="<%= model.questBattleId %\>"%>'></span>
+	</span>
+</script>

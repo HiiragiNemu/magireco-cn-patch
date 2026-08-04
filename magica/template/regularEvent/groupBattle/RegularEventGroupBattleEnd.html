@@ -1,0 +1,19 @@
+<div id="RegularEventGroupBattleEnd">
+  <div id="titleWrap">
+    <div id="endTitle">小组战斗结束</div>
+    <div id="gradeWrap">
+      <p>最终等级</p>
+      <div id="gradeImg" class="grade<%= eventStatus %>"></div>
+    </div>
+  </div>
+  <div id="rewardWrap">
+    <div id="rewardTitle">达成等级报酬</div>
+    <div id="rewardList"> <% _.forEach(rewardList,function(txt){ %> <div class="reward">
+        <img class="rewardImg" src="/magica/resource/image_web/common/icon/icon_<%= txt.itemId.toLowerCase() %>.png">
+      </div> <% }) %> </div>
+  </div>
+  <div id="rewardCaution">获得的道具已直接发放</div>
+</div>
+<!-- グループバトル参加不可ポップアップ -->
+<script type="text/template" id="groupBattleCondPopTemp">
+</script>

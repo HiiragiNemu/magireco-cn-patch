@@ -1,0 +1,174 @@
+<% eventPath = '/magica/resource/image_web/event/accomplish/' %> <style type='text/css'>
+  #battleDetail.normal .battleTitle .title
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/enemyDetail/header_story.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .battleTitle .title
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/enemyDetail/header_challenge.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .battleTitle .battle
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/enemyDetail/battle_story.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .battleTitle .battle
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/enemyDetail/battle_challenge.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .num0
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_n_0.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .num1
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_n_1.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .num2
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_n_2.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .num3
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_n_3.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .num4
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_n_4.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .num5
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_n_5.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .num6
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_n_6.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .num7
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_n_7.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .num8
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_n_8.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.normal .num9
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_n_9.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .num0
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_c_0.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .num1
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_c_1.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .num2
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_c_2.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .num3
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_c_3.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .num4
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_c_4.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .num5
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_c_5.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .num6
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_c_6.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .num7
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_c_7.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .num8
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_c_8.png' %>") left top no-repeat;
+  }
+
+  #battleDetail.challenge .num9
+  {
+    background: url("<%= eventPath + eventMaster.eventId + '/current_num_c_9.png' %>") left top no-repeat;
+  }
+
+</style>
+<div id='EventAccomplishEnemyDetail'> <% if (window.isDebug) { %> <div class="debugBtnList" style="position: absolute;left: 170px;top: 60px;z-index:1000;">
+    <div class="debugBtn mb_white TE">指令</div>
+  </div> <% } %> <div id='battleDetail' class='<%= questBattle.accomplishType %>'>
+    <div class='battleTitle'>
+      <div class='title'></div>
+      <div class='battle'></div>
+      <div class='battleNum'> <% var numArr = questBattle.questTitle.split(' ')[1].split(''); %> <% console.log(numArr) %> <% _.forEach(numArr,function(txt){ %> <% console.log(txt) %> <div class='num<%= txt %>'></div> <% }) %> </div>
+    </div>
+    <div class='difficulty'>
+      <p>难度</p>
+      <p><%= questBattle.difficulty %></p>
+    </div>
+    <div class='ap'>
+      <p>消耗 AP</p>
+      <p><%= questBattle.ap %></p>
+    </div>
+  </div>
+  <div id='arrowR' class='arrow hide'></div>
+  <div id='arrowL' class='arrow hide'></div>
+  <div class='wave'>
+    <div class='title'></div>
+    <div class='numWrap'>
+      <div id='currentWaveNum' class='num1'></div>
+      <div class='sla'></div>
+      <div class='num<%= waveMaxNum %>'></div>
+    </div>
+  </div> <% if(!questBattle.canPlay && questBattle.questBattle.bossFlag) { %> <div class='unknownBoss'></div> <% } %> <% if(questBattle.canPlay && questBattle.questBattle.bossFlag) { %> <% var bossMaxHp = 0; %> <% _.forEach(enemyDetail[0].enemyList,function(txt){ %> <% if(txt.hp > 0) { %> <% bossMaxHp = txt.hp; %> <% } %> <% }) %> <% var bossHp = bossMaxHp; %> <% if(bossQuestBattle.length) { %> <% bossHp = bossMaxHp - bossQuestBattle[0].totalDamage; %> <% bossHp = (bossHp <= 0) ? 1 : bossHp; %> <% } %> <% var hpGauge = bossHp / bossMaxHp * 100; %> <div class='bossHpWrap'>
+    <div class='gauge'>
+      <div class="gaugeInner" style='width:<%= hpGauge %>%;'></div>
+    </div>
+    <div class='numWrap'> <% _.forEach(String(bossHp).split(''),function(txt){ %> <% console.log(txt) %> <div class='num<%= txt %>'></div> <% }) %> <div class='sla'></div> <% _.forEach(String(bossMaxHp).split(''),function(txt){ %> <% console.log(txt) %> <div class='num<%= txt %>'></div> <% }) %> </div>
+  </div> <% } %> <div id='questDetail'>
+    <div class='wrap'>
+      <p class='title ts_gold'>Tips</p>
+      <p class='text'><%= (!questBattle.canPlay && questBattle.questBattle.bossFlag) ? '？？？' : questBattle.questBattle.tips %></p>
+    </div>
+    <div class='wrap'>
+      <p class='title ts_gold'>技能效果</p>
+      <p class='text'><%= (!questBattle.canPlay && questBattle.questBattle.bossFlag) ? '？？？' : questBattle.questBattle.parameterMap.EFFECTTIPS %></p>
+    </div>
+  </div>
+  <div id='deckFormationLinkBtn' class="<%= lock %> TE se_decide"></div>
+</div>
+<script type="text/template" id="debug"> <ul id="inputWrap">
+		<li>displayBase：<input type="checkbox" id="displayBase" class="commonInput"  style="width:190px;height: 28px;"></li>
+		<li>displayAlignIcon：<input type="checkbox" id="displayAlignIcon" class="commonInput"  style="width:190px;height: 28px;"></li>
+		<li>X：<input type="text" id="inputX" class="commonInput" placeholder="输入X坐标" value="0"></li>
+		<li>Y：<input type="text" id="inputY" class="commonInput" placeholder="输入Y坐标" value="0"></li>
+		<li>scale：<input type="text" id="inputScale" class="commonInput" placeholder="输入缩放" value="1.0"></li>
+		<li>currentHp：<input type="text" id="inputHp" class="commonInput" placeholder="敌方当前HP" value=""></li>
+	</ul>
+</script>
