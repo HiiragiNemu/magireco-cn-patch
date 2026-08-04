@@ -34,7 +34,7 @@ name: 🔄 同步上游并上传到 object-storage
 # ║                                                                    ║
 # ║ CDN 刷新                                                           ║
 # ║ ───────                                                            ║
-# ║   ▸ 每上传一个文件，刷新 edge（R2_DOMAIN，腾讯云 TEO）、         ║
+# ║   ▸ 每上传一个文件，刷新 edge（EDGEONE_DOMAIN，腾讯云 TEO）、    ║
 # ║     阿里云 ESA（ESA_DOMAIN，PurgeCaches Type=file）与               ║
 # ║     CDN（CLOUDFLARE_DOMAIN，Purge Cache by URL）             ║
 # ║                                                                    ║
@@ -85,10 +85,10 @@ jobs:
       R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
       R2_REGION: ${{ secrets.R2_REGION }}
       R2_BUCKET: ${{ secrets.R2_BUCKET }}
-      R2_DOMAIN: ${{ secrets.R2_DOMAIN }}
       QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
       QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
       EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
+      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
       ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
       ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
       ESA_SITE_ID: ${{ secrets.ESA_SITE_ID }}
@@ -647,7 +647,7 @@ jobs:
       #     - 黑名单：history-data*（前缀）+ *.apk（后缀）
       #     - GitHub 上已不存在的文件不主动删除，先记入
       #       PENDING_DELETIONS 变量；confirm_cleanup=true 时才删除
-      #     - CDN 刷新：edge（R2_DOMAIN）+ 阿里云 ESA（ESA_DOMAIN）
+      #     - CDN 刷新：edge（EDGEONE_DOMAIN）+ 阿里云 ESA（ESA_DOMAIN）
       #       + CDN（CLOUDFLARE_DOMAIN）
       # ───────────────────────────────────────────────────────────────
       - name: 🚀 运行同步脚本（上传 Release 文件到 object-storage）
@@ -722,10 +722,9 @@ jobs:
 
           class R2Handler:
               def __init__(self, endpoint, access_key, secret_key,
-                           region, bucket, domain, name="object-storage"):
+                           region, bucket, name="object-storage"):
                   self.name   = name
                   self.bucket = bucket
-                  self.domain = domain
                   ep = endpoint.rstrip('/')
                   self.s3_client = boto3.client(
                       's3', endpoint_url=ep,
@@ -788,6 +787,9 @@ jobs:
                   cp.httpProfile = hp
                   self.client  = teo_client.TeoClient(cred, "", cp)
               def purge_cache(self, domain, filename):
+                  if not domain:
+                      warn("[edge] 未配置 EDGEONE_DOMAIN，跳过", indent=1)
+                      return False, "not configured"
                   try:
                       req        = models.CreatePurgeTaskRequest()
                       target_url = f"http://{domain}/{filename}"
@@ -895,13 +897,14 @@ jobs:
               r2 = R2Handler(
                   os.environ['R2_ENDPOINT'], os.environ['R2_ACCESS_KEY'],
                   os.environ['R2_SECRET_KEY'], os.environ['R2_REGION'],
-                  os.environ['R2_BUCKET'],    os.environ['R2_DOMAIN'], "object-storage"
+                  os.environ['R2_BUCKET'], "object-storage"
               )
               edge = EdgeOneHandler(
                   os.environ['QCLOUD_SECRET_ID'],
                   os.environ['QCLOUD_SECRET_KEY'],
                   os.environ['EDGEONE_ZONE_ID']
               )
+              edgeone_domain = os.environ.get('EDGEONE_DOMAIN', '').strip()
               esa = EsaHandler(
                   os.environ['ALIBABA_CLOUD_ACCESS_KEY_ID'],
                   os.environ['ALIBABA_CLOUD_ACCESS_KEY_SECRET'],
@@ -1016,7 +1019,7 @@ jobs:
                   for fname in stale_all:
                       if r2.delete_file(fname):
                           # 删完顺手刷掉三个 CDN 上的残留缓存
-                          edge.purge_cache(r2.domain, fname)
+                          edge.purge_cache(edgeone_domain, fname)
                           esa.purge_cache(fname)
                           cloudflare.purge_cache(cf_domain, fname)
                   set_variable('PENDING_DELETIONS', '[]')
@@ -1032,7 +1035,7 @@ jobs:
                   url = next(a['browser_download_url']
                              for a in release['assets'] if a['name'] == fname)
                   if r2.upload_file_from_url(url, fname):
-                      edge.purge_cache(r2.domain, fname)
+                      edge.purge_cache(edgeone_domain, fname)
                       esa.purge_cache(fname)
                       cloudflare.purge_cache(cf_domain, fname)
                       processed.append(fname)
@@ -1041,7 +1044,7 @@ jobs:
 
               if processed:
                   header("刷新根目录 CDN 缓存")
-                  edge.purge_cache(r2.domain, "")
+                  edge.purge_cache(edgeone_domain, "")
                   esa.purge_cache("")
                   cloudflare.purge_cache(cf_domain, "")
 
@@ -1377,11 +1380,11 @@ jobs:
           echo "|------|----|" >> $GITHUB_STEP_SUMMARY
           echo "| 上游仓库 | \`${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| object-storage 存储桶 | \`${{ env.R2_BUCKET }}\`（\`${{ env.R2_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
+          echo "| object-storage 存储桶 | \`${{ env.R2_BUCKET }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| object-storage 过时文件清理 | ${{ steps.check_upstream.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| CDN 刷新 | edge（\`${{ env.R2_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ CDN（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
+          echo "| CDN 刷新 | edge（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ CDN（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
