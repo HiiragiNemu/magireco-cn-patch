@@ -757,12 +757,13 @@ jobs:
                            f"{c(C.BRIGHT_CYAN, filename)}", indent=1)
                       req = urllib.request.Request(url)
                       with urllib.request.urlopen(req) as response:
-                          file_data  = response.read()
-                          file_size  = len(file_data)
-                      self.s3_client.put_object(
-                          Bucket=self.bucket, Key=filename,
-                          Body=file_data, ContentLength=file_size
-                      )
+                          file_size = int(
+                              response.headers.get('Content-Length') or 0)
+                          # 真正的流式：upload_fileobj 分块边下边传
+                          # （超过 8MiB 自动走 multipart），不再先把整个
+                          # 文件读进内存再一次性 put——大文件耗时近减半
+                          self.s3_client.upload_fileobj(
+                              response, self.bucket, filename)
                       ok(f"[{c(C.BRIGHT_WHITE, self.name)}] 上传完成: "
                          f"{filename} {c(C.DIM, '(' + human_size(file_size) + ')')}",
                          indent=1)
@@ -1011,9 +1012,12 @@ jobs:
 
       # ───────────────────────────────────────────────────────────────
       # 🏷 创建/覆盖本仓库快照 Release（v3 新增）
-      #   ▸ 把上游最新 Release 的【全部】asset（无黑名单）镜像到本仓库：
+      #   ▸ 先与下游 latest Release 做 diff（digest/size 比对），
+      #     无差异直接跳过——全量镜像很耗时，上游没变就不重跑
+      #   ▸ 有差异才把上游最新 Release 的【全部】asset（无黑名单）
+      #     镜像到本仓库：
       #       1. 以 UTC 日期时间命名的 Release（YYYYmmdd-HHMMSS，历史快照，
-      #          每次运行新建一个）
+      #          每次有差异时新建一个）
       #       2. 叫 latest 的 Release（滚动最新，先删后建实现"覆盖"）
       #   ▸ 注意：GitHub 单个 asset 上限 2GiB，超限文件跳过并告警
       # ───────────────────────────────────────────────────────────────
@@ -1026,6 +1030,7 @@ jobs:
           import sys
           import os
           import json
+          import shutil
           import urllib.request
           import urllib.error
           from datetime import datetime, timezone
@@ -1151,6 +1156,54 @@ jobs:
                   set_output("mirrored", "false")
                   return
 
+              # ── 先 diff：与下游 latest Release 比对，无差异直接跳过 ──
+              #   全量镜像（下载+重建两个 Release）非常耗时，上游 Release
+              #   没变时没必要每次重跑。digest 两边都有就比 digest，
+              #   否则退化为比 size。
+              section("与下游 latest Release 比对（无差异则跳过）")
+              upstream_map = {
+                  a["name"]: (a.get("digest") or "", a.get("size", 0))
+                  for a in assets if a.get("size", 0) <= MAX_ASSET
+              }
+
+              downstream_map = {}
+              r = run(["gh", "api",
+                       f"repos/{MIRROR_REPO}/releases/tags/latest",
+                       "--jq",
+                       '.assets[] | .name + "\t" + (.digest // "")'
+                       ' + "\t" + (.size | tostring)'])
+              if r.returncode == 0 and r.stdout.strip():
+                  for line in r.stdout.strip().splitlines():
+                      parts = line.split("\t")
+                      if len(parts) == 3:
+                          downstream_map[parts[0]] = (parts[1], int(parts[2]))
+              if not downstream_map:
+                  info("下游尚无 latest Release（或无 asset），视为全量差异")
+
+              def asset_changed(up, dn):
+                  u_digest, u_size = up
+                  d_digest, d_size = dn
+                  if u_digest and d_digest:
+                      return u_digest != d_digest
+                  return u_size != d_size
+
+              if set(upstream_map) == set(downstream_map) and all(
+                  not asset_changed(upstream_map[n], downstream_map[n])
+                  for n in upstream_map
+              ):
+                  ok("上游 Release 与下游 latest 完全一致，跳过镜像")
+                  set_output("snapshot_tag", "")
+                  set_output("mirrored", "false")
+                  return
+
+              for name in sorted(set(upstream_map) | set(downstream_map)):
+                  if name not in downstream_map:
+                      info(f"新增: {c(C.BRIGHT_YELLOW, name)}", indent=1)
+                  elif name not in upstream_map:
+                      info(f"移除: {c(C.BRIGHT_YELLOW, name)}", indent=1)
+                  elif asset_changed(upstream_map[name], downstream_map[name]):
+                      info(f"更新: {c(C.BRIGHT_YELLOW, name)}", indent=1)
+
               section("下载全部 asset")
               work_dir = "/tmp/release_mirror"
               os.makedirs(work_dir, exist_ok=True)
@@ -1168,10 +1221,10 @@ jobs:
                   try:
                       dl_req = urllib.request.Request(
                           a["browser_download_url"], headers=GH_HEADERS)
-                      with urllib.request.urlopen(dl_req) as resp:
-                          data = resp.read()
-                      with open(dst, "wb") as f:
-                          f.write(data)
+                      # 分块流式写盘，不把整个文件读进内存
+                      with urllib.request.urlopen(dl_req) as resp, \
+                           open(dst, "wb") as f:
+                          shutil.copyfileobj(resp, f, 1024 * 1024)
                       downloaded.append(dst)
                   except Exception as e:
                       err(f"下载失败 [{fname}]: {e}", indent=1)
