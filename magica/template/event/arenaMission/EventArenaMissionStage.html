@@ -1,0 +1,72 @@
+<div id="EventArenaMissionStage" class='EventArenaMission'>
+  <div id='missionBtn' class='TE se_decide sb_gold_01'><span class='b_screen'></span>任务</div>
+  <div id="userInfoWrap">
+    <div class="rankNameWrap">
+      <p class="userRank colorE">Rank<%= model.gameUser.level %></p>
+      <p class="userName colorC"><%= _.escape(model.user.loginName) %></p>
+    </div>
+    <div class="userLeader"> <% var arenaDeck = _.findWhere(model.userDeckList,{"deckType":22}); %> <%
+				if(arenaDeck.questEpisodeUserCardId) {
+					var leaderCard = _.findWhere(model.userCardList,{"id":(arenaDeck.questEpisodeUserCardId)});
+				} else {
+					// debug
+					var leaderCard = _.findWhere(model.userCardList,{"id":(arenaDeck.userCard1)});
+				}
+			%> <img data-nativeimgkey='card_<%= leaderCard.displayCardId %>_l' data-src='resource/image_native/card/image/card_<%= leaderCard.displayCardId %>_l.png'>
+    </div>
+    <div class="userArenaDeck"> <% for(var i=1;i<6;i++){ %> <% if(arenaDeck["userCardId"+i] && arenaDeck["userCardId"+i] !== arenaDeck.questEpisodeUserCardId) { %> <% var deckCard = _.findWhere(model.userCardList,{"id":arenaDeck["userCardId"+i]}); %> <% if(deckCard){ %> <div class="deckIcons">
+        <img data-nativeimgkey='card_<%= deckCard.displayCardId %>_f' data-src='resource/image_native/card/image/card_<%= deckCard.displayCardId %>_f.png'>
+        <div class="deckFrame"></div>
+        <div class="deckBase"></div>
+      </div> <% } else { %> <div class="deckIcons">
+        <div class="deckFrame"></div>
+        <div class="deckBase"></div>
+      </div> <% } %> <% } else if(arenaDeck["userCardId"+i] !== arenaDeck.questEpisodeUserCardId){ %> <div class="deckIcons">
+        <div class="deckFrame"></div>
+        <div class="deckBase"></div>
+      </div> <% } %> <% } %> </div>
+    <div class="userPointInfo">
+      <div class="teamPower colorC"><%= model.userArenaMissionStageMatch.userRatingPoint %></div>
+      <div class="mirrorsPoint colorC"><%= userEventArenaMission.eventPoint %>Pt</div>
+    </div> <% if(!eventArenaMissionStage.rewardDone) { %> <% if(userEventArenaMission.consecutiveWins > 0 &&
+			      userEventArenaMission.consecutiveWins < 7) { %> <div class="consectiveWrap">
+      <p class="numberOfWin"><span class="firstNumber"><%= userEventArenaMission.consecutiveWins %></span>/7连胜</p> <% var consectiveBonus = [0,1,2,3,5,7,10]; %> <p class="bonusPoint colorC">队伍Pt +<%= consectiveBonus[userEventArenaMission.consecutiveWins] %>Pt</p>
+    </div> <% } %> <div class="userNextPointInfo"> <% var remainPt = eventArenaMissionStage.eventArenaMissionStage.needClearPoint - userEventArenaMission.eventPoint; %> <p class='colorB'>至关卡通关</p>
+      <p class="leftPoint colorB">还有<%= remainPt %>Pt</p>
+    </div> <% } %> <div class="vsMark"></div>
+    <div id="userInfoBottom">
+      <div class="formationBtn linkBtn se_decide TE" data-href="#/FormationQuest/eventArena"></div>
+    </div>
+  </div>
+  <div class="stageTitle colorD"><%= eventArenaMissionStage.eventArenaMissionStage.stageName %></div>
+  <ul id="matchingWrap"></ul>
+  <div class="arenaReloadBtn TE se_decide"><span class="b_screen"></span></div>
+  <div id="bpGuageFreeRank" class="bpGuageWrap"></div>
+  <div class="arenaGradationBg"></div>
+</div>
+<script type="text/template" id="arenaParts"> <p class="enemyRank colorE">Rank<%='<%= model.userRank%\>'%></p>
+	<p class="matchingUserName colorC"><%='<%= _.escape(model.userName) %\>'%></p>
+	<div class="difficultWrap difficulty<%='<%= model.difficult + 1 %\>'%>"></div>
+	<p class="arenaRateing colorC"><%='<%= model.userRatingPoint %\>'%></p>
+	<p class="nowPoint colorC"><%='<%= model.userEventArenaMission.eventPoint %\>'%>&nbsp;Pt</p>
+	<div class="enemyInfoBg"></div>
+	<div class="matchingLeader">
+		<img data-nativeimgkey='card_<%="<%= model.leaderUserCard.displayCardId %\>"%>_m' data-src='resource/image_native/card/image/card_<%="<%= model.leaderUserCard.displayCardId %\>"%>_m.png'>
+	</div>
+</script>
+<script id="missionPopTemp" type="text/template"> <div class="popupInner">
+		<span class="closeDefault popupCloseBtn se_cancel TE"></span>
+		<p id="popupInfoDetailTitle" class="popupTitle common_title">任务内容确认</p>
+
+		<div class="popupTextArea">
+			<%='<% console.log(model) %\>'%>
+			<%='<% _.forEach(model.missionData,function(txt){ %\>'%>
+				<%='<% console.log(txt) %\>'%>
+				<div class='commonFrame3 mission'>
+					<div class="icon <%='<%= txt.classTxt %\>'%>"></div>
+					<div class="text"><%='<%= txt.text %\>'%></div>
+				</div>
+			<%='<% }) %\>'%>
+		</div>
+	</div>
+</script>

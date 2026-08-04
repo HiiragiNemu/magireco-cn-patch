@@ -1,0 +1,161 @@
+<div id="CampaignQuizTop">
+  <div id='helpBtn' class='se_decide TE sb_gold_02' data-cpid="<%= cpId %>">玩法</div>
+  <div id="nextBlock">
+    <div class="nextTextImg"></div>
+  </div>
+  <div id="countDown">
+    <div class="three"></div>
+    <div class="two"></div>
+    <div class="one"></div>
+    <div class="start"></div>
+  </div>
+  <div id="charaSerif">
+    <span class="charaName">八云 御魂</span>
+    <p class="serifFont"></p>
+  </div>
+  <div id="finish">
+    <div class="finishText1"></div>
+    <div class="finishText2"></div>
+    <div class="finishFlash"></div>
+  </div>
+  <div id="charaName"></div>
+  <div id="quizBase">
+    <div class="title"></div>
+    <div id="selectWrap"> <%
+				var current = currentTime.replace(/-/g,"\/");
+				_.forEach(quizList,function(model){
+					var startAt = model.startAt.replace(/-/g,"\/");
+					if(Date.parse(current) >= Date.parse(startAt)){
+						var users = _.findWhere(userList,{campaignId:model.campaignId, quizSectionId:model.quizSectionId});
+						var firstClearReward = model.firstClearReward;
+						var completeReward   = model.completeReward;
+
+						firstClearReward = firstClearReward.split("_");
+						var firstItemType = (firstClearReward.indexOf("EVENT") > -1) ? "event" : (firstClearReward.indexOf("GIFT") > -1) ? "gift" : "main";
+						var firstItemName = "";
+						var firstItemNum  = firstClearReward[firstClearReward.length-1];
+						for(var i=1;i<(firstClearReward.length - 1);i++){
+							if(i > 1) firstItemName += "_";
+							firstItemName += firstClearReward[i].toLowerCase();
+						}
+
+						completeReward = completeReward.split("_");
+						var completeType = (completeReward.indexOf("EVENT") > -1) ? "event" : (completeReward.indexOf("GIFT") > -1) ? "gift" : "main";
+						var completeName = "";
+						var completeNum  = completeReward[completeReward.length-1];
+						for(var i=1;i<(completeReward.length - 1);i++){
+							if(i > 1) completeName += "_";
+							completeName += completeReward[i].toLowerCase();
+						}
+
+			%> <div class="difficultWrap" id="quiz_<%= model.campaignId %>_<%= model.quizSectionId %>">
+        <div class="difficulty"><%= model.title %></div>
+        <div class="highscoreTitle">最高纪录</div>
+        <div class="correctCountTtl">答对数</div>
+        <div class="correctCountNum"> <% if(!users){ %> -/10题 <% } else { %> <%= users.maxCorrectNum %>/10题 <% } %> </div>
+        <div class="timeTtl">时间</div>
+        <div class="timeNum"> <% if(!users || (users && !users.fastestRecord)){ %> - <%
+							}else{
+								var _time = new Date(users.fastestRecord);
+								var min = _time.getMinutes();
+								var sec = _time.getSeconds();
+								var mse = (_time.getMilliseconds() / 10) | 0;
+
+								var text = (min > 0) ? min + "分" : "";
+								text += (sec + "秒" + ("0" + mse).substr(-2,2));
+						%> <%= text %> <% } %> </div>
+        <div class="rewardWrap">
+          <div class="entryReward">
+            <p class="ttlWrap"><span>参与报酬</span></p>
+            <div class="itemWrap<% if(users && users.firstClearRewardAt){ %> cleared<% }%>">
+              <img src="/magica/resource/image_web/item/<%= firstItemType %>/<%= firstItemName %>.png">
+            </div>
+          </div>
+          <div class="completeReward">
+            <p class="ttlWrap"><span>全部答对<br>奖励</span></p>
+            <div class="itemWrap<% if(users && users.completeRewardAt ){ %> cleared<% }%>">
+              <img src="/magica/resource/image_web/item/<%= completeType %>/<%= completeName %>.png">
+            </div>
+          </div>
+        </div>
+        <div class="start TE ts_pink" data-section="<%= model.quizSectionId %>"><span class="b_screen"></span>挑战</div>
+      </div> <%
+					}else{
+				%> <div class="difficultWrap off">
+        <div class="difficulty"><%= model.title %></div> <%
+						var spl = startAt.split("/");
+					%> <div class="closedText"><%= spl[1] %>/<%= spl[2].substr(0,2) %> <%= spl[2].substr(3,5) %>起<br>可以挑战</div>
+        <div class="start">挑战</div>
+      </div> <%
+					}
+				%> <% }) %> </div>
+    <div id="quizWrap" class="hide">
+      <div class="quizMainWrap">
+        <div id="quizTtl"></div>
+        <div id="quizBodyWrap"></div>
+        <div id="quizTumb"></div>
+      </div>
+      <div id="quizSelectWrap">
+        <div id="diffTtl"></div>
+        <div class="correctCount"><span id="correctNums"></span>/<span id="totalNums"></span>&nbsp;题</div>
+        <div id="timeWrap"></div>
+        <div id="selectAnswer">
+          <div class="selectAnswerBtn ts_pink TE answer1" data-ansernum="1"><span class="b_screen"></span>
+            <div class="maskWrap">
+              <div class="effect01"></div>
+              <div class="effect02"></div>
+            </div>
+          </div>
+          <div class="selectAnswerBtn ts_pink TE answer2" data-ansernum="2"><span class="b_screen"></span>
+            <div class="maskWrap">
+              <div class="effect01"></div>
+              <div class="effect02"></div>
+            </div>
+          </div>
+          <div class="selectAnswerBtn ts_pink TE answer3" data-ansernum="3"><span class="b_screen"></span>
+            <div class="maskWrap">
+              <div class="effect01"></div>
+              <div class="effect02"></div>
+            </div>
+          </div>
+          <div class="selectAnswerBtn ts_pink TE answer4" data-ansernum="4"><span class="b_screen"></span>
+            <div class="maskWrap">
+              <div class="effect01"></div>
+              <div class="effect02"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="quizResultWrap" class="hide">
+      <div id="resultTtl"></div>
+      <div class="correctResultWrap">
+        <div class="resultMiniTtl">答对数</div>
+        <div id="correctResult">15/15题</div>
+      </div>
+      <div class="timeResultWrap">
+        <div class="resultMiniTtl">经过时间</div>
+        <div id="timeResult">59分59秒99</div>
+      </div>
+      <p class="tweetText">分享结果</p>
+      <div id="tweetBtn"></div>
+      <div class="resultRewardWrap">
+        <div class="firstClearReward">
+          <p>参与报酬</p>
+          <div id="firstClearImg" class="itemWrap"></div>
+          <div class="animationWrap"></div>
+          <div class="clearMark"></div>
+        </div>
+        <div class="completeClearReward">
+          <p>全对报酬</p>
+          <div id="completeClearImg" class="itemWrap"></div>
+          <div class="animationWrap"></div>
+          <div class="clearMark"></div>
+        </div>
+        <div class="rewardText">※报酬将直接发放</div>
+      </div>
+      <div id="backto" class="sb_gold_01 TE se_decide off"><span class="b_screen"></span>返回问答首页</div>
+      <div id="retry" class="sb_gold_01 TE se_decide off"><span class="b_screen"></span>再次挑战</div>
+    </div>
+  </div>
+</div>

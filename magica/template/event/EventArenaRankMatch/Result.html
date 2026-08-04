@@ -1,0 +1,82 @@
+<div id="EventArenaRankMatchResult">
+  <!-- 結果ページ -->
+  <!-- <div id="topBtn" class="btn b_white TE">返回活动首页</div> -->
+  <div id="resultTitle" class="rankMatch""></div>
+	<div id=" resultDate" class="arenaColor"><%= model.userArenaBattleResultList[0].completedAt.slice(5,-3) %></div>
+  <div id="replayBtn" class="replayBtn se_decide TE"></div>
+  <div id="enemyBtn" class="">
+    <div id="enemyClip" class='se_decide'></div>
+    <div class="enemyTitle"></div>
+    <img class="enemyImage" data-nativeimgkey='card_<%= model.enemyData.leaderUserCard.displayCardId %>_s' data-src='resource/image_native/card/image/card_<%= model.enemyData.leaderUserCard.displayCardId %>_s.png'>
+    <div class="enemyNameRank">
+      <div class="enemyRank">Rank<%= model.enemyData.userRank %></div>
+      <div class="enemyName arenaColor"><%= _.escape(model.enemyData.userName) %></div>
+    </div>
+  </div>
+  <div id="touchScreen"></div>
+  <div id="mainWrap">
+    <div id="flowWrap">
+      <div id="resultMark" class="ranking">
+        <!-- WIN --> <% if(model.userArenaBattleResultList[0].arenaBattleStatus === "WIN"){ %> <div class="resultDeco winLeft"></div>
+        <div class="resultString W"></div>
+        <div class="resultString I"></div>
+        <div class="resultString N"></div>
+        <div class="resultDeco winRight"></div>
+        <div class="resultDeco winBrightTop"></div>
+        <div class="resultDeco winBrightBottom"></div>
+        <!-- LOSE --> <% } else if(model.userArenaBattleResultList[0].arenaBattleStatus === "LOSE"){ %> <div class="resultString lose"></div> <% } %>
+      </div>
+      <!-- ランクアップ --> <%
+				if(
+					model.userArenaBattleResultList[0].arenaBattleStatus === "WIN" &&
+					model.rankMatchOrderRank.isOrderRankUp
+				){
+			%> <div id="rankUpMark" class="ranking">
+        <div class="resultRankUpBase"></div>
+        <div class="resultRankUpString R"></div>
+        <div class="resultRankUpString A"></div>
+        <div class="resultRankUpString N"></div>
+        <div class="resultRankUpString K"></div>
+        <div class="resultRankUpString U"></div>
+        <div class="resultRankUpString P"></div>
+        <div class="resultRankUpString EXCLAMTION"></div>
+        <div class="resultRankUpStringAdd"></div>
+        <div class="resultRankNum"> <% _.forEach(model.rankMatchOrderRank.textList,function(txt,index){ %> <img src="/magica/resource/image_web/event/arenaRankMatch/common/result/numbers/num_rankup_<%= txt %>.png" class="num"> <% }); %> <img src="/magica/resource/image_web/event/arenaRankMatch/common/result/numbers/num_rankup_10.png" class="num">
+        </div>
+      </div> <% if(model.rankMatchBonusRewardList && model.rankMatchBonusRewardList.length){ %> <!-- 報酬 -->
+      <!-- <ミラーズコイン -->
+      <div class="getRankMatchReward">
+        <div class="itemWrap">
+          <img src="<%= model.rankMatchBonusRewardList[0].imagePath %>">
+          <span class="itemNum ts_gold">×<%= model.quantity %><span>
+        </div>
+        <div class="itemBackRightWrapper">
+          <div class="itemBackRight"></div>
+        </div>
+        <div class="itemRankupRight1"></div>
+        <div class="itemRankupRight2"></div>
+        <div class="itemRankupRight3"></div>
+      </div> <% } %> <% } %> <% if(model.userArenaBattleResultList[0].arenaBattleStatus === "LOSE"){ %> <div class="loseBgWrap"></div> <% } %> <div class="touch_screenTextWrap">
+        <div class="touch_screen"></div>
+      </div>
+    </div>
+  </div>
+  <div id="resultMirror">
+    <div class="mirrorReflec">
+      <div class="reflecMirror">
+        <img src="/magica/resource/image_web/page/arena/result/reflection.png" class="reflecMirrorImg"> <% if(model.userArenaBattleResultList[0].arenaBattleStatus === "LOSE"){ %> <div class="loseBgWrap">
+          <img src="/magica/resource/image_web/page/aevent/arenaRankMatch/common/rena/result/bg_lose.png" class="loseBgWrapImg">
+        </div> <% } %>
+      </div>
+    </div>
+    <div class="mirrorWrap"></div>
+    <div class="mirrorMemberWrap">
+      <div class="members_left mirror_left2"> <% if(model.arenaDecks.noneLeader[2]){ %> <% var noleader02_image = (!model.arenaDecks.noneLeader[2].chara.doubleUnitFlg) ? model.arenaDecks.noneLeader[2].displayCardId + "_m" : model.arenaDecks.noneLeader[2].displayCardId + "_o"; %> <img data-nativeimgkey='card_<%= noleader02_image %>' data-src='resource/image_native/card/image/card_<%= noleader02_image %>.png'> <% } %> </div>
+      <div class="members_left mirror_left1"> <% if(model.arenaDecks.noneLeader[0]){ %> <% var noleader00_image = (!model.arenaDecks.noneLeader[0].chara.doubleUnitFlg) ? model.arenaDecks.noneLeader[0].displayCardId + "_m" : model.arenaDecks.noneLeader[0].displayCardId + "_o"; %> <img data-nativeimgkey='card_<%= noleader00_image %>' data-src='resource/image_native/card/image/card_<%= noleader00_image %>.png'> <% } %> </div>
+      <div class="leader"> <% var leader_image = (!model.arenaDecks.leaderCard.chara.doubleUnitFlg) ? model.arenaDecks.leaderCard.displayCardId + "_m" : model.arenaDecks.leaderCard.displayCardId + "_o"; %> <img data-nativeimgkey='card_<%= leader_image %>' data-src='resource/image_native/card/image/card_<%= leader_image %>.png'>
+      </div>
+      <div class="members_right mirror_right1"> <% if(model.arenaDecks.noneLeader[1]){ %> <% var noleader01_image = (!model.arenaDecks.noneLeader[1].chara.doubleUnitFlg) ? model.arenaDecks.noneLeader[1].displayCardId + "_m" : model.arenaDecks.noneLeader[1].displayCardId + "_o"; %> <img data-nativeimgkey='card_<%= noleader01_image %>' data-src='resource/image_native/card/image/card_<%= noleader01_image %>.png'> <% } %> </div>
+      <div class="members_right mirror_right2"> <% if(model.arenaDecks.noneLeader[3]){ %> <% var noleader03_image = (!model.arenaDecks.noneLeader[3].chara.doubleUnitFlg) ? model.arenaDecks.noneLeader[3].displayCardId + "_m" : model.arenaDecks.noneLeader[3].displayCardId + "_o"; %> <img data-nativeimgkey='card_<%= noleader03_image %>' data-src='resource/image_native/card/image/card_<%= noleader03_image %>.png'> <% } %> </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div id="RegularEventTop">
+	<% var groupBattleStatusClass = "";
+			if (isGroupBattleOpen) groupBattleStatusClass += "open";
+			if (isGroupBattleJoin) groupBattleStatusClass += " join";
+	%>
+	<!-- グループバトル -->
+	<div id="groupBattleWrap" class="<%= groupBattleStatusClass %>">
+
+		<div id="groupBattleBtn" class="se_decide TE">
+
+			<!-- 宝石アイコン -->
+			<%
+				var jewelImgPath = "/magica/resource/image_web/regularEvent/groupBattle/6011/stone_off.png";
+				if(groupBattleMaster) {
+					jewelImgPath = "/magica/resource/image_web/regularEvent/groupBattle/"+ groupBattleMaster.viewParameterMap.BOSS_ID +"/stone_off.png";
+					if (isGroupBattleOpen) {
+						jewelImgPath = "/magica/resource/image_web/regularEvent/groupBattle/"+ groupBattleMaster.viewParameterMap.BOSS_ID +"/stone_on.png";
+					}
+				}
+			%>
+			<div id="jewelIcon" class="<%= groupBattleStatusClass %>"><img src="<%= jewelImgPath %>" /></div>
+		</div>
+
+		<!-- イベントロゴ -->
+		<%
+			var logoImgPath = "/magica/resource/image_web/regularEvent/common/top/top_title_off.png";
+			if (isGroupBattleOpen) {
+				logoImgPath = "/magica/resource/image_web/regularEvent/groupBattle/"+ groupBattleMaster.viewParameterMap.BOSS_ID +"/title_s.png";
+			}
+		%>
+		<div id="logoImg" class="<%= groupBattleStatusClass %>"><img src="<%= logoImgPath %>" /></div>
+
+		<!-- 開催情報テキスト -->
+		<div id="groupBattleInfoWrap" class="textWrap <%= groupBattleStatusClass %>">
+			<% if(isGroupBattleOpen) { %>
+				<!-- 開催中 -->
+				<p>举办期间:<%= groupBattleMaster.displayEndAt %>为止</p>
+
+				<!-- 残り対戦回数 -->
+				<% var cnt = (!isNaN(groupBattleMaster.remainBattleCount) ? groupBattleMaster.remainBattleCount : 3); %>
+				<ul id="groupBattleRemainIconList">
+					<% var i=0; while(i<3) { %>
+					<li class="<% if(i<cnt){ %>on<% } %>"></li>
+					<% i=(i+1)|0; } %>
+				</ul>
+
+			<% } else { %>
+				<!-- クローズ期間 -->
+				<p><%= groupBattleCloseText %></p>
+			<% } %>
+		</div>
+	</div>
+
+	<!-- タワーイベント -->
+	<!-- <div id="towerBattleWrap">
+
+		<div id="towerBattleBtn" class="se_decide TE">
+		</div>
+	</div> -->
+</div>

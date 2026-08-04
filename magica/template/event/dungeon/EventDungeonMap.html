@@ -1,0 +1,111 @@
+<div id='EventDungeonMap' class="uiHide initial"> <% if(window.isDebug && window.isBrowser){ %> <div id="debugArea"></div> <% } %> <div id="dungeonTitleWrap" class="<%= areaType %>">
+    <div class="dungeonName"><%= section.title %></div>
+    <div class="sb_gold_02 TE missionBtn se_decide"><span class="b_screen"></span>任务</div>
+    <div class="missionWrap">
+      <span class="star<% if(area.missionCleared1){ %> on<% } %>"></span>
+      <span class="star<% if(area.missionCleared2){ %> on<% } %>"></span>
+      <span class="star<% if(area.missionCleared3){ %> on<% } %>"></span>
+    </div>
+    <div class="titleBg"></div>
+  </div>
+  <div id="openBtn" class="TE se_decide"><span class="b_screen"></span>队伍信息</div>
+  <div id="closeBtn" class="TE se_cancel"><span class="b_screen"></span></div>
+  <div id="resetPosition" class="TE se_decide"><span class="b_screen"></span></div>
+  <div id="bottomWrap">
+    <div id="partyWrap">
+      <div class="mainPartyWrap"></div>
+      <div class="subPartyWrap"></div>
+    </div>
+    <div class="btnWrap">
+      <div class="btnRetire mb_white TE se_decide"><span class="b_screen"></span>放弃</div>
+      <div class="btnMember mb_pink TE se_decide"><span class="b_screen"></span>更换成员</div>
+      <div class="btnCure TE se_decide"><span class="b_screen"></span></div>
+      <div class="cureIconWrap">
+        <div id="cureIcons">
+          <span class="cure"></span>
+          <span class="cure"></span>
+          <span class="cure"></span>
+          <span class="cure"></span>
+          <span class="cure"></span>
+        </div>
+      </div>
+      <div class="btnCureWrap">
+        <span class="cureMessage">请选择要回复的魔法少女</span>
+        <div class="mb_white TE se_cancel cureCancel"><span class="b_screen"></span>取消</div>
+      </div>
+    </div>
+  </div>
+  <div id="mapWrap"></div>
+  <div id="mapInfo" class="c_white">请选择要前往的点位</div>
+</div>
+<!--  -->
+<script type="text/template" id="deckParts"> <div class='userCharaIcon<%="<% if(hp < 1) { %\>"%> retire<%="<% }else if(damage === 0 && !isRetire){ %\>"%> cantCure<%="<% } %\>"%> <%="<%= model.card.rank %\>"%> <%="<%= model.chara.attributeId %\>"%>'>
+		<div class='overWrap'></div>
+		<%="<% att = 'att_' + model.chara.attributeId.toLowerCase(); %\>"%>
+		<%="<% star = 'star_' + model.card.rank.toLowerCase(); %\>"%>
+		<%="<% frame = 'frame_' + model.card.rank.toLowerCase(); %\>"%>
+		<%="<% bg = 'bg_' + model.chara.attributeId.toLowerCase(); %\>"%>
+		<span class="att" data-nativebgkey='<%="<%= att %\>"%>' data-src='resource/image_native/card/frame/<%="<%= att %\>"%>.png'></span>
+		<span class="star" data-nativebgkey='<%="<%= star %\>"%>' data-src='resource/image_native/card/frame/<%="<%= star %\>"%>.png'></span>
+		<span class="rank" data-nativebgkey='<%="<%= frame %\>"%>' data-src='resource/image_native/card/frame/<%="<%= frame %\>"%>.png'></span>
+		<img data-nativeimgkey='card_<%="<%= model.displayCardId %\>"%>_f' data-src='resource/image_native/card/image/card_<%="<%= model.displayCardId %\>"%>_f.png'>
+		<span class="lv"><span><%="<%= model.level %\>"%></span></span>
+		<span class="bg" data-nativebgkey='<%="<%= bg %\>"%>' data-src='resource/image_native/card/frame/<%="<%= bg %\>"%>.png'></span>
+	</div>
+	<%="<% if(!isRetire) { %\>"%>
+	<div class='hpWrap'>
+		<div class='hpInner' style='width:<%="<%= hp %\>"%>%;'></div>
+		<div class='memoriaHp' style='width:<%="<%= memoria %\>"%>%;'></div>
+	</div>
+	<div class='mpWrap'>
+		<div class="mpBox">
+			<div class='mpInner1' style='width:<%="<%= mp1 %\>"%>%;">'></div>
+			<div class='mpInner2' style='width:<%="<%= mp2 %\>"%>%;">'></div>
+		</div>
+	</div>
+	<%="<% } else { %\>"%>
+		<div class="charaRetire"></div>
+	<%="<% } %\>"%>
+</script>
+<script type="text/template" id="emptyParts"> <div class="blankChara"></div>
+	<div class="hpWrap"></div>
+	<div class="mpWrap"></div>
+</script>
+<script type="text/template" id="curePop"> 使用1个回复道具,<br>
+	<span class='cureName'><%="<%= name %\>"%></span>要回复吗?<br>
+	<div class='cureItemsWrap'>
+		<div class='cureList'>
+			<%="<% for(var i=0;i<5;i++){ %\>"%>
+				<%="<% if(model.cureRemain > i){ %\>"%>
+					<span class='icon'></span>
+				<%="<% }else{ %\>"%>
+					<span class='icon off'></span>
+				<%="<% } %\>"%>
+			<%="<% } %\>"%>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="cantCurePop"> 没有回复道具。<br>
+	回复道具每天16:00补充。<br>
+	<div class='cureItemsWrap'>
+		<div class='cureList'>
+			<span class='icon off'></span>
+			<span class='icon off'></span>
+			<span class='icon off'></span>
+			<span class='icon off'></span>
+			<span class='icon off'></span>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="retirePop"> 要退出这个区域吗?
+	<div class="c_red retireCaution">
+		※至今获得的EXP·诅咒碎片(CC)·宝箱中的道具都可以拿到。<br>
+		※区域任务的通关状态将被重置。
+	</div>
+</script>
+<script type="text/template" id="missionPop"> <div class='missionPopWrap'>
+		<div class='mission'><div class='star<%="<% if(model.missionCleared1){ %\>"%> on<%="<% } %\>"%>'><div class='clear'></div></div><%="<%= model.area.missionDescription1 %\>"%></div>
+		<div class='mission'><div class='star<%="<% if(model.missionCleared2){ %\>"%> on<%="<% } %\>"%>'><div class='clear'></div></div><%="<%= model.area.missionDescription2 %\>"%></div>
+		<div class='mission'><div class='star<%="<% if(model.missionCleared3){ %\>"%> on<%="<% } %\>"%>'><div class='clear'></div></div><%="<%= model.area.missionDescription3 %\>"%></div>
+	</div>
+</script>

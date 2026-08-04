@@ -1,0 +1,126 @@
+<% var eventId = eventMaster.eventId;
+
+%> <style type='text/css'>
+  #logoWrap .bg
+  {
+    background: url("/magica/resource/image_web/event/storyraid/<%= eventId %>/bg_footer_logo_bg.png") left top no-repeat;
+  }
+
+  #bottomWrap .bg
+  {
+    background: url("/magica/resource/image_web/event/storyraid/<%= eventId %>/bg_footer_item_bg.png") left top no-repeat;
+  }
+
+  #epilogueBtn
+  {
+    background: url("/magica/resource/image_web/event/storyraid/<%= eventId %>/btn_epilogue.png") left top no-repeat;
+  }
+
+  #finishSceneAnimation .bg2
+  {
+    background: url("/magica/resource/image_web/event/storyraid/<%= eventId %>/final/evt_story_raid_final_chapter_bg03.png") left top no-repeat;
+  }
+
+  #finishSceneAnimation .charaSilhouette
+  {
+    background: url("/magica/resource/image_web/event/storyraid/<%= eventId %>/final/evt_story_raid_final_chapter_chara.png") left top no-repeat;
+  }
+
+</style>
+<div id='EventStoryRaidTop'> <% if (!isFinal) { %> <div id='helpBtn' class='se_decide TE sb_gold_02' data-eventid="<%= eventId %>">玩法</div> <% } %> <div id='mapWrap'> <% if (window.isBrowser) { %> <ul id="debugArea" class="debugArea">
+      <li class="debugBtn TE sb_gold_01" data-mode="basic">保持示例</li>
+      <li class="debugBtn TE sb_gold_01" data-mode="newPoint" data-pointid="103">移动切入</li>
+      <li class="debugBtn TE sb_gold_01" data-mode="newPoint" data-pointid="108">移动切入(最终)</li>
+      <li class="debugBtn TE sb_gold_01" data-mode="destroyed">击破切入</li>
+      <li class="debugBtn TE sb_gold_01" data-mode="mapEffect">地图特效</li>
+      <li class="debugBtn TE sb_gold_01" data-mode="hideSingleRaid">hideSingleRaid</li>
+      <li class="debugBtn TE sb_gold_01" data-mode="resumeSingleRaid">redumeSingleRaid</li>
+      <li class="debugBtn TE sb_gold_01" data-mode="popSingleRaid">popSingleRaid</li>
+      <li class="debugBtn TE sb_gold_01" data-mode="noDisplay">30秒不显示</li>
+      <li class="debugBtn TE sb_gold_01" data-mode="eventCondPopup">参加条件弹窗</li>
+      <li class="debugBtn TE sb_gold_01" data-mode="finale">终幕演出</li>
+    </ul> <% } %> <% if (isFinal) { %> <div id="epilogueBtn" class="TE se_decide"></div> <% } %> </div>
+  <div id='logoWrap'>
+    <div id='eventLogo'>
+      <img src="/magica/resource/image_web/event/storyraid/<%= eventId %>/logo.png?s" alt="">
+    </div> <% if (!isFinal) { %> <div class="bg"></div> <% } %>
+  </div>
+  <div id='bottomWrap'>
+    <div id="logBtn" class="TE se_decide"></div> <% if (!isFinal) { %> <div class="itemWrap">
+      <img src="/magica/resource/image_web/item/event/event_storyraid_<%= eventId %>_exchange_1.png">
+      <p class='itemNum c_gold'>×<%= itemQuantity %></p>
+    </div>
+    <div id='shopBtn' class='TE se_decide linkBtn' data-href='#/ShopTop/<%= eventMaster.shopId %>'></div>
+    <div class="bg"></div> <% } else { %> <% if (isEpAlreadyRead) { %> <div id="epilogueMovieBtn" class="TE se_decide"></div> <% }  %> <% }  %>
+  </div>
+  <div id="finalAnimationWrap"></div>
+</div>
+<!-- バトルログ --> <%
+	var popupImgPath = '/magica/resource/image_web/event/storyraid/' + eventId + '/popup/';
+%> <script type="text/template" id="battleLogParts"> <style type="text/css">
+		.logChild:before {
+			background: url(<%= popupImgPath %>list_header_story.png) left top no-repeat;
+		}
+		.logChild .bossImg {
+			background: url(<%= popupImgPath %>img_story.png) left top no-repeat;
+		}
+		.logChild.BOSS:before {
+			background: url(<%= popupImgPath %>list_header_boss.png) left top no-repeat;
+		}
+		.logChild.BOSS .bossImg {
+			background: url(<%= popupImgPath %>img_boss.png) left top no-repeat;
+		}
+	</style>
+
+	<div id="BattleLog">
+		<span class="closeDefault popupCloseBtn se_cancel TE"></span>
+
+		<div class="header c_white">战斗记录</div>
+		<div id="battleLogListWrap">
+			<ul id="battleLogList" class="scrollInner">
+				<%="<% _.forEach(eventSectionList,function(txt){ %\>"%>
+				<li>
+					<%="<% var pointModel = txt.pointModel %\>"%>
+					<%="<% var pointType = pointModel.point.pointType %\>"%>
+					<%="<% var isBoss = (pointModel.point.pointType == 'BOSS') || (pointModel.point.pointType == 'LAST') %\>"%>
+					<%="<% var isCleared = txt.cleared %\>"%>
+					<div class="logChild <%="<%= pointType %\>"%>">
+						<div class="bossImgWrap">
+							<div class="bossImg"></div>
+						</div>
+						<div class="resultIcon <%="<% if (isCleared) { %\>"%>CLEAR<%="<% } %\>"%>"></div>
+
+						<%="<% if(isBoss) { %\>"%>
+						<div id="attribute">
+							<span class="type_f <%="<%= pointModel.point.bossAttributeId %\>"%>"></span>
+						</div>
+
+						<ul class="attackNum">
+							<li class="c_white">攻击成功次数</li>
+							<li>×<%="<%= pointModel.clearCount %\>"%></li>
+						</ul>
+						<%="<% } %\>"%>
+
+						<div class="name c_white"><%="<%= pointModel.point.title %\>"%></div>
+
+						<%="<% if(txt.section.clearReward) { %\>"%>
+						<span class="treasure">
+							<%="<% if(isCleared) { %\>"%>
+								<%="<% var itemCode = txt.section.clearReward.item.itemCode.toLowerCase(); %\>"%>
+								<%="<% if(itemCode.indexOf('gift') !== -1) { %\>"%>
+									<img data-nativeimgkey='<%="<%= itemCode %\>"%>' data-src='resource/image_native/gift/<%="<%= itemCode %\>"%>.png' class="itemImg">
+								<%="<% } else { %\>"%>
+									<img class="itemImg" src='/magica/resource/image_web/item/main/<%="<%= itemCode %\>"%>.png' alt=''>
+								<%="<% } %\>"%>
+							<%="<% } else { %\>"%>
+								<img class="treasureImg" src='/magica/resource/image_web/common/treasure/<%="<%= txt.section.clearReward.item.treasureChestColor.toLowerCase() %\>"%>.png' alt=''>
+							<%="<% } %\>"%>
+						</span>
+						<%="<% } %\>"%>
+					</div>
+				</li>
+				<%="<% }) %\>"%>
+			</ul>
+		</div>
+	</div>
+</script>

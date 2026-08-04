@@ -1,0 +1,1038 @@
+define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
+{
+  document.getElementById("commandDiv");
+  var b = {
+      DATA_CLEAR_WEB_CACHE: 1,
+      DATA_REMOVE_ASSET: 2,
+      DATA_REMOVE_ASSET_FILE: 3,
+      DATA_ASSET_FILE_EXIST: 4,
+      DATA_CALL_TOUCHES_BEGIN: 5,
+      DATA_CALL_TOUCHES_MOVE: 6,
+      DATA_CALL_TOUCHES_END: 7,
+      DATA_CALL_TOUCHES_CLEAR: 8,
+      DATA_AWAKE_PURCHASE: 10,
+      DATA_PURCHASE_ITEM: 11,
+      DATA_RETRY_PURCHASE_ITEM: 12,
+      DATA_GET_SNS_USER_ID: 20,
+      DATA_GET_APP_VERSION: 21,
+      DATA_GET_DOWNLOAD_CONFIG: 22,
+      DATA_GET_DEVICE_INFO: 23,
+      DATA_GET_ACCESS_TOKEN: 24,
+      DATA_CLOSE_APP: 25,
+      DATA_GET_FONT: 30,
+      DATA_GET_QUEST_RESULT_JSON: 40,
+      DATA_OPEN_URL: 50,
+      DATA_GET_BASE64: 60,
+      DATA_SET_CLIPBOARD: 62,
+      DATA_GET_REWARD: 70,
+      DATA_DELETE_REWARD: 71,
+      DATA_SET_FOX: 80,
+      DATA_OPEN_EDIT_BOX: 90,
+      SOUND_BGM_PLAY: 100,
+      SOUND_BGM_STOP: 101,
+      SOUND_BGM_RESUME: 102,
+      SOUND_BGM_PAUSE: 103,
+      SOUND_BGM_SET_VOL: 104,
+      SOUND_BGM_GET_VOL: 105,
+      SOUND_SE_PLAY: 110,
+      SOUND_SE_STOP: 111,
+      SOUND_SE_SET_VOL: 114,
+      SOUND_SE_GET_VOL: 115,
+      SOUND_VO_PLAY: 120,
+      SOUND_VO_STOP: 121,
+      SOUND_VO_SET_VOL: 124,
+      SOUND_VO_GET_VOL: 125,
+      SCENE_PUSH_WEBVIEW: 201,
+      SCENE_POP_WEBVIEW: 202,
+      SCENE_PUSH_LOADING: 211,
+      SCENE_PUSH_DOWNLOAD: 221,
+      SCENE_PUSH_GACHA: 231,
+      SCENE_PUSH_PRESENT: 232,
+      SCENE_POP_GACHA: 233,
+      SCENE_PUSH_EVOLUTION: 241,
+      SCENE_PUSH_MEMORIA_COMPOSE: 251,
+      SCENE_PUSH_STORY: 261,
+      SCENE_PUSH_QUEST_STORY: 262,
+      SCENE_PUSH_BRANCH_STORY: 263,
+      SCENE_PUSH_QUEST: 271,
+      SCENE_POP_QUEST: 272,
+      SCENE_PUSH_CAMERA: 280,
+      SCENE_POP_CAMERA: 281,
+      SCENE_SWAP_CAMERA: 282,
+      SCENE_ZOOM_CAMERA: 283,
+      SCENE_CAPTURE_CAMERA: 284,
+      SCENE_PUSH_CHAT: 291,
+      SCENE_POP_CHAT: 292,
+      SCENE_PUSH_TOP: 301,
+      SCENE_POP_TOP: 302,
+      SCENE_PUSH_GENERAL_STORY: 311,
+      SCENE_POP_GENERAL_STORY: 312,
+      SCENE_PUSH_QUEST_STORED_DATA: 321,
+      SCENE_PUSH_PROLOGUE: 331,
+      SCENE_PUSH_ANOTHER_QUEST: 341,
+      SCENE_POP_ANOTHER_QUEST: 342,
+      SCENE_PLAY_ANOTHER_QUEST: 343,
+      SCENE_PUSH_MOVIE: 351,
+      SCENE_POP_MOVIE: 352,
+      SCENE_PUSH_MOVIE_CHAR: 361,
+      SCENE_PUSH_EVENT_BRANCH: 371,
+      SCENE_RESUME_EVENT_BRANCH: 372,
+      SCENE_POP_EVENT_BRANCH: 373,
+      SCENE_PUSH_EVENT_SINGLE_RAID: 381,
+      SCENE_HIDE_EVENT_SINGLE_RAID: 382,
+      SCENE_SHOW_EVENT_SINGLE_RAID: 383,
+      SCENE_POP_EVENT_SINGLE_RAID: 384,
+      DISPLAY_SET_WEBVIEW_VISIBLE: 400,
+      DISPLAY_CHANGE_BG: 410,
+      DISPLAY_REMOVE_BG: 411,
+      DISPLAY_ADD_L2D: 420,
+      DISPLAY_REMOVE_L2D: 421,
+      DISPLAY_PALY_L2D_MOTION: 422,
+      DISPLAY_ADD_MINI: 430,
+      DISPLAY_REMOVE_MINI: 431,
+      DISPLAY_PLAY_MINI_MOTION: 432,
+      DISPLAY_PLAY_COMPOSE_EFFECT: 450,
+      DISPLAY_SHOW_COMPOSE_RESULT: 451,
+      DISPLAY_HIDE_COMPOSE: 452,
+      DISPLAY_PLAY_COMPOSE_MAGIA: 460,
+      DISPLAY_PLAY_AWAKE_ABILITY: 465,
+      DISPLAY_PLAY_NORMAL_GACHA_TOP: 470,
+      DISPLAY_STOP_NORMAL_GACHA_TOP: 471,
+      DISPLAY_PLAY_MEMORIA_TOP: 490,
+      DISPLAY_STOP_MEMORIA_TOP: 491,
+      DISPLAY_PLAY_GENERAL_STORY: 481,
+      DISPLAY_PLAY_ONE_SHOT_STORY: 482,
+      NOTI_GET_CONF_PNOTE: 500,
+      NOTI_AWAKE_PNOTE: 501,
+      NOTI_TURN_ON_PNOTE: 502,
+      NOTI_TURN_OFF_PNOTE: 503,
+      NOTI_GET_CONF_WEEKLY_QUEST: 510,
+      NOTI_TURN_ON_WEEKLY_QUEST: 511,
+      NOTI_TURN_OFF_WEEKLY_QUEST: 512,
+      NOTI_GET_CONF_AP_FULL: 520,
+      NOTI_TURN_ON_AP_FULL: 521,
+      NOTI_TURN_OFF_AP_FULL: 522,
+      NOTI_CANCEL_AP_FULL: 523,
+      DISPLAY_PLAY_FORMATION: 600,
+      DISPLAY_STOP_FORMATION: 601,
+      DISPLAY_PLAY_FORMATION_ENEMY: 620,
+      DISPLAY_STOP_FORMATION_ENEMY: 621,
+      DISPLAY_PLAY_WEEKLY_QUEST_TOP: 610,
+      DISPLAY_STOP_WEEKLY_QUEST_TOP: 611,
+      sendCommand: function(a)
+      {
+        var b = String(a);
+        window.isDebug && (a = "scheme://" + b.split(",")[0], "" !== b.replace(/\d*,?/, "") && (a += "?command=" + b.replace(/\d*,?/, "")), console.log("native:command: " + a));
+        window.isBrowser || (a = "scheme://" + b.split(",")[0], "" !== b.replace(/\d*,?/, "") && (a += "?command=" + b.replace(/\d*,?/, "")), b = e.doc.createElement("object"), b.setAttribute("display", "none"), b.setAttribute("data", a), e.doc.documentElement.appendChild(b), b.parentNode.removeChild(b))
+      }
+    },
+    h = [
+    {
+      type: 1,
+      image: "tips_21001.png"
+    },
+    {
+      type: 1,
+      image: "tips_21002.png"
+    },
+    {
+      type: 1,
+      image: "tips_21003.png"
+    },
+    {
+      type: 1,
+      image: "tips_21004.png"
+    },
+    {
+      type: 1,
+      image: "tips_21005.png"
+    },
+    {
+      type: 1,
+      image: "tips_21006.png"
+    },
+    {
+      type: 1,
+      image: "tips_21007.png"
+    },
+    {
+      type: 1,
+      image: "tips_21008.png"
+    },
+    {
+      type: 1,
+      image: "tips_21009.png"
+    },
+    {
+      type: 1,
+      image: "tips_21010.png"
+    },
+    {
+      type: 1,
+      image: "tips_21011.png"
+    },
+    {
+      type: 1,
+      image: "tips_21012.png"
+    },
+    {
+      type: 1,
+      image: "tips_21013.png"
+    },
+    {
+      type: 1,
+      image: "tips_21014.png"
+    },
+    {
+      type: 1,
+      image: "tips_21016.png"
+    },
+    {
+      type: 1,
+      image: "tips_21017.png"
+    },
+    {
+      type: 1,
+      image: "tips_21018.png"
+    },
+    {
+      type: 1,
+      image: "tips_21019.png"
+    },
+    {
+      type: 1,
+      image: "tips_21020.png"
+    },
+    {
+      type: 1,
+      image: "tips_21021.png"
+    },
+    {
+      type: 1,
+      image: "tips_21022.png"
+    },
+    {
+      type: 1,
+      image: "tips_21023.png"
+    },
+    {
+      type: 1,
+      image: "tips_21024.png"
+    },
+    {
+      type: 1,
+      image: "tips_21025.png"
+    },
+    {
+      type: 1,
+      image: "tips_21026.png"
+    },
+    {
+      type: 1,
+      image: "tips_21027.png"
+    },
+    {
+      type: 1,
+      image: "tips_21028.png"
+    },
+    {
+      type: 1,
+      image: "tips_21029.png"
+    },
+    {
+      type: 1,
+      image: "tips_21030.png"
+    },
+    {
+      type: 0,
+      title: "任务",
+      text: "每日任务于每天 0 点更新"
+    },
+    {
+      type: 0,
+      title: "切换服装",
+      text: "获得魔法少女的服装后@可以在主页画面切换魔法少女的服装"
+    },
+    {
+      type: 0,
+      title: "设置转移用密码",
+      text: "事先设置转移用密码后@即使设备损坏也能转移数据"
+    },
+    {
+      type: 0,
+      title: "更换机型前",
+      text: "请把转移用 ID 记录下来@并别忘了设置密码"
+    },
+    {
+      type: 0,
+      title: "Charge 圆盘",
+      text: "连续使用 Charge 圆盘@可以积攒充能，造成大量伤害"
+    },
+    {
+      type: 0,
+      title: "Puella Combo",
+      text: "用同一名魔法少女攻击@会形成 Puella Combo，伤害上升"
+    },
+    {
+      type: 0,
+      title: "选择目标",
+      text: "点击敌人即可将其设为目标"
+    },
+    {
+      type: 0,
+      title: "连携",
+      text: "用同一名魔法少女攻击 3 次@即可发动连携"
+    },
+    {
+      type: 0,
+      title: "魔法阵形",
+      text: "阵形前排更容易受到敌人攻击@请配置防御力高的魔法少女"
+    },
+    {
+      type: 0,
+      title: "支援",
+      text: "使用未关注玩家的支援时@无法使用 Magia 与技能，请注意"
+    },
+    {
+      type: 0,
+      title: "Accele Combo",
+      text: "达成 Accele Combo 后@全队的 Magia 槽都会增加"
+    },
+    {
+      type: 0,
+      title: "Blast Combo",
+      text: "达成 Blast Combo 的回合@伤害量会变大"
+    },
+    {
+      type: 0,
+      title: "Puella Combo",
+      text: "用相同圆盘达成 Puella Combo@可以造成更大的伤害"
+    },
+    {
+      type: 0,
+      title: "取消圆盘",
+      text: "点击已选中的圆盘即可取消@从而重新选择圆盘"
+    },
+    {
+      type: 0,
+      title: "Magia",
+      text: "Magia 槽积攒到 100 以上后@随时都能发动 Magia"
+    },
+    {
+      type: 0,
+      title: "技能",
+      text: "即使在选择圆盘的过程中@也可以发动技能"
+    },
+    {
+      type: 0,
+      title: "自动战斗",
+      text: "通关过一次的战斗从第二次起@可以用自动战斗进行"
+    },
+    {
+      type: 0,
+      title: "自动战斗",
+      text: "解除自动后@从下一回合起可以手动操作"
+    },
+    {
+      type: 0,
+      title: "支援Pt",
+      text: "被他人在关卡中用作支援时@次日登录可获得支援Pt"
+    },
+    {
+      type: 0,
+      title: "更改圆盘外观",
+      text: "在魔法少女详情画面的设置中@可以更改圆盘的外观"
+    },
+    {
+      type: 0,
+      title: "命运宝石",
+      text: "再次获得已持有的魔法少女时@可获得该魔法少女的命运宝石"
+    },
+    {
+      type: 0,
+      title: "命运宝石",
+      text: "命运宝石用于魔法少女的魔力解放@进行魔力解放后记忆结晶装备格会增加"
+    },
+    {
+      type: 0,
+      title: "魔法碎片",
+      text: "命运宝石可以转换为魔法碎片@魔法碎片能在商店兑换道具"
+    },
+    {
+      type: 0,
+      title: "选择目标",
+      text: "选择 3 张圆盘时@每次都可以更改目标"
+    },
+    {
+      type: 0,
+      title: "Accele 圆盘",
+      text: "先用 Accele 圆盘攻击@之后的圆盘更容易积攒 Magia 槽"
+    },
+    {
+      type: 0,
+      title: "Accele 圆盘",
+      text: "越是第 2 张、第 3 张 Accele 圆盘@越容易积攒 Magia 槽"
+    },
+    {
+      type: 0,
+      title: "Blast 圆盘",
+      text: "Blast 圆盘越是在第 2 张、第 3 张@攻击时伤害越高"
+    },
+    {
+      type: 0,
+      title: "Blast 圆盘",
+      text: "Blast 圆盘分为纵向攻击与横向攻击@两种"
+    },
+    {
+      type: 0,
+      title: "Blast 圆盘",
+      text: "用 Blast 圆盘攻击时@不会积攒 Magia 槽，请注意"
+    },
+    {
+      type: 0,
+      title: "圆盘的出现",
+      text: "被指定为队长的魔法少女@圆盘更容易出现"
+    },
+    {
+      type: 0,
+      title: "魔女化身",
+      text: "持有魔女化身的魔法少女@在Magia槽攒到200后即可发动"
+    },
+    {
+      type: 0,
+      title: "敌人信息",
+      text: "长按敌人即可@显示敌人的信息"
+    },
+    {
+      type: 0,
+      title: "Charge 效果",
+      text: "在已积攒 Charge 的状态下打出 Accele@Magia 槽获得量会上升"
+    },
+    {
+      type: 0,
+      title: "Charge 效果",
+      text: "在已积攒 Charge 的状态下打出 Blast@造成的伤害量会上升"
+    },
+    {
+      type: 0,
+      title: "魔女化身",
+      text: "通关★5 且 Magia Lv5 的魔法少女的@魔女化身关卡后解放"
+    },
+    {
+      type: 0,
+      title: "记忆结晶",
+      text: "记忆结晶可装备技能类、能力类各 2 张@最多 4 张"
+    },
+    {
+      type: 0,
+      title: "魔法等级",
+      text: "Magia Lv升到5后,Magia槽上限@将解放到200"
+    },
+    {
+      type: 0,
+      title: "Charge Combo",
+      text: "达成 Charge Combo 后 Charge 数增加 2"
+    },
+    {
+      type: 0,
+      title: "魔法少女信息",
+      text: "关卡中长按魔法少女@会显示该魔法少女的信息"
+    },
+    {
+      type: 0,
+      title: "支援编成",
+      text: "可以在支援编成中设置@供其他玩家用作支援的魔法少女"
+    },
+    {
+      type: 0,
+      title: "Magia 通行证 30",
+      text: "购买 Magia 通行证 30 后的 30 天内@每日登录可获得 5 个魔法石"
+    }];
+  b.clearWebCache = function(a)
+  {
+    a = JSON.stringify(
+    {
+      includeDiskFiles: a
+    });
+    a = b.DATA_CLEAR_WEB_CACHE + "," + a;
+    require(["ajaxControl"], function(a)
+    {
+      a.ajaxPost(e.linkList.cacheClear)
+    });
+    this.sendCommand(a)
+  };
+  b.removeAsset = function(a, c)
+  {
+    var d = {};
+    d.category = a;
+    d.callback = c ? c : "nativeCallback";
+    a = JSON.stringify(d);
+    this.sendCommand(b.DATA_REMOVE_ASSET + "," + a)
+  };
+  b.removeFile = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DATA_REMOVE_ASSET_FILE + "," + a)
+  };
+  b.existFile = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DATA_ASSET_FILE_EXIST + "," + a)
+  };
+  b.callTouchesBegin = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DATA_CALL_TOUCHES_BEGIN + "," + a)
+  };
+  b.callTouchesMove = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DATA_CALL_TOUCHES_MOVE + "," + a)
+  };
+  b.callTouchesEnd = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DATA_CALL_TOUCHES_END + "," + a)
+  };
+  b.callTouchesClear = function()
+  {
+    this.sendCommand(b.DATA_CALL_TOUCHES_CLEAR)
+  };
+  b.awakePurchase = function()
+  {
+    this.sendCommand(b.DATA_AWAKE_PURCHASE)
+  };
+  b.purchaseItem = function(a)
+  {
+    this.sendCommand(b.DATA_PURCHASE_ITEM + "," + (window.isDebug ? "jp.f4samurai.madomagi.purchase.item." + a.moneyCode : "com.aniplex.magireco.item." + a.moneyCode))
+  };
+  b.getSNS = function()
+  {
+    this.sendCommand(b.DATA_GET_SNS_USER_ID)
+  };
+  b.getAppVersion = function()
+  {
+    this.sendCommand(b.DATA_GET_APP_VERSION)
+  };
+  b.getDownloadConfig = function(a)
+  {
+    this.sendCommand(b.DATA_GET_DOWNLOAD_CONFIG + (a ? "," + a : ""))
+  };
+  b.getDeviceInfo = function(a)
+  {
+    this.sendCommand(b.DATA_GET_DEVICE_INFO + (a ? "," + a : ""))
+  };
+  b.getAccessToken = function()
+  {
+    this.sendCommand(b.DATA_GET_ACCESS_TOKEN)
+  };
+  b.closeGame = function()
+  {
+    this.sendCommand(b.DATA_CLOSE_APP)
+  };
+  b.getFontData = function()
+  {
+    this.sendCommand(b.DATA_GET_FONT)
+  };
+  b.getQuestResult = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DATA_GET_QUEST_RESULT_JSON + "," + a)
+  };
+  b.browserOpen = function(a)
+  {
+    this.sendCommand(b.DATA_OPEN_URL + "," + a)
+  };
+  b.getBaseData = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DATA_GET_BASE64 + "," + a)
+  };
+  b.copyClipboard = function(a)
+  {
+    this.sendCommand(b.DATA_SET_CLIPBOARD + "," + a.toString())
+  };
+  b.getRewardPrm = function()
+  {
+    this.sendCommand(b.DATA_GET_REWARD + ",nativeCallback")
+  };
+  b.deleteRewardPrm = function()
+  {
+    this.sendCommand(b.DATA_DELETE_REWARD)
+  };
+  b.setFoxData = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DATA_SET_FOX + "," + a)
+  };
+  b.openKeyBoard = function(a, c, d, e)
+  {
+    var g = {};
+    g.text = a ? a : "";
+    c && 0 < c && (g.maxLength = Number(c));
+    d && 0 < d && (g.keyboardType = 1);
+    e && (g.callback = e);
+    a = JSON.stringify(g);
+    this.sendCommand(b.DATA_OPEN_EDIT_BOX + "," + a)
+  };
+  b.startBgm = function(a, c)
+  {
+    c || (e.bgm = a);
+    this.sendCommand(b.SOUND_BGM_PLAY + "," + a)
+  };
+  b.stopBgm = function()
+  {
+    this.sendCommand(b.SOUND_BGM_STOP)
+  };
+  b.setBGMVolume = function(a)
+  {
+    this.sendCommand(b.SOUND_BGM_SET_VOL + "," + a)
+  };
+  b.getBGMVolume = function(a)
+  {
+    this.sendCommand(b.SOUND_BGM_GET_VOL + (a ? "," + a : ""))
+  };
+  b.startSe = function(a)
+  {
+    this.sendCommand(b.SOUND_SE_PLAY + "," + a)
+  };
+  b.setSEVolume = function(a)
+  {
+    this.sendCommand(b.SOUND_SE_SET_VOL + "," + a)
+  };
+  b.getSEVolume = function(a)
+  {
+    this.sendCommand(b.SOUND_SE_GET_VOL + (a ? "," + a : ""))
+  };
+  b.startVoice = function(a)
+  {
+    this.sendCommand(b.SOUND_VO_PLAY + "," + a)
+  };
+  b.stopVoice = function()
+  {
+    this.sendCommand(b.SOUND_VO_STOP)
+  };
+  b.setVOVolume = function(a)
+  {
+    this.sendCommand(b.SOUND_VO_SET_VOL + "," + a)
+  };
+  b.getVOVolume = function(a)
+  {
+    this.sendCommand(b.SOUND_VO_GET_VOL + (a ? "," + a : ""))
+  };
+  b.killWebView = function()
+  {
+    this.sendCommand(b.SCENE_POP_WEBVIEW)
+  };
+  b.startLoading = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_LOADING + "," + a)
+  };
+  b.downloadFile = function(a)
+  {
+    this.sendCommand(b.SCENE_PUSH_DOWNLOAD + "," + a)
+  };
+  b.downloadFileConfigPage = function(a)
+  {
+    var c = {};
+    c.category = a;
+    c.isNeedConfirm = !0;
+    a = JSON.stringify(c);
+    this.sendCommand(b.SCENE_PUSH_DOWNLOAD + "," + a)
+  };
+  b.downloadFileFullVoice = function(a)
+  {
+    var c = {};
+    c.category = a;
+    c.isNeedConfirm = !0;
+    a = JSON.stringify(c);
+    this.sendCommand(b.SCENE_PUSH_DOWNLOAD + "," + a)
+  };
+  b.startGachaAnimation = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_GACHA + "," + a)
+  };
+  b.startPresentAnimation = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_PRESENT + "," + a)
+  };
+  b.endGachaAnimation = function()
+  {
+    this.sendCommand(b.SCENE_POP_GACHA)
+  };
+  b.startEvolution = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_EVOLUTION + "," + a)
+  };
+  b.startMemoriaAnimation = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_MEMORIA_COMPOSE + "," + a)
+  };
+  b.startStory = function(a, c)
+  {
+    var d = e.storage.user.get("tutorialId"),
+      f = {};
+    f.storyId = a;
+    e.storage.user && "TU999" == d && (f.userName = e.storage.user.toJSON().loginName);
+    "TU998" == d && "101103-10" == a && (f.canSkip = !1);
+    c && k.each(c, function(a, b)
+    {
+      f[b] = a
+    });
+    a = JSON.stringify(f);
+    this.sendCommand(b.SCENE_PUSH_STORY + "," + a)
+  };
+  b.startQuestStory = function(a)
+  {
+    var c = e.storage.user.get("tutorialId"),
+      d = {};
+    d.storyId = a;
+    e.storage.user && "TU999" == c && (d.userName = e.storage.user.toJSON().loginName);
+    "TU998" == c && "101103-10" == a && (d.canSkip = !1);
+    a = JSON.stringify(d);
+    this.sendCommand(b.SCENE_PUSH_QUEST_STORY + "," + a)
+  };
+  b.startBranchStory = function(a)
+  {
+    var c = e.storage.user.get("tutorialId");
+    e.storage.user && "TU999" == c && (a.userName = e.storage.user.get("loginName"));
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_BRANCH_STORY + "," + a)
+  };
+  b.startQuest = function(a, c)
+  {
+    var d = {};
+    d.questId = a;
+    c ? (d.resultUrl = c.resultUrl, d.retireUrl = c.retireUrl) : (d.resultUrl = "/magica/index.html#/QuestResult", d.retireUrl = "/magica/index.html#/MainQuest");
+    d.tips = h[Math.floor(Math.random() * h.length)];
+    a = JSON.stringify(d);
+    this.sendCommand(b.SCENE_PUSH_QUEST + "," + a)
+  };
+  b.endQuest = function()
+  {
+    this.sendCommand(b.SCENE_POP_QUEST)
+  };
+  b.startArena = function(a)
+  {
+    a.tips = h[Math.floor(Math.random() * h.length)];
+    a.record = !0;
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_QUEST + "," + a)
+  };
+  b.endArena = function()
+  {
+    this.sendCommand(b.SCENE_POP_QUEST)
+  };
+  b.startChat = function()
+  {
+    this.sendCommand(b.SCENE_PUSH_CHAT + ",0")
+  };
+  b.endChat = function()
+  {
+    this.sendCommand(b.SCENE_POP_CHAT + ",0")
+  };
+  b.startTop = function()
+  {
+    this.sendCommand(b.SCENE_PUSH_TOP)
+  };
+  b.endTop = function()
+  {
+    this.sendCommand(b.SCENE_POP_TOP)
+  };
+  b.startL2d = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_GENERAL_STORY + "," + a)
+  };
+  b.endL2d = function()
+  {
+    this.sendCommand(b.SCENE_POP_GENERAL_STORY)
+  };
+  b.checkQuestStored = function()
+  {
+    this.sendCommand(b.SCENE_PUSH_QUEST_STORED_DATA + ",saveDataCallback")
+  };
+  b.startPrologue = function(a)
+  {
+    a = JSON.stringify(
+    {
+      beginningId: a
+    });
+    this.sendCommand(b.SCENE_PUSH_PROLOGUE + "," + a)
+  };
+  b.showSubQuestBg = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_ANOTHER_QUEST + "," + a)
+  };
+  b.hideSubQuestBg = function()
+  {
+    this.sendCommand(b.SCENE_POP_ANOTHER_QUEST)
+  };
+  b.moveSubQuestBg = function(a, c)
+  {
+    a = JSON.stringify(
+    {
+      focusId: Number(a),
+      isRightRotation: c
+    });
+    this.sendCommand(b.SCENE_PLAY_ANOTHER_QUEST + "," + a)
+  };
+  b.playCharaMovie = function(a)
+  {
+    a = String(a);
+    a = -1 !== a.indexOf(".usm") ? a : "movie_" + a + ".usm";
+    this.sendCommand(b.SCENE_PUSH_MOVIE_CHAR + "," + a)
+  };
+  b.playMovie = function(a)
+  {
+    a = String(a);
+    a = -1 !== a.indexOf(".usm") ? a : "movie_" + a + ".usm";
+    this.sendCommand(b.SCENE_PUSH_MOVIE + "," + a)
+  };
+  b.endPlayMovie = function()
+  {
+    this.sendCommand(b.SCENE_POP_MOVIE)
+  };
+  b.pushEventBranch = function(a, c, d)
+  {
+    a = {
+      questList: a
+    };
+    c && (a.centerPointId = c);
+    d && (a.newPointIdList = d);
+    c = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_EVENT_BRANCH + "," + c)
+  };
+  b.pushMainQuestEventBranch = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_EVENT_BRANCH + "," + a)
+  };
+  b.resumeEventBranch = function()
+  {
+    this.sendCommand(b.SCENE_RESUME_EVENT_BRANCH)
+  };
+  b.popEventBranch = function()
+  {
+    this.sendCommand(b.SCENE_POP_EVENT_BRANCH)
+  };
+  b.pushEventSingleRaid = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.SCENE_PUSH_EVENT_SINGLE_RAID + "," + a)
+  };
+  b.hideEventSingleRaid = function()
+  {
+    this.sendCommand(b.SCENE_HIDE_EVENT_SINGLE_RAID)
+  };
+  b.resumeEventSingleRaid = function()
+  {
+    this.sendCommand(b.SCENE_SHOW_EVENT_SINGLE_RAID)
+  };
+  b.popEventSingleRaid = function()
+  {
+    this.sendCommand(b.SCENE_POP_EVENT_SINGLE_RAID)
+  };
+  b.setWebView = function(a)
+  {
+    this.sendCommand(b.DISPLAY_SET_WEBVIEW_VISIBLE + "," + (void 0 !== a ? a : !0))
+  };
+  b.changeBg = function(a, c)
+  {
+    c = c || !1;
+    "web_black.jpg" !== a && (e.background = a);
+    var d = {};
+    d.filename = a; - 1 !== a.indexOf("web_") ? d.filedir = "resource/image_native/bg/web/" : -1 !== a.indexOf("adv_") ? d.filedir = "resource/image_native/bg/story/" : -1 !== a.indexOf("map_") ? d.filedir = "resource/image_native/bg/quest_top/" : d.filedir = "resource/image_native/bg/web/doppelMission/";
+    d.isPortrait = c; - 1 !== a.indexOf("map_") ? (d.fade = {}, d.fade.type = 0, d.fade.time = .3) : (d.fade = {}, d.fade.type = 0, d.fade.time = .2);
+    a = JSON.stringify(d);
+    this.sendCommand(b.DISPLAY_CHANGE_BG + "," + a)
+  };
+  b.removeBg = function()
+  {
+    this.sendCommand(b.DISPLAY_REMOVE_BG)
+  };
+  b.showL2d = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_ADD_L2D + "," + a)
+  };
+  b.hideL2d = function()
+  {
+    this.sendCommand(String(b.DISPLAY_REMOVE_L2D))
+  };
+  b.motionL2d = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PALY_L2D_MOTION + "," + a)
+  };
+  b.showMiniChara = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_ADD_MINI + "," + a)
+  };
+  b.hideMiniChara = function()
+  {
+    this.sendCommand(b.DISPLAY_REMOVE_MINI)
+  };
+  b.touchMiniChara = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_MINI_MOTION + "," + a)
+  };
+  b.playComposeEffect = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_COMPOSE_EFFECT + "," + a)
+  };
+  b.playComposeResultEffect = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_SHOW_COMPOSE_RESULT + "," + a)
+  };
+  b.stopComposeEffect = function()
+  {
+    this.sendCommand(b.DISPLAY_HIDE_COMPOSE)
+  };
+  b.playComposeMagiaEffect = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_COMPOSE_MAGIA + "," + a)
+  };
+  b.playCustomizeEffect = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_AWAKE_ABILITY + "," + a)
+  };
+  b.playNormalGachaMemoria = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_NORMAL_GACHA_TOP + "," + a)
+  };
+  b.stopNormalGachaMemoria = function()
+  {
+    this.sendCommand(b.DISPLAY_STOP_NORMAL_GACHA_TOP)
+  };
+  b.displayMemoriaTop = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_MEMORIA_TOP + "," + a)
+  };
+  b.stopMemoriaTop = function()
+  {
+    this.sendCommand(b.DISPLAY_STOP_MEMORIA_TOP)
+  };
+  b.storyMotionL2dVoice = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_GENERAL_STORY + "," + a)
+  };
+  b.storyMotionL2d = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_ONE_SHOT_STORY + "," + a)
+  };
+  b.noticeGetStatus = function(a)
+  {
+    this.sendCommand(b.NOTI_GET_CONF_PNOTE + (a ? "," + a : ""))
+  };
+  b.noticeRegist = function(a)
+  {
+    a = a ? b.NOTI_AWAKE_PNOTE + "," + JSON.stringify(a) : b.NOTI_AWAKE_PNOTE;
+    this.sendCommand(a)
+  };
+  b.noticeTurnOn = function(a)
+  {
+    a = a ? b.NOTI_TURN_ON_PNOTE + "," + JSON.stringify(a) : b.NOTI_TURN_ON_PNOTE;
+    this.sendCommand(a)
+  };
+  b.noticeRestore = function()
+  {
+    this.sendCommand(b.NOTI_TURN_OFF_PNOTE)
+  };
+  b.noticeGetWeekly = function(a)
+  {
+    this.sendCommand(b.NOTI_GET_CONF_WEEKLY_QUEST + (a ? "," + a : ""))
+  };
+  b.noticeSetWeekly = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.NOTI_TURN_ON_WEEKLY_QUEST + "," + a)
+  };
+  b.noticeOffWeekly = function(a)
+  {
+    this.sendCommand(b.NOTI_TURN_OFF_WEEKLY_QUEST + "," + a)
+  };
+  b.noticeApConfig = function(a)
+  {
+    this.sendCommand(b.NOTI_GET_CONF_AP_FULL + (a ? "," + a : ""))
+  };
+  b.noticeApFullSet = function(a)
+  {
+    this.sendCommand(0 < a ? b.NOTI_TURN_ON_AP_FULL + "," + a : b.NOTI_CANCEL_AP_FULL)
+  };
+  b.noticeApFullTurnOn = function()
+  {
+    this.sendCommand(b.NOTI_TURN_ON_AP_FULL + ",1")
+  };
+  b.noticeApFullOff = function()
+  {
+    this.sendCommand(b.NOTI_TURN_OFF_AP_FULL)
+  };
+  b.formationPreview = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_FORMATION + "," + a)
+  };
+  b.formationPreviewRemove = function()
+  {
+    this.sendCommand(b.DISPLAY_STOP_FORMATION)
+  };
+  b.enemyFormationPreview = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_FORMATION_ENEMY + "," + a)
+  };
+  b.enemyFormationPreviewRemove = function()
+  {
+    this.sendCommand(b.DISPLAY_STOP_FORMATION_ENEMY)
+  };
+  b.weekQuestTopSet = function(a)
+  {
+    a = JSON.stringify(a);
+    this.sendCommand(b.DISPLAY_PLAY_WEEKLY_QUEST_TOP + "," + a)
+  };
+  b.weekQuestTopUnset = function()
+  {
+    this.sendCommand(b.DISPLAY_STOP_WEEKLY_QUEST_TOP)
+  };
+  b.turnOnCamera = function()
+  {
+    this.sendCommand(b.SCENE_PUSH_CAMERA)
+  };
+  b.turnOffCamera = function()
+  {
+    this.sendCommand(b.SCENE_POP_CAMERA)
+  };
+  b.swapCamera = function()
+  {
+    this.sendCommand(b.SCENE_SWAP_CAMERA)
+  };
+  b.zoomCamera = function(a)
+  {
+    var c = {};
+    c.ratio = a;
+    a = JSON.stringify(c);
+    this.sendCommand(b.SCENE_ZOOM_CAMERA + "," + a)
+  };
+  b.captureCamera = function()
+  {
+    this.sendCommand(b.SCENE_CAPTURE_CAMERA)
+  };
+  return b
+});

@@ -1,0 +1,32 @@
+<%
+	var startAt = campaign.startAt.split(" ");
+	var sD = startAt[0].split("/");
+	var sT = startAt[1].split(":");
+	var start = Number(sD[1])+"月"+Number(sD[2])+"日"+sT[0]+":"+sT[1];
+
+	var endAt = campaign.endAt.split(" ");
+	var eD = endAt[0].split("/");
+	var eT = endAt[1].split(":");
+	var end = Number(eD[1])+"月"+Number(eD[2])+"日"+eT[0]+":"+eT[1];
+
+%> <div id="CampaignStoryMission">
+  <div id="helpBtn" class="se_decide TE sb_gold_02">玩法</div>
+  <div class="periodWrap">
+    <span class="period">举办期间:<%= start %>〜<%= end %>为止</span>
+    <img src="/magica/resource/image_web/campaign/mission_story/<%= campaign.id %>/bg_date_tx.png">
+  </div>
+  <div class="campaignLogo">
+    <img src="/magica/resource/image_web/campaign/mission_story/<%= campaign.id %>/logo.png">
+  </div>
+  <div class="campaignBtn se_decide TE linkBtn" data-href="#/MissionTop/<%= campaign.id %>">
+    <span class="b_screen"></span>
+    <img src="/magica/resource/image_web/campaign/mission_story/<%= campaign.id %>/btn_mission.png">
+  </div>
+  <div class="btnTxt">
+    <img src="/magica/resource/image_web/campaign/mission_story/<%= campaign.id %>/bg_tx.png">
+  </div>
+  <!-- <div class="rewardPop se_decide TE">
+		<span class="b_screen"></span>
+		<img src="/magica/resource/image_web/campaign/mission_story/<%= campaign.id %>/btn_list.png">
+	</div> -->
+</div>

@@ -1,0 +1,144 @@
+<div id='MemoriaEquip'>
+  <div id='sizeChange' class='TE se_tabs smaller' data-size='smallest'></div>
+  <div id="memoriaListTitle">
+    <div class='hasMemoriaNum'>
+      <p class='title'>可选择数</p>
+      <p id='selectCurrentNum'>-</p>
+      <p>/</p>
+      <p>4</p>
+    </div>
+    <div id='allRemoveBtn' class='allRemoveBtn TE se_cancel sb_gold_02'>全部卸下</div>
+  </div>
+  <div id='memoriaListWrap' class='commonFrame2 smaller'>
+    <p class='memoriaSetCaution'>请选择要更换的记忆结晶</p>
+    <div id="scrollOuter">
+      <div id='scrollInner' class="scrollInner"></div>
+    </div>
+  </div>
+</div>
+<!-- メモリア装備詳細 -->
+<script type='text/template' id='EquipDetailParts'> <%="<% var classTxt = ''; %\>"%>
+	<%="<% if(model.pieceSetFlag) { %\>"%>
+		<%="<% classTxt = 'typeSet'; %\>"%>
+	<%="<% } %\>"%>
+	<div class='nameWrap'>
+		<p class='name ts_pink'>请点击选择扭蛋对象的记忆结晶</p>
+	</div>
+
+	<div class="memoriaWrap">
+
+		<%="<% var canEquipNum = 1 + model.revision; %\>"%>
+		<%="<% var i = 0; %\>"%>
+		<%="<% while(i < 4) { %\>"%>
+			<%="<% if(model.pieceArr[i]) { %\>"%>
+				<%="<% var pieceId = model.pieceArr[i].pieceId; %\>"%>
+				<%="<% var level   = model.pieceArr[i].level; %\>"%>
+				<%="<% var maxLevel = model.pieceArr[i].maxLevel; %\>"%>
+				<div class='memoria se_decide equip  <%="<%= (model.pieceArr[i].eventEffect || model.pieceArr[i].regularEventEffect) ? 'effective' : '' %\>"%>
+					<%="<%= model.pieceArr[i].invalidFlag %\>"%>' data-framenum='<%="<%= i %\>"%>'>
+					<span class='eventEffect'></span>
+
+					<div class='overWrap'></div>
+					<img class='memoriaImg' src='/magica/resource/image_web/memoria/memoria_<%="<%= pieceId %\>"%>_s.png' alt=''>
+				</div>
+			<%="<% } else { %\>"%>
+				<div class='memoria se_decide canSet' data-framenum='<%="<%= i %\>"%>'>
+					<div class='overWrap'></div>
+				</div>
+			<%="<% } %\>"%>
+
+			<%="<% canEquipNum-- %\>"%>
+			<%="<% i=(i+1)|0; %\>"%>
+		<%="<% } %\>"%>
+	</div>
+
+	<div id='mainBtn' class='TE se_decide off'></div>
+</script>
+<script type="text/template" id="EquipInfoParts"> <div class='name'>
+		<%="<% if(model.pieceId){ %\>"%><%="<%= model.pieceName %\>"%><%="<% } %\>"%>
+	</div>
+
+	<div class='memoriaImg'>
+		<%="<% if(model.pieceId) { %\>"%>
+			<img data-nativeimgkey='memoria_<%="<%= model.pieceId %\>"%>_c' data-src='resource/image_native/memoria/memoria_<%="<%= model.pieceId %\>"%>_c.png' alt=''>
+		<%="<% } %\>"%>
+	</div>
+	<div class='equipMemoriaStatus'>
+		<div class='dtElm'>HP</div>
+		<div class='hp ddElm'><%="<%= (model.maxHp >= 0) ? model.maxHp : '' %\>"%></div>
+		<div class='dtElm'>ATK</div>
+		<div class='atk ddElm'><%="<%= (model.maxAttack >= 0) ? model.maxAttack : '' %\>"%></div>
+		<div class='dtElm'>DEF</div>
+		<div class='def ddElm'><%="<%= (model.maxDefense >= 0) ? model.maxDefense : '' %\>"%></div>
+	</div>
+
+	<%="<% if(model.pieceId) { %\>"%>
+	<div class='rarity'>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+
+	<div class="lb">
+		<span class="on"></span>
+		<span class="on"></span>
+		<span class="on"></span>
+		<span class="on"></span>
+	</div>
+	<%="<% } %\>"%>
+
+
+	<%="<% if(model.pieceType === 'SKILL'){ %\>"%>
+	<div class='intervalTurn c_gold'>
+		可发动回合&nbsp;<%="<% if(model.pieceSkill2){%\>"%><%="<%= model.pieceSkill2.intervalTurn %\>"%><%="<% } %\>"%>
+	</div>
+	<%="<% } %\>"%>
+
+	<%="<% if(model.pieceType){ %\>"%>
+	<div class='memoriaTypeIcon <%="<%= model.pieceType %\>"%>'></div>
+	<%="<% } %\>"%>
+
+	<%="<% if(model.pieceSkill2){ %\>"%>
+	<div class='skillIcon c_purple'>
+		<img data-nativeimgkey='icon_skill_<%="<%= model.pieceSkill2.groupId %\>"%>' data-src='resource/image_native/art/icon_skill_<%="<%= model.pieceSkill2.groupId %\>"%>.png'>
+	</div>
+	<%="<% } %\>"%>
+
+	<div class='skillTitle'>
+
+		<p class='c_purple'>
+			<%="<% if(model.pieceSkill2){%\>"%>
+				<%="<%= model.pieceSkill2.name %\>"%>
+			<%="<% } %\>"%>
+		</p>
+	</div>
+
+	<div class='skillDescription'>
+		<%="<% if(model.pieceSkill2){%\>"%>
+			<%="<%= model.pieceSkill2.shortDescription %\>"%>
+		<%="<% } %\>"%>
+
+		<%="<% if(model.eventDescription){ %\>"%>
+			<span class='c_red'><%="<%= model.eventDescription %\>"%></span>
+		<%="<% } %\>"%>
+	</div>
+
+	<%="<% if(model.equipRemoveFlag){ %\>"%>
+		<p id='memoriaEquipBtn' class='btn se_decide b_white <%="<%= (model.pieceId) ? '' : 'off' %\>"%>'>卸下</p>
+	<%="<% }else{ %\>"%>
+		<p id='memoriaEquipBtn' class='btn se_decide b_pink <%="<%= (model.pieceId) ? '' : 'off' %\>"%>'>放入</p>
+	<%="<% } %\>"%>
+
+	<div class="caution c_purple">※显示的状态为最大时的数值。</div>
+</script>
+<!-- メモリア表示パーツ -->
+<script type="text/template" id="MemoriaListParts"> <div class="cardInner">
+		<!-- 選択不可などの表示 -->
+		<span class="overWrap"></span>
+		<!-- 装備中表示 -->
+		<span class="selectable"></span>
+		<!-- 画像 -->
+		<img src='/magica/resource/image_web/memoria/memoria_<%="<%= model.pieceId %\>"%>_s.png' alt=''>
+	</div>
+</script>

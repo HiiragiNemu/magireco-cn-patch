@@ -1,0 +1,109 @@
+<div class="popupInner preQuestPopup">
+  <span class="closeDefault se_cancel popupCloseBtn TE"></span>
+  <div class="texture">
+    <div id="formationWrap" class="common_frame_A ">
+      <div class="common_title questTitle"> 第<%= model.chapterNo %>章　<%= model.genericIndex %>话　<%= model.title %>　<%= model.battleTitle %> </div>
+      <div class="clearfix">
+        <div id="questDetail" class="common_frame_A">
+          <p class="needAp"><span>消费</span><img src="<%= resDir %>/magica/resource/image_web/page/quest/ap_icon.png" alt=""><span>20</span></p>
+          <ul class="enemyList">
+            <li class="bossEnemy">
+              <img src="<%= resDir %>/magica/resource/image_web/card_w/card_20031_f.png" width="60" height="60" alt="">
+            </li>
+            <li><img src="<%= resDir %>/magica/resource/image_web/card_w/card_10101_f.png" width="60" height="60" alt=""></li>
+            <li><img src="<%= resDir %>/magica/resource/image_web/card_w/card_10011_f.png" width="60" height="60" alt=""></li>
+            <li><img src="<%= resDir %>/magica/resource/image_web/card_w/card_10031_f.png" width="60" height="60" alt=""></li>
+          </ul>
+          <ul class="treasureList">
+            <li><img src="<%= resDir %>/magica/resource/image_web/item/main/cure_ap_10.png" width="50" alt=""></li>
+            <li><img src="<%= resDir %>/magica/resource/image_web/item/main/cure_ap_30.png" width="50" alt=""></li>
+            <li><img src="<%= resDir %>/magica/resource/image_web/item/main/cure_ap_50.png" width="50" alt=""></li>
+          </ul>
+        </div>
+        <div id="formation">
+          <p class="combatPower">综合战斗力 <span class="combatPowerDisp">0</span></p>
+          <div class="miniCharaWrap">
+            <div id="tapArea">
+              <span class="tap_pos_1" data-index="1"></span>
+              <span class="tap_pos_2" data-index="2"></span>
+              <span class="tap_pos_3" data-index="3"></span>
+              <span class="tap_pos_4" data-index="4"></span>
+              <span class="tap_pos_5" data-index="5"></span>
+              <span class="tap_pos_6" data-index="6"></span>
+              <span class="tap_pos_7" data-index="7"></span>
+              <span class="tap_pos_8" data-index="8"></span>
+              <span class="tap_pos_9" data-index="9"></span>
+            </div>
+            <div id="formationBgArea">
+              <img src="<%= resDir %>/magica/resource/image_web/page/quest/bg_0000.png" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="charaListWrap" class="common_frame_A">
+    <div id="utilBtnsArea">
+      <span class="sortBtn">按 HP</span>
+      <span class="filterBtn">筛选</span>
+      <span></span>
+    </div>
+    <div id="charaList">
+      <div class="arrows">
+        <ul id="charaListElms" class="list">
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="popupFooter">
+    <span id="autoFomationBtn" class="">自动编成</span>
+    <div id="helpUserWrap" class="common_frame_A">
+      <p class="text">支援</br>选择</p>
+      <ul id="helpUserList">
+        <li class="userCharaIcon FIRE RANK_5">
+          <span class="att"></span>
+          <span class="lv">Lv.99</span>
+          <span class="rank"></span>
+          <span class="bg"></span>
+          <img src="<%= resDir %>/magica/resource/image_web/card_w/card_20031_f.png" alt="">
+        </li>
+        <li class="userCharaIcon WATER RANK_5">
+          <span class="att"></span>
+          <span class="lv">Lv.99</span>
+          <span class="rank"></span>
+          <span class="bg"></span>
+          <img src="<%= resDir %>/magica/resource/image_web/card_w/card_20031_f.png" alt="">
+        </li>
+        <li class="userCharaIcon TIMBER RANK_5">
+          <span class="att"></span>
+          <span class="lv">Lv.99</span>
+          <span class="rank"></span>
+          <span class="bg"></span>
+          <img src="<%= resDir %>/magica/resource/image_web/card_w/card_20031_f.png" alt="">
+        </li>
+        <li class="userCharaIcon LIGHT RANK_5">
+          <span class="att"></span>
+          <span class="lv">Lv.99</span>
+          <span class="rank"></span>
+          <span class="bg"></span>
+          <img src="<%= resDir %>/magica/resource/image_web/card_w/card_20031_f.png" alt="">
+        </li>
+      </ul>
+      <span class="followListBtn">好友一览</span>
+    </div>
+    <span id="questStartBtn" class="btn">战斗开始</span>
+  </div>
+</div>
+<script type="text/template" id="UserCardListTemp"> <span class="att"></span>
+	<span class="rank"></span>
+	<img src='<%="<%= resDir %\>"%>/magica/resource/image_web/card_w/card_<%="<%= model.cardId %\>"%>_f.png' alt=''>
+	<span class="lv">Lv.<%="<%= model.level %\>"%></span>
+	<span class="bg"></span>
+</script>
+<script type="text/template" id="FormationCharaTemp"> <%="<% var typeRand = Math.floor( Math.random() * 2 )+1 %\>"%>
+	<%="<% var charaRand = Math.floor( Math.random() * 4 )+1 %\>"%>
+
+	<span class="tapArea"></span>
+	<span class='attIcon type0<%="<%= typeRand %\>"%> <%="<%= model.card.attributeId %\>"%>'></span>
+	<img src='<%= resDir %>/magica/resource/image_web/chara_w/chara_<%="<%= model.charaId %\>"%>_s.png' height="160" alt="">
+</script>

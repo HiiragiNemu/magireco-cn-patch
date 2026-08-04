@@ -1,0 +1,104 @@
+<%
+	var eventId        = eventObj.event.eventId;
+%> <style type='text/css'>
+  #titleWrap
+  {
+    background: url("/magica/resource/image_web/event/storyraid/<%= eventId %>/boss/bg_title.png") left top no-repeat;
+  }
+
+  #titleWrap .titleImg
+  {
+    background: url("/magica/resource/image_web/event/storyraid/<%= eventId %>/quest/title_story.png") left top no-repeat;
+  }
+
+  #questDetail
+  {
+    background: url("/magica/resource/image_web/event/storyraid/<%= eventId %>/quest/bg_story_title.png") left top no-repeat;
+  }
+
+  #questLinkList .quest
+  {
+    background: url("/magica/resource/image_web/event/storyraid/<%= eventId %>/quest/bg_quest_battle.png") left top no-repeat;
+  }
+
+</style>
+<div id='EventStoryRaidSelect' class=''>
+  <div id='helpBtn' class='se_decide TE sb_gold_02' data-eventid="<%= eventId %>">玩法</div>
+  <div id='bgWrap'>
+    <div class='bg'></div>
+  </div>
+  <div id='titleWrap'>
+    <div class='titleImg'></div>
+    <p class='chapter'><%= pointModel.point.title %></p>
+  </div>
+  <div class="charaSerif">
+    <span class="charaName"><%= pointModel.point.displayCharaName %></span>
+    <p class="serifFont"><%= pointModel.point.displayCharaMessage %></p>
+  </div>
+  <div id="questDetail">
+    <p class="chapter">STORY</p>
+    <p class="title1"><%= pointModel.point.title %></p>
+    <p class="title2"><%= section.title %></p>
+    <div class='turn'>回合限制<span><%= section.questBattleList[0].questBattle.limitTurn %></span></div>
+    <div class='needAp pointFrame'>消耗 AP<span><%= section.questBattleList[0].questBattle.ap %></span></div>
+  </div>
+  <div id="questListWrap" class="scrollOuter">
+    <div class="scrollInner">
+      <div id="questDetailWrap">
+        <div class='missionBtn sb_gold_01 TE se_tabs'>任务</div>
+        <div class='bg'></div>
+      </div>
+      <ul id="questLinkList" class="first">
+      </ul>
+    </div>
+  </div>
+  <div class='cautionWrap'>
+  </div>
+</div>
+<script type="text/template" id='questPartsTemp'> <%="<% console.log('questListModel:',model) %\>"%>
+	<%="<% var mission1 = (model.missionStatus1 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission2 = (model.missionStatus2 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission3 = (model.missionStatus3 === 'CLEARED') ? 'cleared' : null %\>"%>
+
+	<%="<% var questState = (model.cleared) ? 'clear' : 'new' %\>"%>
+	<%="<%     questState = (mission1 && mission2 && mission3) ? 'comp' : questState %\>"%>
+
+	<span class='questState <%="<%= questState %\>"%>'></span>
+
+	<div class="firstView">
+		<span class='questTitle <%="<%= model.fontColor %\>"%>'><%="<%= model.title %\>"%></span>
+		<ul class='mission'>
+			<li class='<%="<%= mission1 %\>"%>'></li>
+			<li class='<%="<%= mission2 %\>"%>'></li>
+			<li class='<%="<%= mission3 %\>"%>'></li>
+		</ul>
+	</div>
+
+	<ul class='secondView <%="<%= model.fontColor %\>"%>'>
+		<li class='<%="<%= mission1 %\>"%>'><%="<%= model.questBattle.missionMaster1.description %\>"%></li>
+		<li class='<%="<%= mission2 %\>"%>'><%="<%= model.questBattle.missionMaster2.description %\>"%></li>
+		<li class='<%="<%= mission3 %\>"%>'><%="<%= model.questBattle.missionMaster3.description %\>"%></li>
+	</ul>
+
+	<span class="treasure">
+		<%="<% if(questState === 'comp') { %\>"%>
+			<%="<% var itemCode = model.missionRewardObj.itemCode.toLowerCase(); %\>"%>
+			<div class="title clear"></div>
+			<%="<% if(itemCode.indexOf('gift') !== -1) { %\>"%>
+				<img data-nativeimgkey='<%="<%= itemCode %\>"%>' data-src='resource/image_native/gift/<%="<%= itemCode %\>"%>.png' class="itemImg">
+			<%="<% } else { %\>"%>
+				<img class="itemImg" src='/magica/resource/image_web/item/main/<%="<%= itemCode %\>"%>.png' alt=''>
+			<%="<% } %\>"%>
+		<%="<% } else { %\>"%>
+			<div class="title"></div>
+			<img class="treasureImg" src='/magica/resource/image_web/common/treasure/<%="<%= model.missionRewardObj.chestColor.toLowerCase() %\>"%>.png' alt=''>
+		<%="<% } %\>"%>
+	</span>
+
+	<span class="touchObj"></span>
+
+	<span class="params">
+		<span class="questType" data-questtype='STORYRAID'></span>
+		<span class="questIndex" data-questindex='<%="<%= model.questBattle.sectionIndex %\>"%>'></span>
+	</span>
+</script>

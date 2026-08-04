@@ -1,0 +1,39 @@
+<div id="PresentListTest">
+  <!-- <div id="tabBtn">
+		<span class="btn">道具</span>
+		<span class="btn">ユニット</span>
+	</div> -->
+  <a href="#/MyPage" class="btn">マイページに戻る</a>
+  <span data-sale-type="ALL" class="btn receiveBtn">一键领取</span>
+  <!-- <span data-sale-type="ITEM" 	class="btn receiveBtn">アイテム全受取り</span> -->
+  <!-- <span data-sale-type="CARD" 	class="btn receiveBtn">カード全受取り</span> -->
+  <!-- <span data-sale-type="SELECT" 	class="btn receiveBtn">選択アイテム受取り</span> -->
+  <div id="tabContents" class="mt20">
+    <div class="card">
+      <h2>プレゼント-カード(<span id="presentCardCnt"></span>件)</h2>
+      <div id="cardWrap"></div>
+    </div>
+    <div class="item">
+      <h2>プレゼント-アイテム(<span id="presentItemCnt"></span>件)</h2>
+      <div id="itemWrap"></div>
+    </div>
+  </div>
+</div>
+<script type="text/template" id="presentParts"> <div class="wrap">
+		<!-- プレゼント日時 -->
+		<p><%= "<%= model.presentDate.split(' ')[0] %\>" %></p>
+
+		<%= "<% if(model.cardId) {%\> " %>
+			<img src='<%="<%= resDir %\>"%>/magica/resource/image_web/card_n/card_n_<%="<%= model.card.cardId %\>_1"%>.png' alt='' width="144">
+			<p><%= "<%= model.card.title %\><%= model.card.cardName %\>×<%= model.quantity %\>枚" %></p>
+		<%= "<% } else if(model.item) { %\> " %>
+			<p><%= "<%= model.item.name %\>×<%= model.quantity %\><%= model.item.unit %\>" %></p>
+		<%= "<% } %\> " %>
+
+
+		<!-- プレゼント文言 -->
+		<p><%= "<%= model.presentComment %\>" %></p>
+	</div>
+	<span class="btn small">個別受取</span>
+
+</script>

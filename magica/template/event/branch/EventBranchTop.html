@@ -1,0 +1,162 @@
+<%
+	var partLinkBtnClass = (partOpenFlag) ? "" : "off";
+	if(partCloseFlag) partLinkBtnClass = "close";
+	var noPartEventIdArr = [1049,1083];
+%> <div id='EventBranch' class='EventBranchTop'>
+  <div id='helpBtn' class='se_decide TE sb_gold_02' data-eventid="<%= eventId %>">玩法</div>
+  <div id='archiveBtn' class='se_decide TE sb_gold_02 linkBtn' data-href="#/StoryCollection/<%= eventId %>">回顾</div>
+  <div id='sideWrap' class='part<%= partModel.eventPartNo %>'>
+    <style type="text/css">
+      <% if (noPartEventIdArr.indexOf(eventId) < 0)
+      {
+        %>#eventLogo.part1:before
+        {
+          background: url('/magica/resource/image_web/event/branch/<%= eventId %>/icon_part_01.png') center top no-repeat;
+        }
+
+        #eventLogo.part2:before
+        {
+          background: url('/magica/resource/image_web/event/branch/<%= eventId %>/icon_part_02.png') center top no-repeat;
+        }
+
+        #partLinkBtn.part1
+        {
+          background: url('/magica/resource/image_web/event/branch/<%= eventId %>/btn_chapter_02.png') left top no-repeat;
+        }
+
+        #partLinkBtn.part2
+        {
+          background: url('/magica/resource/image_web/event/branch/<%= eventId %>/btn_chapter_01.png') left top no-repeat;
+        }
+
+        <%
+      }
+
+      else
+      {
+
+        %>#EventBranch.EventBranchTop #sideWrap,
+        #EventBranch.EventBranchTop #sideWrap .bgWrap
+        {
+          width: 187px;
+        }
+
+        #EventBranch.EventBranchTop #sideWrap #eventLogo
+        {
+          // top: 187px;
+        }
+
+        #EventBranch.EventBranchTop #sideWrap.part1 .bgWrap
+        {
+          background: url('/magica/resource/image_web/event/branch/<%= eventId %>/top_title_bg_01.png') left top no-repeat;
+          background-size: auto 100%;
+        }
+
+        <%
+      }
+
+      %>
+
+    </style>
+    <div id='eventLogo' class='<%= partLinkBtnClass %> part<%= partModel.eventPartNo %>'>
+      <img src="/magica/resource/image_web/event/branch/<%= eventId %>/logo.png" alt="">
+    </div>
+    <div class='overWrap'></div>
+    <div class='bgWrap'></div>
+  </div>
+  <div id="infoWrap">
+    <div id='flgmntWrap'> <% _.each(partModel.charaItemObj,function(model,index){ %> <div class='flgmnt' style='background:url("/magica/resource/image_web/event/branch/<%= eventId %>/bg_flgmnt_<%= model.key %>.png") left top no-repeat;'><span class='count'><%= model.quantity %></span></div> <% }) %> </div>
+    <div id='partLinkBtn' class='<%= partLinkBtnClass %> se_tabs part<%= partModel.eventPartNo %> TE'></div>
+  </div>
+  <div id='bottomWrap'>
+    <div class='questClearCount'>
+      <p class='title c_gold'>通关关卡数</p>
+      <p class='count c_gold'><%= partModel.clearCount %>/<%= partModel.questBattleCount %></p>
+    </div>
+    <div id="eventShopWrap">
+      <div class="itemNumWrap">
+        <img class="shopItemImg" src="/magica/resource/image_web/item/event/<%= partModel.itemId.toLowerCase() %>.png">
+        <p class="numWrap c_gold">×<span class='num c_gold'><%= partModel.itemQuantity %></span></p>
+      </div>
+      <div class="shopLinkBtn se_decide TE linkBtn" data-href="#/ShopTop/<%= partModel.shopId %>"></div>
+    </div>
+  </div>
+  <div id='questDetail'></div>
+  <div id='chartWrap'> <% if(window.isBrowser) { %> <span style='top:100px;left:100px;z-index:1000000000;' class='btn b_pink' id='debugChartBtn'>debug</span> <% } %> <span class='chartCautionText'>
+      <span class='text c_purple ts_white'>点击窗口外关闭</span>
+      <span class='bg'></span>
+    </span>
+  </div>
+</div>
+<!-- 解放条件 -->
+<script type="text/template" id="OpenConditionTemp"> <span class='charaTitle'>
+		解放条件
+	</span>
+
+	<div class="hiddenWrap" id="scrollOuter">
+		<div class="scrollInner">
+			<%="<% _.each(model.conditionList, function(text,index){ %\>"%>
+				<div class='conditionText'><%="<%= text %\>"%></div>
+			<%="<% }); %\>"%>
+		</div>
+	</div>
+</script>
+<!-- クエスト詳細 -->
+<script type="text/template" id="QuestDetailTemp"> <%="<% var mission1 = (model.questModel.missionStatus1 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission2 = (model.questModel.missionStatus2 === 'CLEARED') ? 'cleared' : null %\>"%>
+	<%="<% var mission3 = (model.questModel.missionStatus3 === 'CLEARED') ? 'cleared' : null %\>"%>
+
+	<%="<% var questState = (model.questModel.cleared) ? 'clear' : 'new' %\>"%>
+	<%="<%     questState = (mission1 && mission2 && mission3) ? 'comp' : questState %\>"%>
+
+	<%="<% var bgQuestStyle     = 'background: url(/magica/resource/image_web/event/branch/' + model.eventId + '/bg_quest_' + model.branchCharaId + '.png) left top no-repeat;' %\>"%>
+	<%="<% var questHeaderStyle = 'background: url(/magica/resource/image_web/event/branch/' + model.eventId + '/quest_header_' + model.branchCharaId + '.png) left top no-repeat; background-size: 166px auto;' %\>"%>
+
+	<div class='questDetailBg' style='<%="<%= bgQuestStyle %\>"%>'></div>
+
+	<span class='charaTitle' style='<%="<%= questHeaderStyle %\>"%>'>
+		<%="<%= model.pointModel.point.title %\>"%>
+	</span>
+
+	<span class='sectionTitle'><%="<%= model.sectionModel.section.title %\>"%></span>
+
+	<div class='difficulty flexBox'>
+		<span class='title'>难度</span>
+		<span class='num'><%="<%= model.questModel.questBattle.difficulty %\>"%></span>
+	</div>
+	<div class='needAp flexBox'>
+		<span class='title'>消耗 AP</span>
+		<span class='num'><%="<%= model.questModel.questBattle.ap %\>"%></span>
+	</div>
+
+	<span class="treasure">
+		<%="<% if(questState === 'comp') { %\>"%>
+			<%="<% var itemCode = model.missionRewardCode.itemCode.toLowerCase(); %\>"%>
+			<div class="title clear"></div>
+			<%="<% if(itemCode.indexOf('gift') !== -1) { %\>"%>
+				<img data-nativeimgkey='<%="<%= itemCode %\>"%>' data-src='resource/image_native/gift/<%="<%= itemCode %\>"%>.png' class="itemImg">
+			<%="<% } else if(itemCode.indexOf('event') !== -1) { %\>"%>
+				<img class="itemImg" src='/magica/resource/image_web/item/event/<%="<%= itemCode %\>"%>.png' alt=''>
+			<%="<% } else { %\>"%>
+				<img class="itemImg" src='/magica/resource/image_web/item/main/<%="<%= itemCode %\>"%>.png' alt=''>
+
+			<%="<% } %\>"%>
+		<%="<% } else { %\>"%>
+			<div class="title"></div>
+			<img class="treasureImg" src='/magica/resource/image_web/common/treasure/<%="<%= model.chestColor.toLowerCase() %\>"%>.png' alt=''>
+		<%="<% } %\>"%>
+	</span>
+
+	<span class='questMissionTitle'>任务</span>
+	<ul class='questMissionList'>
+		<li class='<%="<%= mission1 %\>"%>'><%="<%= model.questModel.questBattle.missionMaster1.description %\>"%></li>
+		<li class='<%="<%= mission2 %\>"%>'><%="<%= model.questModel.questBattle.missionMaster2.description %\>"%></li>
+		<li class='<%="<%= mission3 %\>"%>'><%="<%= model.questModel.questBattle.missionMaster3.description %\>"%></li>
+	</ul>
+	<span id='mainBtn' class="TE se_decide"><span class='b_screen'></span>确定</span>
+
+	<span class="params">
+		<span class="questType" data-questtype='<%="<%= model.questType  %\>"%>'></span>
+		<span class="questIndex" data-questindex='<%="<%= model.questModel.questBattle.sectionIndex %\>"%>'></span>
+	</span>
+</script>

@@ -1,0 +1,38 @@
+<div id="RegularEventGroupBattleLog">
+  <div id="logTitle">战斗记录</div>
+  <div id="logTabWrap">
+    <ul class="common_tab t_gold ml_tab">
+      <li class="btn TE se_tabs current" data-wrap="user" data-mission-name="個人">
+        <span>个人</span>
+      </li>
+      <li class="btn TE se_tabs" data-wrap="group" data-mission-name="グループ">
+        <span>小组</span>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- グループバトル参加不可ポップアップ -->
+<script type="text/template" id="logPartsTemp"> <div class="bossWrap">
+		<img class="img" src="<%='<%= bossModel.bossId %\>'%>" />
+		<div class="lv"><%="<%= bossModel.level %\>"%></div>
+		<div class="name">%="<%= bossModel.name %\>"%></div>
+		<div class="attribute <%='<%= bossModel.attribute %\>'%>"></div>
+	</div>
+
+	<div class="totalDamage">合计伤害　<%="<%= bossModel.totalDamage %\>"%></div>
+	<div class="battleCharaList">
+		<%="<% _.forEach(charaList,function(chara){ %\>"%>
+			<div class="userCharaIcon <%='<%= model.rank %\>'%> <%='<%= model.attributeId %\>'%>">
+				<%="<% var att = 'att_' + chara.attributeId.toLowerCase() %\>"%>
+				<%="<% var star = 'star_' + chara.rank.toLowerCase() %\>"%>
+				<%="<% var frame = 'frame_' + chara.rank.toLowerCase() %\>"%>
+				<%="<% var bg = 'bg_' + chara.attributeId.toLowerCase() %\>"%>
+				<span class="att" data-nativebgkey='<%="<%= att %\>"%>' data-src='resource/image_native/card/frame/<%="<%= att %\>"%>.png'></span>
+				<span class="star" data-nativebgkey='<%="<%= star %\>"%>' data-src='resource/image_native/card/frame/<%="<%= star %\>"%>.png'></span>
+				<span class="rank" data-nativebgkey='<%="<%= frame %\>"%>' data-src='resource/image_native/card/frame/<%="<%= frame %\>"%>.png'></span>
+				<img data-nativeimgkey='card_<%="<%= model.leaderCard.cardId %\>"%>_f' data-src='resource/image_native/card/image/card_<%="<%= model.leaderCard.cardId %\>"%>_f.png'>
+				<span class="bg" data-nativebgkey='<%="<%= bg %\>"%>' data-src='resource/image_native/card/frame/<%="<%= bg %\>"%>.png'></span>
+			</div>
+		<%="<% }) %\>"%>
+	</div>
+</script>

@@ -1,0 +1,8 @@
+<% var nowRp = _.findWhere(model,{statusId:"RP"}); %> <% var maxRp = _.findWhere(model,{statusId:"MAX_RP"}); %> <div class="rpInfoArea">
+  <ul class="rpPointWrap"> <% for(var i=0;i<maxRp.point;i++){ %> <li<% if(nowRp.point>i){ %> class="on" <% } %>>
+      </li> <% } %> </ul>
+  <div class="rpRemainTime c_purple<% if(nowRp.point >= maxRp.point){ %> off<% } %>">距离下次回复&nbsp;<span id="cureRemain" class="c_purple"></span></div>
+  <span class="rpPlusBtn se_decide TE">
+    <span class="b_screen"></span>
+  </span>
+</div>

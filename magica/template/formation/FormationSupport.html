@@ -1,0 +1,305 @@
+<div id="FormationQuest">
+	<div id='bonusTextWrap'></div>
+
+	<!-- 通常 -->
+	<div id="deckFormationWrap">
+		<div id="formationSheetWrap">
+			<div class="formationHead">
+				<div class="head pos_1">
+					<img src="/magica/resource/image_web/common/chara/att_all_f.png" alt="">
+				</div>
+
+				<div class="head pos_2">
+					<img src="/magica/resource/image_web/common/chara/att_fire_f.png" alt="">
+				</div>
+
+				<div class="head pos_3">
+					<img src="/magica/resource/image_web/common/chara/att_water_f.png" alt="">
+				</div>
+
+				<div class="head pos_4">
+					<img src="/magica/resource/image_web/common/chara/att_timber_f.png" alt="">
+				</div>
+
+				<div class="head pos_5">
+					<img src="/magica/resource/image_web/common/chara/att_light_f.png" alt="">
+				</div>
+
+				<div class="head pos_6">
+					<img src="/magica/resource/image_web/common/chara/att_dark_f.png" alt="">
+				</div>
+			</div>
+		</div>
+
+		<div id="deckWrap"></div>
+
+		<div id="bottomWrap">
+			<div id="cautionText">请设置各属性的支援角色</div>
+			<ul class="btnList flexBox">
+				<li class="btn se_tabs b_white TE" id="deckResetBtn"><span class="b_screen"></span>解散支援</li>
+				<li class="btn se_tabs b_white TE" id="deckDetailBtn"><span class="b_screen"></span>支援详情</li>
+			</ul>
+			<div id="mainBtn" class='se_decide off TE'>确定</div>
+			<div id="questMainBtn" class='TE'>开始</div>
+		</div>
+	</div>
+
+	<!-- デッキ詳細 -->
+	<div id="deckDetailWrap" class="hide status" data-cnt="0">
+		<div id="bottomWrap">
+			<div id="cautionText">魔法少女的详细信息</div>
+ 			<ul class="btnList flexBox">
+				<li class="btn se_decide b_pink TE" id="deckDetailCloseBtn">OK</li>
+			</ul>
+			<p id="detailViewCnt" class="ts_gold"><span class="ts_gold">1</span>/4</p>
+			<p id="detailViewChange" class="btn se_tabs b_white TE"><span class="b_screen"></span>切换显示</p>
+		</div>
+	</div>
+
+</div>
+
+<script type="text/template" id="DeckCardPartsTemp">
+	<div class="select"></div>
+	<%="<% if(model.card) { %\>"%>
+		<%="<% if(!model.support) { %\>"%>
+			<div class="epSetBtn"></div>
+		<%="<% } %\>"%>
+		<div class="maskWrap">
+			<img class="charaImg"
+				 data-nativeimgkey='card_<%="<%= model.displayCardId %\>"%>_v'
+				 data-src='resource/image_native/card/image/card_<%="<%= model.displayCardId %\>"%>_v.png' alt=''>
+
+			<div class="status">
+				<div id="attribute"><span class='type_f <%="<%= model.card.attributeId %\>"%>'></span></div>
+				<p id="level" class="ts_gold">Lv<%="<%= model.level %\>"%></p>
+				<div id="rare" class='<%="<%= model.card.rank %\>"%>'>
+					<%="<% var i = 0; %\>"%>
+					<%="<% var maxRare = model.maxRare || Number(model.card.rank.split('RANK_')[1]); %\>"%>
+					<%="<% while(i < maxRare) { %\>"%>
+						<span></span>
+					<%="<% i=(i+1)|0; %\>"%>
+					<%="<% } %\>"%>
+				</div>
+				<dl>
+					<dt class="c_gold">HP</dt><dd><%="<%= model.hp %\>"%></dd>
+					<dt class="c_gold">ATK</dt><dd><%="<%= model.attack %\>"%></dd>
+					<dt class="c_gold">DEF</dt><dd><%="<%= model.defense %\>"%></dd>
+				</dl>
+			</div>
+		</div>
+	<%="<% } %\>"%>
+	<div class="bg"></div>
+</script>
+
+<script type="text/template" id="DeckDetailPartsTemp">
+	<%="<% if(model.userCardId) { %\>"%>
+		<div class="cardDetailWrap on">
+			<div class="charaIcon">
+				<div class="attribute"><span class='<%="<%= model.card.attributeId %\>"%> type_f'></span></div>
+				<div class="lv ts_gold">Lv <%="<%= model.level %\>"%></div>
+				<div class='rare <%="<%= model.card.rank %\>"%>'>
+					<%="<% var i = 0; %\>"%>
+					<%="<% var maxRare = model.maxRare || Number(model.card.rank.split('RANK_')[1]); %\>"%>
+					<%="<% while(i < maxRare) { %\>"%>
+						<span></span>
+					<%="<% 	i=(i+1)|0; %\>"%>
+					<%="<% } %\>"%>
+				</div>
+
+				<div class="frame"></div>
+				<img class='charaImg' data-nativeimgkey='card_<%="<%= model.displayCardId %\>"%>_f' data-src='resource/image_native/card/image/card_<%="<%= model.displayCardId %\>"%>_f.png' alt=''>
+				<div class="bg"></div>
+			</div>
+
+			<div class="detail status">
+				<dl>
+					<dt>HP</dt>
+					<dd><%="<%= model.hp %\>"%></dd>
+					<%="<% if(model.memoriaHp) { %\>"%>
+						<dd class="memoria_status c_gold">(+<%="<%= model.memoriaHp %\>"%>)</dd>
+					<%="<% } %\>"%>
+				</dl>
+				<div class="flexBox">
+					<dl>
+						<dt>ATK</dt>
+						<dd><%="<%= model.attack %\>"%></dd>
+						<%="<% if(model.memoriaAttack) { %\>"%>
+							<dd class="memoria_status c_gold">(+<%="<%= model.memoriaAttack %\>"%>)</dd>
+						<%="<% } %\>"%>
+					</dl>
+					<dl>
+						<dt>DEF</dt>
+						<dd><%="<%= model.defense %\>"%></dd>
+						<%="<% if(model.memoriaDefense) { %\>"%>
+							<dd class="memoria_status c_gold">(+<%="<%= model.memoriaDefense %\>"%>)</dd>
+						<%="<% } %\>"%>
+					</dl>
+				</div>
+
+				<div class="diskWrap">
+					<p>圆盘</p>
+					<ul class="commandList">
+						<li class="<%='<%= (model.card.commandType1) ? model.card.commandType1 : "" %\>'%>"></li>
+						<li class="<%='<%= (model.card.commandType2) ? model.card.commandType2 : "" %\>'%>"></li>
+						<li class="<%='<%= (model.card.commandType3) ? model.card.commandType3 : "" %\>'%>"></li>
+						<li class="<%='<%= (model.card.commandType4) ? model.card.commandType4 : "" %\>'%>"></li>
+						<li class="<%='<%= (model.card.commandType5) ? model.card.commandType5 : "" %\>'%>"></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="detail skill">
+				<div class="skillWrap">
+					<p class="pointFrame">连携</p>
+					<div class="skillIcon">
+						<img data-nativeimgkey='icon_skill_<%="<%= model.card.cardSkill.groupId %\>"%>' data-src='resource/image_native/art/icon_skill_<%="<%= model.card.cardSkill.groupId %\>"%>.png'>
+					</div>
+					<p class="skillName"><%="<%= model.card.cardSkill.name %\>"%></p>
+				</div>
+				<div class="skillWrap">
+					<p class="pointFrame">Magia</p>
+					<div class="skillIcon">
+						<img data-nativeimgkey='icon_skill_<%="<%= model.card.cardMagia.groupId %\>"%>' data-src='resource/image_native/art/icon_skill_<%="<%= model.card.cardMagia.groupId %\>"%>.png'>
+					</div>
+					<p class="skillName"><%="<%= model.card.cardMagia.name %\>"%></p>
+				</div>
+			</div>
+
+			<div class="detail memoria1">
+				<%="<% if(model.equipPiece1) { %\>"%>
+					<%="<% var type = (model.equipPiece1.piece.pieceType === 'ABILITY') ? 'type_a' : 'type_s' %\>"%>
+					<div class='memoriaWrap <%="<%= type %\>"%>'>
+						<div class="memoriaImg">
+							<img data-nativeimgkey='memoria_<%="<%=  model.equipPiece1.pieceId %\>"%>_s' data-src='resource/image_native/memoria/memoria_<%="<%=  model.equipPiece1.pieceId %\>"%>_s.png'>
+						</div>
+						<div class="skillIcon">
+							<img data-nativeimgkey='icon_skill_<%="<%= model.equipPiece1.piece.pieceSkill.groupId %\>"%>' data-src='resource/image_native/art/icon_skill_<%="<%= model.equipPiece1.piece.pieceSkill.groupId %\>"%>.png'>
+						</div>
+						<div class="skillName">
+							<%="<% if(model.equipPiece1.lbCount > 3 && model.equipPiece1.piece.pieceSkill2) { %\>"%>
+								<p><%="<%= model.equipPiece1.piece.pieceSkill2.name %\>"%></p>
+							<%="<% } else if(model.equipPiece1.piece.pieceSkill) { %\>"%>
+								<p><%="<%= model.equipPiece1.piece.pieceSkill.name %\>"%></p>
+							<%="<% } %\>"%>
+						</div>
+					</div>
+				<%="<% } else { %\>"%>
+					<div class="memoriaWrap off">
+						<div class="memoriaImg"></div>
+						<div class="skillName">
+							<p>未装备</p>
+						</div>
+					</div>
+				<%="<% } %\>"%>
+
+				<%="<% if(model.revision < 1) { %\>"%>
+					<div class="memoriaWrap none">
+						<div class="memoriaImg"></div>
+						<div class="skillName">
+							<p>未解放</p>
+						</div>
+					</div>
+				<%="<% }else if(model.equipPiece2) { %\>"%>
+					<%="<% var type = (model.equipPiece2.piece.pieceType === 'ABILITY') ? 'type_a' : 'type_s' %\>"%>
+					<div class='memoriaWrap <%="<%= type %\>"%>'>
+						<div class="memoriaImg">
+							<img data-nativeimgkey='memoria_<%="<%=  model.equipPiece2.pieceId %\>"%>_s' data-src='resource/image_native/memoria/memoria_<%="<%=  model.equipPiece2.pieceId %\>"%>_s.png'>
+						</div>
+						<div class="skillIcon">
+							<img data-nativeimgkey='icon_skill_<%="<%= model.equipPiece2.piece.pieceSkill.groupId %\>"%>' data-src='resource/image_native/art/icon_skill_<%="<%= model.equipPiece2.piece.pieceSkill.groupId %\>"%>.png'>
+						</div>
+						<div class="skillName">
+							<%="<% if(model.equipPiece2.lbCount > 3 && model.equipPiece2.piece.pieceSkill2) { %\>"%>
+								<p><%="<%= model.equipPiece2.piece.pieceSkill2.name %\>"%></p>
+							<%="<% } else if(model.equipPiece2.piece.pieceSkill) { %\>"%>
+								<p><%="<%= model.equipPiece2.piece.pieceSkill.name %\>"%></p>
+							<%="<% } %\>"%>
+						</div>
+					</div>
+				<%="<% } else { %\>"%>
+					<div class="memoriaWrap off">
+						<div class="memoriaImg"></div>
+						<div class="skillName">
+							<p>未装备</p>
+						</div>
+					</div>
+				<%="<% } %\>"%>
+
+
+			</div>
+
+			<div class="detail memoria2">
+				<%="<% if(model.revision < 2) { %\>"%>
+					<div class="memoriaWrap none">
+						<div class="memoriaImg"></div>
+						<div class="skillName">
+							<p>未解放</p>
+						</div>
+					</div>
+				<%="<% }else if(model.equipPiece3) { %\>"%>
+					<%="<% var type = (model.equipPiece3.piece.pieceType === 'ABILITY') ? 'type_a' : 'type_s' %\>"%>
+					<div class='memoriaWrap <%="<%= type %\>"%>'>
+						<div class="memoriaImg">
+							<img data-nativeimgkey='memoria_<%="<%=  model.equipPiece3.pieceId %\>"%>_s' data-src='resource/image_native/memoria/memoria_<%="<%=  model.equipPiece3.pieceId %\>"%>_s.png'>
+						</div>
+						<div class="skillIcon">
+							<img data-nativeimgkey='icon_skill_<%="<%= model.equipPiece3.piece.pieceSkill.groupId %\>"%>' data-src='resource/image_native/art/icon_skill_<%="<%= model.equipPiece3.piece.pieceSkill.groupId %\>"%>.png'>
+						</div>
+						<div class="skillName">
+							<%="<% if(model.equipPiece3.lbCount > 3 && model.equipPiece3.piece.pieceSkill2) { %\>"%>
+								<p><%="<%= model.equipPiece3.piece.pieceSkill2.name %\>"%></p>
+							<%="<% } else if(model.equipPiece3.piece.pieceSkill) { %\>"%>
+								<p><%="<%= model.equipPiece3.piece.pieceSkill.name %\>"%></p>
+							<%="<% } %\>"%>
+						</div>
+					</div>
+				<%="<% } else { %\>"%>
+					<div class="memoriaWrap off">
+						<div class="memoriaImg"></div>
+						<div class="skillName">
+							<p>未装备</p>
+						</div>
+					</div>
+				<%="<% } %\>"%>
+
+				<%="<% if(model.revision < 3) { %\>"%>
+					<div class="memoriaWrap none">
+						<div class="memoriaImg"></div>
+						<div class="skillName">
+							<p>未解放</p>
+						</div>
+					</div>
+				<%="<% }else if(model.equipPiece4) { %\>"%>
+					<%="<% var type = (model.equipPiece4.piece.pieceType === 'ABILITY') ? 'type_a' : 'type_s' %\>"%>
+					<div class='memoriaWrap <%="<%= type %\>"%>'>
+						<div class="memoriaImg">
+							<img data-nativeimgkey='memoria_<%="<%=  model.equipPiece4.pieceId %\>"%>_s' data-src='resource/image_native/memoria/memoria_<%="<%=  model.equipPiece4.pieceId %\>"%>_s.png'>
+						</div>
+						<div class="skillIcon">
+							<img data-nativeimgkey='icon_skill_<%="<%= model.equipPiece4.piece.pieceSkill.groupId %\>"%>' data-src='resource/image_native/art/icon_skill_<%="<%= model.equipPiece4.piece.pieceSkill.groupId %\>"%>.png'>
+						</div>
+						<div class="skillName">
+							<%="<% if(model.equipPiece4.lbCount > 3 && model.equipPiece4.piece.pieceSkill2) { %\>"%>
+								<p><%="<%= model.equipPiece4.piece.pieceSkill2.name %\>"%></p>
+							<%="<% } else if(model.equipPiece4.piece.pieceSkill) { %\>"%>
+								<p><%="<%= model.equipPiece4.piece.pieceSkill.name %\>"%></p>
+							<%="<% } %\>"%>
+						</div>
+					</div>
+				<%="<% } else { %\>"%>
+					<div class="memoriaWrap off">
+						<div class="memoriaImg"></div>
+						<div class="skillName">
+							<p>未装备</p>
+						</div>
+					</div>
+				<%="<% } %\>"%>
+			</div>
+		</div>
+
+	<%="<% } else { %\>"%>
+		<div class="cardDetailWrap off">
+			<div class="charaIcon"></div>
+		</div>
+	<%="<% } %\>"%>
+</script>
