@@ -72,7 +72,7 @@ define("underscore backbone backboneCommon ajaxControl text!template/present/Pre
         {
           title: "成功",
           popupId: "successPopup",
-          content: "プレゼントを受け取りました",
+          content: "我收到了一份礼物",
           closeBtnText: "关闭"
         })
       });

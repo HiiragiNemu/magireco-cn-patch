@@ -147,7 +147,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           b = "「" + this.model.toJSON().chara.name + "」要回复吗?<br>";
           this.model.toJSON().reviveAtDisp && (b += '距回复还有 <span id="popupTimer">' + this.model.toJSON().reviveAtDisp + "</span>");
           console.log(a.userEventAccomplish);
-          b += "<br><br>本日の回復 " + (a.userEventAccomplish ? a.userEventAccomplish.remainCount : 0) + "/" + l.parameterMap.CURE_COUNT + "次";
+          b += "<br><br>今天的回复 " + (a.userEventAccomplish ? a.userEventAccomplish.remainCount : 0) + "/" + l.parameterMap.CURE_COUNT + "次";
           new a.PopupClass(
           {
             title: "魔法少女回复",

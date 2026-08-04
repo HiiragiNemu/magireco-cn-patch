@@ -113,8 +113,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           a.responseSetStorage(b);
           new a.PopupClass(
           {
-            title: "キャラストーリー解放",
-            content: "キャラストーリーを解放しました",
+            title: "角色剧情发布",
+            content: "角色剧情已发布",
             closeBtnText: "关闭"
           })
         })
@@ -133,8 +133,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             a.responseSetStorage(b);
             new a.PopupClass(
             {
-              title: "ドッペル受け取り",
-              content: c.targetView.model.toJSON().chara.name + "のドッペルを受け取りました",
+              title: "接收Doppel",
+              content: c.targetView.model.toJSON().chara.name + "收到 Doppel 的",
               closeBtnText: "关闭"
             })
           })
