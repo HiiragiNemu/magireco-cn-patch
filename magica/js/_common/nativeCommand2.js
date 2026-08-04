@@ -270,8 +270,8 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     },
     {
       type: 0,
-      title: "Puella Combo",
-      text: "用同一名魔法少女攻击@会形成 Puella Combo，伤害上升"
+      title: "Puella 连击",
+      text: "用同一名魔法少女攻击@会形成 Puella 连击，伤害上升"
     },
     {
       type: 0,
@@ -295,18 +295,18 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     },
     {
       type: 0,
-      title: "Accele Combo",
-      text: "达成 Accele Combo 后@全队的 Magia 槽都会增加"
+      title: "Accele 连击",
+      text: "达成 Accele 连击 后@全队的 Magia 槽都会增加"
     },
     {
       type: 0,
-      title: "Blast Combo",
-      text: "达成 Blast Combo 的回合@伤害量会变大"
+      title: "Blast 连击",
+      text: "达成 Blast 连击 的回合@伤害量会变大"
     },
     {
       type: 0,
-      title: "Puella Combo",
-      text: "用相同圆盘达成 Puella Combo@可以造成更大的伤害"
+      title: "Puella 连击",
+      text: "用相同圆盘达成 Puella 连击@可以造成更大的伤害"
     },
     {
       type: 0,
@@ -430,8 +430,8 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     },
     {
       type: 0,
-      title: "Charge Combo",
-      text: "达成 Charge Combo 后 Charge 数增加 2"
+      title: "Charge 连击",
+      text: "达成 Charge 连击 后 Charge 数增加 2"
     },
     {
       type: 0,

@@ -21,7 +21,7 @@
 	</div>
 
 	<p id="lv">
-		<span>Lvl.</span>
+		<span>Lv.</span>
 		<span class="before">
 			<span id="currentLv" class="c_purple"><%= model.level %></span>
 			<span class="sla">/</span>
@@ -68,7 +68,7 @@
 	</div>
 
 	<div class="revisionWrap flexBox">
-		<p class="c_gold title">Magic Lvl.</p><p class="num"><%= model.revision %></p>
+		<p class="c_gold title">魔法 Lv.</p><p class="num"><%= model.revision %></p>
 		<ul class="flexBox revisionIcon">
 			<% var i = 0;%>
 			<% var RevisionMax = 3;%>
@@ -90,7 +90,7 @@
 	</div>
 
 	<div class="episodeLvWrap flexBox">
-		<p class="c_gold title">Episode Lvl.</p><p id="episodeLv" class="num"><%= model.episodeLevel %></p>
+		<p class="c_gold title">剧情 Lv.</p><p id="episodeLv" class="num"><%= model.episodeLevel %></p>
 		<% if(model.episodeLevel < 5) { %>
 		<div class="bondsTotalPt c_gold">还有<%= model.epExpRequire %></div>
 		<% } else { %>
@@ -105,7 +105,7 @@
 	</div>
 
 	<div class="equipWrap flexBox">
-		<p class="c_gold title">Memoria Slots</p>
+		<p class="c_gold title">记忆结晶槽</p>
 
 		<div class="flexBox before ">
 			<% i = 0; %>
@@ -121,7 +121,7 @@
 	</div>
 
 	<div class="magiaLvWrap flexBox">
-		<p class="c_gold title">Magia Lvl. </p><p class="num"><%= model.magiaLevel %></p>
+		<p class="c_gold title">Magia Lv. </p><p class="num"><%= model.magiaLevel %></p>
 		<ul class="flexBox magiaLvIcon">
 			<% i = 0;%>
 			<% var MagiaLevelMax = 5;%>
