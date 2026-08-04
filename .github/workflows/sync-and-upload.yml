@@ -1072,14 +1072,16 @@ jobs:
           CONFIRM_CLEANUP: ${{ steps.check_upstream.outputs.confirm_cleanup }}
 
       # ───────────────────────────────────────────────────────────────
-      # 🏷 创建/覆盖本仓库快照 Release（v3 新增）
-      #   ▸ 先与下游 latest Release 做 diff（digest/size 比对），
-      #     无差异直接跳过——全量镜像很耗时，上游没变就不重跑
-      #   ▸ 有差异才把上游最新 Release 的【全部】asset（无黑名单）
-      #     镜像到本仓库：
-      #       1. 以 UTC 日期时间命名的 Release（YYYYmmdd-HHMMSS，历史快照，
-      #          每次有差异时新建一个）
-      #       2. 叫 latest 的 Release（滚动最新，先删后建实现"覆盖"）
+      # 🏷 镜像上游 Release 到本仓库（增量 + 流式）
+      #   ▸ 先与下游 latest 做 diff（digest/size），无差异直接跳过
+      #   ▸ 两种 Release 不同处理：
+      #       1. YYYYmmdd-HHMMSS（UTC）日期快照 —— 只放【本次变化】的
+      #          asset，相当于变更记录，体积小、上传快
+      #       2. latest —— 增量同步到与上游一致：只传新增/变化，
+      #          删除上游已移除的，没动的不碰（不再先删后建）
+      #   ▸ 上传为流式：上游下载 URL 直连 uploads.github.com，
+      #     不落盘、内存恒定；失败自动回退「落盘 + gh release upload」
+      #   ▸ 首次运行（下游无 latest）才全量上传一次
       #   ▸ 注意：GitHub 单个 asset 上限 2GiB，超限文件跳过并告警
       # ───────────────────────────────────────────────────────────────
       - name: 🏷 创建/覆盖本仓库快照 Release
@@ -1094,6 +1096,7 @@ jobs:
           import shutil
           import urllib.request
           import urllib.error
+          import urllib.parse
           from datetime import datetime, timezone
 
           sys.stdout.reconfigure(line_buffering=True)
@@ -1152,41 +1155,105 @@ jobs:
           def run(args):
               return subprocess.run(args, capture_output=True, text=True)
 
-          def recreate_release(tag, title, notes, files):
-              """先删后建，实现"覆盖"语义；再把 files 全部传上去"""
-              section(f"重建 Release: {c(C.BRIGHT_CYAN, tag)}")
-              view = run(["gh", "release", "view", tag, "--repo", MIRROR_REPO])
-              if view.returncode == 0:
-                  dl = run(["gh", "release", "delete", tag,
-                            "--repo", MIRROR_REPO, "--yes", "--cleanup-tag"])
-                  if dl.returncode == 0:
-                      ok(f"已删除旧 Release（含 tag）: {tag}", indent=1)
-                  else:
-                      warn(f"删除旧 Release 失败: {dl.stderr.strip()}", indent=1)
+          def gh_api_json(args):
+              r = run(["gh", "api"] + args)
+              if r.returncode != 0 or not r.stdout.strip():
+                  return None
+              try:
+                  return json.loads(r.stdout)
+              except Exception:
+                  return None
 
-              cr = run(["gh", "release", "create", tag,
-                        "--repo", MIRROR_REPO,
-                        "--title", title, "--notes", notes])
-              if cr.returncode != 0:
-                  err(f"创建 Release [{tag}] 失败: {cr.stderr.strip()}", indent=1)
-                  return False
+          def asset_changed(up, dn):
+              """digest 两边都有就比 digest，否则退化为比 size"""
+              u_digest, u_size = up
+              d_digest, d_size = dn
+              if u_digest and d_digest:
+                  return u_digest != d_digest
+              return u_size != d_size
+
+          def create_release(tag, title, notes):
+              """只新建（不删除既有 Release），返回 release 对象"""
+              r = run(["gh", "release", "create", tag,
+                       "--repo", MIRROR_REPO,
+                       "--title", title, "--notes", notes])
+              if r.returncode != 0:
+                  err(f"创建 Release [{tag}] 失败: {r.stderr.strip()}", indent=1)
+                  return None
               ok(f"已创建 Release: {tag}", indent=1)
+              return gh_api_json([f"repos/{MIRROR_REPO}/releases/tags/{tag}"])
 
-              uploaded = 0
-              for p in files:
-                  up = run(["gh", "release", "upload", tag, p,
+          def delete_asset(asset, tag):
+              r = run(["gh", "api",
+                       f"repos/{MIRROR_REPO}/releases/assets/{asset['id']}",
+                       "--method", "DELETE"])
+              if r.returncode == 0:
+                  ok(f"[{tag}] 已删除 asset: {asset['name']}", indent=1)
+                  return True
+              warn(f"[{tag}] 删除 [{asset['name']}] 失败: "
+                   f"{r.stderr.strip()}", indent=1)
+              return False
+
+          def stream_upload_asset(upload_url_tpl, tag, fname, size, src_url):
+              """上游下载 URL → uploads.github.com 直连流式上传（不落盘）。
+
+              http.client 对带 read() 的 body 按块发送——下载与上传
+              同时进行，内存占用恒定，大文件耗时近减半。
+              失败时回退：流式下载到磁盘 + gh release upload。
+              """
+              upload_url = (upload_url_tpl.split("{?")[0]
+                            + "?name=" + urllib.parse.quote(fname))
+              try:
+                  dl_req = urllib.request.Request(src_url, headers=GH_HEADERS)
+                  src = urllib.request.urlopen(dl_req)
+                  try:
+                      up_req = urllib.request.Request(
+                          upload_url,
+                          data=src,  # file-like → 分块流式发送
+                          headers=dict(
+                              GH_HEADERS,
+                              **{"Content-Type": "application/octet-stream",
+                                 "Content-Length": str(size)}),
+                          method="POST",
+                      )
+                      with urllib.request.urlopen(up_req) as resp:
+                          json.loads(resp.read().decode())
+                  finally:
+                      src.close()
+                  ok(f"[{tag}] 流式上传: {fname}", indent=2)
+                  return True
+              except Exception as e:
+                  warn(f"[{tag}] 流式上传失败，回退落盘方式: {e}", indent=2)
+
+              try:
+                  work_dir = "/tmp/release_mirror"
+                  os.makedirs(work_dir, exist_ok=True)
+                  dst = os.path.join(work_dir, fname)
+                  dl_req = urllib.request.Request(src_url, headers=GH_HEADERS)
+                  with urllib.request.urlopen(dl_req) as resp, \
+                       open(dst, "wb") as f:
+                      shutil.copyfileobj(resp, f, 1024 * 1024)
+                  up = run(["gh", "release", "upload", tag, dst,
                             "--repo", MIRROR_REPO, "--clobber"])
                   if up.returncode == 0:
-                      ok(f"已上传: {os.path.basename(p)}", indent=2)
-                      uploaded += 1
-                  else:
-                      err(f"上传失败 [{os.path.basename(p)}]: "
-                          f"{up.stderr.strip()}", indent=2)
-              ok(f"Release [{tag}] 共上传 {uploaded}/{len(files)} 个文件", indent=1)
-              return uploaded == len(files)
+                      ok(f"[{tag}] 已上传（落盘）: {fname}", indent=2)
+                      return True
+                  err(f"[{tag}] 落盘上传也失败 [{fname}]: "
+                      f"{up.stderr.strip()}", indent=2)
+              except Exception as e2:
+                  err(f"[{tag}] 落盘上传也失败 [{fname}]: {e2}", indent=2)
+              return False
+
+          def upload_to_release(rel, tag, name, up_asset, dn_assets):
+              """往指定 Release 传一个 asset；同名旧 asset 先删（API 不允许同名覆盖）"""
+              if name in dn_assets:
+                  delete_asset(dn_assets[name], tag)
+              return stream_upload_asset(
+                  rel["upload_url"], tag, name,
+                  up_asset[1], up_asset[2])
 
           def main():
-              header("镜像上游 Release 全部文件到本仓库")
+              header("镜像上游 Release 到本仓库（增量 + 流式）")
               info(f"来源: {c(C.BRIGHT_WHITE, f'{UPSTREAM_OWNER}/{UPSTREAM_REPO}')}")
               info(f"目标: {c(C.BRIGHT_WHITE, MIRROR_REPO)}")
 
@@ -1217,98 +1284,106 @@ jobs:
                   set_output("mirrored", "false")
                   return
 
-              # ── 先 diff：与下游 latest Release 比对，无差异直接跳过 ──
-              #   全量镜像（下载+重建两个 Release）非常耗时，上游 Release
-              #   没变时没必要每次重跑。digest 两边都有就比 digest，
-              #   否则退化为比 size。
-              section("与下游 latest Release 比对（无差异则跳过）")
-              upstream_map = {
-                  a["name"]: (a.get("digest") or "", a.get("size", 0))
-                  for a in assets if a.get("size", 0) <= MAX_ASSET
-              }
+              # name → (digest, size, 下载 URL)，超限文件不进镜像
+              upstream_map = {}
+              for a in assets:
+                  if a.get("size", 0) > MAX_ASSET:
+                      warn(f"{a['name']}（{human_size(a['size'])}）"
+                           "超过 2GiB 上限，跳过", indent=1)
+                      continue
+                  upstream_map[a["name"]] = (
+                      a.get("digest") or "", a.get("size", 0),
+                      a["browser_download_url"])
 
-              downstream_map = {}
-              r = run(["gh", "api",
-                       f"repos/{MIRROR_REPO}/releases/tags/latest",
-                       "--jq",
-                       '.assets[] | .name + "\t" + (.digest // "")'
-                       ' + "\t" + (.size | tostring)'])
-              if r.returncode == 0 and r.stdout.strip():
-                  for line in r.stdout.strip().splitlines():
-                      parts = line.split("\t")
-                      if len(parts) == 3:
-                          downstream_map[parts[0]] = (parts[1], int(parts[2]))
-              if not downstream_map:
-                  info("下游尚无 latest Release（或无 asset），视为全量差异")
+              # ── 与下游 latest 比对，算出增量 ──
+              section("与下游 latest Release 比对（增量同步）")
+              dn_rel = gh_api_json(
+                  [f"repos/{MIRROR_REPO}/releases/tags/latest"])
+              dn_assets = ({a["name"]: a for a in dn_rel.get("assets", [])}
+                           if dn_rel else {})
+              dn_map = {n: (a.get("digest") or "", a.get("size", 0))
+                        for n, a in dn_assets.items()}
 
-              def asset_changed(up, dn):
-                  u_digest, u_size = up
-                  d_digest, d_size = dn
-                  if u_digest and d_digest:
-                      return u_digest != d_digest
-                  return u_size != d_size
+              # 首次镜像：下游还没有 latest，全量上传一次（仅此一次慢）
+              if dn_rel is None:
+                  info("下游尚无 latest Release，首次全量镜像")
+                  rel = create_release(
+                      "latest", "latest",
+                      f"上游 {UPSTREAM_OWNER}/{UPSTREAM_REPO} Release "
+                      f"`{upstream_tag}` 首次全量镜像（由 workflow 自动生成）")
+                  if not rel:
+                      set_output("snapshot_tag", "")
+                      set_output("mirrored", "false")
+                      sys.exit(1)
+                  fails = 0
+                  for name, up in upstream_map.items():
+                      if not stream_upload_asset(rel["upload_url"], "latest",
+                                                 name, up[1], up[2]):
+                          fails += 1
+                  header("首次全量镜像完成")
+                  ok(f"滚动 Release: {c(C.BRIGHT_CYAN, 'latest')}"
+                     f"（{len(upstream_map) - fails}/{len(upstream_map)}）")
+                  if fails:
+                      warn(f"{fails} 个文件上传失败，下次运行会自动补齐")
+                  set_output("snapshot_tag", "")
+                  set_output("mirrored", "true")
+                  return
 
-              if set(upstream_map) == set(downstream_map) and all(
-                  not asset_changed(upstream_map[n], downstream_map[n])
-                  for n in upstream_map
-              ):
+              to_upload = [n for n in upstream_map
+                           if n not in dn_map
+                           or asset_changed(upstream_map[n][:2], dn_map[n])]
+              to_delete = [n for n in dn_map if n not in upstream_map]
+
+              if not to_upload and not to_delete:
                   ok("上游 Release 与下游 latest 完全一致，跳过镜像")
                   set_output("snapshot_tag", "")
                   set_output("mirrored", "false")
                   return
 
-              for name in sorted(set(upstream_map) | set(downstream_map)):
-                  if name not in downstream_map:
-                      info(f"新增: {c(C.BRIGHT_YELLOW, name)}", indent=1)
-                  elif name not in upstream_map:
-                      info(f"移除: {c(C.BRIGHT_YELLOW, name)}", indent=1)
-                  elif asset_changed(upstream_map[name], downstream_map[name]):
-                      info(f"更新: {c(C.BRIGHT_YELLOW, name)}", indent=1)
-
-              section("下载全部 asset")
-              work_dir = "/tmp/release_mirror"
-              os.makedirs(work_dir, exist_ok=True)
-              downloaded = []
-              for a in assets:
-                  fname = a["name"]
-                  size  = a.get("size", 0)
-                  if size > MAX_ASSET:
-                      warn(f"{fname}（{human_size(size)}）超过 2GiB 上限，跳过",
-                           indent=1)
-                      continue
-                  dst = os.path.join(work_dir, fname)
-                  info(f"下载: {c(C.BRIGHT_CYAN, fname)}  "
-                       f"{c(C.DIM, human_size(size))}", indent=1)
-                  try:
-                      dl_req = urllib.request.Request(
-                          a["browser_download_url"], headers=GH_HEADERS)
-                      # 分块流式写盘，不把整个文件读进内存
-                      with urllib.request.urlopen(dl_req) as resp, \
-                           open(dst, "wb") as f:
-                          shutil.copyfileobj(resp, f, 1024 * 1024)
-                      downloaded.append(dst)
-                  except Exception as e:
-                      err(f"下载失败 [{fname}]: {e}", indent=1)
-
-              if not downloaded:
-                  err("没有可镜像的文件，终止")
-                  set_output("snapshot_tag", "")
-                  set_output("mirrored", "false")
-                  sys.exit(1)
+              for n in sorted(to_upload):
+                  tag = "新增" if n not in dn_map else "更新"
+                  info(f"{tag}: {c(C.BRIGHT_YELLOW, n)}", indent=1)
+              for n in sorted(to_delete):
+                  info(f"移除: {c(C.BRIGHT_YELLOW, n)}", indent=1)
 
               ts = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+              change_lines = (
+                  [f"- 新增 `{n}`" for n in sorted(to_upload) if n not in dn_map]
+                  + [f"- 更新 `{n}`" for n in sorted(to_upload) if n in dn_map]
+                  + [f"- 移除 `{n}`" for n in sorted(to_delete)])
               notes = (f"上游 {UPSTREAM_OWNER}/{UPSTREAM_REPO} Release "
-                       f"`{upstream_tag}` 全量镜像（{ts} UTC，由 workflow 自动生成）")
+                       f"`{upstream_tag}` 变更快照（{ts} UTC，自动生成）\n\n"
+                       + "\n".join(change_lines))
 
-              # 1. 日期时间命名的历史快照（每次新建）
-              recreate_release(ts, ts, notes, downloaded)
-              # 2. 滚动 latest（先删后建，覆盖）
-              recreate_release("latest", "latest", notes, downloaded)
+              # ── 1. 日期时间快照：只放本次变化的文件（变更记录）──
+              if to_upload:
+                  section(f"创建变更快照 Release: {ts}")
+                  snap_rel = create_release(ts, ts, notes)
+                  if snap_rel:
+                      for n in to_upload:
+                          stream_upload_asset(snap_rel["upload_url"], ts,
+                                              n, upstream_map[n][1],
+                                              upstream_map[n][2])
+              else:
+                  skip("本次只有移除没有新增/更新，不建快照")
+
+              # ── 2. latest：增量同步到与上游一致（不删重建）──
+              section("增量同步 latest Release")
+              for n in to_delete:
+                  delete_asset(dn_assets[n], "latest")
+              fails = 0
+              for n in to_upload:
+                  if not upload_to_release(dn_rel, "latest", n,
+                                           upstream_map[n], dn_assets):
+                      fails += 1
 
               header("镜像完成")
-              ok(f"快照 Release: {c(C.BRIGHT_CYAN, ts)}")
-              ok(f"滚动 Release: {c(C.BRIGHT_CYAN, 'latest')}")
-              set_output("snapshot_tag", ts)
+              ok(f"变更快照: {c(C.BRIGHT_CYAN, ts) if to_upload else '（无）'}")
+              ok(f"滚动 Release: {c(C.BRIGHT_CYAN, 'latest')} "
+                 f"（上传 {len(to_upload) - fails}，移除 {len(to_delete)}）")
+              if fails:
+                  warn(f"{fails} 个文件上传失败，下次运行会自动补齐")
+              set_output("snapshot_tag", ts if to_upload else "")
               set_output("mirrored", "true")
 
           if __name__ == "__main__":
