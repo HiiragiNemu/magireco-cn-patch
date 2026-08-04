@@ -5,34 +5,34 @@
 	<div id="tabBtn" class="commonFrame2">
 		<div class="hiddenWrap" id="storyTabScroll">
 			<ul class="common_tab t_gold">
-				<li class="TE btn se_tabs current" data-wrap="main"><span>Main Story 【Arc 1】</span></li>
-				<li class="TE btn se_tabs" data-wrap="mainSecond"><span>Main Story 【Arc 2】</span></li>
+				<li class="TE btn se_tabs current" data-wrap="main"><span>主线剧情 【Arc 1】</span></li>
+				<li class="TE btn se_tabs" data-wrap="mainSecond"><span>主线剧情 【Arc 2】</span></li>
 				<li class="TE btn se_tabs puellaHistoria" data-wrap="puellaHistoria"><span>Puella Historia</span></li>
 				<li class="TE btn se_tabs" data-wrap="sub"><span>Another Story 【Arc 1】</span></li>
 				<li class="TE btn se_tabs" data-wrap="subSecond"><span>Another Story 【Arc 2】</span></li>
-				<li class="TE btn se_tabs" data-wrap="chara"><span>Magical Girl Stories</span></li>
-				<li class="TE btn se_tabs" data-wrap="arena"><span>Mirrors Story</span></li>
+				<li class="TE btn se_tabs" data-wrap="chara"><span>魔法少女剧情</span></li>
+				<li class="TE btn se_tabs" data-wrap="arena"><span>镜界剧情</span></li>
 				<li class="TE btn se_tabs event none" data-wrap="event">
-					<span>Event Stories</span>
+					<span>活动剧情</span>
 					<!-- memo: 開放されたストーリーの数を数字のバッジとして表示する -->
 					<div id="eventBatch" class="batch"></div>
 				</li>
-				<li class="TE btn se_tabs accomplish" data-wrap="accomplish"><span>Battle Museum</span></li>
+				<li class="TE btn se_tabs accomplish" data-wrap="accomplish"><span>战斗博物馆</span></li>
 				<li class="TE btn se_tabs special none" data-wrap="special">
 					<span>Special</span>
 					<div id="specialBatch" class="batch"></div>
 				</li>
-				<li class="TE btn se_tabs movieBtn" data-id="ep1opening"><span>Arc 1 OP Movie</span></li>
-				<li class="TE btn se_tabs movieBtn ep1ending none" data-id="ep1ending"><span>Arc 1 ED Movie</span></li>
-				<li class="TE btn se_tabs movieBtn ep1ending none" data-id="ep1ending_mn"><span>Arc 1 ED (NA)</span></li>
-				<li class="TE btn se_tabs movieBtn ep2opening none" data-id="ep2opening"><span>Arc 2 OP Movie</span></li>
-				<li class="TE btn se_tabs movieBtn ep2ending none" data-id="ep2ending"><span>Arc 2 ED Movie</span></li>
+				<li class="TE btn se_tabs movieBtn" data-id="ep1opening"><span>第1部 OP 影片</span></li>
+				<li class="TE btn se_tabs movieBtn ep1ending none" data-id="ep1ending"><span>第1部 ED 影片</span></li>
+				<li class="TE btn se_tabs movieBtn ep1ending none" data-id="ep1ending_mn"><span>第1部 ED（北美版）</span></li>
+				<li class="TE btn se_tabs movieBtn ep2opening none" data-id="ep2opening"><span>第2部 OP 影片</span></li>
+				<li class="TE btn se_tabs movieBtn ep2ending none" data-id="ep2ending"><span>第2部 ED 影片</span></li>
 				<li class="TE btn se_tabs magirepo linkBtn" data-href="#/MagiRepo"></li>
 			</ul>
 		</div>
 	</div>
 	<div id="listWrap" class="commonFrame1 main">
-		<h2 id="listTitle">Main Story</h2>
+		<h2 id="listTitle">主线剧情</h2>
 		<div id="unlockItems">
 			<img src="/magica/resource/image_web/page/collection/storyCollection/icon_eventstory_open_key_f.png" class="costIcon">
 			<span class="pointFrame" id="unlockItemNum"></span>
@@ -48,7 +48,7 @@
 						</div>
 						<div class="sectionListWrap chapterId00">
 							<div class="sectionWrap commonFrame3 CLEARED">
-								<span class="sectionTitle">Again, Another Witch</span>
+								<span class="sectionTitle">再一次，另一位魔女</span>
 								<h2 class="sectionNumber">Prologue</h2>
 								<p class="sb_gold_01 se_decide TE storyStart prologueStart"><span class="b_screen"></span><span class="buttonUpper c_gold">CLEAR</span><br>Playback</p>
 							</div>
@@ -84,7 +84,7 @@
 			<div class='panArrow chapterIdPan<%="<%= model.chapterId %\>"%>'></div>
 		</div>
 		<%="<% if (model.isStillBtn) { %\>"%>
-		<div class="popupGalleryBtn chapterGallery<%='<%= model.chapterId %\>'%> sb_gold_01 se_decide TE">View Gallery</div>
+		<div class="popupGalleryBtn chapterGallery<%='<%= model.chapterId %\>'%> sb_gold_01 se_decide TE">查看画廊</div>
 		<%="<% } %\>"%>
 		<div class='sectionListWrap chapterId<%="<%= model.chapterId %\>"%><%="<% if (model.isStillBtn) { %\>"%> gallery<%="<% } %\>"%>'></div>
 </script>
@@ -93,7 +93,7 @@
 		<span class="sectionTitle"><%="<%= model.title %\>"%></span>
 	<%="<% if(model.chapterNoForView) { %\>"%>
 		<h2 class="sectionNumber"><%="<%= model.chapterNoForView %\>"%> <%="<%= model.sectionNo %\>"%>话</h2>
-		<p class="sb_gold_01 se_decide TE outline"><span class="b_screen"></span>The Story So Far</p>
+		<p class="sb_gold_01 se_decide TE outline"><span class="b_screen"></span>至今的剧情</p>
 	<%="<% } else if(model.sectionNo) { %\>"%>
 		<h2 class="sectionNumber"><%="<%= model.sectionNo %\>"%></h2>
 	<%="<% } %\>"%>
@@ -103,8 +103,8 @@
 </script>
 
 <script type="text/template" id="MirrorBattleSectionTemp">
-	<span class="sectionTitle">The Beginning of a Miracle</span>
-	<h2 class="sectionNumber">Chapter 12</h2>
+	<span class="sectionTitle">奇迹的开端</span>
+	<h2 class="sectionNumber">第 12 章</h2>
 	<p class="sb_gold_01 se_decide TE storyStart">
 		<span class="b_screen"></span>Playback
 	</p>
@@ -147,7 +147,7 @@
 <script type="text/template" id="OpenConditionPopupTemp">
 	<div class="popupInner">
 		<span class="closeDefault se_cancel popupCloseBtn TE"></span>
-		<p id="popupInfoDetailTitle" class="popupTitle common_title">Requirements to Unlock Story</p>
+		<p id="popupInfoDetailTitle" class="popupTitle common_title">剧情解锁条件</p>
 
 		<div class="popupTextArea">
 			<%="<% _.forEach(model.conditionList,function(txt,index){ %\>"%>
