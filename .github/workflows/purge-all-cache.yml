@@ -42,6 +42,7 @@ jobs:
       ESA_DOMAIN:        ${{ secrets.ESA_DOMAIN }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ZONE_ID:   ${{ secrets.CLOUDFLARE_ZONE_ID }}
+      CLOUDFLARE_DOMAIN:    ${{ secrets.CLOUDFLARE_DOMAIN }}
       DOMAIN_CHOICE:     ${{ github.event.inputs.domain_choice }}
 
     steps:
@@ -284,7 +285,7 @@ jobs:
                   ))
               if domain_choice in ('cloudflare', 'both'):
                   targets.append((
-                      'CDN', 'R2_DOMAIN',
+                      'CDN', 'CLOUDFLARE_DOMAIN',
                       lambda d: purge_cloudflare(
                           os.environ.get('CLOUDFLARE_API_TOKEN', ''),
                           os.environ.get('CLOUDFLARE_ZONE_ID', ''), d)
