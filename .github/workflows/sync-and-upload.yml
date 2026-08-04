@@ -135,7 +135,9 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
-          fetch-depth: 2
+          # 需要完整历史：detect 步骤要 diff「上次同步点 → 最新」的整个
+          # 区间，浅克隆拿不到旧提交
+          fetch-depth: 0
 
       - name: 🛡 安全护栏（校验 origin 指向预期下游仓库）
         # checkout 完后立刻校验本地 git 的 origin URL，确认我们真的
@@ -264,6 +266,9 @@ jobs:
           gh repo sync "${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}" \
               --source "${UPSTREAM_OWNER}/${UPSTREAM_REPO}" \
               --branch main --force
+          # 记录同步前的下游 HEAD——detect 步骤以它为起点 diff，
+          # 这样上游一次推多个 commit 也能全部纳入变动范围
+          echo "PRE_SYNC_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
           # 重新拉取，让本地 workspace 含上游最新内容
           git fetch origin main
           git reset --hard origin/main
@@ -276,7 +281,15 @@ jobs:
       - name: 🔍 检测变动范围
         id: detect
         run: |
-          CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "ALL")
+          # 对比「同步前的下游 HEAD → 同步后的最新 HEAD」整个区间，
+          # 而不是只看最后一个 commit——否则上游一次推多个 commit 时，
+          # 只有 HEAD 那个 commit 的文件会被检测到，其余全部漏掉。
+          # PRE_SYNC_SHA 为空说明本次没有同步（无新内容），变动为空。
+          if [ -n "$PRE_SYNC_SHA" ]; then
+            CHANGED=$(git diff --name-only "$PRE_SYNC_SHA" HEAD 2>/dev/null || echo "ALL")
+          else
+            CHANGED=""
+          fi
           echo "变动文件:"; echo "$CHANGED"
 
           HAS_SCENARIO=0
