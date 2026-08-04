@@ -602,7 +602,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             {
               b.responseSetStorage(a);
               d++;
-              f.charaList[d] ? l() : (console.log("卡端"), p())
+              f.charaList[d] ? l() : (console.log("卡牌结束"), p())
             },
             l = function()
             {
@@ -679,7 +679,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             {
               b.responseSetStorage(a);
               d++;
-              f.charaList[d] ? l() : (console.log("卡端"), m())
+              f.charaList[d] ? l() : (console.log("卡牌结束"), m())
             },
             l = function()
             {
