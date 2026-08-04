@@ -1,1120 +1,1120 @@
 {
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.01,
-                "bg": "black",
-                "bgm": "stop",
-                "item": [
-                    {
-                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaBack"
-                    },
-                    {
-                        "path": "resource/scenario/img/scene0/scene_23.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaFront"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "autoTurnLast": 1,
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "item": [
-                    {
-                        "path": "resource/scenario/img/scene0/scene_23.png",
-                        "visible": "hide"
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 1.5,
-                "item": [
-                    {
-                        "path": "resource/scenario/img/scene0/scene_24.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaFront"
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.2,
-                "bg": "bg_adv_46412.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200300,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200100,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "item": [
-                    {
-                        "anchor": "skip",
-                        "path": "resource/scenario/img/scene0/calender_day24.png",
-                        "posX": -4,
-                        "posY": -50,
-                        "visible": "appear",
-                        "zOrder": "messageFront"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "bgm": "bgm01_anime15",
-                "chara": [
-                    {
-                        "id": 200100,
-                        "motion": 201,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-1"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvRight": "いくよっ、ほむらちゃん！",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200300,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-2"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "うんっ！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200100,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-3"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvRight": "[flashEffect:flashWhite2][se:5007_shooting_05_s]やぁっ"
-            },
-            {
-                "autoTurnLast": 0.4,
-                "chara": [
-                    {
-                        "id": 200300,
-                        "motion": 400,
-                        "voiceFull": "fullvoice/section_104202/vo_full_903124-030-4"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "[flashEffect:flashWhite1][surround:8043_gunshot]えいっ！"
-            },
-            {
-                "autoTurnLast": 0.4,
-                "flashEffect": "flashWhite1",
-                "surround": "8043_gunshot"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 200300,
-                        "voiceFullStop": "fullvoice/section_104202/vo_full_903124-030-4"
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 200100
-                    }
-                ],
-                "textAvClear": 1
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 641200,
-                        "pos": 1,
-                        "scale": 1.5
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.4,
-                "bgEffect": "shakeSmall",
-                "chara": [
-                    {
-                        "effect": "shakeModelOffset",
-                        "id": 641200
-                    }
-                ],
-                "flashEffect": "flashRed2",
-                "se": "6007_hit_shooting_05_s"
-            },
-            {
-                "autoTurnLast": 0.4,
-                "bgEffect": "shakeSmall",
-                "chara": [
-                    {
-                        "effect": "7002_damage01",
-                        "id": 641200
-                    }
-                ],
-                "surround": "2002A01"
-            },
-            {
-                "autoTurnLast": 0.8,
-                "bgEffect": "shakeSmall",
-                "chara": [
-                    {
-                        "effect": "7003_damage02",
-                        "id": 641200
-                    }
-                ],
-                "surround": "2002A02"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 641200
-                    }
-                ],
-                "textAvClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "bg_adv_46412.jpg",
-                "bgChangeEffect": "cameraPan"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200913,
-                        "motion": 1,
-                        "pos": 1,
-                        "posX": -150
-                    }
-                ],
-                "turnEffect": "thinking"
-            },
-            {
-                "FnarrationCoverColor": "textBlack",
-                "FnarrationCoverOpacity": 110,
-                "FnarrationEffect": "in",
-                "FnarrationFontSize": 23,
-                "FnarrationHeight": 100,
-                "FnarrationLineMargin": 30,
-                "FnarrationLineSpace": 20,
-                "FnarrationOutlineColor": "textBlack",
-                "FnarrationOutlineWeight": 2,
-                "FnarrationTextColor": "textMabayu",
-                "FnarrationWidth": 350,
-                "FnarrationX": 160,
-                "FnarrationY": 150,
-                "chara": [
-                    {
-                        "id": 200913,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-5"
-                    }
-                ],
-                "nameFnarration": "まばゆ",
-                "progressFnarration": "(暁美さんと鹿目さん@ふたりで魔女と戦って…)",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200913,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-6"
-                    }
-                ],
-                "progressFnarration": "(がんばってるけど、でも…)"
-            },
-            {
-                "FnarrationEffect": "out",
-                "autoTurnLast": 0.01
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 200913
-                    }
-                ],
-                "turnEffect": "stop"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "bg_adv_46412.jpg",
-                "bgChangeEffect": "cameraPan"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 641200,
-                        "pos": 1,
-                        "scale": 1.5
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.8,
-                "bgEffect": "shakeSmall",
-                "flashEffect": "flashWhite2"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 641200
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200100,
-                        "motion": 0,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200300,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_060.exp3.json",
-                        "id": 200100,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-7"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvRight": "[flashEffect:flashRed2][se:3001_chara_damage][chara:200100:effect_shake][bgEffect:shakeSmall]きゃぁっ！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200300,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-8"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "鹿目さんっ！時間を…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200100,
-                        "motion": 201,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-9"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvRight": "待って！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-10"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvRight": "無駄遣いしなくても@ちゃんと戦えるから…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200300,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-11"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "でも…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-12"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvRight": "魔法少女としては@わたしの方が先輩だよ"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-13"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvRight": "囮の役目は、まかせて！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200300,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-14"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "鹿目さん…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200100,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-15"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvRight": "[flashEffect:flashWhite2][se:5007_shooting_05_s]やぁっ！"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 200300
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 200100
-                    }
-                ],
-                "textAvClear": 1
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 641200,
-                        "pos": 1,
-                        "scale": 1.5
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 1,
-                "bgEffect": "shakeSmall",
-                "chara": [
-                    {
-                        "effect": "7002_damage01",
-                        "id": 641200
-                    }
-                ],
-                "se": "6007_hit_shooting_05_s"
-            },
-            {
-                "autoTurnLast": 0.4,
-                "bgEffect": "shakeSmall",
-                "flashEffect": "flashWhite2"
-            },
-            {
-                "autoTurnLast": 0.8,
-                "bgEffect": "shakeSmall",
-                "flashEffect": "flashWhite2"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 641200
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200100,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_060.exp3.json",
-                        "id": 200100
-                    }
-                ],
-                "nameAvCenter": "まどか",
-                "textAvCenter": "[flashEffect:flashRed2][se:3001_chara_damage][chara:200100:effect_shake:voiceFull_fullvoice/section_104202/vo_full_903124-030-16][bgEffect:shakeSmall]くっ！",
-                "textAvColor": "textMadoka"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200100,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-17",
-                        "voiceFullStop": "fullvoice/section_104202/vo_full_903124-030-16"
-                    }
-                ],
-                "nameAvCenter": "まどか",
-                "textAvCenter": "[flashEffect:flashRed2][se:3001_chara_damage][chara:200100:effect_shake][bgEffect:shakeLarge]きゃっ！"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 200100,
-                        "pos": 2
-                    }
-                ],
-                "textAvClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200300,
-                        "motion": 200,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-18"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "鹿目さん！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200100,
-                        "motion": 0,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-19"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvRight": "まだだよっ!!"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-20"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvRight": "さやかちゃんや@マミさんの分も…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200100,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-21"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvRight": "わたしが、がんばらなきゃ!!"
-            },
-            {
-                "autoTurnLast": 1.3,
-                "flashEffect": "flashWhite2",
-                "se": "5009_shooting_05_h",
-                "textAvClear": 1
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 200300
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 200100
-                    }
-                ],
-                "textAvClear": 1
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 641200,
-                        "pos": 1,
-                        "scale": 1.5
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 1,
-                "bgEffect": "shakeLarge",
-                "chara": [
-                    {
-                        "effect": "shakeModelOffset",
-                        "id": 641200
-                    }
-                ],
-                "flashEffect": "flashRed2",
-                "se": "6009_hit_shooting_05_h"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 641200
-                    }
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200100,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-22"
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200300,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvRight": "今だよ、ほむらちゃん！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200300,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-23"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "うんっ！"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "chara": [
-                    {
-                        "freeze": 1,
-                        "id": 200100
-                    }
-                ],
-                "nameNarration": "",
-                "narration": "[surround:8029_timestop]カチッ",
-                "narrationEffect": "in",
-                "textAvClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "flashEffect": "explosion",
-                "narrationEffect": "out"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "bg": "bg_adv_48412.jpg",
-                "bgChangeEffect": "fade"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 200300
-                    }
-                ],
-                "surround": "8049_runaway"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "item": [
-                    {
-                        "anchor": "skip",
-                        "path": "resource/scenario/img/scene0/calender_day24.png",
-                        "posX": -4,
-                        "posY": -50,
-                        "visible": "appear",
-                        "zOrder": "messageFront"
-                    }
-                ],
-                "turnChangeIn": "rollInFast"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200300,
-                        "motion": 0,
-                        "pos": 1,
-                        "slideIn": {
-                            "duration": 0.5,
-                            "easing": "EaseIn",
-                            "easingParam": 1.5,
-                            "offsetX": -1000
-                        },
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-24"
-                    }
-                ],
-                "nameAvCenter": "ほむら",
-                "textAvCenter": "はぁっ…はぁっ…はぁっ…",
-                "textAvColor": "textHomura",
-                "turnChangeOut": "rollOutFast"
-            },
-            {
-                "autoTurnLast": 0.01,
-                "textAvClear": 1
-            },
-            {
-                "FnarrationCoverColor": "textBlack",
-                "FnarrationCoverOpacity": 110,
-                "FnarrationEffect": "in",
-                "FnarrationFontSize": 23,
-                "FnarrationHeight": 100,
-                "FnarrationLineMargin": 30,
-                "FnarrationLineSpace": 20,
-                "FnarrationOutlineColor": "textBlack",
-                "FnarrationOutlineWeight": 2,
-                "FnarrationTextColor": "textMabayu",
-                "FnarrationWidth": 370,
-                "FnarrationX": 0,
-                "FnarrationY": -30,
-                "nameFnarration": "まばゆ",
-                "progressFnarration": "(鹿目さんが切り拓いた道を@暁美さんが走って…)",
-                "textAvColor": "textMabayu",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-25"
-            },
-            {
-                "FnarrationEffect": "out",
-                "autoTurnLast": 0.01
-            },
-            {
-                "autoTurnLast": 1,
-                "chara": [
-                    {
-                        "id": 200300,
-                        "motion": 200
-                    }
-                ],
-                "flashEffect": "flashWhite1",
-                "surround": "8076_throwbomb"
-            },
-            {
-                "autoTurnLast": 1,
-                "chara": [
-                    {
-                        "id": 200300,
-                        "motion": 400
-                    }
-                ],
-                "flashEffect": "flashWhite1",
-                "surround": "8076_throwbomb"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 200300
-                    }
-                ],
-                "nameNarration": "",
-                "narration": "[surround:8029_timestop]カチッ",
-                "narrationEffect": "in",
-                "textAvClear": 1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "flashEffect": "explosion",
-                "narrationEffect": "out"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "bg": "bg_adv_46412.jpg",
-                "bgChangeEffect": "fade"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 641200,
-                        "pos": 1,
-                        "scale": 1.5
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bgEffect": "shakeLarge",
-                "bgm": "stop",
-                "flashEffect": "explosion",
-                "surround": "8012_explosion"
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 2,
-                        "filePath": "resource/image_native/effect/story/general/3011_black_smoke.ExportJson",
-                        "zOrder": "charaBack"
-                    }
-                ],
-                "autoTurnLast": 0.1
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bgEffect": "shakeLarge",
-                "flashEffect": "explosion"
-            },
-            {
-                "armatureList": [
-                    {
-                        "animation": [
-                            "action"
-                        ],
-                        "armatureId": 1,
-                        "filePath": "resource/image_native/effect/story/general/4011_explosion.ExportJson",
-                        "zOrder": "charaFront"
-                    }
-                ],
-                "autoTurnLast": 0.1
-            },
-            {
-                "autoTurnLast": 0.8,
-                "chara": [
-                    {
-                        "effect": "shakeModelOffset",
-                        "id": 641200
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 1.5,
-                "bgm": "stop",
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 641200
-                    }
-                ],
-                "se": "3102_enemy_dead",
-                "textAvClear": 1
-            },
-            {
-                "autoTurnLast": 0.5,
-                "deleteArmatureList": [
-                    2
-                ]
-            },
-            {
-                "autoTurnLast": 2,
-                "bg": "bg_adv_23121.jpg",
-                "bgChangeEffect": "exitWitchSpace",
-                "se": "7209_gate_close"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_051.exp3.json",
-                        "id": 200100,
-                        "motion": 0,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-26"
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200300,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "surround": "7009_night_townbuzz",
-                "textAvColor": "textMadoka",
-                "textAvRight": "やった…倒した…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 200100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-27"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvRight": "ほむらちゃん、やったよ@わたしたち、ふたりだけでも…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_031.exp3.json",
-                        "id": 200300,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-28"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "鹿目さんッ!!"
-            },
-            {
-                "bgm": "bgm01_anime11",
-                "chara": [
-                    {
-                        "id": 200300,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-29"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "surround": "stop",
-                "textAvLeft": "怪我は？大丈夫？@痛いところがあったら…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_041.exp3.json",
-                        "id": 200100,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-30"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvRight": "あ…ううん、大丈夫だよ@ありがとう、ほむらちゃん"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200300,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-31"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "でも…一度戦っただけで@ソウルジェムがこんなに…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200100,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-32"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvRight": "あははは…確かにちょっと@魔法を無駄遣いしちゃったかも"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-33"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvRight": "でも、ちゃんと魔女を倒せたし"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200100,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-34"
-                    }
-                ],
-                "nameAvRight": "まどか",
-                "textAvRight": "この調子で、ワルプルギスの夜も@やっつけちゃおう！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200300,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-35"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "…うん"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 200300
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 200100
-                    }
-                ],
-                "textAvClear": 1
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200913,
-                        "motion": 0,
-                        "pos": 1,
-                        "posX": -150
-                    }
-                ],
-                "turnEffect": "thinking"
-            },
-            {
-                "FnarrationCoverColor": "textBlack",
-                "FnarrationCoverOpacity": 110,
-                "FnarrationEffect": "in",
-                "FnarrationFontSize": 23,
-                "FnarrationHeight": 100,
-                "FnarrationLineMargin": 30,
-                "FnarrationLineSpace": 20,
-                "FnarrationOutlineColor": "textBlack",
-                "FnarrationOutlineWeight": 2,
-                "FnarrationTextColor": "textMabayu",
-                "FnarrationWidth": 350,
-                "FnarrationX": 160,
-                "FnarrationY": 150,
-                "chara": [
-                    {
-                        "id": 200913,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-36"
-                    }
-                ],
-                "nameFnarration": "まばゆ",
-                "progressFnarration": "(暁美さんの表情@曇って見えますね)",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200913,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-37"
-                    }
-                ],
-                "progressFnarration": "(やはりふたりでは限界が…)"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200913,
-                        "lipSynch": 0,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-38"
-                    }
-                ],
-                "progressFnarration": "(私が名乗り出て@協力するべき…なんですか？)"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200913,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-39"
-                    }
-                ],
-                "progressFnarration": "(それとも…)"
-            },
-            {
-                "FnarrationEffect": "out",
-                "autoTurnLast": 2,
-                "turnChangeIn": "fadeIn"
-            }
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.01,
+        "bg": "black",
+        "bgm": "stop",
+        "item": [
+          {
+            "path": "resource/scenario/img/scene0/scene_bg.jpg",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaBack"
+          },
+          {
+            "path": "resource/scenario/img/scene0/scene_23.png",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaFront"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "autoTurnLast": 1,
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "item": [
+          {
+            "path": "resource/scenario/img/scene0/scene_23.png",
+            "visible": "hide"
+          }
         ]
-    },
-    "version": 3
+      },
+      {
+        "autoTurnLast": 1.5,
+        "item": [
+          {
+            "path": "resource/scenario/img/scene0/scene_24.png",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaFront"
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.2,
+        "bg": "bg_adv_46412.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200300,
+            "motion": 0,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200100,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "item": [
+          {
+            "anchor": "skip",
+            "path": "resource/scenario/img/scene0/calender_day24.png",
+            "posX": -4,
+            "posY": -50,
+            "visible": "appear",
+            "zOrder": "messageFront"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "bgm": "bgm01_anime15",
+        "chara": [
+          {
+            "id": 200100,
+            "motion": 201,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-1"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "我们上吧，小焰！",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "id": 200300,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-2"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "嗯！"
+      },
+      {
+        "chara": [
+          {
+            "id": 200100,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-3"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "[flashEffect:flashWhite2][se:5007_shooting_05_s]呀啊"
+      },
+      {
+        "autoTurnLast": 0.4,
+        "chara": [
+          {
+            "id": 200300,
+            "motion": 400,
+            "voiceFull": "fullvoice/section_104202/vo_full_903124-030-4"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "[flashEffect:flashWhite1][surround:8043_gunshot]嘿！"
+      },
+      {
+        "autoTurnLast": 0.4,
+        "flashEffect": "flashWhite1",
+        "surround": "8043_gunshot"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 200300,
+            "voiceFullStop": "fullvoice/section_104202/vo_full_903124-030-4"
+          },
+          {
+            "effect": "fadeout",
+            "id": 200100
+          }
+        ],
+        "textAvClear": 1
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 641200,
+            "pos": 1,
+            "scale": 1.5
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.4,
+        "bgEffect": "shakeSmall",
+        "chara": [
+          {
+            "effect": "shakeModelOffset",
+            "id": 641200
+          }
+        ],
+        "flashEffect": "flashRed2",
+        "se": "6007_hit_shooting_05_s"
+      },
+      {
+        "autoTurnLast": 0.4,
+        "bgEffect": "shakeSmall",
+        "chara": [
+          {
+            "effect": "7002_damage01",
+            "id": 641200
+          }
+        ],
+        "surround": "2002A01"
+      },
+      {
+        "autoTurnLast": 0.8,
+        "bgEffect": "shakeSmall",
+        "chara": [
+          {
+            "effect": "7003_damage02",
+            "id": 641200
+          }
+        ],
+        "surround": "2002A02"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 641200
+          }
+        ],
+        "textAvClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "bg_adv_46412.jpg",
+        "bgChangeEffect": "cameraPan"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200913,
+            "motion": 1,
+            "pos": 1,
+            "posX": -150
+          }
+        ],
+        "turnEffect": "thinking"
+      },
+      {
+        "FnarrationCoverColor": "textBlack",
+        "FnarrationCoverOpacity": 110,
+        "FnarrationEffect": "in",
+        "FnarrationFontSize": 23,
+        "FnarrationHeight": 100,
+        "FnarrationLineMargin": 30,
+        "FnarrationLineSpace": 20,
+        "FnarrationOutlineColor": "textBlack",
+        "FnarrationOutlineWeight": 2,
+        "FnarrationTextColor": "textMabayu",
+        "FnarrationWidth": 350,
+        "FnarrationX": 160,
+        "FnarrationY": 150,
+        "chara": [
+          {
+            "id": 200913,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-5"
+          }
+        ],
+        "nameFnarration": "眩",
+        "progressFnarration": "（晓美同学和鹿目同学@两个人正在和魔女战斗…）",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "chara": [
+          {
+            "id": 200913,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-6"
+          }
+        ],
+        "progressFnarration": "（虽然她们很努力，但是…）"
+      },
+      {
+        "FnarrationEffect": "out",
+        "autoTurnLast": 0.01
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 200913
+          }
+        ],
+        "turnEffect": "stop"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "bg_adv_46412.jpg",
+        "bgChangeEffect": "cameraPan"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 641200,
+            "pos": 1,
+            "scale": 1.5
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.8,
+        "bgEffect": "shakeSmall",
+        "flashEffect": "flashWhite2"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 641200
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200100,
+            "motion": 0,
+            "pos": 2
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200300,
+            "motion": 0,
+            "pos": 0
+          }
+        ]
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_060.exp3.json",
+            "id": 200100,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-7"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "[flashEffect:flashRed2][se:3001_chara_damage][chara:200100:effect_shake][bgEffect:shakeSmall]呀啊！"
+      },
+      {
+        "chara": [
+          {
+            "id": 200300,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-8"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "鹿目同学！赶紧把时间…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200100,
+            "motion": 201,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-9"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "等等！"
+      },
+      {
+        "chara": [
+          {
+            "id": 200100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-10"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvRight": "不用那么浪费魔力@我也能正常战斗的…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200300,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-11"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "但是…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-12"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "在魔法少女这方面@我才是你的前辈哦"
+      },
+      {
+        "chara": [
+          {
+            "id": 200100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-13"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvRight": "诱饵的任务就交给我吧！"
+      },
+      {
+        "chara": [
+          {
+            "id": 200300,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-14"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "鹿目同学…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200100,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-15"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "[flashEffect:flashWhite2][se:5007_shooting_05_s]呀啊！"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 200300
+          },
+          {
+            "effect": "fadeout",
+            "id": 200100
+          }
+        ],
+        "textAvClear": 1
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 641200,
+            "pos": 1,
+            "scale": 1.5
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 1,
+        "bgEffect": "shakeSmall",
+        "chara": [
+          {
+            "effect": "7002_damage01",
+            "id": 641200
+          }
+        ],
+        "se": "6007_hit_shooting_05_s"
+      },
+      {
+        "autoTurnLast": 0.4,
+        "bgEffect": "shakeSmall",
+        "flashEffect": "flashWhite2"
+      },
+      {
+        "autoTurnLast": 0.8,
+        "bgEffect": "shakeSmall",
+        "flashEffect": "flashWhite2"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 641200
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200100,
+            "motion": 0,
+            "pos": 1
+          }
+        ]
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_060.exp3.json",
+            "id": 200100
+          }
+        ],
+        "nameAvCenter": "圆",
+        "textAvCenter": "[flashEffect:flashRed2][se:3001_chara_damage][chara:200100:effect_shake:voiceFull_fullvoice/section_104202/vo_full_903124-030-16][bgEffect:shakeSmall]咕！",
+        "textAvColor": "textMadoka"
+      },
+      {
+        "chara": [
+          {
+            "id": 200100,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-17",
+            "voiceFullStop": "fullvoice/section_104202/vo_full_903124-030-16"
+          }
+        ],
+        "nameAvCenter": "圆",
+        "textAvCenter": "[flashEffect:flashRed2][se:3001_chara_damage][chara:200100:effect_shake][bgEffect:shakeLarge]呀啊！"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 200100,
+            "pos": 2
+          }
+        ],
+        "textAvClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200300,
+            "motion": 200,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-18"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "鹿目同学！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200100,
+            "motion": 0,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-19"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "我还能战斗！！"
+      },
+      {
+        "chara": [
+          {
+            "id": 200100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-20"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvRight": "我得连同沙耶香@和麻美学姐的份…"
+      },
+      {
+        "chara": [
+          {
+            "id": 200100,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-21"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvRight": "一起努力才行！！"
+      },
+      {
+        "autoTurnLast": 1.3,
+        "flashEffect": "flashWhite2",
+        "se": "5009_shooting_05_h",
+        "textAvClear": 1
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 200300
+          },
+          {
+            "effect": "fadeout",
+            "id": 200100
+          }
+        ],
+        "textAvClear": 1
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 641200,
+            "pos": 1,
+            "scale": 1.5
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 1,
+        "bgEffect": "shakeLarge",
+        "chara": [
+          {
+            "effect": "shakeModelOffset",
+            "id": 641200
+          }
+        ],
+        "flashEffect": "flashRed2",
+        "se": "6009_hit_shooting_05_h"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 641200
+          }
+        ]
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200100,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-22"
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200300,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvRight": "就是现在，小焰！"
+      },
+      {
+        "chara": [
+          {
+            "id": 200300,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-23"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "嗯！"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "chara": [
+          {
+            "freeze": 1,
+            "id": 200100
+          }
+        ],
+        "nameNarration": "",
+        "narration": "[surround:8029_timestop]咔嚓",
+        "narrationEffect": "in",
+        "textAvClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "flashEffect": "explosion",
+        "narrationEffect": "out"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "bg": "bg_adv_48412.jpg",
+        "bgChangeEffect": "fade"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 200300
+          }
+        ],
+        "surround": "8049_runaway"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "item": [
+          {
+            "anchor": "skip",
+            "path": "resource/scenario/img/scene0/calender_day24.png",
+            "posX": -4,
+            "posY": -50,
+            "visible": "appear",
+            "zOrder": "messageFront"
+          }
+        ],
+        "turnChangeIn": "rollInFast"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200300,
+            "motion": 0,
+            "pos": 1,
+            "slideIn": {
+              "duration": 0.5,
+              "easing": "EaseIn",
+              "easingParam": 1.5,
+              "offsetX": -1000
+            },
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-24"
+          }
+        ],
+        "nameAvCenter": "焰",
+        "textAvCenter": "哈…哈…哈…",
+        "textAvColor": "textHomura",
+        "turnChangeOut": "rollOutFast"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "textAvClear": 1
+      },
+      {
+        "FnarrationCoverColor": "textBlack",
+        "FnarrationCoverOpacity": 110,
+        "FnarrationEffect": "in",
+        "FnarrationFontSize": 23,
+        "FnarrationHeight": 100,
+        "FnarrationLineMargin": 30,
+        "FnarrationLineSpace": 20,
+        "FnarrationOutlineColor": "textBlack",
+        "FnarrationOutlineWeight": 2,
+        "FnarrationTextColor": "textMabayu",
+        "FnarrationWidth": 370,
+        "FnarrationX": 0,
+        "FnarrationY": -30,
+        "nameFnarration": "眩",
+        "progressFnarration": "（晓美同学奔跑在@鹿目同学开辟出的道路上…）",
+        "textAvColor": "textMabayu",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-25"
+      },
+      {
+        "FnarrationEffect": "out",
+        "autoTurnLast": 0.01
+      },
+      {
+        "autoTurnLast": 1,
+        "chara": [
+          {
+            "id": 200300,
+            "motion": 200
+          }
+        ],
+        "flashEffect": "flashWhite1",
+        "surround": "8076_throwbomb"
+      },
+      {
+        "autoTurnLast": 1,
+        "chara": [
+          {
+            "id": 200300,
+            "motion": 400
+          }
+        ],
+        "flashEffect": "flashWhite1",
+        "surround": "8076_throwbomb"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 200300
+          }
+        ],
+        "nameNarration": "",
+        "narration": "[surround:8029_timestop]咔嚓",
+        "narrationEffect": "in",
+        "textAvClear": 1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "flashEffect": "explosion",
+        "narrationEffect": "out"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "bg": "bg_adv_46412.jpg",
+        "bgChangeEffect": "fade"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 641200,
+            "pos": 1,
+            "scale": 1.5
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bgEffect": "shakeLarge",
+        "bgm": "stop",
+        "flashEffect": "explosion",
+        "surround": "8012_explosion"
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 2,
+            "filePath": "resource/image_native/effect/story/general/3011_black_smoke.ExportJson",
+            "zOrder": "charaBack"
+          }
+        ],
+        "autoTurnLast": 0.1
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bgEffect": "shakeLarge",
+        "flashEffect": "explosion"
+      },
+      {
+        "armatureList": [
+          {
+            "animation": [
+              "action"
+            ],
+            "armatureId": 1,
+            "filePath": "resource/image_native/effect/story/general/4011_explosion.ExportJson",
+            "zOrder": "charaFront"
+          }
+        ],
+        "autoTurnLast": 0.1
+      },
+      {
+        "autoTurnLast": 0.8,
+        "chara": [
+          {
+            "effect": "shakeModelOffset",
+            "id": 641200
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 1.5,
+        "bgm": "stop",
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 641200
+          }
+        ],
+        "se": "3102_enemy_dead",
+        "textAvClear": 1
+      },
+      {
+        "autoTurnLast": 0.5,
+        "deleteArmatureList": [
+          2
+        ]
+      },
+      {
+        "autoTurnLast": 2,
+        "bg": "bg_adv_23121.jpg",
+        "bgChangeEffect": "exitWitchSpace",
+        "se": "7209_gate_close"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_051.exp3.json",
+            "id": 200100,
+            "motion": 0,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-26"
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200300,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "nameAvRight": "圆",
+        "surround": "7009_night_townbuzz",
+        "textAvColor": "textMadoka",
+        "textAvRight": "成功了…打倒了…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 200100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-27"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvRight": "小焰，我们成功了@就算只有我们两个…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_031.exp3.json",
+            "id": 200300,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-28"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "鹿目同学！！"
+      },
+      {
+        "bgm": "bgm01_anime11",
+        "chara": [
+          {
+            "id": 200300,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-29"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "surround": "stop",
+        "textAvLeft": "有没有受伤？没事吧？@要是有哪里痛…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_041.exp3.json",
+            "id": 200100,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-30"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "啊…不，我没事的哦@谢谢你，小焰"
+      },
+      {
+        "chara": [
+          {
+            "id": 200300,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-31"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "但是…还只战斗了一次@灵魂宝石就这么…"
+      },
+      {
+        "chara": [
+          {
+            "id": 200100,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-32"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "啊哈哈哈…@可能确实有点乱用太多魔法了"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-33"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvRight": "不过，我们@还是顺利打倒了魔女"
+      },
+      {
+        "chara": [
+          {
+            "id": 200100,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-34"
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvRight": "就保持这个状态@把魔女之夜也干掉吧！"
+      },
+      {
+        "chara": [
+          {
+            "id": 200300,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-35"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "…嗯"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 200300
+          },
+          {
+            "effect": "fadeout",
+            "id": 200100
+          }
+        ],
+        "textAvClear": 1
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200913,
+            "motion": 0,
+            "pos": 1,
+            "posX": -150
+          }
+        ],
+        "turnEffect": "thinking"
+      },
+      {
+        "FnarrationCoverColor": "textBlack",
+        "FnarrationCoverOpacity": 110,
+        "FnarrationEffect": "in",
+        "FnarrationFontSize": 23,
+        "FnarrationHeight": 100,
+        "FnarrationLineMargin": 30,
+        "FnarrationLineSpace": 20,
+        "FnarrationOutlineColor": "textBlack",
+        "FnarrationOutlineWeight": 2,
+        "FnarrationTextColor": "textMabayu",
+        "FnarrationWidth": 350,
+        "FnarrationX": 160,
+        "FnarrationY": 150,
+        "chara": [
+          {
+            "id": 200913,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-36"
+          }
+        ],
+        "nameFnarration": "眩",
+        "progressFnarration": "（晓美同学的表情@看起来很不明朗呢）",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "chara": [
+          {
+            "id": 200913,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-37"
+          }
+        ],
+        "progressFnarration": "（果然只靠两个人还是太极限了…）"
+      },
+      {
+        "chara": [
+          {
+            "id": 200913,
+            "lipSynch": 0,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-38"
+          }
+        ],
+        "progressFnarration": "（我也应该主动上前@提出帮忙…吗？）"
+      },
+      {
+        "chara": [
+          {
+            "id": 200913,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903124-030-39"
+          }
+        ],
+        "progressFnarration": "（还是说…）"
+      },
+      {
+        "FnarrationEffect": "out",
+        "autoTurnLast": 2,
+        "turnChangeIn": "fadeIn"
+      }
+    ]
+  },
+  "version": 3
 }

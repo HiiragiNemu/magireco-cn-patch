@@ -1,612 +1,612 @@
 {
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.2,
-                "bg": "white",
-                "nameNarration": "侍女の手記",
-                "narrationCoverOpacity": 0,
-                "narrationEffect": "in",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "narration": "[textBlack:1429年4月@ラピヌ様はコルボー様とともに]@[textBlack:オルレアン近郊に遠征中…]",
-                "narrationHAlignment": "left",
-                "narrationPosX": 180,
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "narration": "[textBlack:そして、あのお方からの命令を伝えるため]@[textBlack:ミヌゥ様が出立なさった]"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "bg": "bg_adv_20091.jpg",
-                "bgm": "bgm05_event07",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 830400,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "narrationEffect": "out",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 830400
-                    }
-                ],
-                "nameCenter": "",
-                "textCenter": "[chara:830400:effect_7002_damage01][se:3001_chara_damage][bgEffect:shakeSmall]ぐはっ!?",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "chara": [
-                    {
-                        "effect": "shake",
-                        "id": 830400
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 1,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 830400
-                    }
-                ],
-                "se": "3002_chara_dead"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 402700,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 402500,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameNarration": "",
-                "narration": "グチャ…",
-                "narrationBg": "bg_adv_20091.jpg",
-                "narrationEffect": "in"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 402700,
-                        "motion": 100
-                    }
-                ],
-                "nameLeft": "ラピヌ",
-                "nameRight": "コルボー",
-                "narrationEffect": "out",
-                "textLeft": "フーン♪ フーン♪"
-            },
-            {
-                "textRight": "ラピヌお姉さま@ほどほどにしないと汚れますよ"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 402700,
-                        "motion": 200
-                    }
-                ],
-                "textLeft": "だーめ@まだまだ遊ぶの！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 402700,
-                        "motion": 1
-                    }
-                ],
-                "textLeft": "汚れたら後でコルボーに"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 402700
-                    }
-                ],
-                "textLeft": "お風呂で洗ってもらうから@いいのー♪"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 402500,
-                        "motion": 100
-                    }
-                ],
-                "textRight": "そりゃ@かまいませんが"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 402700,
-                        "motion": 400
-                    }
-                ],
-                "textLeft": "おおっ!?"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 402700
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 402500
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 1.5,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 402400,
-                        "motion": 0,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 831900,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "flashEffect": "explosion",
-                "item": [
-                    {
-                        "iPhoneXScale": 1,
-                        "path": "resource/scenario/img/51065_singleraid_tart2/51065_minou_magic_circle.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaFront"
-                    }
-                ],
-                "se": "3205_charm"
-            },
-            {
-                "autoTurnLast": 2,
-                "flashEffect": "explosion",
-                "item": [
-                    {
-                        "path": "resource/scenario/img/51065_singleraid_tart2/51065_minou_magic_circle.png",
-                        "visible": "hide"
-                    }
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 402400,
-                        "motion": 1
-                    }
-                ],
-                "nameRight": "ミヌゥ",
-                "textRight": "お姉さま方@ただ今戻りました"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 402400
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 831900
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 402700,
-                        "motion": 100,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 402500,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "textLeft": "おかえり～"
-            },
-            {
-                "nameRight": "コルボー",
-                "textRight": "戻ったか、ミヌゥ@何かご指示は出たのか？"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 402700
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 402500
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 402400,
-                        "motion": 0,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 831900,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameRight": "ミヌゥ",
-                "textRight": "えぇ、オルレアンには@この子とコルボーお姉さまが残り"
-            },
-            {
-                "textRight": "私とラピヌお姉さまは@一旦帰還せよ…と"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 402700,
-                        "motion": 200,
-                        "pos": 0
-                    }
-                ],
-                "textLeft": "えぇーっ！@もうちょっとで"
-            },
-            {
-                "textLeft": "オルレアンの人間どもを@ぜーんぶ壊せたのにーっ!!"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 402400,
-                        "motion": 200
-                    }
-                ],
-                "textRight": "だから…ですわ"
-            },
-            {
-                "textRight": "オルレアンをまだ保たせ@餌にしろ…と"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 402400,
-                        "motion": 1
-                    }
-                ],
-                "textRight": "ラピヌお姉さま@私たちがいては"
-            },
-            {
-                "textRight": "コルボーお姉さまも@戦いづらいでしょうから"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 402400
-                    }
-                ],
-                "textRight": "ここは我慢下さい"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 402700,
-                        "motion": 300
-                    }
-                ],
-                "textLeft": "ううう…@それはそうだけど…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 402400,
-                        "motion": 100
-                    }
-                ],
-                "textRight": "では、コルボーお姉さま@ご武運を"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 402500,
-                        "motion": 0,
-                        "pos": 2
-                    },
-                    {
-                        "id": 402700,
-                        "motion": 0
-                    }
-                ],
-                "nameRight": "コルボー",
-                "textRight": "ラピヌお姉さま"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 402500,
-                        "motion": 1
-                    }
-                ],
-                "textRight": "湯浴みの約束は@私が戻った後で…"
-            },
-            {
-                "autoTurnLast": 1,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 402500
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 402400,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 2,
-                "flashEffect": "explosion",
-                "item": [
-                    {
-                        "iPhoneXScale": 1,
-                        "path": "resource/scenario/img/51065_singleraid_tart2/51065_minou_magic_circle.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaFront"
-                    }
-                ],
-                "se": "3205_charm"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "bg": "white",
-                "bgm": "stop",
-                "nameNarration": "侍女の手記",
-                "narrationCoverOpacity": 0,
-                "narrationEffect": "in",
-                "turnChangeIn": "whiteIn",
-                "turnChangeInTime": 1.3,
-                "turnEffect": "stop"
-            },
-            {
-                "narration": "[textBlack:1429年5月7日@オルレアン近郊、トゥーレル砦にて]@[textBlack:“乙女”が動きを見せたとの報せ]",
-                "narrationHAlignment": "left",
-                "narrationPosX": 180,
-                "turnChangeOut": "whiteOut"
-            },
-            {
-                "narration": "[textBlack:コルボー様の身に]@[textBlack:何事もないとよいのですが…]"
-            },
-            {
-                "autoTurnLast": 0.7,
-                "bg": "bg_adv_20101.jpg",
-                "bgm": "bgm05_event04",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 831200,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "narrationEffect": "out",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "nameCenter": "",
-                "textCenter": "報告いたします！",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "textCenter": "フランス軍強襲！"
-            },
-            {
-                "textCenter": "先頭には@あの“乙女”がおります!!"
-            },
-            {
-                "nameNarration": "",
-                "narration": "[se:7107_arrivalone]カツン",
-                "narrationBg": "bg_adv_20101.jpg",
-                "narrationEffect": "in"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "bg": "bg_adv_20111.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 402500,
-                        "motion": 0,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 831900,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "",
-                "nameRight": "コルボー",
-                "narrationEffect": "out",
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "id": 402500,
-                        "motion": 1
-                    }
-                ],
-                "textRight": "はじめまして“乙女”",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "textRight": "この日を楽しみにしておりました"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 402500
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 831900
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 402100,
-                        "motion": 201,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 402200,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameLeft": "タルト",
-                "textLeft": "あなたが…@イングランドの魔法少女"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 402500,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "コルボー",
-                "textLeft": "イングランド？@そうか…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 402500,
-                        "motion": 100
-                    }
-                ],
-                "textLeft": "まだ何も@分かっちゃあいないんだな"
-            },
-            {
-                "textLeft": "私はコルボー"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 402500,
-                        "motion": 200
-                    }
-                ],
-                "textBg": "shout",
-                "textLeft": "分かりやすく言えば…@あんたらの敵だよ！"
-            },
-            {
-                "autoTurnLast": 2,
-                "turnChangeIn": "fadeIn"
-            }
-        ]
-    },
-    "version": 3
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.2,
+    "bg": "white",
+    "nameNarration": "侍女的手记",
+    "narrationCoverOpacity": 0,
+    "narrationEffect": "in",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "narration": "[textBlack:1429 四月 @拉皮努 与 可鲁波 ]@[textBlack:……] 一起在奥尔良附近进行探险",
+    "narrationHAlignment": "left",
+    "narrationPosX": 180,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "narration": "[textBlack:和]@[textBlack:米诺留下来传达该人的命令。]"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "bg": "bg_adv_20091.jpg",
+    "bgm": "bgm05_event07",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 830400,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 830400
+     }
+    ],
+    "nameCenter": "",
+    "textCenter": "[chara:830400:effect_7002_damage01][se:3001_chara_damage][bgEffect:shakeSmall] 咕哈！？",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "chara": [
+     {
+      "effect": "shake",
+      "id": 830400
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 1,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 830400
+     }
+    ],
+    "se": "3002_chara_dead"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 402700,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 402500,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameNarration": "",
+    "narration": "古查…",
+    "narrationBg": "bg_adv_20091.jpg",
+    "narrationEffect": "in"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp3.json",
+      "id": 402700,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "拉皮努",
+    "nameRight": "可鲁波",
+    "narrationEffect": "out",
+    "textLeft": "哼♪哼♪"
+   },
+   {
+    "textRight": "拉皮努姐姐@不节制的话会弄脏的。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 402700,
+      "motion": 200
+     }
+    ],
+    "textLeft": "Dame @ 我还在玩！"
+   },
+   {
+    "chara": [
+     {
+      "id": 402700,
+      "motion": 1
+     }
+    ],
+    "textLeft": "如果变脏，请稍后使用 可鲁波。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp3.json",
+      "id": 402700
+     }
+    ],
+    "textLeft": "@ 没问题，因为我会在浴缸里洗它♪"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp3.json",
+      "id": 402500,
+      "motion": 100
+     }
+    ],
+    "textRight": "好吧，我不介意@。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp3.json",
+      "id": 402700,
+      "motion": 400
+     }
+    ],
+    "textLeft": "哦！？"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 402700
+     },
+     {
+      "effect": "fadeout",
+      "id": 402500
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 1.5,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 402400,
+      "motion": 0,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp3.json",
+      "id": 831900,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "flashEffect": "explosion",
+    "item": [
+     {
+      "iPhoneXScale": 1,
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_minou_magic_circle.png",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear",
+      "zOrder": "charaFront"
+     }
+    ],
+    "se": "3205_charm"
+   },
+   {
+    "autoTurnLast": 2,
+    "flashEffect": "explosion",
+    "item": [
+     {
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_minou_magic_circle.png",
+      "visible": "hide"
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp3.json",
+      "id": 402400,
+      "motion": 1
+     }
+    ],
+    "nameRight": "米诺",
+    "textRight": "@姐妹刚刚回来"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 402400
+     },
+     {
+      "effect": "fadeout",
+      "id": 831900
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 402700,
+      "motion": 100,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 402500,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textLeft": "欢迎回来～"
+   },
+   {
+    "nameRight": "可鲁波",
+    "textRight": "你回来了吗？ 米诺@ 您收到任何指示了吗？"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 402700
+     },
+     {
+      "effect": "fadeout",
+      "id": 402500
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 402400,
+      "motion": 0,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp3.json",
+      "id": 831900,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameRight": "米诺",
+    "textRight": "那么，这个女孩@和姐姐可鲁波留在了奥尔良。"
+   },
+   {
+    "textRight": "拉皮努 和我 @ 应该回家了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 402700,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "textLeft": "耶！ @ 再一点点"
+   },
+   {
+    "textLeft": "我本可以消灭奥尔良的所有人类 @！！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 402400,
+      "motion": 200
+     }
+    ],
+    "textRight": "这就是为什么……"
+   },
+   {
+    "textRight": "让奥尔良保持静止并使用 @ 作为诱饵……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 402400,
+      "motion": 1
+     }
+    ],
+    "textRight": "拉皮努妹妹@我们在这里"
+   },
+   {
+    "textRight": "可鲁波 姐姐也会觉得很难打 @"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp3.json",
+      "id": 402400
+     }
+    ],
+    "textRight": "这里请耐心等待"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 402700,
+      "motion": 300
+     }
+    ],
+    "textLeft": "呜呜……@ 确实如此，但是……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 402400,
+      "motion": 100
+     }
+    ],
+    "textRight": "那么，可鲁波 妹妹 @ 祝你好运"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 402500,
+      "motion": 0,
+      "pos": 2
+     },
+     {
+      "id": 402700,
+      "motion": 0
+     }
+    ],
+    "nameRight": "可鲁波",
+    "textRight": "拉皮努姐姐大人"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp3.json",
+      "id": 402500,
+      "motion": 1
+     }
+    ],
+    "textRight": "泡澡的约定，就等我回来之后@再实现吧……"
+   },
+   {
+    "autoTurnLast": 1,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 402500
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 402400,
+      "motion": 0,
+      "pos": 2
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 2,
+    "flashEffect": "explosion",
+    "item": [
+     {
+      "iPhoneXScale": 1,
+      "path": "resource/scenario/img/51065_singleraid_tart2/51065_minou_magic_circle.png",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear",
+      "zOrder": "charaFront"
+     }
+    ],
+    "se": "3205_charm"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bg": "white",
+    "bgm": "stop",
+    "nameNarration": "侍女的手记",
+    "narrationCoverOpacity": 0,
+    "narrationEffect": "in",
+    "turnChangeIn": "whiteIn",
+    "turnChangeInTime": 1.3,
+    "turnEffect": "stop"
+   },
+   {
+    "narration": "[textBlack:1429 5 月 7 日 @ 报告“少女”在奥尔良附近的图雷勒斯堡出现移动 ]@[textBlack: ]",
+    "narrationHAlignment": "left",
+    "narrationPosX": 180,
+    "turnChangeOut": "whiteOut"
+   },
+   {
+    "narration": "[textBlack:可鲁波]@[textBlack:我希望你什么也没发生……]"
+   },
+   {
+    "autoTurnLast": 0.7,
+    "bg": "bg_adv_20101.jpg",
+    "bgm": "bgm05_event04",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 831200,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameCenter": "",
+    "textCenter": "我会举报的！",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "textCenter": "法军进攻！"
+   },
+   {
+    "textCenter": "开头就是那个“少女”@！！"
+   },
+   {
+    "nameNarration": "",
+    "narration": "[se:7107_arrivalone] 卡森",
+    "narrationBg": "bg_adv_20101.jpg",
+    "narrationEffect": "in"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "bg": "bg_adv_20111.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp3.json",
+      "id": 402500,
+      "motion": 0,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp3.json",
+      "id": 831900,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "",
+    "nameRight": "可鲁波",
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 402500,
+      "motion": 1
+     }
+    ],
+    "textRight": "很高兴认识你“乙女”",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "textRight": "我很期待这一天"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 402500
+     },
+     {
+      "effect": "fadeout",
+      "id": 831900
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 402100,
+      "motion": 201,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 402200,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameLeft": "塔鲁特",
+    "textLeft": "你…英格兰的@ 魔法少女"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp3.json",
+      "id": 402500,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "可鲁波",
+    "textLeft": "英格兰？ @我看到……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp3.json",
+      "id": 402500,
+      "motion": 100
+     }
+    ],
+    "textLeft": "我还是不明白@"
+   },
+   {
+    "textLeft": "我是可鲁波。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 402500,
+      "motion": 200
+     }
+    ],
+    "textBg": "shout",
+    "textLeft": "简单来说，@就是你的敌人！"
+   },
+   {
+    "autoTurnLast": 2,
+    "turnChangeIn": "fadeIn"
+   }
+  ]
+ },
+ "version": 3
 }

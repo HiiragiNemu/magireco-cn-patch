@@ -1,874 +1,874 @@
 {
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.01,
-                "bg": "black",
-                "bgm": "stop",
-                "item": [
-                    {
-                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaBack"
-                    },
-                    {
-                        "path": "resource/scenario/img/scene0/scene_08.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaFront"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "autoTurnLast": 1,
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "item": [
-                    {
-                        "path": "resource/scenario/img/scene0/scene_08.png",
-                        "visible": "hide"
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 1.5,
-                "item": [
-                    {
-                        "path": "resource/scenario/img/scene0/scene_10.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaFront"
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.2,
-                "bg": "bg_adv_20201.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 810200,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_040.exp3.json",
-                        "id": 200301,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "item": [
-                    {
-                        "anchor": "skip",
-                        "path": "resource/scenario/img/scene0/calender_day10.png",
-                        "posX": -4,
-                        "posY": -50,
-                        "visible": "appear",
-                        "zOrder": "messageFront"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "autoTurnLast": 2,
-                "bgm": "bgm01_anime03",
-                "chara": [
-                    {
-                        "id": 810200,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-1"
-                    }
-                ],
-                "nameAvLeft": "早乙女先生",
-                "textAvColorRGB": "255255255",
-                "textAvLeft": "はーい、それじゃ@自己紹介いってみよー",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200301,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-2"
-                    }
-                ],
-                "nameAvRight": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvRight": "暁美ほむらです！@よろしくお願いします"
-            },
-            {
-                "autoTurnFirst": 4,
-                "autoTurnNoDelay": 1,
-                "chara": [
-                    {
-                        "id": 810200,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-3"
-                    }
-                ],
-                "nameAvLeft": "早乙女先生",
-                "textAvColorRGB": "255255255",
-                "textAvLeft": "暁美さんは心臓の病気で@ずっと入院していたの"
-            },
-            {
-                "autoTurnLast": 2.8,
-                "chara": [
-                    {
-                        "id": 810200,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-4"
-                    }
-                ],
-                "nameAvLeft": "早乙女先生",
-                "textAvLeft": "久しぶりの学校だから色々と@戸惑うことも多いでしょう"
-            },
-            {
-                "autoTurnLast": 1.3,
-                "chara": [
-                    {
-                        "id": 810200,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-5"
-                    }
-                ],
-                "nameAvLeft": "早乙女先生",
-                "textAvLeft": "みんな助けてあげてね"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "bg": "bg_adv_20061.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200912,
-                        "motion": 0,
-                        "pos": 1,
-                        "posX": -150
-                    }
-                ],
-                "item": [
-                    {
-                        "anchor": "skip",
-                        "path": "resource/scenario/img/scene0/calender_day10.png",
-                        "posX": -4,
-                        "posY": -50,
-                        "visible": "appear",
-                        "zOrder": "messageFront"
-                    }
-                ],
-                "textAvClear": 1,
-                "turnChangeIn": "rollInFast",
-                "turnEffect": "thinking"
-            },
-            {
-                "FnarrationCoverColor": "textBlack",
-                "FnarrationCoverOpacity": 110,
-                "FnarrationEffect": "in",
-                "FnarrationFontSize": 23,
-                "FnarrationHeight": 100,
-                "FnarrationLineMargin": 30,
-                "FnarrationLineSpace": 20,
-                "FnarrationOutlineColor": "textBlack",
-                "FnarrationOutlineWeight": 2,
-                "FnarrationTextColor": "textMabayu",
-                "FnarrationWidth": 330,
-                "FnarrationX": 160,
-                "FnarrationY": 130,
-                "chara": [
-                    {
-                        "id": 200912,
-                        "lipSynch": 0,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-6"
-                    }
-                ],
-                "nameFnarration": "まばゆ",
-                "progressFnarration": "(ビンゴ！というやつですね)",
-                "textAvColor": "textMabayu",
-                "turnChangeOut": "rollOutFast"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200912,
-                        "lipSynch": 0,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-7"
-                    }
-                ],
-                "progressFnarration": "(暁美さんの自宅の場所も@わかりましたし)"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 200912,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-8"
-                    }
-                ],
-                "progressFnarration": "(あとは彼女が敵か味方か@それさえわかれば…)"
-            },
-            {
-                "FnarrationEffect": "out",
-                "autoTurnLast": 0.2,
-                "bg": "bg_adv_20201.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_040.exp3.json",
-                        "id": 200401,
-                        "motion": 1,
-                        "pos": 2,
-                        "soulGem": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_051.exp3.json",
-                        "id": 200101,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "item": [
-                    {
-                        "anchor": "skip",
-                        "path": "resource/scenario/img/scene0/calender_day10.png",
-                        "posX": -4,
-                        "posY": -50,
-                        "visible": "appear",
-                        "zOrder": "messageFront"
-                    }
-                ],
-                "textAvClear": 1,
-                "turnChangeIn": "rollInFast",
-                "turnEffect": "stop"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200401,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-9"
-                    }
-                ],
-                "nameAvRight": "さやか",
-                "textAvColor": "textSayaka",
-                "textAvRight": "ねえ、まどか？@あの子、知り合い？",
-                "turnChangeOut": "rollOutFast"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200401,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-10"
-                    }
-                ],
-                "nameAvRight": "さやか",
-                "textAvRight": "何かずっと、こっちをジロジロ@見てなかった？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 810600,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-11"
-                    }
-                ],
-                "nameAvRight": "仁美",
-                "textAvColor": "255255255",
-                "textAvRight": "確かに、熱烈な何かを@感じさせられるような…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_040.exp3.json",
-                        "id": 200101,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-12"
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvLeft": "え、えっとね、それは…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_040.exp3.json",
-                        "id": 200301,
-                        "motion": 1,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-13"
-                    }
-                ],
-                "nameAvRight": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvRight": "この前、子猫と遊んでたら@声をかけてくれたんです"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_051.exp3.json",
-                        "id": 200101,
-                        "motion": 0,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-14"
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvLeft": "あっ、ほむらちゃん！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200301,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-15"
-                    }
-                ],
-                "nameAvRight": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvRight": "同じ学校の制服だったから@色々お話を聞かせてくれて"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200301,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-16"
-                    }
-                ],
-                "nameAvRight": "ほむら",
-                "textAvRight": "それ以来、遊んでもらったりも@してるんです"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200301,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-17"
-                    }
-                ],
-                "nameAvRight": "ほむら",
-                "textAvRight": "そうだよね、鹿目さん"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200101,
-                        "motion": 201,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-18"
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvLeft": "あ…う、うん"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 200401,
-                        "motion": 100,
-                        "pos": 2,
-                        "soulGem": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-19"
-                    }
-                ],
-                "nameAvRight": "さやか",
-                "textAvColor": "textSayaka",
-                "textAvRight": "ふーん、なるほど"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 810600,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-20"
-                    }
-                ],
-                "nameAvRight": "仁美",
-                "textAvColor": "255255255",
-                "textAvRight": "そういうことでしたか"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200101,
-                        "motion": 0,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-21"
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200301,
-                        "motion": 1,
-                        "pos": 2
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvLeft": "ほむらちゃんにも紹介するね"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200101,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-22"
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvLeft": "美樹さやかちゃんと@志筑仁美ちゃん"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 200101,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-23"
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvLeft": "わたしのお友だちで@いつも一緒にいるんだ"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200301,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-24"
-                    }
-                ],
-                "nameAvRight": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvRight": "そうなんですね@よろしくお願いします"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 200401,
-                        "motion": 201,
-                        "pos": 0,
-                        "soulGem": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-25"
-                    }
-                ],
-                "nameAvLeft": "さやか",
-                "textAvColor": "textSayaka",
-                "textAvLeft": "よろしくね@謎の転校生暁美さん！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 810600,
-                        "motion": 300,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-26"
-                    }
-                ],
-                "nameAvLeft": "仁美",
-                "textAvColor": "255255255",
-                "textAvLeft": "まどかさんが@お世話になっています"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 810600
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 200301
-                    }
-                ],
-                "textAvClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200401,
-                        "motion": 1,
-                        "pos": 2,
-                        "soulGem": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-27"
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200101,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameAvRight": "さやか",
-                "textAvColor": "textSayaka",
-                "textAvRight": "しっかし納得だよねー"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200401,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-28"
-                    }
-                ],
-                "nameAvRight": "さやか",
-                "textAvRight": "最近まどかはなーんか付き合い@悪いなーって思ってたんだけど"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_041.exp3.json",
-                        "id": 200401,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-29"
-                    }
-                ],
-                "nameAvRight": "さやか",
-                "textAvRight": "そうかー、まさか謎の転校生に@浮気してただなんて…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_051.exp3.json",
-                        "id": 200101,
-                        "motion": 400,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-30"
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvLeft": "えっ？浮気!?"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 200301,
-                        "motion": 200,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-31"
-                    }
-                ],
-                "nameAvRight": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvRight": "そ、そんなこと…！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 810600,
-                        "motion": 200,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-32"
-                    }
-                ],
-                "nameAvRight": "仁美",
-                "textAvColor": "255255255",
-                "textAvRight": "そんなことはありますわ！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200101,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-33"
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvLeft": "仁美ちゃんまで!?"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 810600,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-34"
-                    }
-                ],
-                "nameAvRight": "仁美",
-                "textAvColor": "255255255",
-                "textAvRight": "まどかさんがいないふたりきりの@ファストフード店…"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 1,
-                        "id": 810600,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-35"
-                    }
-                ],
-                "nameAvRight": "仁美",
-                "textAvRight": "昨日まで美味しかったバンズが@パサパサ食べづらいのは、なぜ…"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 810600,
-                        "lipSynch": 0,
-                        "pos": 0
-                    }
-                ],
-                "textAvClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200301,
-                        "motion": 300,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-36"
-                    }
-                ],
-                "nameAvLeft": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvLeft": "あ、あの、えっと、@私、そういうつもりじゃ…！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_041.exp3.json",
-                        "id": 200101,
-                        "motion": 100,
-                        "pos": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-37"
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvLeft": "ほむらちゃん@気にしなくて大丈夫だよ"
-            },
-            {
-                "autoTurnFirst": 3,
-                "autoTurnNoDelay": 1,
-                "chara": [
-                    {
-                        "id": 200101,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-38"
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvLeft": "いつもふたりはそうやって@からかうんだから"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 200401,
-                        "motion": 300,
-                        "pos": 2,
-                        "soulGem": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-39"
-                    },
-                    {
-                        "cheek": 1,
-                        "face": "mtn_ex_040.exp3.json",
-                        "id": 200101,
-                        "motion": 0
-                    }
-                ],
-                "nameAvRight": "さやか",
-                "textAvColor": "textSayaka",
-                "textAvRight": "えー、別にからかってなんて@いないけどなー"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200401,
-                        "motion": 201,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-39b"
-                    }
-                ],
-                "nameAvRight": "さやか",
-                "textAvRight": "だってさー"
-            },
-            {
-                "autoTurnFirst": 2.6,
-                "autoTurnNoDelay": 1,
-                "chara": [
-                    {
-                        "id": 200401,
-                        "voiceFull": "fullvoice/section_104202/vo_full_903110-010-40"
-                    }
-                ],
-                "nameAvRight": "さやか",
-                "textAvRight": "もう「ほむらちゃん」って、下の@名前で呼ぶ関係なんでしょ？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp3.json",
-                        "id": 200401,
-                        "motion": 1
-                    }
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200101,
-                        "motion": 201,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-41"
-                    },
-                    {
-                        "id": 200401,
-                        "voiceFullStop": "fullvoice/section_104202/vo_full_903110-010-40"
-                    }
-                ],
-                "nameAvLeft": "まどか",
-                "textAvColor": "textMadoka",
-                "textAvLeft": "さやかちゃん、言い方！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 1,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200301,
-                        "lipSynch": 0,
-                        "motion": 100,
-                        "pos": 2,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-42"
-                    }
-                ],
-                "nameAvRight": "ほむら",
-                "textAvColor": "textHomura",
-                "textAvRight": "…………"
-            },
-            {
-                "autoTurnLast": 0.1,
-                "bg": "bg_adv_20061.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 200912,
-                        "motion": 0,
-                        "pos": 1,
-                        "posX": -160
-                    }
-                ],
-                "item": [
-                    {
-                        "anchor": "skip",
-                        "path": "resource/scenario/img/scene0/calender_day10.png",
-                        "posX": -4,
-                        "posY": -50,
-                        "visible": "appear",
-                        "zOrder": "messageFront"
-                    }
-                ],
-                "textAvClear": 1,
-                "turnChangeIn": "rollInFast",
-                "turnEffect": "thinking"
-            },
-            {
-                "FnarrationCoverColor": "textBlack",
-                "FnarrationCoverOpacity": 110,
-                "FnarrationEffect": "in",
-                "FnarrationFontSize": 23,
-                "FnarrationHeight": 100,
-                "FnarrationLineMargin": 30,
-                "FnarrationLineSpace": 20,
-                "FnarrationOutlineColor": "textBlack",
-                "FnarrationOutlineWeight": 2,
-                "FnarrationTextColor": "textMabayu",
-                "FnarrationWidth": 350,
-                "FnarrationX": 160,
-                "FnarrationY": 130,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 200912,
-                        "lipSynch": 0,
-                        "motion": 400,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-43"
-                    }
-                ],
-                "nameFnarration": "まばゆ",
-                "progressFnarration": "(な、なんでしょうか@この状況は…!?)",
-                "textAvColor": "textMabayu",
-                "turnChangeOut": "rollOutFast"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200912,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-44"
-                    }
-                ],
-                "progressFnarration": "(こう、ありがたいものを@拝ませてもらっているような…)"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 0,
-                        "id": 200912,
-                        "lipSynch": 0,
-                        "motion": 200,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-45"
-                    }
-                ],
-                "progressFnarration": "(授業を適度にサボりながら@さらに観察の必要がありますね)"
-            },
-            {
-                "FnarrationEffect": "out",
-                "autoTurnLast": 2,
-                "turnChangeIn": "fadeIn",
-                "turnEffect": "stop"
-            }
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.01,
+        "bg": "black",
+        "bgm": "stop",
+        "item": [
+          {
+            "path": "resource/scenario/img/scene0/scene_bg.jpg",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaBack"
+          },
+          {
+            "path": "resource/scenario/img/scene0/scene_08.png",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaFront"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "autoTurnLast": 1,
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "item": [
+          {
+            "path": "resource/scenario/img/scene0/scene_08.png",
+            "visible": "hide"
+          }
         ]
-    },
-    "version": 3
+      },
+      {
+        "autoTurnLast": 1.5,
+        "item": [
+          {
+            "path": "resource/scenario/img/scene0/scene_10.png",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaFront"
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.2,
+        "bg": "bg_adv_20201.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 810200,
+            "motion": 0,
+            "pos": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_040.exp3.json",
+            "id": 200301,
+            "motion": 0,
+            "pos": 2
+          }
+        ],
+        "item": [
+          {
+            "anchor": "skip",
+            "path": "resource/scenario/img/scene0/calender_day10.png",
+            "posX": -4,
+            "posY": -50,
+            "visible": "appear",
+            "zOrder": "messageFront"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "autoTurnLast": 2,
+        "bgm": "bgm01_anime03",
+        "chara": [
+          {
+            "id": 810200,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-1"
+          }
+        ],
+        "nameAvLeft": "早乙女老师",
+        "textAvColorRGB": "255255255",
+        "textAvLeft": "好——，@那就请做个自我介绍吧",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "id": 200301,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-2"
+          }
+        ],
+        "nameAvRight": "焰",
+        "textAvColor": "textHomura",
+        "textAvRight": "我是晓美焰！@请多指教"
+      },
+      {
+        "autoTurnFirst": 4,
+        "autoTurnNoDelay": 1,
+        "chara": [
+          {
+            "id": 810200,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-3"
+          }
+        ],
+        "nameAvLeft": "早乙女老师",
+        "textAvColorRGB": "255255255",
+        "textAvLeft": "晓美同学因为心脏的疾病@住了很久的院"
+      },
+      {
+        "autoTurnLast": 2.8,
+        "chara": [
+          {
+            "id": 810200,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-4"
+          }
+        ],
+        "nameAvLeft": "早乙女老师",
+        "textAvLeft": "她很久没有来过学校了@所以应该会有很多不懂的事吧"
+      },
+      {
+        "autoTurnLast": 1.3,
+        "chara": [
+          {
+            "id": 810200,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-5"
+          }
+        ],
+        "nameAvLeft": "早乙女老师",
+        "textAvLeft": "大家要记得帮帮她哦"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "bg": "bg_adv_20061.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200912,
+            "motion": 0,
+            "pos": 1,
+            "posX": -150
+          }
+        ],
+        "item": [
+          {
+            "anchor": "skip",
+            "path": "resource/scenario/img/scene0/calender_day10.png",
+            "posX": -4,
+            "posY": -50,
+            "visible": "appear",
+            "zOrder": "messageFront"
+          }
+        ],
+        "textAvClear": 1,
+        "turnChangeIn": "rollInFast",
+        "turnEffect": "thinking"
+      },
+      {
+        "FnarrationCoverColor": "textBlack",
+        "FnarrationCoverOpacity": 110,
+        "FnarrationEffect": "in",
+        "FnarrationFontSize": 23,
+        "FnarrationHeight": 100,
+        "FnarrationLineMargin": 30,
+        "FnarrationLineSpace": 20,
+        "FnarrationOutlineColor": "textBlack",
+        "FnarrationOutlineWeight": 2,
+        "FnarrationTextColor": "textMabayu",
+        "FnarrationWidth": 330,
+        "FnarrationX": 160,
+        "FnarrationY": 130,
+        "chara": [
+          {
+            "id": 200912,
+            "lipSynch": 0,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-6"
+          }
+        ],
+        "nameFnarration": "眩",
+        "progressFnarration": "（正可谓Bingo！呢）",
+        "textAvColor": "textMabayu",
+        "turnChangeOut": "rollOutFast"
+      },
+      {
+        "chara": [
+          {
+            "id": 200912,
+            "lipSynch": 0,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-7"
+          }
+        ],
+        "progressFnarration": "（也弄清楚晓美同学家的地址了）"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 200912,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-8"
+          }
+        ],
+        "progressFnarration": "（之后，只要弄清楚@她到底是敌是友…）"
+      },
+      {
+        "FnarrationEffect": "out",
+        "autoTurnLast": 0.2,
+        "bg": "bg_adv_20201.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_040.exp3.json",
+            "id": 200401,
+            "motion": 1,
+            "pos": 2,
+            "soulGem": 0
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_051.exp3.json",
+            "id": 200101,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "item": [
+          {
+            "anchor": "skip",
+            "path": "resource/scenario/img/scene0/calender_day10.png",
+            "posX": -4,
+            "posY": -50,
+            "visible": "appear",
+            "zOrder": "messageFront"
+          }
+        ],
+        "textAvClear": 1,
+        "turnChangeIn": "rollInFast",
+        "turnEffect": "stop"
+      },
+      {
+        "chara": [
+          {
+            "id": 200401,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-9"
+          }
+        ],
+        "nameAvRight": "沙耶香",
+        "textAvColor": "textSayaka",
+        "textAvRight": "呐，小圆？@你和那孩子认识吗？",
+        "turnChangeOut": "rollOutFast"
+      },
+      {
+        "chara": [
+          {
+            "id": 200401,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-10"
+          }
+        ],
+        "nameAvRight": "沙耶香",
+        "textAvRight": "她是不是一直@紧紧盯着这边？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 810600,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-11"
+          }
+        ],
+        "nameAvRight": "仁美",
+        "textAvColor": "255255255",
+        "textAvRight": "确实，能让人感受到@某种热烈的感情…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_040.exp3.json",
+            "id": 200101,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-12"
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvColor": "textMadoka",
+        "textAvLeft": "呃、嗯，那是…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_040.exp3.json",
+            "id": 200301,
+            "motion": 1,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-13"
+          }
+        ],
+        "nameAvRight": "焰",
+        "textAvColor": "textHomura",
+        "textAvRight": "前段时间和小猫玩的时候@她向我搭了话"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_051.exp3.json",
+            "id": 200101,
+            "motion": 0,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-14"
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvColor": "textMadoka",
+        "textAvLeft": "啊，小焰！"
+      },
+      {
+        "chara": [
+          {
+            "id": 200301,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-15"
+          }
+        ],
+        "nameAvRight": "焰",
+        "textAvColor": "textHomura",
+        "textAvRight": "因为穿着同一所学校的校服@所以她告诉了我很多"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200301,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-16"
+          }
+        ],
+        "nameAvRight": "焰",
+        "textAvRight": "自那之后，@我们有时候也会一起玩"
+      },
+      {
+        "chara": [
+          {
+            "id": 200301,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-17"
+          }
+        ],
+        "nameAvRight": "焰",
+        "textAvRight": "对吧，鹿目同学"
+      },
+      {
+        "chara": [
+          {
+            "id": 200101,
+            "motion": 201,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-18"
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvColor": "textMadoka",
+        "textAvLeft": "啊…嗯、嗯"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200401,
+            "motion": 100,
+            "pos": 2,
+            "soulGem": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-19"
+          }
+        ],
+        "nameAvRight": "沙耶香",
+        "textAvColor": "textSayaka",
+        "textAvRight": "哼——，原来如此"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 810600,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-20"
+          }
+        ],
+        "nameAvRight": "仁美",
+        "textAvColor": "255255255",
+        "textAvRight": "是这样吗"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200101,
+            "motion": 0,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-21"
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200301,
+            "motion": 1,
+            "pos": 2
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvColor": "textMadoka",
+        "textAvLeft": "我也向小焰介绍一下"
+      },
+      {
+        "chara": [
+          {
+            "id": 200101,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-22"
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvLeft": "这两位是美树沙耶香@和志筑仁美"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 200101,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-23"
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvLeft": "她们是我的朋友@我们总是在一起"
+      },
+      {
+        "chara": [
+          {
+            "id": 200301,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-24"
+          }
+        ],
+        "nameAvRight": "焰",
+        "textAvColor": "textHomura",
+        "textAvRight": "这样啊@请多指教"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 200401,
+            "motion": 201,
+            "pos": 0,
+            "soulGem": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-25"
+          }
+        ],
+        "nameAvLeft": "沙耶香",
+        "textAvColor": "textSayaka",
+        "textAvLeft": "请多指教@谜之转校生晓美同学！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 810600,
+            "motion": 300,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-26"
+          }
+        ],
+        "nameAvLeft": "仁美",
+        "textAvColor": "255255255",
+        "textAvLeft": "小圆受你关照了"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 810600
+          },
+          {
+            "effect": "fadeout",
+            "id": 200301
+          }
+        ],
+        "textAvClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200401,
+            "motion": 1,
+            "pos": 2,
+            "soulGem": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-27"
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200101,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "nameAvRight": "沙耶香",
+        "textAvColor": "textSayaka",
+        "textAvRight": "不过，这样就能理解了"
+      },
+      {
+        "chara": [
+          {
+            "id": 200401,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-28"
+          }
+        ],
+        "nameAvRight": "沙耶香",
+        "textAvRight": "我就说最近小圆@怎么有点不爱搭理我们"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_041.exp3.json",
+            "id": 200401,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-29"
+          }
+        ],
+        "nameAvRight": "沙耶香",
+        "textAvRight": "这样啊，居然是@去找谜之转校生出轨了…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_051.exp3.json",
+            "id": 200101,
+            "motion": 400,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-30"
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvColor": "textMadoka",
+        "textAvLeft": "诶？出轨！？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200301,
+            "motion": 200,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-31"
+          }
+        ],
+        "nameAvRight": "焰",
+        "textAvColor": "textHomura",
+        "textAvRight": "才、才没有那种…！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 810600,
+            "motion": 200,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-32"
+          }
+        ],
+        "nameAvRight": "仁美",
+        "textAvColor": "255255255",
+        "textAvRight": "就是有那种事情！"
+      },
+      {
+        "chara": [
+          {
+            "id": 200101,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-33"
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvColor": "textMadoka",
+        "textAvLeft": "连小仁美也！？"
+      },
+      {
+        "chara": [
+          {
+            "id": 810600,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-34"
+          }
+        ],
+        "nameAvRight": "仁美",
+        "textAvColor": "255255255",
+        "textAvRight": "没有小圆，@只有我们两个人的快餐店…"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 1,
+            "id": 810600,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-35"
+          }
+        ],
+        "nameAvRight": "仁美",
+        "textAvRight": "直到昨天都很好吃的圆面包吃起来@却索然无味，到底是为什么…"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "id": 810600,
+            "lipSynch": 0,
+            "pos": 0
+          }
+        ],
+        "textAvClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200301,
+            "motion": 300,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-36"
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "那、那个，呃，@我，完全没有那种想法…！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "face": "mtn_ex_041.exp3.json",
+            "id": 200101,
+            "motion": 100,
+            "pos": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-37"
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvColor": "textMadoka",
+        "textAvLeft": "小焰@不用在意她们的"
+      },
+      {
+        "autoTurnFirst": 3,
+        "autoTurnNoDelay": 1,
+        "chara": [
+          {
+            "id": 200101,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-38"
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvLeft": "她们俩总是这样逗我玩"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200401,
+            "motion": 300,
+            "pos": 2,
+            "soulGem": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-39"
+          },
+          {
+            "cheek": 1,
+            "face": "mtn_ex_040.exp3.json",
+            "id": 200101,
+            "motion": 0
+          }
+        ],
+        "nameAvRight": "沙耶香",
+        "textAvColor": "textSayaka",
+        "textAvRight": "诶——，我可没在逗你玩哦"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200401,
+            "motion": 201,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-39b"
+          }
+        ],
+        "nameAvRight": "沙耶香",
+        "textAvRight": "因为啊——"
+      },
+      {
+        "autoTurnFirst": 2.6,
+        "autoTurnNoDelay": 1,
+        "chara": [
+          {
+            "id": 200401,
+            "voiceFull": "fullvoice/section_104202/vo_full_903110-010-40"
+          }
+        ],
+        "nameAvRight": "沙耶香",
+        "textAvRight": "你们的关系已经亲密到@能直接用名字叫她“小焰”了吧？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_011.exp3.json",
+            "id": 200401,
+            "motion": 1
+          }
+        ]
+      },
+      {
+        "chara": [
+          {
+            "id": 200101,
+            "motion": 201,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-41"
+          },
+          {
+            "id": 200401,
+            "voiceFullStop": "fullvoice/section_104202/vo_full_903110-010-40"
+          }
+        ],
+        "nameAvLeft": "圆",
+        "textAvColor": "textMadoka",
+        "textAvLeft": "沙耶香，你那种说法！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 1,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200301,
+            "lipSynch": 0,
+            "motion": 100,
+            "pos": 2,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-42"
+          }
+        ],
+        "nameAvRight": "焰",
+        "textAvColor": "textHomura",
+        "textAvRight": "…………"
+      },
+      {
+        "autoTurnLast": 0.1,
+        "bg": "bg_adv_20061.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200912,
+            "motion": 0,
+            "pos": 1,
+            "posX": -160
+          }
+        ],
+        "item": [
+          {
+            "anchor": "skip",
+            "path": "resource/scenario/img/scene0/calender_day10.png",
+            "posX": -4,
+            "posY": -50,
+            "visible": "appear",
+            "zOrder": "messageFront"
+          }
+        ],
+        "textAvClear": 1,
+        "turnChangeIn": "rollInFast",
+        "turnEffect": "thinking"
+      },
+      {
+        "FnarrationCoverColor": "textBlack",
+        "FnarrationCoverOpacity": 110,
+        "FnarrationEffect": "in",
+        "FnarrationFontSize": 23,
+        "FnarrationHeight": 100,
+        "FnarrationLineMargin": 30,
+        "FnarrationLineSpace": 20,
+        "FnarrationOutlineColor": "textBlack",
+        "FnarrationOutlineWeight": 2,
+        "FnarrationTextColor": "textMabayu",
+        "FnarrationWidth": 350,
+        "FnarrationX": 160,
+        "FnarrationY": 130,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200912,
+            "lipSynch": 0,
+            "motion": 400,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-43"
+          }
+        ],
+        "nameFnarration": "眩",
+        "progressFnarration": "（这、这到底是什么情况…！？）",
+        "textAvColor": "textMabayu",
+        "turnChangeOut": "rollOutFast"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200912,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-44"
+          }
+        ],
+        "progressFnarration": "（好像看到了什么@令人不胜感激的东西一样…）"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 0,
+            "id": 200912,
+            "lipSynch": 0,
+            "motion": 200,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903110-010-45"
+          }
+        ],
+        "progressFnarration": "（看来，有必要适当翘些课@来进一步观察她们了呢）"
+      },
+      {
+        "FnarrationEffect": "out",
+        "autoTurnLast": 2,
+        "turnChangeIn": "fadeIn",
+        "turnEffect": "stop"
+      }
+    ]
+  },
+  "version": 3
 }
