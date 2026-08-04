@@ -35,7 +35,8 @@ jobs:
       QCLOUD_SECRET_ID:  ${{ secrets.QCLOUD_SECRET_ID }}
       QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
       EDGEONE_ZONE_ID:   ${{ secrets.EDGEONE_ZONE_ID }}
-      EDGEONE_DOMAIN:         ${{ secrets.EDGEONE_DOMAIN }}
+      # 兜底旧的 R2_DOMAIN，防止 secret 改名与 workflow 版本错位期间刷新失败
+      EDGEONE_DOMAIN:    ${{ secrets.EDGEONE_DOMAIN || secrets.R2_DOMAIN }}
       ALIBABA_CLOUD_ACCESS_KEY_ID:     ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
       ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
       ESA_SITE_ID:       ${{ secrets.ESA_SITE_ID }}
