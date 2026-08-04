@@ -128,7 +128,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/sho
                     h.className = "noItem", l.appendChild(h);
                 b.appendChild(n);
                 c.doc.getElementById(a.shopId).appendChild(l);
-                0 == d && "SELECTABLE_UNOWNED_CHARA" === a.shopType && (d = a.name.replace(/＠/g, ""), h = e.getShopItemNum(a.shopId), d = h.listNum === h.thisHadNum ? d + "　（报价：完整）" : d + ("　（可能提供：" + (h.listNum - h.thisHadNum) + "/" + h.listNum + "）"), c.doc.getElementById("listTitle").innerHTML = d);
+                0 == d && "SELECTABLE_UNOWNED_CHARA" === a.shopType && (d = a.name.replace(/＠/g, ""), h = e.getShopItemNum(a.shopId), d = h.listNum === h.thisHadNum ? d + "　（报价：完成）" : d + ("　（可报价：" + (h.listNum - h.thisHadNum) + "/" + h.listNum + "）"), c.doc.getElementById("listTitle").innerHTML = d);
                 e.scrollObj.push("type" + a.shopId)
             });
             c.doc.getElementById("btnWrap").getElementsByClassName("btnScrollInner")[0].appendChild(b);
@@ -215,7 +215,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/sho
             c.doc.getElementById("hasItems").getElementsByClassName("costIcon")[0].src = a.iconImgPath;
             c.doc.getElementById("hasItems").getElementsByClassName("pointFrame")[0].innerText = a.hasNum;
             a = b.name.replace(/＠/g, "");
-            "SELECTABLE_UNOWNED_CHARA" === b.shopType && (b = this.getShopItemNum(this.displayType), a = b.listNum === b.thisHadNum ? a + "　（报价：完整）" : a + ("　（可能提供：" + (b.listNum - b.thisHadNum) + "/" + b.listNum + "）"));
+            "SELECTABLE_UNOWNED_CHARA" === b.shopType && (b = this.getShopItemNum(this.displayType), a = b.listNum === b.thisHadNum ? a + "　（报价：完成）" : a + ("　（可报价：" + (b.listNum - b.thisHadNum) + "/" + b.listNum + "）"));
             c.doc.getElementById("listTitle").innerText = a;
             e || this.trigger("haveNumberAllCheck")
         },
