@@ -1,819 +1,819 @@
 {
-    "skipTransitionList": [
-        {
-            "from": "group_1",
-            "to": "group_4"
-        },
-        {
-            "canSkip": false,
-            "from": "group_4"
-        }
+ "skipTransitionList": [
+  {
+   "from": "group_1",
+   "to": "group_4"
+  },
+  {
+   "canSkip": false,
+   "from": "group_4"
+  }
+ ],
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.2,
+    "bg": "bg_adv_11061.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302601,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302701,
+      "motion": 1,
+      "pos": 1
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302801,
+      "motion": 0,
+      "pos": 2
+     }
     ],
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.2,
-                "bg": "bg_adv_11061.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_001.exp.json",
-                        "id": 302601,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp.json",
-                        "id": 302701,
-                        "motion": 1,
-                        "pos": 1
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp.json",
-                        "id": 302801,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "bgm": "bgm03_story02",
-                "chara": [
-                    {
-                        "id": 302601,
-                        "motion": 0
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "…えっと@もう一度言ってもらっても…？",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 0.3,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 302601
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 302701
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 302801
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp.json",
-                        "id": 101700,
-                        "motion": 300,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 103701,
-                        "motion": 1,
-                        "pos": 2
-                    }
-                ],
-                "nameLeft": "みたま",
-                "textLeft": "だからね、このはさんたちに@那由他ちゃんを護衛してほしいの"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "…私はもともと@宝崎に住んでいたんですの"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701
-                    },
-                    {
-                        "id": 101700,
-                        "motion": 0
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "神浜には、事情があって@最近引っ越してきたんですけど…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "神浜は魔法少女にとって@安全な場所だって聞いていたのに"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701,
-                        "motion": 300
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "どこかのグループの魔法少女と@勘違いされて襲われたり"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "グループを騙ったと誤解されて@襲われたり…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701,
-                        "motion": 0
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "怖くてたまらないんですの…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp.json",
-                        "id": 302701,
-                        "motion": 1,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "遊佐 葉月",
-                "textLeft": "あれ…そういえば最近聞いたな…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302701
-                    }
-                ],
-                "nameLeft": "遊佐 葉月",
-                "textLeft": "プロミストブラッドを騙ったって@間違われたり、襲われたりした"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302701
-                    }
-                ],
-                "nameLeft": "遊佐 葉月",
-                "textLeft": "外から来た魔法少女がいるって…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701,
-                        "motion": 100
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "きっと私のことですの…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 302601,
-                        "motion": 100,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "それは…災難だったわね…@[chara:302601:lipSynch_0][wait:1.2][chara:302601:cheek_0][chara:302601:face_mtn_ex_001.exp.json][chara:302601:lipSynch_1]でも、なぜ私たちに護衛を…？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701,
-                        "motion": 0
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "実は私、人を捜してるんですの"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "そのために、ある場所に@行きたいんですけど…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "ひとりで行動するのが不安で…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701,
-                        "motion": 200
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "中立な立場の魔法少女に同行して@いただけないかと思ったんですの"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 302601,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp.json",
-                        "id": 101700,
-                        "motion": 200,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "みたま",
-                "textLeft": "わたしはユニオン側だから@那由他ちゃんに同行できないけど"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 101700
-                    }
-                ],
-                "nameLeft": "みたま",
-                "textLeft": "中立で腕の立つ子たちなら@紹介できるなぁってね"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 302601
-                    }
-                ],
-                "nameRight": "静海 このは",
-                "textRight": "そういうこと…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 103701,
-                        "motion": 100,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "お願いですの@お礼もお支払いできますの"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp.json",
-                        "id": 302701,
-                        "motion": 200,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "遊佐 葉月",
-                "textLeft": "つまり、報酬つきの用心棒って@わけかぁ…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp.json",
-                        "id": 302801,
-                        "motion": 200,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "三栗 あやめ",
-                "textLeft": "あちしはいいよ！@強いとこいっぱい見せてやるぞ！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp.json",
-                        "id": 103701,
-                        "motion": 1,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "ふふ、頼もしいですの"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_001.exp.json",
-                        "id": 302601,
-                        "lipSynch": 0,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "…………"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302601,
-                        "lipSynch": 1,
-                        "motion": 100
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "葉月はどう思う…？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp.json",
-                        "id": 302701,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "遊佐 葉月",
-                "textRight": "うーん…@アタシは受けていい話だと思う"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 302701,
-                        "motion": 300
-                    }
-                ],
-                "nameRight": "遊佐 葉月",
-                "textRight": "ただ、このはが納得できないなら@今は受けないべきかな…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 103701,
-                        "motion": 400,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "それは困りますの…！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 302801,
-                        "motion": 400,
-                        "pos": 2
-                    },
-                    {
-                        "id": 302601,
-                        "motion": 0
-                    }
-                ],
-                "nameRight": "三栗 あやめ",
-                "textRight": "ねーこのは！お願いだよ～@ナユタも困ってるんだし！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp.json",
-                        "id": 302801,
-                        "motion": 200
-                    }
-                ],
-                "nameRight": "三栗 あやめ",
-                "textRight": "ナユタを守ってあげよう!?@ね!?"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 302601
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "そうね…"
-            },
-            {
-                "select": [
-                    {
-                        "alternativeId": 1,
-                        "group": "group_2",
-                        "textSelect": "依頼を受けない"
-                    },
-                    {
-                        "alternativeId": 2,
-                        "group": "group_3",
-                        "textSelect": "依頼を受ける"
-                    }
-                ]
-            }
-        ],
-        "group_2": [
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_11061.jpg",
-                "bgm": "stop",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_001.exp.json",
-                        "id": 302601,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp.json",
-                        "id": 302801,
-                        "motion": 200,
-                        "pos": 2
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "bgm": "stop",
-                "chara": [
-                    {
-                        "id": 302601,
-                        "motion": 100
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "申し訳ないけど、依頼は…",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp.json",
-                        "id": 302701,
-                        "motion": 100,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "遊佐 葉月",
-                "textRight": "保留にさせてもらっていいかな？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp.json",
-                        "id": 302601
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "え…"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 302701,
-                        "pos": 0
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "bgm": "bgm01_anime02",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp.json",
-                        "id": 302801,
-                        "motion": 0,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "三栗 あやめ",
-                "textRight": "保留…？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 103701,
-                        "motion": 200,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "あの、私は人捜しを@急ぎたいんですの…！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "今すぐ護衛を@始めてほしいんですの…！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 302701,
-                        "motion": 200,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "遊佐 葉月",
-                "textLeft": "ごめんね、でも一晩だけ@時間をくれないかな？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302701
-                    }
-                ],
-                "nameLeft": "遊佐 葉月",
-                "textLeft": "大事なことだから、納得するまで@３人で話し合って決めたいんだ"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701,
-                        "motion": 0
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "…そういうことなら@仕方ないんですの…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 103701,
-                        "motion": 100
-                    }
-                ],
-                "nameRight": "那由他",
-                "textRight": "…わかりましたの"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "id": 302701,
-                        "pos": 2
-                    }
-                ],
-                "textClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp.json",
-                        "id": 302601,
-                        "motion": 200,
-                        "pos": 0
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "ちょっと葉月…勝手に…！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302701,
-                        "motion": 1
-                    }
-                ],
-                "nameRight": "遊佐 葉月",
-                "textRight": "勝手に断ろうとしたのは@このはも同じでしょ？"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp.json",
-                        "id": 302701
-                    }
-                ],
-                "nameRight": "遊佐 葉月",
-                "textRight": "まずは３人で話し合おうよ@今までもそうしてきたんだからさ"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302601,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "…………[chara:302601:lipSynch_0][wait:1.0][chara:302601:cheek_0][chara:302601:face_mtn_ex_030.exp.json:motion_0][chara:302601:lipSynch_1]わかったわ…"
-            },
-            {
-                "autoTurnLast": 2,
-                "bgm": "stop",
-                "turnChangeIn": "fadeIn"
-            }
-        ],
-        "group_3": [
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_11061.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_001.exp.json",
-                        "id": 302601,
-                        "motion": 0,
-                        "pos": 0
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp.json",
-                        "id": 302801,
-                        "motion": 200,
-                        "pos": 2
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "bgm": "bgm03_story02",
-                "chara": [
-                    {
-                        "id": 302601,
-                        "motion": 100
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "…わかったわ@その依頼、受けましょう",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_011.exp.json",
-                        "id": 302801,
-                        "motion": 400,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "三栗 あやめ",
-                "textRight": "[chara:302801:effect_emotion_joy_0][se:7222_happy]やった～～～！"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302601,
-                        "lipSynch": 0,
-                        "motion": 0
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "…………"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp.json",
-                        "id": 302701,
-                        "motion": 1,
-                        "pos": 2
-                    }
-                ],
-                "nameRight": "遊佐 葉月",
-                "textRight": "…いいの？@このは…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 302601
-                    }
-                ],
-                "nameLeft": "静海 このは",
-                "textLeft": "あやめのやる気を@わざわざ削ぐこともないでしょ…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 302701,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameRight": "遊佐 葉月",
-                "textRight": "…………"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 302701,
-                        "lipSynch": 0
-                    }
-                ],
-                "nameRight": "遊佐 葉月",
-                "textRight": "（このは…@納得はしてないみたいだね…）",
-                "turnEffect": "thinking"
-            },
-            {
-                "autoTurnLast": 2,
-                "bgm": "stop",
-                "turnChangeIn": "fadeIn",
-                "turnEffect": "stop"
-            }
-        ],
-        "group_4": [
-            {
-                "autoTurnLast": 1,
-                "bg": "bg_adv_11061.jpg",
-                "bgm": "stop",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp.json",
-                        "id": 302801,
-                        "motion": 200,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp.json",
-                        "id": 302601,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "bgm": "bgm03_story02",
-                "select": [
-                    {
-                        "alternativeId": 1,
-                        "group": "group_2",
-                        "textSelect": "依頼を受けない"
-                    },
-                    {
-                        "alternativeId": 2,
-                        "group": "group_3",
-                        "textSelect": "依頼を受ける"
-                    }
-                ],
-                "turnChangeOut": "fadeOut"
-            }
-        ]
-    },
-    "version": 3
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm03_story02",
+    "chara": [
+     {
+      "id": 302601,
+      "motion": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "……呃，@ 即使我让你再说一遍……？",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.3,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 302601
+     },
+     {
+      "effect": "fadeout",
+      "id": 302701
+     },
+     {
+      "effect": "fadeout",
+      "id": 302801
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 101700,
+      "motion": 300,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 103701,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameLeft": "御魂",
+    "textLeft": "所以我希望木叶他们能够保护@那由他酱。"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "……我原本住在@宝崎。"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701
+     },
+     {
+      "id": 101700,
+      "motion": 0
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "由于一些情况，我最近搬到了神滨@……"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "我听说神滨对于魔法少女和@来说是一个安全的地方。"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701,
+      "motion": 300
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "来自某个组织的魔法少女和@被误认为受到攻击。"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "因为被误认为是群里的人，所以被@攻击了……"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701,
+      "motion": 0
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "我好害怕……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302701,
+      "motion": 1,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "游佐叶月",
+    "textLeft": "哦……我最近听说了忧……"
+   },
+   {
+    "chara": [
+     {
+      "id": 302701
+     }
+    ],
+    "nameLeft": "游佐叶月",
+    "textLeft": "尽管我假装是 Promist Blood，但 @ 仍被错误或攻击。"
+   },
+   {
+    "chara": [
+     {
+      "id": 302701
+     }
+    ],
+    "nameLeft": "游佐叶月",
+    "textLeft": "有从外面来的魔法少女……"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701,
+      "motion": 100
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "一定是我……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302601,
+      "motion": 100,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "那……真是一场灾难……@[chara:302601:lipSynch_0][wait:1.2][chara:302601:cheek_0][chara:302601:face_mtn_ex_001.exp.json][chara:302601:lipSynch_1]但是你为什么要护送我们……？"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701,
+      "motion": 0
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "其实我是在找人"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "为此，我想去某个地方@……"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "一个人演戏我感觉很焦虑……"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701,
+      "motion": 200
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "我想知道您是否可以从中立的角度陪伴魔法少女并接收@。"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "id": 302601,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 101700,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "御魂",
+    "textLeft": "我是联盟这边，所以不能陪伴@那由他。"
+   },
+   {
+    "chara": [
+     {
+      "id": 101700
+     }
+    ],
+    "nameLeft": "御魂",
+    "textLeft": "如果你是一个中立且熟练的孩子，我想我可以向你介绍@。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302601
+     }
+    ],
+    "nameRight": "静海木叶",
+    "textRight": "没错……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 103701,
+      "motion": 100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "拜托，@，我也向你表示感谢。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302701,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "游佐叶月",
+    "textLeft": "换句话说，一个有奖励的保镖是@……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 302801,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "三栗菖蒲",
+    "textLeft": "阿诗不错啊！ @ 我会给你展示很多优点！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 103701,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "呵呵，这个靠谱。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302601,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "id": 302601,
+      "lipSynch": 1,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "你觉得叶月……怎么样？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302701,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "嗯……@ 我认为接受是个好主意。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302701,
+      "motion": 300
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "但是，如果您对木叶不满意，也许您现在不应该服用@…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 103701,
+      "motion": 400,
+      "pos": 2
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "这是一个问题……！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302801,
+      "motion": 400,
+      "pos": 2
+     },
+     {
+      "id": 302601,
+      "motion": 0
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "嘿木叶！拜托~@ 那由多也有麻烦了！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302801,
+      "motion": 200
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "一起保护那由他吧！？ @，对吧！？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302601
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "是啊……"
+   },
+   {
+    "select": [
+     {
+      "alternativeId": 1,
+      "group": "group_2",
+      "textSelect": "不接受请求"
+     },
+     {
+      "alternativeId": 2,
+      "group": "group_3",
+      "textSelect": "收到请求"
+     }
+    ]
+   }
+  ],
+  "group_2": [
+   {
+    "autoTurnLast": 1,
+    "bg": "bg_adv_11061.jpg",
+    "bgm": "stop",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302601,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302801,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "stop",
+    "chara": [
+     {
+      "id": 302601,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "抱歉，我有一个请求……",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302701,
+      "motion": 100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "我可以搁置它吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302601
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "诶…"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "id": 302701,
+      "pos": 0
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "bgm": "bgm01_anime02",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302801,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "搁置中……?"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 103701,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "嗯，我要赶紧去找人@……！"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "我要你现在就开始护送@……！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302701,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "游佐叶月",
+    "textLeft": "抱歉，您能给我一晚 @ 时间吗？"
+   },
+   {
+    "chara": [
+     {
+      "id": 302701
+     }
+    ],
+    "nameLeft": "游佐叶月",
+    "textLeft": "这很重要，所以我想和@三人讨论，直到我满意为止。"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701,
+      "motion": 0
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "……如果是忧，那么@就没办法了……"
+   },
+   {
+    "chara": [
+     {
+      "id": 103701,
+      "motion": 100
+     }
+    ],
+    "nameRight": "那由他",
+    "textRight": "…我知道了"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "id": 302701,
+      "pos": 2
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302601,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "嘿，叶月……就这么做吧……！"
+   },
+   {
+    "chara": [
+     {
+      "id": 302701,
+      "motion": 1
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "和@木叶擅自拒绝的情况不一样吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 302701
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "我们先来说说三人，@，因为我们一直都是这么做的。"
+   },
+   {
+    "chara": [
+     {
+      "id": 302601,
+      "lipSynch": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "…………[chara:302601:lipSynch_0][wait:1.0][chara:302601:cheek_0][chara:302601:face_mtn_ex_030.exp.json:motion_0][chara:302601:lipSynch_1]我明白了……"
+   },
+   {
+    "autoTurnLast": 2,
+    "bgm": "stop",
+    "turnChangeIn": "fadeIn"
+   }
+  ],
+  "group_3": [
+   {
+    "autoTurnLast": 1,
+    "bg": "bg_adv_11061.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 302601,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302801,
+      "motion": 200,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm03_story02",
+    "chara": [
+     {
+      "id": 302601,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "……好吧，@ 让我们接受这个请求。",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 302801,
+      "motion": 400,
+      "pos": 2
+     }
+    ],
+    "nameRight": "三栗菖蒲",
+    "textRight": "[chara:302801:effect_emotion_joy_0][se:7222_happy] 耶！"
+   },
+   {
+    "chara": [
+     {
+      "id": 302601,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 302701,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "……可以吗？ @这是……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302601
+     }
+    ],
+    "nameLeft": "静海木叶",
+    "textLeft": "@不会不遗余力地降低菖蒲的动力……"
+   },
+   {
+    "chara": [
+     {
+      "id": 302701,
+      "lipSynch": 0
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302701,
+      "lipSynch": 0
+     }
+    ],
+    "nameRight": "游佐叶月",
+    "textRight": "（这个……@好像不太服气……）",
+    "turnEffect": "thinking"
+   },
+   {
+    "autoTurnLast": 2,
+    "bgm": "stop",
+    "turnChangeIn": "fadeIn",
+    "turnEffect": "stop"
+   }
+  ],
+  "group_4": [
+   {
+    "autoTurnLast": 1,
+    "bg": "bg_adv_11061.jpg",
+    "bgm": "stop",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
+      "id": 302801,
+      "motion": 200,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 302601,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm03_story02",
+    "select": [
+     {
+      "alternativeId": 1,
+      "group": "group_2",
+      "textSelect": "不接受请求"
+     },
+     {
+      "alternativeId": 2,
+      "group": "group_3",
+      "textSelect": "收到请求"
+     }
+    ],
+    "turnChangeOut": "fadeOut"
+   }
+  ]
+ },
+ "version": 3
 }

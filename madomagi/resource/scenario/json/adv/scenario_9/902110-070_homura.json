@@ -1,1 +1,347 @@
-{"story":{"group_1":[{"autoTurnLast":0.2,"bg":"bg_adv_20171.jpg","chara":[{"cheek":0,"face":"mtn_ex_010.exp3.json","id":200101,"motion":1,"pos":2},{"cheek":0,"face":"mtn_ex_010.exp3.json","id":200301,"motion":0,"pos":0}],"item":[{"anchor":"skip","path":"resource/scenario/img/scene0/calender_day10.png","posX":-4,"posY":-50,"visible":"appear","zOrder":"messageFront"}],"turnChangeIn":"fadeIn"},{"bgm":"bgm01_anime04","chara":[{"id":200101}],"nameAvRight":"まどか","textAvColor":"textMadoka","textAvRight":"魔女が出てくる場所が@先にわかってたのは…","turnChangeOut":"fadeOut"},{"chara":[{"id":200101}],"nameAvRight":"まどか","textAvRight":"前に一度、暁美さんが@この時間を体験した証拠"},{"chara":[{"id":200101,"motion":201}],"nameAvRight":"まどか","textAvRight":"そういうことだよね"},{"chara":[{"id":200301}],"nameAvLeft":"ほむら","textAvColor":"textHomura","textAvLeft":"はい、そうです"},{"chara":[{"id":200301,"motion":100}],"nameAvLeft":"ほむら","textAvLeft":"巴さん、信じてもらえますか？"},{"chara":[{"cheek":0,"face":"mtn_ex_040.exp3.json","id":200501,"motion":100,"pos":2}],"nameAvRight":"マミ","textAvColor":"textMami","textAvRight":"そうね…証明、とまでは@いかないけれども"},{"chara":[{"cheek":0,"face":"mtn_ex_050.exp3.json","id":200301,"motion":1,"pos":0}],"nameAvLeft":"ほむら","textAvColor":"textHomura","textAvLeft":"え…どうしてですか？"},{"chara":[{"cheek":0,"face":"mtn_ex_001.exp3.json","id":200501,"motion":200,"pos":2}],"nameAvRight":"マミ","textAvColor":"textMami","textAvRight":"例えば、未来予知ができる@魔法が使えたとしたら？"},{"chara":[{"id":200501}],"nameAvRight":"マミ","textAvRight":"今日のあなたと同じことが@できるんじゃないかしら"},{"chara":[{"cheek":0,"face":"mtn_ex_040.exp3.json","id":200301}],"nameAvLeft":"ほむら","textAvColor":"textHomura","textAvLeft":"そ、それは…確かに@そうかもしれませんけれど…"},{"autoTurnLast":0.01,"textAvClear":1},{"FnarrationCoverColor":"textBlack","FnarrationCoverOpacity":110.0,"FnarrationEffect":"in","FnarrationFontSize":23.0,"FnarrationHeight":100.0,"FnarrationLineMargin":30.0,"FnarrationLineSpace":20.0,"FnarrationOutlineColor":"textBlack","FnarrationOutlineWeight":2,"FnarrationTextColor":"textHomura","FnarrationWidth":320.0,"FnarrationX":-50.0,"FnarrationY":150.0,"chara":[{"id":200301,"motion":300}],"nameFnarration":"ほむら","progressFnarration":"(本当は、時間を止めたりも@できるんだけど…)","textAvColor":"textHomura"},{"chara":[{"id":200301}],"progressFnarration":"(でも、まさか鹿目さんたちも@止まっちゃうなんて)"},{"chara":[{"eyeClose":1,"id":200301}],"progressFnarration":"(せっかく、みんなの力に@なれると思ったのに…)"},{"chara":[{"cheek":0,"eyeClose":1,"face":"mtn_ex_030.exp3.json","id":200301,"motion":1}],"progressFnarration":"(恥ずかしくて、言えない…)"},{"FnarrationEffect":"out","autoTurnLast":0.01},{"chara":[{"cheek":0,"face":"mtn_ex_051.exp3.json","id":200101,"motion":100,"pos":2}],"nameAvRight":"まどか","textAvColor":"textMadoka","textAvRight":"でも、暁美さんはどうして@過去に戻ってきたの？"},{"chara":[{"cheek":0,"eyeClose":0,"face":"mtn_ex_020.exp3.json","id":200301,"motion":200}],"nameAvLeft":"ほむら","textAvColor":"textHomura","textAvLeft":"ワルプルギスの夜が来るんです"},{"chara":[{"id":200101,"motion":0}],"nameAvRight":"まどか","textAvColor":"textMadoka","textAvRight":"ワルプルギスの夜？"},{"chara":[{"cheek":0,"face":"mtn_ex_001.exp3.json","id":200501,"motion":1,"pos":0}],"nameAvLeft":"マミ","textAvColor":"textMami","textAvLeft":"鹿目さんは知らなくても@無理はないわね"},{"chara":[{"id":200501}],"nameAvLeft":"マミ","textAvLeft":"過去にも様々な場所に現れた@とても危険な魔女よ"},{"autoTurnLast":0.2,"chara":[{"effect":"fadeout","id":200501},{"effect":"fadeout","id":200101}],"textAvClear":1},{"chara":[{"cheek":0,"face":"mtn_ex_030.exp3.json","id":200301,"motion":100,"pos":1}],"nameAvCenter":"ほむら","textAvCenter":"その魔女のせいで@町がめちゃくちゃになって…","textAvColor":"textHomura"},{"chara":[{"eyeClose":1,"id":200301}],"nameAvCenter":"ほむら","textAvCenter":"巴さんも、鹿目さんも@やられちゃって…"},{"chara":[{"eyeClose":0,"id":200301,"motion":0}],"nameAvCenter":"ほむら","textAvCenter":"でも、そんな未来は@絶対に嫌だから…"},{"chara":[{"id":200301}],"nameAvCenter":"ほむら","textAvCenter":"魔法少女になって@もう一度やり直したい…"},{"chara":[{"eyeClose":1,"id":200301}],"nameAvCenter":"ほむら","textAvCenter":"私も、力になりたい…@[chara:200301:lipSynch_0][wait:0.8][chara:200301:cheek_0][chara:200301:motion_200][chara:200301:lipSynch_1:eyeClose_0]そう祈って契約したんです！"},{"autoTurnLast":2.0,"turnChangeIn":"fadeIn"}]},"version":3}
+{
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.2,
+        "bg": "bg_adv_20171.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200101,
+            "motion": 1,
+            "pos": 2
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200301,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "item": [
+          {
+            "anchor": "skip",
+            "path": "resource/scenario/img/scene0/calender_day10.png",
+            "posX": -4,
+            "posY": -50,
+            "visible": "appear",
+            "zOrder": "messageFront"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "bgm": "bgm01_anime04",
+        "chara": [
+          {
+            "id": 200101
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "你能预先知道@魔女出现的地点…",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "id": 200101
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvRight": "就是晓美同学已经经历过@一次这段时间的证据"
+      },
+      {
+        "chara": [
+          {
+            "id": 200101,
+            "motion": 201
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvRight": "是这个意思对吧"
+      },
+      {
+        "chara": [
+          {
+            "id": 200301
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "嗯，是的"
+      },
+      {
+        "chara": [
+          {
+            "id": 200301,
+            "motion": 100
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvLeft": "巴学姐，@可以相信我吗？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_040.exp3.json",
+            "id": 200501,
+            "motion": 100,
+            "pos": 2
+          }
+        ],
+        "nameAvRight": "麻美",
+        "textAvColor": "textMami",
+        "textAvRight": "是啊…@不过，这还是算不上证明"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200301,
+            "motion": 1,
+            "pos": 0
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "诶…为什么？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 200501,
+            "motion": 200,
+            "pos": 2
+          }
+        ],
+        "nameAvRight": "麻美",
+        "textAvColor": "textMami",
+        "textAvRight": "比如说，如果你能使用@预知未来的魔法呢？"
+      },
+      {
+        "chara": [
+          {
+            "id": 200501
+          }
+        ],
+        "nameAvRight": "麻美",
+        "textAvRight": "难道不是也能做到@你今天做到了的事情吗？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_040.exp3.json",
+            "id": 200301
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "那、那是…虽然@有可能确实是那样…"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "textAvClear": 1
+      },
+      {
+        "FnarrationCoverColor": "textBlack",
+        "FnarrationCoverOpacity": 110.0,
+        "FnarrationEffect": "in",
+        "FnarrationFontSize": 23.0,
+        "FnarrationHeight": 100.0,
+        "FnarrationLineMargin": 30.0,
+        "FnarrationLineSpace": 20.0,
+        "FnarrationOutlineColor": "textBlack",
+        "FnarrationOutlineWeight": 2,
+        "FnarrationTextColor": "textHomura",
+        "FnarrationWidth": 320.0,
+        "FnarrationX": -50.0,
+        "FnarrationY": 150.0,
+        "chara": [
+          {
+            "id": 200301,
+            "motion": 300
+          }
+        ],
+        "nameFnarration": "焰",
+        "progressFnarration": "（虽然我其实也可以@停止时间…）",
+        "textAvColor": "textHomura"
+      },
+      {
+        "chara": [
+          {
+            "id": 200301
+          }
+        ],
+        "progressFnarration": "（但是，没想到@连鹿目同学她们也会一起停下来）"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 1,
+            "id": 200301
+          }
+        ],
+        "progressFnarration": "（明明我还以为@终于能帮上大家的忙了…）"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200301,
+            "motion": 1
+          }
+        ],
+        "progressFnarration": "（实在太羞耻了，我说不出来…）"
+      },
+      {
+        "FnarrationEffect": "out",
+        "autoTurnLast": 0.01
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_051.exp3.json",
+            "id": 200101,
+            "motion": 100,
+            "pos": 2
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "但是，晓美同学@为什么要回到过去呢？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200301,
+            "motion": 200
+          }
+        ],
+        "nameAvLeft": "焰",
+        "textAvColor": "textHomura",
+        "textAvLeft": "魔女之夜@会来到这座城市"
+      },
+      {
+        "chara": [
+          {
+            "id": 200101,
+            "motion": 0
+          }
+        ],
+        "nameAvRight": "圆",
+        "textAvColor": "textMadoka",
+        "textAvRight": "魔女之夜？"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_001.exp3.json",
+            "id": 200501,
+            "motion": 1,
+            "pos": 0
+          }
+        ],
+        "nameAvLeft": "麻美",
+        "textAvColor": "textMami",
+        "textAvLeft": "鹿目同学@不知道也是正常的"
+      },
+      {
+        "chara": [
+          {
+            "id": 200501
+          }
+        ],
+        "nameAvLeft": "麻美",
+        "textAvLeft": "那是个以前@也在很多地方出现过的@非常危险的魔女"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 200501
+          },
+          {
+            "effect": "fadeout",
+            "id": 200101
+          }
+        ],
+        "textAvClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200301,
+            "motion": 100,
+            "pos": 1
+          }
+        ],
+        "nameAvCenter": "焰",
+        "textAvCenter": "那个魔女把城市@破坏得乱七八糟…",
+        "textAvColor": "textHomura"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 1,
+            "id": 200301
+          }
+        ],
+        "nameAvCenter": "焰",
+        "textAvCenter": "巴学姐和鹿目同学@都被它干掉了…"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 0,
+            "id": 200301,
+            "motion": 0
+          }
+        ],
+        "nameAvCenter": "焰",
+        "textAvCenter": "但是，我绝对@不愿意接受那种未来…"
+      },
+      {
+        "chara": [
+          {
+            "id": 200301
+          }
+        ],
+        "nameAvCenter": "焰",
+        "textAvCenter": "所以我想成为魔法少女@从头再来一次…"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 1,
+            "id": 200301
+          }
+        ],
+        "nameAvCenter": "焰",
+        "textAvCenter": "我也想帮上大家的忙…[chara:200301:lipSynch_0][wait:0.8][chara:200301:cheek_0][chara:200301:motion_200][chara:200301:lipSynch_1:eyeClose_0]我就是@如此祈祷着，签订了契约的！"
+      },
+      {
+        "autoTurnLast": 2.0,
+        "turnChangeIn": "fadeIn"
+      }
+    ]
+  },
+  "version": 3
+}

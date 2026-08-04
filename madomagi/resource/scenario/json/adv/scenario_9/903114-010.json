@@ -1,672 +1,672 @@
 {
-    "story": {
-        "group_1": [
-            {
-                "autoTurnLast": 0.01,
-                "bg": "black",
-                "bgm": "stop",
-                "item": [
-                    {
-                        "path": "resource/scenario/img/scene0/scene_bg.jpg",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaBack"
-                    },
-                    {
-                        "path": "resource/scenario/img/scene0/scene_13.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaFront"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "autoTurnLast": 1,
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "autoTurnLast": 0.5,
-                "item": [
-                    {
-                        "path": "resource/scenario/img/scene0/scene_13.png",
-                        "visible": "hide"
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 1.5,
-                "item": [
-                    {
-                        "path": "resource/scenario/img/scene0/scene_14.png",
-                        "posX": 0,
-                        "posY": 0,
-                        "visible": "appear",
-                        "zOrder": "charaFront"
-                    }
-                ]
-            },
-            {
-                "autoTurnLast": 0.2,
-                "bg": "bg_adv_20201.jpg",
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 800100,
-                        "motion": 0,
-                        "pos": 2
-                    },
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 800200,
-                        "motion": 0,
-                        "pos": 0
-                    }
-                ],
-                "item": [
-                    {
-                        "anchor": "skip",
-                        "path": "resource/scenario/img/scene0/calender_day14.png",
-                        "posX": -4,
-                        "posY": -50,
-                        "visible": "appear",
-                        "zOrder": "messageFront"
-                    }
-                ],
-                "turnChangeIn": "fadeIn"
-            },
-            {
-                "bgm": "bgm01_anime02",
-                "chara": [
-                    {
-                        "id": 800100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-1"
-                    }
-                ],
-                "nameAvRight": "",
-                "textAvColor": "255255255",
-                "textAvRight": "ねーねー、昨日のライブ見た？",
-                "turnChangeOut": "fadeOut"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 800200,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-2"
-                    }
-                ],
-                "nameAvLeft": "",
-                "textAvColor": "255255255",
-                "textAvLeft": "解散ライブの中継でしょ？@熱気、すごかったよねー"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "effect": "fadeout",
-                        "id": 800200
-                    },
-                    {
-                        "effect": "fadeout",
-                        "id": 800100
-                    }
-                ],
-                "textAvClear": 1
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 200912,
-                        "motion": 400,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-3"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "surround": "7202_telepathy",
-                "textAvCenter": "おっ！クラスメイトの会話が@変わっていますね",
-                "textAvColor": "textMabayu",
-                "turnEffect": "ef_adv_02"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 200912,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-4"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "以前は、爆弾騒ぎと工場の@ガス漏れが話題でしたが…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200912,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-5"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "やはり魔女が原因でしたか"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200912,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-6"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "事故を防げて、よかった…"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 200912,
-                        "motion": 0
-                    }
-                ],
-                "nameAvRight": "キュゥべえの声",
-                "textAvColor": "255255255",
-                "textAvRight": "人間というのは理解が難しいね",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-7"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvRight": "自分たちの利益にならないのに@他人を助けようとしたり",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-8"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvRight": "魔法少女の契約で利益が@得られるのに、怖がったり",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-9"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvRight": "合理的な判断をしてくれれば@予測が立てやすくなるんだけど",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-10"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200902,
-                        "motion": 200,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-11"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "助けられる人を見捨てたら@寝覚めが悪いんです",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvColor": "255255255",
-                "textAvRight": "キミたちはどうやら因果関係と@責任の有無を混同しているようだ",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-12"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200902,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-13"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "そんな簡単には@行かないでしょう？",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 1,
-                        "id": 200902,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-14"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "そもそも、願いが叶うことと@それと引き替えに戦うこと…"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 1,
-                        "id": 200902,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-15"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "どっちがどのくらい幸せで@どっちがどのくらい不幸か"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 0,
-                        "id": 200902,
-                        "motion": 300,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-16"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "それをあらかじめ数字にして@差し引きで利益が出るとか…"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200902,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-17"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "そんなの、計算できるわけ@ないじゃないですか"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvColor": "255255255",
-                "textAvRight": "明確な誤りだね",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-18"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvRight": "不確実性が関わると扱えないなら@統計学には一体何の意味が…",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-19"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_040.exp3.json",
-                        "id": 200902,
-                        "motion": 200,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-20"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "あーはいはい、正論正論",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 200902,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-21"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "あなたの理屈通りなら、今頃@美樹さんは契約してたでしょうね"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 1,
-                        "id": 200902,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-22"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "彼女が何を願うかなんて@わかんないですけど"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200902,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-23"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "…自分が何を願ったかさえ@覚えてないのに"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200902,
-                        "motion": 400,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-24"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "っていうか、キュゥべえ"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200902,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-25"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "私の契約内容について@なんかヒントはないんですか？"
-            },
-            {
-                "bgm": "stop",
-                "nameAvRight": "キュゥべえの声",
-                "textAvColor": "255255255",
-                "textAvRight": "あるよ",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-26"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 200902,
-                        "motion": 0,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-27"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "ある!?あるんですか!?",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "bgm": "bgm01_anime07",
-                "nameAvRight": "キュゥべえの声",
-                "textAvColor": "255255255",
-                "textAvRight": "魔法少女の能力の傾向は@その願いと関連を持つんだ",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-28"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvRight": "巴マミは、交通事故で@命を繋ぐために契約した",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-29"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvRight": "彼女の使うリボンは@その象徴でもあるんだ",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-30"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_000.exp3.json",
-                        "id": 200902,
-                        "motion": 100,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-31"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "ははぁ、なるほど",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvColor": "255255255",
-                "textAvRight": "キミの使う魔法の傾向は@どうやら「光」に関わるようだ",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-32"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvRight": "ということは、キミの願いも@光と関わりをもつものだろうね",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-33"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_010.exp3.json",
-                        "id": 200902,
-                        "motion": 400,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-34"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "なるほど！",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200902,
-                        "motion": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-35"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "で？"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvColor": "255255255",
-                "textAvRight": "…………",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-36"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200902,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-37"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "…………",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvColor": "255255255",
-                "textAvRight": "…………？",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-38"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 200902,
-                        "motion": 200,
-                        "pos": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-39"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "いやいやいや！それだけ？",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "autoTurnFirst": 4.4,
-                "autoTurnNoDelay": 1,
-                "chara": [
-                    {
-                        "id": 200902,
-                        "voiceFull": "fullvoice/section_104202/vo_full_903114-010-40"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "光？願いのヒントが光って！@ちょっと範囲が広すぎでしょ！"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200902
-                    }
-                ]
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200902,
-                        "motion": 1,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-41",
-                        "voiceFullStop": "fullvoice/section_104202/vo_full_903114-010-40"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "辺りが真っ暗だったとか？@停電？停電ですか？"
-            },
-            {
-                "chara": [
-                    {
-                        "id": 200902,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-42"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "私、別に目が見えなかった@ワケじゃないですし"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_050.exp3.json",
-                        "id": 200902,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-43"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "考えてみれば、名前もなんだか@光っぽい感じがありますけど"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 1,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200902,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-44"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "そんなヒントで契約を推理なんて@名探偵じゃあるまいし"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "eyeClose": 0,
-                        "face": "mtn_ex_030.exp3.json",
-                        "id": 200902,
-                        "motion": 0
-                    }
-                ],
-                "nameAvRight": "キュゥべえの声",
-                "textAvColor": "255255255",
-                "textAvRight": "やはりまだ、情報の収集が@必要なようだね",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-45"
-            },
-            {
-                "nameAvRight": "キュゥべえの声",
-                "textAvRight": "そろそろ、暁美ほむらに直接@コンタクトをとったらどうかな",
-                "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-46"
-            },
-            {
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200902,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-47"
-                    }
-                ],
-                "nameAvCenter": "まばゆ",
-                "textAvCenter": "…考えておきます",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "autoTurnLast": 0.2,
-                "chara": [
-                    {
-                        "cheek": 0,
-                        "face": "mtn_ex_020.exp3.json",
-                        "id": 200912,
-                        "motion": 0,
-                        "pos": 1
-                    }
-                ],
-                "surround": "stop",
-                "textAvClear": 1,
-                "turnEffect": "stop"
-            },
-            {
-                "FnarrationAnchor": "top",
-                "FnarrationCoverColor": "textBlack",
-                "FnarrationCoverOpacity": 110,
-                "FnarrationEffect": "in",
-                "FnarrationFontSize": 23,
-                "FnarrationHeight": 100,
-                "FnarrationLineMargin": 30,
-                "FnarrationLineSpace": 20,
-                "FnarrationOutlineColor": "textBlack",
-                "FnarrationOutlineWeight": 2,
-                "FnarrationTextColor": "textMabayu",
-                "FnarrationWidth": 350,
-                "FnarrationX": -180,
-                "FnarrationY": -80,
-                "chara": [
-                    {
-                        "id": 200912,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-48"
-                    }
-                ],
-                "nameFnarration": "まばゆ",
-                "progressFnarration": "(私はキュゥべえに、暁美さんの@力を伝えてしまっています)",
-                "textAvColor": "textMabayu"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 1,
-                        "id": 200912,
-                        "lipSynch": 0,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-49"
-                    }
-                ],
-                "progressFnarration": "(彼女にとって、私はスパイの@ようなもの…)"
-            },
-            {
-                "chara": [
-                    {
-                        "eyeClose": 0,
-                        "id": 200912,
-                        "lipSynch": 0,
-                        "motion": 100,
-                        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-50"
-                    }
-                ],
-                "progressFnarration": "(真意を知る前に、ノコノコ@近づくのは、避けたい…)"
-            },
-            {
-                "FnarrationEffect": "out",
-                "autoTurnLast": 2,
-                "turnChangeIn": "fadeIn"
-            }
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.01,
+        "bg": "black",
+        "bgm": "stop",
+        "item": [
+          {
+            "path": "resource/scenario/img/scene0/scene_bg.jpg",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaBack"
+          },
+          {
+            "path": "resource/scenario/img/scene0/scene_13.png",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaFront"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "autoTurnLast": 1,
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "autoTurnLast": 0.5,
+        "item": [
+          {
+            "path": "resource/scenario/img/scene0/scene_13.png",
+            "visible": "hide"
+          }
         ]
-    },
-    "version": 3
+      },
+      {
+        "autoTurnLast": 1.5,
+        "item": [
+          {
+            "path": "resource/scenario/img/scene0/scene_14.png",
+            "posX": 0,
+            "posY": 0,
+            "visible": "appear",
+            "zOrder": "charaFront"
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.2,
+        "bg": "bg_adv_20201.jpg",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 800100,
+            "motion": 0,
+            "pos": 2
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 800200,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "item": [
+          {
+            "anchor": "skip",
+            "path": "resource/scenario/img/scene0/calender_day14.png",
+            "posX": -4,
+            "posY": -50,
+            "visible": "appear",
+            "zOrder": "messageFront"
+          }
+        ],
+        "turnChangeIn": "fadeIn"
+      },
+      {
+        "bgm": "bgm01_anime02",
+        "chara": [
+          {
+            "id": 800100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-1"
+          }
+        ],
+        "nameAvRight": "",
+        "textAvColor": "255255255",
+        "textAvRight": "呐呐，你看了昨天的live吗？",
+        "turnChangeOut": "fadeOut"
+      },
+      {
+        "chara": [
+          {
+            "id": 800200,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-2"
+          }
+        ],
+        "nameAvLeft": "",
+        "textAvColor": "255255255",
+        "textAvLeft": "你说的是解散live的转播吧？@氛围真的超级热烈——"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "effect": "fadeout",
+            "id": 800200
+          },
+          {
+            "effect": "fadeout",
+            "id": 800100
+          }
+        ],
+        "textAvClear": 1
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200912,
+            "motion": 400,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-3"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "surround": "7202_telepathy",
+        "textAvCenter": "哦！同学的对话变化了",
+        "textAvColor": "textMabayu",
+        "turnEffect": "ef_adv_02"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 200912,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-4"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "之前她们的话题是@炸弹骚动和工厂的瓦斯泄漏…"
+      },
+      {
+        "chara": [
+          {
+            "id": 200912,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-5"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "原因果然是魔女吗"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200912,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-6"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "预防了事故真是太好了…"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200912,
+            "motion": 0
+          }
+        ],
+        "nameAvRight": "丘比的声音",
+        "textAvColor": "255255255",
+        "textAvRight": "人类还真是难以理解呢",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-7"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvRight": "明明无法让自己获利@他们却会去帮助别人",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-8"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvRight": "明明能通过魔法少女的契约获利@却又会感到害怕",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-9"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvRight": "如果你们能做出合理的判断@我就更容易预测了",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-10"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200902,
+            "motion": 200,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-11"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "要是对能帮助的人见死不救@就会连觉都睡不好的",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvColor": "255255255",
+        "textAvRight": "你们似乎把因果关系@和责任的有无混为一谈了",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-12"
+      },
+      {
+        "chara": [
+          {
+            "id": 200902,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-13"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "肯定不可能那么单纯吧？",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 1,
+            "id": 200902,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-14"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "说到底，实现愿望@和作为其代价去战斗…"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 1,
+            "id": 200902,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-15"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "两件事分别是多么幸福@和多么不幸"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 0,
+            "id": 200902,
+            "motion": 300,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-16"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "预先将其数字化@并通过两者的差值获取利益…"
+      },
+      {
+        "chara": [
+          {
+            "id": 200902,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-17"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "那种事怎么可能计算得出来嘛"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvColor": "255255255",
+        "textAvRight": "这就是个明显的错误了",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-18"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvRight": "如果只要有不确定性就不予关注@那么统计学到底有什么意义…",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-19"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_040.exp3.json",
+            "id": 200902,
+            "motion": 200,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-20"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "啊——是是，你说的都对",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 200902,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-21"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "按照你的理论，现在@美树同学应该已经签订了契约吧"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 1,
+            "id": 200902,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-22"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "虽然不知道@她到底会许什么愿望就是了"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200902,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-23"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "…明明我连自己@许了什么愿望都不记得了"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200902,
+            "motion": 400,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-24"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "话说，丘比"
+      },
+      {
+        "chara": [
+          {
+            "id": 200902,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-25"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "关于我的契约内容@就没有什么线索吗？"
+      },
+      {
+        "bgm": "stop",
+        "nameAvRight": "丘比的声音",
+        "textAvColor": "255255255",
+        "textAvRight": "有哦",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-26"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200902,
+            "motion": 0,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-27"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "有！？有吗！？",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "bgm": "bgm01_anime07",
+        "nameAvRight": "丘比的声音",
+        "textAvColor": "255255255",
+        "textAvRight": "魔法少女的能力的倾向@和许下的愿望是有关联性的",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-28"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvRight": "巴麻美是为了在交通事故中存活@而签订了契约",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-29"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvRight": "她使用的丝带@就是其象征",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-30"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_000.exp3.json",
+            "id": 200902,
+            "motion": 100,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-31"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "嚯嚯，原来如此",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvColor": "255255255",
+        "textAvRight": "你所使用的魔法的倾向@似乎和“光”有关",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-32"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvRight": "也就是说，你的愿望@应该也和光有关吧",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-33"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200902,
+            "motion": 400,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-34"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "原来如此！",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "chara": [
+          {
+            "id": 200902,
+            "motion": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-35"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "所以呢？"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvColor": "255255255",
+        "textAvRight": "…………",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-36"
+      },
+      {
+        "chara": [
+          {
+            "id": 200902,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-37"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "…………",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvColor": "255255255",
+        "textAvRight": "…………？",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-38"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200902,
+            "motion": 200,
+            "pos": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-39"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "不不不！只有这些吗？",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "autoTurnFirst": 4.4,
+        "autoTurnNoDelay": 1,
+        "chara": [
+          {
+            "id": 200902,
+            "voiceFull": "fullvoice/section_104202/vo_full_903114-010-40"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "光？愿望的线索居然是光吗！@范围也太大了点吧！"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200902
+          }
+        ]
+      },
+      {
+        "chara": [
+          {
+            "id": 200902,
+            "motion": 1,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-41",
+            "voiceFullStop": "fullvoice/section_104202/vo_full_903114-010-40"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "难道当时我周围是漆黑一片吗？@停电？是停电吗？"
+      },
+      {
+        "chara": [
+          {
+            "id": 200902,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-42"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "我又不是眼睛看不见"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_050.exp3.json",
+            "id": 200902,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-43"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "仔细一想，我的名字@也有种和光有关的感觉"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 1,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200902,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-44"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "但靠这种线索推理契约什么的@我又不是名侦探"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "eyeClose": 0,
+            "face": "mtn_ex_030.exp3.json",
+            "id": 200902,
+            "motion": 0
+          }
+        ],
+        "nameAvRight": "丘比的声音",
+        "textAvColor": "255255255",
+        "textAvRight": "果然，还是必须@继续收集情报呢",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-45"
+      },
+      {
+        "nameAvRight": "丘比的声音",
+        "textAvRight": "差不多直接@接触一下晓美焰如何",
+        "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-46"
+      },
+      {
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200902,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-47"
+          }
+        ],
+        "nameAvCenter": "眩",
+        "textAvCenter": "…我会考虑的",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "autoTurnLast": 0.2,
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_020.exp3.json",
+            "id": 200912,
+            "motion": 0,
+            "pos": 1
+          }
+        ],
+        "surround": "stop",
+        "textAvClear": 1,
+        "turnEffect": "stop"
+      },
+      {
+        "FnarrationAnchor": "top",
+        "FnarrationCoverColor": "textBlack",
+        "FnarrationCoverOpacity": 110,
+        "FnarrationEffect": "in",
+        "FnarrationFontSize": 23,
+        "FnarrationHeight": 100,
+        "FnarrationLineMargin": 30,
+        "FnarrationLineSpace": 20,
+        "FnarrationOutlineColor": "textBlack",
+        "FnarrationOutlineWeight": 2,
+        "FnarrationTextColor": "textMabayu",
+        "FnarrationWidth": 350,
+        "FnarrationX": -180,
+        "FnarrationY": -80,
+        "chara": [
+          {
+            "id": 200912,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-48"
+          }
+        ],
+        "nameFnarration": "眩",
+        "progressFnarration": "（我不小心把晓美同学的能力@告诉了丘比）",
+        "textAvColor": "textMabayu"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 1,
+            "id": 200912,
+            "lipSynch": 0,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-49"
+          }
+        ],
+        "progressFnarration": "（对她来说@我就是像间谍一样的存在…）"
+      },
+      {
+        "chara": [
+          {
+            "eyeClose": 0,
+            "id": 200912,
+            "lipSynch": 0,
+            "motion": 100,
+            "voiceFullAuto": "fullvoice/section_104202/vo_full_903114-010-50"
+          }
+        ],
+        "progressFnarration": "（我想避免在知道她的真实意图之前@随意接近她…）"
+      },
+      {
+        "FnarrationEffect": "out",
+        "autoTurnLast": 2,
+        "turnChangeIn": "fadeIn"
+      }
+    ]
+  },
+  "version": 3
 }
