@@ -153,7 +153,7 @@
     <div class='numWrap'> <% _.forEach(String(bossHp).split(''),function(txt){ %> <% console.log(txt) %> <div class='num<%= txt %>'></div> <% }) %> <div class='sla'></div> <% _.forEach(String(bossMaxHp).split(''),function(txt){ %> <% console.log(txt) %> <div class='num<%= txt %>'></div> <% }) %> </div>
   </div> <% } %> <div id='questDetail'>
     <div class='wrap'>
-      <p class='title ts_gold'>Tips</p>
+      <p class='title ts_gold'>提示</p>
       <p class='text'><%= (!questBattle.canPlay && questBattle.questBattle.bossFlag) ? '？？？' : questBattle.questBattle.tips %></p>
     </div>
     <div class='wrap'>
