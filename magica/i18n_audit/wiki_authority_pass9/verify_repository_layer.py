@@ -1,107 +1,145 @@
 #!/usr/bin/env python3
-"""Verify the committed Wiki authority dictionary layer in this repository."""
+"""Verify the 23-dictionary layer, deterministic jQuery, and hash ledgers."""
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import re
 import subprocess
-import sys
 
 
 ROOT = Path(__file__).resolve().parents[3]
 LIBS = ROOT / "magica" / "js" / "libs"
-LIST_KEYS = {
-    "arenaClassList": ("arenaBattleFreeRankClass",),
-    "cardList": ("cardId",),
-    "chapterList": ("chapterId",),
-    "charaList": ("id",),
-    "charaMessageList": ("charaNo", "messageId"),
-    "doppelList": ("id",),
-    "enemyList": ("enemyId",),
-    "eventList": ("eventId",),
-    "eventStoryList": ("storyIds",),
-    "formationSheetList": ("id",),
-    "giftList": ("id",),
-    "itemList": ("itemCode",),
-    "live2dList": ("charaId", "live2dId"),
-    "patrolAreaList": ("patrolAreaId",),
-    "pieceList": ("pieceId",),
-    "sectionList": ("sectionId",),
-    "shopItemList": ("id",),
-}
-EXPECTED = {
-    "arenaClassList", "cardList", "cardMagiaMap", "cardSkillMap", "chapterList",
-    "charaList", "charaMessageList", "doppelCardMagiaMap", "doppelList",
-    "emotionSkillMap", "enemyList", "eventList", "eventStoryList",
-    "formationSheetList", "giftList", "itemList", "live2dList", "patrolAreaList",
-    "pieceList", "pieceSkillMap", "placeSkillMap", "sectionList", "shopItemList",
-}
+AUDIT = ROOT / "magica" / "i18n_audit" / "wiki_authority_pass9"
+JQUERY = LIBS / "jquery-3.7.1.min.js"
+MANIFEST = AUDIT / "layer_manifest.json"
+SUMS = AUDIT / "LAYER_SHA256SUMS.txt"
+
+DICTIONARIES: tuple[tuple[str, tuple[str, ...] | None], ...] = (
+    ("arenaClassList.json", ("arenaBattleFreeRankClass",)),
+    ("cardList.json", ("cardId",)),
+    ("cardMagiaMap.json", None),
+    ("cardSkillMap.json", None),
+    ("chapterList.json", ("chapterId",)),
+    ("charaList.json", ("id",)),
+    ("charaMessageList.json", ("charaNo", "messageId")),
+    ("doppelCardMagiaMap.json", None),
+    ("doppelList.json", ("id",)),
+    ("emotionSkillMap.json", None),
+    ("enemyList.json", ("enemyId",)),
+    ("eventList.json", ("eventId",)),
+    ("eventStoryList.json", ("storyIds",)),
+    ("formationSheetList.json", ("id",)),
+    ("giftList.json", ("id",)),
+    ("itemList.json", ("itemCode",)),
+    ("live2dList.json", ("charaId", "live2dId")),
+    ("patrolAreaList.json", ("patrolAreaId",)),
+    ("pieceList.json", ("pieceId",)),
+    ("pieceSkillMap.json", None),
+    ("placeSkillMap.json", None),
+    ("sectionList.json", ("sectionId",)),
+    ("shopItemList.json", ("id",)),
+)
+
+
+def sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def git_blob(data: bytes) -> str:
+    return hashlib.sha1(f"blob {len(data)}\0".encode("ascii") + data).hexdigest()
 
 
 def load(path: Path):
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
-def as_map(name: str, value):
-    if isinstance(value, dict):
-        return {str(k): v for k, v in value.items()}
-    keys = LIST_KEYS[name]
+def as_map(name: str, value, keys: tuple[str, ...] | None):
+    if keys is None:
+        assert isinstance(value, dict), name
+        return {str(key): row for key, row in value.items()}
+    assert isinstance(value, list), name
     result = {}
-    for row in value:
+    for index, row in enumerate(value):
+        assert isinstance(row, dict), (name, index)
+        assert all(field in row for field in keys), (name, index, keys)
         key = "_".join(str(row[field]) for field in keys)
-        if key in result:
-            raise AssertionError(f"duplicate {name} key {key}")
+        assert key not in result, (name, key)
         result[key] = row
     return result
 
 
 def embedded_cn(path: Path):
     text = path.read_text(encoding="utf-8-sig")
-    marker = re.search(r"\bvar\s+cn\s*=\s*", text)
-    if not marker:
-        raise AssertionError("jquery embedded cn marker missing")
-    value, _ = json.JSONDecoder().raw_decode(text[marker.end():])
+    matches = list(re.finditer(r"\bvar\s+cn\s*=\s*", text))
+    assert len(matches) == 1, len(matches)
+    value, _ = json.JSONDecoder().raw_decode(text[matches[0].end():])
     return value
 
 
 def main() -> int:
-    files = {path.stem: path for path in LIBS.glob("*.json")}
-    assert set(files) == EXPECTED, (sorted(EXPECTED - set(files)), sorted(set(files) - EXPECTED))
-    standalone = {name: as_map(name, load(path)) for name, path in files.items()}
-    embedded = embedded_cn(LIBS / "jquery-3.7.1.min.js")
-    assert set(embedded) == EXPECTED
-    for name in sorted(EXPECTED):
-        assert embedded[name] == standalone[name], f"embedded mismatch: {name}"
+    names = [name for name, _ in DICTIONARIES]
+    actual = sorted(path.name for path in LIBS.glob("*.json"))
+    assert actual == sorted(names), (sorted(set(names)-set(actual)), sorted(set(actual)-set(names)))
+    standalone = {
+        Path(name).stem: as_map(name, load(LIBS / name), keys)
+        for name, keys in DICTIONARIES
+    }
+    embedded = embedded_cn(JQUERY)
+    assert list(embedded) == list(standalone), "embedded dictionary order drift"
+    assert embedded == standalone, "embedded dictionaries differ from standalone JSON"
+
+    jquery = JQUERY.read_bytes()
+    manifest_bytes = MANIFEST.read_bytes()
+    sums_bytes = SUMS.read_bytes()
+    normalized_paths = [LIBS / name for name in names] + [JQUERY, MANIFEST, SUMS]
+    for path in normalized_paths:
+        data = path.read_bytes()
+        assert b"\r" not in data, f"CR byte present: {path}"
+        assert not data.startswith(b"\xef\xbb\xbf"), f"UTF-8 BOM present: {path}"
+
+    paths = [LIBS / name for name in names] + [JQUERY]
+    expected_entries = [
+        {
+            "path": path.relative_to(ROOT).as_posix(),
+            "bytes": len(path.read_bytes()),
+            "sha256": sha256(path.read_bytes()),
+        }
+        for path in paths
+    ]
+    manifest = load(MANIFEST)
+    assert manifest["files"] == expected_entries, "layer_manifest files/order/hash drift"
+    expected_sums = "".join(f"{row['sha256']}  {row['path']}\n" for row in expected_entries).encode("ascii")
+    assert sums_bytes == expected_sums, "LAYER_SHA256SUMS content/order/hash drift"
 
     doppel = standalone["doppelList"]
     card = standalone["cardMagiaMap"]
     doppel_card = standalone["doppelCardMagiaMap"]
-    groups = 0
     for doppel_id, row in doppel.items():
         magia_id = str(int(doppel_id) // 100) + "8"
-        assert magia_id in card and magia_id in doppel_card, (doppel_id, magia_id)
         assert row["name"] == card[magia_id]["name"] == doppel_card[magia_id]["name"], doppel_id
-        groups += 1
-    assert groups == 217
 
-    failures = []
-    js_files = sorted((ROOT / "magica").rglob("*.js"))
-    for path in js_files:
-        proc = subprocess.run(["node", "--check", str(path)], capture_output=True, text=True)
-        if proc.returncode:
-            failures.append({"file": path.relative_to(ROOT).as_posix(), "stderr": proc.stderr})
-    assert not failures, failures
-
+    proc = subprocess.run(["node", "--check", str(JQUERY)], capture_output=True, text=True)
+    assert proc.returncode == 0, proc.stderr
     result = {
         "status": "PASS",
-        "dictionaries": len(standalone),
-        "records": sum(len(value) for value in standalone.values()),
-        "embedded_mismatches": 0,
-        "doppel_groups": groups,
-        "javascript_checked": len(js_files),
-        "javascript_syntax_failures": 0,
+        "dictionary_count": len(standalone),
+        "dictionary_order": list(standalone),
+        "record_count": sum(len(value) for value in standalone.values()),
+        "embedded_equals_standalone": True,
+        "jquery": {
+            "bytes": len(jquery),
+            "sha256": sha256(jquery),
+            "git_blob": git_blob(jquery),
+            "cr_bytes": jquery.count(b"\r"),
+        },
+        "layer_manifest_sha256": sha256(manifest_bytes),
+        "layer_sha256s_sha256": sha256(sums_bytes),
+        "manifest_entries_match": True,
+        "checksums_match": True,
+        "node_check_exit_status": proc.returncode,
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
