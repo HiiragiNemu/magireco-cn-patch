@@ -1,0 +1,261 @@
+{
+  "status": "PASS",
+  "inputs": {
+    "work/archive_audit/pass8.zip": {
+      "sha256": "e4b466d6cb6c16ec018b61c7d074e2d213601889e758ef6db4dc4dd041c54e53",
+      "expected_sha256": "e4b466d6cb6c16ec018b61c7d074e2d213601889e758ef6db4dc4dd041c54e53",
+      "bytes": 2815812,
+      "match": true
+    },
+    "work/main/wiki_patch_analysis/proposals.json": {
+      "sha256": "b8da9d62b6ab26410d000cc630e6b72662eb81a9d93c88f8113d9aa25ba9173e",
+      "expected_sha256": "b8da9d62b6ab26410d000cc630e6b72662eb81a9d93c88f8113d9aa25ba9173e",
+      "bytes": 4054095,
+      "match": true
+    },
+    "work/main/wiki_patch_analysis/doppel_consistency_reconciliations.json": {
+      "sha256": "ff25c4fc3bc9c5c7e82973f69479e024934277a8dec7eac9f7903ea40050ffa2",
+      "expected_sha256": "ff25c4fc3bc9c5c7e82973f69479e024934277a8dec7eac9f7903ea40050ffa2",
+      "bytes": 12194,
+      "match": true
+    },
+    "work/branch_compare/analysis/verified_main_overrides.tsv": {
+      "sha256": "842858aad3702625d128794d23c86aee5c6c08734eb8eb35fff6ef5299948ab0",
+      "expected_sha256": "842858aad3702625d128794d23c86aee5c6c08734eb8eb35fff6ef5299948ab0",
+      "bytes": 6444,
+      "match": true
+    },
+    "work/main/pass8_field_provenance_reconstructed.tsv": {
+      "sha256": "f2e737e320f06d734df9437a13fe71a4868228ef4bad623f18bb129317871f1a",
+      "expected_sha256": "f2e737e320f06d734df9437a13fe71a4868228ef4bad623f18bb129317871f1a",
+      "bytes": 12849488,
+      "match": true
+    },
+    "work/main/pass8_llm_or_other_candidates.json": {
+      "sha256": "3aca8e71ec52de64205ba51eac4847aff1d2f66ae3d1c7fed26b120f5bd2ebb4",
+      "expected_sha256": "3aca8e71ec52de64205ba51eac4847aff1d2f66ae3d1c7fed26b120f5bd2ebb4",
+      "bytes": 6222521,
+      "match": true
+    },
+    "work/archive_audit/dump/authority/authority.json": {
+      "sha256": "19b91c81254d2e44c478efa827ad568fb743b06b41b3536dae612ddd9c498595",
+      "expected_sha256": "19b91c81254d2e44c478efa827ad568fb743b06b41b3536dae612ddd9c498595",
+      "bytes": 2770158,
+      "match": true
+    }
+  },
+  "application": {
+    "wiki_proposals_exactly_applied": 5678,
+    "doppel_reconciliation_decisions": 31,
+    "doppel_conflicting_proposals_rejected": 19,
+    "doppel_canonical_fields_propagated_via_proposals": 12,
+    "doppel_reviewed_groups": 20,
+    "verified_main_override_rules": 12,
+    "verified_main_override_occurrences": 23,
+    "baseline_font_preserve_occurrences": 1,
+    "candy_fix": {
+      "EVENT_DAILYTOWER_1160_EXCHANGE_1": "珍藏的糖果",
+      "EVENT_DAILYTOWER_1189_STICKER_121600": "常暗假面"
+    }
+  },
+  "text_structure_health": {
+    "rows_checked": 5678,
+    "paired_chinese_quote_errors": 0,
+    "html_comment_residue": 0,
+    "malformed_encoding_or_nul": 0,
+    "ascii_double_space_errors": 0,
+    "ascii_space_adjacent_to_chinese_punctuation_errors": 0,
+    "reviewed_truncation_meme_exceptions": [
+      {
+        "file": "pieceList.json",
+        "key": "1749",
+        "field": "description",
+        "token": "(ry"
+      }
+    ],
+    "non_candidate_doppel_consistency_targets": 10
+  },
+  "json_schema": {
+    "dictionaries": 23,
+    "records_checked": 29008,
+    "fields_checked": 120084,
+    "errors": []
+  },
+  "dump_authority": {
+    "fields_checked": 57056,
+    "errors": []
+  },
+  "creator_fields": {
+    "fields_checked": 2274,
+    "errors": []
+  },
+  "doppel_and_skill": {
+    "doppel_records_checked": 217,
+    "linked_names_checked": 434,
+    "doppel_link_errors": [],
+    "ambiguous_cross_skill_ids": [
+      {
+        "key": "1001101",
+        "dictionaries": [
+          "emotionSkillMap.json",
+          "pieceSkillMap.json"
+        ]
+      }
+    ]
+  },
+  "embedded_runtime": {
+    "dictionary_count": 23,
+    "record_count": 29008,
+    "old_payload_utf8_bytes": 4994645,
+    "release_payload_utf8_bytes": 4960283,
+    "prefix_sha256": "0243774265dc954e6f9d129d63776c0446097030bebeffaa81798477de3892a1",
+    "suffix_sha256": "c4c18438082918f8a2b25612230ff46277a4f31aef1cd0333a0b028ebce0f7e3",
+    "outside_payload_code_identical": true,
+    "standalone_mismatches": [],
+    "injector_code_outside_dictionary_equal_to_pass8": true
+  },
+  "static_structure": {
+    "html_files_checked": 181,
+    "html_structure_or_sensitive_attribute_errors": [],
+    "javascript_files_checked": 197,
+    "javascript_non_string_drift_errors": [],
+    "reviewed_override_js_verified_by_exact_spans": [
+      "magica/js/top/TopPage.js",
+      "magica/js/view/memoria/PieceArchiveView.js"
+    ],
+    "base_font_targeted_preserve_profile": {
+      "release_vs_pass8_string_elided_equal": false,
+      "release_vs_baseline_string_elided_equal": true,
+      "full_file_equals_baseline": true
+    }
+  },
+  "node_syntax": {
+    "checked": 197,
+    "failures": []
+  },
+  "runtime_smoke": {
+    "dictionary_count": 23,
+    "record_cases": 29008,
+    "field_assertions": 73014,
+    "ambiguous_untyped_rejected": true,
+    "typed_ambiguous_contexts_passed": 2,
+    "json_parse_wrapper_passed": true,
+    "xhr_json_passed": true,
+    "xhr_text_passed": true
+  },
+  "paths_and_changes": {
+    "pass8_files": 401,
+    "release_files": 401,
+    "path_sets_equal": true,
+    "changed_file_count": 16,
+    "changed_files": [
+      "magica/js/_common/base.js",
+      "magica/js/libs/cardList.json",
+      "magica/js/libs/cardMagiaMap.json",
+      "magica/js/libs/cardSkillMap.json",
+      "magica/js/libs/doppelCardMagiaMap.json",
+      "magica/js/libs/doppelList.json",
+      "magica/js/libs/emotionSkillMap.json",
+      "magica/js/libs/itemList.json",
+      "magica/js/libs/jquery-3.7.1.min.js",
+      "magica/js/libs/pieceList.json",
+      "magica/js/libs/pieceSkillMap.json",
+      "magica/js/libs/sectionList.json",
+      "magica/js/libs/shopItemList.json",
+      "magica/js/top/TopPage.js",
+      "magica/js/view/memoria/PieceArchiveView.js",
+      "magica/template/top/TopPage.html"
+    ]
+  },
+  "zip": {
+    "file_count": 401,
+    "unique_paths": 401,
+    "duplicates": [],
+    "unsafe_paths": [],
+    "crc_error": null,
+    "content_hash_errors": [],
+    "sha256": "ee1d0d93815382e829757a2b75ea70202f67fee847b1f15719df0e81e3c4c4e1",
+    "bytes": 2771559,
+    "deterministic_second_build_byte_equal": true
+  },
+  "source_summary": {
+    "tracked_json_fields": 88325,
+    "pass8_source_counts": {
+      "baseline_and_dump": 12612,
+      "dump": 43125,
+      "baseline": 15845,
+      "llm_or_other": 16742,
+      "creator_preserved_or_corrected": 1
+    },
+    "release_source_counts": {
+      "baseline_and_dump": 12612,
+      "dump": 43125,
+      "baseline": 15835,
+      "llm_or_other": 11055,
+      "wiki_authority": 5666,
+      "doppel_name_consistency_propagation": 12,
+      "doppel_name_consistency_preserve": 19,
+      "creator_preserved_or_corrected": 1
+    },
+    "initial_llm_or_other_candidates": 16742,
+    "direct_wiki_proposal_triples": 5678,
+    "doppel_reconciliation_decisions": 31,
+    "doppel_physical_propagation_proposals": 12,
+    "doppel_conflicting_proposals_rejected_and_canonical_preserved": 19,
+    "resolved_candidate_triples_unique": 5687,
+    "residual_llm_or_other_candidates": 11055,
+    "wiki_or_consistency_resolution_share_of_initial_candidates": 0.33968463,
+    "residual_llm_share_of_initial_candidates": 0.66031537,
+    "residual_llm_share_of_all_tracked_json_fields": 0.12516275,
+    "static_verified_main_override_rules": 12,
+    "static_verified_main_override_occurrences": 23,
+    "baseline_preserve_occurrences": 1
+  },
+  "verification_commands": {
+    "baseline_behavior": {
+      "command": "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\release_build\\verify_behavior.py C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\archive_audit\\pass8",
+      "stdout": "{\"account_transfer_old_occurrences\":5,\"account_transfer_verified_occurrences\":6,\"base_mbm_source_occurrences\":0,\"base_motoya_source_occurrences\":2,\"candy_exchange\":\"��������\",\"candy_sticker\":\"��������\",\"doppel_names\":{\"101700\":{\"cardMagia\":\"����������ħŮ����\",\"doppelCardMagia\":\"����������ħŮ����\",\"doppelList\":\"����������ħŮ����\"},\"102700\":{\"cardMagia\":\"�����ħŮ����\",\"doppelCardMagia\":\"�����ħŮ����\",\"doppelList\":\"�����ħŮ����\"},\"104400\":{\"cardMagia\":\"���ݵ�ħŮ����\",\"doppelCardMagia\":\"���ݵ�ħŮ����\",\"doppelList\":\"���ݵ�ħŮ����\"},\"110700\":{\"cardMagia\":\"���������ƻ���ʥҹ\",\"doppelCardMagia\":\"���������ƻ���ʥҹ\",\"doppelList\":\"���������ƻ���ʥҹ\"},\"111700\":{\"cardMagia\":\"�μ�������ħŮ����\",\"doppelCardMagia\":\"�μ�������ħŮ����\",\"doppelList\":\"�μ�������ħŮ����\"},\"114400\":{\"cardMagia\":\"���ݵ�ħŮ����\",\"doppelCardMagia\":\"���ݵ�ħŮ����\",\"doppelList\":\"���ݵ�ħŮ����\"},\"121700\":{\"cardMagia\":\"����������ħŮ����\",\"doppelCardMagia\":\"����������ħŮ����\",\"doppelList\":\"����������ħŮ����\"},\"305300\":{\"cardMagia\":\"����עĿ��ħŮ����\",\"doppelCardMagia\":\"����עĿ��ħŮ����\",\"doppelList\":\"����עĿ��ħŮ����\"}},\"piece_archive_cn_title_occurrences\":0,\"piece_archive_japanese_title_occurrences\":4}",
+      "stderr": "",
+      "exit_status": 0
+    },
+    "modified_behavior": {
+      "command": "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\release_build\\verify_behavior.py C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\release_build\\tree",
+      "stdout": "{\"account_transfer_old_occurrences\":0,\"account_transfer_verified_occurrences\":11,\"base_mbm_source_occurrences\":1,\"base_motoya_source_occurrences\":1,\"candy_exchange\":\"��ص��ǹ�\",\"candy_sticker\":\"��������\",\"doppel_names\":{\"101700\":{\"cardMagia\":\"����������ħŮ����\",\"doppelCardMagia\":\"����������ħŮ����\",\"doppelList\":\"����������ħŮ����\"},\"102700\":{\"cardMagia\":\"�����ħŮ����\",\"doppelCardMagia\":\"�����ħŮ����\",\"doppelList\":\"�����ħŮ����\"},\"104400\":{\"cardMagia\":\"���ӵ�ħŮ����\",\"doppelCardMagia\":\"���ӵ�ħŮ����\",\"doppelList\":\"���ӵ�ħŮ����\"},\"110700\":{\"cardMagia\":\"���������ƻ���ʥҹ\",\"doppelCardMagia\":\"���������ƻ���ʥҹ\",\"doppelList\":\"���������ƻ���ʥҹ\"},\"111700\":{\"cardMagia\":\"�μ�������ħŮ����\",\"doppelCardMagia\":\"�μ�������ħŮ����\",\"doppelList\":\"�μ�������ħŮ����\"},\"114400\":{\"cardMagia\":\"���ӵ�ħŮ����\",\"doppelCardMagia\":\"���ӵ�ħŮ����\",\"doppelList\":\"���ӵ�ħŮ����\"},\"121700\":{\"cardMagia\":\"Memento Mori��ħŮ����\",\"doppelCardMagia\":\"Memento Mori��ħŮ����\",\"doppelList\":\"Memento Mori��ħŮ����\"},\"305300\":{\"cardMagia\":\"����עĿ��ħŮ����\",\"doppelCardMagia\":\"����עĿ��ħŮ����\",\"doppelList\":\"����עĿ��ħŮ����\"}},\"piece_archive_cn_title_occurrences\":4,\"piece_archive_japanese_title_occurrences\":0}",
+      "stderr": "",
+      "exit_status": 0
+    },
+    "runtime_modified": {
+      "command": "node C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\release_build\\runtime_smoke_test.js C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\release_build\\tree\\magica\\js\\libs\\jquery-3.7.1.min.js",
+      "stdout": "{\"dictionary_count\":23,\"record_cases\":29008,\"field_assertions\":73014,\"ambiguous_untyped_rejected\":true,\"typed_ambiguous_contexts_passed\":2,\"json_parse_wrapper_passed\":true,\"xhr_json_passed\":true,\"xhr_text_passed\":true}",
+      "stderr": "",
+      "exit_status": 0
+    },
+    "node_syntax_modified": {
+      "command": "node --check <each of 197 release JavaScript files>",
+      "stdout": "checked=197 failures=0",
+      "stderr": "",
+      "exit_status": 0
+    },
+    "rollback": {
+      "command": "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\release_build\\rollback_to_pass8.py C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\release_build\\rollback_verification",
+      "stdout": "{\"expected_pass8_sha256\":\"e4b466d6cb6c16ec018b61c7d074e2d213601889e758ef6db4dc4dd041c54e53\",\"target\":\"C:\\\\Users\\\\proje\\\\Documents\\\\Codex\\\\2026-08-06\\\\https-github-com-hiiraginemu-magireco-wiki-3\\\\work\\\\release_build\\\\rollback_verification\",\"tree_bytes_equal\":true,\"tree_file_count\":401,\"tree_paths_equal\":true,\"zip_byte_exact\":true,\"zip_sha256\":\"e4b466d6cb6c16ec018b61c7d074e2d213601889e758ef6db4dc4dd041c54e53\"}",
+      "stderr": "",
+      "exit_status": 0
+    },
+    "build": {
+      "command": "python.exe work/release_build/build_release.py",
+      "stdout": "BUILD_OK proposals=5678 doppel_decisions=31 overrides=23 files=401 sha256=ee1d0d93815382e829757a2b75ea70202f67fee847b1f15719df0e81e3c4c4e1",
+      "stderr": "",
+      "exit_status": 0
+    }
+  },
+  "rollback_result": {
+    "expected_pass8_sha256": "e4b466d6cb6c16ec018b61c7d074e2d213601889e758ef6db4dc4dd041c54e53",
+    "target": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\release_build\\rollback_verification",
+    "tree_bytes_equal": true,
+    "tree_file_count": 401,
+    "tree_paths_equal": true,
+    "zip_byte_exact": true,
+    "zip_sha256": "e4b466d6cb6c16ec018b61c7d074e2d213601889e758ef6db4dc4dd041c54e53"
+  }
+}
