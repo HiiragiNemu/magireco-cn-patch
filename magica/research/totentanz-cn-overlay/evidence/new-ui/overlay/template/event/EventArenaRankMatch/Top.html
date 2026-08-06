@@ -1,0 +1,77 @@
+<div id="EventArenaRankMatchTop">
+  <div class="mainSec">
+    <div class="userInfoSec">
+      <div class="bgTryangle"></div>
+      <!-- 攻撃デッキリーダー画像 -->
+      <div class="userLeader">
+        <img data-nativeimgkey='card_<%= model.userInfo.displayCardId %>_l' data-src='resource/image_native/card/image/card_<%= model.userInfo.displayCardId %>_l.png'>
+      </div>
+      <div class="vsMark"></div>
+      <div class="statusBg"></div>
+      <!-- ユーザー情報 -->
+      <div class="nameSec">
+        <div class="rank">Rank<%= model.userInfo.rank %></div>
+        <div class="name"><%= model.userInfo.name %></div>
+      </div>
+      <!-- 対戦回数情報 -->
+      <div class="attackCountSec"> 对战次数 <span id="attackCountNumSec"></span>
+        <div id="recoverAttackCountBtnSec"></div>
+      </div>
+      <!-- アイテム情報 -->
+      <div class="itemNumSec">
+        <img class="itemImg" src="/magica/resource/image_web/event/arenaRankMatch/common/top/icon_rankmatch_battleticket.png">
+        <span id="itemNumNumSec"><%= model.attackCountInfo.itemNum %></span>
+      </div>
+      <!-- クールタイム情報 -->
+      <div class="coolDownTimeSec"> 冷却时间 <span id="coolDownTimeNumSec"></span>
+      </div>
+      <!-- ランキング順位情報 -->
+      <div class="orderRankSec" id="openEventRewardPopupBtn">
+        <div class="orderRank rank<%= model.userInfo.classRank %>">
+          <span class="num"><%= model.userInfo.orderRank %></span>名
+        </div>
+        <div class="teamPowerSec"><%= model.userInfo.teamStatus %></div>
+        <div class="rewardIcon">!</div>
+      </div>
+      <!-- フッター -->
+      <div id="userInfoBottom">
+        <div id="editAttackDeckBtn" class="attackFormationBtn se_decide TE"></div>
+        <div id="editDefenceDeckBtn" class="formationBtn se_decide TE"></div>
+        <div id="openSpRulePopupBtnSec"></div>
+      </div>
+      <div id="rankMatchHelp" class="mb_white se_tabs TE">
+        <span class="b_screen"></span> 玩法
+      </div>
+      <div id="limitMissionBtn"></div>
+    </div>
+    <div class="listInfoSec">
+      <span id="reloadListTimeSec">--:--</span>
+      <div id="reloadListBtn" class="reloadListBtn <%= model.attackCountInfo.reloadBtnClass %> se_decide TE"></div>
+    </div>
+    <ul id="matchingWrap"></ul>
+  </div>
+</div>
+<!-- 対戦相手パーツ -->
+<script type="text/template" id="arenaParts"> <%="<% if(model.displayTitle) { %\>"%>
+		<div class="userTitle_s <%="<%= model.displayTitle.name %\>"%>">
+			<div id="targetTitleText" class="userTitleText"><%="<%= model.displayTitle.name %\>"%></div>
+			<img id="targetTitleBg" class="userTitleBg" src="/magica/resource/image_web/common/grade/<%="<%= model.displayTitle.baseImage %\>"%>.png">
+		</div>
+	<%="<% } %\>"%>
+	<p class="enemyRank">Rank<%='<%= model.userRank%\>'%></p>
+	<p class="matchingUserName arenaColor"><%='<%= _.escape(model.userName) %\>'%></p>
+	<p class="arenaRateing arenaColor"><%='<%= model.userRatingPoint %\>'%></p>
+	<p class="nowPoint arenaColor"><%='<%= model.rankMatchRank %\>'%>名</p>
+	<div class="enemyInfoBg"></div>
+	<div class="charaListSec"><%='<%= model.charaHtml %\>'%></div>
+	<div class="formationMiniMap"><%='<%= model.formationHtml %\>'%></div>
+</script>
+<!-- キャラパーツ -->
+<script type="text/template" id="charaIconParts"> <div class="userCharaIcon <%='<%= cardData.card.rank %\>'%> <%='<%= cardData.card.attributeId %\>'%>">
+		<span class="att" data-nativebgkey='<%='<%= iconPrm.att %\>'%>' data-src='resource/image_native/card/frame/<%='<%= iconPrm.att %\>'%>.png'></span>
+		<span class="star" data-nativebgkey='<%='<%= iconPrm.star %\>'%>' data-src='resource/image_native/card/frame/<%='<%= iconPrm.star %\>'%>.png'></span>
+		<span class="rank" data-nativebgkey='<%='<%= iconPrm.frame %\>'%>' data-src='resource/image_native/card/frame/<%='<%= iconPrm.frame %\>'%>.png'></span>
+		<img data-nativeimgkey='card_<%='<%= cardData.displayCardId %\>'%>_f' data-src='resource/image_native/card/image/card_<%='<%= cardData.displayCardId %\>'%>_f.png'>
+		<span class="bg" data-nativebgkey='<%='<%= iconPrm.bg %\>'%>' data-src='resource/image_native/card/frame/<%='<%= iconPrm.bg %\>'%>.png'></span>
+	</div>
+</script>

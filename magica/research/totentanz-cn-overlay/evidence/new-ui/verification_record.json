@@ -1,0 +1,62 @@
+{
+  "schema": "magica-new-ui-localization-verification-v1",
+  "generated_at_utc": "2026-08-06T12:50:27.336301+00:00",
+  "inputs": {
+    "source_table": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\totentanz_frontend\\new_ui_strings.json",
+    "source_root": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\totentanz_frontend\\extracted\\totentanz-frontend\\totentanz-frontend",
+    "overlay_root": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\overlay",
+    "manifest": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\manifest.json",
+    "patch": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\new_ui_localization.patch"
+  },
+  "checks": [
+    {
+      "role": "baseline",
+      "command": "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verify_static.py --phase baseline",
+      "cwd": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project",
+      "stdout": "BASELINE_OK files=20 records=107 production=57 test=50 occurrences=183 sha256_match=20/20",
+      "stderr": "",
+      "exit_status": 0
+    },
+    {
+      "role": "modified",
+      "command": "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verify_static.py --phase modified",
+      "cwd": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project",
+      "stdout": "MODIFIED_OK files=20 records=107 occurrences=183 removed_source_slots=174/174 structural_exact=20/20 numeric_markup_guards=107/107",
+      "stderr": "",
+      "exit_status": 0
+    },
+    {
+      "role": "syntax_ui",
+      "command": "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verify_static.py --phase syntax",
+      "cwd": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project",
+      "stdout": "SYNTAX_UI_OK js=5/5 kana_ui_slot_residuals=0 checked_files=20",
+      "stderr": "",
+      "exit_status": 0
+    },
+    {
+      "role": "apply_stage",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\apply_overlay.ps1 -TargetMagica C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verification_stage\\magica -BackupRoot C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verification_stage\\backup",
+      "cwd": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project",
+      "stdout": "APPLY_OK files=20 target=C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verification_stage\\magica backup=C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verification_stage\\backup record=C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verification_stage\\backup\\application_record.json",
+      "stderr": "",
+      "exit_status": 0
+    },
+    {
+      "role": "rollback_stage",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\rollback_overlay.ps1 -RecordPath C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verification_stage\\backup\\application_record.json",
+      "cwd": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project",
+      "stdout": "ROLLBACK_OK files=20 target=C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verification_stage\\magica",
+      "stderr": "",
+      "exit_status": 0
+    },
+    {
+      "role": "patch_roundtrip",
+      "command": "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project\\work\\new_ui_localization\\verify_patch_roundtrip.py",
+      "cwd": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-magirecocn-revival-project",
+      "stdout": "PATCH_ROUNDTRIP_OK files=20 apply_match=20/20 rollback_match=20/20",
+      "stderr": "",
+      "exit_status": 0
+    }
+  ],
+  "result": "PASS"
+}
