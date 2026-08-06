@@ -1,167 +1,218 @@
-import os
-import json
-import shutil
+#!/usr/bin/env python3
+"""Deterministically rebuild the embedded MagiaCN dictionaries.
 
-# ================= 相对路径配置 (适配 GitHub Actions 与本地) =================
-# 获取当前脚本所在目录作为根目录
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# 纯净版 jQuery 的存放位置 (你需要建一个 original_source 文件夹放原版 JS)
-ORIGINAL_JQUERY_PATH = os.path.join(ROOT_DIR, "original_source", "jquery-3.7.1.min.js")
-# JSON 字典和目标 JS 所在的目录
-TARGET_DIR = os.path.join(ROOT_DIR, "magica", "js", "libs")
-# 生成的目标 JS 文件路径
-TARGET_JQUERY_PATH = os.path.join(TARGET_DIR, "jquery-3.7.1.min.js")
-# =========================================================================
-
-print(">>>[步骤 1] 正在重置环境...")
-if os.path.exists(ORIGINAL_JQUERY_PATH):
-    # 使用纯净版覆盖 Target 目录里的旧版，防止多次注入导致文件越来越大
-    shutil.copy2(ORIGINAL_JQUERY_PATH, TARGET_JQUERY_PATH)
-    print(f"  [√] 已使用原版 jQuery 覆盖至: {TARGET_JQUERY_PATH}")
-else:
-    print(f"  [X] 致命错误: 找不到纯净版源文件 {ORIGINAL_JQUERY_PATH}")
-    exit(1)
-
-# 显式定义所有 23 个文件的主键索引逻辑
-list_keys = {
-    "cardList":["cardId", "id"], 
-    "charaList": ["id", "charaNo"], 
-    "chapterList": ["chapterId", "id"], 
-    "doppelList": ["id"], 
-    "giftList": ["id", "giftId"], 
-    "itemList":["itemCode", "id", "itemId"],
-    "pieceList": ["pieceId", "id"], 
-    "enemyList":["enemyId", "id"], 
-    "patrolAreaList": ["patrolAreaId", "id"], 
-    "shopItemList": ["shopItemId", "id"],
-    "formationSheetList":["formationSheetId", "id"], 
-    "sectionList": ["sectionId", "id"], 
-    "eventList": ["eventId", "id"], 
-    "eventStoryList": ["storyIds"], 
-    "arenaClassList": ["arenaBattleFreeRankClass"],
-    "charaMessageList":["charaNo_messageId"],
-    "live2dList": ["charaId_live2dId"],
-    "cardMagiaMap": "MAP", 
-    "cardSkillMap": "MAP", 
-    "doppelCardMagiaMap": "MAP", 
-    "emotionSkillMap": "MAP", 
-    "pieceSkillMap": "MAP", 
-    "placeSkillMap": "MAP"
-}
-
-js_dict = {}
-success_count = 0
-
-print(">>> [步骤 2] 正在启动 23 字典全量扫描 (终极金标版)...")
-
-for filename in os.listdir(TARGET_DIR):
-    if not filename.endswith(".json"): continue
-    key = filename.replace(".json", "")
-    try:
-        with open(os.path.join(TARGET_DIR, filename), 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        if key in list_keys and list_keys[key] != "MAP":
-            mapped_data = {}
-            id_fields = list_keys[key]
-            for item in data:
-                if key == "charaMessageList":
-                    k = f"{item.get('charaNo', '')}_{item.get('messageId', '')}"
-                elif key == "live2dList":
-                    k = f"{item.get('charaId', '')}_{item.get('live2dId', '')}"
-                else:
-                    k = ""
-                    for field in id_fields:
-                        if field in item: k = str(item[field]); break
-                if k and k != "_": mapped_data[k] = item
-            js_dict[key] = mapped_data
-            print(f"  [√] {key.ljust(20)} : 提取 {len(mapped_data)} 条")
-        else:
-            js_dict[key] = data
-            print(f"  [√] {key.ljust(20)} : 提取 {len(data)} 条 (Map)")
-        success_count += 1
-    except Exception as e:
-        print(f"  [X] {key.ljust(20)} : 失败: {e}")
-
-dict_json_str = json.dumps(js_dict, ensure_ascii=False, separators=(',', ':')).replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
-
-# === 完全保留你原版的 JS 排版，一字未改 ===
-js_code = """
-(function(){
-    var cn = """ + dict_json_str + """;
-    function tr(o, p){
-        if(Array.isArray(o)){ for(var i=0; i<o.length; i++) tr(o[i], p); }
-        else if(o && typeof o === 'object'){
-            var isTranslated = false;
-
-            // 1. 服装/Live2D (高优先级独立逻辑，防止冲突)
-            if(o.charaId && o.live2dId){
-                var lk = o.charaId + "_" + o.live2dId;
-                if(cn.live2dList[lk]){ o.description = cn.live2dList[lk].description; isTranslated = true; }
-            }
-
-            // 2. 角色档案 (CV、学校、名字)
-            var chId = o.charaNo || o.charaId || (p==='chara'?o.id:null);
-            if(chId && cn.charaList[chId]){ 
-                var t = cn.charaList[chId]; 
-                if(t.name){ o.name = t.name; o.charaName = t.name; if(o.kana) o.kana = t.name; }
-                if(t.school) o.school = t.school; if(t.designer) o.designer = t.designer; if(t.voiceActor) o.voiceActor = t.voiceActor;
-                if(t.description && !isTranslated && !o.live2dId) o.description = t.description; 
-            }
-
-            // 3. 魔女化身 (Doppel - 强力匹配)
-            var dId = o.doppelId || (p==='doppel'?o.id:null) || (o.id && cn.doppelList[o.id] ? o.id : null);
-            if(dId && cn.doppelList[dId]){ 
-                var t = cn.doppelList[dId]; 
-                if(t.name) o.name = t.name; if(t.title) o.title = t.title; if(t.description) o.description = t.description; if(t.designer) o.designer = t.designer; 
-            }
-
-            // 4. 关卡与卡片
-            if(o.sectionId && cn.sectionList[o.sectionId]){ var t=cn.sectionList[o.sectionId]; if(t.areaDetailName) o.areaDetailName=t.areaDetailName; if(t.title) o.title=t.title; if(t.charaName) o.charaName=t.charaName; if(t.message) o.message=t.message; if(t.outline) o.outline=t.outline; }
-            if(o.cardId && cn.cardList[o.cardId]){ var t=cn.cardList[o.cardId]; o.cardName=t.cardName; if(t.illustrator) o.illustrator=t.illustrator; }
-
-            // 5. 记忆结晶/使魔/道具/商店
-            var eId = o.enemyId || (p==='enemy'?o.id:null);
-            if(eId && cn.enemyList[eId]){ var t=cn.enemyList[eId]; o.name=t.name; o.title=t.title; o.description=t.description; o.designer=t.designer; }
-            var pId = o.pieceId || (p==='piece'?o.id:null);
-            if(pId && cn.pieceList[pId]){ var t=cn.pieceList[pId]; if(t.pieceName){ o.pieceName=t.pieceName; if(o.name)o.name=t.pieceName; } if(t.description) o.description=t.description; if(t.illustrator) o.illustrator=t.illustrator; }
-            var ic = o.itemCode || o.itemId || (p==='item'?o.id:null);
-            if(ic && cn.itemList[ic]){ var t=cn.itemList[ic]; o.name=t.name; o.shortDescription=t.shortDescription; o.description=t.description; o.unit=t.unit; }
-            var sid = o.shopItemId || (p==='shopItem'?o.id:null);
-            if(sid && cn.shopItemList[sid]){ o.name=cn.shopItemList[sid].name; o.description=cn.shopItemList[sid].description; }
-
-            // 6. 技能/魔法/加护/阵型/礼物/巡逻 (全量覆盖)
-            var skId = o.skillId || o.magiaId || o.doppelMagiaId || (o.id && (o.shortDescription!==undefined || o.name!==undefined)?o.id:null);
-            if(skId){ var m = cn.cardMagiaMap[skId]||cn.doppelCardMagiaMap[skId]||cn.cardSkillMap[skId]||cn.emotionSkillMap[skId]||cn.pieceSkillMap[skId]||cn.placeSkillMap[skId]; if(m){ if(m.name) o.name=m.name; if(m.shortDescription) o.shortDescription=m.shortDescription; } }
-            var fId = o.formationSheetId || ((o.name && o.description)?o.id:null);
-            if(fId && cn.formationSheetList[fId]){ o.name=cn.formationSheetList[fId].name; o.description=cn.formationSheetList[fId].description; }
-            var gId = o.giftId || (p==='gift'?o.id:null);
-            if(gId && cn.giftList[gId]) o.name=cn.giftList[gId].name;
-            if(o.patrolAreaId && cn.patrolAreaList[o.patrolAreaId]){ o.areaName=cn.patrolAreaList[o.patrolAreaId].areaName; o.conditionDescription=cn.patrolAreaList[o.patrolAreaId].conditionDescription; }
-
-            // 7. 章节/台词/活动/镜层
-            if(o.chapterId && cn.chapterList[o.chapterId]) o.title=cn.chapterList[o.chapterId].title;
-            if(o.eventId && cn.eventList[o.eventId]) o.eventName=cn.eventList[o.eventId].eventName;
-            if(o.storyIds && cn.eventStoryList[o.storyIds]){ var t=cn.eventStoryList[o.storyIds]; o.storyTitle=t.storyTitle; if(t.pointTitle) o.pointTitle=t.pointTitle; }
-            if(o.charaNo && o.messageId){ var k=o.charaNo+"_"+o.messageId; if(cn.charaMessageList[k]) o.message=cn.charaMessageList[k].message; }
-            if(o.endMessageId && o.endMessage){ var bId = o.charId || (o.miniCharId?String(o.miniCharId).substring(0,4):null); if(bId){ var bk=bId+"_"+o.endMessageId; if(cn.charaMessageList[bk]) o.endMessage=cn.charaMessageList[bk].message; } }
-            if(o.arenaBattleFreeRankClass && cn.arenaClassList[o.arenaBattleFreeRankClass]){ var t=cn.arenaClassList[o.arenaBattleFreeRankClass]; o.className=t.className; o.nextClassName=t.nextClassName; o.storyTitle=t.storyTitle; }
-
-            for(var key in o){ if(o.hasOwnProperty(key) && o[key] !== null) tr(o[key], key); }
-        }
-    }
-    var _op = JSON.parse; JSON.parse = function(text, r){ var j = _op(text, r); if(j && typeof j === 'object'){ try { tr(j, null); } catch(e){} } return j; };
-    var _ox = XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open = function(){ this.addEventListener('readystatechange', function(){ if(this.readyState === 4 && (this.responseType === '' || this.responseType === 'text') && this.responseText){ try { var fc = this.responseText.trim().charAt(0); if(fc === '{' || fc === '['){ var jo = JSON.parse(this.responseText); var ts = JSON.stringify(jo); Object.defineProperty(this, 'responseText', { value: ts, configurable: true }); if(this.response !== undefined) Object.defineProperty(this, 'response', { value: ts, configurable: true }); } } catch(e){} } }); return _ox.apply(this, arguments); };
-    console.warn("MagiaCN 终极金标版运行中 (23字典全开)");
-})();
+The existing jQuery file is the canonical runtime wrapper.  This program only
+replaces its ``var cn = <JSON>`` value, so rerunning the dictionary build cannot
+silently replace the reviewed runtime logic with an older injector template.
 """
 
-# 读取刚才复制过去的原版 JS
-with open(TARGET_JQUERY_PATH, 'r', encoding='utf-8') as f:
-    jquery_base = f.read()
+from __future__ import annotations
 
-# 写入注入后的 JS
-with open(TARGET_JQUERY_PATH, 'w', encoding='utf-8') as f:
-    f.write(jquery_base + "\n" + js_code)
+import hashlib
+import json
+from pathlib import Path
+import re
+import subprocess
+import sys
+from typing import Any
 
-print(f"\n>>> [步骤 3] 终极金标版注入成功！共计打包 {success_count}/23 个文件。")
+
+ROOT = Path(__file__).resolve().parent
+LIBS = ROOT / "magica" / "js" / "libs"
+JQUERY = LIBS / "jquery-3.7.1.min.js"
+AUDIT = ROOT / "magica" / "i18n_audit" / "wiki_authority_pass9"
+MANIFEST = AUDIT / "layer_manifest.json"
+SUMS = AUDIT / "LAYER_SHA256SUMS.txt"
+
+# This tuple is deliberately ordered.  It is both the allow-list and the
+# serialized outer-object order; never derive it from os.listdir/glob order.
+DICTIONARIES: tuple[tuple[str, tuple[str, ...] | None], ...] = (
+    ("arenaClassList.json", ("arenaBattleFreeRankClass",)),
+    ("cardList.json", ("cardId",)),
+    ("cardMagiaMap.json", None),
+    ("cardSkillMap.json", None),
+    ("chapterList.json", ("chapterId",)),
+    ("charaList.json", ("id",)),
+    ("charaMessageList.json", ("charaNo", "messageId")),
+    ("doppelCardMagiaMap.json", None),
+    ("doppelList.json", ("id",)),
+    ("emotionSkillMap.json", None),
+    ("enemyList.json", ("enemyId",)),
+    ("eventList.json", ("eventId",)),
+    ("eventStoryList.json", ("storyIds",)),
+    ("formationSheetList.json", ("id",)),
+    ("giftList.json", ("id",)),
+    ("itemList.json", ("itemCode",)),
+    ("live2dList.json", ("charaId", "live2dId")),
+    ("patrolAreaList.json", ("patrolAreaId",)),
+    ("pieceList.json", ("pieceId",)),
+    ("pieceSkillMap.json", None),
+    ("placeSkillMap.json", None),
+    ("sectionList.json", ("sectionId",)),
+    ("shopItemList.json", ("id",)),
+)
+
+
+def sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def git_blob_id(data: bytes) -> str:
+    header = f"blob {len(data)}\0".encode("ascii")
+    return hashlib.sha1(header + data).hexdigest()
+
+
+def lf_text(data: bytes, *, label: str) -> str:
+    try:
+        text = data.decode("utf-8-sig")
+    except UnicodeDecodeError as exc:
+        raise AssertionError(f"{label}: not UTF-8: {exc}") from exc
+    return text.replace("\r\n", "\n").replace("\r", "\n")
+
+
+def load_json(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+def record_map(name: str, value: Any, keys: tuple[str, ...] | None) -> dict[str, Any]:
+    if keys is None:
+        if not isinstance(value, dict):
+            raise AssertionError(f"{name}: expected object/map root")
+        return {str(key): row for key, row in value.items()}
+    if not isinstance(value, list):
+        raise AssertionError(f"{name}: expected list root")
+    result: dict[str, Any] = {}
+    for index, row in enumerate(value):
+        if not isinstance(row, dict):
+            raise AssertionError(f"{name}[{index}]: expected object")
+        missing = [key for key in keys if key not in row]
+        if missing:
+            raise AssertionError(f"{name}[{index}]: missing identity fields {missing}")
+        key = "_".join(str(row[field]) for field in keys)
+        if key in result:
+            raise AssertionError(f"{name}: duplicate identity {key!r}")
+        result[key] = row
+    return result
+
+
+def standalone_payload() -> dict[str, dict[str, Any]]:
+    expected = [name for name, _ in DICTIONARIES]
+    actual = sorted(path.name for path in LIBS.glob("*.json"))
+    if actual != sorted(expected):
+        raise AssertionError(
+            f"dictionary set drift: missing={sorted(set(expected)-set(actual))}, "
+            f"extra={sorted(set(actual)-set(expected))}"
+        )
+    # A Windows checkout may have materialized CRLF even when the Git blobs are
+    # LF.  Normalize the authoritative standalone inputs before hashing them so
+    # the worktree build and ``git archive`` build have identical byte ledgers.
+    for filename in expected:
+        path = LIBS / filename
+        normalized = lf_text(path.read_bytes(), label=str(path)).encode("utf-8")
+        if path.read_bytes() != normalized:
+            temporary = path.with_name(path.name + ".tmp")
+            temporary.write_bytes(normalized)
+            temporary.replace(path)
+    result: dict[str, dict[str, Any]] = {}
+    for filename, keys in DICTIONARIES:
+        result[Path(filename).stem] = record_map(filename, load_json(LIBS / filename), keys)
+    return result
+
+
+def embedded_span(text: str) -> tuple[dict[str, Any], int, int]:
+    matches = list(re.finditer(r"\bvar\s+cn\s*=\s*", text))
+    if len(matches) != 1:
+        raise AssertionError(f"expected one embedded cn marker, found {len(matches)}")
+    start = matches[0].end()
+    value, consumed = json.JSONDecoder().raw_decode(text[start:])
+    if not isinstance(value, dict):
+        raise AssertionError("embedded cn value is not an object")
+    return value, start, start + consumed
+
+
+def canonical_json(value: Any) -> str:
+    return (
+        json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=False)
+        .replace("\u2028", "\\u2028")
+        .replace("\u2029", "\\u2029")
+    )
+
+
+def write_lf(path: Path, text: str) -> None:
+    data = text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_bytes(data)
+    temporary.replace(path)
+
+
+def rebuild_jquery(payload: dict[str, dict[str, Any]]) -> tuple[bytes, str, str]:
+    original = lf_text(JQUERY.read_bytes(), label=str(JQUERY))
+    _, start, end = embedded_span(original)
+    prefix = original[:start]
+    suffix = original[end:]
+    rebuilt = prefix + canonical_json(payload) + suffix
+    write_lf(JQUERY, rebuilt)
+    data = JQUERY.read_bytes()
+    if b"\r" in data or data.startswith(b"\xef\xbb\xbf"):
+        raise AssertionError("generated jQuery is not BOM-free LF UTF-8")
+    reparsed, new_start, new_end = embedded_span(data.decode("utf-8"))
+    if reparsed != payload:
+        raise AssertionError("generated jQuery payload differs from standalone JSON")
+    if prefix != rebuilt[:new_start] or suffix != rebuilt[new_end:]:
+        raise AssertionError("runtime wrapper changed outside the embedded dictionary span")
+    return data, sha256_bytes(prefix.encode("utf-8")), sha256_bytes(suffix.encode("utf-8"))
+
+
+def update_layer_metadata() -> tuple[bytes, bytes]:
+    manifest = load_json(MANIFEST)
+    file_paths = [LIBS / filename for filename, _ in DICTIONARIES] + [JQUERY]
+    entries = []
+    for path in file_paths:
+        data = path.read_bytes()
+        entries.append({
+            "path": path.relative_to(ROOT).as_posix(),
+            "bytes": len(data),
+            "sha256": sha256_bytes(data),
+        })
+    manifest["files"] = entries
+    write_lf(MANIFEST, json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=False) + "\n")
+    sums = "".join(f"{row['sha256']}  {row['path']}\n" for row in entries)
+    write_lf(SUMS, sums)
+    return MANIFEST.read_bytes(), SUMS.read_bytes()
+
+
+def main() -> int:
+    payload = standalone_payload()
+    jquery, prefix_sha, suffix_sha = rebuild_jquery(payload)
+    manifest, sums = update_layer_metadata()
+    proc = subprocess.run(["node", "--check", str(JQUERY)], capture_output=True, text=True)
+    if proc.returncode:
+        raise AssertionError(f"node --check failed: {proc.stderr.strip()}")
+    result = {
+        "status": "PASS",
+        "dictionary_order": [Path(name).stem for name, _ in DICTIONARIES],
+        "dictionary_count": len(payload),
+        "record_count": sum(len(rows) for rows in payload.values()),
+        "jquery": {
+            "bytes": len(jquery),
+            "sha256": sha256_bytes(jquery),
+            "git_blob": git_blob_id(jquery),
+            "cr_bytes": jquery.count(b"\r"),
+            "prefix_sha256": prefix_sha,
+            "suffix_sha256": suffix_sha,
+        },
+        "layer_manifest_sha256": sha256_bytes(manifest),
+        "layer_sha256s_sha256": sha256_bytes(sums),
+        "embedded_equals_standalone": True,
+        "node_check_exit_status": proc.returncode,
+    }
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except Exception as exc:
+        print(f"BUILD_FAILED: {exc}", file=sys.stderr)
+        raise
