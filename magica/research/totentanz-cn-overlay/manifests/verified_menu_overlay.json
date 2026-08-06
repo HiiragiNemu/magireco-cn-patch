@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "policy": "current Totentanz path and geometry are authoritative; only reviewed text-layer substitutions are copied",
+  "inputs": {
+    "legacy_archive": {
+      "path": "A:/magicaOLD.7z",
+      "sha256": "ee1f1cf622c245ac45f565f73e88473f4b8b45889941edf2b5646ee8155d1c94"
+    },
+    "totentanz_archive": {
+      "path": "A:/totentanz-frontend.tar",
+      "sha256": "b8273e94bf832578f7fff89a43e0ff3b206e8d6d210f18c9f10433dce6bcc414"
+    }
+  },
+  "common_css": {
+    "path": "css/_common/common.css",
+    "expected_base_md5": "18b32a9b9e2dfb2372d4cab390f4c27a",
+    "base_sha256": "6758cc96efee6908e2b6d58c7ecbd937b08ccbb3b9a8869ba527b716eac43f3a",
+    "removed_tail_sha256": "263d0141734c8e17b5700016ffa5d9ba3b34a31647805053ef8e01726cdf19c5"
+  },
+  "images": [
+    {
+      "id": "unit",
+      "text": "魔法少女",
+      "source_kind": "legacy_official",
+      "source": "resource/image_web/common/global/global_unit.png",
+      "target": "resource/image_web/common/global/update2/global_unit.png",
+      "width": 208,
+      "height": 246,
+      "source_sha256": "329ae3c32533de05cbbb016052f8bfe44585c7b274ac14fc28adb19f5f2abd9a",
+      "baseline_sha256": "15e06eb37080122e286964df5b5991718c2024b1f52985e158156f032f614b9e",
+      "output_sha256": "329ae3c32533de05cbbb016052f8bfe44585c7b274ac14fc28adb19f5f2abd9a",
+      "review": "manual visual comparison; official CN source on current-size canvas"
+    },
+    {
+      "id": "memoria",
+      "text": "记忆结晶",
+      "source_kind": "legacy_official",
+      "source": "resource/image_web/common/global/global_memoria.png",
+      "target": "resource/image_web/common/global/update2/global_memoria.png",
+      "width": 208,
+      "height": 246,
+      "source_sha256": "398f6b8fd235e95082cdbcdc2e27c80b00fe8f3b45ca6d66eaf4755b1d6c9cf8",
+      "baseline_sha256": "dc7bbffc2e3b6186940381ad6e624673a75081e95dc059ef0d85ca58cb00ed30",
+      "output_sha256": "398f6b8fd235e95082cdbcdc2e27c80b00fe8f3b45ca6d66eaf4755b1d6c9cf8",
+      "review": "manual visual comparison; official CN source on current-size canvas"
+    },
+    {
+      "id": "gacha",
+      "text": "扭蛋",
+      "source_kind": "legacy_official",
+      "source": "resource/image_web/common/global/global_gacha.png",
+      "target": "resource/image_web/common/global/update2/global_gacha.png",
+      "width": 208,
+      "height": 246,
+      "source_sha256": "51c2fb4b86311fcc8563db8c892cb9247f5c2ef1283ab842c34f1200825566df",
+      "baseline_sha256": "94d1612cf3fca5651fd9f6cfe5c63e2a05b33d8bb3d9c99edfc8114c54e7b7bd",
+      "output_sha256": "51c2fb4b86311fcc8563db8c892cb9247f5c2ef1283ab842c34f1200825566df",
+      "review": "manual visual comparison; official CN source on current-size canvas"
+    },
+    {
+      "id": "mission",
+      "text": "任务",
+      "source_kind": "legacy_official",
+      "source": "resource/image_web/common/global/global_mission.png",
+      "target": "resource/image_web/common/global/update2/global_mission.png",
+      "width": 208,
+      "height": 246,
+      "source_sha256": "71e8d17dd464784670261c0acd55dd226d80b82a5c3606331b4b11075c51b90b",
+      "baseline_sha256": "7d10845a63f9fca5efaa4d0ce0558f0308c88f855662290fe6a213f49cbf606c",
+      "output_sha256": "71e8d17dd464784670261c0acd55dd226d80b82a5c3606331b4b11075c51b90b",
+      "review": "manual visual comparison; official CN source on current-size canvas"
+    },
+    {
+      "id": "team",
+      "text": "队伍",
+      "source_kind": "reviewed_generated",
+      "source": "assets/generated/global_team_cn_184x196.png",
+      "target": "resource/image_web/common/global/update2/global_team.png",
+      "width": 184,
+      "height": 196,
+      "source_sha256": "b4533def7b7dbea96adb37c7301ee2260026ed66b4db9d717a6490b0540efffa",
+      "baseline_sha256": "5088ada281e54be4cbe1e38d50248080f93063e1a3a3069a7f070eafe2638c5a",
+      "output_sha256": "b4533def7b7dbea96adb37c7301ee2260026ed66b4db9d717a6490b0540efffa",
+      "review": "built-in ImageGen text-localization, chroma removal, crop/resize, then manual visual QA"
+    },
+    {
+      "id": "shop",
+      "text": "商店",
+      "source_kind": "reviewed_generated",
+      "source": "assets/generated/global_shop_cn_184x196.png",
+      "target": "resource/image_web/common/global/update2/global_shop.png",
+      "width": 184,
+      "height": 196,
+      "source_sha256": "e5ae4b01fba8e908c11fcfd920fbf308d9ed0ba5de8ef7dbff4b251c2479fe1c",
+      "baseline_sha256": "967feb7312913182cfd8b89f73b30071aac6ac7dfbf90b7e2cf7cc5a7c97a514",
+      "output_sha256": "e5ae4b01fba8e908c11fcfd920fbf308d9ed0ba5de8ef7dbff4b251c2479fe1c",
+      "review": "built-in ImageGen text-localization, chroma removal, crop/resize, then manual visual QA"
+    }
+  ]
+}
