@@ -126,7 +126,7 @@ def main() -> int:
     payload = json.dumps(dictionaries, ensure_ascii=False, separators=(",", ":"))
     payload = payload.replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
     output = prefix + payload.encode("utf-8") + suffix
-    TARGET.write_bytes(output)
+    TARGET.write_bytes(output)  # byte write: never use platform newline conversion
     print(
         f"MagiaCN injector rebuilt: dictionaries={len(DICT_NAMES)} "
         f"bytes={len(output)} sha256={sha(output)}"
