@@ -14,6 +14,9 @@ CRI USM 的拆包 / 重打包：把重编码后的视频塞回 USM。
 实测出来的不变量（本工具依赖它们，`rebuild` 会逐条断言）：
 
   · `headerOffset` 恒为 24，`r08` 恒为 0；
+  · 块头 `[8:32]` 里的 `[2:4]` **就是 `footerOffset`**——换过载荷的块 padding 变了，
+    这个字段必须跟着改。identity 测试抓不到它（那时新旧 pad 相等），
+    是靠「rebuild 出来的文件重新载入，载荷和与头里的 `filesize` 差了 258」发现的；
   · **整块长度（8 + size）恒为 32 的倍数**，`footerOffset` 就是尾部补零的字节数，
     即 `pad = (-载荷长) mod 32`；补的全是 `0x00`；
   · 块头 `[12:32]` 里装着 chunkType 与该帧的时间戳（每帧 +125）与 fps×100。
@@ -172,10 +175,16 @@ class Chunk(object):
     def serialize(self):
         pad = self._pad()
         size = HDR_OFF + len(self.payload) + pad
+        # head 是原块的 [8:8+24]，其中 **[2:4] 就是 footerOffset**（补零字节数）。
+        # 换过载荷的块 padding 会变，这个字段必须跟着改——否则 size 是新的、
+        # footerOffset 是旧的，解析方按 size-24-footerOffset 算出来的载荷长度就
+        # 与实际对不上，文件从此歪掉。identity 测试抓不到它：那时新旧 pad 相等。
+        head = bytearray(self.head)
+        head[2:4] = struct.pack('>H', pad)
         out = bytearray()
         out += self.sig
         out += struct.pack('>I', size)
-        out += self.head
+        out += head
         out += self.payload
         out += b'\0' * pad
         assert len(out) % ALIGN == 0, '整块长度必须 32 对齐'
