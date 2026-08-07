@@ -40,7 +40,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         e = "",
         f = "取消",
         g = "解除";
-      0 > b.totalMoney && (d = "statusCanNotUse", f = "OK", g = null, e = '魔法石<span class="c_pink">' + Math.abs(b.totalMoney) + "个</span>,<br>无法解除冷却时间。");
+      0 > b.totalMoney && (d = "statusCanNotUse", f = "确定", g = null, e = '魔法石<span class="c_pink">' + Math.abs(b.totalMoney) + "个</span>,<br>无法解除冷却时间。");
       a.popup = new c.PopupClass(
       {
         title: "解除冷却",
@@ -104,7 +104,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
       {
         title: "活动已结束",
         content: "不在活动开放期间。",
-        closeBtnText: "OK",
+        closeBtnText: "确定",
         canClose: !1,
         popupType: "typeC"
       }, null, function() {}, function()
@@ -121,7 +121,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
       {
         title: "解除冷却",
         content: "已解除冷却时间。",
-        closeBtnText: "OK"
+        closeBtnText: "确定"
       }, null, function() {}, function() {})
     },
     removeView: function()

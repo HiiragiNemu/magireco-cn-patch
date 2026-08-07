@@ -23,9 +23,9 @@
 		<img class="enemyImage" data-nativeimgkey='card_<%= model.enemyData.leaderUserCard.displayCardId %>_s' data-src='resource/image_native/card/image/card_<%= model.enemyData.leaderUserCard.displayCardId %>_s.png'>
 		<div class="enemyNameRank">
 			<% if (battleData.result.arenaBattleType != "CODE_MATCH") { %>
-			<div class="enemyRank">Rank<%= model.enemyData.userRank %></div>
+			<div class="enemyRank">等级<%= model.enemyData.userRank %></div>
 			<% } else { %>
-			<div class="enemyRank">Rank？？</div>
+			<div class="enemyRank">等级？？</div>
 			<% } %>
 			<div class="enemyName arenaColor"><%= _.escape(model.enemyData.userName) %></div>
 		</div>

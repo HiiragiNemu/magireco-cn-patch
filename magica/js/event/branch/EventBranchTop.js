@@ -26,7 +26,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         {
           title: "确认",
           content: "第2部当前尚未公开。<br>请等待公开。",
-          closeBtnText: "OK"
+          closeBtnText: "确定"
         });
         else if (!w)
         {
@@ -171,7 +171,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         var b = !1;
         v && l.each(f.userEventBranchPointList, function(a, k)
         {
-          2 != a.point.eventPartNo || "NEW" != a.status && "CLEAR" != a.status && "AGAIN" != a.status || (b = !0)
+          2 != a.point.eventPartNo || "NEW" != a.status && "已通关" != a.status && "AGAIN" != a.status || (b = !0)
         });
         m = b ? 2 : 1
       }
@@ -280,7 +280,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
     {
       $("#commandDiv").on("nativeCallback", function(b, c)
       {
-        if (c && c.questBattleId && c.status && ("NEW" == c.status || "CLEAR" == c.status || "AGAIN" == c.status || "DISABLE" == c.status))
+        if (c && c.questBattleId && c.status && ("NEW" == c.status || "已通关" == c.status || "AGAIN" == c.status || "DISABLE" == c.status))
           if ("DISABLE" == c.status)
           {
             var k = l.findWhere(f.userEventBranchPointList,

@@ -535,7 +535,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           content: "<span class='cureName'>" + b + "</span>的HP已满。",
           exClass: "curePop",
           popupType: "typeA",
-          closeBtnText: "OK"
+          closeBtnText: "确定"
         }) : this.curePop(b))
       },
       curePop: function(b)
@@ -694,7 +694,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
               a.ready.target.className = "show";
               e.setWebView(!0);
               a.androidKeyStop = !1;
-              a.dungeonEnd = "CLEAR";
+              a.dungeonEnd = "已通关";
               a.dungeonReshow = null;
               a.historyArr = ["MyPage", "EventDungeonTop"];
               location.href = "#/EventDungeonTop"
@@ -726,7 +726,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         }
       }
       a.androidKeyStop = !1;
-      a.dungeonEnd = "CLEAR";
+      a.dungeonEnd = "已通关";
       a.dungeonReshow = null;
       a.historyArr = ["MyPage", "EventDungeonTop"];
       location.href = "#/EventDungeonTop"

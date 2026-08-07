@@ -52,7 +52,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
       {
         pointId: 102,
         iconType: "NORMAL",
-        status: "CLEAR",
+        status: "已通关",
         x: 1500,
         y: 1100,
         questClearList: ["COMPLETE"],
@@ -85,7 +85,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
       {
         pointId: 105,
         iconType: "BOSS",
-        status: "CLEAR",
+        status: "已通关",
         x: 1200,
         y: 800,
         questClearList: ["COMPLETE"],
@@ -119,7 +119,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
       {
         pointId: 108,
         iconType: "LAST",
-        status: "CLEAR",
+        status: "已通关",
         x: 900,
         y: 500,
         dayId: 4,

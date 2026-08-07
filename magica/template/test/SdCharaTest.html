@@ -5,17 +5,17 @@
     <div id="footerWrap"></div>
   </div>
   <div id="miniCharaWrap" class="commonFrame1">
-    <h2>迷你字符显示</h2>
+    <h2>ミニキャラ表示</h2>
     <ul id="inputWrap">
       <li>index：<span class="addNumBtn TE" data-add="-1" data-limit="1" data-target="inputIndex">-</span>
-        <input type="text" id="inputIndex" class="commonInput" placeholder="输入索引" value="1" readonly="readonly" style="width: 50px;">
+        <input type="text" id="inputIndex" class="commonInput" placeholder="indexを入力" value="1" readonly="readonly" style="width: 50px;">
         <span class="addNumBtn TE" data-add="1" data-target="inputIndex">+
       </li>
-      <li>id：<input type="text" id="inputCharaId" class="commonInput" placeholder="输入字符" value="1015" readonly="readonly">00</li>
+      <li>id：<input type="text" id="inputCharaId" class="commonInput" placeholder="charaIdを入力" value="1015" readonly="readonly">00</li>
       <li>X：<input type="text" id="inputCharaX" class="commonInput" placeholder="输入X坐标" value="300" readonly="readonly"></li>
       <li>Y：<input type="text" id="inputCharaY" class="commonInput" placeholder="输入Y坐标" value="300" readonly="readonly"></li>
-      <li>Scale：<input type="text" id="inputCharaScale" class="commonInput" placeholder="输入比例" value="1.0" readonly="readonly"></li>
-      <li>Fade：<input type="text" id="inputCharaFade" class="commonInput" placeholder="输入淡入淡出" value="0.3" readonly="readonly"></li>
+      <li>Scale：<input type="text" id="inputCharaScale" class="commonInput" placeholder="Scaleを入力" value="1.0" readonly="readonly"></li>
+      <li>Fade：<input type="text" id="inputCharaFade" class="commonInput" placeholder="Fadeを入力" value="0.3" readonly="readonly"></li>
       <li> Anime：<select id="animeSelect" class="commonInput" style="width: 105px;font-size: 12px;"> <% var animeArr = ["wait","stance","stance_con","flatline","damage","dead","app","meta","activate","attack_in","attack_out","attackv_in","attackv_out","attackh_in","attackh_out","reaction"]; %> <% _.forEach(animeArr,function(txt){ %> <option value="<%= txt %>"><%= txt %></option> <% }) %> </select>
       </li>
     </ul>
@@ -23,11 +23,11 @@
     <p class="common_line lc_beige"></p>
     <!-- <p class="displayCharaBtn mb_pink TE" data-hide="false">chara表示</p> -->
     <!-- <p class="hideCharaBtn mb_pink TE" data-hide="true">chara非表示</p> -->
-    <p class="stockBtn mb_white TE" data-hide="false">库存</p>
+    <p class="stockBtn mb_white TE" data-hide="false">ストック</p>
     <p class="stockPopupBtn mb_white TE">一覧</p>
     <p class="stockClearBtn mb_white TE">削除</p>
-    <p class="displayMultiCharaBtn mb_pink TE" data-hide="false" style="margin-left: 50px;">显示库存</p>
-    <p class="hideMultiCharaBtn mb_pink TE" data-hide="true">隐藏库存</p>
-    <p class="groupBattleBtn mb_pink TE" style="margin-left: 50px;">心魔战UI</p>
+    <p class="displayMultiCharaBtn mb_pink TE" data-hide="false" style="margin-left: 50px;">ストック表示</p>
+    <p class="hideMultiCharaBtn mb_pink TE" data-hide="true">ストック非表示</p>
+    <p class="groupBattleBtn mb_pink TE" style="margin-left: 50px;">キモチ戦UI</p>
   </div>
 </div>

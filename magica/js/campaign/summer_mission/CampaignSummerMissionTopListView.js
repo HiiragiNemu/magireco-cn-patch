@@ -67,7 +67,7 @@ define("underscore backbone backboneCommon ajaxControl command js/view/item/Item
               1 > Object.keys(a).length || window.isLocal && window.isBrowser && 2 > Object.keys(a).length ? new b.PopupClass(
               {
                 content: "已过领取期限,<br>无法领取该任务报酬",
-                closeBtnText: "OK",
+                closeBtnText: "确定",
                 popupType: "typeC",
                 exClass: "missionPop"
               }, null, null, c) : d ? (l.ajaxPost(b.linkList.userQuestAdventureRegist,
@@ -85,14 +85,14 @@ define("underscore backbone backboneCommon ajaxControl command js/view/item/Item
                 new b.PopupClass(
                 {
                   content: "已领取1件任务报酬。<br><br>※魔法少女请到礼物盒领取。<br>※领取的道具已直接发放。",
-                  closeBtnText: "OK",
+                  closeBtnText: "确定",
                   popupType: "typeC",
                   exClass: "missionPop"
                 }, null, null, c)
               })) : new b.PopupClass(
               {
                 content: "已领取1件任务报酬。<br><br>※魔法少女请到礼物盒领取。<br>※领取的道具已直接发放。",
-                closeBtnText: "OK",
+                closeBtnText: "确定",
                 popupType: "typeC",
                 exClass: "missionPop"
               }, null, null, c);
@@ -173,7 +173,7 @@ define("underscore backbone backboneCommon ajaxControl command js/view/item/Item
           title: "组合内容",
           content: "<div id='popupDetailScrollWrap'><div class='scrollInner'></div></div>",
           popupType: "typeA",
-          closeBtnText: "OK",
+          closeBtnText: "确定",
           exClass: "popupDetail"
         }, null, a, d)
       }
@@ -185,7 +185,7 @@ define("underscore backbone backboneCommon ajaxControl command js/view/item/Item
       {
         title: "查看剧情",
         content: "没有剧情",
-        closeBtnText: "OK"
+        closeBtnText: "确定"
       }) : (b.androidKeyStop = !0, function()
       {
         $("#commandDiv").on("nativeCallback", function()
