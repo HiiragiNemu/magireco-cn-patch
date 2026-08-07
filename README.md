@@ -110,3 +110,45 @@ python3 scripts/check_css_freeze.py --zip cn_js_update_new.zip
 
 账本的初始值是从**线上现役包**播下去的（js v20 = 415 条，scenario v3211 = 14235 条），
 不是从仓库树，因为要记的是设备上真实有什么。
+
+
+## 新一轮译文进来时：合并，不要覆盖
+
+`scripts/merge_translations.py`。**每轮 LLM 重译都必须过这一步。**
+
+覆盖率不是单调的：新一轮往往在 A 处译得更好、在 B 处却漏译，整包覆盖就会把 B 处
+**退回日文**。v3（authoritative-cn-dump pass6）直接盖上去的实测后果：
+
+- 29 个前端文件里假名反而变多，合计 **1520 个字符**退回日文；
+- `js/libs/*.json` 那 23 张表里 **11735 处字段**退回日文（道具名、记忆结晶名、
+  关卡标题、商店条目……条目一个没少，但内容退了）。
+
+```bash
+python3 scripts/merge_translations.py --old <上一版 cn_js_update.zip> --new magica --report
+python3 scripts/merge_translations.py --old <上一版 cn_js_update.zip> --new magica --write
+python3 Build_JS_Injector.py        # 合并完必须重跑，字典要重新注入
+```
+
+判据（对每个字符串单元，旧值 o / 新值 v）：
+
+1. v 没有这个单元 → 用 o
+2. `o == v` → 用 v
+3. **v 的假名比 o 多** → 用 o（新版退回日文了）
+4. v 是纯 ASCII 且含字母、而 o 里有汉字 → 用 o（新版退回英文了）
+5. 其余 → 用 v（**新版权威**）
+
+第 3 条比的是假名**数量**不是有无：有无只能抓住「旧版全译、新版全没译」，而实测
+更常见的是旧版译了一半、新版整句日文——两边都有假名，按有无判就放过去了。
+
+> **例外：比较用的字符串一律听新版的。** `APPopup2.html` 里
+> `item.itemName === "マギアストーン"` 是判据键不是文案；旧版把它译成「Magia 石材」，
+> 而 itemList 里根本没有这个条目、运行时字典不会改写 `item.itemName`，那个分支
+> 因此永远不成立——**旧版那处是 bug**。脚本按上下文（`===`/`!==`/`case`/`indexOf(`
+> 等紧邻）识别并跳过。
+
+切分粒度：JSON 按主键索引后逐字段；JS 抠出字符串字面量、其余当骨架（实测 196 个
+里 194 个骨架一致）；HTML 按 `<...>` 切成标签/文本段（181 个里 167 个标签序列一致）；
+对不上的少数走 difflib token 级对齐，且只在 `replace` 块上套判据——`insert`/`delete`
+是结构变化，一律听新版的。
+
+CSS 不参与合并：那里面没有译文，`magica/css/` 是原样复刻服务端的，一个字节都不能动。

@@ -59,7 +59,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         a.errorMessage ? new b.PopupClass(
         {
           title: "错误",
-          content: "エラーメッセージ<br><br>【 " + a.errorMessage + " 】",
+          content: "错误留言<br><br>【 " + a.errorMessage + " 】",
           closeBtnText: "关闭"
         }) : new b.PopupClass(
         {

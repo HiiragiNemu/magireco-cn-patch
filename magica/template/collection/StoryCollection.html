@@ -84,7 +84,7 @@
 			<div class='panArrow chapterIdPan<%="<%= model.chapterId %\>"%>'></div>
 		</div>
 		<%="<% if (model.isStillBtn) { %\>"%>
-		<div class="popupGalleryBtn chapterGallery<%='<%= model.chapterId %\>'%> sb_gold_01 se_decide TE">View Gallery</div>
+		<div class="popupGalleryBtn chapterGallery<%='<%= model.chapterId %\>'%> sb_gold_01 se_decide TE">查看画廊</div>
 		<%="<% } %\>"%>
 		<div class='sectionListWrap chapterId<%="<%= model.chapterId %\>"%><%="<% if (model.isStillBtn) { %\>"%> gallery<%="<% } %\>"%>'></div>
 </script>
@@ -93,18 +93,18 @@
 		<span class="sectionTitle"><%="<%= model.title %\>"%></span>
 	<%="<% if(model.chapterNoForView) { %\>"%>
 		<h2 class="sectionNumber"><%="<%= model.chapterNoForView %\>"%> <%="<%= model.sectionNo %\>"%>话</h2>
-		<p class="sb_gold_01 se_decide TE outline"><span class="b_screen"></span>The Story So Far</p>
+		<p class="sb_gold_01 se_decide TE outline"><span class="b_screen"></span>至今的剧情</p>
 	<%="<% } else if(model.sectionNo) { %\>"%>
 		<h2 class="sectionNumber"><%="<%= model.sectionNo %\>"%></h2>
 	<%="<% } %\>"%>
 	<p class="sb_gold_01 se_decide TE storyStart"><span class="b_screen"></span><span class="buttonUpper c_gold">CLEAR</span><br>Playback</p>
-	<p class="sb_gold_01 se_decide TE nextQuest"><span class="b_screen"></span><span class="buttonUpper c_gold">NEXT</span><br>Quest</p>
+	<p class="sb_gold_01 se_decide TE nextQuest"><span class="b_screen"></span><span class="buttonUpper c_gold">下一步</span><br>Quest</p>
 	<p class="sb_gold_01 TE lockQuest"><span class="b_screen"></span><span class="buttonUpper c_gold">LOCK</span><br>Quest</p>
 </script>
 
 <script type="text/template" id="MirrorBattleSectionTemp">
-	<span class="sectionTitle">The Beginning of a Miracle</span>
-	<h2 class="sectionNumber">Chapter 12</h2>
+	<span class="sectionTitle">奇迹的开端</span>
+	<h2 class="sectionNumber">第 12</h2>
 	<p class="sb_gold_01 se_decide TE storyStart">
 		<span class="b_screen"></span>Playback
 	</p>
@@ -147,7 +147,7 @@
 <script type="text/template" id="OpenConditionPopupTemp">
 	<div class="popupInner">
 		<span class="closeDefault se_cancel popupCloseBtn TE"></span>
-		<p id="popupInfoDetailTitle" class="popupTitle common_title">Requirements to Unlock Story</p>
+		<p id="popupInfoDetailTitle" class="popupTitle common_title">剧情解锁条件</p>
 
 		<div class="popupTextArea">
 			<%="<% _.forEach(model.conditionList,function(txt,index){ %\>"%>
