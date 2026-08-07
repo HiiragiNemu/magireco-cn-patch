@@ -421,6 +421,28 @@ jobs:
           PYEOF
 
       # ───────────────────────────────────────────────────────────────
+      # [JS] 生成文件清单与累计账本
+      #   热更解压只写不删：从包里拿掉一个文件 ≠ 设备上就没有它了。
+      #   账本记的是「历史上一共往设备写过哪些路径」——少了谁会在这里报出来。
+      # ───────────────────────────────────────────────────────────────
+      - name: "[JS] 生成文件清单与账本"
+        if: steps.detect.outputs.has_js == '1'
+        run: |
+          VER=$(python3 -c "import json;print(json.load(open('version_js_new.json'))['version'])")
+          python3 scripts/build_manifest.py \
+              --zip cn_js_update_new.zip --package cn_js_update --version "$VER" \
+              --out _artifacts | tee _js_manifest.log
+          if grep -q '继续盖住服务端' _js_manifest.log; then
+            {
+              echo "### ⚠️ cn_js_update 这一版少了文件"
+              echo
+              echo '```'
+              sed -n '/这一版比上一版少了/,$p' _js_manifest.log
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # ───────────────────────────────────────────────────────────────
       # [SCENARIO] 同上
       # ───────────────────────────────────────────────────────────────
       - name: "[SCENARIO] 打包 cn_scenario_update_new.zip"
@@ -481,6 +503,23 @@ jobs:
 
           shutil.copy2(ZIP_NEW, os.path.join("_artifacts", ZIP_NEW))
           PYEOF
+
+      - name: "[SCENARIO] 生成文件清单与账本"
+        if: steps.detect.outputs.has_scenario == '1'
+        run: |
+          VER=$(python3 -c "import json;print(json.load(open('version_scenario_new.json'))['version'])")
+          python3 scripts/build_manifest.py \
+              --zip cn_scenario_update_new.zip --package cn_scenario_update --version "$VER" \
+              --out _artifacts | tee _scn_manifest.log
+          if grep -q '继续盖住服务端' _scn_manifest.log; then
+            {
+              echo "### ⚠️ cn_scenario_update 这一版少了文件"
+              echo
+              echo '```'
+              sed -n '/这一版比上一版少了/,$p' _scn_manifest.log
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       # ───────────────────────────────────────────────────────────────
       # 🚀 上传 _new + (publish_hotfix=true 时) 转正
@@ -1567,6 +1606,8 @@ jobs:
           # 注意：official version_*.json 只在 /configures/ 下维护，
           # 根目录不再提交 official 副本（_new 预览文件仍写根目录）。
           git add \
+              manifests/cn_js_update_ledger.json \
+              manifests/cn_scenario_update_ledger.json \
               version_scenario_new.json \
               version_js_new.json \
               "${CONFIG_DIR}/version_scenario.json" "${CONFIG_DIR}/version_scenario_new.json" \

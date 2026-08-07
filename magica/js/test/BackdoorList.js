@@ -62,7 +62,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         new b.PopupClass(
         {
           title: "重置战斗博物馆回复次数",
-          content: "バトルミュージアムの回復機能をリセットしますか？<br>eventId：<input id='inputEventId' class='commonFrame3' readonly='readonly' type='text' maxlength='4' value=''>",
+          content: "是否要重置战斗博物馆的回复功能？<br>eventId：<input id='inputEventId' class='commonFrame3' readonly='readonly' type='text' maxlength='4' value=''>",
           decideBtnEvent: function()
           {
             e.ajaxPost(b.linkList.accomplishResetCure,
@@ -73,7 +73,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
               new b.PopupClass(
               {
                 title: "重置战斗博物馆回复次数",
-                content: "バトルミュージアムの回復機能をリセットしました",
+                content: "战斗 博物馆的 回复 功能已重置",
                 closeBtnText: "关闭"
               });
               b.responseSetStorage(a)
@@ -96,7 +96,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         new b.PopupClass(
         {
           title: "完了",
-          content: "検索サーバにユーザーを登録しました。<br>しばらく待つと検索できるようになります。（最長15分）",
+          content: "用户 已在搜索服务器上注册。<br>过一会儿，你就可以搜索了。 （最多 15 分钟）",
           closeBtnText: "关闭"
         })
       })
@@ -115,7 +115,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         new b.PopupClass(
         {
           title: c,
-          content: "実行するにはデッキ１が「いろは単デッキ」になっている<br>必要があります。",
+          content: "要执行此操作，甲板 1 必须是单个 Iroha 甲板。<br>有需要。",
           closeBtnText: "取消",
           decideBtnText: "执行",
           decideBtnEvent: function()
@@ -143,7 +143,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       b.isScrolled() || new b.PopupClass(
       {
         title: "一键通关第二部第11章",
-        content: "第二部の11章まで一括クリアします。",
+        content: "通关 直至第 2 部分第 11 章。",
         closeBtnText: "取消",
         decideBtnText: "执行",
         decideBtnEvent: function()
@@ -197,7 +197,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             new b.PopupClass(
             {
               title: "tutorial reset",
-              content: a + "を登録しました。",
+              content: a + "已被注册。",
               closeBtnText: "关闭"
             });
             console.log("tutorialIdRegistComp", c);
@@ -217,7 +217,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         new b.PopupClass(
         {
           title: "tutorial comp",
-          content: "TU999を登録しました。",
+          content: "TU999已注册。",
           closeBtnText: "关闭"
         });
         console.log("tutorialIdRegistComp", a);
@@ -279,7 +279,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             title: "错误",
             content: "URL不正确",
             closeBtnText: "关闭"
-          }) : (a = " ★おためしついーと★%0a https://twitter.com/" + a[3] + "/status/" + a[5] + "/photo/1%0a★おためしついーと★", a = encodeURI(a).replace(/%250a/g, "%0a"), d.browserOpen("https://twitter.com/share?text=" + a + "%0a&count=none&lang=ja"))
+          }) : (a = " ★试用测试★%0a https://twitter.com/" + a[3] + "/status/" + a[5] + "/照片/1%0a★试听课★", a = encodeURI(a).replace(/%250a/g, "%0a"), d.browserOpen("https://twitter.com/share?text=" + a + "%0a&count=none&lang=ja"))
         }
       }, null, function()
       {
@@ -411,7 +411,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       b.isScrolled() || (b.accomplishDebug = "normal", new b.PopupClass(
       {
         title: "踏破活动调试模式",
-        content: "ストーリークエストデバッグモードをオンにしました。<br>オフにするにはアプリを再起動してください。",
+        content: "剧情任务打开调试模式。<br>请重新启动应用程序以将其关闭。",
         closeBtnText: "关闭"
       }))
     },
@@ -421,7 +421,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       b.isScrolled() || (b.accomplishDebug = "challenge", new b.PopupClass(
       {
         title: "踏破活动调试模式",
-        content: "チャレンジクエストデバッグモードをオンにしました。<br>オフにするにはアプリを再起動してください。",
+        content: "挑战任务打开调试模式。<br>请重新启动应用程序以将其关闭。",
         closeBtnText: "关闭"
       }))
     },
@@ -483,7 +483,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             a = {
               deckType: 41,
               formationSheetId: 111,
-              name: "ダンジョン1",
+              name: "地牢 1",
               episodeUserCardId: k
             };
             a.userCardIds = d;
@@ -500,7 +500,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       else new b.PopupClass(
       {
         title: "错误",
-        content: "ダンジョンイベントの開催期間外です。",
+        content: "地下城 活动 已过时。",
         closeBtnText: "关闭"
       })
     },
@@ -555,7 +555,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         $("#commandDiv").off();
         var c = "没有处于锁定状态的项目";
         a = d.product_ids;
-        0 < a.length && (c = "ロック状態のproduct_idリスト<br>", f.each(a, function(a, b, d)
+        0 < a.length && (c = "锁定的product_id列表<br>", f.each(a, function(a, b, d)
         {
           c += "・" + String(a);
           c += "<br>"

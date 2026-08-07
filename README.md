@@ -61,10 +61,31 @@ CSS 整份放进包里，那份快照缺了 `#QuestMap #toPuellaHistoriaTopButto
 背景图/定位全靠 CSS 给——规则一没就塌成 0 高度空 div，**历史篇（Puella
 Historia）入口无声消失**，模板、js、图片、控制台全都正常。
 
-解毒只有一条路：把服务端现役内容原样放回包里再发一次。`magica/css/` 下现在
-那 188 个文件就是干这个的。
+解毒只有一条路：把服务端现役内容原样放回包里再发一次。`magica/css/` 下那 13 个
+文件就是干这个的——**只覆盖出过问题的那几个页面，不是全站 188 个**：
 
-代价是这 188 个 CSS 从此**冻在仓库里**，服务端改了玩家端吃不到。所以 CI 里
+| 文件 | 为什么在这儿 |
+|---|---|
+| `_common/common.css` | 我们自己的覆盖版（服务端原文 + cn-patch 段） |
+| `_common/fonts.css` | 我们自己的覆盖版（`src` 指向包内 GB 字体） |
+| `quest/MainQuest.css` | **事故现场**——`#toPuellaHistoriaTopButtonWrap` 的规则在这里 |
+| `quest/QuestCommon.css` | `MainQuest.js` 与 `puellaHistoria/Top.js` 都随页面一起加载 |
+| `quest/PuellaHistoriaTop.css` | 历史篇主页 |
+| `quest/PuellaHistoriaLastBattle/{GroupRaid,SingleRaid,QuestResultMainBoss,QuestResultSubBoss}.css` | 历史篇末战四页 |
+| `quest/QuestBattleSelect.css` | 历史篇档案关卡跳这里（`#/QuestBattleSelect/<sectionId>`） |
+| `collection/StoryCollection.css` | 历史篇「回顾」tab |
+| `user/MyPage.css`、`top/Top.css` | 主页 / 标题页 |
+
+这份名单是逐个查各页模块的 `text!css/...` 依赖得出的，不是拍脑袋圈的范围。
+`_common/GlobalMenu.css` 虽然在服务端 `fileTimeStamp` 里，但全站没有任何模块
+require 它，是死文件，不带。
+
+> **代价说清楚**：只覆盖这 13 个，意味着别的页面若也被冻住，它仍然冻着，而且要
+> 等有人报症状才会知道。这是有意换来的——冻 188 个等于把全站 CSS 都钉死，服务端
+> 以后改任何一处玩家端都吃不到，还是静默的。范围小 = 未来的债少；新症状出现时
+> 按同样方法（查该页 `text!css` 依赖 → 把服务端现役内容放进包）补进来即可。
+
+代价是这 13 个 CSS 从此**冻在仓库里**，服务端改了玩家端吃不到。所以 CI 里
 加了闸门（也可以本地跑）：
 
 ```bash
@@ -85,3 +106,123 @@ python3 scripts/check_css_freeze.py --zip cn_js_update_new.zip
 同名同尺寸同 MIME 原地替换，不需要动 CSS；旧 WebView 不认 APNG 就显示第 1 帧
 的静止中文。生成脚本在 magirecocn-legacy-client 的
 `tools/make-connecting-sprite.py`）。
+
+## 文件清单与账本（manifests/）
+
+`scripts/build_manifest.py` 在每次打包后跑，产出两样东西：
+
+| 文件 | 内容 | 去处 |
+|---|---|---|
+| `<package>_manifest.json` | 这一版的完整清单：路径 / 大小 / crc32，以及 zip 的 size/md5 | `_artifacts/`（workflow artifact） |
+| `manifests/<package>_ledger.json` | **累计账本**：每个路径首次/最后出现在哪一版、当前是否还在包里 | 入库，由 CI 提交回来 |
+
+账本是**已经写进玩家设备的路径全集**。因为热更只写不删，任何一条从包里消失
+（`current: false`）都意味着它**留在所有设备上并继续盖住服务端的版本**——脚本会在
+这时候把名单打出来，CI 也会在 Job Summary 里标红。
+
+客户端那边（`CNHotUpdateTx`）现在会自己记清单、在下一次热更时把「上一版有、这一版
+没有」的孤儿删掉，但删除范围限死在白名单前缀内（`magica/js|template|css|fonts/`、
+`madomagi/resource/scenario/json/`），而且**只对装了新客户端之后下发的版本有效**。
+所以账本里 `current: false` 且不在白名单前缀下的那些，只能靠「把服务端现役内容
+原样发一次覆盖」来撤销。
+
+> `cleanup_prefixes` 也写进 manifest，但**只是留档给人看**——客户端用的是它自己
+> 硬编码的白名单，不读这个字段。不然「服务端下发的数据能扩大客户端的删除范围」。
+
+账本的初始值是从**线上现役包**播下去的（js v20 = 415 条，scenario v3211 = 14235 条），
+不是从仓库树，因为要记的是设备上真实有什么。
+
+
+## 新一轮译文进来时：合并，不要覆盖
+
+`scripts/merge_translations.py`。**每轮 LLM 重译都必须过这一步。**
+
+覆盖率不是单调的：新一轮往往在 A 处译得更好、在 B 处却漏译，整包覆盖就会把 B 处
+**退回日文**。v3（authoritative-cn-dump pass6）直接盖上去的实测后果：
+
+- 29 个前端文件里假名反而变多，合计 **1520 个字符**退回日文；
+- `js/libs/*.json` 那 23 张表里 **11735 处字段**退回日文（道具名、记忆结晶名、
+  关卡标题、商店条目……条目一个没少，但内容退了）。
+
+```bash
+python3 scripts/merge_translations.py --old <上一版 cn_js_update.zip> --new magica --report
+python3 scripts/merge_translations.py --old <上一版 cn_js_update.zip> --new magica --write
+python3 Build_JS_Injector.py        # 合并完必须重跑，字典要重新注入
+```
+
+判据（对每个字符串单元，旧值 o / 新值 v）：
+
+1. v 没有这个单元 → 用 o
+2. `o == v` → 用 v
+3. **v 的假名比 o 多** → 用 o（新版退回日文了）
+4. v 是纯 ASCII 且含字母、而 o 里有汉字 → 用 o（新版退回英文了）
+5. 其余 → 用 v（**新版权威**）
+
+第 3 条比的是假名**数量**不是有无：有无只能抓住「旧版全译、新版全没译」，而实测
+更常见的是旧版译了一半、新版整句日文——两边都有假名，按有无判就放过去了。
+
+> **例外：比较用的字符串一律听新版的。** `APPopup2.html` 里
+> `item.itemName === "マギアストーン"` 是判据键不是文案；旧版把它译成「Magia 石材」，
+> 而 itemList 里根本没有这个条目、运行时字典不会改写 `item.itemName`，那个分支
+> 因此永远不成立——**旧版那处是 bug**。脚本按上下文（`===`/`!==`/`case`/`indexOf(`
+> 等紧邻）识别并跳过。
+
+切分粒度：JSON 按主键索引后逐字段；JS 抠出字符串字面量、其余当骨架（实测 196 个
+里 194 个骨架一致）；HTML 按 `<...>` 切成标签/文本段（181 个里 167 个标签序列一致）；
+对不上的少数走 difflib token 级对齐，且只在 `replace` 块上套判据——`insert`/`delete`
+是结构变化，一律听新版的。
+
+CSS 不参与合并：那里面没有译文，`magica/css/` 是原样复刻服务端的，一个字节都不能动。
+
+
+## movie 包（`.usm`）：解密 / 加密 / 拆流
+
+`scripts/usm_crypt.py`。`movie.zip` + `movie2.zip` 里是 516 个 CRI Sofdec2
+`.usm`，全在 `madomagi/resource/movie/char/` 下（角色 Magia、魔女化身的演出动画），
+载荷加密。不解密就既看不了内容，也判断不了「里面到底有没有需要汉化的文字」。
+
+```bash
+python3 scripts/usm_crypt.py info     a.usm                 # 块结构，不需要密钥
+python3 scripts/usm_crypt.py selftest a.usm --key 0x…       # 解密→加密 是否逐字节还原
+python3 scripts/usm_crypt.py demux    a.usm --key 0x… -o out
+python3 scripts/usm_crypt.py decrypt  a.usm --key 0x… -o plain.usm
+python3 scripts/usm_crypt.py encrypt  plain.usm --key 0x… -o a.usm
+```
+
+**密钥不在本仓库里**，用 `--key` 传。算法源自 CRI Sofdec2（公开描述见 bnnm 的
+`crid-mod` / `usm_demuxer` 一系），本文件按算法重新实现，未抄第三方源码。
+
+关键点：**视频不是静态 XOR，带反馈环**——尾段 `[0x100,n)` 的掩码用**明文**滚动
+推进，头段 `[0,0x100)` 的掩码又由后段明文异或而来。所以解密必须先尾后头，
+加密时两段互不依赖。按静态掩码去解是解不开的。音频则是从载荷 `0x140` 起的静态
+XOR，自逆。
+
+掩码表有两条独立验证：一是从密钥派生，二是拿真机素材里 ADX 开头的静音段做已知
+明文反推（明文全 0 时密文就等于掩码），两者逐字节一致，奇数位正好是 `URUC` 循环。
+
+### 已经验证到哪一步
+
+- `selftest`：49 个视频块 + 64 个音频块解密→加密全部逐字节还原，整文件也逐字节相同；
+- `demux` 出的裸码流能被 ffmpeg 解码出正常画面（1920×1088）。
+
+抽查 `movie_1001_1.usm`（环彩羽 Magia）解出的帧：**纯动画，画面里一个字都没有**，
+也**没有 `@SBT` 字幕流**。所以真要做 movie 汉化，第一步应该是逐个抽帧筛出「哪些
+片子真有烧录文字」——`movie/char/` 这一批大概率整批不用动。
+
+### ⚠ 重新压制回去还差什么
+
+本脚本只做密码学与容器解析。把**重编码后**的视频塞回 USM 还差两步：
+
+1. 容器重建：`CRID` 的 `filesize/datasize/avbps`、`@SFV` 头的
+   `total_frames/max_picture_size/ixsize`、以及 `chunkType=2` 的 seek 表，
+   帧长一变全要重算。可编程。
+2. **CriMana 认不认 ffmpeg 编出来的流**——它不是通用解码器，对 GOP 结构、profile、
+   VP9 的封装约定有自己的假定。ffmpeg 能播 ≠ 引擎能播。**只能在真机上判定。**
+
+所以验证顺序是：先「零改动回环」（`decrypt` 再 `encrypt` 得到与原文件逐字节相同的
+USM，装机播），再「不加字幕的同参数重编」，最后才谈烧字幕。另外这批片子**编解码
+不统一**（有 H.264 也有 VP9），重编要逐个按原编码走。
+
+> 如果只是要字幕，**native 侧叠 Cocos Label + 外部时间轴表仍然更划算**：改一句话
+> 下一版热更就修好（几 KB），而重压 USM 意味着 516 个文件、约 400 MB 两个包全量
+> 重发，玩家全体重下。重压只在「画面里烧死了日文、非改画面不可」时才值得。

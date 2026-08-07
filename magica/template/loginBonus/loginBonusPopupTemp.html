@@ -53,7 +53,7 @@
 <ul id="loginBonusItemWrap">
 	<% _.each(loginBonus,function(model,index){ %>
 		<li class="commonFrame3<% if(model.day <= gameUser.loginBonusCount){ %> recieved<% } %>">
-			<p class="listDays">Day<%= model.day %></span></p>
+			<p class="listDays">第<%= model.day %></span></p>
 			<% _.each(model.rewardList,function(reward,index2){
 				if(index2 < 1){ %>
 					<%

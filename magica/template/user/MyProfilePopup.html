@@ -147,7 +147,7 @@
 	<div class="visibleSettingWrap">
 		<div class="toggle">
 			<!-- エンブレム公開設定 -->
-			By Selecting OFF, your Emblem will be hidden<br>and no longer be publicly displayed.
+			选择 OFF, 后，你的勋章将被隐藏<br>且不再公开展示。
 			<ul class="visibleSettingCheckBoxWrap <%='<%= currentParam.visibleRankingClassType ? "on" : "off" %\>'%>" data-param="visibleRankingClassType">
 				<li class="visibleSettingCheckBoxItem">
 					<div class="visibleSettingCheckBox se_decide" data-param="on"></div>
@@ -164,7 +164,7 @@
 	<div class="settingTitle">◆Emblem Display Settings</div>
 	<div class="emblemSettingWrap">
 		<div class="emblemSettingToggle">
-			The Emblem you have selected will now be publicly displayed. 
+			你选择的勋章现在将公开展示。 
 			<% if(model.visibleRankingClassType){
 				if(model.emblemSettingClassType){
 			%>
@@ -177,26 +177,26 @@
 			<% } %>
 					<li class="emblemSettingCheckBoxItem">
 						<div class="emblemSettingCheckBox se_decide" data-param="RANKING"></div>
-						<div class="checkBoxText">Ranking</div>
+						<div class="checkBoxText">排名</div>
 					</li>
 					<li class="emblemSettingCheckBoxItem">
 						<div class="emblemSettingCheckBox se_decide" data-param="RANK_MATCH"></div>
-						<div class="checkBoxText">Ranked Match</div>
+						<div class="checkBoxText">排位赛</div>
 					</li>
 				</ul>
 		</div>
 	</div>
 	<div class="emblemSettingWrapBlock <%='<%= !currentParam.visibleRankingClassType ? "on" : "" %\>'%>">
 		<div class="emblemSettingToggle">
-			The Emblem you have selected will now be publicly displayed.
+			你选择的勋章现在将公开展示。
 			<ul class="emblemSettingCheckBoxWrap" data-param="emblemSettingClassType">
 				<li class="emblemSettingCheckBoxItem" data-param="RANKING">
 					<div class="se_decide"></div>
-					<div class="checkBoxText">Ranking</div>
+					<div class="checkBoxText">排名</div>
 				</li>
 				<li class="emblemSettingCheckBoxItem" data-param="RANK_MATCH">
 					<div class="se_decide"></div>
-					<div class="checkBoxText">Ranked Match</div>
+					<div class="checkBoxText">排位赛</div>
 				</li>
 			</ul>
 		</div>
