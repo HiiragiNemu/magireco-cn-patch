@@ -1,0 +1,1 @@
+DO NOT MERGE. This branch exists only to trigger the pull_request finalizer on research/totentanz-gacha-cn-authority-20260807. The PR must be closed without merge after the base branch receives the verified product commit.
