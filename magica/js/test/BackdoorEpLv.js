@@ -113,8 +113,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           a.responseSetStorage(b);
           new a.PopupClass(
           {
-            title: "角色剧情发布",
-            content: "角色剧情已发布",
+            title: "解锁角色剧情",
+            content: "角色剧情已解锁",
             closeBtnText: "关闭"
           })
         })
@@ -133,8 +133,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             a.responseSetStorage(b);
             new a.PopupClass(
             {
-              title: "接收Doppel",
-              content: c.targetView.model.toJSON().chara.name + "收到 Doppel 的",
+              title: "领取魔女化身",
+              content: c.targetView.model.toJSON().chara.name + "的魔女化身已领取",
               closeBtnText: "关闭"
             })
           })

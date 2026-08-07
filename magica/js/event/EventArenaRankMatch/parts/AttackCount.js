@@ -66,7 +66,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         quantity: g.attackCountInfo.recoverNeedNum,
         isPurchasedMoneyOnly: !1
       });
-    0 > h.totalMoney && (a = "statusCanNotUse", l = "OK", d = null, e = '魔法石<span class="c_pink">' + Math.abs(h.totalMoney) + "个</span>,<br>无法回复。");
+    0 > h.totalMoney && (a = "statusCanNotUse", l = "确定", d = null, e = '魔法石<span class="c_pink">' + Math.abs(h.totalMoney) + "个</span>,<br>无法回复。");
     var f = new c.PopupClass(
     {
       title: "对战次数回复",
@@ -129,7 +129,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
     {
       title: "活动已结束",
       content: "不在活动开放期间。",
-      closeBtnText: "OK",
+      closeBtnText: "确定",
       canClose: !1,
       popupType: "typeC"
     }, null, function() {}, function()
@@ -143,7 +143,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
     {
       title: "对战次数回复",
       content: "镜界排位赛的对战次数<br>" + a.recoverInfo.num + "次已回复。",
-      closeBtnText: "OK"
+      closeBtnText: "确定"
     }, null, function() {}, function()
     {
       c.EventArenaRankMatchPrm.isOpenPopup = !1;
@@ -170,7 +170,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
     {
       title: "对战次数不足",
       content: "没有剩余对战次数,无法对战。",
-      closeBtnText: "OK"
+      closeBtnText: "确定"
     }, null, function() {}, function() {})
   };
   return b

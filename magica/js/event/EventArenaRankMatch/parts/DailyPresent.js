@@ -25,7 +25,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
             userRank: f.userRank
           }
         }),
-        closeBtnText: "OK",
+        closeBtnText: "确定",
         popupId: "EventArenaRankMatchDailyPresentPopup"
       }, null, function()
       {

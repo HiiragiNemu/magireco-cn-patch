@@ -331,6 +331,31 @@ jobs:
       #   ▸ 产物：version_js_new.json 写到 /, /configures/, _artifacts/
       #   ▸ 产物：cn_js_update_new.zip 写到 /, _artifacts/
       # ───────────────────────────────────────────────────────────────
+      # ───────────────────────────────────────────────────────────────
+      # [JS] CSS 冻结检查
+      #   包里放过的 CSS 会被客户端永久优先于服务端（见 scripts 里的注释），
+      #   所以每次打包前都要确认它们还和服务端现役版本一致。
+      #   不阻断构建：游戏服务端连不上时不该把发版卡死，只标红提示。
+      # ───────────────────────────────────────────────────────────────
+      - name: "[JS] CSS 冻结检查"
+        if: steps.detect.outputs.has_js == '1'
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 scripts/check_css_freeze.py 2>&1 | tee _css_freeze.log || {
+            {
+              echo "### ⚠️ CSS 冻结检查未通过"
+              echo
+              echo '```'
+              cat _css_freeze.log
+              echo '```'
+              echo
+              echo "包里的 CSS 会**永久**盖住服务端版本（热更只写不删），"
+              echo "冻住的那几个必须用服务端现役内容覆盖回去再发。"
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          }
+
       - name: "[JS] 打包 cn_js_update_new.zip"
         if: steps.detect.outputs.has_js == '1'
         run: |

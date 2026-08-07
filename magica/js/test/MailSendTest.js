@@ -37,13 +37,13 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         new b.PopupClass(
         {
           title: "送信完了",
-          content: "电子邮件地址已发送",
+          content: "邮箱地址已发送",
           closeBtnText: "关闭"
         })
       })) : new b.PopupClass(
       {
         title: "错误",
-        content: "请输入您的电子邮件地址",
+        content: "请输入邮箱地址",
         closeBtnText: "关闭"
       }))
     },
@@ -59,7 +59,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         a.errorMessage ? new b.PopupClass(
         {
           title: "错误",
-          content: "错误留言<br><br>【 " + a.errorMessage + " 】",
+          content: "エラーメッセージ<br><br>【 " + a.errorMessage + " 】",
           closeBtnText: "关闭"
         }) : new b.PopupClass(
         {
@@ -70,7 +70,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       })) : new b.PopupClass(
       {
         title: "错误",
-        content: "请输入您的验证码",
+        content: "请输入验证码",
         closeBtnText: "关闭"
       }))
     }

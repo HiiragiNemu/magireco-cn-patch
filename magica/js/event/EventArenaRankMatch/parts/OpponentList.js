@@ -66,7 +66,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
       {
         title: "超时",
         content: "匹配超时。<br>即将更换对战对手。",
-        closeBtnText: "OK",
+        closeBtnText: "确定",
         canClose: !1,
         popupType: "typeC"
       }, null, function() {}, function()
