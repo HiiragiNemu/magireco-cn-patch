@@ -30,7 +30,7 @@ define("underscore backbone backboneCommon ajaxControl command text!css/event/ar
       {
         title: "错误",
         content: "无法正确获取战斗结果。<br>返回活动首页。",
-        closeBtnText: "OK"
+        closeBtnText: "确定"
       }, null, null, function()
       {
         f.endArena();

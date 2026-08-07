@@ -123,7 +123,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           });
           var b = a.section.parameter.split("=")[1],
             d = m[b];
-          e || "STORY" != b || (e = "STORY");
+          e || "剧情" != b || (e = "剧情");
           d && (console.log("trainingType:", b), d.appendChild(J(a)))
         });
         a.doc.querySelector("#storyQuest li") || a.removeClass(a.doc.querySelector("#tabBtns"), "btnS");
@@ -180,19 +180,19 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           switch (a.questBattle.sectionIndex)
           {
             case 1:
-              a.questTitle = "BATTLE ◆ 初级";
+              a.questTitle = "战斗 ◆ 初级";
               a.questClass = "初级";
               break;
             case 2:
-              a.questTitle = "BATTLE ◆ 中级";
+              a.questTitle = "战斗 ◆ 中级";
               a.questClass = "中级";
               break;
             case 3:
-              a.questTitle = "BATTLE ◆ 上级";
+              a.questTitle = "战斗 ◆ 上级";
               a.questClass = "上级";
               break;
             case 4:
-              a.questTitle = "BATTLE ◆ 超级", a.questClass = "超级"
+              a.questTitle = "战斗 ◆ 超级", a.questClass = "超级"
           }
           a.questBattle.title && (a.questTitle = a.questBattle.title, a.questClass = a.questBattle.title);
           a.eventObj = A.openEventCheck(g.eventId, d.eventList);
@@ -258,7 +258,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
             title: "决定特训的魔法少女",
             content: e,
             closeBtnText: "取消",
-            decideBtnText: "OK"
+            decideBtnText: "确定"
           }, null, function()
           {
             $("#popupArea .decideBtn").on(a.cgti, function(d)

@@ -339,7 +339,7 @@ var curtainMoveEvent = function(a)
   {
     function c(c)
     {
-      -1 != d.className.indexOf("close") && (d.style.display = "none", $(d).removeClass("close"), void 0 != b && null != b && "function" == typeof b && b(), c = document.createEvent("HTMLEvents"), c.initEvent(a + "Close", !0, !1), d.dispatchEvent(c), g_popup_name = a == g_popup_name ? "" : g_popup_name)
+      -1 != d.className.indexOf("close") && (d.style.display = "none", $(d).removeClass("close"), void 0 != b && null != b && "function" == typeof b && b(), c = document.createEvent("HTMLEvents"), c.initEvent(a + "关闭", !0, !1), d.dispatchEvent(c), g_popup_name = a == g_popup_name ? "" : g_popup_name)
     }
     document.getElementById("backboneContent") && (document.getElementById("globalNaviFix").style.zIndex = "1001");
     var d = document.getElementById(a),

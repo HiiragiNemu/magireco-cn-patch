@@ -3,7 +3,7 @@ b.content.append(this.render().el);this.createBtnView();b.ready.hide()},createBt
 (this.currentPart=a.currentTarget.dataset.id,b.removeClass(b.doc.querySelector("#tabBtn .current"),"current"),b.addClass(a.currentTarget,"current"),this.createBtnView(),b.scrollRefresh("scrollOuter","scrollInner",!0),b.doc.querySelector("#listTitle").innerText=
 
 // TL(vivi-4480): "Magia报告 第"
-"魔法速报部件"
+"Magia Report Part"
 
 +{part1:
 

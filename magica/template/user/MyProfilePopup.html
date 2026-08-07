@@ -39,7 +39,7 @@
 					<span id="totalForces"><%= totalForces %></span>
 					<div class="totalForcesHelpBtn se_decide TE"></div>
 					<dl class="rowWrap common_dl totalForcesRanking">
-						<dt class="colName">段位</dt>
+						<dt class="colName">等级</dt>
 						<dd id="totalForcesRanking"></dd>
 					</dl>
 					<div id="totalForcesRequire"></div>
@@ -48,7 +48,7 @@
 					<span class="userFollow"><%= profile.followCount %></span>
 					<span class="userFollower"><%= profile.followerCount %></span>
 					<dl class="rowWrap common_dl myprofUserId">
-						<dt class="colName">玩家 ID</dt>
+						<dt class="colName">玩家ID</dt>
 						<dd class="colValue"><%= model.inviteCode %></dd>
 					</dl>
 					<div class="userIdCopyBtn profBtn se_decide TE">复制</div>
@@ -61,7 +61,7 @@
 					<div class="arenaFreeTitle">◆无尽镜界</div>
 					<div class="arenaRankingTitle">
 						<% if(model.emblemSettingClassType == "RANKING" || !model.emblemSettingClassType){ %>
-							◆Ranking
+							◆排行榜
 						<% }else if(model.emblemSettingClassType == "RANK_MATCH"){ %>
 							◆排位赛
 						<% } %>
@@ -69,11 +69,11 @@
 
 					<div class="arenaParams">
 						<dl class="rowWrap common_dl">
-							<dt class="colName">镜界 Pt</dt>
+							<dt class="colName">镜界点数</dt>
 							<dd class="colValue"><span class="freeNum"><% if(profile.userArenaBattle){ %><%= model.freeRankArenaPoint %><% }else{ %>0<% } %></span></dd>
 						</dl>
 						<dl class="rowWrap common_dl">
-							<dt class="colName">胜场</dt>
+							<dt class="colName">胜利次数</dt>
 							<dd class="colValue"><span class="freeNum"><% if(model.numberOfFreeRankTotalWins){ %><%= model.numberOfFreeRankTotalWins %><% }else{ %>0<% } %></span></dd>
 						</dl>
 					</div>
@@ -143,11 +143,11 @@
 <div class="porfBgWrap"></div>
 
 <script type="text/template" id="arenaSettingTemp">
-	<div class="settingTitle">◆勋章展示设置</div>
+	<div class="settingTitle">◆Emblem Display Settings</div>
 	<div class="visibleSettingWrap">
 		<div class="toggle">
 			<!-- エンブレム公開設定 -->
-			选择 OFF 后，你的勋章将被隐藏<br>且不再公开展示。
+			By Selecting OFF, your Emblem will be hidden<br>and no longer be publicly displayed.
 			<ul class="visibleSettingCheckBoxWrap <%='<%= currentParam.visibleRankingClassType ? "on" : "off" %\>'%>" data-param="visibleRankingClassType">
 				<li class="visibleSettingCheckBoxItem">
 					<div class="visibleSettingCheckBox se_decide" data-param="on"></div>
@@ -161,10 +161,10 @@
 		</div>
 	</div>
 
-	<div class="settingTitle">◆勋章展示设置</div>
+	<div class="settingTitle">◆Emblem Display Settings</div>
 	<div class="emblemSettingWrap">
 		<div class="emblemSettingToggle">
-			你选择的勋章现在将公开展示。 
+			The Emblem you have selected will now be publicly displayed. 
 			<% if(model.visibleRankingClassType){
 				if(model.emblemSettingClassType){
 			%>
@@ -177,26 +177,26 @@
 			<% } %>
 					<li class="emblemSettingCheckBoxItem">
 						<div class="emblemSettingCheckBox se_decide" data-param="RANKING"></div>
-						<div class="checkBoxText">排名</div>
+						<div class="checkBoxText">Ranking</div>
 					</li>
 					<li class="emblemSettingCheckBoxItem">
 						<div class="emblemSettingCheckBox se_decide" data-param="RANK_MATCH"></div>
-						<div class="checkBoxText">排位赛</div>
+						<div class="checkBoxText">Ranked Match</div>
 					</li>
 				</ul>
 		</div>
 	</div>
 	<div class="emblemSettingWrapBlock <%='<%= !currentParam.visibleRankingClassType ? "on" : "" %\>'%>">
 		<div class="emblemSettingToggle">
-			你选择的勋章现在将公开展示。
+			The Emblem you have selected will now be publicly displayed.
 			<ul class="emblemSettingCheckBoxWrap" data-param="emblemSettingClassType">
 				<li class="emblemSettingCheckBoxItem" data-param="RANKING">
 					<div class="se_decide"></div>
-					<div class="checkBoxText">排名</div>
+					<div class="checkBoxText">Ranking</div>
 				</li>
 				<li class="emblemSettingCheckBoxItem" data-param="RANK_MATCH">
 					<div class="se_decide"></div>
-					<div class="checkBoxText">排位赛</div>
+					<div class="checkBoxText">Ranked Match</div>
 				</li>
 			</ul>
 		</div>

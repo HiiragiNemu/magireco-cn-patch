@@ -1,3 +1,12 @@
-magica/resource/
+# magica/resource/ 默认不入库：这个路径在别处是几百 MB 资源包的解包产物，
+# 误提交一次仓库就废了。但 common/global/ 下那十几张是我们**主动下发**的
+# 汉化素材（国服图标 + 中文 connecting.png），必须入库，所以单独放行。
+magica/resource/*
+!magica/resource/image_web/
+magica/resource/image_web/*
+!magica/resource/image_web/common/
+magica/resource/image_web/common/*
+!magica/resource/image_web/common/global/
+
 _artifacts/
 cn_js_update_new.zip

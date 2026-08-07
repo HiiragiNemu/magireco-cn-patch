@@ -206,7 +206,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           {
             title: "编成错误",
             content: "开始战斗需要队伍中<br>编有3个以上的魔法少女。",
-            closeBtnText: "OK"
+            closeBtnText: "确定"
           }), a.androidKeyStop = !1;
           else if (b.length)
           {
@@ -219,7 +219,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
             {
               title: "编成错误",
               content: "其中包含无法战斗的魔法少女。",
-              closeBtnText: "OK"
+              closeBtnText: "确定"
             }), a.androidKeyStop = !1;
             else
             {
@@ -242,7 +242,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           {
             title: "编成错误",
             content: "请至少设置 1 名角色",
-            closeBtnText: "OK"
+            closeBtnText: "确定"
           }), a.androidKeyStop = !1
         }
       },

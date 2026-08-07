@@ -80,7 +80,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
               content: "「御魂的摄影会」已结束。",
               canClose: !1,
               popupType: "typeC",
-              closeBtnText: "OK"
+              closeBtnText: "确定"
             }, null, function()
             {
               a.tapBlock(!1)
@@ -245,7 +245,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
                 {
                   title: "错误",
                   content: g.message,
-                  closeBtnText: "OK"
+                  closeBtnText: "确定"
                 }), a.androidKeyStop = !1, e.turnOffCamera());
                 a.tapBlock(!1)
               }), e.turnOnCamera(), window.isBrowser && ($("#commandDiv").off(), a.addClass(a.doc.getElementById("CameraTop"), "cameraActive"), e.removeBg(), this.cameraRunning = !0, a.tapEffectStop = !0, a.androidKeyStop = !0, -1 < p.indexOf(c.charaId) && (this.live2dId = "88", a.removeClass(a.doc.getElementById("CameraTop"), "pos" + this.toggleFlg), this.l2dTouchCnt = this.toggleFlg = 0, this.posToggle()), a.tapBlock(!1)))
@@ -261,13 +261,13 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
               {
                 title: "相机拍摄",
                 content: "拍摄完成。",
-                closeBtnText: "OK",
+                closeBtnText: "确定",
                 popupType: "typeC"
               }) : new a.PopupClass(
               {
                 title: "错误",
                 content: c.message,
-                closeBtnText: "OK"
+                closeBtnText: "确定"
               });
               a.removeClass(a.doc.getElementById("CameraTop"), "shuttering");
               a.tapBlock(!1)
@@ -281,7 +281,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
               {
                 title: "相机拍摄",
                 content: "拍摄完成。",
-                closeBtnText: "OK",
+                closeBtnText: "确定",
                 popupType: "typeC"
               });
               a.removeClass(a.doc.getElementById("CameraTop"), "shuttering");
@@ -379,7 +379,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
               content: "「御魂的摄影会」已结束。",
               canClose: !1,
               popupType: "typeC",
-              closeBtnText: "OK"
+              closeBtnText: "确定"
             }, null, c, function()
             {
               location.href = "#/MyPage"
@@ -389,7 +389,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
               content: "拍摄已中断。",
               canClose: !1,
               popupType: "typeC",
-              closeBtnText: "OK"
+              closeBtnText: "确定"
             }, null, c, function()
             {
               a.removeClass(a.doc.getElementById("CameraTop"), "shuttering")

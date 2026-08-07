@@ -30,7 +30,7 @@
 	<% } %>
 
 		<div class='zoomProfile show'><p class='ts_black'><%= model.chara.description %></p>
-		<div class="textToggleBtn sb_gold_02 se_tabs TE"><span class="b_screen"></span>隐藏资料</div></div></div>
+		<div class="textToggleBtn sb_gold_02 se_tabs TE"><span class="b_screen"></span>隐藏个人资料</div></div></div>
 	<% if(!model.supportFlag && !model.isShop && !model.isEnhancement) { %>
 		<span class="moviePlayBtn se_tabs TE"></span>
 		<span class="voicePlayBtn se_tabs TE"></span>
@@ -38,7 +38,7 @@
 </div>
 
 <ul id="detailTab" class="common_tab t_gold">
-	<li data-type="status" class="current se_tabs TE"><span>详情</span></li>
+	<li data-type="status" class="current se_tabs TE"><span>简介</span></li>
 	<li data-type="skill" class="se_tabs TE"><span>技能</span></li>
 	<% if(model.deckFormationFlag) { %>
 		<li data-type="memoria" class="se_tabs TE"><span>记忆结晶</span></li>
@@ -74,7 +74,7 @@
 						<!-- レベル経験値 -->
 						<div class="level">
 							<div class="flexBox">
-								<span class="thStyle">Lv.</span>
+								<span class="thStyle">等级</span>
 								<p id="detailLv" class="tdStyle">
 									<span class="currentLv c_red"><%= model.level %></span>
 									<span class="sla">/</span>
@@ -84,7 +84,7 @@
 
 							<div class="gauge">
 								<% if(model.level !== model.maxLevel){ %>
-									<span class="expRequire c_gold">In:&nbsp;<%= model.expRequire %></span>
+									<span class="expRequire c_gold">还需&nbsp;<%= model.expRequire %></span>
 								<% }else{ %>
 									<div class="levelMax"></div>
 								<% } %>
@@ -101,7 +101,7 @@
 
 						<div class="revision">
 							<div class="flexBox">
-								<span class="thStyle">魔法 Lv.</span><span class="c_red tdStyle"><%= model.revision %></span>
+								<span class="thStyle">魔力解放等级</span><span class="c_red tdStyle"><%= model.revision %></span>
 							</div>
 							<ul class="flexBox revisionIcon">
 								<% var i = 0;%>
@@ -125,7 +125,7 @@
 
 						<div class="magiaLv">
 							<div class="flexBox">
-								<span class="thStyle">Magia Lv. </span><span class="c_red tdStyle"><%= model.magiaLevel %></span>
+								<span class="thStyle">Magia等级 </span><span class="c_red tdStyle"><%= model.magiaLevel %></span>
 							</div>
 							<ul class="flexBox magiaLvIcon">
 								<% i = 0;%>
@@ -156,11 +156,11 @@
 
 						<div class="epLv">
 							<div class="flexBox">
-								<span class="thStyle">Episode Lv.</span>
+								<span class="thStyle">剧情等级</span>
 									<span class="c_red tdStyle">
 										<%= model.episodeLevel %>
 										<% if(model.episodeLevel < 5){ %>
-											<div class="epExpRequire c_gold">In:&nbsp;<%= model.epExpRequire %></div>
+											<div class="epExpRequire c_gold">还需&nbsp;<%= model.epExpRequire %></div>
 										<% }else{ %>
 											<div class="epLevelMax"></div>
 										<% } %>
@@ -180,7 +180,7 @@
 				<div id="popupCharaStatus">
 					<div class="flexBox statusTitle">
 						<p class="tdStyle c_gold">合计</p>
-						<p class="tdStyle c_gold">基础</p>
+						<p class="tdStyle c_gold">基础值</p>
 						<p class="tdStyle c_gold">记忆结晶</p>
 						<p class="tdStyle c_gold">精神强化</p>
 						<p class="tdStyle c_gold">属性强化</p>
@@ -269,16 +269,16 @@
 				<% var link4Class = (location.href.indexOf('CharaListEquip')        !== -1) ? 'off' : ''; %>
 
 				<div class="composeLinks flexBox <%= allLinkClass %>">
-					<div class="TE mb_pink linkBtn se_decide <%= link1Class %>" data-href="#/CharaListCompose/<%= model.userCardId %>"><span class="b_screen"></span>强化魔法</div>
+					<div class="TE mb_pink linkBtn se_decide <%= link1Class %>" data-href="#/CharaListCompose/<%= model.userCardId %>"><span class="b_screen"></span>强化魔力</div>
 					<div class="TE mb_pink linkBtn se_decide <%= link2Class %>" data-href="#/CharaListCustomize/<%= model.userCardId %>"><span class="b_screen"></span>觉醒</div>
-					<div class="TE mb_pink linkBtn se_decide <%= link3Class %>" data-href="#/CharaListComposeMagia/<%= model.userCardId %>"><span class="b_screen"></span>强化 Magia</div>
-					<div class="TE mb_pink linkBtn se_decide <%= link4Class %>" data-href="#/CharaListEquip/<%= model.userCardId %>"><span class="b_screen"></span>解放魔法</div>
+					<div class="TE mb_pink linkBtn se_decide <%= link3Class %>" data-href="#/CharaListComposeMagia/<%= model.userCardId %>"><span class="b_screen"></span>强化Magia</div>
+					<div class="TE mb_pink linkBtn se_decide <%= link4Class %>" data-href="#/CharaListEquip/<%= model.userCardId %>"><span class="b_screen"></span>魔力解放</div>
 				</div>
 			</div>
 
 			<div id="charaSkill">
 				<div class="commonFrame3 command">
-					<p class="common_title_frame">圆盘</p>
+					<p class="common_title_frame">行动盘</p>
 					<ul class="commandList">
 						<li class='<%= (model.card.commandType1) ? model.card.commandType1 : "" %>'></li>
 						<li class='<%= (model.card.commandType2) ? model.card.commandType2 : "" %>'></li>
@@ -295,7 +295,7 @@
 						<% _exSkill = model.card.maxPieceSkillList; %>
 					<% } %>
 					<div class="commonFrame3 connect">
-						<p class="common_title_frame">EX 技能</p>
+						<p class="common_title_frame">EX技能</p>
 						<% _.each(_exSkill,function(m) { %>
 							<div class="flexBox">
 								<p class="img">
@@ -313,7 +313,7 @@
 
 				<% if(model.card.cardSkill) { %>
 				<div class="commonFrame3 connect">
-					<p class="common_title_frame">连携</p>
+					<p class="common_title_frame">Connect</p>
 
 					<div class="flexBox">
 						<p class="img">
@@ -392,10 +392,10 @@
 								<img src='/magica/resource/image_web/common/chara/icon_doppel_null.png'>
 							</p>
 							<div class="detailWrap">
-								<p class="name c_purple">未解放</p>
+								<p class="name c_purple">未解锁</p>
 								<div class="common_line lc_beige"></div>
 								<% if(!model.supportFlag) { %>
-									<p class="detail">完成魔女化身关卡后解放</p>
+									<p class="detail">完成魔女化身任务后解锁</p>
 								<% } %>
 							</div>
 							<% } %>
@@ -721,7 +721,7 @@
 					</div>
 
 					<div class="commonFrame3">
-						<p class="common_title_frame">主页服装</p>
+						<p class="common_title_frame">首页服装</p>
 
 						<div class="live2dBtns">
 							<% _.forEach(model.live2dList,function(txt,index){ %>

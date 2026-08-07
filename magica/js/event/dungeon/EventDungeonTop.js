@@ -57,7 +57,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           return 0 == a.sectionModel.cleared
         }) && b.dungeonAreaModel && b.forceScrollPreset("areaWrap", "scrollInner", b.dungeonAreaModel.areaId, !0);
         b.ready.hide();
-        if ("CLEAR" == b.dungeonEnd)
+        if ("已通关" == b.dungeonEnd)
         {
           if (b.dungeonAreaModel)
           {
@@ -88,7 +88,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           content: "队伍全员失去战斗能力,<br>已从区域撤退",
           popupType: "typeA",
           popupId: "areaFailed",
-          closeBtnText: "OK"
+          closeBtnText: "确定"
         }, null, null, a)
       },
       touchL2d: function(a)

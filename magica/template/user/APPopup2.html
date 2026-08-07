@@ -11,9 +11,9 @@
 		<div class="confirmSP">
 			<span class="pointFrame">持有数</span>
 			<div class="rightWrap">
-				<div class="beforeWrap"><% if(item.itemName === "Magia 石材"){ %><img src="/magica/resource/image_web/common/icon/icon_money.png"><% } %><span class="c_purple"><%= item.quantity %></div>
+				<div class="beforeWrap"><% if(item.itemName === "マギアストーン"){ %><img src="/magica/resource/image_web/common/icon/icon_money.png"><% } %><span class="c_purple"><%= item.quantity %></div>
 				<img src="/magica/resource/image_web/common/icon/ap_pop_arrow.png" class="arrow">
-				<div class="afterWrap"><span class="chargeSP c_red"><% if(item.itemName !== "Magia 石材"){ %><%= (item.quantity - 1) %><% }else{ %><%= (item.quantity - 5) %><% } %></span></div>
+				<div class="afterWrap"><span class="chargeSP c_red"><% if(item.itemName !== "マギアストーン"){ %><%= (item.quantity - 1) %><% }else{ %><%= (item.quantity - 5) %><% } %></span></div>
 			</div>
 		</div>
 		<div id="confirmBtns">
