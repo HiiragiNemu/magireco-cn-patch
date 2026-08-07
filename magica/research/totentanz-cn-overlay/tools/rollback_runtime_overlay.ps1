@@ -67,11 +67,11 @@ try {
     }
 
     if (-not $WhatIfPreference) {
-        & git diff --exit-code -- $baselineCommit -- $targets
+        & git diff --exit-code $baselineCommit -- $targets
         if ($LASTEXITCODE -ne 0) {
             throw "ROLLBACK_VERIFY_WORKTREE_FAILED exit=$LASTEXITCODE baseline=$baselineCommit"
         }
-        & git diff --cached --exit-code -- $baselineCommit -- $targets
+        & git diff --cached --exit-code $baselineCommit -- $targets
         if ($LASTEXITCODE -ne 0) {
             throw "ROLLBACK_VERIFY_INDEX_FAILED exit=$LASTEXITCODE baseline=$baselineCommit"
         }
