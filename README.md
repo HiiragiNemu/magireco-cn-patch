@@ -85,3 +85,28 @@ python3 scripts/check_css_freeze.py --zip cn_js_update_new.zip
 同名同尺寸同 MIME 原地替换，不需要动 CSS；旧 WebView 不认 APNG 就显示第 1 帧
 的静止中文。生成脚本在 magirecocn-legacy-client 的
 `tools/make-connecting-sprite.py`）。
+
+## 文件清单与账本（manifests/）
+
+`scripts/build_manifest.py` 在每次打包后跑，产出两样东西：
+
+| 文件 | 内容 | 去处 |
+|---|---|---|
+| `<package>_manifest.json` | 这一版的完整清单：路径 / 大小 / crc32，以及 zip 的 size/md5 | `_artifacts/`（workflow artifact） |
+| `manifests/<package>_ledger.json` | **累计账本**：每个路径首次/最后出现在哪一版、当前是否还在包里 | 入库，由 CI 提交回来 |
+
+账本是**已经写进玩家设备的路径全集**。因为热更只写不删，任何一条从包里消失
+（`current: false`）都意味着它**留在所有设备上并继续盖住服务端的版本**——脚本会在
+这时候把名单打出来，CI 也会在 Job Summary 里标红。
+
+客户端那边（`CNHotUpdateTx`）现在会自己记清单、在下一次热更时把「上一版有、这一版
+没有」的孤儿删掉，但删除范围限死在白名单前缀内（`magica/js|template|css|fonts/`、
+`madomagi/resource/scenario/json/`），而且**只对装了新客户端之后下发的版本有效**。
+所以账本里 `current: false` 且不在白名单前缀下的那些，只能靠「把服务端现役内容
+原样发一次覆盖」来撤销。
+
+> `cleanup_prefixes` 也写进 manifest，但**只是留档给人看**——客户端用的是它自己
+> 硬编码的白名单，不读这个字段。不然「服务端下发的数据能扩大客户端的删除范围」。
+
+账本的初始值是从**线上现役包**播下去的（js v20 = 415 条，scenario v3211 = 14235 条），
+不是从仓库树，因为要记的是设备上真实有什么。
