@@ -76,7 +76,7 @@
 	<%="<% var model = this.model.toJSON(); %\>"%>
 	<div id='gachaWrap' class='commonFrame2'>
 		<div id='gachaHeader'>
-			<div id='gachaNum'>箱子<%="<%= model.boxGachaNum %\>"%></div>
+			<div id='gachaNum'>奖励箱<%="<%= model.boxGachaNum %\>"%></div>
 			<div id='gachaRemain'>
 				<p class='title'>剩余</p>
 				<p class='remainNum c_purple'>
@@ -98,7 +98,7 @@
 
 <!-- ガチャ内容 -->
 <script type="text/template" id="GachaContentTemp">
-	<p class='text'>获得各箱内的大奖后,即可切换到下一个箱子。</p>
+	<p class='text'>若已获得奖励箱中的主要报酬，可以切换至下一个奖励箱。</p>
 
 	<div class='arrowRight TE se_decide'></div>
 	<div class='arrowLeft TE se_decide'></div>
@@ -183,11 +183,13 @@
 
 <!-- ガチャ実行ポップアップ -->
 <script type="text/template" id="GachaStartPop">
-	使用<span class='c_pink'>
-		<%='<%= model.needQuantity %\>'%><%='<%= gachaModel.useItem.unit %\>'%>
-	</span><span class='c_pink'>
+	<span class='c_pink'>
 		<%='<%= gachaModel.useItem.name %\>'%>
-	</span>进行<span class='c_pink'>
+	</span>使用数量为
+	<span class='c_pink'>
+		<%='<%= model.needQuantity %\>'%><%='<%= gachaModel.useItem.unit %\>'%>
+	</span>，将进行
+	<span class='c_pink'>
 		<%='<%= model.displayTitle %\>'%>
 	</span>。<br>
 	确定吗？
@@ -199,11 +201,13 @@
 
 <!-- 全て引く用ガチャ実行ポップアップ -->
 <script type="text/template" id="AllGachaStartPop">
-	使用<span class='c_pink'>
-		<%='<%= model.needQuantity %\>'%><%='<%= gachaModel.useItem.unit %\>'%>
-	</span><span class='c_pink'>
+	<span class='c_pink'>
 		<%='<%= gachaModel.useItem.name %\>'%>
-	</span>开抽<span class='c_pink'>
+	</span>使用数量为
+	<span class='c_pink'>
+		<%='<%= model.needQuantity %\>'%><%='<%= gachaModel.useItem.unit %\>'%>
+	</span>，将抽取
+	<span class='c_pink'>
 		<%='<%= model.gachaCount %\>'%>次扭蛋
 	</span>。<br>
 	确定吗？
