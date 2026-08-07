@@ -56,7 +56,7 @@ define("underscore backbone backboneCommon ajaxControl command text!css/event/ra
               content: "RP已回复。",
               popupType: "typeE",
               exClass: "rpCureAfter",
-              closeBtnText: "OK"
+              closeBtnText: "确定"
             }))
           }))
         },

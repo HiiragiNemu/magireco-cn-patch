@@ -3,10 +3,10 @@
 		<ul class="common_tab t_pink">
 			<li class="btn se_tabs TE current" data-type="user">游戏设置</li>
 			<li class="btn se_tabs TE" data-type="push">通知</li>
-			<li class="btn se_tabs TE" data-type="datas">管理数据</li>
-			<li class="btn se_tabs TE" data-type="transfer">转移数据<span class="noPassIcon<% if(setPassword){ %> off<% }%>"></span></li>
+			<li class="btn se_tabs TE" data-type="datas">数据管理</li>
+			<li class="btn se_tabs TE" data-type="transfer">数据转移<span class="noPassIcon<% if(setPassword){ %> off<% }%>"></span></li>
 			<% if(currentPlatform === "DMM" || currentPlatform === "ANDROID"){ %>
-				<li class="btn se_tabs TE" data-type="inputCode">序列码</li>
+				<li class="btn se_tabs TE" data-type="inputCode">兑换码</li>
 			<% } %>
 			<li class="btn se_tabs TE playerData" data-type="deleteUserData">玩家数据</li>
 		</ul>
@@ -23,7 +23,7 @@
 				<dd class="colRight"><span id="userName" class="black"><%= _.escape(user.loginName) %></span><span class="btn rightPosition sb_gold_01 TE se_decide <% if(!canChangeLoginName || nameChangeLimited){ %> off<% } %>" id="nameChange"><span class="b_screen"></span>更改</span></dd>
 			</dl>
 			<dl class="colWrap common_dl">
-				<dt class="colLeft">玩家 ID</dt>
+				<dt class="colLeft">玩家ID</dt>
 				<dd class="colRight"><span id="userName" class="black"><%= gameUser.inviteCode %></span><span class="btn rightPosition se_decide sb_gold_01 TE " id="idCopy"><span class="b_screen"></span>复制</span></dd>
 			</dl>
 			<h3>音量</h3>
@@ -34,7 +34,7 @@
 				</dd>
 			</dl>
 			<dl class="colWrap common_dl soundDl">
-				<dt class="colLeft">SE</dt>
+				<dt class="colLeft">音效</dt>
 				<dd class="colRight soundCol">
 					<input id="soundSlider" class="slider" type="range" max="10" value="">
 				</dd>
@@ -50,8 +50,8 @@
 
 		<div id="pushWrap" class="commonConfigMain">
 			<div class="pushMiniWrap">
-				<div class="pushToggle">活动<span id="pushEvent" class="sb_gold_02 TE se_decide"><span class="b_screen"></span>ON</span></div>
-				<div class="pushToggle">AP 回复<span id="pushAP" class="sb_gold_02 TE se_decide"><span class="b_screen"></span>ON</span></div>
+				<div class="pushToggle">活动<span id="pushEvent" class="sb_gold_02 TE se_decide"><span class="b_screen"></span>开启</span></div>
+				<div class="pushToggle">AP回复<span id="pushAP" class="sb_gold_02 TE se_decide"><span class="b_screen"></span>开启</span></div>
 			</div>
 		</div>
 
@@ -71,49 +71,49 @@
 					</div>
 					<div id="voiceDeleteSettingWrap">
 						<span class="dataDeleteCheckBox se_decide" data-delete-type="voice"></span>
-						<span class="dataTexts">观看后保留剧情语音</span>
+						<span class="dataTexts">阅读后保留剧情语音</span>
 					</div>
 					<div id="fullVoiceBtn" class="fullVoiceDl btn mb_pink se_decide TE">
 						<span class="b_screen"></span>
-						<span class="fullVoiceTx">下载全部剧情语音数据</span>
+						<span class="fullVoiceTx">下载全部剧情语音</span>
 					</div>
 				</div>
 
-				<h3>影片设置</h3>
+				<h3>视频设置</h3>
 				<div class="nowDataSet commonFrame3" id="movies">
 					<div id="movieDataWrap">
 						<span class="checkBox se_decide" data-movie-type="high"></span>
 						<span class="movieCheck"></span>
-						<span class="dataTexts">播放高清影片</span>
+						<span class="dataTexts">播放高画质视频</span>
 					</div>
 					<div id="movieDataLowWrap">
 						<span class="checkBox se_decide" data-movie-type="low"></span>
 						<span class="movieCheck"></span>
-						<span class="dataTexts">播放低清影片</span>
+						<span class="dataTexts">播放低画质视频</span>
 					</div>
 					<div id="movieDataOffWrap">
 						<span class="checkBox se_decide" data-movie-type="off"></span>
 						<span class="movieCheck"></span>
-						<span class="dataTexts">不播放影片</span>
+						<span class="dataTexts">不播放视频</span>
 					</div>
 					<div id="movieDeleteSettingWrap">
 						<span class="dataDeleteCheckBox se_decide" data-delete-type="movie"></span>
-						<span class="dataTexts">观看后保留变身影片</span>
+						<span class="dataTexts">播放后保留变身视频</span>
 					</div>
 					<div id="fullMovieBtn" class="fullMovieDl btn mb_pink se_decide TE">
 						<span class="b_screen"></span>
-						<span class="fullMovieTx">影片数据下载</span>
+						<span class="fullMovieTx">视频数据下载</span>
 					</div>
 				</div>
 
 				<h3>下载全部数据</h3>
 				<div class="commonFrame3 dataFrames">
-					当图片和语音无法播放/显示时，请尝试此操作。
+					图片或语音无法正常播放时可尝试此操作。
 					<div id="allDownload" class="btn se_decide b_pink TE"><span class="b_screen"></span>下载全部数据</div>
 				</div>
 				<h3>清除缓存</h3>
 				<div class="commonFrame3 dataFrames">
-					当图片和语音无法播放/显示时，请尝试此操作。
+					图片或语音无法正常播放时可尝试此操作。
 					<div id="cacheClear" class="btn se_decide b_pink TE"><span class="b_screen"></span>清除缓存</div>
 				</div>
 			</div>
@@ -121,40 +121,40 @@
 
 		<div id="transferWrap" class="commonConfigMain">
 			<p class="firstText">
-				在此设置转移用密码。
+				请在此设置数据转移密码。
 			</p>
 			<dl class="colWrap common_dl">
-				<dt class="colLeft">转移 ID</dt>
+				<dt class="colLeft">数据转移ID</dt>
 				<dd class="colRight"><%= user.personalId %></dd>
 			</dl>
 			<span class="btn rightPosition se_decide sb_gold_01 TE " id="transferIdCopy"><span class="b_screen"></span>复制</span>
 			<dl class="colWrap common_dl">
 				<dt class="colLeft">密码</dt>
-				<dd class="colRight" id="transferSettings"><% if(!setPassword){ %>未设置<% }else{ %>设置<% } %></dd>
+				<dd class="colRight" id="transferSettings"><% if(!setPassword){ %>未设置<% }else{ %>已设置<% } %></dd>
 			</dl>
-			<!-- <p class="c_red">※密码为8~15个字符。</p> -->
-			<p class="transferNotice">※若未在本设备设置转移用密码，则无法将数据转移到新设备。<br>
-				设置密码后，请务必牢记你的转移 ID 与密码。</p>
+			<!-- <p class="c_red">※Passwords must be 8-15 characters.</p> -->
+			<p class="transferNotice">※若未在本设备设置数据转移密码，将无法把数据转移到新设备。<br>
+				设置后请妥善保管数据转移ID和密码。</p>
 			<div class="relationWrap">
 				<span class="btn se_decide b_pink TE" id="transfer"><span class="b_screen"></span>设置密码</span>
 			</div>
-			<p class="c_red">※可从标题页进行数据转移。</p>
+			<p class="c_red">※可在标题画面进行数据转移。</p>
 		</div>
 
 		<div id="inputCodeWrap" class="commonConfigMain" class="commonConfigMain">
 			<div class="codeScroll">
 				<div class="codeText">
-					请输入序列码。
+					请输入兑换码。
 				</div>
 				<input id="presentCode" class="commonFrame3" readonly="readonly" type="text" maxlength="12" value="">
 				<div id="codeCaution" class="c_red"></div>
 				<div id="codeAfter"></div>
 				<div class="defCaution c_red">
-					※序列码为 12 位字母数字组合（不含连字符）。<br>
-					※请到礼物箱领取特别奖励。
+					※兑换码为不含连字符的12位英数字。<br>
+					※请前往礼物盒领取奖励。
 				</div>
-				<div id="codeSubmit" class="btn b_pink TE se_decide off"><div class="b_screen"></div><span>OK</span></div>
-				<h3>当前进行中的活动</h3>
+				<div id="codeSubmit" class="btn b_pink TE se_decide off"><div class="b_screen"></div><span>确定</span></div>
+				<h3>当前可用兑换活动</h3>
 				<div class="nowArraival">
 					<% if(rewardList.length > 0){ %>
 						<% rewardList = _.sortBy(rewardList,function(reward){ return reward.orderNum;}); %>
@@ -164,12 +164,12 @@
 								<span class="rewardDetail"><%= reward.detail.replace(/＠/g, "<br>") %></span>
 								<% if(reward.startAt || reward.endAt){ %>
 									<br>
-									<span class="rewardSpan">Availability：<% if(reward.startAt){ %><%= reward.startAt.substr(0,10) %><% } %>&nbsp;〜&nbsp;<% if(reward.endAt){ %><%= reward.endAt.substr(0,10) %><% } %></span>
+									<span class="rewardSpan">有效期：<% if(reward.startAt){ %><%= reward.startAt.substr(0,10) %><% } %>&nbsp;〜&nbsp;<% if(reward.endAt){ %><%= reward.endAt.substr(0,10) %><% } %></span>
 								<% } %>
 							</div>
 						<% }); %>
 					<% }else{ %>
-						当前没有进行中的活动。
+						当前没有可用的兑换活动。
 					<% } %>
 				</div>
 			</div>
@@ -179,8 +179,8 @@
 			<h3>删除数据</h3>
 			<div class="subFrame commonFrame3">
 				<div class="mainText">
-					完全删除你的玩家数据。
-					<span class="c_red caution">※数据一旦删除，无论如何都无法恢复。</span>
+					彻底删除玩家数据。
+					<span class="c_red caution">※数据删除后将无法恢复。</span>
 				</div>
 				<div id="deleteUserDataBtn" class="mainBtn btn mb_pink se_decide TE">
 					<span class="b_screen"></span>
@@ -193,65 +193,65 @@
 
 <script id="transferInner" type="text/template">
 	<div id="transferPopup">
-		<span class="leftCol c_gold">转移 ID</span><span class="rightCol transferId"><%='<%= user.personalId %\>'%></span><br>
-		<span class="leftCol c_gold">密码</span><span class="rightCol"><input readonly="readonly" type="password" id="transferPassword" class="commonFrame3" value=""></span><br>
-		<span class="leftCol c_gold">确认密码</span><span class="rightCol"><input readonly="readonly" type="password" id="checkPassWord" class="commonFrame3" value=""></span>
-		<div class="transferAlert">※密码为8~15个字符。</div>
-		<div class="transferNotice">转移账号时需要用到你的转移 ID。<br>请记录下你的 ID 和密码。</div>
+		<span class="leftCol c_gold">Transfer ID</span><span class="rightCol transferId"><%='<%= user.personalId %\>'%></span><br>
+		<span class="leftCol c_gold">Password</span><span class="rightCol"><input readonly="readonly" type="password" id="transferPassword" class="commonFrame3" value=""></span><br>
+		<span class="leftCol c_gold">Confirm Password</span><span class="rightCol"><input readonly="readonly" type="password" id="checkPassWord" class="commonFrame3" value=""></span>
+		<div class="transferAlert">※Passwords must be 8-15 characters.</div>
+		<div class="transferNotice">Your Transfer ID is needed when transfering accounts.<br>Please make a note of your ID and password.</div>
 	</div>
 </script>
 
 <script id="dataPopInner" type="text/template">
 	<div id="dataPopup">
 		<div id="<%="<%= model.type %\>"%>DataWrapBefore"<%="<% if(model.onFlag){ %\>"%> class="on"<%="<% } %\>"%>>
-			<span class="pointFrame">更改前</span>
-			<span class="<%="<%= model.type %\>"%>查看<%="<% if(model.type === 'movie' && model.oldType !== 0){ %\>"%> on<%="<% } %\>"%>"></span>
-			<span class="changeText"><%="<% if(model.type === 'voice'){ %\>"%><%="<% if(model.onFlag){ %\>"%>播放语音<%="<% }else{ %\>"%>不播放语音<%="<% } %\>"%><%="<% }else{ %\>"%><%='<% if(model.oldType === 0){ %\>'%>不播放影片<%='<% }else if(model.oldType === 2){ %\>'%>播放高清影片<%='<% }else if(model.oldType === 1){ %\>'%>播放低清影片<%="<% } %\>"%><%="<% } %\>"%></span>
+			<span class="pointFrame">Before</span>
+			<span class="<%="<%= model.type %\>"%>Check<%="<% if(model.type === 'movie' && model.oldType !== 0){ %\>"%> on<%="<% } %\>"%>"></span>
+			<span class="changeText"><%="<% if(model.type === 'voice'){ %\>"%><%="<% if(model.onFlag){ %\>"%>Play With Voices<%="<% }else{ %\>"%>Play Without Voices<%="<% } %\>"%><%="<% }else{ %\>"%><%='<% if(model.oldType === 0){ %\>'%>Play Without Videos<%='<% }else if(model.oldType === 2){ %\>'%>Play With High Quality Videos<%='<% }else if(model.oldType === 1){ %\>'%>Play With Low Quality Videos<%="<% } %\>"%><%="<% } %\>"%></span>
 		</div>
 		<div id="<%="<%= model.type %\>"%>DataWrapAfter"<%="<% if(!model.onFlag){ %\>"%> class="on"<%="<% } %\>"%>>
-			<span class="pointFrame">更改后</span>
-			<span class="<%="<%= model.type %\>"%>查看<%="<% if(model.type === 'movie' && model.newType !== 'off'){ %\>"%> on<%="<% } %\>"%>"></span>
-			<span class="changeText"><%="<% if(model.type === 'voice'){ %\>"%><%="<% if(model.onFlag){ %\>"%>不播放语音<%="<% }else{ %\>"%>播放语音<%="<% } %\>"%><%="<% }else{ %\>"%><%='<% if(model.newType === "off"){ %\>'%>不播放影片<%='<% }else if(model.newType === "high"){ %\>'%>播放高清影片<%='<% }else if(model.newType === "low"){ %\>'%>播放低清影片<%="<% } %\>"%><%="<% } %\>"%></span>
+			<span class="pointFrame">After</span>
+			<span class="<%="<%= model.type %\>"%>Check<%="<% if(model.type === 'movie' && model.newType !== 'off'){ %\>"%> on<%="<% } %\>"%>"></span>
+			<span class="changeText"><%="<% if(model.type === 'voice'){ %\>"%><%="<% if(model.onFlag){ %\>"%>Play Without Voices<%="<% }else{ %\>"%>Play With Voices<%="<% } %\>"%><%="<% }else{ %\>"%><%='<% if(model.newType === "off"){ %\>'%>Play Without Videos<%='<% }else if(model.newType === "high"){ %\>'%>Play With High Quality Videos<%='<% }else if(model.newType === "low"){ %\>'%>Play With Low Quality Videos<%="<% } %\>"%><%="<% } %\>"%></span>
 		</div>
 		<p id="dataPopText">
 			<%='<% if((model.type === "voice" && model.onFlag) || (model.type === "movie" && model.newType === "off")){ %\>'%>
-				将删除所有已下载的 <%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%>.<br>
-				<%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%> 更改后将不再播放。
+				This will delete all downloaded <%="<% if(model.type === 'voice'){ %\>"%>Voices<%="<% }else{ %\>"%>Videos<%="<% } %\>"%>.<br>
+				<%="<% if(model.type === 'voice'){ %\>"%>Voices<%="<% }else{ %\>"%>Videos<%="<% } %\>"%> will not be played after this change.
 			<%="<% }else{ %\>"%>
-				下载中 <%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%> 数据<br>
-				全部 <%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%> 更改后将会播放。<br>
-				<span class="c_red">※建议使用稳定的 Wi-Fi 网络。</span>
+				Downloading <%="<% if(model.type === 'voice'){ %\>"%>Voices<%="<% }else{ %\>"%>Videos<%="<% } %\>"%> Data<br>
+				All <%="<% if(model.type === 'voice'){ %\>"%>Voices<%="<% }else{ %\>"%>Videos<%="<% } %\>"%> will be played after this change.<br>
+				<span class="c_red">※We recommend using a stable Wi-Fi network.</span>
 			<%="<% } %\>"%>
 		</p>
 		<div class="popBtnWrap">
-			<span class="btn b_white se_cancel TE popupCloseBtn"><span class="b_screen"></span>取消</span>
+			<span class="btn b_white se_cancel TE popupCloseBtn"><span class="b_screen"></span>Cancel</span>
 			<span class="btn b_pink se_decide TE dataDecide popupCloseBtn"><span class="b_screen"></span>OK</span>
 		</div>
 	</div>
 </script>
 
 <script id="allDownloadPop" type="text/template">
-	将下载所需的图片、语音与影片。<br>
-	<span class="c_red">数据量较大，建议使用稳定的 Wi-Fi 网络。</span>
+	Downloading all necessary images, voices, and videos.<br>
+	<span class="c_red">Due to the amount of data, we recommend using a stable Wi-Fi network.</span>
 </script>
 
 <script id="nameChangePop" type="text/template">
-	请输入新的玩家名。<br><br>
+	Please enter your new Player Name.<br><br>
 	<input id="changeName" class="commonFrame3" readonly="readonly" type="text" maxlength="8" value="">
 	<div class="textCount" style="display:inline-block;margin-left:50px;">
 		<span id="textCount">0</span>/8
 	</div>
-	<div class="c_red" style="margin-top:20px;">※玩家名每天只能更改一次。</div>
+	<div class="c_red" style="margin-top:20px;">※Player Names can be changed only once a day.</div>
 </script>
 
 <script id="deleteConfirmPop" type="text/template">
 <div id="dataDeletePopupText">
 	<%='<% if(isOn){ %\>'%>
-	你已选择使用后不再保留以下数据在本设备上。<br>
-	※该数据将在应用关闭后删除，需要时会重新下载。
+	You have chosen to no longer keep the following data on your device after use.<br>
+	※This data will be deleted when the app is closed and will be downloaded again when needed.
 	<%='<% } else { %\>'%>
-	你已选择使用后保留以下数据在本设备上。<br>
-	※该数据在应用关闭后不会被删除。
+	You have chosen to keep the following data on your device after use.<br>
+	※This data will not be deleted when the app is closed.
 	<%='<% } %\>'%>
 
 	<div class="c_red" style="margin-top:20px;">

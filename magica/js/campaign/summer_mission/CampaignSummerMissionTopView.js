@@ -147,7 +147,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/cam
       {
         title: "不在期间内",
         content: "不在期间内,<br>该任务不存在",
-        closeBtnText: "OK",
+        closeBtnText: "确定",
         popupType: "typeC"
       });
       this.firstViewId = null
@@ -202,13 +202,13 @@ define("underscore backbone backboneCommon ajaxControl command text!template/cam
           1 > Object.keys(c).length || window.isLocal && window.isBrowser && 2 > Object.keys(c).length ? new b.PopupClass(
           {
             content: "已过领取期限,<br>无法领取该任务报酬",
-            closeBtnText: "OK",
+            closeBtnText: "确定",
             popupType: "typeC",
             exClass: "missionPop"
           }, null, null, d) : new b.PopupClass(
           {
             content: "任务报酬" + e + "件已领取。<br><br>※魔法少女请到礼物盒领取。<br>※领取的道具已直接发放。",
-            closeBtnText: "OK",
+            closeBtnText: "确定",
             popupType: "typeC",
             exClass: "missionPop"
           }, null, null, d);
@@ -224,7 +224,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/cam
       "e" === a[0] ? (a = f.findWhere(g.limitedChallengeGroupList,
       {
         id: Number(a[1])
-      }), b.addClass(b.doc.getElementById("allReserve"), "off"), "STORY" === a.viewType && b.addClass(b.doc.getElementById("allReserve"), "hide")) : b.addClass(b.doc.getElementById("allReserve"), "off");
+      }), b.addClass(b.doc.getElementById("allReserve"), "off"), "剧情" === a.viewType && b.addClass(b.doc.getElementById("allReserve"), "hide")) : b.addClass(b.doc.getElementById("allReserve"), "off");
       this.allReserveCheckAdvance()
     },
     allReserveCheckAdvance: function()

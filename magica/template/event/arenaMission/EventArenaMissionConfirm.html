@@ -29,7 +29,7 @@
   <div class="formationArrow"></div>
   <div id="confirmInfo">
     <div class="confirmHeader">对战对手</div>
-    <div class="confirmLvWrap colorE">Rank<%= model.userRank %></div>
+    <div class="confirmLvWrap colorE">等级<%= model.userRank %></div>
     <div class="confirmNameWrap colorC"><%= _.escape(model.userName) %></div>
     <div class="confirmPower colorC"><%= model.userRatingPoint %></div>
     <div class="confirmPoint colorC"><%= model.userEventArenaMission.eventPoint %>Pt</div> <% var diffBonusArr  = ["0.8","1.0","1.2"]; %> <div class="confirmBonus">&nbsp;获得&nbsp;Pt×<%= diffBonusArr[model.difficult] %></div>
@@ -40,7 +40,7 @@
   </div>
   <div id='eventItemWrap'>
     <div class="title"></div>
-    <div class="lvWrap colorE">Rank<%= pageModel.gameUser.level %></div>
+    <div class="lvWrap colorE">等级<%= pageModel.gameUser.level %></div>
     <div class="nameWrap colorC"><%= _.escape(pageModel.user.loginName) %></div>
     <div class="power colorC"><%= pageModel.userArenaMissionStageMatch.userRatingPoint %></div>
     <div class="leaderImage"> <% var arenaDeck = _.findWhere(pageModel.userDeckList,{"deckType":22}); %> <%

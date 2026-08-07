@@ -2,7 +2,7 @@
   <div id='missionBtn' class='TE se_decide sb_gold_01'><span class='b_screen'></span>任务</div>
   <div id="userInfoWrap">
     <div class="rankNameWrap">
-      <p class="userRank colorE">Rank<%= model.gameUser.level %></p>
+      <p class="userRank colorE">等级<%= model.gameUser.level %></p>
       <p class="userName colorC"><%= _.escape(model.user.loginName) %></p>
     </div>
     <div class="userLeader"> <% var arenaDeck = _.findWhere(model.userDeckList,{"deckType":22}); %> <%

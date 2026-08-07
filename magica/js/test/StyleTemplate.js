@@ -39,24 +39,24 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       a.preventDefault();
       b.isScrolled() || (a = "true" == a.currentTarget.getAttribute("data-simple") ?
       {
-        title: "弹出式 标题",
-        content: "弹出测试",
-        decideBtnText: "OK",
+        title: "弹窗标题",
+        content: "弹窗测试",
+        decideBtnText: "确定",
         closeBtnText: "关闭",
         simple: !0
       } : a.currentTarget.getAttribute("data-type") ?
       {
-        title: "弹出式 标题",
-        content: "弹出测试",
-        decideBtnText: "OK",
+        title: "弹窗标题",
+        content: "弹窗测试",
+        decideBtnText: "确定",
         closeBtnText: "关闭",
         popupType: a.currentTarget.getAttribute("data-type")
       } :
       {
-        title: "弹出式 标题",
-        content: "弹出测试",
+        title: "弹窗标题",
+        content: "弹窗测试",
         closeBtnText: "关闭",
-        decideBtnText: "OK"
+        decideBtnText: "确定"
       }, new b.PopupClass(a))
     },
     tutorialPopupBtn: function(a)
