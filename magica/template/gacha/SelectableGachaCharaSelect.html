@@ -48,19 +48,19 @@
 							'ATTACK'  : '攻击',
 							'DEFENSE' : '防御',
 							'MAGIA'   : 'Magia',
-							'HEAL'    : '高跟鞋',
-							'SUPPORT' : '支援',
-							'ULTIMATE': '终极版',
-							'CIRCLE_MAGIA' : '圆形 Magia',
-							'CIRCLE_SUPPORT' : '圆形 支援',
+							'HEAL'    : '治疗',
+							'SUPPORT' : '协助',
+							'ULTIMATE': '究极',
+							'CIRCLE_MAGIA' : '圆环Magia',
+							'CIRCLE_SUPPORT' : '圆环协助',
 							'EXCEED'  : '超越',
-							'AKUMA'  : '阿库玛',
-							'ARUTEMETTO'  : '高度计',
+							'AKUMA'  : '恶魔',
+							'ARUTEMETTO'  : '究极',
 							'INFINITE'  : '无限',
-							'MUGENDAI':'无限台',
-							'MYSTIC':'神秘的',
-							'DEVIL':'悪魔',
-							'LASTCONNECT':'最后连携',
+							'MUGENDAI':'无限',
+							'MYSTIC':'神秘',
+							'DEVIL':'恶魔',
+							'LASTCONNECT':'最终Connect',
 						}
 					%>
 					<p class='value'><%= typeText[model.initialType] %></p>
@@ -74,7 +74,7 @@
 				</ul>
 				<div class='connect'>
 					<div class="flexBox">
-						<div class="dtElm long">连携</div>
+						<div class="dtElm long">Connect</div>
 						<p class='title c_purple'><%= model.defaultCard.cardSkill.name %></p>
 					</div>
 					<p class='detail ts_white'><%= model.defaultCard.cardSkill.shortDescription %></p>
