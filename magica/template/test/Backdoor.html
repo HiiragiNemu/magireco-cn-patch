@@ -2,13 +2,13 @@
     <div class="hiddenWrap" id="tabScroll">
       <ul id="btns" class="common_tab t_pink">
         <li class="tabBtn current" data-tab="item">道具</li>
-        <li class="tabBtn" data-tab="gacha">ガチャ</li>
+        <li class="tabBtn" data-tab="gacha">抽卡</li>
         <li class="tabBtn" data-tab="bg">背景</li>
-        <li class="tabBtn" data-tab="gift">ギフト</li>
+        <li class="tabBtn" data-tab="gift">礼物</li>
         <li class="tabBtn" data-tab="chara">魔法少女</li>
         <li class="tabBtn" data-tab="memoria">记忆结晶</li>
-        <li class="tabBtn" data-tab="set">便利なセット</li>
-        <li class="tabBtn" data-tab="rewardCode">報酬コード入力</li>
+        <li class="tabBtn" data-tab="set">方便的设置</li>
+        <li class="tabBtn" data-tab="rewardCode">输入奖励代码</li>
       </ul>
     </div>
   </div>
@@ -18,7 +18,7 @@
         <li class="TE" data-id="1001"><span>最下部</span></li> <% var arrTarget = [1200,1400,1600]; _.each(arrTarget,function(value) { %> <li class="TE" data-id="<%= value %>"><span><%= value %></span></li> <% }) %> <li class="TE" data-id="<%= model.pieceList[0].pieceId %>"><span>最上部</span></li>
       </ul>
     </div>
-    <input id="memoriaScrollInput" class="commonFrame3" type="number" placeholder="メモリアID">
+    <input id="memoriaScrollInput" class="commonFrame3" type="number" placeholder="记忆结晶ID">
     <span id="memoriaScrollBtn" class="sb_gold_03 TE">検索</span>
   </div>
   <div id="outerWrap">
@@ -61,22 +61,22 @@
     </div>
     <div id="setWrap" class="setWrap wrap">
       <div class="listItem commonFrame4 <%= model.attributeId%>">
-        <p class="name">全てが手に入る</p>
+        <p class="name">一切都可用</p>
         <span class="set01GetBtn btn sb_gold_01">领取</span>
       </div>
       <div class="listItem commonFrame4 <%= model.attributeId%>">
-        <p class="name">メモリア以外が手に入る</p>
+        <p class="name">您可以获得除 记忆结晶 以外的任何内容</p>
         <span class="set02GetBtn btn sb_gold_01">领取</span>
       </div>
       <div class="listItem commonFrame4 <%= model.attributeId%>">
-        <p class="name">強化アイテム一式</p>
+        <p class="name">强化道具 全套</p>
         <span class="setComposeBtn btn sb_gold_01">领取</span>
       </div>
       <div class="listItem commonFrame4 <%= model.attributeId%>">
-        <p class="name">全ステッカーが手に入る</p>
+        <p class="name">获取所有贴纸</p>
         <span class="setStickerGetBtn btn sb_gold_01">领取</span>
       </div> <% _.each(model.eventList, function(model,index){  %> <div class="listItem commonFrame4">
-        <p class="name">活动<%= model.eventId %>のセット<br>※背景、ステッカーは含まれない</p>
+        <p class="name">活动<%= model.eventId %>的设置<br>*不包括背景和贴纸</p>
         <span class="setEventGetBtn btn sb_gold_01" data-id="<%= model.eventId %>">领取</span>
       </div> <% });%>
     </div>
@@ -88,7 +88,7 @@
       <p id="rewardCaution">例)　FORMATI开启_SHEET_201、　LIVE2D_1002_02、　DOPPEL_100100</p>
       <div id="keyPadWrap" class="">
         <ul id="keyTypeList">
-          <li class="rewardInputBtn mb_white TE" data-text="FORMATION_SHEET_" data-clear="true">フォーメーション</li>
+          <li class="rewardInputBtn mb_white TE" data-text="FORMATION_SHEET_" data-clear="true">形成</li>
           <li class="rewardInputBtn mb_white TE" data-text="LIVE2D_" data-clear="true">Live2D</li>
           <li class="rewardInputBtn mb_white TE" data-text="DOPPEL_" data-clear="true">魔女化身</li>
         </ul>
@@ -125,7 +125,7 @@
 	<span class="getMaxBtn btn sb_gold_01" data-id="<%='<%= model.pieceId %\>'%>">MAXPIECE</span>
 </script>
 <script type="text/template" id="selectNumPopParts"> <p>
-		<input type="text" id="inputNum" class="commonInput" placeholder="個数を入力してください" readonly="readonly" />
+		<input type="text" id="inputNum" class="commonInput" placeholder="请输入号码" readonly="readonly" />
 		<span id="inputClearBtn" class="inputOtherBtn mb_pink TE" data-text="00">通关</span>
 		<span id="inputDelete1Btn" class="inputOtherBtn mb_pink TE" data-text="00">1字削除</span>
 	</p>

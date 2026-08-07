@@ -19,7 +19,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           "BOSS" == e.point.pointType ? g.className = "debugMapBtn sb_gold_01 TE" : "EXTRA_BOSS" == e.point.pointType ? g.className = "debugMapBtn sb_gold_01 TE" : "LARGE" == e.point.pointType ? g.className = "debugMapBtn sb_gold_02 TE" : "SMALL" == e.point.pointType ? g.className = "debugMapBtn sb_pink TE" : "CHALLENGE" == e.point.pointType && (g.className = "debugMapBtn sb_pink TE");
           d || a.addClass(g, "off");
           g.dataset.id = e.pointId;
-          g.textContent = e.point.areaNo + "ー" + e.point.areaSubNo;
+          g.textContent = e.point.areaNo + "-" + e.point.areaSubNo;
           b.appendChild(g)
         });
         a.doc.getElementById("mapWrap").appendChild(b);

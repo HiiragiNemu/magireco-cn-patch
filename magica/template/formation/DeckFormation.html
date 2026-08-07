@@ -84,7 +84,7 @@
 <script type="text/template" id="DeckViewTemp">
 
 	<% if(deckCatType === 'group' || deckCatType === 'groupPrepare'){ %>
-	<div id="regularEventNaviBtn" class="regularEventNaviBtn sb_gold_01 TE se_decide" data-event-type="groupBattle">Strategy Tips</div>
+	<div id="regularEventNaviBtn" class="regularEventNaviBtn sb_gold_01 TE se_decide" data-event-type="groupBattle">攻略提示</div>
 	<% } %>
 
 	<% if(deckCatType !== 'dungeonInMap' &&  deckCatType !== 'extermination' && deckCatType !== 'secondPartLast' && deckCatType !== 'exterminationCopy' && deckCatType !== 'secondPartLastCopy') { %>
@@ -101,7 +101,7 @@
 		<%="<% if(deckCatType !== 'extermination' && deckCatType !== 'secondPartLast' && deckCatType !== 'accomplish') { %\>"%>
 			<div class='deckChangeArrow se_tabs TE arrowR'></div>
 			<div class='deckChangeArrow se_tabs TE arrowL'></div>
-			<div class='deckChangeModeBtn TE sb_gold_02 se_decide'>Switch Team</div>
+			<div class='deckChangeModeBtn TE sb_gold_02 se_decide'>切换队伍</div>
 		<%="<% } %\>"%>
 	<%="<% } %\>"%>
 
@@ -669,12 +669,12 @@
 <script type="text/template" id="DeckNameChangeTemp">
 	<div class="popupInner">
 		<span class="closeDefault se_cancel popupCloseBtn TE"></span>
-		<p id="popupInfoDetailTitle" class="popupTitle">Rename Team</p>
+		<p id="popupInfoDetailTitle" class="popupTitle">重命名队伍</p>
 
 		<div class="popupTextArea">
 			<div class="profileChange">
 				<input id="commentInput" readonly="readonly" value='<%="<%= model.name %\>"%>' maxlength="50" /><br>
-				<span class="commentNotis c_red">Emojis cannot be used.</span>
+				<span class="commentNotis c_red">不能使用表情符号。</span>
 				<div class="textCount c_gold"><span id="textCount" class="c_gold"><%="<%= model.name.length %\>"%></span>/10</div>
 				<div class="btn b_pink se_decide TE" id="commentDecide"><span class="b_screen"></span>OK</div>
 			</div>
@@ -685,15 +685,15 @@
 <script type="text/template" id="TeamRemovePop">
 	<div class="popupInner">
 		<span class="closeDefault se_cancel popupCloseBtn TE"></span>
-		<p id="popupInfoDetailTitle" class="popupTitle">Dissolve Team</p>
+		<p id="popupInfoDetailTitle" class="popupTitle">解散队伍</p>
 
 		<div class="popupTextArea">
-			<%="<%= _.escape(model.name) %\>"%>Are you sure you want to dissolve?<br>※All equipped Memoria will be unequipped.
+			<%="<%= _.escape(model.name) %\>"%>确定要解散吗？<br>※All equipped Memoria will be unequipped.
 		</div>
 
 		<table class="popupBtnArea" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td><span class="cancelBtn se_cancel popupCloseBtn btn TE b_white"><span class='b_screen'></span>Cancel</span></td>
+				<td><span class="cancelBtn se_cancel popupCloseBtn btn TE b_white"><span class='b_screen'></span>取消</span></td>
 				<td><span class="decideBtn se_decide btn b_pink TE"><span class='b_screen'></span>OK</span></td>
 			</tr>
 		</table>
@@ -762,12 +762,12 @@
 <script type="text/template" id="autoFormationTemp">
 	<div class="popupInner">
 		<span class="closeDefault se_cancel popupCloseBtn TE"></span>
-		<p id="popupInfoDetailTitle" class="popupTitle">Auto Team</p>
+		<p id="popupInfoDetailTitle" class="popupTitle">自动编成</p>
 
 		<div class="popupTextArea">
-			<div class="autoText">Choose what type of Team you'd like to auto-create.</div>
+			<div class="autoText">选择要自动编成的队伍类型。</div>
 			<div class='filterBar'>
-				<p>Element</p>
+				<p>属性</p>
 				<span id="autoFilterAtt" class='filterAtt se_tabs ALL on' data-type-filter="ALL"><span class='checkBox'></span>All</span>
 			</div>
 			<div id='autoFormationAttWrap' class="flexBox">
@@ -798,17 +798,17 @@
 			</div>
 
 			<div class='typeBar'>
-				<p>Type of Team</p>
+				<p>队伍类型</p>
 			</div>
 			<div id='autoFormationStatusWrap' class='filterWrap flexBox'>
 				<div class='se_tabs status TE on' data-status-sort="attack">
-					<span class="checkBox"></span>Offensive
+					<span class="checkBox"></span>攻击型
 				</div>
 				<div class='se_tabs status TE' data-status-sort="defense">
-					<span class="checkBox"></span>Defensive
+					<span class="checkBox"></span>防御型
 				</div>
 				<div class='se_tabs status TE' data-status-sort="hp">
-					<span class="checkBox"></span>Balanced
+					<span class="checkBox"></span>均衡型
 				</div>
 			</div>
 
@@ -816,7 +816,7 @@
 
 		<table class="popupBtnArea" width="400" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td><span class="btn b_white popupCloseBtn TE se_cancel"><span class='b_screen'></span>Cancel</span></td>
+				<td><span class="btn b_white popupCloseBtn TE se_cancel"><span class='b_screen'></span>取消</span></td>
 				<td><span id="autoFormationBtn" class="btn b_pink TE se_decide"><span class='b_screen'></span>OK</span></td>
 			</tr>
 		</table>
@@ -827,30 +827,30 @@
 <script type="text/template" id="autoFormationSupportTemp">
 	<div class="popupInner">
 		<span class="closeDefault se_cancel popupCloseBtn TE"></span>
-		<p id="popupInfoDetailTitle" class="popupTitle">Auto Team</p>
+		<p id="popupInfoDetailTitle" class="popupTitle">自动编成</p>
 
 		<div class="popupTextArea">
-			<div class="autoText">Select what kind of Team you'd like.</div>
+			<div class="autoText">选择想要的队伍类型。</div>
 
 			<div class='typeBar'>
-				<p>Type of Team</p>
+				<p>队伍类型</p>
 			</div>
 			<div id='autoFormationStatusWrap' class='filterWrap flexBox'>
 				<div class='se_tabs status TE on' data-status-sort="attack">
-					<span class="checkBox"></span>Offensive
+					<span class="checkBox"></span>攻击型
 				</div>
 				<div class='se_tabs status TE' data-status-sort="defense">
-					<span class="checkBox"></span>Defensive
+					<span class="checkBox"></span>防御型
 				</div>
 				<div class='se_tabs status TE' data-status-sort="hp">
-					<span class="checkBox"></span>Balanced
+					<span class="checkBox"></span>均衡型
 				</div>
 			</div>
 		</div>
 
 		<table class="popupBtnArea" width="400" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td><span class="btn b_white popupCloseBtn TE se_cancel"><span class='b_screen'></span>Cancel</span></td>
+				<td><span class="btn b_white popupCloseBtn TE se_cancel"><span class='b_screen'></span>取消</span></td>
 				<td><span id="autoFormationBtn" class="btn b_pink TE se_decide"><span class='b_screen'></span>OK</span></td>
 			</tr>
 		</table>
@@ -861,30 +861,30 @@
 <script type="text/template" id="autoFormationGroupTemp">
 	<div class="popupInner">
 		<span class="closeDefault se_cancel popupCloseBtn TE"></span>
-		<p id="popupInfoDetailTitle" class="popupTitle">Auto Team</p>
+		<p id="popupInfoDetailTitle" class="popupTitle">自动编成</p>
 
 		<div class="popupTextArea">
 			<div class="autoText" style="height:auto;">
-				Auto-create a Team that is effective against this Kimochi battle.<br>
-				Select what kind of Team you'd like.
+				自动编成一支克制该 Kimochi 战的队伍。<br>
+				选择想要的队伍类型。
 			</div>
 
 			<div class='typeBar'>
-				<p>Type of Team</p>
+				<p>队伍类型</p>
 			</div>
 			<div id='autoFormationStatusWrap' class='filterWrap flexBox'>
 				<div class='se_tabs status TE on' data-status-sort="attack">
-					<span class="checkBox"></span>Offensive
+					<span class="checkBox"></span>攻击型
 				</div>
 				<div class='se_tabs status TE' data-status-sort="defense">
-					<span class="checkBox"></span>Defensive
+					<span class="checkBox"></span>防御型
 				</div>
 			</div>
 		</div>
 
 		<table class="popupBtnArea" width="400" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td><span class="btn b_white popupCloseBtn TE se_cancel"><span class='b_screen'></span>Cancel</span></td>
+				<td><span class="btn b_white popupCloseBtn TE se_cancel"><span class='b_screen'></span>取消</span></td>
 				<td><span id="autoFormationBtn" class="btn b_pink TE se_decide"><span class='b_screen'></span>OK</span></td>
 			</tr>
 		</table>
