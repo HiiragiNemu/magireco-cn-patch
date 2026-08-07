@@ -2,15 +2,15 @@
   <div id='sizeChange' class='TE se_tabs smaller' data-size='smallest'></div>
   <div id="memoriaListTitle">
     <div class='hasMemoriaNum'>
-      <p class='title'>可选择数</p>
+      <p class='title'>可选数量</p>
       <p id='selectCurrentNum'>-</p>
       <p>/</p>
       <p>4</p>
     </div>
-    <div id='allRemoveBtn' class='allRemoveBtn TE se_cancel sb_gold_02'>全部卸下</div>
+    <div id='allRemoveBtn' class='allRemoveBtn TE se_cancel sb_gold_02'>全部取消</div>
   </div>
   <div id='memoriaListWrap' class='commonFrame2 smaller'>
-    <p class='memoriaSetCaution'>请选择要更换的记忆结晶</p>
+    <p class='memoriaSetCaution'>请选择要变更的记忆结晶</p>
     <div id="scrollOuter">
       <div id='scrollInner' class="scrollInner"></div>
     </div>
@@ -22,7 +22,7 @@
 		<%="<% classTxt = 'typeSet'; %\>"%>
 	<%="<% } %\>"%>
 	<div class='nameWrap'>
-		<p class='name ts_pink'>请点击选择扭蛋对象的记忆结晶</p>
+		<p class='name ts_pink'>请点击选择作为扭蛋对象的记忆结晶</p>
 	</div>
 
 	<div class="memoriaWrap">
@@ -91,7 +91,7 @@
 
 	<%="<% if(model.pieceType === 'SKILL'){ %\>"%>
 	<div class='intervalTurn c_gold'>
-		可发动回合&nbsp;<%="<% if(model.pieceSkill2){%\>"%><%="<%= model.pieceSkill2.intervalTurn %\>"%><%="<% } %\>"%>
+		冷却回合数&nbsp;<%="<% if(model.pieceSkill2){%\>"%><%="<%= model.pieceSkill2.intervalTurn %\>"%><%="<% } %\>"%>
 	</div>
 	<%="<% } %\>"%>
 
@@ -125,12 +125,12 @@
 	</div>
 
 	<%="<% if(model.equipRemoveFlag){ %\>"%>
-		<p id='memoriaEquipBtn' class='btn se_decide b_white <%="<%= (model.pieceId) ? '' : 'off' %\>"%>'>卸下</p>
+		<p id='memoriaEquipBtn' class='btn se_decide b_white <%="<%= (model.pieceId) ? '' : 'off' %\>"%>'>取消</p>
 	<%="<% }else{ %\>"%>
-		<p id='memoriaEquipBtn' class='btn se_decide b_pink <%="<%= (model.pieceId) ? '' : 'off' %\>"%>'>放入</p>
+		<p id='memoriaEquipBtn' class='btn se_decide b_pink <%="<%= (model.pieceId) ? '' : 'off' %\>"%>'>选择</p>
 	<%="<% } %\>"%>
 
-	<div class="caution c_purple">※显示的状态为最大时的数值。</div>
+	<div class="caution c_purple">※所示数值为强化至最大时的。</div>
 </script>
 <!-- メモリア表示パーツ -->
 <script type="text/template" id="MemoriaListParts"> <div class="cardInner">
