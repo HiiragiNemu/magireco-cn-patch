@@ -173,3 +173,56 @@ python3 Build_JS_Injector.py        # 合并完必须重跑，字典要重新注
 是结构变化，一律听新版的。
 
 CSS 不参与合并：那里面没有译文，`magica/css/` 是原样复刻服务端的，一个字节都不能动。
+
+
+## movie 包（`.usm`）：解密 / 加密 / 拆流
+
+`scripts/usm_crypt.py`。`movie.zip` + `movie2.zip` 里是 516 个 CRI Sofdec2
+`.usm`，全在 `madomagi/resource/movie/char/` 下（角色 Magia、魔女化身的演出动画），
+载荷加密。不解密就既看不了内容，也判断不了「里面到底有没有需要汉化的文字」。
+
+```bash
+python3 scripts/usm_crypt.py info     a.usm                 # 块结构，不需要密钥
+python3 scripts/usm_crypt.py selftest a.usm --key 0x…       # 解密→加密 是否逐字节还原
+python3 scripts/usm_crypt.py demux    a.usm --key 0x… -o out
+python3 scripts/usm_crypt.py decrypt  a.usm --key 0x… -o plain.usm
+python3 scripts/usm_crypt.py encrypt  plain.usm --key 0x… -o a.usm
+```
+
+**密钥不在本仓库里**，用 `--key` 传。算法源自 CRI Sofdec2（公开描述见 bnnm 的
+`crid-mod` / `usm_demuxer` 一系），本文件按算法重新实现，未抄第三方源码。
+
+关键点：**视频不是静态 XOR，带反馈环**——尾段 `[0x100,n)` 的掩码用**明文**滚动
+推进，头段 `[0,0x100)` 的掩码又由后段明文异或而来。所以解密必须先尾后头，
+加密时两段互不依赖。按静态掩码去解是解不开的。音频则是从载荷 `0x140` 起的静态
+XOR，自逆。
+
+掩码表有两条独立验证：一是从密钥派生，二是拿真机素材里 ADX 开头的静音段做已知
+明文反推（明文全 0 时密文就等于掩码），两者逐字节一致，奇数位正好是 `URUC` 循环。
+
+### 已经验证到哪一步
+
+- `selftest`：49 个视频块 + 64 个音频块解密→加密全部逐字节还原，整文件也逐字节相同；
+- `demux` 出的裸码流能被 ffmpeg 解码出正常画面（1920×1088）。
+
+抽查 `movie_1001_1.usm`（环彩羽 Magia）解出的帧：**纯动画，画面里一个字都没有**，
+也**没有 `@SBT` 字幕流**。所以真要做 movie 汉化，第一步应该是逐个抽帧筛出「哪些
+片子真有烧录文字」——`movie/char/` 这一批大概率整批不用动。
+
+### ⚠ 重新压制回去还差什么
+
+本脚本只做密码学与容器解析。把**重编码后**的视频塞回 USM 还差两步：
+
+1. 容器重建：`CRID` 的 `filesize/datasize/avbps`、`@SFV` 头的
+   `total_frames/max_picture_size/ixsize`、以及 `chunkType=2` 的 seek 表，
+   帧长一变全要重算。可编程。
+2. **CriMana 认不认 ffmpeg 编出来的流**——它不是通用解码器，对 GOP 结构、profile、
+   VP9 的封装约定有自己的假定。ffmpeg 能播 ≠ 引擎能播。**只能在真机上判定。**
+
+所以验证顺序是：先「零改动回环」（`decrypt` 再 `encrypt` 得到与原文件逐字节相同的
+USM，装机播），再「不加字幕的同参数重编」，最后才谈烧字幕。另外这批片子**编解码
+不统一**（有 H.264 也有 VP9），重编要逐个按原编码走。
+
+> 如果只是要字幕，**native 侧叠 Cocos Label + 外部时间轴表仍然更划算**：改一句话
+> 下一版热更就修好（几 KB），而重压 USM 意味着 516 个文件、约 400 MB 两个包全量
+> 重发，玩家全体重下。重压只在「画面里烧死了日文、非改画面不可」时才值得。
