@@ -61,10 +61,31 @@ CSS 整份放进包里，那份快照缺了 `#QuestMap #toPuellaHistoriaTopButto
 背景图/定位全靠 CSS 给——规则一没就塌成 0 高度空 div，**历史篇（Puella
 Historia）入口无声消失**，模板、js、图片、控制台全都正常。
 
-解毒只有一条路：把服务端现役内容原样放回包里再发一次。`magica/css/` 下现在
-那 188 个文件就是干这个的。
+解毒只有一条路：把服务端现役内容原样放回包里再发一次。`magica/css/` 下那 13 个
+文件就是干这个的——**只覆盖出过问题的那几个页面，不是全站 188 个**：
 
-代价是这 188 个 CSS 从此**冻在仓库里**，服务端改了玩家端吃不到。所以 CI 里
+| 文件 | 为什么在这儿 |
+|---|---|
+| `_common/common.css` | 我们自己的覆盖版（服务端原文 + cn-patch 段） |
+| `_common/fonts.css` | 我们自己的覆盖版（`src` 指向包内 GB 字体） |
+| `quest/MainQuest.css` | **事故现场**——`#toPuellaHistoriaTopButtonWrap` 的规则在这里 |
+| `quest/QuestCommon.css` | `MainQuest.js` 与 `puellaHistoria/Top.js` 都随页面一起加载 |
+| `quest/PuellaHistoriaTop.css` | 历史篇主页 |
+| `quest/PuellaHistoriaLastBattle/{GroupRaid,SingleRaid,QuestResultMainBoss,QuestResultSubBoss}.css` | 历史篇末战四页 |
+| `quest/QuestBattleSelect.css` | 历史篇档案关卡跳这里（`#/QuestBattleSelect/<sectionId>`） |
+| `collection/StoryCollection.css` | 历史篇「回顾」tab |
+| `user/MyPage.css`、`top/Top.css` | 主页 / 标题页 |
+
+这份名单是逐个查各页模块的 `text!css/...` 依赖得出的，不是拍脑袋圈的范围。
+`_common/GlobalMenu.css` 虽然在服务端 `fileTimeStamp` 里，但全站没有任何模块
+require 它，是死文件，不带。
+
+> **代价说清楚**：只覆盖这 13 个，意味着别的页面若也被冻住，它仍然冻着，而且要
+> 等有人报症状才会知道。这是有意换来的——冻 188 个等于把全站 CSS 都钉死，服务端
+> 以后改任何一处玩家端都吃不到，还是静默的。范围小 = 未来的债少；新症状出现时
+> 按同样方法（查该页 `text!css` 依赖 → 把服务端现役内容放进包）补进来即可。
+
+代价是这 13 个 CSS 从此**冻在仓库里**，服务端改了玩家端吃不到。所以 CI 里
 加了闸门（也可以本地跑）：
 
 ```bash
