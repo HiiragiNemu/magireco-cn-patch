@@ -216,6 +216,11 @@ def split_ivf(es):
         n = struct.unpack('<I', es[p:p + 4])[0]
         frames.append(es[p:p + 12 + n])      # 连同 12 字节帧头一起，与原片一致
         p += 12 + n
+    if frames:
+        # IVF 的 32 字节**文件头**在原片里是包在第 0 个数据块的载荷里的
+        # （实测 op_movie2：chunk0 载荷 11602 = 32 文件头 + 12 帧头 + 11558 帧数据）。
+        # 不带上它，整条流会比原片少 32 字节，而且第 0 帧就对不上。
+        frames[0] = es[:hdr_len] + frames[0]
     return frames
 
 
