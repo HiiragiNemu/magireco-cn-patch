@@ -226,3 +226,44 @@ USM，装机播），再「不加字幕的同参数重编」，最后才谈烧�
 > 如果只是要字幕，**native 侧叠 Cocos Label + 外部时间轴表仍然更划算**：改一句话
 > 下一版热更就修好（几 KB），而重压 USM 意味着 516 个文件、约 400 MB 两个包全量
 > 重发，玩家全体重下。重压只在「画面里烧死了日文、非改画面不可」时才值得。
+
+
+### 重打包：`scripts/usm_mux.py`
+
+`usm_crypt.py` 只做加解密，把**重编码后**的视频塞回 USM 由这个负责。
+
+```bash
+python3 scripts/usm_mux.py selftest <in.usm> --key 0x…      # 原样重打包，必须逐字节回到原文件
+python3 scripts/usm_mux.py extract  <in.usm> --key 0x… -o work/
+#   … 用 ffmpeg 解码 work/video.bin、烧字幕、按原参数重编 …
+python3 scripts/usm_mux.py rebuild  <in.usm> --key 0x… --video new.ivf -o out.usm
+```
+
+容器比预想的简单：**没有逐帧 seek 表**——那几个 `chunkType=2` 的块只是 32 字节的
+ASCII 段标记（`#HEADER END` / `#METADATA END` / `#CONTENTS END`），不含偏移量。
+所以帧长变了不需要重算索引，这是重打包可行的关键。
+
+要重算的只有 `@UTF` 表里几个定宽数值列，就地改，不重排版：
+
+| 字段 | 怎么算 |
+|---|---|
+| `CRIUSF_DIR_STREAM.filesize` row0 | 整个文件字节数 |
+| 同上 row1/row2 | 该流全部数据块的**载荷**长度之和 |
+| 同上 `minbuf` row1 | 该流**最大载荷**长度 |
+| `VIDEO_HDRINFO.ixsize` | 该流**最大整块**长度（含块头与补零） |
+
+`minbuf` 与 `ixsize` 差一个块头加补零，很容易写混（实测 `ixsize=276896`、
+`minbuf=276845`，差 51 = 32 + 19）——identity 测试就是卡在这里才把两者分开的。
+`avbps` / `minchk` 不动：音频侧的取值规律没摸清，而我们本来就不改音频。
+
+还有个例外要小心：**CRID 头块被固定补到 2048 字节**（384 载荷 + 1632 补零），
+不服从「整块 32 对齐」的通用式。载荷没换过的块一律照抄原 padding。
+
+**硬约束：新视频的帧数必须与原片一致。** 这是刻意把变量压到最少——交织顺序、
+音视频同步、时间戳全都不动，真机上万一播不了就只可能是编码器产物的问题，
+不会和「容器拼错了」混在一起。ffmpeg 同帧率、不丢帧地重编即可满足。
+
+**自证**：`selftest` 与 `extract → rebuild` 两条路径在 `op_movie2.usm`（VP9，
+4870 块）和 `movie_1001_1.usm`（H.264，116 块）上都**逐字节回到原文件**；
+不给 `--frames` 让它按 Annex-B AUD 自动切帧，结果同样一致。这说明块框架、补零、
+`@UTF` 改值、加密四件事都没写错——换成重编码的流之后，唯一的变量就只剩编码器。
