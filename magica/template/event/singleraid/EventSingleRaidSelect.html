@@ -21,14 +21,14 @@
 	pointModel.point.missionRequiredCount * 100 : pointModel.missionCount / pointModel.point.missionRequiredCount * 100;
 
 	var chapterTitle = isBoss ? "第" + pointModel.point.areaNo + "章 " + "BOSS" :
-												"第" + pointModel.point.areaNo + "章 " + "エリア" + pointModel.point.areaSubNo;
+												"第" + pointModel.point.areaNo + "章 " + "面积" + pointModel.point.areaSubNo;
 
-	var pointTitle   = isChallenge ? "チャレンジエリア " + pointModel.point.areaSubNo : pointModel.point.title;
+	var pointTitle   = isChallenge ? "挑战区域 " + pointModel.point.areaSubNo : pointModel.point.title;
 
-	var areaMissionTitle = (pointType == "BOSS" || pointType == "EXTRA_BOSS") ? "ボスを倒そう！" :
-						   (missionType == "TOTAL_DAMAGE") ?  pointModel.point.missionRequiredCount + "ダメージ与えよう！" :
-						   (missionType == "MAGIA_COUNT")  ? "マギアを" + pointModel.point.missionRequiredCount + "回使おう！" :
-						   "敵を" + pointModel.point.missionRequiredCount + "体倒そう！";
+	var areaMissionTitle = (pointType == "BOSS" || pointType == "EXTRA_BOSS") ? "打败首领吧！" :
+						   (missionType == "TOTAL_DAMAGE") ?  pointModel.point.missionRequiredCount + "给伤害吧！" :
+						   (missionType == "MAGIA_COUNT")  ? "Magia" + pointModel.point.missionRequiredCount + "让我们使用它两次吧！" :
+						   "敌方" + pointModel.point.missionRequiredCount + "让我们崩溃吧！";
 %> <style type='text/css'>
   .memoriaEquip
   {

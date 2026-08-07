@@ -1,19 +1,19 @@
 <div id="BackdoorQuestBattle">
   <div class="commonFrame1">
-    <h2>クエストテスト</h2>
-    <p><input type="text" id="questId" class="commonInput" placeholder="questIdを入力してください" readonly="readonly" value="1011011"></p>
-    <p id="questStart" class="btn b_pink TE" data-target="story">クエスト開始</p>
+    <h2>任务测试</h2>
+    <p><input type="text" id="questId" class="commonInput" placeholder="请输入任务ID" readonly="readonly" value="1011011"></p>
+    <p id="questStart" class="btn b_pink TE" data-target="story">任务启动</p>
     <div id="pasteBtn" class="mb_white TE">貼付</div>
     <div id="historyBtn" class="mb_white TE">履歴</div>
     <div id="deckWrap" class="commonFrame2">
-      <h3>デッキ情報</h3>
+      <h3>甲板信息</h3>
       <div id="deckInner">
       </div>
-      <div id="deckSelectBtn" class="mb_white TE">デッキ選択</div>
-      <div id="deckLinkBtn" class="mb_pink TE">デッキ編成</div>
+      <div id="deckSelectBtn" class="mb_white TE">套牌选择</div>
+      <div id="deckLinkBtn" class="mb_pink TE">甲板 编成</div>
     </div>
     <div id="keyBtnWrap" class="commonFrame2">
-      <h3>キー入力</h3>
+      <h3>按键输入</h3>
       <ul id="keyList"> <% for(var i=1; i<10; i++) { %> <li class="inputTextBtn mb_white TE" data-text="<%= i %>"><%= i %></li> <% } %> <li class="inputTextBtn mb_white TE" data-text="0">0</li>
         <li class="inputTextBtn mb_white TE" data-text="00">00</li>
         <li id="inputClearBtn" class="inputOtherBtn mb_pink TE" data-text="00">通关</li>
