@@ -1,0 +1,86 @@
+{
+  "schema": "magireco-pass18-19-rebuild/v1",
+  "status": "PASS",
+  "scope": "provenance-only; no product files read or changed",
+  "inputs": {
+    "work/pass15_agent_pass17/transcript_replay_remaining_cardMagia_highrisk_208.tsv": "31821678864cef27f5747ed55e4fb383b9f42d0dd25777ada92cc08d5bdd7110",
+    "work/pass15_agent_rebuild/inputs/official/authority.json": "19b91c81254d2e44c478efa827ad568fb743b06b41b3536dae612ddd9c498595",
+    "work/shared_conversation_extracted.jsonl": "26e82dc1878b2ce2c96e12116d004d81f4bab664bd8734c7a32e830483b18450",
+    "work/pass17_max_integrated/release/authority_layer_ledger_571.tsv": "f481f5b8238c5d531d327ec47746fa360c569657cd9e9895df64f1e9c67f9b45",
+    "work/pass15_agent_rebuild/product/magica/i18n_audit/wiki_authority_pass9/residual_llm_or_other_candidates.tsv": "1d72ad001bb1ef7bd1f1d6bbbb7d223d436038f2e04eb1dc8d2ac86c4a3f9af2",
+    "work/pass15_agent_structure/pass14_residual_reconstructed.tsv": "2ebe3e95dfdbb7a45b5e09a4fa5fcc042132af7855ca96c9f4eba96ad1f8a327"
+  },
+  "source_pool": {
+    "fields": 208,
+    "name_fields": 43,
+    "shortDescription_fields": 165
+  },
+  "pass18": {
+    "official_same_name_hits": 35,
+    "existing_ledger_overlap_count": 1,
+    "existing_ledger_overlap": [
+      "cardMagiaMap.json/90181/name"
+    ],
+    "newly_accepted": 34,
+    "runtime_changes": 0,
+    "transcript_pool_remaining": 174
+  },
+  "pass19": {
+    "description_candidates": 165,
+    "accepted_strict_equivalence": 162,
+    "rejected": 3,
+    "rejected_keys": [
+      "90320",
+      "90338",
+      "90347"
+    ],
+    "numeric_roman_mismatch_keys": [
+      "90320"
+    ],
+    "target_mismatch_keys": [],
+    "turn_mismatch_keys": [],
+    "direction_mismatch_keys": [
+      "90338",
+      "90347"
+    ],
+    "runtime_changes": 0,
+    "transcript_pool_remaining": 12
+  },
+  "guards": {
+    "accepted_numeric_roman_mismatches": 0,
+    "accepted_target_mismatches": 0,
+    "accepted_turn_mismatches": 0,
+    "accepted_direction_mismatches": 0,
+    "new_layer_fields_outside_original_pass9_residual": 0,
+    "new_layer_fields_outside_pass14_residual": 0,
+    "new_layer_existing_ledger_duplicates": 0,
+    "fuzzy_matching": false
+  },
+  "set_intersections": {
+    "pass14_residual_size": 9643,
+    "pass18_raw_hits_with_pass14_residual": 35,
+    "pass18_new_rows_with_pass14_residual": 34,
+    "pass19_new_rows_with_pass14_residual": 162,
+    "combined_new_rows_with_pass14_residual": 196,
+    "pass18_raw_hits_with_existing_ledger": 1,
+    "combined_new_rows_with_existing_ledger": 0
+  },
+  "combined_new_layer": {
+    "fields": 196,
+    "runtime_changes": 0,
+    "provenance_only": 196,
+    "true_residual_delta": 196,
+    "input_ledger_remaining_residual": 9274,
+    "projected_remaining_residual_after_overlay": 9078
+  },
+  "outputs": {
+    "pass18_official_same_name_hits_35.tsv": "ff8286c0a7ef490a3fa87e403b6b2920b44d961e0d25b73f668c23a6ea662e8c",
+    "pass18_accepted_official_family_names_34.tsv": "76fc5583a750744f1a6b1e4d3a6657432ed53c2a85fe8017e6670d9bca1526ab",
+    "pass18_remaining_transcript_pool_174.tsv": "9fd9c1f122c686ab422bf8721fa55783fe628d2bc1f2373420e6be510b959454",
+    "pass19_accepted_strict_equivalence_162.tsv": "ebb5de4270732df89d6a76990dd6aa6b9cbe3ac20107ff03c03c589d85cd407f",
+    "pass19_rejected_semantic_drift_3.tsv": "9e5179c6d7047dd76d158322f11f44176b5a687d7faf72824cca996ec4fd84d4",
+    "pass19_remaining_transcript_pool_12.tsv": "cb335cdfbe1246412e0952d89d80451a882ec7b2271d58f38700a690da438b2f",
+    "pass18_19_authority_ledger_overlay_196.tsv": "d2cfc70950116da958b74f77979858bf5f35a538b1ede386c940c76b13019706"
+  },
+  "transcript_evidence_sha256": "f1fe852eb7578c22247e1f2fb819bf8e9e20a65f789b401d7e64cbec4d975ee2"
+}
