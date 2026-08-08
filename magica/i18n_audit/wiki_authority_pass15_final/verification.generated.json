@@ -1,0 +1,106 @@
+{
+  "schema": "magireco-cn-pass15-final-portable-verification/v1",
+  "status": "PASS",
+  "tree": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\pass15_final_integration",
+  "base": "20e35db411e83d710662c98f12c1374fa8363dda",
+  "ledger_rows": 892,
+  "remaining_residual": 8959,
+  "sha256sums": {
+    "entries": 30,
+    "match": true
+  },
+  "field_source_coverage": {
+    "changed_standalone_json_fields": 382,
+    "covered_changed_fields": 382,
+    "uncovered_changed_fields": 0,
+    "recipe_transition_rows": 410,
+    "recipe_unique_targets": 382,
+    "multi_transition_fields": 28,
+    "transition_preimage_or_target_issues": 0,
+    "recipe_targets_not_changed_in_product": 0,
+    "whole_file_copy_uncovered_regressions": 0
+  },
+  "runtime_structure_audit": {
+    "status": "PASS",
+    "changed_string_fields": 382,
+    "numeric_signature_drift": 1,
+    "warnings": [
+      "numeric signature drift requires semantic ledger: 1"
+    ]
+  },
+  "protected_paths": {
+    "count": 11,
+    "identical": 11,
+    "files": [
+      {
+        "path": "magica/css/_common/common.css",
+        "byte_identical": true
+      },
+      {
+        "path": "magica/css/_common/fonts.css",
+        "byte_identical": true
+      },
+      {
+        "path": "magica/css/campaign/newyear_login/NewYearLogin.css",
+        "byte_identical": true
+      },
+      {
+        "path": "magica/css/campaign/quiz/CampaignQuizTop.css",
+        "byte_identical": true
+      },
+      {
+        "path": "magica/css/campaign/summer_mission/CampaignSummerMissionTop.css",
+        "byte_identical": true
+      },
+      {
+        "path": "magica/css/event/EventArenaRankMatch/Result.css",
+        "byte_identical": true
+      },
+      {
+        "path": "magica/css/test/SdCharaTest.css",
+        "byte_identical": true
+      },
+      {
+        "path": "magica/css/test/ShopReworkTest.css",
+        "byte_identical": true
+      },
+      {
+        "path": "magica/js/campaign/box_gacha/CampaignBoxGachaTop.js",
+        "byte_identical": true
+      },
+      {
+        "path": "magica/template/campaign/box_gacha/CampaignBoxGachaTop.html",
+        "byte_identical": true
+      },
+      {
+        "path": "magica/template/gacha/GachaTop.html",
+        "byte_identical": true
+      }
+    ]
+  },
+  "deterministic_builds": [
+    {
+      "exit_code": 0,
+      "stdout": "MagiaCN injector rebuilt: dictionaries=23 bytes=5057815 sha256=c7a879cf5d13e2a53c83c871cd715e467032199dcbedd93144fdb35aa3ac1cca",
+      "stderr": "",
+      "jquery_sha256": "c7a879cf5d13e2a53c83c871cd715e467032199dcbedd93144fdb35aa3ac1cca"
+    },
+    {
+      "exit_code": 0,
+      "stdout": "MagiaCN injector rebuilt: dictionaries=23 bytes=5057815 sha256=c7a879cf5d13e2a53c83c871cd715e467032199dcbedd93144fdb35aa3ac1cca",
+      "stderr": "",
+      "jquery_sha256": "c7a879cf5d13e2a53c83c871cd715e467032199dcbedd93144fdb35aa3ac1cca"
+    }
+  ],
+  "jquery_sha256": "c7a879cf5d13e2a53c83c871cd715e467032199dcbedd93144fdb35aa3ac1cca",
+  "node_check": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "standalone_embedded": {
+    "count": 23,
+    "match": true
+  },
+  "errors": []
+}

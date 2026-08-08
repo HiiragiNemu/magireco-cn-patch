@@ -1,0 +1,42 @@
+[
+  {
+    "index": 405,
+    "role": "assistant",
+    "recipient": "container.exec",
+    "content_type": "code",
+    "text_sha256": "a45a3e39117a6590354e01a63bc9be79bfc495f613facd13bd466363ed6c31c9",
+    "text": "bash -lc python - <<'PY'\nimport csv, re, subprocess, json, unicodedata\nfrom collections import Counter,defaultdict\np='/mnt/data/pass21_noncard_unproven_candidates.tsv'\nrows=list(csv.DictReader(open(p,encoding='utf-8-sig'),delimiter='\\t'))\n# exclude cardMagia and doppel families for now; exclude pass22 triples and pass23 cardskill triples\nskip22={\n('itemList.json','457','parameter'),('itemList.json','504','name'),('itemList.json','581','name'),('itemList.json','581','parameter'),('sectionList.json','1289','title'),\n*[('sectionList.json',str(i),'title') for i in range(1315,1325)],\n('shopItemList.json','527','name'),('shopItemList.json','570','name'),('shopItemList.json','652','name'),('shopItemList.json','654','name'),('shopItemList.json','664','name'),('shopItemList.json','671','name'),('shopItemList.json','978','name')}\nskip23={('cardSkillMap.json',k,'name') for k in ['40413','40414','40415','40465','40533','40534','40535']}\n# ICU transform helper batch via subprocess uconv not per row; use predefined Japanese bridge + OpenCC? use uconv process all strings with separators\nbridge=str.maketrans({'黒':'黑','浜':'滨','織':'织','鶴':'鹤','竜':'龙','愛':'爱','機':'机','覚':'觉','結':'结','願':'愿','燦':'灿','並':'并','満':'满','錦':'锦','倉':'仓','國':'国','學':'学','園':'园','澤':'泽','﨑':'崎'})\n# call uconv one at a time is okay ~300\n\ndef simp(s):\n    s=s.translate(bridge)\n    r=subprocess.run(['uconv','-x','Traditional-Simplified'],input=s,text=True,capture_output=True,check=True).stdout\n    return r\nscript=[]\nfor r in rows:\n t=(r['file'],r['key'],r['field'])\n if r['file'] in {'cardMagiaMap.json','doppelList.json','doppelCardMagiaMap.json'} or t in skip22 or t in skip23: continue\n if simp(r['baseline'])==r['current']:\n  script.append(r)\nprint('script-only safe non-doppel',len(script),Counter(r['file'] for r in script))\nfor fn in sorted(set(r['file'] for r in script)):\n print('\\n##',fn)\n for r in [x for x in script if x['file']==fn][:30]: print(r['key'],r['field'],repr(r['baseline']),'->',repr(r['current']))\nPY"
+  },
+  {
+    "index": 408,
+    "role": "assistant",
+    "recipient": "all",
+    "content_type": "text",
+    "text_sha256": "f7b5c59a9588326bff5ee7c6b0b417bb442c0fb3f4b6c028d118308c5cdc6f3c",
+    "text": "pass24 又剥离了 **86 项**严格等价 residual，运行时仍是 0 字节变化；范围包括 47 个 item、15 个 shopItem、11 个 section、7 个 pieceSkill 等。数值/罗马等级签名全部保持，残余已降到 **9,027**。\n\n这一步也把“只是简繁/日文字形或机制记法差异”和“真正需要权威翻译判断”的内容进一步分开了。接下来我会直接审 `charaList` 与剩余角色名称/简介，因为这里已经看到 `Magius之翼→玛吉斯之翼`、`万年樱之谣→万年樱的传闻` 这类可能比 baseline 更差的实质改写。"
+  },
+  {
+    "index": 409,
+    "role": "assistant",
+    "recipient": "container.exec",
+    "content_type": "code",
+    "text_sha256": "4a11b7b4a004867b4ab5c663b533e72e9b49e843af61672bcc46021e1b1059ed",
+    "text": "bash -lc python - <<'PY'\nimport csv\nfrom collections import Counter\nsrc=list(csv.DictReader(open('/mnt/data/pass21_noncard_unproven_candidates.tsv',encoding='utf-8-sig'),delimiter='\\t'))\n# gather pass22,23,24 accepted triples from their ledgers\nskip=set()\nfor p in [\n'/mnt/data/magireco_pass22_working/magica/i18n_audit/wiki_authority_pass22_simplified_orthography_cleanup/pass22_orthography_corrections_22.tsv',\n'/mnt/data/magireco_pass23_working/magica/i18n_audit/wiki_authority_pass23_typed_wiki_connect_names/pass23_connect_name_authority_7.tsv',\n'/mnt/data/magireco_pass24_working/magica/i18n_audit/wiki_authority_pass24_strict_orthographic_mechanical_equivalence/pass24_strict_equivalence_86.tsv']:\n for r in csv.DictReader(open(p,encoding='utf-8-sig'),delimiter='\\t'): skip.add((r['file'],r['key'],r['field']))\nremaining=[r for r in src if (r['file'],r['key'],r['field']) not in skip and r['file'] not in {'cardMagiaMap.json','doppelList.json','doppelCardMagiaMap.json'}]\nprint('remaining noncard non-doppel candidates',len(remaining),Counter(r['file'] for r in remaining))\nfor fn in ['charaList.json','formationSheetList.json','cardList.json','pieceSkillMap.json','itemList.json','shopItemList.json','chapterList.json','charaMessageList.json']:\n print('\\n###',fn)\n for r in remaining:\n  if r['file']==fn: print(r['key'],r['field'],'B=',repr(r['baseline']),'| C=',repr(r['current']))\nPY"
+  },
+  {
+    "index": 412,
+    "role": "assistant",
+    "recipient": "container.exec",
+    "content_type": "code",
+    "text_sha256": "ca66600397153d7cc240c3d5e1761f01e6bd123db0c366beb167b3c254110962",
+    "text": "bash -lc python - <<'PY'\nimport json,csv\nfrom pathlib import Path\nroot=Path('/mnt/data/magireco_pass25_working/magica/js/libs')\nbase=Path('/mnt/data/magireco_pass14_work/baseline/magica/js/libs')\noffall=json.loads(Path('/mnt/data/magireco_pass14_work/official/authority/authority.json').read_text(encoding='utf-8'))\n# remaining candidate triples after p22-25\nsrc=list(csv.DictReader(open('/mnt/data/pass21_noncard_unproven_candidates.tsv',encoding='utf-8-sig'),delimiter='\\t'))\nused=set()\nfor p in [\n'/mnt/data/magireco_pass22_working/magica/i18n_audit/wiki_authority_pass22_simplified_orthography_cleanup/pass22_orthography_corrections_22.tsv',\n'/mnt/data/magireco_pass23_working/magica/i18n_audit/wiki_authority_pass23_typed_wiki_connect_names/pass23_connect_name_authority_7.tsv',\n'/mnt/data/magireco_pass24_working/magica/i18n_audit/wiki_authority_pass24_strict_orthographic_mechanical_equivalence/pass24_strict_equivalence_86.tsv',\n'/mnt/data/magireco_pass25_working/magica/i18n_audit/wiki_authority_pass25_extended_jp_glyph_equivalence/pass25_extended_glyph_equivalence_52.tsv']:\n for r in csv.DictReader(open(p,encoding='utf-8-sig'),delimiter='\\t'):used.add((r['file'],r['key'],r['field']))\nrem=[r for r in src if (r['file'],r['key'],r['field']) not in used and r['file'] not in {'cardMagiaMap.json','doppelList.json','doppelCardMagiaMap.json'}]\npks={'charaList.json':'id','formationSheetList.json':'id','shopItemList.json':'id','chapterList.json':'chapterId','itemList.json':'itemCode','sectionList.json':'sectionId'}\nfor fn in sorted(set(r['file'] for r in rem)):\n print('\\n###',fn)\n cur=json.loads((root/fn).read_text(encoding='utf-8-sig')); off=offall.get(fn,{})\n for r in [x for x in rem if x['file']==fn]:\n  if isinstance(cur,list):\n   rec=cur[int(r['key'])]\n   pk=pks.get(fn)\n   ident=str(rec.get(pk)) if pk else None\n   auth=off.get(ident) if isinstance(off,dict) and ident is not None else None\n  else:\n   rec=cur[r['key']]; ident=r['key']; auth=off.get(ident) if isinstance(off,dict) else None\n  av=auth.get(r['field']) if isinstance(auth,dict) else None\n  match='CURRENT' if av==r['current'] else 'BASELINE' if av==r['baseline'] else '-'\n  print(r['key'], 'biz',ident,r['field'],'match',match,'O=',repr(av),'B=',repr(r['baseline']),'C=',repr(r['current']))\nPY"
+  },
+  {
+    "index": 480,
+    "role": "assistant",
+    "recipient": "container.exec",
+    "content_type": "code",
+    "text_sha256": "7a4c1557ebe2b17ee8dfd296df038d830343c338b64c66a9322617b9965ad87a",
+    "text": "bash -lc sed -n '1,280p' /mnt/data/magireco_pass25_working/magica/i18n_audit/wiki_authority_pass25_extended_jp_glyph_equivalence/apply_pass25.py; echo '---pass22---'; sed -n '1,260p' /mnt/data/magireco_pass22_working/magica/i18n_audit/wiki_authority_pass22_simplified_orthography_cleanup/apply_pass22.py"
+  }
+]
