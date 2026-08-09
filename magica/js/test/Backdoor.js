@@ -578,7 +578,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           b.tapBlock(!1);
           new b.PopupClass(
           {
-            title: "受取完了",
+            title: "领取完成",
             content: "收到一套强化道具",
             closeBtnText: "关闭"
           })
@@ -653,7 +653,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
               b.tapBlock(!1);
               new b.PopupClass(
               {
-                title: "受取完了",
+                title: "领取完成",
                 content: "请收到 魔法少女 作为礼物。",
                 closeBtnText: "关闭"
               })
@@ -713,7 +713,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
               b.tapBlock(!1);
               new b.PopupClass(
               {
-                title: "受取完了",
+                title: "领取完成",
                 content: "请收到 魔法少女 作为礼物。",
                 closeBtnText: "关闭"
               })

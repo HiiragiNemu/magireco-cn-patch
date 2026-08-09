@@ -1,0 +1,38 @@
+{
+  "schema": "magireco-cn-pass16-manual-review-contract/v1",
+  "delimiter": "TAB",
+  "encoding": "UTF-8",
+  "header": [
+    "status",
+    "risk",
+    "file",
+    "key_or_line",
+    "field",
+    "original_text",
+    "final_cn",
+    "category",
+    "source_tier",
+    "source_path",
+    "reviewer_check",
+    "notes"
+  ],
+  "all_cells_required": true,
+  "identity_columns": [
+    "file",
+    "key_or_line",
+    "field",
+    "original_text",
+    "final_cn"
+  ],
+  "summary_schema": "magireco-cn-pass16-manual-review/v1",
+  "summary_required_fields": [
+    "schema",
+    "checklist_path",
+    "checklist_sha256",
+    "row_count",
+    "status_counts",
+    "risk_counts",
+    "category_counts",
+    "source_tier_counts"
+  ]
+}

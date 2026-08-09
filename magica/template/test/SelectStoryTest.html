@@ -1,20 +1,20 @@
 <div id="StoryTest">
   <div class="commonFrame1">
     <h2>剧情测试</h2>
-    <p><input type="text" id="storyId" class="commonInput" placeholder="请输入故事ID" readonly="readonly"></p>
+    <p><input type="text" id="storyId" class="commonInput" placeholder="请输入storyId" readonly="readonly"></p>
     <p id="storyStart" class="btn b_pink TE" data-target="story">回放剧情</p>
-    <p id="questStoryStart" class="btn b_pink TE" data-target="quest">任务剧情播放</p>
-    <div id="pasteBtn" class="mb_white TE">貼付</div>
-    <div id="historyBtn" class="mb_white TE">履歴</div>
+    <p id="questStoryStart" class="btn b_pink TE" data-target="quest">播放关卡剧情</p>
+    <div id="pasteBtn" class="mb_white TE">粘贴</div>
+    <div id="historyBtn" class="mb_white TE">历史记录</div>
     <div id="idBtnList" class="commonFrame2">
-      <h3>ＩＤ 変更</h3>
+      <h3>修改ID</h3>
       <div class="changeIdBtn sb_gold_02 TE" data-type="add" data-num="-1">-1</div>
       <div class="changeIdBtn sb_gold_02 on TE" data-type="add" data-num="1">+1</div>
       <div class="changeIdBtn sb_gold_02 TE" data-type="add" data-num="-10">-10</div>
       <div class="changeIdBtn sb_gold_02 on TE" data-type="add" data-num="10">+10</div>
     </div>
     <div id="indexBtnList" class="commonFrame2">
-      <h3>連番 変更</h3>
+      <h3>修改序号</h3>
       <div class="changeIndexBtn sb_gold_02 TE" data-type="add" data-num="-1">-1</div>
       <div class="changeIndexBtn sb_gold_02 on TE" data-type="add" data-num="1">+1</div>
       <div class="changeIndexBtn sb_gold_02 TE" data-type="add" data-num="-10">-10</div>
@@ -30,7 +30,7 @@
         <li class="inputTextBtn mb_pink selected TE" data-text="_">_</li> <% for(var i=1; i<10; i++) { %> <li class="inputTextBtn mb_white TE" data-text="<%= i %>"><%= i %></li> <% } %> <li class="inputTextBtn mb_white TE" data-text="0">0</li>
         <li class="inputTextBtn mb_white TE" data-text="00">00</li>
         <li id="inputClearBtn" class="inputOtherBtn mb_pink TE" data-text="00">通关</li>
-        <li id="inputDelete1Btn" class="inputOtherBtn mb_pink TE" data-text="00">1字削除</li>
+        <li id="inputDelete1Btn" class="inputOtherBtn mb_pink TE" data-text="00">删除1个字符</li>
       </ul>
     </div>
   </div>
@@ -38,12 +38,12 @@
 <script type="text/template" id="HistoryParts"> <div id="historyScrollWrap">
 		<ul id="historyList" class="scrollInner">
 			<%="<% _.each(historyArr,function(model) { %\>"%>
-			<li class="<%='<%= model.read %\>'%>"><div class="sid"><%="<%= model.sid %\>"%></div><div class="inputBtn mb_white TE">入力</div></li>
+			<li class="<%='<%= model.read %\>'%>"><div class="sid"><%="<%= model.sid %\>"%></div><div class="inputBtn mb_white TE">输入</div></li>
 			<%="<% }); %\>"%>
 		</ul>
 	</div>
 
-	<div id="historyDeleteBtn" class="mb_white TE">履歴削除</div>
+	<div id="historyDeleteBtn" class="mb_white TE">删除历史记录</div>
 
-	<p class="caution c_red">※赤字は再生できなかったストーリーです</p>
+	<p class="caution c_red">※红字表示无法播放的剧情</p>
 </script>
