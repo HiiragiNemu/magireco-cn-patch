@@ -56,7 +56,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         {
           title: "command 40",
           content: "nativeCallback()",
-          closeBtnText: "OK"
+          closeBtnText: "确定"
         })
       });
       c.userDataInitilize();
@@ -71,7 +71,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         {
           title: "command 41",
           content: "nativeCallback()",
-          closeBtnText: "OK"
+          closeBtnText: "确定"
         })
       });
       c.configDataInitilize();
@@ -122,7 +122,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       {
         title: "错误",
         content: "请在输入框中输入userQuestBattleResultId。",
-        closeBtnText: "OK"
+        closeBtnText: "确定"
       })
     }
   });

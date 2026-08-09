@@ -18,7 +18,7 @@ define("underscore backbone backboneCommon ajaxControl command text!css/event/Ev
       {
         title: "错误",
         content: "战斗耗时超过规定时间，<br>本次战斗无效。<br>返回活动首页。",
-        closeBtnText: "OK"
+        closeBtnText: "确定"
       }, null, null, function()
       {
         b.endArena();
@@ -27,7 +27,7 @@ define("underscore backbone backboneCommon ajaxControl command text!css/event/Ev
       {
         title: "镜界排位赛",
         content: "当前不在排位赛开放期间，<br>对战结果不会被记录。<br>返回首页。",
-        closeBtnText: "OK"
+        closeBtnText: "确定"
       }, null, null, function()
       {
         b.endArena();
@@ -36,7 +36,7 @@ define("underscore backbone backboneCommon ajaxControl command text!css/event/Ev
       {
         title: "错误",
         content: "未能正确获取战斗结果。<br>返回首页。",
-        closeBtnText: "OK"
+        closeBtnText: "确定"
       }, null, null, function()
       {
         b.endArena();
@@ -138,7 +138,7 @@ define("underscore backbone backboneCommon ajaxControl command text!css/event/Ev
               {
                 title: b.title ? b.title : "错误",
                 content: b.errorTxt ? b.errorTxt : "回放数据保存失败。",
-                closeBtnText: "OK"
+                closeBtnText: "确定"
               });
               else
               {
@@ -152,7 +152,7 @@ define("underscore backbone backboneCommon ajaxControl command text!css/event/Ev
                 {
                   title: "保存回放",
                   content: "已保存为回放。<br><br>有效期：" + c + "/" + b + "/" + d + "为止",
-                  closeBtnText: "OK"
+                  closeBtnText: "确定"
                 });
                 a.addClassId("replayBtn", "off");
                 a.tapBlock(!1);

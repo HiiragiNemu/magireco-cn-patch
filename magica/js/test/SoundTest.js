@@ -2,7 +2,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
 {
   var n = [
       ["01", "卡牌详情中的自我介绍"],
-      ["02", "扭蛋获取时"],
+      ["02", "扭蛋获得时"],
       ["03", "剧情第1话通关时"],
       ["04", "剧情第2话通关时"],
       ["05", "剧情第3话通关时"],
