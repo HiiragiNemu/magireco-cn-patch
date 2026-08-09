@@ -121,7 +121,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       }) : new a.PopupClass(
       {
         title: "错误",
-        content: "请在输入字段中输入 userQuestBattleResultId。",
+        content: "请在输入框中输入userQuestBattleResultId。",
         closeBtnText: "OK"
       })
     }
