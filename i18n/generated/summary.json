@@ -1,0 +1,92 @@
+{
+  "authority_order": [
+    {
+      "id": "official_cn_dump",
+      "weight": 500
+    },
+    {
+      "id": "wiki",
+      "weight": 400
+    },
+    {
+      "id": "existing_human_reviewed",
+      "weight": 300
+    },
+    {
+      "id": "legacy_unverified_ai_assisted",
+      "weight": 200
+    },
+    {
+      "id": "new_proposal",
+      "weight": 100
+    }
+  ],
+  "candidate_rows": 2656,
+  "effective_rows": 2580,
+  "fatal_equal_weight_conflicts": 0,
+  "human_reviewed_candidates": 0,
+  "input_tables": {
+    "fragments.tsv": {
+      "absent_candidates": 0,
+      "authority_counts": {
+        "legacy_unverified_ai_assisted": 7
+      },
+      "data_rows": 7,
+      "normalized_lf_sha256": "304ff1f741ae2887db70267e89222b9f2578f2e1e6523954e5f548fe322694f7",
+      "present_candidates": 7,
+      "source_batch_counts": {
+        "legacy-unverified-mixed-patch": 7
+      }
+    },
+    "frontend-strings.tsv": {
+      "absent_candidates": 53,
+      "authority_counts": {
+        "legacy_unverified_ai_assisted": 1632
+      },
+      "data_rows": 1685,
+      "normalized_lf_sha256": "5f3aa7dc2508cfab1a3df28bf50fd6f43819d645261fc1c66a3c9e0ed06d0e91",
+      "present_candidates": 1632,
+      "source_batch_counts": {
+        "legacy-claude-ai-assisted": 318,
+        "legacy-kimi-ai-assisted": 1314
+      }
+    },
+    "glossary.tsv": {
+      "absent_candidates": 0,
+      "authority_counts": {
+        "wiki": 955
+      },
+      "data_rows": 955,
+      "normalized_lf_sha256": "f4e5679b9b32dac910d0326558986d22cb56bae8a14baf15e18e0a103f3cfba9",
+      "present_candidates": 955,
+      "source_batch_counts": {
+        "wiki-canonical-lock": 3,
+        "wiki-migrated-glossary": 952
+      }
+    },
+    "overrides.tsv": {
+      "absent_candidates": 0,
+      "authority_counts": {
+        "legacy_unverified_ai_assisted": 9
+      },
+      "data_rows": 9,
+      "normalized_lf_sha256": "bb3fde799cb80f4b0cfb3aa7d1f9cef26a7e6d321a5b76b0a62b694047ad4265",
+      "present_candidates": 9,
+      "source_batch_counts": {
+        "legacy-unverified-mixed-patch": 9
+      }
+    }
+  },
+  "magica_consumed": false,
+  "mode": "audit-only",
+  "present_candidates": 2603,
+  "product_tree_writes": 0,
+  "resolved_conflicts": 2,
+  "result": "pass",
+  "runtime_consumed": false,
+  "schema_version": 1,
+  "selected_authority_counts": {
+    "legacy_unverified_ai_assisted": 1625,
+    "wiki": 955
+  }
+}

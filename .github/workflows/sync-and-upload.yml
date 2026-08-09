@@ -60,6 +60,15 @@ name: 🔄 同步上游并上传到 R2
 on:
   workflow_dispatch:
     inputs:
+      package_scope:
+        description: '手动打包范围（js=JS/WebView+引擎表；scenario=仅剧情；all=两者）'
+        required: true
+        default: 'js'
+        type: choice
+        options:
+          - js
+          - scenario
+          - all
       force_sync:
         description: '强制同步（无视指纹）'
         required: false
@@ -312,12 +321,24 @@ jobs:
           HAS_SCENARIO=0
           HAS_JS=0
 
-          echo "$CHANGED" | grep -qE '^madomagi/(resource/scenario/json/|engine_i18n\.tsv)' && HAS_SCENARIO=1 || true
-          echo "$CHANGED" | grep -qE '^magica/(css|fonts|js|resource|template)/' && HAS_JS=1 || true
+          # 剧情包只由剧情 JSON 触发；引擎翻译表属于 JS 热更新包。
+          echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/json/' && HAS_SCENARIO=1 || true
+          echo "$CHANGED" | grep -qE '^magica/(css|fonts|js|resource|template)/|^madomagi/engine_i18n\.tsv$' && HAS_JS=1 || true
 
+          # 手动运行显式选择范围；默认仅 JS，避免无关地递增几百 MB 剧情包。
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            HAS_SCENARIO=1
-            HAS_JS=1
+            SCOPE="${{ inputs.package_scope }}"
+            case "$SCOPE" in
+              js)
+                HAS_JS=1; HAS_SCENARIO=0 ;;
+              scenario)
+                HAS_JS=0; HAS_SCENARIO=1 ;;
+              all)
+                HAS_JS=1; HAS_SCENARIO=1 ;;
+              *)
+                echo "::error::未知 package_scope: $SCOPE"
+                exit 1 ;;
+            esac
           fi
 
           echo "has_scenario=$HAS_SCENARIO" >> $GITHUB_OUTPUT
@@ -337,6 +358,10 @@ jobs:
       #   所以每次打包前都要确认它们还和服务端现役版本一致。
       #   不阻断构建：游戏服务端连不上时不该把发版卡死，只标红提示。
       # ───────────────────────────────────────────────────────────────
+      - name: "[HOTUPDATE] 清单所有权回归"
+        if: steps.detect.outputs.has_js == '1' || steps.detect.outputs.has_scenario == '1'
+        run: python3 scripts/test_build_manifest.py -v
+
       - name: "[JS] CSS 冻结检查"
         if: steps.detect.outputs.has_js == '1'
         continue-on-error: true
@@ -361,18 +386,50 @@ jobs:
         run: |
           pip3 install requests 2>/dev/null || true
           python3 Build_JS_Injector.py
+          FIRST_RUNTIME_SHA=$(sha256sum magica/js/libs/jquery-3.7.1.min.js | cut -d' ' -f1)
+          python3 Build_JS_Injector.py
+          SECOND_RUNTIME_SHA=$(sha256sum magica/js/libs/jquery-3.7.1.min.js | cut -d' ' -f1)
+          test "$FIRST_RUNTIME_SHA" = "$SECOND_RUNTIME_SHA" || {
+            echo "::error::Build_JS_Injector 双构建不一致"; exit 1;
+          }
+          python3 tools/verify-runtime-layer.py
+          git diff --exit-code -- \
+            magica/js/libs/jquery-3.7.1.min.js \
+            magica/i18n_audit/release_v26_authority/runtime_layer_manifest.json \
+            magica/i18n_audit/release_v26_authority/RUNTIME_LAYER_SHA256SUMS.txt
+          python3 tools/test-i18n-build-effective.py -v
+          python3 tools/i18n-build-effective.py
+          git diff --exit-code -- i18n/generated
+          python3 tools/test-i18n-authority-guard.py -v
+          python3 tools/i18n-authority-guard.py --json | tee _authority_guard.json
+          python3 tools/test-i18n-package.py -v
+          python3 scripts/test_build_manifest.py -v
 
-          # Research and audit evidence intentionally lives under magica/ for
-          # traceability, but must never be shipped to the WebView runtime.
-          zip -r cn_js_update_new.zip magica/ \
+          # 审计证据保留在仓库，但不进入运行时包。native cocos 翻译表
+          # 与 magica/ 并行，解压后落到 files/madomagi/engine_i18n.tsv。
+          test -f madomagi/engine_i18n.tsv || {
+            echo "::error::缺少 madomagi/engine_i18n.tsv"; exit 1;
+          }
+          rm -f cn_js_update_new.zip
+          zip -r cn_js_update_new.zip magica/ madomagi/engine_i18n.tsv \
             -x 'magica/research/*' 'magica/i18n_audit/*'
+          python3 tools/verify-v26-product.py --zip cn_js_update_new.zip \
+            --out _artifacts/cn_js_update_v26_verification.json
 
           python3 - <<'PYEOF'
-          import json, hashlib, os, shutil
+          import json, hashlib, os, shutil, zipfile
 
           CFG_DIR  = os.environ["CONFIG_DIR"]
           ZIP_NEW  = "cn_js_update_new.zip"
           NAME     = "version_js"            # base name, 没有 _new / .json
+
+          # 包结构护栏：engine 表必须且只能出现一次；剧情与审计材料不得混入。
+          with zipfile.ZipFile(ZIP_NEW) as zf:
+              names = zf.namelist()
+          engine = "madomagi/engine_i18n.tsv"
+          assert names.count(engine) == 1, f"{engine} count={names.count(engine)}"
+          assert not any(n.startswith("madomagi/resource/scenario/") for n in names)
+          assert not any(n.startswith(("magica/research/", "magica/i18n_audit/")) for n in names)
 
           # 权威官方文件——/configures/version_js.json
           official_path = os.path.join(CFG_DIR, f"{NAME}.json")
@@ -451,18 +508,24 @@ jobs:
       - name: "[SCENARIO] 打包 cn_scenario_update_new.zip"
         if: steps.detect.outputs.has_scenario == '1'
         run: |
+          rm -rf _pack_scn
           mkdir -p _pack_scn/madomagi/resource/scenario/json
           cp -r madomagi/resource/scenario/json/. _pack_scn/madomagi/resource/scenario/json/
-          # 引擎硬编码串翻译表（cocos Label 钩子读取 files/madomagi/engine_i18n.tsv）
-          [ -f madomagi/engine_i18n.tsv ] && cp madomagi/engine_i18n.tsv _pack_scn/madomagi/ || true
+          rm -f cn_scenario_update_new.zip
           cd _pack_scn && zip -r ../cn_scenario_update_new.zip madomagi/ && cd ..
 
           python3 - <<'PYEOF'
-          import json, hashlib, os, shutil
+          import json, hashlib, os, shutil, zipfile
 
           CFG_DIR  = os.environ["CONFIG_DIR"]
           ZIP_NEW  = "cn_scenario_update_new.zip"
           NAME     = "version_scenario"
+
+          # 剧情包不得再次携带 engine 表，避免两个版本通道互相覆盖。
+          with zipfile.ZipFile(ZIP_NEW) as zf:
+              names = zf.namelist()
+          assert "madomagi/engine_i18n.tsv" not in names
+          assert any(n.startswith("madomagi/resource/scenario/json/") for n in names)
 
           official_path = os.path.join(CFG_DIR, f"{NAME}.json")
           out_paths = [
@@ -1700,6 +1763,8 @@ jobs:
           echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| R2 存储桶 | \`${{ env.R2_BUCKET }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 手动打包范围 | \`${{ github.event_name == 'workflow_dispatch' && inputs.package_scope || '按变更自动判断' }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 实际打包 | JS=${{ steps.detect.outputs.has_js }}；Scenario=${{ steps.detect.outputs.has_scenario }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 版本 json 同步 | ${{ steps.commit_configs.outputs.committed == 'true' && format('✅ 同一 commit {0} 已推送并对齐上下游（fork 不分叉）', steps.commit_configs.outputs.short_sha) || '⏭️ 无配置变更' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| R2 过时文件清理 | ${{ steps.check_upstream.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY

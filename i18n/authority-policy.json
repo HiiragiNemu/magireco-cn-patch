@@ -1,0 +1,508 @@
+{
+  "schema_version": 1,
+  "policy_id": "magireco-cn-runtime-authority-v1",
+  "authority_order": [
+    {
+      "id": "official_cn_dump",
+      "weight": 400,
+      "label": "游戏官方国服文本",
+      "examples": [
+        "D:/magia/MyProducts/MAGIA RECORD CN/origin_apktool_decoded",
+        "A:/magireco_cn_dump_20221010_decrypted_json"
+      ]
+    },
+    {
+      "id": "wiki",
+      "weight": 300,
+      "label": "HiiragiNemu/magireco-wiki-data"
+    },
+    {
+      "id": "existing_human",
+      "weight": 200,
+      "label": "产品树中已存在且经确认的人工译文"
+    },
+    {
+      "id": "new_human_or_llm",
+      "weight": 100,
+      "label": "新人工或 LLM 补全译文"
+    }
+  ],
+  "maintenance_input_authority_order": [
+    {
+      "id": "official_cn_dump",
+      "weight": 500,
+      "label": "游戏官方旧国服客户端或解密 dump 的稳定 ID 对齐文本"
+    },
+    {
+      "id": "wiki",
+      "weight": 400,
+      "label": "HiiragiNemu/magireco-wiki-data"
+    },
+    {
+      "id": "existing_human_reviewed",
+      "weight": 300,
+      "label": "有逐条人工复核证据的既有译文"
+    },
+    {
+      "id": "legacy_unverified_ai_assisted",
+      "weight": 200,
+      "label": "迁移自 legacy-client、含 AI 协作者且未经逐条人工复核的遗留输入"
+    },
+    {
+      "id": "new_proposal",
+      "weight": 100,
+      "label": "新人工或 LLM 提案，复核前不得覆盖更高层"
+    }
+  ],
+  "maintenance_input_contract": {
+    "audit_only": true,
+    "may_write_magica": false,
+    "same_weight_conflict": "fail",
+    "missing_human_review_evidence_must_not_use_existing_human_reviewed": true,
+    "generated_outputs": [
+      "i18n/generated/effective.tsv",
+      "i18n/generated/conflicts.tsv",
+      "i18n/generated/input-provenance.tsv",
+      "i18n/generated/summary.json"
+    ]
+  },
+  "selection_rules": {
+    "highest_present_weight_wins": true,
+    "equal_weight_conflicting_targets_fail": true,
+    "lower_weight_must_not_override": true,
+    "absent_source_falls_through": true,
+    "selected_candidate_required": true
+  },
+  "dictionary_contract": {
+    "names": [
+      "arenaClassList",
+      "cardList",
+      "cardMagiaMap",
+      "cardSkillMap",
+      "chapterList",
+      "charaList",
+      "charaMessageList",
+      "doppelCardMagiaMap",
+      "doppelList",
+      "emotionSkillMap",
+      "enemyList",
+      "eventList",
+      "eventStoryList",
+      "formationSheetList",
+      "giftList",
+      "itemList",
+      "live2dList",
+      "patrolAreaList",
+      "pieceList",
+      "pieceSkillMap",
+      "placeSkillMap",
+      "sectionList",
+      "shopItemList"
+    ],
+    "list_keys": {
+      "arenaClassList": [
+        "arenaBattleFreeRankClass"
+      ],
+      "cardList": [
+        "cardId",
+        "id"
+      ],
+      "chapterList": [
+        "chapterId",
+        "id"
+      ],
+      "charaList": [
+        "id",
+        "charaNo"
+      ],
+      "charaMessageList": [
+        "charaNo_messageId"
+      ],
+      "doppelList": [
+        "id"
+      ],
+      "enemyList": [
+        "enemyId",
+        "id"
+      ],
+      "eventList": [
+        "eventId",
+        "id"
+      ],
+      "eventStoryList": [
+        "storyIds"
+      ],
+      "formationSheetList": [
+        "formationSheetId",
+        "id"
+      ],
+      "giftList": [
+        "id",
+        "giftId"
+      ],
+      "itemList": [
+        "itemCode",
+        "id",
+        "itemId"
+      ],
+      "live2dList": [
+        "charaId_live2dId"
+      ],
+      "patrolAreaList": [
+        "patrolAreaId",
+        "id"
+      ],
+      "pieceList": [
+        "pieceId",
+        "id"
+      ],
+      "sectionList": [
+        "sectionId",
+        "id"
+      ],
+      "shopItemList": [
+        "shopItemId",
+        "id"
+      ]
+    }
+  },
+  "canonical_terms": [
+    {
+      "term_id": "chara_1051_name",
+      "japanese": "ヘルカ",
+      "chinese": "赫露迦",
+      "authority": "wiki",
+      "official_cn_dump": {
+        "status": "absent",
+        "eligible_files_scanned": 9760,
+        "hit_count": 0
+      },
+      "wiki_locators": [
+        "HiiragiNemu/magireco-wiki-data:data/characters.json#id=1051",
+        "HiiragiNemu/magireco-wiki-data:data/archive/articles.jsonl.gz#魔法少女贴纸/206"
+      ]
+    },
+    {
+      "term_id": "chara_1052_name",
+      "japanese": "トヨ",
+      "chinese": "台与",
+      "authority": "wiki",
+      "official_cn_dump": {
+        "status": "absent",
+        "eligible_files_scanned": 9760,
+        "hit_count": 0
+      },
+      "wiki_locators": [
+        "HiiragiNemu/magireco-wiki-data:data/characters.json#id=1052",
+        "HiiragiNemu/magireco-wiki-data:data/archive/articles.jsonl.gz#魔法少女贴纸/208"
+      ]
+    },
+    {
+      "term_id": "chara_1053_name",
+      "japanese": "アマリュリス",
+      "chinese": "阿玛琉莉丝",
+      "authority": "wiki",
+      "official_cn_dump": {
+        "status": "absent",
+        "eligible_files_scanned": 9760,
+        "hit_count": 0
+      },
+      "wiki_locators": [
+        "HiiragiNemu/magireco-wiki-data:data/characters.json#id=1053",
+        "HiiragiNemu/magireco-wiki-data:data/archive/articles.jsonl.gz#魔法少女贴纸/210"
+      ]
+    }
+  ],
+  "product_assertions": [
+    {
+      "dictionary": "charaList",
+      "selector": {
+        "id": 1051
+      },
+      "fields": {
+        "name": "赫露迦"
+      }
+    },
+    {
+      "dictionary": "charaList",
+      "selector": {
+        "id": 1052
+      },
+      "fields": {
+        "name": "台与"
+      }
+    },
+    {
+      "dictionary": "charaList",
+      "selector": {
+        "id": 1053
+      },
+      "fields": {
+        "name": "阿玛琉莉丝"
+      }
+    },
+    {
+      "dictionary": "itemList",
+      "selector": {
+        "itemCode": "EVENT_DAILYTOWER_1212_STICKER_105100"
+      },
+      "fields": {
+        "name": "赫露迦",
+        "parameter": "206,赫露迦"
+      }
+    },
+    {
+      "dictionary": "itemList",
+      "selector": {
+        "itemCode": "EVENT_DAILYTOWER_1212_STICKER_105200"
+      },
+      "fields": {
+        "name": "台与",
+        "parameter": "208,台与"
+      }
+    },
+    {
+      "dictionary": "itemList",
+      "selector": {
+        "itemCode": "EVENT_DAILYTOWER_1212_STICKER_105300"
+      },
+      "fields": {
+        "name": "阿玛琉莉丝",
+        "parameter": "210,阿玛琉莉丝"
+      }
+    },
+    {
+      "dictionary": "sectionList",
+      "selector": {
+        "sectionId": 103801
+      },
+      "fields": {
+        "charaName": "赫露迦"
+      }
+    },
+    {
+      "dictionary": "sectionList",
+      "selector": {
+        "sectionId": 103802
+      },
+      "fields": {
+        "charaName": "赫露迦"
+      },
+      "field_contains": {
+        "message": "卓玛"
+      }
+    },
+    {
+      "dictionary": "sectionList",
+      "selector": {
+        "sectionId": 103901
+      },
+      "fields": {
+        "charaName": "台与"
+      }
+    },
+    {
+      "dictionary": "sectionList",
+      "selector": {
+        "sectionId": 104001
+      },
+      "fields": {
+        "charaName": "阿玛琉莉丝"
+      }
+    },
+    {
+      "dictionary": "sectionList",
+      "selector": {
+        "sectionId": 310513
+      },
+      "fields": {
+        "charaName": "赫露迦"
+      },
+      "field_contains": {
+        "message": "卓玛"
+      }
+    },
+    {
+      "dictionary": "sectionList",
+      "selector": {
+        "sectionId": 310514
+      },
+      "fields": {
+        "charaName": "赫露迦",
+        "title": "赫露迦的 Doppel"
+      }
+    },
+    {
+      "dictionary": "sectionList",
+      "selector": {
+        "sectionId": 310524
+      },
+      "fields": {
+        "charaName": "台与",
+        "title": "台与的 Doppel"
+      }
+    },
+    {
+      "dictionary": "sectionList",
+      "selector": {
+        "sectionId": 310534
+      },
+      "fields": {
+        "charaName": "阿玛琉莉丝",
+        "title": "阿玛琉莉丝的 Doppel"
+      }
+    },
+    {
+      "dictionary": "sectionList",
+      "selector": {
+        "sectionId": 320094
+      },
+      "fields": {
+        "charaName": "爱生眩",
+        "title": "眩的试炼"
+      }
+    }
+  ],
+  "forbidden_regressions": [
+    {
+      "text": "胜乐金刚",
+      "mode": "substring",
+      "dictionaries": [
+        "itemList",
+        "charaList",
+        "sectionList"
+      ],
+      "fields": [
+        "name",
+        "charaName",
+        "title",
+        "parameter"
+      ]
+    },
+    {
+      "text": "东洋",
+      "mode": "substring",
+      "dictionaries": [
+        "itemList",
+        "charaList",
+        "sectionList"
+      ],
+      "fields": [
+        "name",
+        "charaName",
+        "title",
+        "parameter"
+      ]
+    },
+    {
+      "text": "苦杏仁",
+      "mode": "substring",
+      "dictionaries": [
+        "itemList",
+        "charaList",
+        "sectionList"
+      ],
+      "fields": [
+        "name",
+        "charaName",
+        "title",
+        "parameter"
+      ]
+    },
+    {
+      "text": "赫尔卡",
+      "mode": "substring",
+      "dictionaries": [
+        "itemList",
+        "charaList",
+        "sectionList"
+      ],
+      "fields": [
+        "name",
+        "charaName",
+        "title",
+        "parameter"
+      ]
+    },
+    {
+      "text": "阿玛莉莉丝",
+      "mode": "substring",
+      "dictionaries": [
+        "itemList",
+        "charaList",
+        "sectionList"
+      ],
+      "fields": [
+        "name",
+        "charaName",
+        "title",
+        "parameter"
+      ]
+    },
+    {
+      "text": "ヘルカ",
+      "mode": "substring",
+      "dictionaries": [
+        "itemList",
+        "charaList",
+        "sectionList"
+      ],
+      "fields": [
+        "name",
+        "charaName",
+        "title",
+        "parameter"
+      ]
+    },
+    {
+      "text": "トヨ",
+      "mode": "substring",
+      "dictionaries": [
+        "itemList",
+        "charaList",
+        "sectionList"
+      ],
+      "fields": [
+        "name",
+        "charaName",
+        "title",
+        "parameter"
+      ]
+    },
+    {
+      "text": "アマリュリス",
+      "mode": "substring",
+      "dictionaries": [
+        "itemList",
+        "charaList",
+        "sectionList"
+      ],
+      "fields": [
+        "name",
+        "charaName",
+        "title",
+        "parameter"
+      ]
+    },
+    {
+      "text": "208,丰",
+      "mode": "exact"
+    },
+    {
+      "text": "丰的 Doppel",
+      "mode": "exact"
+    },
+    {
+      "text": "多尔玛",
+      "mode": "substring"
+    },
+    {
+      "text": "爱生真昼",
+      "mode": "substring"
+    },
+    {
+      "text": "麻友的试炼",
+      "mode": "substring"
+    }
+  ]
+}

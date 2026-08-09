@@ -1,0 +1,83 @@
+{
+  "schema": "magireco-cn-pass17-verification-record/v1",
+  "status": "PASS",
+  "inputs": {
+    "baseline_itemList": {
+      "path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\original\\itemList.json",
+      "sha256": "3888a85d26eb920c547862546b69c570ef70a95cc528bdd46b2cd9e5856cb102"
+    },
+    "baseline_sectionList": {
+      "path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\original\\sectionList.json",
+      "sha256": "3fae377a0738a9238c2f59e2d5585b30db65bcff77d3e26ed9f4d745ddf6a184"
+    },
+    "baseline_jquery": {
+      "path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\original\\jquery-3.7.1.min.js",
+      "sha256": "3466dd026490aa350f6a1052f14ba7e0e4e3324e0102b76e8e0ed3968bd8b5ad"
+    },
+    "modified_itemList": {
+      "path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\pass15_final_integration\\magica\\js\\libs\\itemList.json",
+      "sha256": "e8480833b9462e10a8aeb25766076abe345a9f2c52f5d01c5395d2af4a49fed1"
+    },
+    "modified_sectionList": {
+      "path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\pass15_final_integration\\magica\\js\\libs\\sectionList.json",
+      "sha256": "0ac8b3e0083239448502256069f7b46d0281c9f5e64426168db9f2a7893bd577"
+    },
+    "modified_jquery": {
+      "path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\pass15_final_integration\\magica\\js\\libs\\jquery-3.7.1.min.js",
+      "sha256": "f3c1451547d149240c993da1d9faf7e94e7c9f136ad1be72249b94a96c0ca7d4"
+    }
+  },
+  "commands": [
+    {
+      "phase": "complete_validation",
+      "command": "python magica/i18n_audit/manual_cn_pass16/scripts/verify_pass16.py --tree . --out C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\audit\\pass16_full_verification_after_name_fix.json",
+      "exit_status": 0,
+      "literal_result": "status=PASS error_count=0 standalone_json=PASS jquery_embedded=PASS product_js=197/197 html=182"
+    },
+    {
+      "phase": "pass16_behavior",
+      "command": "python magica/i18n_audit/manual_cn_pass16/scripts/behavior_probe.py --tree . --expected final",
+      "exit_status": 0,
+      "literal_result": "{\"schema\":\"magireco-cn-pass16-behavior-probe/v1\",\"expected\":\"final\",\"status\":\"PASS\",\"runtime_replaced_original_instances\":0,\"runtime_authority_preserved_instances\":2,\"static_untranslated_candidate_matches\":0,\"adjustment_expert_coin_records\":225,\"authoritative_adjustment_expert_coin_triples\":225,\"dx_gold_ascii_records\":0,\"dx_gold_fullwidth_records\":1,\"personally_translated_ready_count\":1,\"personally_translated_cemetery_count\":2,\"multiline_character_message_layout_ok\":true,\"errors\":[]}"
+    },
+    {
+      "phase": "generated_jquery_syntax",
+      "command": "node --check magica/js/libs/jquery-3.7.1.min.js",
+      "exit_status": 0,
+      "literal_result": "exit_status=0"
+    },
+    {
+      "phase": "modified_runtime",
+      "command": "node C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\audit\\pass17_runtime_section_probe.js .",
+      "exit_status": 0,
+      "literal_result": "status=PASS probes=28 passed=28 failed=0"
+    },
+    {
+      "phase": "baseline_modified_runtime",
+      "command": "node C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\audit\\pass17_before_after_runtime_probe.js . C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\original",
+      "exit_status": 0,
+      "literal_result": "status=PASS probes=25 passed=25 failed=0"
+    },
+    {
+      "phase": "targeted_authority",
+      "command": "python C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\audit\\audit_pass17_name_fixes.py .",
+      "exit_status": 0,
+      "literal_result": "status=PASS errors=0 changed_fields=25 json=23 runtime=PASS checklist_rows=25"
+    }
+  ],
+  "verified_behaviors": {
+    "baseline": "25 target fields reproduce the preserved pre-fix aliases through the original runtime injector.",
+    "modified": "25 target fields produce Wiki-canonical aliases through the rebuilt runtime injector.",
+    "actual_section_runtime": "28/28 direct, JSON.parse, XHR responseType=json, and schema-preservation checks passed.",
+    "dictionary_consistency": "23/23 standalone JSON dictionaries exactly equal the embedded jQuery payload.",
+    "syntax": "197/197 product JS plus generated jQuery syntax passed."
+  },
+  "artifacts": {
+    "targeted_report": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\audit\\pass17_targeted_authority_verification.json",
+    "runtime_report": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\audit\\pass17_runtime_section_probe.json",
+    "before_after_report": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\audit\\pass17_before_after_runtime_probe.json",
+    "full_report": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\audit\\pass16_full_verification_after_name_fix.json",
+    "manual_review_tsv": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\pass17_release_20260809\\audit\\pass17_name_authority_manual_review.tsv"
+  },
+  "errors": []
+}

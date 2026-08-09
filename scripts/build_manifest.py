@@ -51,6 +51,21 @@ CLEANUP_PREFIXES = {
     ],
 }
 
+# 包结构的所有权约束。清单生成是发布前最后一道看得见 ZIP 中央目录的门：
+# 在这里 fail-fast，避免「版本号和 MD5 都正确，但文件装进了错误的包」。
+REQUIRED_FILES = {
+    "cn_js_update": {"madomagi/engine_i18n.tsv"},
+}
+FORBIDDEN_FILES = {
+    "cn_scenario_update": {"madomagi/engine_i18n.tsv"},
+}
+
+# 已知的跨包所有权迁移。它只影响报告文案，不扩大客户端删除范围；旧 scenario
+# 清单拿掉该文件时，设备保留旧副本，随后 JS 事务在同一路径原子覆盖。
+OWNERSHIP_TRANSFERS = {
+    ("cn_scenario_update", "madomagi/engine_i18n.tsv"): "cn_js_update",
+}
+
 LEDGER_DIR = "manifests"
 
 
@@ -76,6 +91,15 @@ def main():
         files[it.filename] = {"size": it.file_size, "crc32": "%08x" % (it.CRC & 0xFFFFFFFF)}
     if not files:
         sys.stderr.write("✘ 包里没有文件条目\n")
+        return 1
+
+    missing_required = sorted(REQUIRED_FILES.get(args.package, set()) - set(files))
+    forbidden_present = sorted(FORBIDDEN_FILES.get(args.package, set()) & set(files))
+    if missing_required or forbidden_present:
+        for path in missing_required:
+            sys.stderr.write("✘ %s 缺少必需文件 %s\n" % (args.package, path))
+        for path in forbidden_present:
+            sys.stderr.write("✘ %s 仍含已迁出的文件 %s\n" % (args.package, path))
         return 1
 
     with open(args.zip, "rb") as f:
@@ -142,11 +166,16 @@ def main():
     if dropped:
         prefixes = CLEANUP_PREFIXES.get(args.package, [])
         cleanable = [p for p in dropped if any(p.startswith(x) for x in prefixes)]
-        stuck = [p for p in dropped if p not in cleanable]
+        transferred = [p for p in dropped
+                       if (args.package, p) in OWNERSHIP_TRANSFERS]
+        stuck = [p for p in dropped if p not in cleanable and p not in transferred]
         print()
         print("⚠ 这一版比上一版少了 %d 个文件。" % len(dropped))
         print("  装了新客户端的设备会在下次热更时把其中 %d 个删掉（在清理白名单内）；"
               % len(cleanable))
+        for p in transferred:
+            print("  %s 已迁移给 %s；旧副本保留到新包在同一路径覆盖。"
+                  % (p, OWNERSHIP_TRANSFERS[(args.package, p)]))
         print("  剩下 %d 个**留在所有设备上，并会继续盖住服务端的版本**：" % len(stuck))
         for p in stuck[:40]:
             print("      %s" % p)

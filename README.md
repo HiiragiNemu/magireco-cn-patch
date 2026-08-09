@@ -19,14 +19,36 @@
 
 # cn_js_update.zip 是怎么产出的
 
-`magica/` 这棵树**就是**包的内容，CI 里 `zip -r cn_js_update_new.zip magica/`
-一步打完；打包前先跑 `Build_JS_Injector.py`，把 `magica/js/libs/*.json` 那
+`magica/` 前端树与 `madomagi/engine_i18n.tsv` **共同构成**包内容，CI 里
+`zip -r cn_js_update_new.zip magica/ madomagi/engine_i18n.tsv` 一步打完。
+ZIP 根下的 `magica/` 与 `madomagi/` 平行；打包前先跑 `Build_JS_Injector.py`，把
+`magica/js/libs/*.json` 那
 23 张字典和运行时汉化代码注入到 `original_source/jquery-3.7.1.min.js` 的副本
 里，写成 `magica/js/libs/jquery-3.7.1.min.js`。所以那个 4 MB 的 jQuery 是
 **产物不是源码**，别手改——改注入逻辑请改 `Build_JS_Injector.py` 的模板。
 
 `version_js_new.json` 的 version 由 `configures/version_js.json` 的当前值 +1
 得出，size/md5 由 CI 现算。
+
+## 翻译维护输入与产品树的关系
+
+`i18n/frontend-strings.tsv`、`glossary.tsv`、`overrides.tsv`、`fragments.tsv`
+以及 `tools/i18n-*.py` 现在都由本仓库维护。四张 TSV 是**生成／审计输入**，不是
+运行时文件，也不会被 CI 自动套用到 `magica/`；只有维护者显式运行回填、检查差异、
+完成人工复核并提交产品文件后，译文才会进入热更新包。因此别的仓库中的同名表不会
+隔空改写这里的 JS、HTML 或 JSON。
+
+冲突时固定按“官方旧国服 dump > `HiiragiNemu/magireco-wiki-data` > 已有人工译文
+> 新人工／LLM 译文”选择。`i18n/authority-policy.json` 与
+`i18n/authority-provenance.tsv` 保存权重、缺失证据和选择结果；
+`tools/i18n-authority-guard.py` 在发包前阻断低权重覆盖、同权重冲突、错名回流及
+23 张外部字典／jQuery 内嵌字典不一致。
+
+迁移来的四表另行细分：只有带逐条复核证据的条目才可进入“已有人工译文”；
+目前 `frontend-strings.tsv` 的 1632 条译文、`overrides.tsv` 的 9 条与
+`fragments.tsv` 的 7 条均归入“遗留未验证 AI 辅助”，低于已验证人工、高于尚未
+复核的新提案。`tools/i18n-build-effective.py` 只生成审计层，并以同权重冲突直接失败；
+它不会写入 `magica/`。
 
 ## 客户端怎么消费它
 
@@ -35,6 +57,11 @@
 `/magica/<path>`（`api/` 开头的除外）重定向到 `<files>/magica/<path>`，
 按扩展名给 MIME（`.png`→image/png、`.css`→text/css、`.js`→application/javascript）。
 **它只认路径，会把 `?<md5>` 查询串丢掉。**
+
+同一包中的 `madomagi/engine_i18n.tsv` 解压为
+`<files>/madomagi/engine_i18n.tsv`，由 native cocos Label hook 每 3 秒检查 mtime
+并热重载。它从 `cn_scenario_update.zip` 迁入 JS 包后路径没有变化，只改变版本与
+发布归属；清单生成会强制 JS 包必含、scenario 包禁含，装错包会直接阻断发布。
 
 推论有两条，都很硬：
 
@@ -61,8 +88,9 @@ CSS 整份放进包里，那份快照缺了 `#QuestMap #toPuellaHistoriaTopButto
 背景图/定位全靠 CSS 给——规则一没就塌成 0 高度空 div，**历史篇（Puella
 Historia）入口无声消失**，模板、js、图片、控制台全都正常。
 
-解毒只有一条路：把服务端现役内容原样放回包里再发一次。`magica/css/` 下那 13 个
-文件就是干这个的——**只覆盖出过问题的那几个页面，不是全站 188 个**：
+解毒只有一条路：把服务端现役内容原样放回包里再发一次。`magica/css/` 当前共有
+19 个文件：13 个是上述历史冻结修复，另 6 个是已经逐页审计的 Totentanz 新 UI
+本地化样式。它们都不是未经筛选的全站 188 个 CSS：
 
 | 文件 | 为什么在这儿 |
 |---|---|
@@ -75,17 +103,22 @@ Historia）入口无声消失**，模板、js、图片、控制台全都正常�
 | `quest/QuestBattleSelect.css` | 历史篇档案关卡跳这里（`#/QuestBattleSelect/<sectionId>`） |
 | `collection/StoryCollection.css` | 历史篇「回顾」tab |
 | `user/MyPage.css`、`top/Top.css` | 主页 / 标题页 |
+| `campaign/newyear_login/NewYearLogin.css` | 新年登录活动页的已审计本地化样式 |
+| `campaign/quiz/CampaignQuizTop.css` | 问答活动页的已审计本地化样式 |
+| `campaign/summer_mission/CampaignSummerMissionTop.css` | 夏日任务页的已审计本地化样式 |
+| `event/EventArenaRankMatch/Result.css` | 排位赛结果页的已审计本地化样式 |
+| `test/SdCharaTest.css`、`test/ShopReworkTest.css` | Totentanz 测试页的已审计本地化样式 |
 
 这份名单是逐个查各页模块的 `text!css/...` 依赖得出的，不是拍脑袋圈的范围。
 `_common/GlobalMenu.css` 虽然在服务端 `fileTimeStamp` 里，但全站没有任何模块
 require 它，是死文件，不带。
 
-> **代价说清楚**：只覆盖这 13 个，意味着别的页面若也被冻住，它仍然冻着，而且要
+> **代价说清楚**：只覆盖这 19 个，意味着别的页面若也被冻住，它仍然冻着，而且要
 > 等有人报症状才会知道。这是有意换来的——冻 188 个等于把全站 CSS 都钉死，服务端
 > 以后改任何一处玩家端都吃不到，还是静默的。范围小 = 未来的债少；新症状出现时
 > 按同样方法（查该页 `text!css` 依赖 → 把服务端现役内容放进包）补进来即可。
 
-代价是这 13 个 CSS 从此**冻在仓库里**，服务端改了玩家端吃不到。所以 CI 里
+代价是这 19 个 CSS 从此**冻在仓库里**，服务端改了玩家端吃不到。所以 CI 里
 加了闸门（也可以本地跑）：
 
 ```bash
