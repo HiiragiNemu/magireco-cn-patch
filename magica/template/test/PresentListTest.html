@@ -10,7 +10,7 @@
   <!-- <span data-sale-type="SELECT" 	class="btn receiveBtn">選択アイテム受取り</span> -->
   <div id="tabContents" class="mt20">
     <div class="card">
-      <h2>礼物-卡片(<span id="presentCardCnt"></span>件)</h2>
+      <h2>礼物-卡牌(<span id="presentCardCnt"></span>件)</h2>
       <div id="cardWrap"></div>
     </div>
     <div class="item">
@@ -25,7 +25,7 @@
 
 		<%= "<% if(model.cardId) {%\> " %>
 			<img src='<%="<%= resDir %\>"%>/magica/resource/image_web/card_n/card_n_<%="<%= model.card.cardId %\>_1"%>.png' alt='' width="144">
-			<p><%= "<%= model.card.title %\><%= model.card.cardName %\>×<%= model.quantity %\>枚" %></p>
+			<p><%= "<%= model.card.title %\><%= model.card.cardName %\>×<%= model.quantity %\>张" %></p>
 		<%= "<% } else if(model.item) { %\> " %>
 			<p><%= "<%= model.item.name %\>×<%= model.quantity %\><%= model.item.unit %\>" %></p>
 		<%= "<% } %\> " %>
@@ -34,6 +34,6 @@
 		<!-- プレゼント文言 -->
 		<p><%= "<%= model.presentComment %\>" %></p>
 	</div>
-	<span class="btn small">個別受取</span>
+	<span class="btn small">单独领取</span>
 
 </script>

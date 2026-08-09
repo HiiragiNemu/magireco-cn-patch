@@ -1,0 +1,86 @@
+file	line	context	exact_text	visibility_reason	false_positive_reason	confidence
+magica/template/etc/LawPopup.html	10	販売業者<br>	販売業者	法律信息弹窗中的直接可见文本		high
+magica/template/etc/LawPopup.html	13	販売責任者<br>	販売責任者	法律信息弹窗中的直接可见文本		high
+magica/template/etc/LawPopup.html	16	本社<br>	本社	法律信息弹窗中的直接可见文本		high
+magica/template/etc/LawPopup.html	17	&nbsp;&nbsp;所在地：〒102-8353&nbsp;東京都千代田区六番町４番地５<br>	所在地：〒102-8353 東京都千代田区六番町４番地５	法律信息弹窗中的直接可见文本		medium
+magica/template/etc/LawPopup.html	25	販売価格<br>	販売価格	法律信息弹窗中的直接可见文本		high
+magica/template/etc/LawPopup.html	44	動作環境<br>	動作環境	法律信息弹窗中的直接可见文本		high
+magica/template/etc/LawPopup.html	54	発行業者<br>	発行業者	法律信息弹窗中的直接可见文本		high
+magica/template/etc/LawPopup.html	56	&nbsp;&nbsp;東京都千代田区六番町4番地5<br>	東京都千代田区六番町4番地5	法律信息弹窗中的直接可见文本		medium
+magica/template/etc/LawPopup.html	58	支払可能金額等<br>	支払可能金額等	法律信息弹窗中的直接可见文本		high
+magica/template/etc/LawPopup.html	61	有効期間<br>	有効期間	法律信息弹窗中的直接可见文本		high
+magica/template/etc/LawPopup.html	68	使用場所<br>	使用場所	法律信息弹窗中的直接可见文本		high
+magica/template/etc/LawPopup.html	82	利用規約<br>	利用規約	法律信息弹窗中的直接可见文本		high
+magica/template/event/raid/EventRaidCloseTop.html	17	"<li class=""btn TE se_tabs mission1"" data-wrap=""mission1"" data-mission-name=""個人撃破報酬"">"	個人撃破報酬	data-mission-name 会被 EventRaidCloseTop.js 写入 #listTitle，运行时玩家可见		high
+magica/template/event/raid/EventRaidCloseTop.html	21	"<li class=""btn TE se_tabs mission2"" data-wrap=""mission2"" data-mission-name=""全体撃破報酬"">"	全体撃破報酬	data-mission-name 会被 EventRaidCloseTop.js 写入 #listTitle，运行时玩家可见		high
+magica/template/event/raid/EventRaidTop.html	354	"<li class=""btn TE se_tabs mission1"" data-wrap=""mission1"" data-mission-name=""個人撃破報酬"">"	個人撃破報酬	data-mission-name 会被 EventRaidTop.js 写入 #listTitle，运行时玩家可见		high
+magica/template/event/raid/EventRaidTop.html	358	"<li class=""btn TE se_tabs mission2"" data-wrap=""mission2"" data-mission-name=""全体撃破報酬"">"	全体撃破報酬	data-mission-name 会被 EventRaidTop.js 写入 #listTitle，运行时玩家可见		high
+magica/template/follow/FollowSearch.html	7	"<option selected=""selected"" value=""0"">不指定</option>"	不指定	生产搜索页 select 选项直接显示；词形与日服原文一致，需人工确认采用中文“不限/不指定”		medium
+magica/template/follow/FollowSearch.html	20	"<option selected=""selected"" value=""0"">不指定</option>"	不指定	生产搜索页 select 选项直接显示；词形与日服原文一致，需人工确认采用中文“不限/不指定”		medium
+magica/template/follow/FollowSearch.html	39	"<option selected=""selected"" value=""0"">不指定</option>"	不指定	生产搜索页 select 选项直接显示；词形与日服原文一致，需人工确认采用中文“不限/不指定”		medium
+magica/template/follow/FollowSearch.html	56	"<option selected=""selected"" value=""0"">不指定</option>"	不指定	生产搜索页 select 选项直接显示；词形与日服原文一致，需人工确认采用中文“不限/不指定”		medium
+magica/template/purchase/PurchaseTemps.html	4	未成年の方は保護者の同意を得て下さい。<br><br>	未成年の方は保護者の同意を得て下さい。	年龄认证 text/template 实例化后直接显示		high
+magica/template/test/Backdoor.html	18	"<li class=""TE"" data-id=""1001""><span>最下部</span></li> <% var arrTarget = [1200,1400,1600]; _.each(arrTarget,function(value) { %> <li class=""TE"" data-id=""<%= value %>""><span><%= value %></span></li> <% }) %> <li class=""TE"" data-id=""<%= model.pieceList[0].pieceId %>""><span>最上部</span></li>"	最上部	后门页滚动按钮直接显示		medium
+magica/template/test/Backdoor.html	18	"<li class=""TE"" data-id=""1001""><span>最下部</span></li> <% var arrTarget = [1200,1400,1600]; _.each(arrTarget,function(value) { %> <li class=""TE"" data-id=""<%= value %>""><span><%= value %></span></li> <% }) %> <li class=""TE"" data-id=""<%= model.pieceList[0].pieceId %>""><span>最上部</span></li>"	最下部	后门页滚动按钮直接显示		medium
+magica/template/test/Backdoor.html	22	"<span id=""memoriaScrollBtn"" class=""sb_gold_03 TE"">検索</span>"	検索	后门页按钮直接显示		high
+magica/template/test/Backdoor.html	26	"<span class=""showAllBtn btn b_pink TE"" data-id=""item"">全表示</span>"	全表示	后门页按钮直接显示		high
+magica/template/test/Backdoor.html	37	"<p class=""name"">全素材 × 100</p>"	全素材	后门页项目名称直接显示		medium
+magica/template/test/Backdoor.html	41	"<p class=""name"">精神強化素材 × 999</p>"	精神強化素材 × 999	后门页项目名称直接显示		high
+magica/template/test/Backdoor.html	44	"<span class=""showAllBtn btn b_pink TE"" data-id=""gift"">全表示</span>"	全表示	后门页按钮直接显示		high
+magica/template/test/Backdoor.html	60	"<span class=""showAllBtn sb_pink TE"">全表示</span>"	全表示	后门页按钮直接显示		high
+magica/template/test/Backdoor.html	86	<div id='rewardInputDelete1Btn' class='mb_pink TE se_decide'><span class='b_screen'></span>１字削除</div>	１字削除	后门页按钮直接显示		high
+magica/template/test/Backdoor.html	87	<div id='rewardGetBtn' class='mb_white TE se_decide'><span class='b_screen'></span>報酬付与</div>	報酬付与	后门页按钮直接显示		high
+magica/template/test/Backdoor.html	107	"<p style=""font-size: 13px;"">（所持数：<%='<%= model.quantityText %\>'%>）</p>"	所持数	嵌套 text/template 实例化后显示在数量字段前		high
+magica/template/test/Backdoor.html	109	"<span class=""specifyBtn sb_pink TE"" data-name=""<%='<%= model.name %\>'%>"" data-id=""<%='<%= model.itemCode %\>'%>"">個数指定</span>"	個数指定	嵌套 text/template 按钮直接显示		high
+magica/template/test/Backdoor.html	110	"<span class=""getBtn btn sb_gold_01 TE"" data-id=""<%='<%= model.itemCode %\>'%>"">受取り</span>"	受取り	嵌套 text/template 按钮直接显示		high
+magica/template/test/Backdoor.html	114	"<span class=""getBtn btn sb_gold_01"" data-id=""BACKGROUND"" data-itemcode=""<%='<%= model.itemCode %\>'%>"">受取り</span>"	受取り	嵌套 text/template 按钮直接显示		high
+magica/template/test/Backdoor.html	119	"<span class=""getBtn btn sb_gold_01"" data-id=""<%='<%= model.id %\>'%>"">受取り</span>"	受取り	嵌套 text/template 按钮直接显示		high
+magica/template/test/Backdoor.html	124	"<span class=""getBtn btn sb_gold_01"" data-id=""<%='<%= model.pieceId %\>'%>"">受取り</span>"	受取り	嵌套 text/template 按钮直接显示		high
+magica/template/test/Backdoor.html	130	"<span id=""inputDelete1Btn"" class=""inputOtherBtn mb_pink TE"" data-text=""00"">1字削除</span>"	1字削除	嵌套 text/template 按钮直接显示		high
+magica/template/test/backdoorList.html	5	"<li><span class=""se_decide btn b_green linkBtn short"" data-href=""#/CampaignSumoTop"">相撲TOP</span></li>"	相撲TOP	后门目录或其 text/template 弹窗/下拉选项直接显示		high
+magica/template/test/backdoorList.html	29	"<li><span class=""se_decide btn b_green titlePopup short"">称号変更POP</span></li>"	称号変更POP	后门目录或其 text/template 弹窗/下拉选项直接显示		high
+magica/template/test/backdoorList.html	32	"<li><span class=""se_decide btn b_white short"" id=""getPurchaseStatus"">MS購入状況確認</span></li>"	MS購入状況確認	后门目录或其 text/template 弹窗/下拉选项直接显示		high
+magica/template/test/backdoorList.html	88	"<script type=""text/template"" id=""errorTestPop""> エラーコードを入力。<br><br>"	エラーコードを入力。	后门目录或其 text/template 弹窗/下拉选项直接显示		high
+magica/template/test/backdoorList.html	91	"<script type=""text/template"" id=""groupNameChangePop""> ツイートリンクを入力。<br><br>"	ツイートリンクを入力。	后门目录或其 text/template 弹窗/下拉选项直接显示		high
+magica/template/test/backdoorList.html	164	"<option selected=""selected"" value=""TU999"">完了（TU999）</option>"	完了（TU999）	后门目录或其 text/template 弹窗/下拉选项直接显示		high
+magica/template/test/backdoorList.html	165	"<option value=""TU010"">バトル①（TU010）</option>"	バトル①（TU010）	后门目录或其 text/template 弹窗/下拉选项直接显示		high
+magica/template/test/backdoorList.html	166	"<option value=""TU110"">バトル②（TU010）</option>"	バトル②（TU010）	后门目录或其 text/template 弹窗/下拉选项直接显示		high
+magica/template/test/backdoorList.html	167	"<option value=""TU520"">ガチャ（TU520）</option>"	ガチャ（TU520）	后门目录或其 text/template 弹窗/下拉选项直接显示		high
+magica/template/test/backdoorList.html	168	"<option value=""TU550"">編成（TU550）</option>"	編成（TU550）	后门目录或其 text/template 弹窗/下拉选项直接显示		high
+magica/template/test/BackdoorLive2d.html	9	"<div class=""commonFrame4 voiceBtn"" data-voice=""01"">01:自己紹介</div>"	01:自己紹介	Live2D 测试页的可点击语音分类/按钮直接显示		high
+magica/template/test/BackdoorLive2d.html	19	"<p class=""common_title_frame"">育成</p>"	育成	Live2D 测试页的可点击语音分类/按钮直接显示		high
+magica/template/test/BackdoorLive2d.html	20	"<div class=""commonFrame4 voiceBtn"" data-voice=""13"">13:強化完了</div>"	13:強化完了	Live2D 测试页的可点击语音分类/按钮直接显示		high
+magica/template/test/BackdoorLive2d.html	21	"<div class=""commonFrame4 voiceBtn"" data-voice=""14"">14:強化(Lv最大時)</div>"	14:強化(Lv最大時)	Live2D 测试页的可点击语音分类/按钮直接显示		high
+magica/template/test/BackdoorLive2d.html	27	"<div class=""commonFrame4 voiceBtn"" data-voice=""20"">20:魔法少女覚醒①</div>"	20:魔法少女覚醒①	Live2D 测试页的可点击语音分类/按钮直接显示		high
+magica/template/test/BackdoorLive2d.html	28	"<div class=""commonFrame4 voiceBtn"" data-voice=""21"">21:魔法少女覚醒②</div>"	21:魔法少女覚醒②	Live2D 测试页的可点击语音分类/按钮直接显示		high
+magica/template/test/BackdoorLive2d.html	29	"<div class=""commonFrame4 voiceBtn"" data-voice=""22"">22:魔法少女覚醒③</div>"	22:魔法少女覚醒③	Live2D 测试页的可点击语音分类/按钮直接显示		high
+magica/template/test/BackdoorLive2d.html	30	"<div class=""commonFrame4 voiceBtn"" data-voice=""23"">23:魔法少女覚醒④</div>"	23:魔法少女覚醒④	Live2D 测试页的可点击语音分类/按钮直接显示		high
+magica/template/test/BackdoorQuestBattle.html	6	"<div id=""pasteBtn"" class=""mb_white TE"">貼付</div>"	貼付	任务调试页或其历史记录 text/template 直接显示		high
+magica/template/test/BackdoorQuestBattle.html	7	"<div id=""historyBtn"" class=""mb_white TE"">履歴</div>"	履歴	任务调试页或其历史记录 text/template 直接显示		high
+magica/template/test/BackdoorQuestBattle.html	20	"<li id=""inputDelete1Btn"" class=""inputOtherBtn mb_pink TE"" data-text=""00"">1字削除</li>"	1字削除	任务调试页或其历史记录 text/template 直接显示		high
+magica/template/test/BackdoorQuestBattle.html	28	"<li class=""<%='<%= model.read %\>'%>""><div class=""sid""><%=""<%= model.sid %\>""%></div><div class=""inputBtn mb_white TE"">入力</div></li>"	入力	任务调试页或其历史记录 text/template 直接显示		high
+magica/template/test/BackdoorQuestBattle.html	33	"<p class=""caution c_red"">※赤字は実行できなかったクエストです</p>"	※赤字は実行できなかったクエストです	任务调试页或其历史记录 text/template 直接显示		high
+magica/template/test/EffectTest.html	16	"<p class=""displayBtn mb_pink TE"" data-hide=""false"">表示</p>"	表示	效果测试页按钮直接显示		high
+magica/template/test/EffectTest.html	17	"<p class=""hideBtn mb_pink TE"" data-hide=""true"">削除</p>"	削除	效果测试页按钮直接显示		high
+magica/template/test/FriendSearch.html	6	"<option selected=""selected"" value=""0"">不指定</option>"	不指定	好友测试页 select 选项直接显示；词形与日服原文一致，需人工确认采用中文“不限/不指定”		medium
+magica/template/test/FriendSearch.html	19	"<option selected=""selected"" value=""0"">不指定</option>"	不指定	好友测试页 select 选项直接显示；词形与日服原文一致，需人工确认采用中文“不限/不指定”		medium
+magica/template/test/FriendSearch.html	38	"<option selected=""selected"" value=""0"">不指定</option>"	不指定	好友测试页 select 选项直接显示；词形与日服原文一致，需人工确认采用中文“不限/不指定”		medium
+magica/template/test/FriendSearch.html	53	"<span id=""searchRunBtn"" class=""btn small"">検索</span>"	検索	好友测试页或结果 text/template 直接显示		high
+magica/template/test/FriendSearch.html	59	"<script type=""text/template"" id=""ResultParts""> <p class=""loginName"">ユーザー名 : <%=""<%= _.escape(model.username) %\>""%></p>"	ユーザー名 :	好友测试页或结果 text/template 直接显示		high
+magica/template/test/FriendSearch.html	61	"<p>助っ人ユニットレベル : <%=""<%= model.level %\>""%></p>"	助っ人ユニットレベル :	好友测试页或结果 text/template 直接显示		high
+magica/template/test/FriendSearch.html	62	"<p>助っ人ユニット属性 : <%=""<%= model.attribute %\>""%></p>"	助っ人ユニット属性 :	好友测试页或结果 text/template 直接显示		high
+magica/template/test/FriendSearch.html	63	"<p>フレンドID : <%=""<%= model.personalid %\>""%></p>"	フレンドID :	好友测试页或结果 text/template 直接显示		high
+magica/template/test/FriendSearch.html	64	"<p>最終ログイン時間 : <%=""<%= model.lastaccessdate %\>""%></p>"	最終ログイン時間 :	好友测试页或结果 text/template 直接显示		high
+magica/template/test/FriendSearch.html	65	"<span class=""btn follow"">フォローする</p>"	フォローする	好友测试页或结果 text/template 直接显示		high
+magica/template/test/PresentListTest.html	28	"<p><%= ""<%= model.card.title %\><%= model.card.cardName %\>×<%= model.quantity %\>枚"" %></p>"	枚	礼物卡片数量的嵌套 text/template 计数单位会显示		medium
+magica/template/test/PresentListTest.html	37	"<span class=""btn small"">個別受取</span>"	個別受取	礼物测试页 text/template 按钮直接显示		high
+magica/template/test/QuestStub.html	62	<p class='pointFrame'>戦闘不能回数</p>	戦闘不能回数	战斗结果调试页字段标签直接显示		high
+magica/template/test/SelectStoryTest.html	7	"<div id=""pasteBtn"" class=""mb_white TE"">貼付</div>"	貼付	剧情测试页或历史记录 text/template 直接显示		high
+magica/template/test/SelectStoryTest.html	8	"<div id=""historyBtn"" class=""mb_white TE"">履歴</div>"	履歴	剧情测试页或历史记录 text/template 直接显示		high
+magica/template/test/SelectStoryTest.html	10	<h3>ＩＤ 変更</h3>	ＩＤ 変更	剧情测试页或历史记录 text/template 直接显示		high
+magica/template/test/SelectStoryTest.html	17	<h3>連番 変更</h3>	連番 変更	剧情测试页或历史记录 text/template 直接显示		high
+magica/template/test/SelectStoryTest.html	33	"<li id=""inputDelete1Btn"" class=""inputOtherBtn mb_pink TE"" data-text=""00"">1字削除</li>"	1字削除	剧情测试页或历史记录 text/template 直接显示		high
+magica/template/test/SelectStoryTest.html	41	"<li class=""<%='<%= model.read %\>'%>""><div class=""sid""><%=""<%= model.sid %\>""%></div><div class=""inputBtn mb_white TE"">入力</div></li>"	入力	剧情测试页或历史记录 text/template 直接显示		high
+magica/template/test/SelectStoryTest.html	46	"<div id=""historyDeleteBtn"" class=""mb_white TE"">履歴削除</div>"	履歴削除	剧情测试页或历史记录 text/template 直接显示		high
+magica/template/test/SelectStoryTest.html	48	"<p class=""caution c_red"">※赤字は再生できなかったストーリーです</p>"	※赤字は再生できなかったストーリーです	剧情测试页或历史记录 text/template 直接显示		high
+magica/template/top/TopPage.html	37	"<p id=""terms""><span>利用規約</span></p><p id=""copy""></p>"	利用規約	标题页直接可见入口文字		high

@@ -14,7 +14,7 @@
       </select>
     </div>
     <div id="leaderLevelForm">
-      <h2>辅助单元 LV</h2>
+      <h2>支援角色Lv</h2>
       <select id="leaderLevelSelect">
         <option selected="selected" value="0">不指定</option>
         <option value="1">LV1〜</option>
@@ -33,7 +33,7 @@
       </div>
     </div>
     <div id="leaderAttributeForm">
-      <h2>辅助单位属性</h2>
+      <h2>支援角色属性</h2>
       <select id="leaderAttributeSelect">
         <option selected="selected" value="0">不指定</option>
         <option value="FIRE">火属性</option>
@@ -50,17 +50,17 @@
       </div>
     </div>
   </div>
-  <span id="searchRunBtn" class="btn small">検索</span>
+  <span id="searchRunBtn" class="btn small">搜索</span>
   <div class="scrollOuter">
     <div id="resultWrap" class="scrollInner"></div>
   </div>
 </div>
 <!-- ユーザーパーツ -->
-<script type="text/template" id="ResultParts"> <p class="loginName">ユーザー名 : <%="<%= _.escape(model.username) %\>"%></p>
+<script type="text/template" id="ResultParts"> <p class="loginName">用户名：<%="<%= _.escape(model.username) %\>"%></p>
 	<p class="rank">Rank : <%="<%= model.rank %\>"%></p>
-	<p>助っ人ユニットレベル : <%="<%= model.level %\>"%></p>
-	<p>助っ人ユニット属性 : <%="<%= model.attribute %\>"%></p>
-	<p>フレンドID : <%="<%= model.personalid %\>"%></p>
-	<p>最終ログイン時間 : <%="<%= model.lastaccessdate %\>"%></p>
-	<span class="btn follow">フォローする</p>
+	<p>支援角色等级：<%="<%= model.level %\>"%></p>
+	<p>支援角色属性：<%="<%= model.attribute %\>"%></p>
+	<p>好友ID：<%="<%= model.personalid %\>"%></p>
+	<p>最后登录时间：<%="<%= model.lastaccessdate %\>"%></p>
+	<span class="btn follow">关注</span>
 </script>
