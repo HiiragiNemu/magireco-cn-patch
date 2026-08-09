@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""把 legacy-client 的 TSV 对照表升级为下一代 JSON 翻译源（uiTextList.json）。
+"""把本仓库的 TSV 对照表生成只读审计索引（uiTextList.json）。
 
 输出结构（供外部脚本以后统一转换成单一 JS 字典）：
 
@@ -7,7 +7,7 @@
       "follow.a1b2c3": {
         "ja":     "フォロー数: ",
         "zhCN":   "关注数：",
-        "status": "human-reviewed",          // 或 needs-review
+        "status": "legacy-unverified-ai-assisted",
         "usedBy": ["magica/js/follow/FollowPopup.js", ...],
         "overrides": {"js/view/": "支援"}     // 可选，按路径前缀覆盖
       },
@@ -19,19 +19,27 @@
 
 用法：
     python3 scripts/build_ui_text_source.py \
-        [--tsv DIR]          legacy-client 的 i18n/ 目录（默认 ../legacy-client/i18n）
-        [--out PATH]         输出路径（默认 i18n/uiTextList.json）
+        [--tsv DIR]          本仓库 i18n/ 目录（默认脚本所在仓库的 i18n/）
+        [--out PATH]         输出路径（默认本仓库 i18n/uiTextList.json）
+
+这个 JSON 不被 Actions、Build_JS_Injector 或客户端运行时消费，也不会写入
+``magica/``。迁移表来自含 AI 协作者的批次；没有逐条人工复核证据，所以任何条目
+都不得标为 ``human-reviewed``。三条 v5 偏离项只作为低权重待审提案保留，不覆盖
+迁移候选。
 """
 import argparse
 import hashlib
 import json
-import os
+from pathlib import Path
 
-# v5 修正中有意偏离 TSV 的条目：zhCN 以 v5 产物为准，标 needs-review 待贡献者确认
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+
+# v5 修正中有意偏离 TSV 的条目：只保留成低权重提案，待逐条人工确认。
 V5_DEVIATIONS = {
-    '(オファー可能：': ('　（可报价：', 'needs-review'),
-    '（オファー：COMPLETE）': ('　（报价：完成）', 'needs-review'),
-    'メモリア保管庫': ('记忆保管库', 'needs-review'),  # Wiki 用语：记忆保管库
+    '(オファー可能：': '　（可报价：',
+    '（オファー：COMPLETE）': '　（报价：完成）',
+    'メモリア保管庫': '记忆保管库',
 }
 
 
@@ -41,27 +49,39 @@ def unesc(s):
 
 def load_tsv(path):
     rows = []
-    for line in open(path, encoding='utf-8'):
-        if line.startswith('#'):
-            continue
-        col = line.rstrip('\n').split('\t')
-        if len(col) >= 2 and col[1]:
-            usedby = col[4].split(',') if len(col) >= 5 and col[4] else []
-            rows.append((unesc(col[0]), unesc(col[1]),
-                         [u.strip() for u in usedby if u.strip()]))
+    with Path(path).open(encoding='utf-8-sig') as handle:
+        for line_no, line in enumerate(handle, 1):
+            if line.startswith('#'):
+                continue
+            col = line.rstrip('\r\n').split('\t')
+            if len(col) >= 2 and col[1]:
+                usedby = col[4].split(',') if len(col) >= 5 and col[4] else []
+                rows.append((line_no, col[0], col[1], unesc(col[0]), unesc(col[1]),
+                             [u.strip() for u in usedby if u.strip()]))
     return rows
 
 
 def load_overrides(path):
     ov = {}
-    for line in open(path, encoding='utf-8'):
-        if line.startswith('#'):
-            continue
-        col = line.rstrip('\n').split('\t')
-        if len(col) >= 3 and col[0] and col[1] and col[2]:
-            dst = '' if col[2] == '<DELETE>' else unesc(col[2])
-            ov.setdefault(unesc(col[1]), {})[col[0]] = dst
+    with Path(path).open(encoding='utf-8-sig') as handle:
+        for line in handle:
+            if line.startswith('#'):
+                continue
+            col = line.rstrip('\r\n').split('\t')
+            if len(col) >= 3 and col[0] and col[1] and col[2]:
+                dst = '' if col[2] == '<DELETE>' else unesc(col[2])
+                ov.setdefault(unesc(col[1]), {})[col[0]] = dst
     return ov
+
+
+def candidate_fingerprint(ja, zh):
+    return hashlib.sha256((ja + '\0' + zh).encode('utf-8')).hexdigest()
+
+
+def load_lineage(path):
+    with Path(path).open(encoding='utf-8-sig') as handle:
+        summary = json.load(handle)
+    return summary['source_tables']['frontend-strings.tsv']['translated_candidate_lineage']
 
 
 def area_of(usedby):
@@ -77,20 +97,26 @@ def area_of(usedby):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--tsv', default='/root/legacy-client/i18n')
-    ap.add_argument('--out', default='/root/patch-front/i18n/uiTextList.json')
+    ap.add_argument('--tsv', type=Path, default=REPO_ROOT / 'i18n')
+    ap.add_argument('--out', type=Path, default=REPO_ROOT / 'i18n' / 'uiTextList.json')
+    ap.add_argument('--migration-summary', type=Path,
+                    default=REPO_ROOT / 'i18n' / 'migration-source-summary.json')
     args = ap.parse_args()
 
-    table = load_tsv(os.path.join(args.tsv, 'frontend-strings.tsv'))
-    overrides = load_overrides(os.path.join(args.tsv, 'overrides.tsv'))
+    table = load_tsv(args.tsv / 'frontend-strings.tsv')
+    overrides = load_overrides(args.tsv / 'overrides.tsv')
+    lineage = load_lineage(args.migration_summary)
 
     entries = {}
     collisions = 0
-    for ja, zh, usedby in table:
-        if ja in V5_DEVIATIONS:
-            zh, status = V5_DEVIATIONS[ja]
-        else:
-            status = 'human-reviewed'
+    for line_no, stored_ja, stored_zh, ja, zh, usedby in table:
+        evidence = lineage.get(candidate_fingerprint(stored_ja, stored_zh))
+        if not evidence:
+            raise SystemExit(
+                f'frontend-strings.tsv:{line_no}: 译文没有迁移来源记录；'
+                '请先登记为有证据的人工译文或新提案')
+        batch = evidence['batch'] if isinstance(evidence, dict) else evidence
+        commit = evidence.get('commit', '') if isinstance(evidence, dict) else ''
         area = area_of(usedby)
         h = hashlib.sha1(ja.encode('utf-8')).hexdigest()
         key = f'{area}.{h[:6]}'
@@ -98,18 +124,37 @@ def main():
             h = h + h
             key = f'{area}.{h[:8]}'
             collisions += 1
-        e = {'ja': ja, 'zhCN': zh, 'status': status, 'usedBy': usedby}
+        e = {
+            'ja': ja,
+            'zhCN': zh,
+            'status': 'legacy-unverified-ai-assisted',
+            'authority': 'legacy_unverified_ai_assisted',
+            'source': 'i18n/frontend-strings.tsv',
+            'sourceLine': line_no,
+            'sourceBatch': batch,
+            'sourceCommit': commit,
+            'usedBy': usedby,
+        }
+        if ja in V5_DEVIATIONS:
+            e['proposal'] = {
+                'zhCN': V5_DEVIATIONS[ja],
+                'status': 'needs-review',
+                'authority': 'new_proposal',
+                'selected': False,
+            }
         if ja in overrides:
             e['overrides'] = overrides[ja]
+            e['overridesStatus'] = 'legacy-unverified-ai-assisted'
         entries[key] = e
 
     out = dict(sorted(entries.items()))
-    os.makedirs(os.path.dirname(args.out), exist_ok=True)
-    with open(args.out, 'w', encoding='utf-8') as f:
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    with args.out.open('w', encoding='utf-8', newline='\n') as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
         f.write('\n')
     print(f'{len(out)} 条 → {args.out}'
-          f'（needs-review {sum(1 for e in out.values() if e["status"] != "human-reviewed")}，'
+          f'（legacy-unverified-ai-assisted {sum(1 for e in out.values() if e["status"] == "legacy-unverified-ai-assisted")}，'
+          f'待审提案 {sum(1 for e in out.values() if "proposal" in e)}，'
           f'带覆盖 {sum(1 for e in out.values() if "overrides" in e)}，'
           f'键碰撞 {collisions}）')
 

@@ -1,0 +1,605 @@
+{
+  "schema": "magireco-cn-ui-union-validation/v1",
+  "status": "PASS",
+  "tree": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_integration",
+  "head": "c10f127389e4d5c39842e821e31adb234910c6e3",
+  "sources": {
+    "base": "3c983a778429d5e56a2569aa28ea8c622d988c63",
+    "main": "23d21eee1c084ac0f8300cbaca4d9f0833c0440e",
+    "pass16": "b59f06d5604ad3c1b90fbad8b6b0fae5efc36c38",
+    "html_structure_base": "2d9fad7a10cf54a20b3bb473c25971ee6bf6cabd"
+  },
+  "working_tree_status": [
+    " M .gitattributes",
+    " M .github/workflows/sync-and-upload.yml",
+    " M README.md",
+    " M madomagi/engine_i18n.tsv",
+    "M  magica/css/_common/common.css",
+    "A  magica/css/campaign/newyear_login/NewYearLogin.css",
+    "A  magica/css/campaign/quiz/CampaignQuizTop.css",
+    "A  magica/css/campaign/summer_mission/CampaignSummerMissionTop.css",
+    "A  magica/css/event/EventArenaRankMatch/Result.css",
+    "A  magica/css/test/SdCharaTest.css",
+    "A  magica/css/test/ShopReworkTest.css",
+    " M magica/js/campaign/box_gacha/CampaignBoxGachaTop.js",
+    " M magica/js/event/EventArenaRankMatch/Result.js",
+    " M magica/js/test/Backdoor.js",
+    " M magica/js/test/BackdoorList.js",
+    " M magica/js/test/BackdoorQuestList.js",
+    " M magica/js/test/MailSendTest.js",
+    " M magica/js/test/NativeSandBox.js",
+    "A  magica/js/test/SdCharaTest.js",
+    " M magica/js/test/SoundTest.js",
+    " M magica/js/view/mission/MissionTopView.js",
+    "A  magica/resource/image_web/common/global/update2/global_gacha.png",
+    "A  magica/resource/image_web/common/global/update2/global_memoria.png",
+    "A  magica/resource/image_web/common/global/update2/global_mission.png",
+    "A  magica/resource/image_web/common/global/update2/global_shop.png",
+    "A  magica/resource/image_web/common/global/update2/global_team.png",
+    "A  magica/resource/image_web/common/global/update2/global_unit.png",
+    "M  magica/template/campaign/box_gacha/CampaignBoxGachaTop.html",
+    " M magica/template/etc/LawPopup.html",
+    " M magica/template/gacha/GachaProbabilityPop.html",
+    "A  magica/template/gacha/GachaResult.html",
+    "M  magica/template/gacha/GachaTop.html",
+    " M magica/template/test/Backdoor.html",
+    " M magica/template/test/BackdoorLive2d.html",
+    " M magica/template/test/QuestStub.html",
+    " M magica/template/test/backdoorList.html",
+    " M scripts/build_manifest.py",
+    "?? i18n/README.md",
+    "?? i18n/authority-policy.json",
+    "?? i18n/authority-provenance.tsv",
+    "?? i18n/fragments.tsv",
+    "?? i18n/frontend-strings.tsv",
+    "?? i18n/glossary.tsv",
+    "?? i18n/overrides.tsv",
+    "?? scripts/test_build_manifest.py",
+    "?? tools/"
+  ],
+  "checks": {
+    "main_only_12": {
+      "status": "PASS",
+      "expected": 12,
+      "matched": 12,
+      "files": [
+        {
+          "path": "magica/css/collection/StoryCollection.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "3818673ccd343d62d3cc6a40f9ebef2c5f2aa26a266756b1d2249f7d034fa057",
+          "source_normalized_sha256": "3818673ccd343d62d3cc6a40f9ebef2c5f2aa26a266756b1d2249f7d034fa057"
+        },
+        {
+          "path": "magica/css/quest/MainQuest.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "10fb6317968879e197781528013cf1e0f35e9fe58629b89f6aa54d923d1f5756",
+          "source_normalized_sha256": "10fb6317968879e197781528013cf1e0f35e9fe58629b89f6aa54d923d1f5756"
+        },
+        {
+          "path": "magica/css/quest/PuellaHistoriaLastBattle/GroupRaid.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "9b1082f0e38ca464185e42fbd2c9c6a8894ae4e3a7f2bb8dc14033067365844d",
+          "source_normalized_sha256": "9b1082f0e38ca464185e42fbd2c9c6a8894ae4e3a7f2bb8dc14033067365844d"
+        },
+        {
+          "path": "magica/css/quest/PuellaHistoriaLastBattle/QuestResultMainBoss.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "ea87c2193aef758fc38c1fd802a9e803d0c88738602eecaaa2b6b52fe1fbae3f",
+          "source_normalized_sha256": "ea87c2193aef758fc38c1fd802a9e803d0c88738602eecaaa2b6b52fe1fbae3f"
+        },
+        {
+          "path": "magica/css/quest/PuellaHistoriaLastBattle/QuestResultSubBoss.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "3c0ebeac635e5dea0a8677c2c1f0e48dfbdc6c533e7a8c9c9351c7bb48a8b7ad",
+          "source_normalized_sha256": "3c0ebeac635e5dea0a8677c2c1f0e48dfbdc6c533e7a8c9c9351c7bb48a8b7ad"
+        },
+        {
+          "path": "magica/css/quest/PuellaHistoriaLastBattle/SingleRaid.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "83c2ca1b310a3374399250ec7d7154cfa69c0ab54e17af3e5dde60cfb930998e",
+          "source_normalized_sha256": "83c2ca1b310a3374399250ec7d7154cfa69c0ab54e17af3e5dde60cfb930998e"
+        },
+        {
+          "path": "magica/css/quest/PuellaHistoriaTop.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "3724665c47aebecbef30e096e36fd3d565d3ed3584bba09a09034b8fd53c58a8",
+          "source_normalized_sha256": "3724665c47aebecbef30e096e36fd3d565d3ed3584bba09a09034b8fd53c58a8"
+        },
+        {
+          "path": "magica/css/quest/QuestBattleSelect.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "ea13f3b4f417d4d5a9da28e3324ce436603eb670aa9b8f54789f2c39f3179359",
+          "source_normalized_sha256": "ea13f3b4f417d4d5a9da28e3324ce436603eb670aa9b8f54789f2c39f3179359"
+        },
+        {
+          "path": "magica/css/quest/QuestCommon.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "b45051fd6fb50c5760f010e007ed0b6e2402b75fd18ce6d255b2bc69486deec0",
+          "source_normalized_sha256": "b45051fd6fb50c5760f010e007ed0b6e2402b75fd18ce6d255b2bc69486deec0"
+        },
+        {
+          "path": "magica/css/top/Top.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "8b83c6cec86e006a346ff30c184b6123091262870f7ec257215261944906c78e",
+          "source_normalized_sha256": "8b83c6cec86e006a346ff30c184b6123091262870f7ec257215261944906c78e"
+        },
+        {
+          "path": "magica/css/user/MyPage.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "00a9a5de54067cb018295976aa2c6f66f17dfcc1e0ffc157aaad49790e332fd4",
+          "source_normalized_sha256": "00a9a5de54067cb018295976aa2c6f66f17dfcc1e0ffc157aaad49790e332fd4"
+        },
+        {
+          "path": "magica/resource/image_web/common/global/connecting.png",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "3fdc439e63007da10915ba0d7eae28cec62d65284838dadcc0d903c05af46203",
+          "source_normalized_sha256": "3fdc439e63007da10915ba0d7eae28cec62d65284838dadcc0d903c05af46203"
+        }
+      ],
+      "errors": []
+    },
+    "pass_only_14": {
+      "status": "PASS",
+      "expected": 14,
+      "matched": 14,
+      "files": [
+        {
+          "path": "magica/css/campaign/newyear_login/NewYearLogin.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "6f8c08d13ed6e4048fd57c443660eda85546c11613e000b596370a98299c5fa8",
+          "source_normalized_sha256": "6f8c08d13ed6e4048fd57c443660eda85546c11613e000b596370a98299c5fa8"
+        },
+        {
+          "path": "magica/css/campaign/quiz/CampaignQuizTop.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "d6d76d1c08247e1f6a53161d11618006c4b37d1245c8085581a19493f57db986",
+          "source_normalized_sha256": "d6d76d1c08247e1f6a53161d11618006c4b37d1245c8085581a19493f57db986"
+        },
+        {
+          "path": "magica/css/campaign/summer_mission/CampaignSummerMissionTop.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "a93a79a449ef357e64350cd0e37f03176ef28891826a7fb1382a9976bcba82ff",
+          "source_normalized_sha256": "a93a79a449ef357e64350cd0e37f03176ef28891826a7fb1382a9976bcba82ff"
+        },
+        {
+          "path": "magica/css/event/EventArenaRankMatch/Result.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "ed1f0bcec0e484449a50a772a80035379dd9fa38facfa7a7ff570980bd0f75cc",
+          "source_normalized_sha256": "ed1f0bcec0e484449a50a772a80035379dd9fa38facfa7a7ff570980bd0f75cc"
+        },
+        {
+          "path": "magica/css/test/SdCharaTest.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "da48c59a809a1710cb4a4eb88a14ee80954c7edc0f76d56482e74fe1af8f0337",
+          "source_normalized_sha256": "da48c59a809a1710cb4a4eb88a14ee80954c7edc0f76d56482e74fe1af8f0337"
+        },
+        {
+          "path": "magica/css/test/ShopReworkTest.css",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "7ccf7fcdfb9d1b4f51d8cf66bfbaa82b5282a7ebf7d089af30450fc1a7a07f8a",
+          "source_normalized_sha256": "7ccf7fcdfb9d1b4f51d8cf66bfbaa82b5282a7ebf7d089af30450fc1a7a07f8a"
+        },
+        {
+          "path": "magica/js/test/SdCharaTest.js",
+          "match": true,
+          "byte_exact": false,
+          "normalized_sha256": "1372843a4c6f86cf3ce6b4e69ddc2241f13074aba4eefca4b53065e6d70dac23",
+          "source_normalized_sha256": "1372843a4c6f86cf3ce6b4e69ddc2241f13074aba4eefca4b53065e6d70dac23"
+        },
+        {
+          "path": "magica/template/gacha/GachaResult.html",
+          "match": true,
+          "byte_exact": false,
+          "normalized_sha256": "b51f670ef688d3a68d459724c3b4763612cb9d8bc19fff6fc9c99ebb05287500",
+          "source_normalized_sha256": "b51f670ef688d3a68d459724c3b4763612cb9d8bc19fff6fc9c99ebb05287500"
+        },
+        {
+          "path": "magica/resource/image_web/common/global/update2/global_gacha.png",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "33f52c130f3db822c7aedabfc637e0a556082ea5986f38132345798568cc063f",
+          "source_normalized_sha256": "33f52c130f3db822c7aedabfc637e0a556082ea5986f38132345798568cc063f"
+        },
+        {
+          "path": "magica/resource/image_web/common/global/update2/global_memoria.png",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "8fa7d13b8df2fcf874ab8147c4616414d4416b8776ddaf42303f32be1ef55a57",
+          "source_normalized_sha256": "8fa7d13b8df2fcf874ab8147c4616414d4416b8776ddaf42303f32be1ef55a57"
+        },
+        {
+          "path": "magica/resource/image_web/common/global/update2/global_mission.png",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "dcecfed91fd1f870b190d2cc52fda2d5dabceb2ebb9dcff630bb971fdfe49bc4",
+          "source_normalized_sha256": "dcecfed91fd1f870b190d2cc52fda2d5dabceb2ebb9dcff630bb971fdfe49bc4"
+        },
+        {
+          "path": "magica/resource/image_web/common/global/update2/global_shop.png",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "49e6a11201d308bafcc5244558161d19a069bdd97997c84bcee83c17d2ca5c18",
+          "source_normalized_sha256": "49e6a11201d308bafcc5244558161d19a069bdd97997c84bcee83c17d2ca5c18"
+        },
+        {
+          "path": "magica/resource/image_web/common/global/update2/global_team.png",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "b851edae2ae5fae21887d64e4411ff5762aae861fd59a137fc757e7aa1145d66",
+          "source_normalized_sha256": "b851edae2ae5fae21887d64e4411ff5762aae861fd59a137fc757e7aa1145d66"
+        },
+        {
+          "path": "magica/resource/image_web/common/global/update2/global_unit.png",
+          "match": true,
+          "byte_exact": true,
+          "normalized_sha256": "6aabe8ae39155cbe06dab901ed3b0ad9cc6bcbcd9658b5b030ebae95d4027e6b",
+          "source_normalized_sha256": "6aabe8ae39155cbe06dab901ed3b0ad9cc6bcbcd9658b5b030ebae95d4027e6b"
+        }
+      ],
+      "errors": []
+    },
+    "specified_gacha_3": {
+      "status": "PASS",
+      "expected": 3,
+      "matched": 3,
+      "files": [
+        {
+          "path": "magica/js/campaign/box_gacha/CampaignBoxGachaTop.js",
+          "mode": "git-merge-file-clean",
+          "match": true,
+          "normalized_sha256": "0df4964a400431b2df012d8c6a2f0a5de926cc521b2156a8598dd4f088474a47"
+        },
+        {
+          "path": "magica/template/campaign/box_gacha/CampaignBoxGachaTop.html",
+          "mode": "pass-with-main-equal-base",
+          "match": true,
+          "normalized_sha256": "c37a11523c71d0b68aea25cf17c5f8be4235e0a55e45887bc3687cc6c53c309f"
+        },
+        {
+          "path": "magica/template/gacha/GachaTop.html",
+          "mode": "pass-with-main-equal-base",
+          "match": true,
+          "normalized_sha256": "601cf07133e81910ec1ea7c1b26933064681df22c8697dcd34f6c754add29b3c"
+        }
+      ],
+      "errors": []
+    },
+    "conflict_slots_14": {
+      "raw_union_status": "FAIL",
+      "semantic_status": "PASS",
+      "file_count": 14,
+      "selection_totals": {
+        "base": 1163,
+        "main_only": 55,
+        "pass_only": 227,
+        "same_change": 46,
+        "dual_change": 19
+      },
+      "files": [
+        {
+          "path": "magica/js/event/EventArenaRankMatch/Result.js",
+          "slot_count": 88,
+          "selection": {
+            "base": 78,
+            "main_only": 5,
+            "pass_only": 5,
+            "same_change": 0,
+            "dual_change": 0
+          },
+          "normalized_sha256": "58a0a190e55bcb5dd34b75449b038acb44acea8a29f1aae85b74f0c890db3fcd",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/js/test/Backdoor.js",
+          "slot_count": 253,
+          "selection": {
+            "base": 230,
+            "main_only": 20,
+            "pass_only": 3,
+            "same_change": 0,
+            "dual_change": 0
+          },
+          "normalized_sha256": "0bcb3599dc278d46bea1d9b0cd94108fe4867756ba6a79725cb5f614defc7d7f",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/js/test/BackdoorList.js",
+          "slot_count": 209,
+          "selection": {
+            "base": 174,
+            "main_only": 14,
+            "pass_only": 15,
+            "same_change": 2,
+            "dual_change": 4
+          },
+          "normalized_sha256": "a8e3b3df5b2eab00862bbb33f37861a6878d5a7bddf416013159308c5db6b556",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/js/test/BackdoorQuestList.js",
+          "slot_count": 84,
+          "selection": {
+            "base": 72,
+            "main_only": 2,
+            "pass_only": 10,
+            "same_change": 0,
+            "dual_change": 0
+          },
+          "normalized_sha256": "2121c9a961975d4cdc1415a9164bd78302371ad7c244faf765d639a6d1eeefe1",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/js/test/MailSendTest.js",
+          "slot_count": 31,
+          "selection": {
+            "base": 24,
+            "main_only": 0,
+            "pass_only": 4,
+            "same_change": 1,
+            "dual_change": 2
+          },
+          "normalized_sha256": "3471af52f8cce558a2b3bf0666d3cb12336909bdfa58e977ab350dd38749da7b",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/js/test/NativeSandBox.js",
+          "slot_count": 39,
+          "selection": {
+            "base": 35,
+            "main_only": 3,
+            "pass_only": 1,
+            "same_change": 0,
+            "dual_change": 0
+          },
+          "normalized_sha256": "685888391767cd55ee39227df642fbbc422b5d055463a044aa53bb8c8d4e0c7f",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/js/test/SoundTest.js",
+          "slot_count": 188,
+          "selection": {
+            "base": 119,
+            "main_only": 0,
+            "pass_only": 63,
+            "same_change": 5,
+            "dual_change": 1
+          },
+          "normalized_sha256": "40d4317fc866903080063f633efc87ba9899d5ec1a67e26c4511a2a5974e57dc",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/js/view/mission/MissionTopView.js",
+          "slot_count": 278,
+          "selection": {
+            "base": 269,
+            "main_only": 8,
+            "pass_only": 1,
+            "same_change": 0,
+            "dual_change": 0
+          },
+          "normalized_sha256": "6ab48006969d897a714f1ebab8ab4ed478f5b922a9bfca8234ca13a40ccacd78",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/template/test/Backdoor.html",
+          "slot_count": 75,
+          "selection": {
+            "base": 48,
+            "main_only": 1,
+            "pass_only": 26,
+            "same_change": 0,
+            "dual_change": 0
+          },
+          "normalized_sha256": "72698f4297926ea571f4329a5176b8a531d983d8c63e755e47d895fd207bba06",
+          "raw_status": "FAIL",
+          "semantic_status": "PASS",
+          "raw_errors": [
+            "slot 45 main_only: expected '例)\\u3000FORMATI开启_SHEET_201、\\u3000LIVE2D_1002_02、\\u3000DOPPEL_100100', got '例)\\u3000FORMATION_SHEET_201、\\u3000LIVE2D_1002_02、\\u3000DOPPEL_100100'"
+          ],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/template/test/QuestStub.html",
+          "slot_count": 25,
+          "selection": {
+            "base": 3,
+            "main_only": 2,
+            "pass_only": 18,
+            "same_change": 0,
+            "dual_change": 2
+          },
+          "normalized_sha256": "f36467e50f6dac158675711c5edafb4535a185da1bf95a540951711229f262f7",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/template/test/BackdoorLive2d.html",
+          "slot_count": 53,
+          "selection": {
+            "base": 11,
+            "main_only": 0,
+            "pass_only": 37,
+            "same_change": 2,
+            "dual_change": 3
+          },
+          "normalized_sha256": "312633efda878f332f4c85fec833b01a85f407564c9734d7b852dc6cb153e4fc",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/template/test/backdoorList.html",
+          "slot_count": 89,
+          "selection": {
+            "base": 54,
+            "main_only": 0,
+            "pass_only": 31,
+            "same_change": 1,
+            "dual_change": 3
+          },
+          "normalized_sha256": "28dab19a09141271f914f487500a6e653c0d036ad9c5ba2c3bfbffb2a54bd31f",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/template/gacha/GachaProbabilityPop.html",
+          "slot_count": 41,
+          "selection": {
+            "base": 38,
+            "main_only": 0,
+            "pass_only": 1,
+            "same_change": 0,
+            "dual_change": 2
+          },
+          "normalized_sha256": "478a75b132a8b899765fd2903f4b20b0e356e1cf41f2f43d20c2982177e07012",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        },
+        {
+          "path": "magica/template/etc/LawPopup.html",
+          "slot_count": 57,
+          "selection": {
+            "base": 8,
+            "main_only": 0,
+            "pass_only": 12,
+            "same_change": 35,
+            "dual_change": 2
+          },
+          "normalized_sha256": "22eed294bedb44bc3f426c05f293bbda8114e8a64028760c233f21306209b5f8",
+          "raw_status": "PASS",
+          "semantic_status": "PASS",
+          "raw_errors": [],
+          "semantic_errors": []
+        }
+      ],
+      "raw_errors": [
+        "magica/template/test/Backdoor.html: slot 45 main_only: expected '例)\\u3000FORMATI开启_SHEET_201、\\u3000LIVE2D_1002_02、\\u3000DOPPEL_100100', got '例)\\u3000FORMATION_SHEET_201、\\u3000LIVE2D_1002_02、\\u3000DOPPEL_100100'"
+      ],
+      "semantic_errors": [],
+      "review_warnings": [
+        {
+          "path": "magica/template/test/QuestStub.html",
+          "slot": 0,
+          "category": "main_only",
+          "base": "Quest Stub",
+          "main": "任务 Stub",
+          "pass": "Quest Stub",
+          "current": "任务 Stub",
+          "raw_expected": "任务 Stub",
+          "raw_status": "PASS",
+          "semantic_expected": "任务 Stub",
+          "semantic_status": "PASS",
+          "review_note": "混合语言可见标签：任务 Stub"
+        },
+        {
+          "path": "magica/template/test/QuestStub.html",
+          "slot": 3,
+          "category": "main_only",
+          "base": "QuestResult SKIP",
+          "main": "任务Result SKIP",
+          "pass": "QuestResult SKIP",
+          "current": "任务Result SKIP",
+          "raw_expected": "任务Result SKIP",
+          "raw_status": "PASS",
+          "semantic_expected": "任务Result SKIP",
+          "semantic_status": "PASS",
+          "review_note": "混合语言可见标签：任务Result SKIP"
+        },
+        {
+          "path": "magica/template/gacha/GachaProbabilityPop.html",
+          "slot": 12,
+          "category": "dual_change",
+          "base": "Pick up对象魔法少女",
+          "main": "精选魔法少女",
+          "pass": "Pickup对象魔法少女",
+          "current": "Pickup对象魔法少女",
+          "raw_expected": "Pickup对象魔法少女",
+          "raw_status": "PASS",
+          "semantic_expected": "Pickup对象魔法少女",
+          "semantic_status": "PASS",
+          "review_note": "保留研究层术语：Pickup对象魔法少女"
+        },
+        {
+          "path": "magica/template/gacha/GachaProbabilityPop.html",
+          "slot": 22,
+          "category": "dual_change",
+          "base": "Pick up对象记忆结晶",
+          "main": "精选记忆结晶",
+          "pass": "Pickup对象记忆结晶",
+          "current": "Pickup对象记忆结晶",
+          "raw_expected": "Pickup对象记忆结晶",
+          "raw_status": "PASS",
+          "semantic_expected": "Pickup对象记忆结晶",
+          "semantic_status": "PASS",
+          "review_note": "保留研究层术语：Pickup对象记忆结晶"
+        }
+      ],
+      "ledger": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\outputs\\ui_merge_20260809\\validation\\conflict_slot_ledger.tsv"
+    },
+    "node_syntax": {
+      "status": "PASS",
+      "actual_count_including_derived_jquery": 198,
+      "expected_count_including_derived_jquery": 198,
+      "failed": 0,
+      "failures": []
+    },
+    "html_sensitive_attributes": {
+      "status": "PASS",
+      "html_count": 182,
+      "expected_html_count": 182,
+      "sensitive_attribute_count": 12498,
+      "allowed_changes_declared": 5,
+      "allowed_changes_observed": 5,
+      "errors": []
+    }
+  }
+}

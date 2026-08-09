@@ -1,0 +1,27 @@
+# 片段级补丁表:跨节点整段改写,解决整串替换机制够不到的语序问题。
+#
+# 列:文件路径前缀(相对前端根目录)\t原始片段\t替换片段
+# 由 tools/i18n-fragments.py 在整串回填(i18n-apply.py)**之后**应用,
+# 所以原始片段匹配的是「邻居已汉化、只剩助词/语序残留」的半成品文本。
+#
+# 为什么需要它:日文宾语前置(Xを…使用する)与「数+动」(5アップ)语序,
+# 中文都要把谓语挪到变量另一侧——变量夹在中间时,整条字面量替换永远够
+# 不着。与其手改压缩 JS/模板(会被流水线重跑冲掉),不如把整段改写也做成
+# 表驱动:可审、可回滚、可重跑;命中 0 次即报错,不允许悄悄失效。
+#
+# 各条目的语境:
+#   - box_gacha 抽卡确认(GachaStartPop):Xを N单位 使用 Y 进行中。→ 使用 N单位 X 进行 Y。
+#   - box_gacha 全抽确认(AllGachaStartPop):Xを N单位 使用 M次扭蛋 开抽。→ 使用 N单位 X 开抽 M次扭蛋。
+#   - 普通扭蛋页有料抽卡确认:同 GachaStartPop 句式
+#   - 排位赛道具回复对战次数确认:Xを 1张 使用/次数を 1次 可以回复。→ 使用 1张 X/即可回复 1次 次数。
+#   - 排位赛魔法石回复对战次数确认:同上句式
+#   - 排位赛解除冷却确认:魔法石を N个 使用 → 使用 N个 魔法石
+#   - 排位赛纹章效果说明(JS 拼接调序):「cが 各自 N 提升」→「c各自提升N」
+#
+template/campaign/box_gacha/CampaignBoxGachaTop.html	<span class='c_pink'>\n\t\t<%='<%= gachaModel.useItem.name %\\>'%>\n\t</span>を\n\t<span class='c_pink'>\n\t\t<%='<%= model.needQuantity %\\>'%><%='<%= gachaModel.useItem.unit %\\>'%>\n\t</span>使用\n\t<span class='c_pink'>\n\t\t<%='<%= model.displayTitle %\\>'%>\n\t</span>进行中。	使用<span class='c_pink'>\n\t\t<%='<%= model.needQuantity %\\>'%><%='<%= gachaModel.useItem.unit %\\>'%>\n\t</span><span class='c_pink'>\n\t\t<%='<%= gachaModel.useItem.name %\\>'%>\n\t</span>进行<span class='c_pink'>\n\t\t<%='<%= model.displayTitle %\\>'%>\n\t</span>。
+template/campaign/box_gacha/CampaignBoxGachaTop.html	<span class='c_pink'>\n\t\t<%='<%= gachaModel.useItem.name %\\>'%>\n\t</span>を\n\t<span class='c_pink'>\n\t\t<%='<%= model.needQuantity %\\>'%><%='<%= gachaModel.useItem.unit %\\>'%>\n\t</span>使用\n\t<span class='c_pink'>\n\t\t<%='<%= model.gachaCount %\\>'%>次扭蛋\n\t</span>开抽。	使用<span class='c_pink'>\n\t\t<%='<%= model.needQuantity %\\>'%><%='<%= gachaModel.useItem.unit %\\>'%>\n\t</span><span class='c_pink'>\n\t\t<%='<%= gachaModel.useItem.name %\\>'%>\n\t</span>开抽<span class='c_pink'>\n\t\t<%='<%= model.gachaCount %\\>'%>次扭蛋\n\t</span>。
+template/gacha/GachaTop.html	<span class='c_pink'><%='<%= model.userUseItem.item.name %\\>'%></span>を<span class='c_pink'><%='<%= (model.userUseItem.subItemFlag) ? "1" : model.needQuantity %\\>'%><%='<%= model.userUseItem.item.unit %\\>'%></span>使用<span class='c_pink'><%='<%= displayTitle %\\>'%></span>进行中。	使用<span class='c_pink'><%='<%= (model.userUseItem.subItemFlag) ? "1" : model.needQuantity %\\>'%><%='<%= model.userUseItem.item.unit %\\>'%></span><span class='c_pink'><%='<%= model.userUseItem.item.name %\\>'%></span>进行<span class='c_pink'><%='<%= displayTitle %\\>'%></span>。
+template/event/EventArenaRankMatch/parts/AttackCountItemPopup.html	<span class='c_pink'><%= model.attackCountInfo.itemName %></span>を<span class='c_pink'>1张</span>使用<br> 镜界排位赛的对战次数<span class='c_pink'>1次</span>可以回复。	使用<span class='c_pink'>1张</span><span class='c_pink'><%= model.attackCountInfo.itemName %></span><br> 即可回复<span class='c_pink'>1次</span>镜界排位赛的对战次数。
+template/event/EventArenaRankMatch/parts/AttackCountPopup.html	<span class='c_pink'>魔法石</span>を<span class='c_pink'><%= model.attackCountInfo.recoverNeedNum %>个</span>使用<br> 镜界排位赛的对战次数<span class='c_pink'><%= model.attackCountInfo.numMax %>次</span>即将回复。	使用<span class='c_pink'><%= model.attackCountInfo.recoverNeedNum %>个</span><span class='c_pink'>魔法石</span><br> 即可回复<span class='c_pink'><%= model.attackCountInfo.numMax %>次</span>镜界排位赛的对战次数。
+template/event/EventArenaRankMatch/parts/CoolTimePopup.html	<span class='c_pink'>魔法石</span>を<span class='c_pink'><%= model.recoverNeedNum %>个</span>使用	使用<span class='c_pink'><%= model.recoverNeedNum %>个</span><span class='c_pink'>魔法石</span>
+js/event/EventArenaRankMatch/Utility.js	+c+"が"+a+l+e	+c+a+e+l
