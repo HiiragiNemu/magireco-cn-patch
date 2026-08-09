@@ -156,7 +156,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           if (this.model.questBattle.onlyCharaIds || this.model.questBattle.containCharaIds) new b.PopupClass(
           {
             title: "关卡确认",
-            content: "条件设定为任务",
+            content: "这是设有条件的任务",
             decideBtnText: "前往关卡"
           }, null, function()
           {
@@ -196,7 +196,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
                 {
                   title: "关卡确认",
                   content: "「" + this.model.questBattle.useItem.name + "」还差 <span class='c_red'>" + d + "</span> 个",
-                  decideBtnText: "根据需要补充",
+                  decideBtnText: "补足所需数量",
                   decideBtnEvent: c,
                   closeBtnText: "关闭"
                 });

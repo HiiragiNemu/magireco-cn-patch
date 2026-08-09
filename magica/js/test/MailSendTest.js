@@ -37,13 +37,13 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         new b.PopupClass(
         {
           title: "发送完成",
-          content: "已发送电子邮件地址",
+          content: "已发送邮箱地址",
           closeBtnText: "关闭"
         })
       })) : new b.PopupClass(
       {
         title: "错误",
-        content: "请输入电子邮件地址",
+        content: "请输入邮箱地址",
         closeBtnText: "关闭"
       }))
     },
