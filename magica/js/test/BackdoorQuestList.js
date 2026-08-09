@@ -62,37 +62,37 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
               else if (103401 == a.questBattle.sectionId || 103500 <= a.questBattle.sectionId) switch (d += "PH ", c += "b_puellaHistoria", a.questBattle.sectionId)
             {
               case 103401:
-                e = "現代神浜編";
+                e = "现代神滨篇";
                 break;
               case 103501:
               case 103502:
-                e = "神滨战神版";
+                e = "神滨的战神子篇";
                 break;
               case 103601:
               case 103602:
-                e = "亚历山大海市蜃楼";
+                e = "亚历山德里亚的蜃楼篇";
                 break;
               case 103701:
               case 103702:
-                e = "维克的瓦尔基里版";
+                e = "维京的女武神篇";
                 break;
               case 103801:
               case 103802:
-                e = "藏罗刹版";
+                e = "藏地的罗刹女篇";
                 break;
               case 103901:
               case 103902:
-                e = "邪马台国的踪迹";
+                e = "邪马台国的后嗣篇";
                 break;
               case 104001:
               case 104002:
               case 104003:
-                e = "罗马和平之情人版"
+                e = "罗马治世的恋人篇"
             }
             else 103E3 <= a.questBattle.sectionId ? (d += "M2 ", c += "b_blue", e = String(parseInt(e) - 1 + 10)) : 102100 <= a.questBattle.sectionId ? (d += "M2 ", c += "b_blue", e = String(parseInt(e) - 1)) : 102E3 <= a.questBattle.sectionId ? (d += "M1 ", c += "b_purple", e = 10) : (d += "M1 ", c += "b_purple");
             else 207101 <= a.questBattle.sectionId ? (d += "S2 ", c += "b_pale") : (d += "S1 ", c += "b_green");
             e = "0" === e ? "序" : e;
-            e = "PH " == d ? e + " Battle" + String(a.questBattle.sectionIndex) : e + "章" + String(a.questBattle.sectionId).substr(4, 2) + "話 Battle" + String(a.questBattle.sectionIndex);
+            e = "PH " == d ? e + " Battle" + String(a.questBattle.sectionIndex) : e + "章" + String(a.questBattle.sectionId).substr(4, 2) + "话 战斗" + String(a.questBattle.sectionIndex);
             a.title = d + e;
             "HARD" == a.questBattle.questBattleType && (a.questType = a.questBattle.questBattleType);
             a.btnClass = c;
@@ -156,7 +156,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           if (this.model.questBattle.onlyCharaIds || this.model.questBattle.containCharaIds) new b.PopupClass(
           {
             title: "关卡确认",
-            content: "这是设有条件的任务",
+            content: "条件设定为任务",
             decideBtnText: "前往关卡"
           }, null, function()
           {
@@ -195,8 +195,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
                 g = new b.PopupClass(
                 {
                   title: "关卡确认",
-                  content: "「" + this.model.questBattle.useItem.name + "” 是 <span class='c_red'>" + d + "缺少",
-                  decideBtnText: "补足所需数量",
+                  content: "「" + this.model.questBattle.useItem.name + "」还差 <span class='c_red'>" + d + "</span> 个",
+                  decideBtnText: "根据需要补充",
                   decideBtnEvent: c,
                   closeBtnText: "关闭"
                 });

@@ -61,8 +61,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         a && (c = a.regularEventId);
         new b.PopupClass(
         {
-          title: "重置战斗博物馆回复次数",
-          content: "是否要重置战斗博物馆的回复功能？<br>eventId：<input id='inputEventId' class='commonFrame3' readonly='readonly' type='text' maxlength='4' value=''>",
+          title: "重置战斗博物馆回复功能",
+          content: "是否重置战斗博物馆的回复功能？<br>eventId：<input id='inputEventId' class='commonFrame3' readonly='readonly' type='text' maxlength='4' value=''>",
           decideBtnEvent: function()
           {
             e.ajaxPost(b.linkList.accomplishResetCure,
@@ -72,8 +72,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             {
               new b.PopupClass(
               {
-                title: "重置战斗博物馆回复次数",
-                content: "战斗 博物馆的 回复 功能已重置",
+                title: "重置战斗博物馆回复功能",
+                content: "已重置战斗博物馆的回复功能",
                 closeBtnText: "关闭"
               });
               b.responseSetStorage(a)
@@ -95,8 +95,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       {
         new b.PopupClass(
         {
-          title: "完了",
-          content: "用户 已在搜索服务器上注册。<br>过一会儿，你就可以搜索了。 （最多 15 分钟）",
+          title: "完成",
+          content: "已在搜索服务器注册用户。<br>稍候即可搜索（最长需15分钟）。",
           closeBtnText: "关闭"
         })
       })
@@ -110,12 +110,12 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         switch (a.currentTarget.dataset.target)
         {
           case "firstChapter":
-            c = "一键通关第一部"
+            c = "第一部一键通关"
         }
         new b.PopupClass(
         {
           title: c,
-          content: "要执行此操作，甲板 1 必须是单个 Iroha 甲板。<br>有需要。",
+          content: "要执行此操作，队伍１必须<br>设为「仅含环彩羽的单人队伍」。",
           closeBtnText: "取消",
           decideBtnText: "执行",
           decideBtnEvent: function()
@@ -125,7 +125,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
               new b.PopupClass(
               {
                 title: c,
-                content: "已将目标剧情全部设为通关状态。",
+                content: "所有目标剧情已更改为通关状态。",
                 closeBtnText: "关闭"
               }, null, null, function()
               {
@@ -142,8 +142,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       a.preventDefault();
       b.isScrolled() || new b.PopupClass(
       {
-        title: "一键通关第二部第11章",
-        content: "通关 直至第 2 部分第 11 章。",
+        title: "第2部分第11章散装通关",
+        content: "将第二部至第11章一键通关。",
         closeBtnText: "取消",
         decideBtnText: "执行",
         decideBtnEvent: function()
@@ -152,8 +152,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           {
             new b.PopupClass(
             {
-              title: "一键通关第二部第11章",
-              content: "已将目标剧情全部设为通关状态。",
+              title: "第2部分第11章散装通关",
+              content: "所有目标剧情已更改为通关状态。",
               closeBtnText: "关闭"
             }, null, null, function()
             {
@@ -185,7 +185,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         popupType: "typeE",
         exClass: "transferPop",
         closeBtnText: "取消",
-        decideBtnText: "确定",
+        decideBtnText: "OK",
         decideBtnEvent: function()
         {
           var a = b.doc.getElementById("tutorialSelect").value;
@@ -197,7 +197,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             new b.PopupClass(
             {
               title: "tutorial reset",
-              content: a + "已被注册。",
+              content: a + "已注册。",
               closeBtnText: "关闭"
             });
             console.log("tutorialIdRegistComp", c);
@@ -217,7 +217,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         new b.PopupClass(
         {
           title: "tutorial comp",
-          content: "TU999已注册。",
+          content: "已注册TU999。",
           closeBtnText: "关闭"
         });
         console.log("tutorialIdRegistComp", a);
@@ -269,7 +269,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         title: "更改小组名",
         content: a(),
         closeBtnText: "关闭",
-        decideBtnText: "发布推文",
+        decideBtnText: "推文",
         decideBtnEvent: function(a)
         {
           a = b.doc.getElementById("changeName").value.split("?");
@@ -277,9 +277,9 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           6 > a.length ? new b.PopupClass(
           {
             title: "错误",
-            content: "URL不正确",
+            content: "网址无效",
             closeBtnText: "关闭"
-          }) : (a = " ★试用测试★%0a https://twitter.com/" + a[3] + "/status/" + a[5] + "/照片/1%0a★试听课★", a = encodeURI(a).replace(/%250a/g, "%0a"), d.browserOpen("https://twitter.com/share?text=" + a + "%0a&count=none&lang=ja"))
+          }) : (a = " ★测试推文★%0a https://twitter.com/" + a[3] + "/status/" + a[5] + "/photo/1%0a★测试推文★", a = encodeURI(a).replace(/%250a/g, "%0a"), d.browserOpen("https://twitter.com/share?text=" + a + "%0a&count=none&lang=ja"))
         }
       }, null, function()
       {
@@ -390,7 +390,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       b.isScrolled() || (localStorage.clear(), b.sfml = {}, console.log("localStorage:", localStorage.getItem("LocalStorageTest")), new b.PopupClass(
       {
         title: "localStorage clear",
-        content: "已删除localStorage数据。",
+        content: "LocalStorage 数据已被删除。",
         closeBtnText: "关闭"
       }))
     },
@@ -402,7 +402,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         title: "更换称号",
         content: a(),
         popupType: "typeB",
-        closeBtnText: "确定"
+        closeBtnText: "OK"
       }))
     },
     eventAccomplishDebugModeNormal: function(a)
@@ -411,7 +411,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       b.isScrolled() || (b.accomplishDebug = "normal", new b.PopupClass(
       {
         title: "踏破活动调试模式",
-        content: "剧情任务打开调试模式。<br>请重新启动应用程序以将其关闭。",
+        content: "已启用剧情关卡调试模式。<br>要关闭此模式，请重新启动应用。",
         closeBtnText: "关闭"
       }))
     },
@@ -421,7 +421,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       b.isScrolled() || (b.accomplishDebug = "challenge", new b.PopupClass(
       {
         title: "踏破活动调试模式",
-        content: "挑战任务打开调试模式。<br>请重新启动应用程序以将其关闭。",
+        content: "已启用挑战关卡调试模式。<br>要关闭此模式，请重新启动应用。",
         closeBtnText: "关闭"
       }))
     },
@@ -483,7 +483,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             a = {
               deckType: 41,
               formationSheetId: 111,
-              name: "地牢 1",
+              name: "地下城1",
               episodeUserCardId: k
             };
             a.userCardIds = d;
@@ -500,7 +500,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       else new b.PopupClass(
       {
         title: "错误",
-        content: "地下城 活动 已过时。",
+        content: "当前不在地下城活动开放期间。",
         closeBtnText: "关闭"
       })
     },
@@ -527,8 +527,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         {
           new b.PopupClass(
           {
-            title: "剧情播放结束",
-            content: "剧情已结束。",
+            title: "剧情 播放完毕",
+            content: "剧情 结束了。",
             closeBtnText: "关闭"
           })
         }
@@ -541,8 +541,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       {
         new b.PopupClass(
         {
-          title: "重新挑战理违战",
-          content: "现在可以重新挑战理违战。",
+          title: "无理 战斗 再试一次",
+          content: "您现在可以再次尝试非理性的 战斗。",
           closeBtnText: "关闭"
         })
       })
@@ -553,16 +553,16 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
       b.isScrolled() || ($("#commandDiv").on("nativeCallback", function(a, d)
       {
         $("#commandDiv").off();
-        var c = "没有处于锁定状态的项目";
+        var c = "没有锁定状态";
         a = d.product_ids;
-        0 < a.length && (c = "锁定的product_id列表<br>", f.each(a, function(a, b, d)
+        0 < a.length && (c = "处于锁定状态的product_id列表<br>", f.each(a, function(a, b, d)
         {
           c += "・" + String(a);
           c += "<br>"
         }));
         new b.PopupClass(
         {
-          title: "确认Magia石购买状态",
+          title: "魔法石购买状态",
           content: c,
           popupType: "typeB",
           closeBtnText: "关闭"

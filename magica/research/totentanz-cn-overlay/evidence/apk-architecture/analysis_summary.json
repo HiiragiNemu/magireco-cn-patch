@@ -1,0 +1,80 @@
+{
+  "complete_root": "complete/magirecocn-images-complete",
+  "callgraph_root": "callgraph/magirecocn-image-callgraph-l2d-reuse-final",
+  "zip_products": {
+    "direct": {
+      "complete_files": 561,
+      "callgraph_files": 561,
+      "same_logical_paths": 561,
+      "only_complete": 0,
+      "only_callgraph": 0,
+      "status_counts": {
+        "byte_identical": 561
+      }
+    },
+    "atlas_frame": {
+      "complete_files": 997,
+      "callgraph_files": 997,
+      "same_logical_paths": 997,
+      "only_complete": 0,
+      "only_callgraph": 0,
+      "status_counts": {
+        "byte_identical": 954,
+        "decoded_pixels_identical": 2,
+        "different_dimensions_or_crop": 39,
+        "same_dimensions_different_pixels": 2
+      }
+    }
+  },
+  "zip_image_namespaces": {
+    "complete": {
+      "image_payload_files": 1558,
+      "resource_image_web_paths": 0,
+      "resource_image_native_paths": 87,
+      "global_menu_icon_basenames": 0
+    },
+    "callgraph": {
+      "image_payload_files": 1558,
+      "resource_image_web_paths": 0,
+      "resource_image_native_paths": 87,
+      "global_menu_icon_basenames": 0
+    }
+  },
+  "apk_vs_download_manifest": {
+    "download_manifest_entries": 69802,
+    "apk_assets_files": 391,
+    "logical_path_intersection": 59,
+    "same_md5": 17,
+    "different_md5": 42,
+    "image_intersection": 40,
+    "image_same_md5": 9,
+    "image_different_md5": 31
+  },
+  "frontend_local_images": {
+    "frontend_local_images": 11,
+    "with_exact_apk_hash_match": 0,
+    "without_exact_apk_hash_match": 11
+  },
+  "font_correspondence": {
+    "apk_fonts": 7,
+    "frontend_hot_update_fonts": 1,
+    "frontend_fonts_with_apk_hash_match": 1
+  },
+  "global_menu_web_icons": {
+    "files": 11,
+    "referenced_by_common_css": 9,
+    "present_by_name_in_complete_zip": 0,
+    "present_by_name_in_callgraph_zip": 0,
+    "exact_hash_in_apk": 0
+  },
+  "frontend_resource_references": {
+    "literal_web_magica_urls": 512,
+    "web_urls_with_local_magica_file": 11,
+    "web_urls_without_local_magica_file": 501,
+    "literal_native_bridge_paths": 0,
+    "native_paths_with_apk_asset": 0,
+    "native_paths_in_download_manifest": 0,
+    "all_native_bridge_occurrences": 400,
+    "native_bridge_source_files": 88
+  }
+}

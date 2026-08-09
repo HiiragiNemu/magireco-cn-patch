@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "purpose": "localize text baked into current Totentanz menu canvases when no verified old-CN current-size source exists",
+  "policy": {
+    "current_canvas_is_authoritative": true,
+    "generated_assets_require_manual_visual_qa": true,
+    "generated_assets_must_keep_current_path_and_geometry": true,
+    "rejected_outputs_are_never_copied_to_runtime": true
+  },
+  "accepted": [
+    {
+      "id": "global_team_cn_184x196",
+      "target_text": "队伍",
+      "prompt_summary": "Keep the current small Totentanz Team menu button composition, ornament, palette and lighting; replace only the baked English label with exact simplified Chinese 队伍; render on a clean chroma-key background for transparent compositing.",
+      "generated_source": {
+        "local_record": "C:/Users/proje/.codex/generated_images/019fd6dd-1728-7ce0-991a-bf22913ea16f/exec-b5bfb97b-5d18-441b-8fc2-ac78d1d39b69.png",
+        "sha256": "51fab958d72af791e000c8b023783fe52622374616b217d9dabdaedb0a8dc21c",
+        "width": 1254,
+        "height": 1254
+      },
+      "processing": "remove chroma background to alpha, crop to the reviewed button bounds, resize with high-quality resampling to the current canvas",
+      "output": {
+        "path": "assets/generated/global_team_cn_184x196.png",
+        "sha256": "b4533def7b7dbea96adb37c7301ee2260026ed66b4db9d717a6490b0540efffa",
+        "width": 184,
+        "height": 196
+      },
+      "review": "accepted after transparent-background, silhouette, ornament, exact glyph and side-by-side current-canvas review"
+    },
+    {
+      "id": "global_shop_cn_184x196",
+      "target_text": "商店",
+      "prompt_summary": "Keep the current small Totentanz Shop menu button composition, ornament, palette and lighting; replace only the baked English label with exact simplified Chinese 商店; render on a clean chroma-key background for transparent compositing.",
+      "generated_source": {
+        "local_record": "C:/Users/proje/.codex/generated_images/019fd6dd-1728-7ce0-991a-bf22913ea16f/exec-e3f13ad1-8721-4928-9a79-9e4dc2d91591.png",
+        "sha256": "dfbb05a2e055b74db8a35d3e4ae8b419233616b472a46575995bd5ad7f933ca8",
+        "width": 1254,
+        "height": 1254
+      },
+      "processing": "remove chroma background to alpha, crop to the reviewed button bounds, resize with high-quality resampling to the current canvas",
+      "output": {
+        "path": "assets/generated/global_shop_cn_184x196.png",
+        "sha256": "e5ae4b01fba8e908c11fcfd920fbf308d9ed0ba5de8ef7dbff4b251c2479fe1c",
+        "width": 184,
+        "height": 196
+      },
+      "review": "accepted after transparent-background, silhouette, ornament, exact glyph and side-by-side current-canvas review"
+    }
+  ],
+  "rejected": [
+    {
+      "id": "patrol_experiment",
+      "generated_source_sha256": "65f09f6e313cb7b30c01769af078baf93a0d5afa76bbfe1fb59dac0e469fc787",
+      "reason": "generation changed too much of the source canvas; excluded from repository and runtime"
+    }
+  ]
+}

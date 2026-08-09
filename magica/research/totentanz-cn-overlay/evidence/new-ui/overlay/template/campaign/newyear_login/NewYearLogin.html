@@ -1,0 +1,74 @@
+<div id='NewYearLogin'> <% if (window.isBrowser) { %> <ul id="debuArea" style="position: absolute;left: 10px;top: 65px;">
+    <li class="debugBtn sb_gold_02 TE" data-type="0">破魔大吉</li>
+    <li class="debugBtn sb_gold_02 TE" data-type="1">极大吉</li>
+    <li class="debugBtn sb_gold_02 TE" data-type="2">大吉</li>
+    <li class="debugBtn sb_gold_02 TE" data-type="3">吉</li>
+  </ul> <% } %> <!-- くじを降る演出 -->
+  <div id="fortuneAnimationWrap">
+    <div class="clearLight animTrigger"></div>
+    <div class="effect "></div>
+    <div class="kuji01"></div>
+    <div class="box"></div>
+  </div>
+  <!-- 結果アニメ -->
+  <div id="resultAnimationWrap"> <% if (lotResult === 0) { // 破魔大吉 %> <div class="circle01"></div>
+    <div class="circle01 late"></div>
+    <div class="wave02"></div>
+    <div class="wave02 late"></div>
+    <div class="flare03"></div>
+    <div class="flare04"></div>
+    <div class="flare05"></div>
+    <div class="effectCircle"></div>
+    <div class="textWrap">
+      <div class="text"></div>
+      <div class="text"></div>
+      <div class="text"></div>
+      <div class="text"></div>
+    </div> <% } else if (lotResult === 1) { // 極大吉 %> <div class="light"></div>
+    <div class="flare01"></div>
+    <div class="light02"></div>
+    <div class="effectCircle"></div>
+    <div class="wave02"></div>
+    <div class="wave02 late"></div>
+    <div class="textWrap">
+      <div class="text"></div>
+      <div class="text"></div>
+      <div class="text"></div>
+    </div> <% } else if (lotResult === 2) { // 大吉 %> <div class="flare01"></div>
+    <div class="light"></div>
+    <div class="light02"></div>
+    <div class="effectCircle"></div>
+    <div class="wave01"></div>
+    <div class="wave01 late"></div>
+    <div class="textWrap">
+      <div class="text"></div>
+      <div class="text"></div>
+    </div> <% } else { // 吉 %> <div class="light"></div>
+    <div class="flare01"></div>
+    <div class="effectCircle"></div>
+    <div class="textWrap">
+      <div class="text"></div>
+    </div> <% } %>
+  </div>
+  <!-- 結果画面 -->
+  <div id="resultPageWrap">
+    <div class="charaSerif">
+      <span class="charaName"><%= model.chara %></span>
+      <p class="serifFont"><%= model.message %></p>
+    </div>
+    <div class="eventLogo">
+      <img src="/magica/resource/image_web/campaign/new_year/1185/logo.png" />
+      <p class="evnetSpan">开放期间　<%= master.startAt.split(" ")[0].replace(/\/0/g,"/") %>～<%= master.endAt.split(" ")[0].replace(/\/0/g,"/") %></p>
+    </div>
+    <div class="resultWrap type<%= lotResult %>">
+      <div class="resultTitle"></div>
+      <div class="resultText"><%= model.fortuneText %></div>
+      <div class="rewardTitle"></div>
+      <ul class="rewardWrap"> <% _.forEach(model.rewardModels,function(txt){ %> <li class="rewardImg">
+          <img src="/magica/resource/image_web/item/main/<%= txt.itemCode.toLowerCase() %>.png" />
+          <span class="quantity">×<%= txt.quantity %></span>
+        </li> <% }) %> </ul>
+      <div class="tweetBtn"></div>
+    </div>
+  </div>
+</div>
