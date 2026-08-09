@@ -1,0 +1,100 @@
+{
+  "schema": "magireco-cn-pass24-pass25-independent-rebuild/v1",
+  "status": "PASS",
+  "inputs": {
+    "work/pass15_agent_structure/pass14_residual_reconstructed.tsv": {
+      "bytes": 2172969,
+      "sha256": "2ebe3e95dfdbb7a45b5e09a4fa5fcc042132af7855ca96c9f4eba96ad1f8a327"
+    },
+    "work/pass15_agent_rebuild/inputs/official/authority.json": {
+      "bytes": 2770158,
+      "sha256": "19b91c81254d2e44c478efa827ad568fb743b06b41b3536dae612ddd9c498595"
+    },
+    "work/pass17_max_integrated/release/authority_layer_ledger_571.tsv": {
+      "bytes": 228161,
+      "sha256": "f481f5b8238c5d531d327ec47746fa360c569657cd9e9895df64f1e9c67f9b45"
+    },
+    "work/shared_conversation_extracted.jsonl": {
+      "bytes": 269254,
+      "sha256": "26e82dc1878b2ce2c96e12116d004d81f4bab664bd8734c7a32e830483b18450"
+    },
+    "work/pass24_25_rebuilt/tools/icu4j-77.1.jar": {
+      "bytes": 14663227,
+      "sha256": "b3640b9f416a4411fd33c59abbeea8fd57d024c23e1819bf9673220a97499fe3"
+    },
+    "work/archive_audit/baseline/magica/js/libs/itemList.json": {
+      "bytes": 366861,
+      "sha256": "8662da0aa368c88ae0c2f7094327bcd0c7f382e01b44cb5721b43f3ec78317f4"
+    },
+    "work/pass15_agent_dump/repro_pass14/magica/js/libs/itemList.json": {
+      "bytes": 364307,
+      "sha256": "2497bf51d200bfd442a90bf380604c5c57496f198da61ba04a330fa3775fe41e"
+    },
+    "work/pass15_agent_rebuild/product/magica/js/libs/itemList.json": {
+      "bytes": 364319,
+      "sha256": "dbedf20702d4acb74533b534964aaca56ff9d159f73576899569e42976b1bd18"
+    }
+  },
+  "conversation_evidence_indices": [
+    405,
+    408,
+    409,
+    412,
+    480
+  ],
+  "conversation_hidden_pass24_or_pass25_script_recovered": false,
+  "pass14_residual_input": 9643,
+  "stable_key_source_verification_failures": 0,
+  "fuzzy_matching_used": false,
+  "runtime_product_files_written": 0,
+  "pass24": {
+    "strict_disjoint_rows": 73,
+    "by_file": {
+      "cardList.json": 2,
+      "charaMessageList.json": 2,
+      "emotionSkillMap.json": 1,
+      "itemList.json": 34,
+      "live2dList.json": 1,
+      "pieceSkillMap.json": 7,
+      "sectionList.json": 11,
+      "shopItemList.json": 15
+    },
+    "numeric_roman_signature_failures": 0,
+    "official_same_record_conflicts": 0,
+    "net_new_against_current_combined_ledger": 73
+  },
+  "pass25": {
+    "strict_disjoint_rows": 52,
+    "by_file": {
+      "itemList.json": 13,
+      "sectionList.json": 31,
+      "shopItemList.json": 8
+    },
+    "extended_glyph_rows": 49,
+    "closed_particle_rows": 3,
+    "numeric_roman_signature_failures": 0,
+    "official_same_record_conflicts": 0,
+    "net_new_against_current_combined_ledger": 51
+  },
+  "pass24_pass25_intersection": 0,
+  "existing_layer_overlap_rows": 1,
+  "existing_layer_overlap_profile": {
+    "pass29": 1
+  },
+  "old_reported_pass24_86_reproducible_correction": {
+    "proper_pass24": 73,
+    "pass25_item_rows_improperly_added_to_pass24": 13,
+    "reproduces_old_86": 86,
+    "old_item_47_decomposition": {
+      "proper_pass24_item": 34,
+      "pass25_item_overlap": 13
+    },
+    "decision": "keep layers disjoint; do not deduct the 13 item rows twice"
+  },
+  "net_new_residual_delta_against_current_combined_ledger": 124,
+  "notes": [
+    "The hidden cloud apply scripts were not present in the recovered conversation; command 480 only records an attempted sed read whose output was redacted.",
+    "Pass24 areaDetailName rows already represented by later pass28/pass29 sequence work are excluded from pass24 reconstruction.",
+    "One pass25 section areaDetailName row is a verified later pass29 sequential punctuation transition and is not a new current-ledger deduction."
+  ]
+}

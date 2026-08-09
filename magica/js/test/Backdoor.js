@@ -80,9 +80,9 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           }), b.g_popup_instance.popupView.close()) : new b.PopupClass(
           {
             title: "错误",
-            content: "数量不正确",
+            content: "号码无效",
             popupType: "typeE",
-            closeBtnText: "确定"
+            closeBtnText: "OK"
           })
         }
       },
@@ -164,17 +164,17 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           },
           {
             itemCode: "YELL",
-            name: "友情点",
+            name: "好友点数",
             num: 3E4
           },
           {
             itemCode: "MONEY",
-            name: "Magia石（免费）",
+            name: "Magia 石（免费）",
             num: 1E4
           },
           {
             itemCode: "PURCHASED_MONEY",
-            name: "<span class='c_red'>Magia石（付费）</span>",
+            name: "<span class='c_red'>Magia 石头（付费）</span>",
             num: 750
           },
           {
@@ -199,7 +199,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           },
           {
             itemCode: "DAILY_COIN",
-            name: "每日币",
+            name: "每日硬币",
             num: 100
           },
           {
@@ -214,37 +214,37 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           },
           {
             itemCode: "RESET_ENHANCE",
-            name: "原点之器",
+            name: "始发船",
             num: 1
           },
           {
             itemCode: "DESTINY_CRYSTAL",
-            name: "命运结晶",
+            name: "命运水晶",
             num: 5
           },
           {
             itemCode: "GACHA_TICKET,GACHA10_TICKET",
-            name: "扭蛋券与十连扭蛋券套装",
+            name: "抽卡票，10张连票套",
             num: 1
           },
           {
             itemCode: "SPECIAL_GACHA_818_TICKET",
-            name: "特典兑换扭蛋券",
+            name: "赠品序列号 抽卡券",
             num: 1
           },
           {
             itemCode: "EPISODE_COMPOSE_PP",
-            name: "剧情强化道具",
+            name: "章节强化道具",
             num: 30
           },
           {
             itemCode: "MEMORIA_CIRCUIT,MEMORIA_CIRCUIT_CORE,OVER_LIMITTER,OVER_LIMITTER_CORE",
-            name: "各类记忆结晶强化道具",
+            name: "记忆结晶强化道具各种",
             num: 10
           },
           {
             itemCode: "EVENTSTORY_OPEN_KEY",
-            name: "追忆碎片",
+            name: "回忆的片段",
             num: 10
           }],
           c = f.eventList.concat(f.campaignList),
@@ -311,7 +311,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
         k.className = "listItem commonFrame4";
         var r = {
             itemCode: "GACHA_TICKET,GACHA10_TICKET",
-            name: "扭蛋券与十连扭蛋券套装",
+            name: "抽卡票，10张连票套",
             num: 1
           },
           t = b.storage.userItemList.findWhere(
@@ -578,8 +578,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
           b.tapBlock(!1);
           new b.PopupClass(
           {
-            title: "受取完了",
-            content: "已领取整套强化道具",
+            title: "领取完成",
+            content: "收到一套强化道具",
             closeBtnText: "关闭"
           })
         }
@@ -602,7 +602,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             {
               b.responseSetStorage(a);
               d++;
-              f.charaList[d] ? l() : (console.log("卡牌处理完成"), p())
+              f.charaList[d] ? l() : (console.log("卡牌结束"), p())
             },
             l = function()
             {
@@ -620,7 +620,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             {
               b.responseSetStorage(a);
               k++;
-              f.pieceList[k] ? p() : (console.log("记忆结晶处理完成"), m())
+              f.pieceList[k] ? p() : (console.log("记忆结晶 结束"), m())
             },
             p = function()
             {
@@ -653,8 +653,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
               b.tapBlock(!1);
               new b.PopupClass(
               {
-                title: "受取完了",
-                content: "请从礼物盒领取魔法少女。",
+                title: "领取完成",
+                content: "请收到 魔法少女 作为礼物。",
                 closeBtnText: "关闭"
               })
             }
@@ -679,7 +679,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
             {
               b.responseSetStorage(a);
               d++;
-              f.charaList[d] ? l() : (console.log("卡牌处理完成"), m())
+              f.charaList[d] ? l() : (console.log("卡牌结束"), m())
             },
             l = function()
             {
@@ -713,8 +713,8 @@ define("underscore backbone backboneCommon ajaxControl command text!template/tes
               b.tapBlock(!1);
               new b.PopupClass(
               {
-                title: "受取完了",
-                content: "请从礼物盒领取魔法少女。",
+                title: "领取完成",
+                content: "请收到 魔法少女 作为礼物。",
                 closeBtnText: "关闭"
               })
             }

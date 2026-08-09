@@ -313,7 +313,7 @@ jobs:
           HAS_JS=0
 
           echo "$CHANGED" | grep -qE '^madomagi/(resource/scenario/json/|engine_i18n\.tsv)' && HAS_SCENARIO=1 || true
-          echo "$CHANGED" | grep -qE '^magica/' && HAS_JS=1 || true
+          echo "$CHANGED" | grep -qE '^magica/(css|fonts|js|resource|template)/' && HAS_JS=1 || true
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             HAS_SCENARIO=1
@@ -362,7 +362,10 @@ jobs:
           pip3 install requests 2>/dev/null || true
           python3 Build_JS_Injector.py
 
-          zip -r cn_js_update_new.zip magica/
+          # Research and audit evidence intentionally lives under magica/ for
+          # traceability, but must never be shipped to the WebView runtime.
+          zip -r cn_js_update_new.zip magica/ \
+            -x 'magica/research/*' 'magica/i18n_audit/*'
 
           python3 - <<'PYEOF'
           import json, hashlib, os, shutil

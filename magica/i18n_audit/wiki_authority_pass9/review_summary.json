@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "proposal_file": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\main\\wiki_patch_analysis\\proposals.json",
+  "proposal_sha256": "b8da9d62b6ab26410d000cc630e6b72662eb81a9d93c88f8113d9aa25ba9173e",
+  "proposal_count": 5678,
+  "accepted": 5678,
+  "rejected": 0,
+  "duplicate_targets": 0,
+  "official_dump_lock_collisions": 0,
+  "by_method": {
+    "wiki_full_exact_review": 380,
+    "wiki_character_template_typed_id": 1111,
+    "doppel_name_consistency_propagation": 12,
+    "wiki_global_unique_exact": 155,
+    "wiki_doppel_keyed": 189,
+    "wiki_emotion_typed_fuzzy_zh": 1472,
+    "wiki_emotion_typed_source": 102,
+    "wiki_emotion_typed_bipartite": 149,
+    "wiki_emotion_keyed": 3,
+    "wiki_context_cross_id_fix": 1,
+    "wiki_context_keyed_sticker": 1,
+    "wiki_memoria_keyed": 1225,
+    "wiki_source_quote_health_correction": 2,
+    "wiki_source_punctuation_health_correction": 1,
+    "wiki_source_text_health_correction": 3,
+    "wiki_memoria_effect_keyed": 872
+  },
+  "by_risk": {
+    "low": 5369,
+    "medium": 309
+  },
+  "emotion": {
+    "total": 1726,
+    "accepted": 1726,
+    "fuzzy": 1472,
+    "fuzzy_ratio_min": 0.820512821,
+    "fuzzy_ratio_below_0_90": 130,
+    "bipartite": 149,
+    "bipartite_ratio_min": 0.514285714,
+    "bipartite_ratio_below_0_70": 24,
+    "numeric_signature_failures": 0,
+    "conjunct_count_failures": 0,
+    "scope_signature_failures": 0,
+    "typed_page_membership_failures": 0
+  },
+  "global_unique": {
+    "total": 155,
+    "accepted": 155,
+    "baseline_source_failures": 0,
+    "wiki_pair_failures": 0
+  },
+  "llm_doppel_114": {
+    "records": 114,
+    "fields": 342,
+    "status_counts": {
+      "ALREADY_EQUIVALENT": 153,
+      "PROPOSED_CORRECT": 189
+    },
+    "japanese_match_method_counts": {
+      "normalized_exact_unique": 110,
+      "normalized_exact_duplicate_equivalent": 1,
+      "fuzzy_unique_source_typo": 3
+    }
+  },
+  "doppel_three_dictionary": {
+    "groups": 217,
+    "all_three_present": 217,
+    "split_or_missing": 0
+  },
+  "intentional_content": {
+    "pieceList.json/1285": "INTENTIONAL_PUN: 日常自販機 intentionally rendered 家常便贩; verified by memoria.notes"
+  },
+  "wiki_commits": {
+    "working_head": "42641f87818b37262032fd4dc5d5c756a48fed7a",
+    "i18n_reference": "186326575607a98c1f1810fa09ada67016420145",
+    "shared_data_tree": "9495350e70fbdbf03970b008c05aa006a823c11d"
+  }
+}
