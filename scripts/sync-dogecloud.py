@@ -87,40 +87,9 @@ def err(t, indent=0):
     print(f"{'  ' * indent}{c(C.RED, '✘')} {t}", flush=True)
 
 
-def human_size(n):
-    for u in ["B", "KB", "MB", "GB"]:
-        if n < 1024:
-            return f"{n:.1f} {u}"
-        n /= 1024
-    return f"{n:.1f} TB"
-
-
 # ══════════════════════════════════════════════════════════════════
 # 多吉云控制面（tmp_token / CDN refresh 同一套 TOKEN 签名）
 # ══════════════════════════════════════════════════════════════════
-class _Progress:
-    """boto3 upload_fileobj 的进度回调：每 15 秒报一次已传字节。
-
-    大文件（几百 MB ~ 2GB）流式上传耗时数分钟，没有进度输出会像卡死，
-    也便于观察是否真的在推进。
-    """
-
-    def __init__(self, filename, total):
-        self.filename = filename
-        self.total = total
-        self.last_t = time.time()
-
-    def __call__(self, bytes_amount):
-        now = time.time()
-        if now - self.last_t >= 15:
-            self.last_t = now
-            pct = ""
-            if self.total > 0:
-                pct = f" {bytes_amount * 100 // self.total}%"
-            info(f"[Doge] {self.filename} 上传中 {human_size(bytes_amount)}{pct}",
-                 indent=2)
-
-
 class Doge:
     """多吉云 S3 兼容镜像 + 自有 CDN 刷新（临时密钥）。"""
 
@@ -224,20 +193,40 @@ class Doge:
             return False
         self._ensure_s3()
         try:
-            info(f"[Doge] 流式上传: {filename}", indent=1)
-            with urllib.request.urlopen(urllib.request.Request(url)) as response:
-                total = int(response.headers.get('Content-Length') or 0)
-                progress = _Progress(filename, total)
-                # 真流式：upload_fileobj 边下边传（>8MiB 自动 multipart），
-                # 与 R2 系同款；Callback 每 15 秒报一次进度，避免大文件看起来卡死
-                self._s3.upload_fileobj(response, self._s3_bucket, filename,
-                                        Callback=progress)
-            ok(f"[Doge] 上传完成: {filename} {c(C.DIM, '(' + human_size(total) + ')')}",
-               indent=1)
+            info(f"[Doge] 流式上传: {filename}  <- {url}", indent=1)
+            # 真流式：upload_fileobj 边下边传（>8MiB 自动 multipart），
+            # 与 R2 系同款。给源站拉取加 300s read 超时，防止 urlopen 无限阻塞。
+            with urllib.request.urlopen(urllib.request.Request(url), timeout=300) as response:
+                self._s3.upload_fileobj(response, self._s3_bucket, filename)
+            ok(f"[Doge] 上传完成: {filename}", indent=1)
             return True
         except Exception as e:
             err(f"[Doge] 上传失败: {e}", indent=1)
             return False
+
+    def preflight(self):
+        """预检：换好 STS 后往桶里写/删一个 1KB 探针对象，验证 COS 可达 + STS 有效。
+
+        若失败则立刻抛出带明确信息的异常，而不是在第一个真实文件上挂住。
+        """
+        if not self._enabled:
+            return False
+        self._ensure_s3()
+        probe_key = "__doge_preflight_probe"
+        try:
+            self._s3.put_object(Bucket=self._s3_bucket, Key=probe_key,
+                                Body=b"dogecloud-preflight")
+            self._s3.delete_object(Bucket=self._s3_bucket, Key=probe_key)
+            info(f"[Doge] 预检通过：COS 可达 + STS 有效（{self._s3_bucket}）")
+            return True
+        except Exception as e:
+            raise RuntimeError(
+                f"[Doge] 预检失败：向多吉云写入探针对象出错——COS 端点或 STS 临时密钥"
+                f"可能不可用。endpoint={self._api_endpoint()} bucket={self._s3_bucket} "
+                f"err={e}")
+
+    def _api_endpoint(self):
+        return self._s3.meta.endpoint_url if self._s3 is not None else "(未换密钥)"
 
     def purge_cache(self, filename):
         if not self._enabled or not self.domain:
@@ -341,6 +330,10 @@ def main():
     for fname in old_map:
         if fname not in current_map:
             deleted.append(fname)
+
+    # 预检：验证 COS 端点可达 + STS 临时密钥有效，失败立即暴露而不是挂住
+    section("多吉云预检（COS 可达 + STS 有效）")
+    doge.preflight()
 
     # 过时文件：默认只列不删，confirm_cleanup=true 才删（与 R2 系同语义）
     section("检查 Doge 桶过时文件（GitHub 已不存在）")
