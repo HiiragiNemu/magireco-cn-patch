@@ -458,6 +458,12 @@ jobs:
         run: |
           mkdir -p _pack_scn/madomagi/resource/scenario/json
           cp -r madomagi/resource/scenario/json/. _pack_scn/madomagi/resource/scenario/json/
+          # engine_i18n.tsv 双通道携带（2026-08-10 起更新通道已迁 JS 包，此处是
+          # 兜底副本）：若只发 scenario 而 JS 包尚未重打，全新安装两个包都拿不到
+          # 这张表，引擎硬编码串会整片回到日文。客户端解压顺序是 scenario 先、
+          # JS 后（CNHotUpdateCheck.PACKAGES 下标序），所以 JS 包里的新副本永远
+          # 最后落地、盖住这里的旧副本，双携带不会产生回退。
+          [ -f madomagi/engine_i18n.tsv ] && cp madomagi/engine_i18n.tsv _pack_scn/madomagi/ || true
           cd _pack_scn && zip -r ../cn_scenario_update_new.zip madomagi/ && cd ..
 
           python3 - <<'PYEOF'
