@@ -1203,8 +1203,10 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
-          # 写 SSH 私钥到临时文件（secret 值会被 GitHub 自动掩码，不会泄漏到日志）
-          printf '%s' "$SSH_KEY_HK" > /tmp/hk_key
+          # 写 SSH 私钥到临时文件（secret 值会被 GitHub 自动掩码，不会泄漏到日志）。
+          # 注意：OpenSSH ed25519 私钥必须保留末尾换行，否则 libcrypto 解析失败，
+          # 所以用 '%s\n' 保证至少一个换行。
+          printf '%s\n' "$SSH_KEY_HK" > /tmp/hk_key
           chmod 600 /tmp/hk_key
           trap 'rm -f /tmp/hk_key /tmp/doge_env' EXIT
           # DOGE 密钥经 env 文件传给 hk：单引号包值防 shell 特殊字符，scp 后
