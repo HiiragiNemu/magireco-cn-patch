@@ -1,0 +1,35 @@
+# 按文件的译文覆盖：同一个原文在不同界面含义不同时用这张表。
+#
+# 列：文件路径前缀（相对前端根目录）\t原文\t译文
+# 匹配方式是**前缀**，所以既可以点名单个文件，也可以写一个目录。
+# 覆盖表优先于 frontend-strings.tsv 的全局译文。
+#
+# 为什么需要它：サポート 一词在包里恰好一半一半——
+#   在 charaType 映射里它是**角色类型**，站方 Template:角色类型 作「辅助」；
+#   在好友支援语境里（出击前选支援、教程提示「未关注玩家的支援…」）作「支援」。
+# 全局表按精确原文索引，表达不了这种分歧，硬选一个必错一半。
+js/util/CardUtil.js	サポート	辅助
+js/card/CardPopup.js	サポート	辅助
+template/gacha/SelectableGachaCharaSelect.html	サポート	辅助
+
+#
+# 助词碎片的按文件译法。を/が 在全局表里没有唯一译法（同一字节在不同
+# 弹窗里语法角色不同），全局留空、按文件点名：
+#   が→还缺   —— 扭蛋货币不足弹窗「Xが N個 不足しています。」，
+#                连带全局译文「不足しています。→。」，得「X还缺 N 个。」
+#   が→提高   —— 属性强化确认「Yが Z アップ！」，
+#                连带全局译文「アップ！→!」，得「Y提高 Z!」
+#   を→已设为 —— 设置收藏完成「Xをお気に入りに設定しました。」，
+#                连带全局译文「に設定しました。→。」，得「X已设为收藏。」
+#   を→进行   —— 强化确认「Xを魔力強化します。」，得「X进行魔力强化。」
+#   を→<DELETE> —— ShopTop 购买完成「Xを<br>已购买。」的 を 在中文里没有
+#                对应物，显式删除（区别于「留空=未翻译」），得「X<br>已购买。」
+# 消耗确认型「Xを N個 使用して…」与纹章效果型「…が N アップ/ダウン」语序
+# 对不上（变量夹在助词与谓语之间），由 i18n/fragments.tsv 的片段补丁整段
+# 调序，见 tools/i18n-fragments.py。
+template/campaign/box_gacha/CampaignBoxGachaTop.html	が	还缺
+template/gacha/GachaTop.html	が	还缺
+template/chara/CharaComposeAttribute/popupItemConfirm.html	が	提高
+js/chara/CharaTop.js	を	已设为
+js/chara/CharaCompose.js	を	进行
+template/shop/ShopTop.html	を	<DELETE>
