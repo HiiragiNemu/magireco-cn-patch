@@ -19,8 +19,8 @@
 
 用法：
     python3 scripts/build_ui_text_source.py \
-        [--tsv DIR]          legacy-client 的 i18n/ 目录（默认 ../magirecocn-legacy-client/i18n）
-        [--out PATH]         输出路径（默认 i18n/uiTextList.json）
+        [--tsv DIR]          四张 TSV 对照表所在目录（默认本仓库 i18n/）
+        [--out PATH]         输出路径（默认本仓库 i18n/uiTextList.json）
 """
 import argparse
 import hashlib
@@ -77,8 +77,9 @@ def area_of(usedby):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--tsv', default='/root/magirecocn-legacy-client/i18n')
-    ap.add_argument('--out', default='/root/magireco-cn-patch/i18n/uiTextList.json')
+    repo_i18n = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'i18n')
+    ap.add_argument('--tsv', default=repo_i18n)
+    ap.add_argument('--out', default=os.path.join(repo_i18n, 'uiTextList.json'))
     args = ap.parse_args()
 
     table = load_tsv(os.path.join(args.tsv, 'frontend-strings.tsv'))

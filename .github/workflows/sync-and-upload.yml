@@ -312,8 +312,10 @@ jobs:
           HAS_SCENARIO=0
           HAS_JS=0
 
-          echo "$CHANGED" | grep -qE '^madomagi/(resource/scenario/json/|engine_i18n\.tsv)' && HAS_SCENARIO=1 || true
-          echo "$CHANGED" | grep -qE '^magica/' && HAS_JS=1 || true
+          echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/json/' && HAS_SCENARIO=1 || true
+          # engine_i18n.tsv 走 JS 包下发（cocos Label 钩子读 files/madomagi/engine_i18n.tsv，
+          # 客户端只认落地路径，不关心来自哪个包；随 JS 包改译文不用等台词包发版）
+          echo "$CHANGED" | grep -qE '^(magica/|madomagi/engine_i18n\.tsv)' && HAS_JS=1 || true
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             HAS_SCENARIO=1
@@ -362,7 +364,13 @@ jobs:
           pip3 install requests 2>/dev/null || true
           python3 Build_JS_Injector.py
 
-          zip -r cn_js_update_new.zip magica/
+          # 引擎硬编码串翻译表（cocos Label 钩子读取 files/madomagi/engine_i18n.tsv）
+          # 随 JS 包一起下发，热更解到 <files>/ 后落在同一路径
+          rm -rf _pack_js
+          mkdir -p _pack_js/madomagi
+          cp -r magica _pack_js/
+          [ -f madomagi/engine_i18n.tsv ] && cp madomagi/engine_i18n.tsv _pack_js/madomagi/ || true
+          cd _pack_js && zip -r ../cn_js_update_new.zip magica/ madomagi/ && cd ..
 
           python3 - <<'PYEOF'
           import json, hashlib, os, shutil
@@ -450,8 +458,6 @@ jobs:
         run: |
           mkdir -p _pack_scn/madomagi/resource/scenario/json
           cp -r madomagi/resource/scenario/json/. _pack_scn/madomagi/resource/scenario/json/
-          # 引擎硬编码串翻译表（cocos Label 钩子读取 files/madomagi/engine_i18n.tsv）
-          [ -f madomagi/engine_i18n.tsv ] && cp madomagi/engine_i18n.tsv _pack_scn/madomagi/ || true
           cd _pack_scn && zip -r ../cn_scenario_update_new.zip madomagi/ && cd ..
 
           python3 - <<'PYEOF'
