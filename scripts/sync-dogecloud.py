@@ -24,6 +24,7 @@ import hashlib
 import hmac
 import json
 import os
+import socket
 import subprocess
 import sys
 import time
@@ -31,6 +32,10 @@ import urllib.parse
 import urllib.request
 
 sys.stdout.reconfigure(line_buffering=True)
+
+# 兜底超时：防止某个 urlopen / boto3 传输无限挂起，把整个 job 卡到 6 小时上限。
+# 与 object-storage 系（sync-and-upload.yml 的 sync_script）同一约定。
+socket.setdefaulttimeout(600)
 
 import boto3
 from botocore.client import Config
@@ -82,9 +87,40 @@ def err(t, indent=0):
     print(f"{'  ' * indent}{c(C.RED, '✘')} {t}", flush=True)
 
 
+def human_size(n):
+    for u in ["B", "KB", "MB", "GB"]:
+        if n < 1024:
+            return f"{n:.1f} {u}"
+        n /= 1024
+    return f"{n:.1f} TB"
+
+
 # ══════════════════════════════════════════════════════════════════
 # 多吉云控制面（tmp_token / CDN refresh 同一套 TOKEN 签名）
 # ══════════════════════════════════════════════════════════════════
+class _Progress:
+    """boto3 upload_fileobj 的进度回调：每 15 秒报一次已传字节。
+
+    大文件（几百 MB ~ 2GB）流式上传耗时数分钟，没有进度输出会像卡死，
+    也便于观察是否真的在推进。
+    """
+
+    def __init__(self, filename, total):
+        self.filename = filename
+        self.total = total
+        self.last_t = time.time()
+
+    def __call__(self, bytes_amount):
+        now = time.time()
+        if now - self.last_t >= 15:
+            self.last_t = now
+            pct = ""
+            if self.total > 0:
+                pct = f" {bytes_amount * 100 // self.total}%"
+            info(f"[Doge] {self.filename} 上传中 {human_size(bytes_amount)}{pct}",
+                 indent=2)
+
+
 class Doge:
     """多吉云 S3 兼容镜像 + 自有 CDN 刷新（临时密钥）。"""
 
@@ -190,8 +226,14 @@ class Doge:
         try:
             info(f"[Doge] 流式上传: {filename}", indent=1)
             with urllib.request.urlopen(urllib.request.Request(url)) as response:
-                self._s3.upload_fileobj(response, self._s3_bucket, filename)
-            ok(f"[Doge] 上传完成: {filename}", indent=1)
+                total = int(response.headers.get('Content-Length') or 0)
+                progress = _Progress(filename, total)
+                # 真流式：upload_fileobj 边下边传（>8MiB 自动 multipart），
+                # 与 object-storage 系同款；Callback 每 15 秒报一次进度，避免大文件看起来卡死
+                self._s3.upload_fileobj(response, self._s3_bucket, filename,
+                                        Callback=progress)
+            ok(f"[Doge] 上传完成: {filename} {c(C.DIM, '(' + human_size(total) + ')')}",
+               indent=1)
             return True
         except Exception as e:
             err(f"[Doge] 上传失败: {e}", indent=1)
