@@ -47,9 +47,10 @@ name: 🔄 同步上游并上传到 object-storage
 # ║       1. YYYYmmdd-HHMMSS（UTC）命名的 Release —— 历史快照          ║
 # ║          （只放本次变化的文件，作为变更记录；显式 --latest=false，  ║
 # ║          绝不抢占仓库的 "Latest" 徽标）                             ║
-# ║       2. 名为 latest 的 Release —— 【全量镜像】：只要检测到          ║
-# ║          upstream 有任何变化，就把全部 asset 重新上传一遍           ║
-# ║          （同名先删再传），并删除 upstream 已移除的文件，确保       ║
+# ║       2. 名为 latest 的 Release —— 【全量镜像】：以 upstream         ║
+# ║          为准对齐下游——变化的 asset 替换（同名先删再传），           ║
+# ║          内容一致的跳过（digest/size 判定，防止大文件出现           ║
+# ║          删→传窗口期 404），并删除 upstream 已移除的文件，确保      ║
 # ║          latest 始终是 upstream 的完整快照；同时每次运行结束都      ║
 # ║          显式 `gh release edit latest --latest` 校准，确保          ║
 # ║          "Latest" 徽标 / `/releases/latest` API 永远指向它，        ║
@@ -1173,8 +1174,9 @@ jobs:
       #          asset，相当于变更记录，体积小、上传快；显式
       #          --latest=false，绝不抢占仓库的 "Latest" 徽标
       #       2. latest —— 【全量镜像】：只要检测到 upstream 有任何变化，
-      #          就把 upstream 当前的【全部】asset 重新上传一遍（同名先
-      #          删再传），并删除 upstream 已移除的文件；每次运行结束都
+      #          就以 upstream 为准对齐下游：变化的 asset 替换（同名先
+      #          删再传），内容一致的跳过（digest/size 判定），并删除
+      #          upstream 已移除的文件；每次运行结束都
       #          显式 `gh release edit latest --latest` 校准一次，
       #          确保 GitHub 的 "Latest" 徽标 / `/releases/latest` API
       #          永远指向 tag=latest，不会被更晚创建的日期快照抢走
@@ -1386,9 +1388,21 @@ jobs:
               return False
 
           def upload_to_release(rel, tag, name, up_asset, dn_assets):
-              """往指定 Release 传一个 asset；同名旧 asset 先删（API 不允许同名覆盖）"""
+              """往指定 Release 传一个 asset；内容未变的直接跳过。
+
+              变化判定与 diff_upload 同一套（asset_changed：digest 两边
+              都有就比 digest，否则比 size）。🔴 不要退回「同名先删再传」
+              的无条件全量重传——2026-08-10 公测首日事故：上游只加了一个
+              APK，latest 镜像却把全部资产（含 1.4GB 的 cn_base_03.zip）
+              删了又传，大文件在删→传的十几分钟窗口里 404，正在下载的
+              玩家全部掉线。"""
               if name in dn_assets:
-                  delete_asset(dn_assets[name], tag)
+                  dn = dn_assets[name]
+                  if not asset_changed(up_asset[:2],
+                                       (dn.get("digest") or "",
+                                        dn.get("size", 0))):
+                      return True   # 内容一致，不动它
+                  delete_asset(dn, tag)
               return stream_upload_asset(
                   rel["upload_url"], tag, name,
                   up_asset[1], up_asset[2])
@@ -1524,10 +1538,11 @@ jobs:
               mark_as_latest("latest")
 
               # ── 2. latest：全量同步 ──
-              #    只要检测到"有任何变化"，就把 upstream 当前【全部】asset
-              #    重新上传一遍（同名先删再传），并删除 upstream 已经没有的
-              #    文件，确保 latest 每次都是 upstream 的完整镜像，
-              #    不会因为历史遗漏 / 漏传导致下游读到不完整的文件集。
+              #    以 upstream 为准对齐下游：变化的 asset 替换（同名先删
+              #    再传），内容一致的跳过（见 upload_to_release 的教训注释），
+              #    并删除 upstream 已经没有的文件，确保 latest 每次都是
+              #    upstream 的完整镜像，不会因为历史遗漏 / 漏传导致下游
+              #    读到不完整的文件集。
               section("全量同步 latest Release（重新上传全部 upstream 文件）")
               for n in diff_delete:
                   delete_asset(dn_assets[n], "latest")
@@ -1549,7 +1564,8 @@ jobs:
               header("镜像完成")
               ok(f"变更快照: {c(C.BRIGHT_CYAN, ts) if diff_upload else '（无）'}")
               ok(f"滚动 Release: {c(C.BRIGHT_CYAN, 'latest')} "
-                 f"（全量上传 {len(all_names) - fails}/{len(all_names)}，"
+                 f"（对齐 {len(all_names) - fails}/{len(all_names)}"
+                 f"（未变化的按 digest/size 跳过），"
                  f"移除 {len(diff_delete)}）")
               if fails:
                   warn(f"{fails} 个文件上传失败，下次运行会自动补齐")
