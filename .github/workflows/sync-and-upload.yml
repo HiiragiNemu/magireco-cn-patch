@@ -30,7 +30,7 @@ name: 🔄 同步上游并上传到 R2
 # ║                                                                    ║
 # ║ R2 同步                                                            ║
 # ║ ───────                                                            ║
-# ║   ▸ 黑名单：puella-historia*（前缀）与 *.apk（后缀）不同步          ║
+# ║   ▸ 黑名单：puella-historia*（前缀）不同步                          ║
 # ║   ▸ GitHub 上已不存在的文件【不主动删除】，先记入                   ║
 # ║       PENDING_DELETIONS 仓库变量并打印警告；手动以                  ║
 # ║       confirm_cleanup=true 运行时才真正删除                         ║
@@ -735,7 +735,7 @@ jobs:
       # 🚀 同步 Release 文件到 R2（单桶）
       #   v3 改动：
       #     - 双 S3 桶 → 单 R2 桶
-      #     - 黑名单：puella-historia*（前缀）+ *.apk（后缀）
+      #     - 黑名单：puella-historia*（前缀）
       #     - GitHub 上已不存在的文件不主动删除，先记入
       #       PENDING_DELETIONS 变量；confirm_cleanup=true 时才删除
       #     - CDN 刷新：EdgeOne（EDGEONE_DOMAIN）+ 阿里云 ESA（ESA_DOMAIN）
@@ -802,12 +802,12 @@ jobs:
           # R2 上传过滤规则 v3
           # ══════════════════════════════════════════════════════════════
           # puella-historia*  → 大体积历史数据包，不走 R2
-          # *.apk             → 客户端安装包，只留在 GitHub Release
+          # （*.apk 曾在此黑名单——客户端安装包只留 GitHub Release；
+          #  公测站直链改走 EdgeOne/R2 后移出，2026-08-10）
           R2_IGNORE_PREFIXES = (
               'puella-historia',
           )
           R2_IGNORE_SUFFIXES = (
-              '.apk',
           )
 
           def should_ignore_for_r2(name: str) -> bool:
