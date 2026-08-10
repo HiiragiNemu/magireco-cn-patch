@@ -1,14 +1,20 @@
 name: 🔄 同步上游并上传到 object-storage
 
 # ╔════════════════════════════════════════════════════════════════════╗
-# ║   v3.5 —— 移除 configure.json / 离线包；                            ║
-# ║   分「object-storage 系」与「Doge 系」两条独立流水线：                          ║
-# ║     ▸ object-storage 系：单 object-storage 桶 + edge/ESA/CDN 三 CDN 刷新           ║
-# ║     ▸ Doge 系：多吉云 S3 兼容镜像（临时密钥）+ 多吉云 CDN 刷新，     ║
-# ║       在 hk 的 Docker 自托管 runner 上执行（doge-sync.yml），        ║
-# ║       GitHub runner→COS 直连太慢，hk→GitHub/COS 都快；               ║
-# ║       主工作流用 gh workflow run 调起并实时转发日志；指纹存桶        ║
-# ║       __doge_fingerprint.json                                        ║
+# ║   v4.0 —— 单 job 21 步 → 10-job 并行 DAG；                          ║
+# ║   DAG 拓扑：                                                        ║
+# ║     [setup] 护栏/检出/同步下游/detect                                ║
+# ║       ├─ [pack-js] CSS冻结+打包JS  ║ [pack-scenario] 打包SCENARIO    ║
+# ║       └─ [publish] 热更发布(gate)                                    ║
+# ║            ├─ [r2-sync] object-storage系同步  ║ [doge-sync] 触发hk Doge系        ║
+# ║            ├─ [mirror-release] 镜像Release                           ║
+# ║            └─ [commit-configs] 提交版本json推上下游                    ║
+# ║                 └─ [update-cursor] 推进游标 → [summary] 报告         ║
+# ║   object-storage 系：单 object-storage 桶 + edge/ESA/CDN 三 CDN 刷新               ║
+# ║   Doge 系：多吉云 S3 兼容镜像（临时密钥）+ 多吉云 CDN 刷新，          ║
+# ║     在 hk Docker 自托管 runner 上执行（doge-sync.yml），             ║
+# ║     主工作流 gh workflow run 调起 + gh run watch 实时日志/成败；      ║
+# ║     指纹存桶 __doge_fingerprint.json                                 ║
 # ║   object-storage 过时文件需手动确认清理；                                       ║
 # ║   版本 json 以【同一个 commit】推送上下游（fork 页不分叉）；      ║
 # ║   每次新建/同步 Release 后强制校准 Latest 徽标到 tag=latest         ║
@@ -99,41 +105,24 @@ concurrency:
 permissions:
   contents: write
 
+
 jobs:
-  sync-and-upload:
+  setup:
     runs-on: ubuntu-latest
+    outputs:
+      should_sync:    ${{ steps.check_upstream.outputs.should_sync }}
+      commit_sha:     ${{ steps.check_upstream.outputs.commit_sha }}
+      publish_hotfix: ${{ steps.check_upstream.outputs.publish_hotfix }}
+      confirm_cleanup: ${{ steps.check_upstream.outputs.confirm_cleanup }}
+      has_js:       ${{ steps.detect.outputs.has_js }}
+      has_scenario: ${{ steps.detect.outputs.has_scenario }}
     env:
       PYTHONUNBUFFERED: "1"
       : ${{ secrets. }}
-      R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
-      R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
-      R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
-      R2_REGION: ${{ secrets.R2_REGION }}
-      R2_BUCKET: ${{ secrets.R2_BUCKET }}
-      QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
-      QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
-      EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
-      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
-      ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
-      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
-      ESA_SITE_ID: ${{ secrets.ESA_SITE_ID }}
-      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-      CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
-      # 多吉云：控制面主密钥（仅用于签名 tmp_token / CDN refresh，
-      # 切勿直接用于 S3 数据面——多吉云必须先用 tmp_token 换三段式 STS）
-      DOGE_ACCESS_KEY: ${{ secrets.DOGE_ACCESS_KEY }}
-      DOGE_SECRET_KEY: ${{ secrets.DOGE_SECRET_KEY }}
-      DOGE_BUCKET:     ${{ secrets.DOGE_BUCKET }}   # 多吉云空间名（进 scopes）
-      DOGE_DOMAIN:     ${{ secrets.DOGE_DOMAIN }}   # 多吉云 CDN 域名（刷新目标 / 下载线路）
-      DOGE_API_BASE:   "https://api.dogecloud.com"   # 控制面 API 根，非敏感
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "patch-front"
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
       DOWNSTREAM_REPO: "patch-front"
-      CONFIG_DIR: "configures"
-
     steps:
       - name: 🛡 安全护栏（校验所有可写仓库都在白名单中）
         # 这是本 workflow 的"硬刹车"。下面列出的三组 owner/repo 是
@@ -304,7 +293,7 @@ jobs:
           LAST_SYNC_COMMIT_SHA: ${{ vars.LAST_SYNC_COMMIT_SHA }}
 
       - name: 🔄 同步上游 Fork
-        if: steps.check_upstream.outputs.should_sync == 'true'
+        if: needs.setup.outputs.should_sync == 'true'
         run: |
           gh repo sync "${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}" \
               --source "${UPSTREAM_OWNER}/${UPSTREAM_REPO}" \
@@ -360,8 +349,17 @@ jobs:
       #   所以每次打包前都要确认它们还和服务端现役版本一致。
       #   不阻断构建：游戏服务端连不上时不该把发版卡死，只标红提示。
       # ───────────────────────────────────────────────────────────────
+  pack-js:
+    runs-on: ubuntu-latest
+    needs: [setup]
+    if: needs.setup.outputs.has_js == '1'
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+    steps:
       - name: "[JS] CSS 冻结检查"
-        if: steps.detect.outputs.has_js == '1'
         continue-on-error: true
         run: |
           set -o pipefail
@@ -380,7 +378,6 @@ jobs:
           }
 
       - name: "[JS] 打包 cn_js_update_new.zip"
-        if: steps.detect.outputs.has_js == '1'
         run: |
           pip3 install requests 2>/dev/null || true
           python3 Build_JS_Injector.py
@@ -455,7 +452,6 @@ jobs:
       #   账本记的是「历史上一共往设备写过哪些路径」——少了谁会在这里报出来。
       # ───────────────────────────────────────────────────────────────
       - name: "[JS] 生成文件清单与账本"
-        if: steps.detect.outputs.has_js == '1'
         run: |
           VER=$(python3 -c "import json;print(json.load(open('version_js_new.json'))['version'])")
           python3 scripts/build_manifest.py \
@@ -474,8 +470,29 @@ jobs:
       # ───────────────────────────────────────────────────────────────
       # [SCENARIO] 同上
       # ───────────────────────────────────────────────────────────────
+      - name: 📤 上传 pack-js 产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: pack-js
+          path: |
+            version_js_new.json
+            configures/version_js_new.json
+            manifests/cn_js_update_ledger.json
+            _artifacts/cn_js_update_new.zip
+            _artifacts/version_js_new.json
+            _artifacts/cn_js_update_manifest.json
+          if-no-files-found: warn
+  pack-scenario:
+    runs-on: ubuntu-latest
+    needs: [setup]
+    if: needs.setup.outputs.has_scenario == '1'
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+    steps:
       - name: "[SCENARIO] 打包 cn_scenario_update_new.zip"
-        if: steps.detect.outputs.has_scenario == '1'
         run: |
           mkdir -p _pack_scn/madomagi/resource/scenario/json
           cp -r madomagi/resource/scenario/json/. _pack_scn/madomagi/resource/scenario/json/
@@ -538,7 +555,6 @@ jobs:
           PYEOF
 
       - name: "[SCENARIO] 生成文件清单与账本"
-        if: steps.detect.outputs.has_scenario == '1'
         run: |
           VER=$(python3 -c "import json;print(json.load(open('version_scenario_new.json'))['version'])")
           python3 scripts/build_manifest.py \
@@ -563,9 +579,48 @@ jobs:
       #     跳到 _new 下载链接；手机端只显示 name（带 _new）。
       #     现在：本地复制成正式文件名再上传，并在转正后删除 _new 预览 asset。
       # ───────────────────────────────────────────────────────────────
+      - name: 📤 上传 pack-scenario 产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: pack-scenario
+          path: |
+            version_scenario_new.json
+            configures/version_scenario_new.json
+            manifests/cn_scenario_update_ledger.json
+            _artifacts/cn_scenario_update_new.zip
+            _artifacts/version_scenario_new.json
+            _artifacts/cn_scenario_update_manifest.json
+          if-no-files-found: warn
+  publish:
+    runs-on: ubuntu-latest
+    needs: [setup, pack-js, pack-scenario]
+    if: always() && needs.setup.result == 'success'
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      PUBLISH_HOTFIX: ${{ needs.setup.outputs.publish_hotfix }}
+    steps:
+      - name: 🛡 兜底护栏（打包失败即停链）
+        if: needs.pack-js.result == 'failure' || needs.pack-scenario.result == 'failure'
+        run: |
+          echo "::error::JS/SCENARIO 打包失败，停止发布/上传，避免污染 Release"
+          exit 1
+      - name: 📥 下载 pack-js
+        if: needs.pack-js.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: pack-js
+          path: .
+      - name: 📥 下载 pack-scenario
+        if: needs.pack-scenario.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: pack-scenario
+          path: .
       - name: 🚀 上传热更新包到上游 Release
         id: hotfix_publish
-        if: steps.detect.outputs.has_js == '1' || steps.detect.outputs.has_scenario == '1'
         run: |
           python3 <<'SCRIPT_END'
           import subprocess
@@ -741,8 +796,43 @@ jobs:
               fh.write("hotfix_published=true\n")
           SCRIPT_END
         env:
-          PUBLISH_HOTFIX: ${{ steps.check_upstream.outputs.publish_hotfix }}
+          PUBLISH_HOTFIX: ${{ needs.setup.outputs.publish_hotfix }}
 
+      - name: 📤 上传 publish-config（热更转正后的 official 版本 json）
+        if: needs.setup.outputs.publish_hotfix == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-config
+          path: |
+            configures/version_js.json
+            configures/version_scenario.json
+          if-no-files-found: warn
+  r2-sync:
+    runs-on: ubuntu-latest
+    needs: [setup, publish]
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      CONFIRM_CLEANUP: ${{ needs.setup.outputs.confirm_cleanup }}
+      R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+      R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
+      R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
+      R2_REGION: ${{ secrets.R2_REGION }}
+      R2_BUCKET: ${{ secrets.R2_BUCKET }}
+      QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
+      QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
+      EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
+      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
+      ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
+      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
+      ESA_SITE_ID: ${{ secrets.ESA_SITE_ID }}
+      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+      CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+    steps:
       - name: 🐍 设置 Python
         uses: actions/setup-python@v5
         with:
@@ -1186,7 +1276,7 @@ jobs:
                   sys.exit(1)
           SCRIPT_END
         env:
-          CONFIRM_CLEANUP: ${{ steps.check_upstream.outputs.confirm_cleanup }}
+          CONFIRM_CLEANUP: ${{ needs.setup.outputs.confirm_cleanup }}
 
       # ───────────────────────────────────────────────────────────────
       # 🚀 DogeCloud 系：多吉云 S3 兼容镜像 + 多吉云 CDN 刷新（独立流水线）
@@ -1200,6 +1290,14 @@ jobs:
       #   ▸ 过滤规则与 object-storage 系一致（history-data* 不同步）；
       #     confirm_cleanup=true 才删除 Doge 桶过时文件，否则仅列出
       # ───────────────────────────────────────────────────────────────
+  doge-sync:
+    runs-on: ubuntu-latest
+    needs: [setup, publish]
+    if: always() && needs.setup.result == 'success'
+    env:
+      : ${{ secrets. }}
+      CONFIRM_CLEANUP: ${{ needs.setup.outputs.confirm_cleanup }}
+    steps:
       - name: 🚀 [Doge系] 同步 Release 文件到多吉云并刷新多吉云 CDN
         id: doge_sync
         if: always()
@@ -1215,7 +1313,7 @@ jobs:
           echo "Doge 系同步（hk runner）run=$RUN_ID"
           gh run watch "$RUN_ID" --repo "$REPO" --exit-status
         env:
-          CONFIRM_CLEANUP: ${{ steps.check_upstream.outputs.confirm_cleanup }}
+          CONFIRM_CLEANUP: ${{ needs.setup.outputs.confirm_cleanup }}
 
       # ───────────────────────────────────────────────────────────────
       # 🏷 镜像上游 Release 到本仓库（快照增量 + latest 全量）
@@ -1236,6 +1334,21 @@ jobs:
       #   ▸ 首次运行（下游无 latest）全量上传一次
       #   ▸ 注意：GitHub 单个 asset 上限 2GiB，超限文件跳过并告警
       # ───────────────────────────────────────────────────────────────
+  mirror-release:
+    runs-on: ubuntu-latest
+    needs: [setup, publish]
+    if: always() && needs.setup.result == 'success'
+    outputs:
+      snapshot_tag: ${{ steps.mirror_release.outputs.snapshot_tag }}
+      mirrored:     ${{ steps.mirror_release.outputs.mirrored }}
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+    steps:
       - name: 🏷 创建/覆盖本仓库快照 Release
         id: mirror_release
         if: always()
@@ -1659,6 +1772,53 @@ jobs:
       #     根目录只放 _new 预览副本。
       #   ▸  需要对上游仓库有 contents:write 权限。
       # ───────────────────────────────────────────────────────────────
+  commit-configs:
+    runs-on: ubuntu-latest
+    needs: [setup, pack-js, pack-scenario, publish]
+    if: always() && needs.setup.result == 'success'
+    outputs:
+      committed:   ${{ steps.commit_configs.outputs.committed }}
+      sha:         ${{ steps.commit_configs.outputs.sha }}
+      short_sha:   ${{ steps.commit_configs.outputs.short_sha }}
+      final_sync_sha: ${{ steps.commit_configs.outputs.final_sync_sha }}
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+      CONFIG_DIR: "configures"
+    steps:
+      - name: 📦 检出下游仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets. }}
+          repository: MagirecoCN-Revival-Project/patch-front
+          fetch-depth: 0
+      - name: 🔧 配置 Git
+        run: |
+          git config user.name "MagiaCN AutoBot"
+          git config user.email "magiacn-autobot@users.noreply.github.com"
+          git config rebase.autoStash true
+      - name: 📥 下载 pack-js
+        if: needs.pack-js.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: pack-js
+          path: .
+      - name: 📥 下载 pack-scenario
+        if: needs.pack-scenario.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: pack-scenario
+          path: .
+      - name: 📥 下载 publish-config（热更转正 official json）
+        if: needs.setup.outputs.publish_hotfix == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: publish-config
+          path: .
       - name: 💾 提交配置变更并同步推送上下游
         id: commit_configs
         if: always()
@@ -1701,7 +1861,7 @@ jobs:
 
           # commit 消息描述本次干了什么
           MSG="ci: sync version_*.json"
-          if [ "${{ steps.check_upstream.outputs.publish_hotfix }}" = "true" ]; then
+          if [ "${{ needs.setup.outputs.publish_hotfix }}" = "true" ]; then
             MSG="$MSG (hotfix published)"
           fi
           # [skip ci] 阻止本 push 触发上游/自身的其他 workflow
@@ -1751,20 +1911,43 @@ jobs:
       #   游标保持旧值，下次运行才能再次检测到 SHA 差异并重试，
       #   避免"失败却先把游标更新了"导致改动永久丢失。
       # ───────────────────────────────────────────────────────────────
+  update-cursor:
+    runs-on: ubuntu-latest
+    needs: [setup, commit-configs, r2-sync, doge-sync, mirror-release]
+    # 自定义 if 会覆盖默认 success() 语义，这里显式要求所有关键 job 都 success
+    # （任一失败/被跳过 → 游标不推进），且确有内容才推进
+    if: needs.r2-sync.result == 'success' && needs.doge-sync.result == 'success' && needs.mirror-release.result == 'success' && needs.commit-configs.result == 'success' && (needs.setup.outputs.should_sync == 'true' || needs.commit-configs.outputs.committed == 'true')
+    env:
+      : ${{ secrets. }}
+      FINAL_SYNC_SHA: ${{ needs.commit-configs.outputs.final_sync_sha }}
+      COMMIT_SHA: ${{ needs.setup.outputs.commit_sha }}
+    steps:
       - name: 📝 更新 Commit SHA（同步游标）
-        # should_sync=true：正常同步流程；committed=true：手动重打包
-        # 等 SHA 没变但产生了新 json commit 的场景也要把游标推过去
-        if: steps.check_upstream.outputs.should_sync == 'true' || steps.commit_configs.outputs.committed == 'true'
         run: |
-          # 优先记录「上下游最终对齐的 commit」（含本次 json 同步），
-          # 下次运行不会被 bot 自己的 commit 触发空转一轮；
-          # 没有新 commit 时退回记录运行开始时的上游 SHA。
-          if [ -n "$FINAL_SYNC_SHA" ]; then
-            gh variable set LAST_SYNC_COMMIT_SHA --body "$FINAL_SYNC_SHA"
-          else
-            gh variable set LAST_SYNC_COMMIT_SHA --body "${{ steps.check_upstream.outputs.commit_sha }}"
+          set -euo pipefail
+          SHA="${FINAL_SYNC_SHA:-${COMMIT_SHA:-}}"
+          if [ -z "$SHA" ]; then
+            echo "::warning::无可用 SHA，游标不推进"
+            exit 0
           fi
-
+          gh variable set LAST_SYNC_COMMIT_SHA --body "$SHA"
+          echo "游标已推进到 $SHA"
+  summary:
+    runs-on: ubuntu-latest
+    needs: [setup, pack-js, pack-scenario, publish, r2-sync, doge-sync, mirror-release, commit-configs, update-cursor]
+    if: always()
+    env:
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+      R2_BUCKET: ${{ secrets.R2_BUCKET }}
+      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
+      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
+      CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
+      DOGE_DOMAIN: ${{ secrets.DOGE_DOMAIN }}
+    steps:
       - name: 📊 生成运行摘要
         if: always()
         run: |
@@ -1775,12 +1958,13 @@ jobs:
           echo "| 上游仓库 | \`${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| object-storage 存储桶 | \`${{ env.R2_BUCKET }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 版本 json 同步 | ${{ steps.commit_configs.outputs.committed == 'true' && format('✅ 同一 commit {0} 已推送并对齐上下游（fork 不分叉）', steps.commit_configs.outputs.short_sha) || '⏭️ 无配置变更' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| object-storage 过时文件清理 | ${{ steps.check_upstream.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量，已校准 Latest 徽标）', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 同步状态 | ${{ needs.setup.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 热更新发布 | ${{ needs.setup.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 版本 json 同步 | ${{ needs.commit-configs.outputs.committed == 'true' && format('✅ 同一 commit {0} 已推送并对齐上下游（fork 不分叉）', needs.commit-configs.outputs.short_sha) || '⏭️ 无配置变更' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| object-storage 过时文件清理 | ${{ needs.setup.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 快照 Release | ${{ needs.mirror-release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量，已校准 Latest 徽标）', needs.mirror-release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| object-storage 系 CDN 刷新 | edge（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ CDN（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
-          echo "| Doge 系同步 | 多吉云（\`${{ env.DOGE_DOMAIN }}\`）：${{ steps.doge_sync.outcome == 'success' && '✅ 已同步' || format('⚠️ {0}', steps.doge_sync.outcome) }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Doge 系同步 | 多吉云（\`${{ env.DOGE_DOMAIN }}\`）：${{ needs.doge-sync.result == 'success' && '✅ 已同步' || format('⚠️ {0}', needs.doge-sync.result) }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
+

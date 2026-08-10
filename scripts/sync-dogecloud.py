@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
-"""DogeCloud 同步流水线（Doge 系）—— 在 hk 跳板机上执行。
+"""DogeCloud 同步流水线（Doge 系）—— 在 hk 的 Docker 自托管 runner 上执行。
 
 多吉云存储与 object-storage 不同：数据面不能直接用静态 AccessKey/SecretKey 访问，
 必须先走控制面 /auth/tmp_token.json 换「三段式 STS 临时密钥」再用 boto3
 （仅 Virtual Hosted Style）。
 
 从 GitHub runner 到腾讯 COS 的跨太平洋链路极慢，所以本脚本**在 hk 上运行**
-（GitHub runner 经 SSH 触发）：hk → GitHub release 实测 ~8.6MB/s、hk → COS
-快，两条腿都稳。
+（doge-sync.yml 跑在 hk 的 Docker 自托管 runner）：hk → GitHub release 实测
+~8.6MB/s、hk → COS 快，两条腿都稳。
 
 设计：
-  - 密钥由 CI 每次经 SSH env 传入（不落盘 hk）
+  - 密钥由 GitHub Secrets 原生注入（DOGE_*，不落盘）
   - 同步指纹存在 Doge 桶的 `__doge_fingerprint.json` 对象里，不依赖 gh/
     GitHub variables，hk 上不需要 gh CLI 与 GitHub token
   - 源站用上游 latest Release 的 browser_download_url（GitHub，hk 拉得快）
   - confirm_cleanup=true 才删 Doge 桶过时文件，否则仅列出
+  - 上传未全部成功即 exit 1：避免静默失效
 
 环境变量：
   DOGE_ACCESS_KEY / DOGE_SECRET_KEY / DOGE_BUCKET / DOGE_DOMAIN / DOGE_API_BASE
