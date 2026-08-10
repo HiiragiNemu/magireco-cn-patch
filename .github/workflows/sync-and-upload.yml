@@ -1,12 +1,14 @@
 name: 🔄 同步上游并上传到 R2
 
 # ╔════════════════════════════════════════════════════════════════════╗
-# ║   v3.4 —— 移除 configure.json / 离线包；                            ║
+# ║   v3.5 —— 移除 configure.json / 离线包；                            ║
 # ║   分「R2 系」与「Doge 系」两条独立流水线：                          ║
 # ║     ▸ R2 系：单 R2 桶 + EdgeOne/ESA/Cloudflare 三 CDN 刷新           ║
 # ║     ▸ Doge 系：多吉云 S3 兼容镜像（临时密钥）+ 多吉云 CDN 刷新，     ║
-# ║       在 hk 跳板机上执行（runner→COS 直连太慢），CI 经 SSH 触发，    ║
-# ║       密钥每次经 SSH env 传入；指纹存桶 __doge_fingerprint.json     ║
+# ║       在 hk 的 Docker 自托管 runner 上执行（doge-sync.yml），        ║
+# ║       GitHub runner→COS 直连太慢，hk→GitHub/COS 都快；               ║
+# ║       主工作流用 gh workflow run 调起并实时转发日志；指纹存桶        ║
+# ║       __doge_fingerprint.json                                        ║
 # ║   R2 过时文件需手动确认清理；                                       ║
 # ║   版本 json 以【同一个 commit】推送上下游（fork 页不分叉）；      ║
 # ║   每次新建/同步 Release 后强制校准 Latest 徽标到 tag=latest         ║
@@ -1188,13 +1190,13 @@ jobs:
 
       # ───────────────────────────────────────────────────────────────
       # 🚀 DogeCloud 系：多吉云 S3 兼容镜像 + 多吉云 CDN 刷新（独立流水线）
-      #   ▸ 在 hk 跳板机上执行：GitHub runner → 腾讯 COS 直连极慢，而
-      #     hk → GitHub release 实测 ~8.6MB/s、hk → COS 快；CI 仅经 SSH 触发
-      #   ▸ SSH 用现有 id_ed25519_hk 私钥（secret SSH_KEY_HK），不新增密钥；
-      #     同步脚本已部署在 hk /opt/doge-sync/sync-dogecloud.py
-      #   ▸ DOGE 密钥每次经 SSH env 传入 hk（scp env 文件 → source → 即删，
-      #     不落盘 hk）
-      #   ▸ 指纹存 Doge 桶 __doge_fingerprint.json，不依赖 gh/GitHub variables
+      #   ▸ 在 hk 自托管 runner 上执行（doge-sync.yml）：GitHub runner → 腾讯
+      #     COS 直连极慢，hk → GitHub release ~8.6MB/s、hk → COS 快
+      #   ▸ 本步骤只负责调起 doge-sync 工作流（gh workflow run）并用
+      #     gh run watch 实时转发其日志 + 以 --exit-status 反馈成败
+      #     （Doge 失败本步骤也红，不静默失效）
+      #   ▸ Doge 具体逻辑全在 doge-sync.yml + scripts/sync-dogecloud.py，
+      #     与 R2 系互不干涉；指纹存 Doge 桶 __doge_fingerprint.json
       #   ▸ 过滤规则与 R2 系一致（puella-historia* 不同步）；
       #     confirm_cleanup=true 才删除 Doge 桶过时文件，否则仅列出
       # ───────────────────────────────────────────────────────────────
@@ -1203,34 +1205,16 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
-          # 写 SSH 私钥到临时文件（secret 值会被 GitHub 自动掩码，不会泄漏到日志）。
-          # 注意：OpenSSH ed25519 私钥必须保留末尾换行，否则 libcrypto 解析失败，
-          # 所以用 '%s\n' 保证至少一个换行。
-          printf '%s\n' "$SSH_KEY_HK" > /tmp/hk_key
-          chmod 600 /tmp/hk_key
-          trap 'rm -f /tmp/hk_key /tmp/doge_env' EXIT
-          # DOGE 密钥经 env 文件传给 hk：单引号包值防 shell 特殊字符，scp 后
-          # 在 hk 上 source 完立刻删除，不在 hk 落盘
-          cat > /tmp/doge_env <<ENVEOF
-          DOGE_ACCESS_KEY='$DOGE_ACCESS_KEY'
-          DOGE_SECRET_KEY='$DOGE_SECRET_KEY'
-          DOGE_BUCKET='$DOGE_BUCKET'
-          DOGE_DOMAIN='$DOGE_DOMAIN'
-          DOGE_API_BASE='$DOGE_API_BASE'
-          CONFIRM_CLEANUP='$CONFIRM_CLEANUP'
-          UPSTREAM_OWNER='$UPSTREAM_OWNER'
-          UPSTREAM_REPO='$UPSTREAM_REPO'
-          ENVEOF
-          # hk SSH 为非标准端口 2333；首次连接用 accept-new 记录主机密钥
-          SSH_OPTS="-o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=20 -i /tmp/hk_key -p 2333"
-          scp $SSH_OPTS /tmp/doge_env root@154.37.218.131:/tmp/doge_env
-          # set -e：脚本失败即让 ssh 返回非零 → 步骤变红，不静默失效；
-          # trap：无论成败都删掉 hk 上的 env 文件（密钥不落盘）。
-          # SSH 默认实时转发远端 stdout/stderr，Action 日志与本地跑无异。
-          ssh $SSH_OPTS root@154.37.218.131 \
-            'set -e; trap "rm -f /tmp/doge_env" EXIT; set -a; . /tmp/doge_env; set +a; python3 /opt/doge-sync/sync-dogecloud.py'
+          # 调起 hk 自托管 runner 上的 doge-sync 工作流；gh run watch 实时
+          # 转发其日志，--exit-status 让 Doge 失败时本步骤同步变红
+          REPO="${{ github.repository }}"
+          gh workflow run doge-sync.yml --repo "$REPO" -f confirm_cleanup="$CONFIRM_CLEANUP"
+          sleep 3
+          RUN_ID=$(gh run list --workflow doge-sync.yml --repo "$REPO" \
+                   --json databaseId --limit 1 --jq '.[0].databaseId')
+          echo "Doge 系同步（hk runner）run=$RUN_ID"
+          gh run watch "$RUN_ID" --repo "$REPO" --exit-status
         env:
-          SSH_KEY_HK: ${{ secrets.SSH_KEY_HK }}
           CONFIRM_CLEANUP: ${{ steps.check_upstream.outputs.confirm_cleanup }}
 
       # ───────────────────────────────────────────────────────────────

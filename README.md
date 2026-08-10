@@ -14,12 +14,15 @@
 
 > 同步分「R2 系」与「Doge 系」两条独立流水线：
 > - **R2 系**：上传到 R2 桶，刷新 EdgeOne / 阿里云 ESA / Cloudflare 三 CDN
-> - **Doge 系**：在 **hk 跳板机**上执行 `scripts/sync-dogecloud.py` —— 经
->   `/auth/tmp_token.json` 换三段式 STS 临时密钥后走 boto3（仅 Virtual
->   Hosted Style）上传到多吉云并刷新其 CDN。因 GitHub runner → 腾讯 COS
->   直连极慢，CI 仅经 SSH（现有 `id_ed25519_hk` 私钥，secret `SSH_KEY_HK`）
->   触发 hk 执行；密钥每次经 SSH env 传入不落盘；同步指纹存 Doge 桶
->   `__doge_fingerprint.json`，`confirm_cleanup=true` 才删过时文件
+> - **Doge 系**：在 **hk 的 Docker 自托管 runner** 上执行 `doge-sync.yml`
+>   的 `scripts/sync-dogecloud.py` —— 经 `/auth/tmp_token.json` 换三段式
+>   STS 临时密钥后走 boto3（仅 Virtual Hosted Style）上传到多吉云并刷新
+>   其 CDN。因 GitHub runner → 腾讯 COS 直连极慢，而 hk → GitHub ~8.6MB/s、
+>   hk → COS 快，故把 runner 装在 hk（Docker 容器，`--cpus=2 --memory=2g`
+>   限资源；自建镜像仅含官方 runner 二进制，配置用 bind-mount 持久化、免
+>   PAT）。主工作流用 `gh workflow run` 调起 doge-sync 并实时转发日志、
+>   反馈成败。同步指纹存 Doge 桶 `__doge_fingerprint.json`，
+>   `confirm_cleanup=true` 才删过时文件
 >
 > 多吉云相关密钥见 GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` /
 > `DOGE_BUCKET` / `DOGE_DOMAIN`）。
