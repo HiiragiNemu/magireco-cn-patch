@@ -12,11 +12,15 @@
 ### 自动更新组织下游并上传S3：
 [![🔄 同步上游并上传到 S3](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/sync-and-upload.yml)
 
-> 同步产物上传到 object-storage 桶，并作为平行镜像同步到**多吉云 DogeCloud**（S3 兼容，
-> 经 `/auth/tmp_token.json` 换临时密钥后走 boto3；上传/删除后分别刷新
-> edge / 阿里云 ESA / CDN / 多吉云 四家 CDN）。多吉云相关密钥见
-> GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` / `DOGE_BUCKET` /
-> `DOGE_DOMAIN`）。
+> 同步分「object-storage 系」与「Doge 系」两条独立流水线：
+> - **object-storage 系**：上传到 object-storage 桶，刷新 edge / 阿里云 ESA / CDN 三 CDN
+> - **Doge 系**：`scripts/sync-dogecloud.py` 自成一系 —— 经
+>   `/auth/tmp_token.json` 换三段式 STS 临时密钥后走 boto3（仅 Virtual
+>   Hosted Style）上传到多吉云，并刷新多吉云 CDN；独立指纹
+>   `LAST_DOGE_FINGERPRINTS`，`confirm_cleanup=true` 才删 Doge 桶过时文件
+>
+> 多吉云相关密钥见 GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` /
+> `DOGE_BUCKET` / `DOGE_DOMAIN`）。
 
 ### 清除CDN缓存（手动）：
 [![🧹 清空CDN缓存](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml)
