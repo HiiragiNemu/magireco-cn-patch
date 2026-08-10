@@ -12,6 +12,12 @@
 ### 自动更新组织下游并上传S3：
 [![🔄 同步上游并上传到 S3](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/sync-and-upload.yml)
 
+> 同步产物上传到 object-storage 桶，并作为平行镜像同步到**多吉云 DogeCloud**（S3 兼容，
+> 经 `/auth/tmp_token.json` 换临时密钥后走 boto3；上传/删除后分别刷新
+> edge / 阿里云 ESA / CDN / 多吉云 四家 CDN）。多吉云相关密钥见
+> GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` / `DOGE_BUCKET` /
+> `DOGE_DOMAIN`）。
+
 ### 清除CDN缓存（手动）：
 [![🧹 清空CDN缓存](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml)
 

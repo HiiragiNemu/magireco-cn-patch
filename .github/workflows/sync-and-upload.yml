@@ -1,9 +1,9 @@
 name: 🔄 同步上游并上传到 object-storage
 
 # ╔════════════════════════════════════════════════════════════════════╗
-# ║   v3.1 —— 移除 configure.json / 离线包；单 object-storage 桶；                  ║
-# ║   edge + 阿里云 ESA + CDN 三 CDN 刷新；                   ║
-# ║   object-storage 过时文件需手动确认清理；                                       ║
+# ║   v3.2 —— 移除 configure.json / 离线包；单 object-storage 桶；                  ║
+# ║   edge + 阿里云 ESA + CDN + 多吉云 四 CDN 刷新；           ║
+# ║   多吉云为 S3 兼容平行镜像（临时密钥）；object-storage 过时文件需手动确认清理；  ║
 # ║   版本 json 以【同一个 commit】推送上下游（fork 页不分叉）；      ║
 # ║   每次新建/同步 Release 后强制校准 Latest 徽标到 tag=latest         ║
 # ╠════════════════════════════════════════════════════════════════════╣
@@ -34,12 +34,16 @@ name: 🔄 同步上游并上传到 object-storage
 # ║   ▸ GitHub 上已不存在的文件【不主动删除】，先记入                   ║
 # ║       PENDING_DELETIONS 仓库变量并打印警告；手动以                  ║
 # ║       confirm_cleanup=true 运行时才真正删除                         ║
+# ║   ▸ 多吉云（DOGE_BUCKET）与 object-storage 共用同一份过滤规则、同一份           ║
+# ║       to_process/deleted 与 PENDING_DELETIONS 语义，作平行镜像       ║
 # ║                                                                    ║
 # ║ CDN 刷新                                                           ║
 # ║ ───────                                                            ║
 # ║   ▸ 每上传一个文件，刷新 edge（EDGEONE_DOMAIN，腾讯云 TEO）、    ║
 # ║     阿里云 ESA（ESA_DOMAIN，PurgeCaches Type=file）与               ║
 # ║     CDN（CLOUDFLARE_DOMAIN，Purge Cache by URL）             ║
+# ║   ▸ 多吉云 DogeCloud（DOGE_DOMAIN）：S3 兼容镜像桶 +                ║
+# ║     POST /cdn/refresh/add.json 刷新（rtype=url，同一 TOKEN 鉴权）   ║
 # ║                                                                    ║
 # ║ 本仓库快照 Release                                                  ║
 # ║ ───────                                                            ║
@@ -108,6 +112,13 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
       CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
+      # 多吉云：控制面主密钥（仅用于签名 tmp_token / CDN refresh，
+      # 切勿直接用于 S3 数据面——多吉云必须先用 tmp_token 换三段式 STS）
+      DOGE_ACCESS_KEY: ${{ secrets.DOGE_ACCESS_KEY }}
+      DOGE_SECRET_KEY: ${{ secrets.DOGE_SECRET_KEY }}
+      DOGE_BUCKET:     ${{ secrets.DOGE_BUCKET }}   # 多吉云空间名（进 scopes）
+      DOGE_DOMAIN:     ${{ secrets.DOGE_DOMAIN }}   # 多吉云 CDN 域名（刷新目标 / 下载线路）
+      DOGE_API_BASE:   "https://api.dogecloud.com"   # 控制面 API 根，非敏感
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "patch-front"
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
@@ -748,6 +759,9 @@ jobs:
           import os
           import sys
           import json
+          import time
+          import hmac
+          import hashlib
           import subprocess
           import urllib.request
           import urllib.error
@@ -760,6 +774,7 @@ jobs:
 
           import boto3
           from botocore.exceptions import ClientError
+          from botocore.client import Config
           from tencentcloud.common import credential
           from tencentcloud.common.profile.client_profile import ClientProfile
           from tencentcloud.common.profile.http_profile import HttpProfile
@@ -976,6 +991,163 @@ jobs:
                       err(f"[CDN] 刷新失败: {e}", indent=1)
                       return False, str(e)
 
+          class DogeHandler:
+              """多吉云 S3 兼容平行镜像 + 自有 CDN 刷新。
+
+              多吉云不像普通 S3 那样能直接用 AccessKey/SecretKey 访问数据面；
+              必须先走控制面 tmp_token 换「三段式 STS 临时密钥」
+              （accessKeyId / secretAccessKey / sessionToken），再以临时
+              凭证初始化 boto3（仅支持 Virtual Hosted Style）。
+
+              控制面鉴权（tmp_token 与 CDN refresh 两处相同）：
+                Authorization: TOKEN <AccessKey>:<hex(hmac_sha1(REQUEST_URI + "\\n" + BODY, SecretKey))>
+              其中 BODY 必须与发送内容逐字节一致：tmp_token 为紧凑 JSON，
+              CDN refresh 为表单编码（rtype=url&urls=[...]）。
+
+              与 object-storage 的差异只有「先换临时密钥」这一层；上传/删除/指纹语义
+              全部复用 object-storage 的（同一份过滤规则、同一份 PENDING_DELETIONS）。
+              """
+              def __init__(self, access_key, secret_key, bucket, domain, api_base=""):
+                  self.ak        = (access_key or '').strip()
+                  self.sk        = (secret_key or '').strip()
+                  self.bucket    = (bucket or '').strip()   # 多吉云空间名（进 scopes）
+                  self.domain    = (domain or '').strip()   # 多吉云 CDN 域名（刷新目标）
+                  self.api_base  = (api_base or "https://api.dogecloud.com").rstrip('/')
+                  self._s3       = None
+                  self._s3_bucket = None
+                  self._expire_at = 0
+                  self._enabled  = bool(self.ak and self.sk and self.bucket)
+                  if not self._enabled:
+                      warn("[Doge] 未配置 DOGE_ACCESS_KEY/DOGE_SECRET_KEY/"
+                           "DOGE_BUCKET，跳过多吉云", indent=1)
+
+              # ── 控制面签名：TOKEN <AK>:<hex(hmac_sha1(uri+"\n"+body, SK))> ──
+              def _sign(self, path, body_bytes):
+                  sign_str = path.encode() + b"\n" + body_bytes
+                  sig = hmac.new(self.sk.encode(), sign_str, hashlib.sha1).hexdigest()
+                  return f"TOKEN {self.ak}:{sig}"
+
+              def _post_json(self, path, payload):
+                  body = json.dumps(payload, separators=(",", ":"),
+                                    ensure_ascii=False).encode()
+                  req = urllib.request.Request(
+                      f"{self.api_base}{path}", data=body,
+                      headers={
+                          "Authorization": self._sign(path, body),
+                          "Content-Type": "application/json",
+                      },
+                      method="POST")
+                  with urllib.request.urlopen(req) as r:
+                      return json.loads(r.read().decode())
+
+              # ── 换临时密钥 → 初始化 boto3 S3 ──
+              def _ensure_s3(self):
+                  # 剩余 >5 分钟直接复用；临近过期才续期，避免长任务中途 401
+                  if self._s3 is not None and time.time() < self._expire_at - 300:
+                      return
+                  data = self._post_json("/auth/tmp_token.json", {
+                      # OSS_FULL：需要上传+删除（stale 清理）。OSS_UPLOAD 只有
+                      # 上传权限，无法删文件。scopes 限定单空间，最小授权。
+                      "channel": "OSS_FULL",
+                      "scopes": [self.bucket],
+                      "ttl": 7200,     # 有效期上限 2 小时，按服务端口径填
+                  })
+                  if str(data.get("code", "")) != "200":
+                      raise RuntimeError(f"[Doge] tmp_token 失败: {data}")
+                  creds       = data["data"]["Credentials"]
+                  bucket_info = data["data"]["Buckets"][0]
+                  self._s3_bucket = bucket_info["s3Bucket"]   # 底层桶名，非空间名
+                  self._s3 = boto3.client(
+                      "s3",
+                      aws_access_key_id=creds["accessKeyId"],
+                      aws_secret_access_key=creds["secretAccessKey"],
+                      aws_session_token=creds["sessionToken"],
+                      endpoint_url=bucket_info["s3Endpoint"],
+                      config=Config(
+                          # 多吉云只支持 Virtual Hosted Style，不支持 Path Style
+                          s3={"addressing_style": "virtual"},
+                          request_checksum_calculation="when_required",
+                          response_checksum_validation="when_required",
+                      ),
+                  )
+                  self._expire_at = time.time() + 7200
+                  info(f"[Doge] 已换取 STS 临时凭证 "
+                       f"endpoint={bucket_info['s3Endpoint']} "
+                       f"s3Bucket={self._s3_bucket}")
+
+              # ── 数据面操作（与 R2Handler 同款）──
+              def list_files(self):
+                  if not self._enabled:
+                      return []
+                  self._ensure_s3()
+                  try:
+                      paginator = self._s3.get_paginator('list_objects_v2')
+                      files = [obj['Key'] for page in
+                               paginator.paginate(Bucket=self._s3_bucket)
+                               if 'Contents' in page for obj in page['Contents']]
+                      info(f"[Doge] 列出 {len(files)} 个文件")
+                      return files
+                  except Exception as e:
+                      err(f"[Doge] 列出文件失败: {e}")
+                      return []
+
+              def delete_file(self, filename):
+                  if not self._enabled:
+                      return False
+                  self._ensure_s3()
+                  try:
+                      self._s3.delete_object(Bucket=self._s3_bucket, Key=filename)
+                      ok(f"[Doge] 删除: {filename}", indent=1)
+                      return True
+                  except Exception as e:
+                      err(f"[Doge] 删除失败: {e}", indent=1)
+                      return False
+
+              def upload_file_from_url(self, url, filename):
+                  if not self._enabled:
+                      return False
+                  self._ensure_s3()
+                  try:
+                      info(f"[Doge] 流式上传: {filename}", indent=1)
+                      req = urllib.request.Request(url)
+                      with urllib.request.urlopen(req) as response:
+                          # 与 object-storage 同款真流式：upload_fileobj 边下边传
+                          self._s3.upload_fileobj(response, self._s3_bucket, filename)
+                      ok(f"[Doge] 上传完成: {filename}", indent=1)
+                      return True
+                  except Exception as e:
+                      err(f"[Doge] 上传失败: {e}", indent=1)
+                      return False
+
+              # ── CDN 刷新（控制面，表单编码）──
+              def purge_cache(self, filename):
+                  if not self._enabled or not self.domain:
+                      warn("[Doge] 未配置 DOGE 密钥/域名，跳过 CDN 刷新", indent=1)
+                      return False, "not configured"
+                  try:
+                      target_url = (f"http://{self.domain}/{filename}" if filename
+                                    else f"http://{self.domain}/")
+                      # 文档示例为表单编码，urls 传 JSON 数组字符串
+                      body = (b"rtype=url&urls="
+                              + json.dumps([target_url], separators=(",", ":")).encode())
+                      path = "/cdn/refresh/add.json"
+                      req = urllib.request.Request(
+                          f"{self.api_base}{path}", data=body,
+                          headers={
+                              "Authorization": self._sign(path, body),
+                              "Content-Type": "application/x-www-form-urlencoded",
+                          },
+                          method="POST")
+                      with urllib.request.urlopen(req) as r:
+                          data = json.loads(r.read().decode())
+                      if str(data.get("code", "")) != "200":
+                          raise Exception(str(data))
+                      ok(f"[Doge] 缓存刷新: {c(C.DIM, target_url)}", indent=1)
+                      return True, target_url
+                  except Exception as e:
+                      err(f"[Doge] 刷新失败: {e}", indent=1)
+                      return False, str(e)
+
           def get_variable(name):
               r = subprocess.run(['gh', 'variable', 'get', name],
                                  capture_output=True, text=True)
@@ -1011,7 +1183,14 @@ jobs:
                   os.environ.get('CLOUDFLARE_ZONE_ID', '')
               )
               cf_domain = os.environ.get('CLOUDFLARE_DOMAIN', '').strip()
-              ok("object-storage + edge + 阿里云 ESA + CDN 已初始化")
+              doge = DogeHandler(
+                  os.environ.get('DOGE_ACCESS_KEY', ''),
+                  os.environ.get('DOGE_SECRET_KEY', ''),
+                  os.environ.get('DOGE_BUCKET', ''),
+                  os.environ.get('DOGE_DOMAIN', ''),
+                  os.environ.get('DOGE_API_BASE', '')
+              )
+              ok("object-storage + edge + 阿里云 ESA + CDN + 多吉云已初始化")
 
               owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
               repo  = os.environ.get('UPSTREAM_REPO',  'patch-front')
@@ -1113,10 +1292,12 @@ jobs:
                   header(f"确认清理：删除 {len(stale_all)} 个 object-storage 过时文件")
                   for fname in stale_all:
                       if r2.delete_file(fname):
-                          # 删完顺手刷掉三个 CDN 上的残留缓存
+                          # 删完顺手刷掉四个 CDN 上的残留缓存
                           edge.purge_cache(edgeone_domain, fname)
                           esa.purge_cache(fname)
                           cloudflare.purge_cache(cf_domain, fname)
+                          if doge.delete_file(fname):
+                              doge.purge_cache(fname)
                   set_variable('PENDING_DELETIONS', '[]')
                   ok("PENDING_DELETIONS 已清空")
 
@@ -1133,6 +1314,8 @@ jobs:
                       edge.purge_cache(edgeone_domain, fname)
                       esa.purge_cache(fname)
                       cloudflare.purge_cache(cf_domain, fname)
+                      if doge.upload_file_from_url(url, fname):
+                          doge.purge_cache(fname)
                       processed.append(fname)
                   else:
                       err(f"上传失败: {fname}")
@@ -1142,6 +1325,7 @@ jobs:
                   edge.purge_cache(edgeone_domain, "")
                   esa.purge_cache("")
                   cloudflare.purge_cache(cf_domain, "")
+                  doge.purge_cache("")
 
               header("保存指纹")
               final_map = old_map.copy()
@@ -1729,6 +1913,6 @@ jobs:
           echo "| 版本 json 同步 | ${{ steps.commit_configs.outputs.committed == 'true' && format('✅ 同一 commit {0} 已推送并对齐上下游（fork 不分叉）', steps.commit_configs.outputs.short_sha) || '⏭️ 无配置变更' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| object-storage 过时文件清理 | ${{ steps.check_upstream.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量，已校准 Latest 徽标）', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| CDN 刷新 | edge（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ CDN（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
+          echo "| CDN 刷新 | edge（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ CDN（\`${{ env.CLOUDFLARE_DOMAIN }}\`）+ 多吉云（\`${{ env.DOGE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
