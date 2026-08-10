@@ -1,31 +1,30 @@
 #!/usr/bin/env python3
-"""DogeCloud 独立同步流水线（Doge 系）。
+"""DogeCloud 同步流水线（Doge 系）—— 在 hk 跳板机上执行。
 
 多吉云存储与 R2 不同：数据面不能直接用静态 AccessKey/SecretKey 访问，
 必须先走控制面 /auth/tmp_token.json 换「三段式 STS 临时密钥」再用 boto3
-（仅 Virtual Hosted Style）。因此 DogeCloud **自成一系、独立成步**，
-不混进 sync-and-upload.yml 的 R2 系（R2 桶 + EdgeOne/ESA/Cloudflare）。
+（仅 Virtual Hosted Style）。
 
-本脚本流程：
-  1. tmp_token 换 STS（POST /auth/tmp_token.json，TOKEN 签名）
-  2. 列 Doge 桶现有文件
-  3. 取上游 latest Release asset 清单（name → digest + browser_download_url）
-  4. 与 LAST_DOGE_FINGERPRINTS 比对 → to_upload / unchanged / to_delete
-  5. 流式上传 to_upload（boto3，virtual hosted style，与 R2 同款边下边传）
-  6. confirm_cleanup=true 时删除 to_delete，否则仅列出警告（与 R2 语义一致）
-  7. 刷新 DOGE_DOMAIN 的 CDN 缓存（POST /cdn/refresh/add.json，rtype=url）
-  8. 保存 LAST_DOGE_FINGERPRINTS
+从 GitHub runner 到腾讯 COS 的跨太平洋链路极慢，所以本脚本**在 hk 上运行**
+（GitHub runner 经 SSH 触发）：hk → GitHub release 实测 ~8.6MB/s、hk → COS
+快，两条腿都稳。
+
+设计：
+  - 密钥由 CI 每次经 SSH env 传入（不落盘 hk）
+  - 同步指纹存在 Doge 桶的 `__doge_fingerprint.json` 对象里，不依赖 gh/
+    GitHub variables，hk 上不需要 gh CLI 与 GitHub token
+  - 源站用上游 latest Release 的 browser_download_url（GitHub，hk 拉得快）
+  - confirm_cleanup=true 才删 Doge 桶过时文件，否则仅列出
 
 环境变量：
   DOGE_ACCESS_KEY / DOGE_SECRET_KEY / DOGE_BUCKET / DOGE_DOMAIN / DOGE_API_BASE
-  GH_TOKEN、UPSTREAM_OWNER / UPSTREAM_REPO、CONFIRM_CLEANUP
+  CONFIRM_CLEANUP
 """
 import hashlib
 import hmac
 import json
 import os
 import socket
-import subprocess
 import sys
 import time
 import urllib.parse
@@ -33,12 +32,12 @@ import urllib.request
 
 sys.stdout.reconfigure(line_buffering=True)
 
-# 兜底超时：防止某个 urlopen / boto3 传输无限挂起，把整个 job 卡到 6 小时上限。
-# 与 R2 系（sync-and-upload.yml 的 sync_script）同一约定。
-socket.setdefaulttimeout(600)
-
 import boto3
 from botocore.client import Config
+from botocore.exceptions import ClientError
+
+# 兜底超时：防止某个 urlopen / boto3 传输无限挂起，把整个 job 卡到 6 小时上限
+socket.setdefaulttimeout(600)
 
 # ══════════════════════════════════════════════════════════════════
 # 样式 / 日志
@@ -93,6 +92,8 @@ def err(t, indent=0):
 class Doge:
     """多吉云 S3 兼容镜像 + 自有 CDN 刷新（临时密钥）。"""
 
+    FINGERPRINT_KEY = "__doge_fingerprint.json"
+
     def __init__(self):
         self.ak       = os.environ.get('DOGE_ACCESS_KEY', '').strip()
         self.sk       = os.environ.get('DOGE_SECRET_KEY', '').strip()
@@ -120,28 +121,24 @@ class Doge:
             headers={"Authorization": self._sign(path, body),
                      "Content-Type": "application/json"},
             method="POST")
-        with urllib.request.urlopen(req) as r:
+        with urllib.request.urlopen(req, timeout=60) as r:
             return json.loads(r.read().decode())
 
     def _post_form(self, path, form):
-        # 文档示例为表单编码（urls 传 JSON 数组字符串），签名对原始 body 字节
         body = "&".join(f"{k}={v}" for k, v in form.items()).encode()
         req = urllib.request.Request(
             f"{self.api_base}{path}", data=body,
             headers={"Authorization": self._sign(path, body),
                      "Content-Type": "application/x-www-form-urlencoded"},
             method="POST")
-        with urllib.request.urlopen(req) as r:
+        with urllib.request.urlopen(req, timeout=60) as r:
             return json.loads(r.read().decode())
 
     # ── 换临时密钥 → boto3 S3 ──
     def _ensure_s3(self):
-        # 剩余 >5 分钟复用；临近过期才续期，避免长任务中途 401
         if self._s3 is not None and time.time() < self._expire_at - 300:
             return
         data = self._post_json("/auth/tmp_token.json", {
-            # OSS_FULL：需要上传+删除（stale 清理）。OSS_UPLOAD 只有上传权限。
-            # scopes 限定单空间，最小授权。
             "channel": "OSS_FULL",
             "scopes": [self.bucket],
             "ttl": 7200,
@@ -150,7 +147,7 @@ class Doge:
             raise RuntimeError(f"[Doge] tmp_token 失败: {data}")
         creds       = data["data"]["Credentials"]
         bucket_info = data["data"]["Buckets"][0]
-        self._s3_bucket = bucket_info["s3Bucket"]      # 底层桶名，非空间名
+        self._s3_bucket = bucket_info["s3Bucket"]
         self._s3 = boto3.client(
             "s3",
             aws_access_key_id=creds["accessKeyId"],
@@ -158,7 +155,6 @@ class Doge:
             aws_session_token=creds["sessionToken"],
             endpoint_url=bucket_info["s3Endpoint"],
             config=Config(
-                # 多吉云只支持 Virtual Hosted Style，不支持 Path Style
                 s3={"addressing_style": "virtual"},
                 request_checksum_calculation="when_required",
                 response_checksum_validation="when_required",
@@ -168,6 +164,32 @@ class Doge:
         info(f"[Doge] 已换取 STS 临时凭证 endpoint={bucket_info['s3Endpoint']} "
              f"s3Bucket={self._s3_bucket}")
 
+    # ── 指纹：存在桶里的 __doge_fingerprint.json（不依赖 gh）──
+    def _read_fingerprint(self):
+        self._ensure_s3()
+        try:
+            r = self._s3.get_object(Bucket=self._s3_bucket,
+                                    Key=self.FINGERPRINT_KEY)
+            raw = r['Body'].read().decode('utf-8')
+            fp = json.loads(raw)
+            info(f"[Doge] 桶内指纹: {len(fp)} 个文件")
+            return fp
+        except ClientError as e:
+            if e.response['Error']['Code'] in ('NoSuchKey', '404', 'NoSuchBucket'):
+                info("[Doge] 桶内无指纹，视为首次同步")
+                return {}
+            raise
+        except Exception:
+            warn("[Doge] 桶内指纹解析失败，视为首次同步")
+            return {}
+
+    def _write_fingerprint(self, fp):
+        self._ensure_s3()
+        self._s3.put_object(Bucket=self._s3_bucket, Key=self.FINGERPRINT_KEY,
+                            Body=json.dumps(fp, ensure_ascii=False).encode('utf-8'))
+        ok(f"[Doge] 桶内指纹已保存（{len(fp)} 个）")
+
+    # ── 数据面操作 ──
     def list_files(self):
         if not self._enabled:
             return []
@@ -193,9 +215,7 @@ class Doge:
             return False
         self._ensure_s3()
         try:
-            info(f"[Doge] 流式上传: {filename}  <- {url}", indent=1)
-            # 真流式：upload_fileobj 边下边传（>8MiB 自动 multipart），
-            # 与 R2 系同款。给源站拉取加 300s read 超时，防止 urlopen 无限阻塞。
+            info(f"[Doge] 流式上传: {filename}", indent=1)
             with urllib.request.urlopen(urllib.request.Request(url), timeout=300) as response:
                 self._s3.upload_fileobj(response, self._s3_bucket, filename)
             ok(f"[Doge] 上传完成: {filename}", indent=1)
@@ -203,30 +223,6 @@ class Doge:
         except Exception as e:
             err(f"[Doge] 上传失败: {e}", indent=1)
             return False
-
-    def preflight(self):
-        """预检：换好 STS 后往桶里写/删一个 1KB 探针对象，验证 COS 可达 + STS 有效。
-
-        若失败则立刻抛出带明确信息的异常，而不是在第一个真实文件上挂住。
-        """
-        if not self._enabled:
-            return False
-        self._ensure_s3()
-        probe_key = "__doge_preflight_probe"
-        try:
-            self._s3.put_object(Bucket=self._s3_bucket, Key=probe_key,
-                                Body=b"dogecloud-preflight")
-            self._s3.delete_object(Bucket=self._s3_bucket, Key=probe_key)
-            info(f"[Doge] 预检通过：COS 可达 + STS 有效（{self._s3_bucket}）")
-            return True
-        except Exception as e:
-            raise RuntimeError(
-                f"[Doge] 预检失败：向多吉云写入探针对象出错——COS 端点或 STS 临时密钥"
-                f"可能不可用。endpoint={self._api_endpoint()} bucket={self._s3_bucket} "
-                f"err={e}")
-
-    def _api_endpoint(self):
-        return self._s3.meta.endpoint_url if self._s3 is not None else "(未换密钥)"
 
     def purge_cache(self, filename):
         if not self._enabled or not self.domain:
@@ -249,7 +245,7 @@ class Doge:
 
 
 # ══════════════════════════════════════════════════════════════════
-# 上游 Release 资产 + 仓库变量
+# 上游 Release 资产
 # ══════════════════════════════════════════════════════════════════
 IGNORE_PREFIXES = ('puella-historia',)   # 与 R2 系同一份过滤规则
 
@@ -258,29 +254,16 @@ def should_ignore(name):
     return any(name.startswith(p) for p in IGNORE_PREFIXES)
 
 
-def get_variable(name):
-    r = subprocess.run(['gh', 'variable', 'get', name],
-                       capture_output=True, text=True)
-    return r.stdout.strip() if r.returncode == 0 else ""
-
-
-def set_variable(name, body):
-    subprocess.run(['gh', 'variable', 'set', name, '--body', body],
-                   capture_output=True, text=True)
-
-
 def fetch_release_assets():
-    """返回 {name: {'digest': str, 'url': str}}（已过滤黑名单）。"""
+    """返回 {name: {'digest': str, 'url': str}}（已过滤黑名单）。公开仓库无需 token。"""
     owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
     repo  = os.environ.get('UPSTREAM_REPO', 'magireco-cn-patch')
     headers = {'Accept': 'application/vnd.github+json',
                'X-GitHub-Api-Version': '2022-11-28'}
-    if os.environ.get('GH_TOKEN'):
-        headers['Authorization'] = f"Bearer {os.environ['GH_TOKEN']}"
     req = urllib.request.Request(
         f"https://api.github.com/repos/{owner}/{repo}/releases/latest",
         headers=headers)
-    with urllib.request.urlopen(req) as resp:
+    with urllib.request.urlopen(req, timeout=60) as resp:
         release = json.loads(resp.read().decode())
     return {
         a['name']: {'digest': a.get('digest', ''), 'url': a['browser_download_url']}
@@ -295,7 +278,7 @@ def fetch_release_assets():
 def main():
     CONFIRM_CLEANUP = os.environ.get('CONFIRM_CLEANUP', 'false') == 'true'
 
-    header("DogeCloud 同步（Doge 系，独立流水线）")
+    header("DogeCloud 同步（Doge 系，hk 跳板机）")
     doge = Doge()
     if not doge._enabled:
         warn("多吉云未配置，跳过 Doge 系同步")
@@ -304,15 +287,8 @@ def main():
     current_map = fetch_release_assets()
     info(f"上游 latest Release 共 {len(current_map)} 个待同步 asset")
 
-    header("比对文件指纹（LAST_DOGE_FINGERPRINTS）")
-    old_map = {}
-    old_raw = get_variable('LAST_DOGE_FINGERPRINTS')
-    if old_raw:
-        try:
-            old_map = json.loads(old_raw)
-            info(f"历史指纹: {len(old_map)} 个文件")
-        except Exception:
-            warn("历史指纹解析失败，视为首次同步")
+    header("比对文件指纹（桶内 __doge_fingerprint.json）")
+    old_map = doge._read_fingerprint()
 
     to_process, unchanged, deleted = [], [], []
     for fname, meta in current_map.items():
@@ -331,15 +307,11 @@ def main():
         if fname not in current_map:
             deleted.append(fname)
 
-    # 预检：验证 COS 端点可达 + STS 临时密钥有效，失败立即暴露而不是挂住
-    section("多吉云预检（COS 可达 + STS 有效）")
-    doge.preflight()
-
-    # 过时文件：默认只列不删，confirm_cleanup=true 才删（与 R2 系同语义）
+    # 过时文件：默认只列不删，confirm_cleanup=true 才删
     section("检查 Doge 桶过时文件（GitHub 已不存在）")
     doge_files = doge.list_files()
     stale = sorted({f for f in doge_files if not should_ignore(f)
-                    and f not in current_map})
+                    and f not in current_map and f != doge.FINGERPRINT_KEY})
     if stale:
         if not CONFIRM_CLEANUP:
             warn(f"检测到 {len(stale)} 个过时文件，按规则【不主动删除】：")
@@ -360,7 +332,7 @@ def main():
         final_map = old_map.copy()
         for fname in deleted:
             final_map.pop(fname, None)
-        set_variable('LAST_DOGE_FINGERPRINTS', json.dumps(final_map))
+        doge._write_fingerprint(final_map)
         return
 
     header(f"上传 {len(to_process)} 个文件到多吉云")
@@ -383,12 +355,13 @@ def main():
         final_map[fname] = current_map[fname]['digest']
     for fname in deleted:
         final_map.pop(fname, None)
-    set_variable('LAST_DOGE_FINGERPRINTS', json.dumps(final_map))
-    ok(f"指纹已保存（{len(final_map)} 个）")
+    doge._write_fingerprint(final_map)
 
     if len(uploaded) != len(to_process):
         err(f"Doge 上传完成 {len(uploaded)}/{len(to_process)}，有文件失败——"
             "下次同步会按指纹自动补齐")
+        # 避免静默失效：上传未全部成功必须让 CI 步骤失败，否则失败会被掩盖
+        sys.exit(1)
 
 
 if __name__ == "__main__":

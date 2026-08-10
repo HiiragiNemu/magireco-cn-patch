@@ -1,11 +1,12 @@
 name: 🔄 同步上游并上传到 R2
 
 # ╔════════════════════════════════════════════════════════════════════╗
-# ║   v3.3 —— 移除 configure.json / 离线包；                            ║
+# ║   v3.4 —— 移除 configure.json / 离线包；                            ║
 # ║   分「R2 系」与「Doge 系」两条独立流水线：                          ║
 # ║     ▸ R2 系：单 R2 桶 + EdgeOne/ESA/Cloudflare 三 CDN 刷新           ║
 # ║     ▸ Doge 系：多吉云 S3 兼容镜像（临时密钥）+ 多吉云 CDN 刷新，     ║
-# ║       自成一系，独立脚本 scripts/sync-dogecloud.py、独立指纹         ║
+# ║       在 hk 跳板机上执行（runner→COS 直连太慢），CI 经 SSH 触发，    ║
+# ║       密钥每次经 SSH env 传入；指纹存桶 __doge_fingerprint.json     ║
 # ║   R2 过时文件需手动确认清理；                                       ║
 # ║   版本 json 以【同一个 commit】推送上下游（fork 页不分叉）；      ║
 # ║   每次新建/同步 Release 后强制校准 Latest 徽标到 tag=latest         ║
@@ -1187,10 +1188,13 @@ jobs:
 
       # ───────────────────────────────────────────────────────────────
       # 🚀 DogeCloud 系：多吉云 S3 兼容镜像 + 多吉云 CDN 刷新（独立流水线）
-      #   ▸ 自成一系：独立脚本 scripts/sync-dogecloud.py、独立指纹
-      #     LAST_DOGE_FINGERPRINTS、独立日志与失败隔离，不混进 R2 系
-      #   ▸ 多吉云数据面必须走临时密钥（tmp_token 换三段式 STS），
-      #     控制面主密钥 DOGE_ACCESS_KEY/DOGE_SECRET_KEY 只用于签名
+      #   ▸ 在 hk 跳板机上执行：GitHub runner → 腾讯 COS 直连极慢，而
+      #     hk → GitHub release 实测 ~8.6MB/s、hk → COS 快；CI 仅经 SSH 触发
+      #   ▸ SSH 用现有 id_ed25519_hk 私钥（secret SSH_KEY_HK），不新增密钥；
+      #     同步脚本已部署在 hk /opt/doge-sync/sync-dogecloud.py
+      #   ▸ DOGE 密钥每次经 SSH env 传入 hk（scp env 文件 → source → 即删，
+      #     不落盘 hk）
+      #   ▸ 指纹存 Doge 桶 __doge_fingerprint.json，不依赖 gh/GitHub variables
       #   ▸ 过滤规则与 R2 系一致（puella-historia* 不同步）；
       #     confirm_cleanup=true 才删除 Doge 桶过时文件，否则仅列出
       # ───────────────────────────────────────────────────────────────
@@ -1198,8 +1202,33 @@ jobs:
         id: doge_sync
         if: always()
         run: |
-          python3 scripts/sync-dogecloud.py
+          set -euo pipefail
+          # 写 SSH 私钥到临时文件（secret 值会被 GitHub 自动掩码，不会泄漏到日志）
+          printf '%s' "$SSH_KEY_HK" > /tmp/hk_key
+          chmod 600 /tmp/hk_key
+          trap 'rm -f /tmp/hk_key /tmp/doge_env' EXIT
+          # DOGE 密钥经 env 文件传给 hk：单引号包值防 shell 特殊字符，scp 后
+          # 在 hk 上 source 完立刻删除，不在 hk 落盘
+          cat > /tmp/doge_env <<ENVEOF
+          DOGE_ACCESS_KEY='$DOGE_ACCESS_KEY'
+          DOGE_SECRET_KEY='$DOGE_SECRET_KEY'
+          DOGE_BUCKET='$DOGE_BUCKET'
+          DOGE_DOMAIN='$DOGE_DOMAIN'
+          DOGE_API_BASE='$DOGE_API_BASE'
+          CONFIRM_CLEANUP='$CONFIRM_CLEANUP'
+          UPSTREAM_OWNER='$UPSTREAM_OWNER'
+          UPSTREAM_REPO='$UPSTREAM_REPO'
+          ENVEOF
+          # hk SSH 为非标准端口 2333；首次连接用 accept-new 记录主机密钥
+          SSH_OPTS="-o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=20 -i /tmp/hk_key -p 2333"
+          scp $SSH_OPTS /tmp/doge_env root@154.37.218.131:/tmp/doge_env
+          # set -e：脚本失败即让 ssh 返回非零 → 步骤变红，不静默失效；
+          # trap：无论成败都删掉 hk 上的 env 文件（密钥不落盘）。
+          # SSH 默认实时转发远端 stdout/stderr，Action 日志与本地跑无异。
+          ssh $SSH_OPTS root@154.37.218.131 \
+            'set -e; trap "rm -f /tmp/doge_env" EXIT; set -a; . /tmp/doge_env; set +a; python3 /opt/doge-sync/sync-dogecloud.py'
         env:
+          SSH_KEY_HK: ${{ secrets.SSH_KEY_HK }}
           CONFIRM_CLEANUP: ${{ steps.check_upstream.outputs.confirm_cleanup }}
 
       # ───────────────────────────────────────────────────────────────

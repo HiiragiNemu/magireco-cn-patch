@@ -14,10 +14,12 @@
 
 > 同步分「R2 系」与「Doge 系」两条独立流水线：
 > - **R2 系**：上传到 R2 桶，刷新 EdgeOne / 阿里云 ESA / Cloudflare 三 CDN
-> - **Doge 系**：`scripts/sync-dogecloud.py` 自成一系 —— 经
+> - **Doge 系**：在 **hk 跳板机**上执行 `scripts/sync-dogecloud.py` —— 经
 >   `/auth/tmp_token.json` 换三段式 STS 临时密钥后走 boto3（仅 Virtual
->   Hosted Style）上传到多吉云，并刷新多吉云 CDN；独立指纹
->   `LAST_DOGE_FINGERPRINTS`，`confirm_cleanup=true` 才删 Doge 桶过时文件
+>   Hosted Style）上传到多吉云并刷新其 CDN。因 GitHub runner → 腾讯 COS
+>   直连极慢，CI 仅经 SSH（现有 `id_ed25519_hk` 私钥，secret `SSH_KEY_HK`）
+>   触发 hk 执行；密钥每次经 SSH env 传入不落盘；同步指纹存 Doge 桶
+>   `__doge_fingerprint.json`，`confirm_cleanup=true` 才删过时文件
 >
 > 多吉云相关密钥见 GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` /
 > `DOGE_BUCKET` / `DOGE_DOMAIN`）。
