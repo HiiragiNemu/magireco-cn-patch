@@ -1095,13 +1095,18 @@ jobs:
                       return False, str(e)
 
           def get_variable(name):
-              r = subprocess.run(['gh', 'variable', 'get', name],
-                                 capture_output=True, text=True)
+              # r2-sync 无 checkout，gh 推不出仓库，必须显式 --repo
+              r = subprocess.run(
+                  ['gh', 'variable', 'get', name,
+                   '--repo', os.environ.get("GITHUB_REPOSITORY", "")],
+                  capture_output=True, text=True)
               return r.stdout.strip() if r.returncode == 0 else ""
 
           def set_variable(name, body):
-              subprocess.run(['gh', 'variable', 'set', name, '--body', body],
-                             capture_output=True, text=True)
+              subprocess.run(
+                  ['gh', 'variable', 'set', name, '--body', body,
+                   '--repo', os.environ.get("GITHUB_REPOSITORY", "")],
+                  capture_output=True, text=True)
 
           def main():
               CONFIRM_CLEANUP = os.environ.get("CONFIRM_CLEANUP", "false") == "true"
@@ -1268,7 +1273,8 @@ jobs:
               for fname in deleted: final_map.pop(fname, None)
               subprocess.run(
                   ['gh', 'variable', 'set', 'LAST_SYNC_FINGERPRINTS',
-                   '--body', json.dumps(final_map)],
+                   '--body', json.dumps(final_map),
+                   '--repo', os.environ.get("GITHUB_REPOSITORY", "")],
                   check=True
               )
               ok(f"指纹已保存（{c(C.BOLD, str(len(final_map)))} 个）")
