@@ -11,8 +11,10 @@
 
 设计：
   - 密钥由 GitHub Secrets 原生注入（DOGE_*，不落盘）
-  - 同步指纹存在 Doge 桶的 `__doge_fingerprint.json` 对象里，不依赖 gh/
-    GitHub variables，hk 上不需要 gh CLI 与 GitHub token
+  - 同步指纹存 GitHub repository variable `LAST_DOGE_FINGERPRINTS`
+    （与 object-storage 系的 LAST_SYNC_FINGERPRINTS 同款，hk runner 上  由
+    GitHub Actions 注入，统一在 Settings→Variables 一处管理）；
+    旧桶内 __doge_fingerprint.json 仅作首次迁移源，迁移后删除
   - 源站用上游 latest Release 的 browser_download_url（GitHub，hk 拉得快）
   - confirm_cleanup=true 才删 Doge 桶过时文件，否则仅列出
   - 上传未全部成功即 exit 1：避免静默失效
@@ -28,6 +30,7 @@ import os
 import socket
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -165,19 +168,70 @@ class Doge:
         info(f"[Doge] 已换取 STS 临时凭证 endpoint={bucket_info['s3Endpoint']} "
              f"s3Bucket={self._s3_bucket}")
 
-    # ── 指纹：存在桶里的 __doge_fingerprint.json（不依赖 gh）──
+    # ── 指纹：存 GitHub repository variable LAST_DOGE_FINGERPRINTS ──
+    #   hk runner 上  已由 GitHub Actions 注入，与 object-storage 系的
+    #   LAST_SYNC_FINGERPRINTS 同样走 GitHub variable，统一管理。
+    #   用 REST API（urllib）而非 gh CLI：不依赖 hk Docker 容器是否
+    #   预装 gh。旧桶内 __doge_fingerprint.json 仅作为首次迁移的兜底来源。
+    GH_FP_VAR = "LAST_DOGE_FINGERPRINTS"
+
+    def _gh_repo(self):
+        return os.environ.get("GITHUB_REPOSITORY", "")
+
+    def _gh_api(self, path, method="GET", body=None):
+        """GitHub REST API，带  鉴权。返回 (status, parsed)。"""
+        token = os.environ.get("", "")
+        if not token:
+            return (0, None)
+        req = urllib.request.Request(
+            f"https://api.github.com{path}",
+            headers={"Authorization": f"Bearer {token}",
+                     "Accept": "application/vnd.github+json",
+                     "X-GitHub-Api-Version": "2022-11-28",
+                     "Content-Type": "application/json"},
+            method=method)
+        if body is not None:
+            req.data = json.dumps(body).encode()
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                raw = r.read().decode()
+                return (r.status, json.loads(raw) if raw else None)
+        except urllib.error.HTTPError as e:
+            return (e.code, None)
+        except Exception as e:
+            warn(f"[Doge] GitHub API {method} {path} 失败: {e}")
+            return (0, None)
+
     def _read_fingerprint(self):
+        repo = self._gh_repo()
+        if not repo:
+            warn("[Doge] 无 GITHUB_REPOSITORY，无法读 GitHub variable")
+        else:
+            status, data = self._gh_api(
+                f"/repos/{repo}/actions/variables/{self.GH_FP_VAR}")
+            if status == 200 and data and data.get("value"):
+                try:
+                    fp = json.loads(data["value"])
+                    info(f"[Doge] GitHub variable 指纹: {len(fp)} 个文件")
+                    return fp
+                except Exception:
+                    warn("[Doge] GitHub variable 指纹解析失败，回退桶内")
+            else:
+                warn(f"[Doge] 读 GitHub variable 未命中（status={status}），"
+                     "尝试桶内旧指纹迁移")
+
+        # 兜底迁移：GitHub variable 不存在/为空时，读桶内旧 json 作首次基线
         self._ensure_s3()
         try:
             r = self._s3.get_object(Bucket=self._s3_bucket,
                                     Key=self.FINGERPRINT_KEY)
             raw = r['Body'].read().decode('utf-8')
             fp = json.loads(raw)
-            info(f"[Doge] 桶内指纹: {len(fp)} 个文件")
+            info(f"[Doge] 桶内旧指纹（迁移源）: {len(fp)} 个文件")
             return fp
         except ClientError as e:
             if e.response['Error']['Code'] in ('NoSuchKey', '404', 'NoSuchBucket'):
-                info("[Doge] 桶内无指纹，视为首次同步")
+                info("[Doge] 无指纹，视为首次同步")
                 return {}
             raise
         except Exception:
@@ -185,10 +239,34 @@ class Doge:
             return {}
 
     def _write_fingerprint(self, fp):
+        repo = self._gh_repo()
+        if not repo:
+            err("[Doge] 无 GITHUB_REPOSITORY，无法保存指纹到 GitHub variable")
+            raise RuntimeError("GITHUB_REPOSITORY 缺失")
+        # 先 PATCH 更新；404 说明变量还没创建过，则 POST 新建
+        status, _ = self._gh_api(
+            f"/repos/{repo}/actions/variables/{self.GH_FP_VAR}",
+            method="PATCH",
+            body={"value": json.dumps(fp, ensure_ascii=False)})
+        if status == 404:
+            status, _ = self._gh_api(
+                f"/repos/{repo}/actions/variables",
+                method="POST",
+                body={"name": self.GH_FP_VAR,
+                      "value": json.dumps(fp, ensure_ascii=False)})
+        if status not in (200, 201, 204):
+            err(f"[Doge] 保存指纹到 GitHub variable 失败（status={status}）")
+            raise RuntimeError(f"GitHub variable 写入失败 status={status}")
+        ok(f"[Doge] GitHub variable 指纹已保存（{len(fp)} 个）")
+
+        # 迁移完成：删掉桶里的旧 json，不再维护第二份指纹
         self._ensure_s3()
-        self._s3.put_object(Bucket=self._s3_bucket, Key=self.FINGERPRINT_KEY,
-                            Body=json.dumps(fp, ensure_ascii=False).encode('utf-8'))
-        ok(f"[Doge] 桶内指纹已保存（{len(fp)} 个）")
+        try:
+            self._s3.delete_object(Bucket=self._s3_bucket,
+                                   Key=self.FINGERPRINT_KEY)
+            ok(f"[Doge] 已删除桶内旧指纹 {self.FINGERPRINT_KEY}")
+        except Exception as e:
+            warn(f"[Doge] 删除桶内旧指纹失败（可忽略）: {e}")
 
     # ── 数据面操作 ──
     def list_files(self):
@@ -288,7 +366,7 @@ def main():
     current_map = fetch_release_assets()
     info(f"上游 latest Release 共 {len(current_map)} 个待同步 asset")
 
-    header("比对文件指纹（桶内 __doge_fingerprint.json）")
+    header("比对文件指纹（GitHub variable LAST_DOGE_FINGERPRINTS）")
     old_map = doge._read_fingerprint()
 
     to_process, unchanged, deleted = [], [], []
