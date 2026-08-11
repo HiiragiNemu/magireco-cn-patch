@@ -10,10 +10,13 @@
   python3 scripts/build_chunk_manifest.py --out manifest.json \
       --chunk-size 16777216 cn_base_00_db.zip ...
 
-  # 增量更新（热更包重打后，只更新这些文件，base 包指纹保留）
+  # 增量更新（热更包重打后，只更新这些文件，base 包指纹保留）。
+  # --as NAME 把输入文件按 NAME 键写入（例如 _new 的指纹存到 official 名，
+  # 因为客户端下载的是 official 名）。
   python3 scripts/build_chunk_manifest.py --update configures/manifest.json \
       --out configures/manifest.json \
-      cn_js_update_new.zip cn_scenario_update_new.zip
+      --as cn_js_update.zip=cn_js_update_new.zip \
+      --as cn_scenario_update.zip=cn_scenario_update_new.zip
 
 输出 JSON 结构：
   {
@@ -61,7 +64,22 @@ def main():
     ap.add_argument("--update", metavar="EXISTING",
                     help="增量更新：读这个现有 manifest，只覆盖传入的 zip，"
                          "其余条目（base 包）保留")
+    ap.add_argument("--as", action="append", default=[],
+                    help="NAME=FILE 映射：把 FILE 的指纹写入 NAME 键。"
+                         "用于 _new 的指纹存到 official 名（客户端下载 official）。")
     args = ap.parse_args()
+
+    # --as 映射：NAME -> 真实文件（argparse 的属性名是 'as'，Python 保留字
+    # 不能写成 args.as，用 getattr 取）
+    as_map = {}
+    as_list = getattr(args, "as") or []
+    for item in as_list:
+        if "=" in item:
+            name, real = item.split("=", 1)
+            as_map[name] = real
+        else:
+            sys.stderr.write(f"✘ --as 格式应为 NAME=FILE: {item}\n")
+            sys.exit(1)
 
     # 增量模式：先读现有清单作为底
     manifest = {}
@@ -75,17 +93,25 @@ def main():
             sys.exit(1)
 
     for z in args.zips:
+        # 计算指纹用的真实文件；manifest 键名可能是官方名（--as 映射）
+        real = z
+        key  = z.split("/")[-1]
+        for name, f in as_map.items():
+            if f == z:
+                real = f
+                key  = name
+                break
         try:
-            size, chunks = chunk_hashes(z, args.chunk_size)
+            size, chunks = chunk_hashes(real, args.chunk_size)
         except OSError as e:
-            sys.stderr.write(f"✘ 无法读取 {z}: {e}\n")
+            sys.stderr.write(f"✘ 无法读取 {real}: {e}\n")
             sys.exit(1)
-        manifest[z.split("/")[-1]] = {
+        manifest[key] = {
             "size": size,
             "chunk_size": args.chunk_size,
             "chunks": chunks,
         }
-        print(f"✔ {z.split('/')[-1]}: {size} 字节, {len(chunks)} 块")
+        print(f"✔ {key} ({real}): {size} 字节, {len(chunks)} 块")
 
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)

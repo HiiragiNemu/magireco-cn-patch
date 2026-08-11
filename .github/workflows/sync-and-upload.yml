@@ -439,6 +439,22 @@ jobs:
           shutil.copy2(ZIP_NEW, os.path.join("_artifacts", ZIP_NEW))
           PYEOF
 
+      # [JS] 增量刷新 16MB 分块校验清单（用本次打包的 _new zip，指纹写入 official 名，
+      #   因为客户端下载的是 cn_js_update.zip 而非 _new）。base 包指纹保留。
+      #   manifest 必须在 publish 上传前更新到最新，避免 Release 上的清单
+      #   滞后于实际 zip（多维护者项目不能靠心照不宣的时序）。
+      - name: "[JS] 更新分块校验清单 manifest.json"
+        run: |
+          MANIFEST="${CONFIG_DIR}/manifest.json"
+          if [ -f scripts/build_chunk_manifest.py ] && [ -f "cn_js_update_new.zip" ]; then
+            UPDATE_FLAG=""; [ -f "${MANIFEST}" ] && UPDATE_FLAG="--update ${MANIFEST}"
+            python3 scripts/build_chunk_manifest.py ${UPDATE_FLAG} \
+                --out "${MANIFEST}" \
+                --as "cn_js_update.zip=cn_js_update_new.zip" \
+                cn_js_update_new.zip \
+              || echo "⚠ manifest 更新失败（沿用旧清单）"
+          fi
+
       # ───────────────────────────────────────────────────────────────
       # [JS] 生成文件清单与累计账本
       #   热更解压只写不删：从包里拿掉一个文件 ≠ 设备上就没有它了。
@@ -555,6 +571,19 @@ jobs:
 
           shutil.copy2(ZIP_NEW, os.path.join("_artifacts", ZIP_NEW))
           PYEOF
+
+      # [SCENARIO] 增量刷新 16MB 分块校验清单（_new 指纹写入 official 名）
+      - name: "[SCENARIO] 更新分块校验清单 manifest.json"
+        run: |
+          MANIFEST="${CONFIG_DIR}/manifest.json"
+          if [ -f scripts/build_chunk_manifest.py ] && [ -f "cn_scenario_update_new.zip" ]; then
+            UPDATE_FLAG=""; [ -f "${MANIFEST}" ] && UPDATE_FLAG="--update ${MANIFEST}"
+            python3 scripts/build_chunk_manifest.py ${UPDATE_FLAG} \
+                --out "${MANIFEST}" \
+                --as "cn_scenario_update.zip=cn_scenario_update_new.zip" \
+                cn_scenario_update_new.zip \
+              || echo "⚠ manifest 更新失败（沿用旧清单）"
+          fi
 
       - name: "[SCENARIO] 生成文件清单与账本"
         run: |
