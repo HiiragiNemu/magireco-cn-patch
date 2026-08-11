@@ -114,8 +114,6 @@ jobs:
       commit_sha:     ${{ steps.check_upstream.outputs.commit_sha }}
       publish_hotfix: ${{ steps.check_upstream.outputs.publish_hotfix }}
       confirm_cleanup: ${{ steps.check_upstream.outputs.confirm_cleanup }}
-      has_js:       ${{ steps.detect.outputs.has_js }}
-      has_scenario: ${{ steps.detect.outputs.has_scenario }}
     env:
       PYTHONUNBUFFERED: "1"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -305,35 +303,21 @@ jobs:
           git fetch origin main
           git reset --hard origin/main
 
-      - name: 🔍 检测变动范围
+      - name: 🔍 记录变动范围
         id: detect
         run: |
           # 对比「同步前的下游 HEAD → 同步后的最新 HEAD」整个区间，
           # 而不是只看最后一个 commit——否则上游一次推多个 commit 时，
           # 只有 HEAD 那个 commit 的文件会被检测到，其余全部漏掉。
           # PRE_SYNC_SHA 为空说明本次没有同步（无新内容），变动为空。
+          # 仅作日志/审计用：打包已改为【无条件】，无论变动如何
+          # 都同时重打 JS 与 SCENARIO 包（见 pack-js / pack-scenario）。
           if [ -n "$PRE_SYNC_SHA" ]; then
             CHANGED=$(git diff --name-only "$PRE_SYNC_SHA" HEAD 2>/dev/null || echo "ALL")
           else
             CHANGED=""
           fi
           echo "变动文件:"; echo "$CHANGED"
-
-          HAS_SCENARIO=0
-          HAS_JS=0
-
-          echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/json/' && HAS_SCENARIO=1 || true
-          # engine_i18n.tsv 走 JS 包下发（cocos Label 钩子读 files/madomagi/engine_i18n.tsv，
-          # 客户端只认落地路径，不关心来自哪个包；随 JS 包改译文不用等台词包发版）
-          echo "$CHANGED" | grep -qE '^(magica/|madomagi/engine_i18n\.tsv)' && HAS_JS=1 || true
-
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            HAS_SCENARIO=1
-            HAS_JS=1
-          fi
-
-          echo "has_scenario=$HAS_SCENARIO" >> $GITHUB_OUTPUT
-          echo "has_js=$HAS_JS" >> $GITHUB_OUTPUT
           mkdir -p _artifacts
 
       # ───────────────────────────────────────────────────────────────
@@ -352,7 +336,7 @@ jobs:
   pack-js:
     runs-on: ubuntu-latest
     needs: [setup]
-    if: needs.setup.outputs.has_js == '1'
+    # 无条件打包：无论 JS 是否有变动，每次运行都重打（版本号每次 +1）
     env:
       PYTHONUNBUFFERED: "1"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -486,7 +470,7 @@ jobs:
   pack-scenario:
     runs-on: ubuntu-latest
     needs: [setup]
-    if: needs.setup.outputs.has_scenario == '1'
+    # 无条件打包：无论 SCENARIO 是否有变动，每次运行都重打（版本号每次 +1）
     env:
       PYTHONUNBUFFERED: "1"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
