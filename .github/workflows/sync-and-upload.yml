@@ -735,6 +735,29 @@ jobs:
                   else:
                       err(f"上传失败: {up.stderr.strip()}", indent=1)
 
+          # ── 2.5 上传 16MB 分块校验清单（manifest.json）
+          #   客户端从镜像根目录拉 manifest.json 做逐块校验。它覆盖全部下载
+          #   文件（base 包 + 热更包）的 16MB 块指纹。base 包指纹不变，热更包
+          #   每次重新生成。configures/manifest.json 由 build_chunk_manifest.py
+          #   生成并提交入库，这里上传到 Release 随镜像分发。
+          section("上传分块校验清单 manifest.json")
+          manifest_path = os.path.join(CFG_DIR, "manifest.json")
+          if os.path.isfile(manifest_path):
+              if "manifest.json" in existing_assets:
+                  delete_asset(existing_assets["manifest.json"]["id"], "manifest.json")
+              upm = subprocess.run(
+                  ["gh", "release", "upload", release_tag, manifest_path,
+                   "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
+                   "--clobber"],
+                  capture_output=True, text=True
+              )
+              if upm.returncode == 0:
+                  ok("manifest.json 已上传", indent=1)
+              else:
+                  err(f"manifest.json 上传失败: {upm.stderr.strip()}", indent=1)
+          else:
+              skip("configures/manifest.json 不存在，跳过（未启用分块校验）")
+
           # ── 3. 如果没勾发布热更新，到此为止
           if not PUBLISH:
               section("publish_hotfix=false，跳过转正")
@@ -1858,6 +1881,29 @@ jobs:
             *) echo "::error::上游 push URL 异常，拒绝继续"; exit 1 ;;
           esac
 
+          # 更新 16MB 分块校验清单：用本次打包的热更 zip 增量刷新
+          # configures/manifest.json 里热更包部分（base 包指纹保留，不重拉）。
+          # 清单由 build_chunk_manifest.py 维护；首次由 hkf 全量生成提交入库。
+          MANIFEST="${CONFIG_DIR}/manifest.json"
+          if [ -f scripts/build_chunk_manifest.py ]; then
+            if [ -f "${MANIFEST}" ]; then
+              UPDATE_FLAG="--update ${MANIFEST}"
+            else
+              UPDATE_FLAG=""
+            fi
+            # pack-js/pack-scenario artifact 下载后，zip 在 _artifacts/ 下
+            ZIP_FILES=""
+            for z in _artifacts/cn_js_update_new.zip _artifacts/cn_scenario_update_new.zip; do
+              [ -f "$z" ] && ZIP_FILES="$ZIP_FILES $z"
+            done
+            if [ -n "$ZIP_FILES" ]; then
+              python3 scripts/build_chunk_manifest.py ${UPDATE_FLAG} \
+                  --out "${MANIFEST}" ${ZIP_FILES} \
+                && echo "✔ manifest.json 已更新" \
+                || echo "⚠ manifest.json 更新失败（忽略，沿用旧清单）"
+            fi
+          fi
+
           # 只 stage 我们已知名字的配置文件，绝不 git add -A 任意路径，
           # 避免误把别的临时产物（_artifacts/ / 上游同步进来的资源等）
           # 当成配置变更提交回去。
@@ -1870,6 +1916,7 @@ jobs:
               version_js_new.json \
               "${CONFIG_DIR}/version_scenario.json" "${CONFIG_DIR}/version_scenario_new.json" \
               "${CONFIG_DIR}/version_js.json"       "${CONFIG_DIR}/version_js_new.json" \
+              "${CONFIG_DIR}/manifest.json" \
               2>/dev/null || true
 
           if git diff --cached --quiet; then

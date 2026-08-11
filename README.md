@@ -43,6 +43,18 @@
 `version_js_new.json` 的 version 由 `configures/version_js.json` 的当前值 +1
 得出，size/md5 由 CI 现算。
 
+## 16MB 分块校验（manifest.json）
+
+下载完整性从「整包重读 md5」演进为「16MB 分块哈希」：客户端下载时每个
+分片线程段内顺序喂 MessageDigest，每到块边界比对清单指纹，**坏块只重下那
+16MB**，不再整包重来（cn_base_03 等 1GB+ 包反复失败事故的根治）。
+
+- `scripts/build_chunk_manifest.py` 生成/更新 `configures/manifest.json`，
+  覆盖全部下载文件（base 包 + 热更包）的块指纹
+- base 包是静态资产，首次全量生成后提交入库；热更包每次构建增量刷新
+- 发布时 manifest.json 上传到 Release，随镜像分发，客户端走多线路拉取
+- 客户端无清单/拉取失败时静默退化为原来的 zip 结构预检 + 整包 md5
+
 ## 客户端怎么消费它
 
 热更包解压到 `/data/data/io.kamihama.totentanz/files/`，而
