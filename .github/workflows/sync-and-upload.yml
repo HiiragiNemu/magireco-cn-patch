@@ -1949,7 +1949,9 @@ jobs:
             echo "::warning::无可用 SHA，游标不推进"
             exit 0
           fi
-          gh variable set LAST_SYNC_COMMIT_SHA --body "$SHA"
+          # update-cursor 无 checkout，gh 推不出仓库，必须显式 --repo
+          gh variable set LAST_SYNC_COMMIT_SHA --body "$SHA" \
+            --repo "${{ github.repository }}"
           echo "游标已推进到 $SHA"
   summary:
     runs-on: ubuntu-latest
