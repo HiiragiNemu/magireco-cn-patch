@@ -6,14 +6,14 @@ name: 🔄 同步上游并上传到 object-storage
 # ║     [setup] 护栏/检出/同步下游/detect                                ║
 # ║       ├─ [pack-js] CSS冻结+打包JS  ║ [pack-scenario] 打包SCENARIO    ║
 # ║       └─ [publish] 热更发布(gate)                                    ║
-# ║            ├─ [r2-sync] object-storage系同步  ║ [doge-sync] 触发hk Doge系        ║
+# ║            ├─ [r2-sync] object-storage系同步  ║ [doge-sync] Doge系(hk runner)     ║
 # ║            ├─ [mirror-release] 镜像Release                           ║
 # ║            └─ [commit-configs] 提交版本json推上下游                    ║
 # ║                 └─ [update-cursor] 推进游标 → [summary] 报告         ║
 # ║   object-storage 系：单 object-storage 桶 + edge/ESA/CDN 三 CDN 刷新               ║
 # ║   Doge 系：多吉云 S3 兼容镜像（临时密钥）+ 多吉云 CDN 刷新，          ║
-# ║     在 hk Docker 自托管 runner 上执行（doge-sync.yml），             ║
-# ║     主工作流 gh workflow run 调起 + gh run watch 实时日志/成败；      ║
+# ║     doge-sync job 直接 runs-on [self-hosted, hk] 在 hk Docker         ║
+# ║     自托管 runner 上跑 sync-dogecloud.py（实时日志/成败原生）；        ║
 # ║     指纹存桶 __doge_fingerprint.json                                 ║
 # ║   object-storage 过时文件需手动确认清理；                                       ║
 # ║   版本 json 以【同一个 commit】推送上下游（fork 页不分叉）；      ║
@@ -1280,40 +1280,47 @@ jobs:
 
       # ───────────────────────────────────────────────────────────────
       # 🚀 DogeCloud 系：多吉云 S3 兼容镜像 + 多吉云 CDN 刷新（独立流水线）
-      #   ▸ 在 hk 自托管 runner 上执行（doge-sync.yml）：GitHub runner → 腾讯
-      #     COS 直连极慢，hk → GitHub release ~8.6MB/s、hk → COS 快
-      #   ▸ 本步骤只负责调起 doge-sync 工作流（gh workflow run）并用
-      #     gh run watch 实时转发其日志 + 以 --exit-status 反馈成败
-      #     （Doge 失败本步骤也红，不静默失效）
-      #   ▸ Doge 具体逻辑全在 doge-sync.yml + scripts/sync-dogecloud.py，
-      #     与 object-storage 系互不干涉；指纹存 Doge 桶 __doge_fingerprint.json
+      #   ▸ 本 job 直接 runs-on [self-hosted, hk] 在 hk Docker 自托管 runner
+      #     上跑 scripts/sync-dogecloud.py（已并回主 workflow，无独立
+      #     doge-sync.yml）：GitHub runner → 腾讯 COS 直连极慢，而
+      #     hk → GitHub release ~8.6MB/s、hk → COS 快
+      #   ▸ 在 hk 本地执行，实时日志/成败原生反馈；脚本失败即本 job 红
+      #     （不静默失效）
+      #   ▸ Doge 具体逻辑全在 scripts/sync-dogecloud.py，与 object-storage 系互不干涉；
+      #     指纹存 Doge 桶 __doge_fingerprint.json
       #   ▸ 过滤规则与 object-storage 系一致（history-data* 不同步）；
       #     confirm_cleanup=true 才删除 Doge 桶过时文件，否则仅列出
       # ───────────────────────────────────────────────────────────────
   doge-sync:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, hk]
     needs: [setup, publish]
     if: always() && needs.setup.result == 'success'
     env:
+      PYTHONUNBUFFERED: "1"
       : ${{ secrets. }}
+      DOGE_ACCESS_KEY: ${{ secrets.DOGE_ACCESS_KEY }}
+      DOGE_SECRET_KEY: ${{ secrets.DOGE_SECRET_KEY }}
+      DOGE_BUCKET:     ${{ secrets.DOGE_BUCKET }}
+      DOGE_DOMAIN:     ${{ secrets.DOGE_DOMAIN }}
+      DOGE_API_BASE:   "https://api.dogecloud.com"
+      UPSTREAM_OWNER:  "HiiragiNemu"
+      UPSTREAM_REPO:   "patch-front"
       CONFIRM_CLEANUP: ${{ needs.setup.outputs.confirm_cleanup }}
     steps:
+      - name: 📦 检出仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: 🐍 确保 boto3 可用
+        run: |
+          python3 -m pip install --break-system-packages -q boto3 2>/dev/null || pip install -q boto3
+          python3 -c "import boto3; print('boto3', boto3.__version__)"
       - name: 🚀 [Doge系] 同步 Release 文件到多吉云并刷新多吉云 CDN
-        id: doge_sync
-        if: always()
         run: |
           set -euo pipefail
-          # 调起 hk 自托管 runner 上的 doge-sync 工作流；gh run watch 实时
-          # 转发其日志，--exit-status 让 Doge 失败时本步骤同步变红
-          REPO="${{ github.repository }}"
-          gh workflow run doge-sync.yml --repo "$REPO" -f confirm_cleanup="$CONFIRM_CLEANUP"
-          sleep 3
-          RUN_ID=$(gh run list --workflow doge-sync.yml --repo "$REPO" \
-                   --json databaseId --limit 1 --jq '.[0].databaseId')
-          echo "Doge 系同步（hk runner）run=$RUN_ID"
-          gh run watch "$RUN_ID" --repo "$REPO" --exit-status
-        env:
-          CONFIRM_CLEANUP: ${{ needs.setup.outputs.confirm_cleanup }}
+          # 在 hk Docker 自托管 runner 上直接执行（hk→GitHub ~8.6MB/s、
+          # hk→COS 快），不跨 workflow；脚本失败即步骤红（不静默失效）
+          python3 scripts/sync-dogecloud.py
 
       # ───────────────────────────────────────────────────────────────
       # 🏷 镜像上游 Release 到本仓库（快照增量 + latest 全量）

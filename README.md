@@ -14,14 +14,14 @@
 
 > 同步分「object-storage 系」与「Doge 系」两条独立流水线：
 > - **object-storage 系**：上传到 object-storage 桶，刷新 edge / 阿里云 ESA / CDN 三 CDN
-> - **Doge 系**：在 **hk 的 Docker 自托管 runner** 上执行 `doge-sync.yml`
->   的 `scripts/sync-dogecloud.py` —— 经 `/auth/tmp_token.json` 换三段式
+> - **Doge 系**：`sync-and-upload.yml` 里的 `doge-sync` job 直接
+>   `runs-on [self-hosted, hk]` 在 hk 的 Docker 自托管 runner 上跑
+>   `scripts/sync-dogecloud.py` —— 经 `/auth/tmp_token.json` 换三段式
 >   STS 临时密钥后走 boto3（仅 Virtual Hosted Style）上传到多吉云并刷新
 >   其 CDN。因 GitHub runner → 腾讯 COS 直连极慢，而 hk → GitHub ~8.6MB/s、
->   hk → COS 快，故把 runner 装在 hk（Docker 容器，`--cpus=2 --memory=2g`
+>   hk → COS 快，故 runner 装在 hk（Docker 容器，`--cpus=2 --memory=2g`
 >   限资源；自建镜像仅含官方 runner 二进制，配置用 bind-mount 持久化、免
->   PAT）。主工作流用 `gh workflow run` 调起 doge-sync 并实时转发日志、
->   反馈成败。同步指纹存 Doge 桶 `__doge_fingerprint.json`，
+>   PAT）。同步指纹存 Doge 桶 `__doge_fingerprint.json`，
 >   `confirm_cleanup=true` 才删过时文件
 >
 > 多吉云相关密钥见 GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` /
