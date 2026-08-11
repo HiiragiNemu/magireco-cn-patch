@@ -113,6 +113,12 @@ def main():
         }
         print(f"✔ {key} ({real}): {size} 字节, {len(chunks)} 块")
 
+    # 清理：manifest 只应含客户端下载的文件（official 名）。移除所有 *_new.zip
+    # 残留键（历史上曾误写入 _new，客户端实际下载的是去掉 _new 的 official 名）。
+    for k in [k for k in manifest if k.endswith("_new.zip")]:
+        del manifest[k]
+        print(f"🧹 清理残留 _new 键: {k}")
+
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
     print(f"✔ 清单已写入 {args.out}（{len(manifest)} 个文件）")

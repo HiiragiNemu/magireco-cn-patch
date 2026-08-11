@@ -1912,9 +1912,9 @@ jobs:
             *) echo "::error::上游 push URL 异常，拒绝继续"; exit 1 ;;
           esac
 
-          # 更新 16MB 分块校验清单：用本次打包的热更 zip 增量刷新
-          # configures/manifest.json 里热更包部分（base 包指纹保留，不重拉）。
-          # 清单由 build_chunk_manifest.py 维护；首次由 hkf 全量生成提交入库。
+          # 更新 16MB 分块校验清单：用本次打包的热更 zip（_new）增量刷新
+          # configures/manifest.json，指纹写入 official 名（客户端下载 official），
+          # base 包指纹保留。清单由 build_chunk_manifest.py 维护。
           MANIFEST="${CONFIG_DIR}/manifest.json"
           if [ -f scripts/build_chunk_manifest.py ]; then
             if [ -f "${MANIFEST}" ]; then
@@ -1924,11 +1924,18 @@ jobs:
             fi
             # pack-js/pack-scenario artifact 下载后，zip 在 _artifacts/ 下
             ZIP_FILES=""
+            AS_FLAGS=""
             for z in _artifacts/cn_js_update_new.zip _artifacts/cn_scenario_update_new.zip; do
-              [ -f "$z" ] && ZIP_FILES="$ZIP_FILES $z"
+              if [ -f "$z" ]; then
+                ZIP_FILES="$ZIP_FILES $z"
+                case "$z" in
+                  *_js_*)      AS_FLAGS="$AS_FLAGS --as cn_js_update.zip=$z" ;;
+                  *_scenario_*) AS_FLAGS="$AS_FLAGS --as cn_scenario_update.zip=$z" ;;
+                esac
+              fi
             done
             if [ -n "$ZIP_FILES" ]; then
-              python3 scripts/build_chunk_manifest.py ${UPDATE_FLAG} \
+              python3 scripts/build_chunk_manifest.py ${UPDATE_FLAG} ${AS_FLAGS} \
                   --out "${MANIFEST}" ${ZIP_FILES} \
                 && echo "✔ manifest.json 已更新" \
                 || echo "⚠ manifest.json 更新失败（忽略，沿用旧清单）"
