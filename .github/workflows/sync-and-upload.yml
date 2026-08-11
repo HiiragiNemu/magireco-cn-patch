@@ -473,7 +473,6 @@ jobs:
             manifests/cn_js_update_ledger.json
             _artifacts/cn_js_update_new.zip
             _artifacts/version_js_new.json
-            _artifacts/cn_js_update_manifest.json
           if-no-files-found: warn
   pack-scenario:
     runs-on: ubuntu-latest
@@ -591,7 +590,6 @@ jobs:
             manifests/cn_scenario_update_ledger.json
             _artifacts/cn_scenario_update_new.zip
             _artifacts/version_scenario_new.json
-            _artifacts/cn_scenario_update_manifest.json
           if-no-files-found: warn
   publish:
     runs-on: ubuntu-latest
@@ -717,6 +715,11 @@ jobs:
               for fname in os.listdir(ARTIFACTS_DIR):
                   fpath = os.path.join(ARTIFACTS_DIR, fname)
                   if not os.path.isfile(fpath):
+                      continue
+                  # 清单文件（*_manifest.json）纯内部审计用，客户端不消费，
+                  # 从 2026-08-11 起不再上传 Release，避免网页端条目误导
+                  if fname.endswith("_manifest.json"):
+                      skip(f"{fname} 清单文件不再上传 Release")
                       continue
                   info(f"上传: {c(C.BRIGHT_WHITE, fname)}")
                   if fname in existing_assets:
