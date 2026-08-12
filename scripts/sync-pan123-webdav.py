@@ -112,7 +112,7 @@ def race_source_cdn():
             if speed > best_speed:
                 best, best_speed = base, speed
         except Exception as e:
-            warn(f"[竞速] {name} 失败: {e}", indent=1)
+            warn(f"[竞速] {name} 失败: {e}", i=1)
     if best is None:
         warn("[竞速] 全部 CDN 竞速失败，用 edgeone 兜底")
         best = candidates[0][1]
