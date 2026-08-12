@@ -1376,10 +1376,20 @@ jobs:
       UPSTREAM_REPO:   "magireco-cn-patch"
       CONFIRM_CLEANUP: ${{ needs.setup.outputs.confirm_cleanup }}
     steps:
-      - name: 📦 检出仓库
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+      - name: ⬇ 下载脚本（不 clone 1.1GB 仓库）
+        run: |
+          set -euo pipefail
+          mkdir -p scripts
+          # 大陆直连 codeload 慢、raw.githubusercontent.com 被墙，用 gh-proxy.org
+          # 加速拉单文件；失败则回退 api.github.com contents API（双保险）
+          curl -fsSL \
+            "https://gh-proxy.org/https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/scripts/sync-dogecloud.py" \
+            -o scripts/sync-dogecloud.py \
+            || curl -fsSL -H "Authorization: Bearer $GITHUB_TOKEN" \
+                 -H "Accept: application/vnd.github.raw+json" \
+                 "https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/scripts/sync-dogecloud.py?ref=main" \
+                 -o scripts/sync-dogecloud.py
+          test -s scripts/sync-dogecloud.py && echo "脚本就绪: $(wc -c < scripts/sync-dogecloud.py) bytes"
       - name: 🐍 确保 boto3 可用
         run: |
           set -euo pipefail
@@ -1435,10 +1445,20 @@ jobs:
       UPSTREAM_REPO:     "magireco-cn-patch"
       CONFIRM_CLEANUP:   ${{ needs.setup.outputs.confirm_cleanup }}
     steps:
-      - name: 📦 检出仓库
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+      - name: ⬇ 下载脚本（不 clone 1.1GB 仓库）
+        run: |
+          set -euo pipefail
+          mkdir -p scripts
+          # 大陆直连 codeload 慢、raw.githubusercontent.com 被墙，用 gh-proxy.org
+          # 加速拉单文件；失败则回退 api.github.com contents API（双保险）
+          curl -fsSL \
+            "https://gh-proxy.org/https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/scripts/sync-pan123-webdav.py" \
+            -o scripts/sync-pan123-webdav.py \
+            || curl -fsSL -H "Authorization: Bearer $GITHUB_TOKEN" \
+                 -H "Accept: application/vnd.github.raw+json" \
+                 "https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/scripts/sync-pan123-webdav.py?ref=main" \
+                 -o scripts/sync-pan123-webdav.py
+          test -s scripts/sync-pan123-webdav.py && echo "脚本就绪: $(wc -c < scripts/sync-pan123-webdav.py) bytes"
       - name: 🐍 确保 requests 可用
         run: |
           set -euo pipefail
