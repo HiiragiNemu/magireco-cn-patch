@@ -178,12 +178,7 @@ class WebDav:
 
 def main():
     header("123云盘 WebDAV 同步")
-    # 未配置密钥时优雅跳过（不把整个 sync 拖红）；配好 secrets 即自动激活
-    if not all(os.environ.get(k, '').strip() for k in
-               ('PAN123_WEBDAV_URL', 'PAN123_USER', 'PAN123_PASS')):
-        warn("PAN123_WEBDAV_URL / PAN123_USER / PAN123_PASS 未配置，跳过 123 云盘同步")
-        warn("配置后生效：Settings → Secrets → Actions（下游 MagirecoCN-Revival-Project 仓库）")
-        return
+    # 密钥缺失即 exit 1 让 job 显式红——123 云盘没上传就该红，不能绿着假装成功
     base = env('PAN123_WEBDAV_URL')
     user = env('PAN123_USER')
     pwd = env('PAN123_PASS')
