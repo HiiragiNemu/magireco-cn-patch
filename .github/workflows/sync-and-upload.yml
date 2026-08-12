@@ -1961,7 +1961,11 @@ jobs:
         with:
           token: ${{ secrets. }}
           repository: MagirecoCN-Revival-Project/patch-front
-          fetch-depth: 0
+          # 浅克隆即可：本 job 只 add+commit+push，不需要 diff 完整历史区间
+          # （那是 setup/detect 的职责）。fetch-depth: 0 会把数 GB 的 blob
+          # 历史全拉下来，实跑卡在 checkout 十几分钟。并发 push 冲突的罕见
+          # 场景由 push 重试里的 unshallow 兜底。
+          fetch-depth: 1
       - name: 🔧 配置 Git
         run: |
           git config user.name "MagiaCN AutoBot"
@@ -2077,7 +2081,10 @@ jobs:
               break
             fi
             echo "⚠ 上游 push 失败，rebase 上游最新后重试..."
-            git pull --rebase "$UPSTREAM_PUSH_URL" main || true
+            # 浅克隆（fetch-depth: 1）下 rebase 缺历史会失败，先 unshallow 补齐再 rebase
+            git pull --rebase "$UPSTREAM_PUSH_URL" main 2>/dev/null || \
+              { git fetch --unshallow "$UPSTREAM_PUSH_URL" 2>/dev/null && \
+                git pull --rebase "$UPSTREAM_PUSH_URL" main; } || true
           done
           if [ "$PUSHED" != "1" ]; then
             echo "::error::配置 commit 推送上游失败 5 次；本次游标不会更新，下次运行自动重建并重推"
