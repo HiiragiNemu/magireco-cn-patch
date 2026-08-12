@@ -1379,7 +1379,18 @@ jobs:
           fetch-depth: 1
       - name: 🐍 确保 boto3 可用
         run: |
-          python3 -m pip install --break-system-packages -q boto3 2>/dev/null || pip install -q boto3
+          set -euo pipefail
+          # 双保险：已装好直接过；没装则自举 pip（ensurepip → apt → get-pip）再装，
+          # 裸机自托管 runner 可能既没 pip 也没预装依赖（2026-08-12 RainYun 新 runner）
+          if ! python3 -c "import boto3" >/dev/null 2>&1; then
+            echo "boto3 未装，准备安装…"
+            python3 -m pip --version >/dev/null 2>&1 || {
+              echo "无 pip，自举…"
+              python3 -m ensurepip --upgrade >/dev/null 2>&1 \
+                || { sudo apt-get update -qq; sudo apt-get install -y -qq python3-pip; }
+            }
+            python3 -m pip install --break-system-packages -q boto3
+          fi
           python3 -c "import boto3; print('boto3', boto3.__version__)"
       - name: 🚀 [Doge系] 同步 Release 文件到多吉云并刷新多吉云 CDN
         run: |
@@ -1422,7 +1433,17 @@ jobs:
           fetch-depth: 1
       - name: 🐍 确保 requests 可用
         run: |
-          python3 -m pip install --break-system-packages -q requests 2>/dev/null || pip install -q requests
+          set -euo pipefail
+          # 双保险：已装好直接过；没装则自举 pip（ensurepip → apt → get-pip）再装
+          if ! python3 -c "import requests" >/dev/null 2>&1; then
+            echo "requests 未装，准备安装…"
+            python3 -m pip --version >/dev/null 2>&1 || {
+              echo "无 pip，自举…"
+              python3 -m ensurepip --upgrade >/dev/null 2>&1 \
+                || { sudo apt-get update -qq; sudo apt-get install -y -qq python3-pip; }
+            }
+            python3 -m pip install --break-system-packages -q requests
+          fi
           python3 -c "import requests; print('requests', requests.__version__)"
       - name: ☁️ [123云盘] WebDAV 同步 Release 文件
         run: |
