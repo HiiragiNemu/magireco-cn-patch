@@ -300,7 +300,11 @@ def main():
             except Exception as e:
                 return name, False, f"读取源失败: {e}"
             try:
-                okb = dav.upload_stream(name, src.raw, size)
+                # PUT 的 Content-Length 用源 CDN 响应的实际大小，而非 GitHub
+                # release 的 asset size——latest APK 每次构建大小微变、CDN 可能
+                # 缓存旧版本，两者会差几个 KB，用错会导致流式读取「源流提前结束」
+                actual = int(src.headers.get('Content-Length') or 0) or size
+                okb = dav.upload_stream(name, src.raw, actual)
                 return name, okb, (None if okb else "WebDAV PUT 失败")
             finally:
                 try:
