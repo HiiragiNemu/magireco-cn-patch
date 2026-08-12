@@ -1404,7 +1404,8 @@ jobs:
               python3 -m ensurepip --upgrade >/dev/null 2>&1 \
                 || { sudo apt-get update -qq; sudo apt-get install -y -qq python3-pip; }
             }
-            python3 -m pip install --break-system-packages -U -q boto3 botocore
+            python3 -m pip install --break-system-packages -U -q \
+              -i https://mirrors.aliyun.com/pypi/simple/ boto3 botocore
           fi
           python3 -c "import boto3; print('boto3', boto3.__version__)"
       - name: 🚀 [Doge系] 同步 Release 文件到多吉云并刷新多吉云 CDN
@@ -1470,7 +1471,8 @@ jobs:
               python3 -m ensurepip --upgrade >/dev/null 2>&1 \
                 || { sudo apt-get update -qq; sudo apt-get install -y -qq python3-pip; }
             }
-            python3 -m pip install --break-system-packages -q requests
+            python3 -m pip install --break-system-packages -q \
+              -i https://mirrors.aliyun.com/pypi/simple/ requests
           fi
           python3 -c "import requests; print('requests', requests.__version__)"
       - name: ☁️ [123云盘] WebDAV 同步 Release 文件
