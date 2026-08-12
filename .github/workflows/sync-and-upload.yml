@@ -12,7 +12,7 @@ name: 🔄 同步上游并上传到 object-storage
 # ║                 └─ [update-cursor] 推进游标 → [summary] 报告         ║
 # ║   object-storage 系：单 object-storage 桶 + edge/ESA/CDN 三 CDN 刷新               ║
 # ║   Doge 系：多吉云 S3 兼容镜像（临时密钥）+ 多吉云 CDN 刷新，          ║
-# ║     doge-sync job 直接 runs-on [self-hosted, hk] 在 hk Docker         ║
+# ║     doge-sync job 直接 runs-on [self-hosted, rainyun-hk] 在 RainYun   ║
 # ║     自托管 runner 上跑 sync-dogecloud.py（实时日志/成败原生）；        ║
 # ║     指纹存桶 __doge_fingerprint.json                                 ║
 # ║   object-storage 过时文件需手动确认清理；                                       ║
@@ -1346,7 +1346,7 @@ jobs:
 
       # ───────────────────────────────────────────────────────────────
       # 🚀 DogeCloud 系：多吉云 S3 兼容镜像 + 多吉云 CDN 刷新（独立流水线）
-      #   ▸ 本 job 直接 runs-on [self-hosted, hk] 在 hk Docker 自托管 runner
+      #   ▸ 本 job 直接 runs-on [self-hosted, rainyun-hk] 在 RainYun HK 自托管 runner
       #     上跑 scripts/sync-dogecloud.py（已并回主 workflow，无独立
       #     doge-sync.yml）：GitHub runner → 腾讯 COS 直连极慢，而
       #     hk → GitHub release ~8.6MB/s、hk → COS 快
@@ -1358,7 +1358,7 @@ jobs:
       #     confirm_cleanup=true 才删除 Doge 桶过时文件，否则仅列出
       # ───────────────────────────────────────────────────────────────
   doge-sync:
-    runs-on: [self-hosted, hk]
+    runs-on: [self-hosted, rainyun-hk]
     needs: [setup, publish]
     if: always() && needs.setup.result == 'success'
     env:
@@ -1384,7 +1384,7 @@ jobs:
       - name: 🚀 [Doge系] 同步 Release 文件到多吉云并刷新多吉云 CDN
         run: |
           set -euo pipefail
-          # 在 hk Docker 自托管 runner 上直接执行（hk→GitHub ~8.6MB/s、
+          # 在 RainYun HK 自托管 runner 上直接执行（hk→GitHub ~8.6MB/s、
           # hk→COS 快），不跨 workflow；脚本失败即步骤红（不静默失效）
           python3 scripts/sync-dogecloud.py
 
@@ -1393,7 +1393,7 @@ jobs:
   #   ▸ 123云盘（123pan.com）暴露标准 WebDAV，Basic Auth + PROPFIND/MKCOL/
   #     PUT/DELETE。给「下载引擎不可靠」的玩家一条网盘兜底线路（配合离线包
   #     静态站手动下载）。
-  #   ▸ 在 hk 自托管 runner 跑（hk→GitHub ~8.6MB/s、hk→123云盘境内快；
+  #   ▸ 在 RainYun HK 自托管 runner 跑（hk→GitHub ~8.6MB/s、hk→123云盘境内快；
   #     GitHub 官方 runner 跨太平洋 PUT 大文件会极慢）
   #   ▸ 增量：PROPFIND 列远端目录按 getcontentlength 与 Release asset size
   #     比对，相同跳过，只传新增/变更（幂等，重跑不重传）
@@ -1402,7 +1402,7 @@ jobs:
   #   ▸ vars: PAN123_DIR（可选，目标子目录；不配则用 WebDAV 根）
   # ───────────────────────────────────────────────────────────────
   pan123-upload:
-    runs-on: [self-hosted, hk]
+    runs-on: [self-hosted, rainyun-hk]
     needs: [setup, publish]
     if: always() && needs.setup.result == 'success'
     env:
@@ -1427,7 +1427,7 @@ jobs:
       - name: ☁️ [123云盘] WebDAV 同步 Release 文件
         run: |
           set -euo pipefail
-          # 在 hk Docker 自托管 runner 上执行；脚本失败即步骤红（不静默失效）
+          # 在 RainYun HK 自托管 runner 上执行；脚本失败即步骤红（不静默失效）
           python3 scripts/sync-pan123-webdav.py
 
       # ───────────────────────────────────────────────────────────────
