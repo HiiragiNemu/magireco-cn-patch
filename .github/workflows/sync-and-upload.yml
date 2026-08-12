@@ -1380,16 +1380,18 @@ jobs:
       - name: 🐍 确保 boto3 可用
         run: |
           set -euo pipefail
-          # 双保险：已装好直接过；没装则自举 pip（ensurepip → apt → get-pip）再装，
-          # 裸机自托管 runner 可能既没 pip 也没预装依赖（2026-08-12 RainYun 新 runner）
-          if ! python3 -c "import boto3" >/dev/null 2>&1; then
-            echo "boto3 未装，准备安装…"
+          # 双保险：版本兼容直接过；不兼容/没装则自举 pip 再装。裸机 runner 可能
+          # 既没 pip 也没预装依赖；apt 预装的 botocore 可能过旧不支持
+          # request_checksum_calculation（2026-08-12 RainYun 新 runner 实测 TypeError）。
+          # 判据用 botocore Config 能否接受该参数，而不是只看 boto3 能 import。
+          if ! python3 -c "from botocore.config import Config; Config(request_checksum_calculation='when_required')" >/dev/null 2>&1; then
+            echo "boto3/botocore 版本不兼容或未装，准备安装…"
             python3 -m pip --version >/dev/null 2>&1 || {
               echo "无 pip，自举…"
               python3 -m ensurepip --upgrade >/dev/null 2>&1 \
                 || { sudo apt-get update -qq; sudo apt-get install -y -qq python3-pip; }
             }
-            python3 -m pip install --break-system-packages -q boto3
+            python3 -m pip install --break-system-packages -U -q boto3 botocore
           fi
           python3 -c "import boto3; print('boto3', boto3.__version__)"
       - name: 🚀 [Doge系] 同步 Release 文件到多吉云并刷新多吉云 CDN
