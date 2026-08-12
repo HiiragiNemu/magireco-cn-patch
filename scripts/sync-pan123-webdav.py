@@ -47,6 +47,11 @@ socket.setdefaulttimeout(900)
 # 与 object-storage/Doge 系一致的忽略规则：history-data 前缀（原版自带资源，无需镜像）
 IGNORE_PREFIXES = ('history-data',)
 
+# 并发上传路数：123pan WebDAV 每连接吞吐有限、单个 PUT 响应极慢（真机实测进程
+# 长时间卡在 poll() 等响应，串行上传被延迟拖死）。多路并发把等待重叠掉；别开太
+# 多，123pan 并发限制未知，4 路折中。
+PAN123_CONCURRENCY = 4
+
 # ── 样式 / 日志（与 sync-dogecloud.py 同款）──
 class C:
     RESET = "\033[0m"; BOLD = "\033[1m"; DIM = "\033[2m"; RED = "\033[31m"
@@ -238,10 +243,11 @@ def main():
     if not to_upload:
         header("无新增/变更文件")
     else:
-        header(f"上传 {len(to_upload)} 个文件")
+        header(f"上传 {len(to_upload)} 个文件（并发 {PAN123_CONCURRENCY} 路）")
         failed = 0
-        for name, size in to_upload:
-            info(f"上传 {name}（{size / 1e6:.1f} MB）")
+
+        def upload_one(pair):
+            name, size = pair
             url = next(a['browser_download_url'] for a in release['assets']
                        if a['name'] == name)
             try:
@@ -250,19 +256,27 @@ def main():
                                             'User-Agent': 'magireco-cn-sync'})
                 src.raise_for_status()
             except Exception as e:
-                err(f"读取源 {url} 失败: {e}")
-                failed += 1
-                continue
+                return name, False, f"读取源失败: {e}"
             try:
-                if dav.upload_stream(name, src.raw, size):
-                    ok(f"已上传: {name}")
-                else:
-                    failed += 1
+                okb = dav.upload_stream(name, src.raw, size)
+                return name, okb, (None if okb else "WebDAV PUT 失败")
             finally:
                 try:
                     src.close()
                 except Exception:
                     pass
+
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(
+                max_workers=PAN123_CONCURRENCY) as pool:
+            futures = [pool.submit(upload_one, pair) for pair in to_upload]
+            for fut in concurrent.futures.as_completed(futures):
+                name, okb, msg = fut.result()
+                if okb:
+                    ok(f"已上传: {name}")
+                else:
+                    err(f"上传失败: {name}（{msg}）")
+                    failed += 1
         if failed:
             err(f"{failed} 个文件上传失败")
             sys.exit(1)
