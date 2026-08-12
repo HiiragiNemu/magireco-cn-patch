@@ -1388,6 +1388,48 @@ jobs:
           # hk→COS 快），不跨 workflow；脚本失败即步骤红（不静默失效）
           python3 scripts/sync-dogecloud.py
 
+  # ───────────────────────────────────────────────────────────────
+  # ☁️ [123云盘] 上传 Release 文件（WebDAV）
+  #   ▸ 123云盘（123pan.com）暴露标准 WebDAV，Basic Auth + PROPFIND/MKCOL/
+  #     PUT/DELETE。给「下载引擎不可靠」的玩家一条网盘兜底线路（配合离线包
+  #     静态站手动下载）。
+  #   ▸ 在 hk 自托管 runner 跑（hk→GitHub ~8.6MB/s、hk→123云盘境内快；
+  #     GitHub 官方 runner 跨太平洋 PUT 大文件会极慢）
+  #   ▸ 增量：PROPFIND 列远端目录按 getcontentlength 与 Release asset size
+  #     比对，相同跳过，只传新增/变更（幂等，重跑不重传）
+  #   ▸ 过时文件不主动删，confirm_cleanup=true 才删；目标目录应专用作镜像
+  #   ▸ secrets: PAN123_WEBDAV_URL / PAN123_USER / PAN123_PASS
+  #   ▸ vars: PAN123_DIR（可选，目标子目录；不配则用 WebDAV 根）
+  # ───────────────────────────────────────────────────────────────
+  pan123-upload:
+    runs-on: [self-hosted, hk]
+    needs: [setup, publish]
+    if: always() && needs.setup.result == 'success'
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      PAN123_WEBDAV_URL: ${{ secrets.PAN123_WEBDAV_URL }}
+      PAN123_USER:       ${{ secrets.PAN123_USER }}
+      PAN123_PASS:       ${{ secrets.PAN123_PASS }}
+      PAN123_DIR:        ${{ vars.PAN123_DIR }}
+      UPSTREAM_OWNER:    "HiiragiNemu"
+      UPSTREAM_REPO:     "patch-front"
+      CONFIRM_CLEANUP:   ${{ needs.setup.outputs.confirm_cleanup }}
+    steps:
+      - name: 📦 检出仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: 🐍 确保 requests 可用
+        run: |
+          python3 -m pip install --break-system-packages -q requests 2>/dev/null || pip install -q requests
+          python3 -c "import requests; print('requests', requests.__version__)"
+      - name: ☁️ [123云盘] WebDAV 同步 Release 文件
+        run: |
+          set -euo pipefail
+          # 在 hk Docker 自托管 runner 上执行；脚本失败即步骤红（不静默失效）
+          python3 scripts/sync-pan123-webdav.py
+
       # ───────────────────────────────────────────────────────────────
       # 🏷 镜像上游 Release 到本仓库（快照增量 + latest 全量）
       #   ▸ 先与下游 latest 做 diff（digest/size），完全没变化直接跳过
