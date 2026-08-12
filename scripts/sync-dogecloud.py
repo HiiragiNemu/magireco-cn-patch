@@ -1,23 +1,26 @@
 #!/usr/bin/env python3
-"""DogeCloud 同步流水线（Doge 系）—— 在 hk 的 Docker 自托管 runner 上执行。
+"""DogeCloud 同步流水线（Doge 系）—— 在 mainland 自托管 runner 上执行。
 
 多吉云存储与 R2 不同：数据面不能直接用静态 AccessKey/SecretKey 访问，
 必须先走控制面 /auth/tmp_token.json 换「三段式 STS 临时密钥」再用 boto3
 （仅 Virtual Hosted Style）。
 
-从 GitHub runner 到腾讯 COS 的跨太平洋链路极慢，所以本脚本**在 hk 上运行**
-（doge-sync.yml 跑在 hk 的 Docker 自托管 runner）：hk → GitHub release 实测
-~8.6MB/s、hk → COS 快，两条腿都稳。
+2026-08-13 起改用**多吉云服务端拉取**（/oss/fetch.json + query.json 轮询）：
+runner 不再自己下载再上传（省流量、省跨网带宽），而是提交一个国内 CDN URL，
+让多吉云的服务器从 CDN 抓文件落桶。runner 只做控制面（换 token、提交任务、
+轮询、列桶校验）。源 URL 用 race_source_cdn() 竞速选出最快的国内 CDN
+（edgeone/esa/hkcdn/r2，吞吐会变，运行时就地测）；多吉云/123云盘都排在
+R2 系之后跑，等 CDN 清缓存+拉到新内容。
 
 设计：
   - 密钥由 GitHub Secrets 原生注入（DOGE_*，不落盘）
   - 同步指纹存 GitHub repository variable `LAST_DOGE_FINGERPRINTS`
-    （与 R2 系的 LAST_SYNC_FINGERPRINTS 同款，hk runner 上 GH_TOKEN 由
+    （与 R2 系的 LAST_SYNC_FINGERPRINTS 同款，runner 上 GH_TOKEN 由
     GitHub Actions 注入，统一在 Settings→Variables 一处管理）；
     旧桶内 __doge_fingerprint.json 仅作首次迁移源，迁移后删除
-  - 源站用上游 latest Release 的 browser_download_url（GitHub，hk 拉得快）
+  - 增量按指纹 diff：只对新增/变更文件提交 fetch 任务，未变的跳过
   - confirm_cleanup=true 才删 Doge 桶过时文件，否则仅列出
-  - 上传未全部成功即 exit 1：避免静默失效
+  - 拉取未全部成功即 exit 1：避免静默失效
 
 环境变量：
   DOGE_ACCESS_KEY / DOGE_SECRET_KEY / DOGE_BUCKET / DOGE_DOMAIN / DOGE_API_BASE
@@ -137,6 +140,52 @@ class Doge:
             method="POST")
         with urllib.request.urlopen(req, timeout=60) as r:
             return json.loads(r.read().decode())
+
+    def _get_json(self, path, query=""):
+        """GET JSON（签名含 query）。用于 fetch/query 等 GET 接口。"""
+        full = path + (("?" + query) if query else "")
+        req = urllib.request.Request(
+            f"{self.api_base}{full}",
+            headers={"Authorization": self._sign(full, b"")},
+            method="GET")
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read().decode())
+
+    # ── 服务端拉取（2026-08-13）：多吉云从国内 CDN URL 直接抓文件，省掉
+    #    runner 下载+上传的流量。提交 fetch.json 拿任务 id，再轮询 query.json。
+    def fetch_pull(self, url, key):
+        """多吉云服务端从 url 抓取到 bucket/key。返回任务 id。"""
+        data = self._post_json("/oss/fetch.json", {
+            "url": url, "bucket": self.bucket, "key": key})
+        if str(data.get("code", "")) != "200":
+            raise RuntimeError(f"[Doge] fetch.json 失败: {data}")
+        return data["data"]["id"]
+
+    def fetch_query(self, task_id):
+        """查询抓取任务。wait=0 进行中、-1 已完成。返回 (done, wait)。"""
+        data = self._get_json("/oss/fetch/query.json", f"id={task_id}")
+        if str(data.get("code", "")) != "200":
+            raise RuntimeError(f"[Doge] fetch/query 失败: {data}")
+        wait = int(data["data"]["wait"])
+        return wait == -1, wait
+
+    def wait_fetch(self, task_id, filename, timeout=900):
+        """轮询抓取任务直到完成（wait=-1），再确认文件落桶。超时/未就位算失败。"""
+        deadline = time.time() + timeout
+        last_wait = 0
+        while time.time() < deadline:
+            done, last_wait = self.fetch_query(task_id)
+            if done:
+                break
+            time.sleep(5)
+        else:
+            err(f"[Doge] 抓取超时: {filename} (wait={last_wait})", indent=1)
+            return False
+        if filename in self.list_files():
+            ok(f"[Doge] 抓取完成: {filename}", indent=1)
+            return True
+        err(f"[Doge] 抓取结束但文件未就位: {filename}", indent=1)
+        return False
 
     # ── 换临时密钥 → boto3 S3 ──
     def _ensure_s3(self):
@@ -289,20 +338,6 @@ class Doge:
             err(f"[Doge] 删除失败: {e}", indent=1)
             return False
 
-    def upload_file_from_url(self, url, filename):
-        if not self._enabled:
-            return False
-        self._ensure_s3()
-        try:
-            info(f"[Doge] 流式上传: {filename}", indent=1)
-            with urllib.request.urlopen(urllib.request.Request(url), timeout=300) as response:
-                self._s3.upload_fileobj(response, self._s3_bucket, filename)
-            ok(f"[Doge] 上传完成: {filename}", indent=1)
-            return True
-        except Exception as e:
-            err(f"[Doge] 上传失败: {e}", indent=1)
-            return False
-
     def purge_cache(self, filename):
         if not self._enabled or not self.domain:
             warn("[Doge] 未配置 DOGE 密钥/域名，跳过 CDN 刷新", indent=1)
@@ -333,8 +368,48 @@ def should_ignore(name):
     return any(name.startswith(p) for p in IGNORE_PREFIXES)
 
 
+def race_source_cdn():
+    """竞速各国内 CDN 下载吞吐，选最快的作为拉取源。吞吐会变，运行时就地测。
+
+    多吉云/123云盘都从国内 CDN 拿数据（排在 R2 系之后），源 URL 用竞速胜者。
+    probe 用 cn_base_00_db.zip（7MB 小文件，各 CDN 都有），测前 8MB。
+    """
+    candidates = [
+        ("edgeone", "https://edgeone.assets.magireco.top/"),
+        ("esa", "https://esa.assets.magireco.top/"),
+        ("hkcdn", "https://hkcdn.assets.magireco.top/g/m/releases/download/latest/"),
+        ("r2", "https://r2.assets.magireco.top/"),
+    ]
+    probe = "cn_base_00_db.zip"
+    best, best_speed = None, 0.0
+    for name, base in candidates:
+        try:
+            req = urllib.request.Request(base + probe,
+                                         headers={"User-Agent": "magireco-cn-sync"})
+            start = time.time()
+            got = 0
+            with urllib.request.urlopen(req, timeout=20) as r:
+                while got < (8 << 20):   # 测 8MB
+                    chunk = r.read(1 << 16)
+                    if not chunk:
+                        break
+                    got += len(chunk)
+            dur = time.time() - start
+            speed = got / dur if dur > 0 else 0
+            info(f"[竞速] {name}: {speed / 1024:.0f} KB/s")
+            if speed > best_speed:
+                best, best_speed = base, speed
+        except Exception as e:
+            warn(f"[竞速] {name} 失败: {e}", indent=1)
+    if best is None:
+        warn("[竞速] 全部 CDN 竞速失败，用 edgeone 兜底")
+        best = candidates[0][1]
+    ok(f"[竞速] 选择源: {best}")
+    return best
+
+
 def fetch_release_assets():
-    """返回 {name: {'digest': str, 'url': str}}（已过滤黑名单）。公开仓库无需 token。"""
+    """返回 {name: {'digest': str}}（已过滤黑名单）。公开仓库无需 token。"""
     owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
     repo  = os.environ.get('UPSTREAM_REPO', 'magireco-cn-patch')
     headers = {'Accept': 'application/vnd.github+json',
@@ -344,8 +419,10 @@ def fetch_release_assets():
         headers=headers)
     with urllib.request.urlopen(req, timeout=60) as resp:
         release = json.loads(resp.read().decode())
+    # 只留 digest 做指纹比对；上传源不再用 GitHub browser_download_url，
+    # 而是 race_source_cdn() 竞速出的国内 CDN（mainland 上 objects.githubusercontent.com 被墙）
     return {
-        a['name']: {'digest': a.get('digest', ''), 'url': a['browser_download_url']}
+        a['name']: {'digest': a.get('digest', '')}
         for a in release.get('assets', [])
         if not should_ignore(a['name'])
     }
@@ -414,15 +491,20 @@ def main():
         doge._write_fingerprint(final_map)
         return
 
-    header(f"上传 {len(to_process)} 个文件到多吉云")
-    uploaded = []
+    header(f"从国内 CDN 拉取 {len(to_process)} 个文件到多吉云")
+    source_base = race_source_cdn()
+    fetched = []
     for fname in to_process:
-        url = current_map[fname]['url']
-        if doge.upload_file_from_url(url, fname):
-            doge.purge_cache(fname)
-            uploaded.append(fname)
+        url = source_base + fname
+        try:
+            task_id = doge.fetch_pull(url, fname)
+            if doge.wait_fetch(task_id, fname):
+                doge.purge_cache(fname)
+                fetched.append(fname)
+        except Exception as e:
+            err(f"[Doge] {fname} 拉取失败: {e}", indent=1)
 
-    if uploaded:
+    if fetched:
         header("刷新多吉云根目录 CDN 缓存")
         doge.purge_cache("")
 
@@ -436,10 +518,10 @@ def main():
         final_map.pop(fname, None)
     doge._write_fingerprint(final_map)
 
-    if len(uploaded) != len(to_process):
-        err(f"Doge 上传完成 {len(uploaded)}/{len(to_process)}，有文件失败——"
+    if len(fetched) != len(to_process):
+        err(f"Doge 拉取完成 {len(fetched)}/{len(to_process)}，有文件失败——"
             "下次同步会按指纹自动补齐")
-        # 避免静默失效：上传未全部成功必须让 CI 步骤失败，否则失败会被掩盖
+        # 避免静默失效：拉取未全部成功必须让 CI 步骤失败，否则失败会被掩盖
         sys.exit(1)
 
 
