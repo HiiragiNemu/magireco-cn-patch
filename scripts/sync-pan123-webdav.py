@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
-"""123云盘 WebDAV 同步流水线 —— 在 hk 的 Docker 自托管 runner 上执行。
+"""123云盘 WebDAV 同步流水线 —— 在 mainland 自托管 runner 上执行。
 
 123云盘（123pan.com）暴露标准 WebDAV（https://dav.123pan.com），用 Basic Auth
 + PROPFIND/MKCOL/PUT/DELETE 操作。作用：给「下载引擎不可靠」的玩家多一条网盘
 兜底线路（配合离线包静态站手动下载）。
 
 设计（与 sync-dogecloud.py 同款节奏）：
-  - 在 hk 自托管 runner 上跑：hk → GitHub release ~8.6MB/s、hk → 123云盘
-    （境内）快；GitHub 官方 runner 跨太平洋 PUT 大文件会极慢
+  - 在 mainland 自托管 runner 上跑：国内机 → 国内 CDN / 123云盘（境内）都直连快；
+    GitHub 官方 runner 跨太平洋 PUT 大文件会极慢
   - 密钥由 GitHub Secrets 注入（PAN123_*，不落盘）
-  - 源站用上游 latest Release 的 browser_download_url（GitHub）
+  - 源站用国内 CDN 竞速：edge/esa/hkcdn/r2 测吞吐选最快（2026-08-13）。
+    源 URL 不再走 GitHub（objects.githubusercontent.com 从 mainland 被墙）；
+    竞速逻辑写在脚本里，吞吐会变，运行时就地测
   - 增量：PROPFIND 列远端目录，拿 getcontentlength 与 Release asset size 比对，
     相同跳过，只传新增/变更（幂等，重跑不重传）
   - 过时文件（远端有、Release 已删）不主动删，confirm_cleanup=true 才删；
@@ -19,7 +21,7 @@
 
 关键实现点：WebDAV PUT 用 http.client 流式 + 显式 Content-Length（requests 对
 生成器 body 会强制 Transfer-Encoding: chunked，很多 WebDAV 服务器拒绝）；
-源文件 GET 用 requests（自动跟 GitHub 的 302 重定向 + 流式读）。
+源文件 GET 用 requests（自动跟 302 重定向 + 流式读）。
 
 环境变量：
   PAN123_WEBDAV_URL / PAN123_USER / PAN123_PASS / PAN123_DIR（可选目标子目录）
@@ -31,6 +33,7 @@ import json
 import os
 import socket
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -76,6 +79,45 @@ def env(k, required=True):
 
 def should_ignore(name):
     return any(name.startswith(p) for p in IGNORE_PREFIXES)
+
+
+def race_source_cdn():
+    """竞速各国内 CDN 下载吞吐，选最快的作为拉取源。吞吐会变，运行时就地测。
+
+    123云盘从国内 CDN 拿数据（排在 object-storage 系之后），源 URL 用竞速胜者。probe 用
+    cn_base_00_db.zip（7MB 小文件，各 CDN 都有），测前 8MB。
+    """
+    candidates = [
+        ("edge", "https://edge.assets.magireco.top/"),
+        ("esa", "https://esa.assets.magireco.top/"),
+        ("hkcdn", "https://hkcdn.assets.magireco.top/g/m/releases/download/latest/"),
+        ("r2", "https://r2.assets.magireco.top/"),
+    ]
+    probe = "cn_base_00_db.zip"
+    best, best_speed = None, 0.0
+    for name, base in candidates:
+        try:
+            req = urllib.request.Request(base + probe,
+                                         headers={"User-Agent": "magireco-cn-sync"})
+            start = time.time(); got = 0
+            with urllib.request.urlopen(req, timeout=20) as r:
+                while got < (8 << 20):
+                    chunk = r.read(1 << 16)
+                    if not chunk:
+                        break
+                    got += len(chunk)
+            dur = time.time() - start
+            speed = got / dur if dur > 0 else 0
+            info(f"[竞速] {name}: {speed / 1024:.0f} KB/s")
+            if speed > best_speed:
+                best, best_speed = base, speed
+        except Exception as e:
+            warn(f"[竞速] {name} 失败: {e}", indent=1)
+    if best is None:
+        warn("[竞速] 全部 CDN 竞速失败，用 edge 兜底")
+        best = candidates[0][1]
+    ok(f"[竞速] 选择源: {best}")
+    return best
 
 
 class WebDav:
@@ -244,12 +286,12 @@ def main():
         header("无新增/变更文件")
     else:
         header(f"上传 {len(to_upload)} 个文件（并发 {PAN123_CONCURRENCY} 路）")
+        source_base = race_source_cdn()
         failed = 0
 
         def upload_one(pair):
             name, size = pair
-            url = next(a['browser_download_url'] for a in release['assets']
-                       if a['name'] == name)
+            url = source_base + name
             try:
                 src = requests.get(url, stream=True, timeout=300,
                                    headers={'Accept': 'application/octet-stream',
