@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from contextlib import redirect_stderr, redirect_stdout
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -68,6 +69,54 @@ class FullHumanReviewValidationTests(unittest.TestCase):
             write_rows(decisions, header, rows)
             with self.assertRaises(MODULE.HumanReviewError):
                 MODULE.validate(HANDOFF / "full_review.tsv", decisions)
+
+    def test_release_enforcement_rejects_pending_committed_template(self) -> None:
+        out = io.StringIO()
+        err = io.StringIO()
+        with redirect_stdout(out), redirect_stderr(err):
+            code = MODULE.main([
+                "--source", str(HANDOFF / "full_review.tsv"),
+                "--decisions", str(HANDOFF / "human_review.tsv"),
+                "--require-release-open",
+            ])
+        self.assertEqual(code, 3)
+        self.assertFalse(json.loads(out.getvalue())["release_gate_open"])
+        self.assertIn("release gate closed", err.getvalue())
+
+    def test_release_enforcement_accepts_complete_zero_unresolved_fixture(self) -> None:
+        header, rows = read_rows()
+        stamp = "2026-08-13T12:00:00Z"
+        for row in rows:
+            if row["parent_verdict"] == "approved":
+                continue
+            if row["review_kind"] == "historical-pass8-llm-comparison-only":
+                row.update(
+                    human_decision="keep-authority", reviewer="Fixture Reviewer",
+                    timestamp=stamp, final_value=row["wiki_cn"] or row["current_cn"],
+                )
+            else:
+                row.update(
+                    human_decision="approve-current", reviewer="Fixture Reviewer",
+                    timestamp=stamp, final_value=row["current_cn"],
+                )
+        with tempfile.TemporaryDirectory(prefix="dsv4-human-complete-") as td:
+            decisions = Path(td) / "decisions.tsv"
+            report = Path(td) / "report.json"
+            write_rows(decisions, header, rows)
+            out = io.StringIO()
+            with redirect_stdout(out):
+                code = MODULE.main([
+                    "--source", str(HANDOFF / "full_review.tsv"),
+                    "--decisions", str(decisions),
+                    "--report", str(report),
+                    "--require-release-open",
+                ])
+            result = json.loads(out.getvalue())
+            self.assertEqual(json.loads(report.read_text(encoding="utf-8")), result)
+        self.assertEqual(code, 0)
+        self.assertTrue(result["release_gate_open"])
+        self.assertEqual(result["states"]["pending"], 0)
+        self.assertEqual(result["states"]["unresolved"], 0)
 
 
 if __name__ == "__main__":
