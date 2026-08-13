@@ -41,6 +41,29 @@ python tools/verify-v26-authority-protection.py --json
 
 再次运行第 2 节的人工表校验命令。只有 522 条全部完成且 unresolved 为 0 时，`release_gate_open` 才允许变为 true。
 
+### 3.1 生成仅限 staging 的人工修订包
+
+决策门打开后，使用一个**尚不存在且位于仓库之外**的输出目录：
+
+```powershell
+python tools/build-dsv4-human-decision-patch.py `
+  --source magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/full_review.tsv `
+  --decisions magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv `
+  --out D:\magia\release-audit\v26-human-decisions
+```
+
+生成器会再次调用完整人工表校验器，并硬性要求 `all_decided=true`、`release_gate_open=true`、`unresolved=0`。它只选取“当前低权重 + revise + final_value 实际变化”的记录；受保护历史记录永远不会进入补丁。输出包包含 `manifest.json`、`correction_patch.json`、`corrections.patch`、`rollback.json`、`verification_record.json`、专用 staging 基线与执行器。
+
+复现包内的 apply/rollback 演练：
+
+```powershell
+Set-Location D:\magia\release-audit\v26-human-decisions
+python staging_patch_executor.py --stage-root baseline_staging --target baseline_staging/low_tier_values.json --manifest correction_patch.json
+python staging_patch_executor.py --stage-root baseline_staging --target baseline_staging/low_tier_values.json --manifest rollback.json
+```
+
+回撤后 `baseline_staging/low_tier_values.json` 的 SHA-256 必须与 `verification_record.json` 中 `baseline_staging_sha256` 完全一致。该包没有产品树写入能力；将其提升到正式文件仍须另行通过权威保护门和逐字段应用审计。
+
 ## 4. 结构、权威与确定性构建审计
 
 ```powershell

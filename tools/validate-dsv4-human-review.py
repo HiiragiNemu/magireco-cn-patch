@@ -179,6 +179,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--decisions", type=Path, required=True)
     parser.add_argument("--report", type=Path)
+    parser.add_argument(
+        "--require-release-gate",
+        action="store_true",
+        help="return exit 3 unless every required decision is resolved",
+    )
     args = parser.parse_args(argv)
     try:
         result = validate(args.source, args.decisions)
@@ -186,6 +191,20 @@ def main(argv: list[str] | None = None) -> int:
         if args.report:
             args.report.write_text(payload, encoding="utf-8", newline="\n")
         print(payload, end="")
+        if args.require_release_gate and not result["release_gate_open"]:
+            print(
+                json.dumps(
+                    {
+                        "status": "FAIL",
+                        "error": "human decision release gate is closed",
+                        "pending": result["states"]["pending"],
+                        "unresolved": result["states"]["unresolved"],
+                    },
+                    ensure_ascii=False,
+                ),
+                file=sys.stderr,
+            )
+            return 3
         return 0
     except (HumanReviewError, OSError, UnicodeDecodeError, csv.Error) as exc:
         print(json.dumps({"status": "FAIL", "error": str(exc)}, ensure_ascii=False), file=sys.stderr)

@@ -19,6 +19,18 @@ SPEC.loader.exec_module(MODULE)
 
 
 class FrontendEmptyClassificationTests(unittest.TestCase):
+    def test_product_snapshot_excludes_self_referential_maintenance_files(self) -> None:
+        before = MODULE.product_content_snapshot()
+        # The regression target is a maintenance file under tools/.  It must
+        # not make the product snapshot self-referential.
+        probe = ROOT / "tools" / ".machine-review-snapshot-probe.txt"
+        self.assertFalse(probe.exists())
+        try:
+            probe.write_text("maintenance-only\n", encoding="utf-8", newline="\n")
+            self.assertEqual(before, MODULE.product_content_snapshot())
+        finally:
+            probe.unlink(missing_ok=True)
+
     def audited_sources(self) -> list[dict[str, str]]:
         path = ROOT / "i18n" / "generated" / "input-provenance.tsv"
         with path.open("r", encoding="utf-8-sig", newline="") as handle:

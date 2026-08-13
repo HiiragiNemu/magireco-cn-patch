@@ -1414,6 +1414,10 @@ def product_content_snapshot(root: Path) -> tuple[int, str]:
         "version_scenario_new.json",
     }
     excluded_i18n_files = {"migration-source-summary.json", "uiTextList.json"}
+    # Keep this identical to build-v26-machine-review.py.  Maintenance code and
+    # workflows have independent tests; including them here creates a
+    # self-invalidating product snapshot whenever its verifier changes.
+    excluded_maintenance_dirs = {".github", "scripts", "tools"}
     paths: list[Path] = []
     for path in root.rglob("*"):
         if not path.is_file():
@@ -1422,6 +1426,8 @@ def product_content_snapshot(root: Path) -> tuple[int, str]:
         if len(rel.parts) == 1 and rel.name not in stable_root_files:
             continue
         if len(rel.parts) > 1 and rel.parts[0] not in stable_top_dirs:
+            continue
+        if rel.parts[0] in excluded_maintenance_dirs:
             continue
         if ".git" in rel.parts or "__pycache__" in rel.parts:
             continue

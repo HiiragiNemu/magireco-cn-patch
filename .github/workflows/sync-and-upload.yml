@@ -823,6 +823,15 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           fetch-depth: 1
+      - name: "[HOTUPDATE] 正式转正前人工裁决门"
+        if: needs.setup.outputs.publish_hotfix == 'true'
+        run: |
+          mkdir -p _artifacts
+          python3 tools/validate-dsv4-human-review.py \
+            --source magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/full_review.tsv \
+            --decisions magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv \
+            --report _artifacts/dsv4_human_release_gate.json \
+            --require-release-gate
       - name: 📥 下载 pack-js
         if: needs.pack-js.result == 'success'
         uses: actions/download-artifact@v4

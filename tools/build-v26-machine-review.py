@@ -246,6 +246,12 @@ def product_content_snapshot() -> tuple[int, str]:
         "version_scenario_new.json",
     }
     excluded_i18n_files = {"migration-source-summary.json", "uiTextList.json"}
+    # The machine-review inventory covers translation/product inputs.  Its own
+    # generators, validators and release workflow are verified separately and
+    # must not make the recorded product snapshot self-referential: adding a
+    # review helper would otherwise stale the snapshot immediately after it is
+    # generated.
+    excluded_maintenance_dirs = {".github", "scripts", "tools"}
     paths: list[Path] = []
     for path in PRODUCT.rglob("*"):
         if not path.is_file():
@@ -258,6 +264,8 @@ def product_content_snapshot() -> tuple[int, str]:
         if len(rel.parts) > 1 and rel.parts[0] not in stable_top_dirs:
             # original_source and any local/output tree are source archives,
             # not current product or maintenance inputs.
+            continue
+        if rel.parts[0] in excluded_maintenance_dirs:
             continue
         if rel == Path(".git") or ".git" in rel.parts or "__pycache__" in rel.parts:
             continue

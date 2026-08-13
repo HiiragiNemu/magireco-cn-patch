@@ -144,6 +144,29 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertLess(verify, package)
         self.assertNotIn("tools/build-v26-authority-protection.py", self.text)
 
+
+    def test_formal_hotfix_requires_complete_human_decisions_before_mutation(self):
+        publish = self.workflow_jobs()["publish"]
+        gate = publish.index("python3 tools/validate-dsv4-human-review.py")
+        first_remote_mutation = publish.index(
+            "release, existing_assets = fetch_assets()"
+        )
+        self.assertLess(gate, first_remote_mutation)
+        self.assertIn("--require-release-gate", publish)
+        self.assertIn(
+            "--decisions magica/i18n_audit/release_v26_authority/"
+            "dsv4_human_decisions.tsv",
+            publish,
+        )
+        gate_step = re.search(
+            r'name: "\[HOTUPDATE\] 正式转正前人工裁决门"\n'
+            r"\s+if: needs\.setup\.outputs\.publish_hotfix == 'true'\n"
+            r"\s+run: \|.*?--require-release-gate",
+            publish,
+            flags=re.S,
+        )
+        self.assertIsNotNone(gate_step)
+
     def test_engine_table_belongs_only_to_js_package(self):
         self.assertIn('engine = "madomagi/engine_i18n.tsv"', self.text)
         self.assertIn('assert names.count(engine) == 1', self.text)

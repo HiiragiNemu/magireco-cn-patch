@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import csv
+import contextlib
 import importlib.util
 import io
 import json
@@ -68,6 +69,62 @@ class FullHumanReviewValidationTests(unittest.TestCase):
             write_rows(decisions, header, rows)
             with self.assertRaises(MODULE.HumanReviewError):
                 MODULE.validate(HANDOFF / "full_review.tsv", decisions)
+
+
+    def test_release_gate_mode_fails_closed_while_decisions_are_pending(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="dsv4-human-gate-") as td:
+            report = Path(td) / "report.json"
+            stdout = io.StringIO()
+            stderr = io.StringIO()
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                exit_code = MODULE.main([
+                    "--source", str(HANDOFF / "full_review.tsv"),
+                    "--decisions", str(HANDOFF / "human_review.tsv"),
+                    "--report", str(report),
+                    "--require-release-gate",
+                ])
+            payload = json.loads(report.read_text(encoding="utf-8"))
+        self.assertEqual(exit_code, 3)
+        self.assertEqual(payload["states"]["pending"], 522)
+        self.assertFalse(payload["release_gate_open"])
+        self.assertIn("human decision release gate is closed", stderr.getvalue())
+
+    def test_release_gate_mode_accepts_a_complete_resolved_fixture(self) -> None:
+        header, rows = read_rows()
+        stamp = "2026-08-13T12:00:00Z"
+        for row in rows:
+            if row["parent_verdict"] == "approved":
+                continue
+            if row["review_kind"] == "current-low-tier-translation-review":
+                row.update(
+                    human_decision="approve-current",
+                    reviewer="Fixture Reviewer",
+                    timestamp=stamp,
+                    final_value=row["current_cn"],
+                )
+            else:
+                row.update(
+                    human_decision="keep-authority",
+                    reviewer="Fixture Reviewer",
+                    timestamp=stamp,
+                    final_value=row["wiki_cn"] or row["current_cn"],
+                )
+        with tempfile.TemporaryDirectory(prefix="dsv4-human-open-gate-") as td:
+            decisions = Path(td) / "decisions.tsv"
+            report = Path(td) / "report.json"
+            write_rows(decisions, header, rows)
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                exit_code = MODULE.main([
+                    "--source", str(HANDOFF / "full_review.tsv"),
+                    "--decisions", str(decisions),
+                    "--report", str(report),
+                    "--require-release-gate",
+                ])
+            payload = json.loads(report.read_text(encoding="utf-8"))
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(payload["release_gate_open"])
+        self.assertEqual(payload["states"]["pending"], 0)
+        self.assertEqual(payload["states"]["unresolved"], 0)
 
 
 if __name__ == "__main__":

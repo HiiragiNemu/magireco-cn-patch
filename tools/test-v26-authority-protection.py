@@ -40,6 +40,7 @@ from v26_authority_protection import (
     protected_rows_from_pass19,
     protected_rows_from_master,
     pass19_literal_occurrences,
+    product_content_snapshot,
     read_tsv,
     select_protected_master_rows,
     sha256_file,
@@ -156,6 +157,16 @@ class AuthorityProtectionTests(unittest.TestCase):
         report = verify_snapshot(ROOT, require_freshness=False)
         self.assertEqual("PASS", report["status"])
         self.assertEqual(EXPECTED_TOTAL_WITH_PASS19, report["protected_fields"])
+
+    def test_product_snapshot_excludes_self_referential_maintenance_files(self) -> None:
+        before = product_content_snapshot(ROOT)
+        probe = ROOT / "tools" / ".authority-snapshot-probe.txt"
+        self.assertFalse(probe.exists())
+        try:
+            probe.write_text("maintenance-only\n", encoding="utf-8", newline="\n")
+            self.assertEqual(before, product_content_snapshot(ROOT))
+        finally:
+            probe.unlink(missing_ok=True)
 
     def test_value_hash_tamper_fails(self) -> None:
         rows = copy.deepcopy(self.baseline)

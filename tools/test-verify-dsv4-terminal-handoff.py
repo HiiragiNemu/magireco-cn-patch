@@ -6,6 +6,7 @@ from __future__ import annotations
 import importlib.util
 import os
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
 
@@ -33,7 +34,14 @@ class TerminalHandoffVerifierTests(unittest.TestCase):
             copy.mkdir()
             for source in MODULE.DEFAULT_ROOT.iterdir():
                 if source.is_file():
-                    os.link(source, copy / source.name)
+                    destination = copy / source.name
+                    try:
+                        os.link(source, destination)
+                    except OSError:
+                        # Temporary directories may be on another Windows volume,
+                        # where hard links are unavailable.  A byte-for-byte copy
+                        # preserves this test's isolated tamper semantics.
+                        shutil.copy2(source, destination)
             manifest = copy / "manifest.json"
             manifest.unlink()
             manifest.write_bytes((MODULE.DEFAULT_ROOT / "manifest.json").read_bytes() + b"\n")
