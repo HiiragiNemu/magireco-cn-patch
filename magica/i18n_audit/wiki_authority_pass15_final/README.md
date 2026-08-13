@@ -7,7 +7,7 @@
 3. 数字、罗马等级、目标、回合、方向均不漂移的封闭等价规则；
 4. 人工／LLM 文本只在前三层均无证据时保留。
 
-标点按国服同字段规则处理，不做全局 `・` 替换。CSS、新 UI 与下列三份扭蛋文件保持基准提交 `20e35db411e83d710662c98f12c1374fa8363dda` 的原始字节：
+标点按国服同字段规则处理，不做全局 `・` 替换。CSS、新 UI 与下列三份扭蛋文件保持基准提交 `2a5eedeef0d58b5e43f367eb420e011d27529497` 的原始字节：
 
 - `magica/js/campaign/box_gacha/CampaignBoxGachaTop.js`
 - `magica/template/campaign/box_gacha/CampaignBoxGachaTop.html`

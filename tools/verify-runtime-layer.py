@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -88,6 +89,7 @@ def main() -> int:
         text=True,
         encoding="utf-8",
         errors="replace",
+        env={**os.environ, "GIT_OPTIONAL_LOCKS": "0"},
         check=False,
     )
     assert node.returncode == 0, node.stderr

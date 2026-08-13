@@ -1,8 +1,8 @@
 # Product application status — 2026-08-07
 
-Base authority/integration line: `research/totentanz-magica-cn-overlay-pass9-final-20260807@f25b445d7bcb9b9710f51d82ca9330995185d623`
+Base authority/integration line: `research/totentanz-magica-cn-overlay-pass9-final-20260807@de8d97378f2c87c9927d232cb56d9331181de7d8`
 
-Final isolated materialization base: `research/totentanz-gacha-cn-authority-20260807@5e8ff12dc690fb7faad53580d7a6eeb048317581`
+Final isolated materialization base: `research/totentanz-gacha-cn-authority-20260807@a25ca643aee8b10df720c038550f245cf605c5e4`
 
 ## Fully materialized product layer
 
@@ -24,7 +24,7 @@ The canonical fail-closed generator remains `apply_gacha_overlay.py`; its expect
 
 ## Isolation / preservation boundary
 
-The final branch was created from the pre-materialization clean head `5e8ff12dc690fb7faad53580d7a6eeb048317581` and the three remaining product blobs were attached in one isolated Git commit. This intentionally excludes an unrelated concurrent workflow change observed on the older working research branch.
+The final branch was created from the pre-materialization clean head `a25ca643aee8b10df720c038550f245cf605c5e4` and the three remaining product blobs were attached in one isolated Git commit. This intentionally excludes an unrelated concurrent workflow change observed on the older working research branch.
 
 The final three-file product delta contains only:
 

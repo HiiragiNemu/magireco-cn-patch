@@ -1,0 +1,51 @@
+{
+  "schema": "magireco-cn-v26-gzip-binary-attribute-verification/v1",
+  "status": "PASS",
+  "verified_at_utc": "2026-08-11T14:39:44.785695Z",
+  "attribute_rule": "magica/i18n_audit/release_v26_authority/**/*.gz -text",
+  "method": "git hash-object --no-filters compared with git hash-object --path plus full gzip decompression",
+  "files": [
+    {
+      "path": "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/pass8_field_provenance_reconstructed.tsv.gz",
+      "bytes": 1642885,
+      "worktree_sha256": "177a68a2002a0e5a58793eb4ba3dfff63c77ddeaf68eb4ac7340d03086c0dd4f",
+      "git_attributes": [
+        "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/pass8_field_provenance_reconstructed.tsv.gz: text: unset",
+        "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/pass8_field_provenance_reconstructed.tsv.gz: eol: lf"
+      ],
+      "raw_blob_sha1": "ae805ed4517b6d2646ac992e2fb35f9f2a763e23",
+      "filtered_blob_sha1": "ae805ed4517b6d2646ac992e2fb35f9f2a763e23",
+      "raw_equals_filtered": true,
+      "gzip_integrity": "PASS",
+      "decompressed_bytes": 12849488
+    },
+    {
+      "path": "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/pass8_final_provenance.tsv.gz",
+      "bytes": 143992,
+      "worktree_sha256": "1df4bd484e8cbffd26894400deb23b0a746f3607acabad972910d09514e41a83",
+      "git_attributes": [
+        "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/pass8_final_provenance.tsv.gz: text: unset",
+        "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/pass8_final_provenance.tsv.gz: eol: lf"
+      ],
+      "raw_blob_sha1": "e1121bdf82998302f62c1546a926b7de0430735f",
+      "filtered_blob_sha1": "e1121bdf82998302f62c1546a926b7de0430735f",
+      "raw_equals_filtered": true,
+      "gzip_integrity": "PASS",
+      "decompressed_bytes": 1700315
+    },
+    {
+      "path": "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/wiki_characters.json.gz",
+      "bytes": 366601,
+      "worktree_sha256": "6418c55e2581d5bb5251054830776a1061edd62c9c750daf4de6bb4fe682ff39",
+      "git_attributes": [
+        "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/wiki_characters.json.gz: text: unset",
+        "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/wiki_characters.json.gz: eol: lf"
+      ],
+      "raw_blob_sha1": "22c02cbf6e52be8b1b231a345c15b819324fd8e0",
+      "filtered_blob_sha1": "22c02cbf6e52be8b1b231a345c15b819324fd8e0",
+      "raw_equals_filtered": true,
+      "gzip_integrity": "PASS",
+      "decompressed_bytes": 1063790
+    }
+  ]
+}

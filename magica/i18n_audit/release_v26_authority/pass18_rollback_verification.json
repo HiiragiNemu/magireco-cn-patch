@@ -1,0 +1,176 @@
+{
+  "schema": "magireco-cn-v26-pass18-rollback-verification/v1",
+  "status": "PASS",
+  "baseline_commit": "d5e8f75d93f6760a588e592c22a3754d19370c68",
+  "execution_context": "isolated-current-product-copy",
+  "restore_method": "git-cat-file-raw-bytes",
+  "builder_command": "python Build_JS_Injector.py",
+  "builder_exit_status": 0,
+  "builder_output": "MagiaCN injector rebuilt: dictionaries=23 bytes=5060045 sha256=4840de456fdec9c1f86b6d990b942f320b15bfbbc5c5a1284eb88638cbda1493\n",
+  "runtime_verification_command": "python tools/verify-runtime-layer.py",
+  "runtime_verification_exit_status": 0,
+  "runtime_verification_output": "{\n  \"status\": \"PASS\",\n  \"dictionary_count\": 23,\n  \"record_count\": 29008,\n  \"embedded_equals_standalone\": true,\n  \"jquery\": {\n    \"bytes\": 5060045,\n    \"sha256\": \"4840de456fdec9c1f86b6d990b942f320b15bfbbc5c5a1284eb88638cbda1493\"\n  },\n  \"manifest\": {\n    \"entries\": 24,\n    \"sha256\": \"d0c6ba1f550780fa382dea22b72ae4a64c99aaf10beca6eded06e19be1bb9837\",\n    \"sums_sha256\": \"c9497a947e12a35ae43a460055bfa849968f9a0c2e2e16cc9cb78f0a3b3ca284\"\n  },\n  \"line_endings\": \"LF\",\n  \"node_check_exit_status\": 0\n}\n",
+  "verified_file_count": 19,
+  "byte_identical_count": 19,
+  "failed_paths": [],
+  "runtime_layer": {
+    "dictionary_count": 23,
+    "manifest_entry_count": 24,
+    "line_endings": "LF",
+    "package_id": "cn-js-v26-authority-pass17"
+  },
+  "files": [
+    {
+      "path": "i18n/authority-policy.json",
+      "baseline_bytes": 10609,
+      "restored_bytes": 10609,
+      "baseline_sha256": "47b1c2752a1bd19a2574474f51e252637aa1d689e02c7a219f07ed5863126ea7",
+      "restored_sha256": "47b1c2752a1bd19a2574474f51e252637aa1d689e02c7a219f07ed5863126ea7",
+      "byte_identical": true
+    },
+    {
+      "path": "madomagi/engine_i18n.tsv",
+      "baseline_bytes": 17047,
+      "restored_bytes": 17047,
+      "baseline_sha256": "6a26d041802976fc19c99d348565a9643e29db011a6647475e18ffd275dd67ce",
+      "restored_sha256": "6a26d041802976fc19c99d348565a9643e29db011a6647475e18ffd275dd67ce",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/cardList.json",
+      "baseline_bytes": 50135,
+      "restored_bytes": 50135,
+      "baseline_sha256": "c9d44c56e5af4427aa715543d4f5ef4e6232801039528e51cca90b46797590c9",
+      "restored_sha256": "c9d44c56e5af4427aa715543d4f5ef4e6232801039528e51cca90b46797590c9",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/cardMagiaMap.json",
+      "baseline_bytes": 246803,
+      "restored_bytes": 246803,
+      "baseline_sha256": "d608bb56123fe9664c9d4516aac930e19054dbc4660faed9804c6154fd6b57d8",
+      "restored_sha256": "d608bb56123fe9664c9d4516aac930e19054dbc4660faed9804c6154fd6b57d8",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/charaList.json",
+      "baseline_bytes": 122953,
+      "restored_bytes": 122953,
+      "baseline_sha256": "aad0087e93c6abdc95201fad31416841f947f6f9c25a6e617796080614cf84b3",
+      "restored_sha256": "aad0087e93c6abdc95201fad31416841f947f6f9c25a6e617796080614cf84b3",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/charaMessageList.json",
+      "baseline_bytes": 1268212,
+      "restored_bytes": 1268212,
+      "baseline_sha256": "dced8aa507d133cd343bab948d6fecfed050a64ae7d197354e8716c72c796f17",
+      "restored_sha256": "dced8aa507d133cd343bab948d6fecfed050a64ae7d197354e8716c72c796f17",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/doppelCardMagiaMap.json",
+      "baseline_bytes": 41834,
+      "restored_bytes": 41834,
+      "baseline_sha256": "129619996846927a78f6773094976441be19e662105dc64024ff57054588c2c4",
+      "restored_sha256": "129619996846927a78f6773094976441be19e662105dc64024ff57054588c2c4",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/doppelList.json",
+      "baseline_bytes": 124540,
+      "restored_bytes": 124540,
+      "baseline_sha256": "52c823d10e2ffc22c8ef8035b3a75b5b3d1906736e798878078a51de1d357f0e",
+      "restored_sha256": "52c823d10e2ffc22c8ef8035b3a75b5b3d1906736e798878078a51de1d357f0e",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/emotionSkillMap.json",
+      "baseline_bytes": 385615,
+      "restored_bytes": 385615,
+      "baseline_sha256": "ea1392df951fe6a822fbc4ee7c13e86436f312cc97ad6e71b22ef7838377a4da",
+      "restored_sha256": "ea1392df951fe6a822fbc4ee7c13e86436f312cc97ad6e71b22ef7838377a4da",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/itemList.json",
+      "baseline_bytes": 366788,
+      "restored_bytes": 366788,
+      "baseline_sha256": "e8480833b9462e10a8aeb25766076abe345a9f2c52f5d01c5395d2af4a49fed1",
+      "restored_sha256": "e8480833b9462e10a8aeb25766076abe345a9f2c52f5d01c5395d2af4a49fed1",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/live2dList.json",
+      "baseline_bytes": 91866,
+      "restored_bytes": 91866,
+      "baseline_sha256": "433f3fb9a7b90f1ed1f58b794ab7c7ac53954616b4ae330229bdd51f9f04a2fa",
+      "restored_sha256": "433f3fb9a7b90f1ed1f58b794ab7c7ac53954616b4ae330229bdd51f9f04a2fa",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/pieceList.json",
+      "baseline_bytes": 413674,
+      "restored_bytes": 413674,
+      "baseline_sha256": "ec3e1ca25241bd4e4bf64e6a72cd163486fd6fba778bb2650ec1cd93984b7190",
+      "restored_sha256": "ec3e1ca25241bd4e4bf64e6a72cd163486fd6fba778bb2650ec1cd93984b7190",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/pieceSkillMap.json",
+      "baseline_bytes": 315408,
+      "restored_bytes": 315408,
+      "baseline_sha256": "5ef7ef9b9ff4b1be666d9aeee68acf19433d996b37cc606afdcd4fbd6a6ef0e5",
+      "restored_sha256": "5ef7ef9b9ff4b1be666d9aeee68acf19433d996b37cc606afdcd4fbd6a6ef0e5",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/sectionList.json",
+      "baseline_bytes": 619452,
+      "restored_bytes": 619452,
+      "baseline_sha256": "0ac8b3e0083239448502256069f7b46d0281c9f5e64426168db9f2a7893bd577",
+      "restored_sha256": "0ac8b3e0083239448502256069f7b46d0281c9f5e64426168db9f2a7893bd577",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/shopItemList.json",
+      "baseline_bytes": 1342750,
+      "restored_bytes": 1342750,
+      "baseline_sha256": "6fbd1ad14336f7e1fc464c068aa3033271f823b8be1cf8fe7957b4fdbe739d79",
+      "restored_sha256": "6fbd1ad14336f7e1fc464c068aa3033271f823b8be1cf8fe7957b4fdbe739d79",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/regularEvent/groupBattle/view/BossPageView.js",
+      "baseline_bytes": 14992,
+      "restored_bytes": 14992,
+      "baseline_sha256": "51c009e2308cea6dfb54cdc6bf344be17fce028b8d9f3b46381194bdb9997480",
+      "restored_sha256": "51c009e2308cea6dfb54cdc6bf344be17fce028b8d9f3b46381194bdb9997480",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/js/libs/jquery-3.7.1.min.js",
+      "baseline_bytes": 5060045,
+      "restored_bytes": 5060045,
+      "baseline_sha256": "4840de456fdec9c1f86b6d990b942f320b15bfbbc5c5a1284eb88638cbda1493",
+      "restored_sha256": "4840de456fdec9c1f86b6d990b942f320b15bfbbc5c5a1284eb88638cbda1493",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/i18n_audit/release_v26_authority/runtime_layer_manifest.json",
+      "baseline_bytes": 4658,
+      "restored_bytes": 4658,
+      "baseline_sha256": "d0c6ba1f550780fa382dea22b72ae4a64c99aaf10beca6eded06e19be1bb9837",
+      "restored_sha256": "d0c6ba1f550780fa382dea22b72ae4a64c99aaf10beca6eded06e19be1bb9837",
+      "byte_identical": true
+    },
+    {
+      "path": "magica/i18n_audit/release_v26_authority/RUNTIME_LAYER_SHA256SUMS.txt",
+      "baseline_bytes": 2375,
+      "restored_bytes": 2375,
+      "baseline_sha256": "c9497a947e12a35ae43a460055bfa849968f9a0c2e2e16cc9cb78f0a3b3ca284",
+      "restored_sha256": "c9497a947e12a35ae43a460055bfa849968f9a0c2e2e16cc9cb78f0a3b3ca284",
+      "byte_identical": true
+    }
+  ]
+}

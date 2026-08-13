@@ -436,7 +436,7 @@ def main() -> None:
     subprocess.run([sys.executable, "Build_JS_Injector.py"], cwd=REPO, check=True)
     authority_summary = json.loads((AUDIT / "source_evidence" / "runtime_authority_lookup_148_summary.json").read_text(encoding="utf-8"))
     summary = {
-        "base_commit": "2d9fad7a10cf54a20b3bb473c25971ee6bf6cabd",
+        "base_commit": "4db6698623311ee5ab1dce9ebce940e0eb2748f0",
         "peer_rules": peer,
         "static_overrides": static,
         "ui_change_log_rows": len(changes),

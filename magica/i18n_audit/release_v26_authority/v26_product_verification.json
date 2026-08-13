@@ -1,0 +1,226 @@
+{
+  "schema": "magireco-cn-v26-product-verification/v1",
+  "status": "PASS",
+  "counts": {
+    "product_js": 198,
+    "js_syntax_failures": 0,
+    "product_html": 182,
+    "product_css": 19,
+    "runtime_json_dictionaries": 23,
+    "visible_untranslated_backlog": 0,
+    "manual_review_rows": 1183,
+    "machine_translation_review_rows": 12930
+  },
+  "runtime_layer": {
+    "status": "PASS",
+    "dictionary_count": 23,
+    "record_count": 29008,
+    "embedded_equals_standalone": true,
+    "jquery": {
+      "bytes": 5064826,
+      "sha256": "1f1d74c0c949882ca609f27296a7b7f542316f84501e1d6b6556c4e0f67210c8"
+    },
+    "manifest": {
+      "entries": 24,
+      "sha256": "5df35b2b4113b97d9c467be35f0a48db0170a17650016c19319254b9fe429c02",
+      "sums_sha256": "8701bc7e9d86832bef987cff033b93dc107ded61371d0e4d6b850e8b1769f4e3"
+    },
+    "line_endings": "LF",
+    "node_check_exit_status": 0
+  },
+  "authority_guard": {
+    "ok": true,
+    "policy_id": "magireco-cn-runtime-authority-v1",
+    "authority_weights": {
+      "official_cn_dump": 400,
+      "wiki": 300,
+      "existing_human": 200,
+      "new_human_or_llm": 100
+    },
+    "provenance_rows": 12,
+    "canonical_terms": 3,
+    "glossary_rows": 955,
+    "json_dictionaries": 23,
+    "jquery_dictionaries": 23,
+    "product_assertions": 15,
+    "forbidden_rules": 13,
+    "errors": []
+  },
+  "ui_union": {
+    "status": "PASS",
+    "main_only": "12/12",
+    "pass_only": "14/14",
+    "specified_gacha": "3/3",
+    "sensitive_attribute_drift": 0
+  },
+  "engine_i18n": {
+    "rows": 303,
+    "empty_targets": 1,
+    "sha256": "9d14dc8c7c7a1dbfb381af86ebcfff17b2393b2cec5136ed1594f7ea87dbd4a4",
+    "bytes": 17371
+  },
+  "pass18_authority": {
+    "schema": "magireco-cn-v26-pass18-authority-verification/v1",
+    "status": "PASS",
+    "baseline_commit": "d5e8f75d93f6760a588e592c22a3754d19370c68",
+    "manifest": {
+      "path": "magica/i18n_audit/release_v26_authority/pass18_authority_corrections.tsv",
+      "sha256": "4d1821807ff2a1c90f026886cf6c1fe31041b687eb5270853a4d0549b39d2a30",
+      "recorded_sha256": "4d1821807ff2a1c90f026886cf6c1fe31041b687eb5270853a4d0549b39d2a30",
+      "expected_rows": 939,
+      "actual_rows": 939,
+      "after_image_matches": 939,
+      "failures": []
+    },
+    "visible_regression_scan": {
+      "expected_dictionaries": 23,
+      "actual_dictionaries": 23,
+      "visible_fields": [
+        "areaDetailName",
+        "areaName",
+        "cardName",
+        "chapterNoForView",
+        "charaName",
+        "className",
+        "conditionDescription",
+        "description",
+        "eventDescription",
+        "eventName",
+        "kana",
+        "message",
+        "name",
+        "nextClassName",
+        "outline",
+        "parameter",
+        "pieceName",
+        "pointTitle",
+        "school",
+        "shortDescription",
+        "storyTitle",
+        "title",
+        "unit"
+      ],
+      "excluded_field_classes": {
+        "technical": "IDs, codes, enums, dates, paths, openFunctions and reward fields",
+        "credits": "illustrator, designer and voiceActor"
+      },
+      "standalone_visible_values_scanned": 52400,
+      "jquery_visible_values_scanned": 52400,
+      "forbidden_rules": 43,
+      "forbidden_hits": 0,
+      "hits": []
+    },
+    "root_personal_translations": {
+      "expected": 12,
+      "actual": 12,
+      "exact_after_matches": 12,
+      "missing": [],
+      "extra": [],
+      "bad_review_status_change_ids": [],
+      "after_image_failure_change_ids": []
+    },
+    "engine_i18n": {
+      "path": "madomagi/engine_i18n.tsv",
+      "sha256": "9d14dc8c7c7a1dbfb381af86ebcfff17b2393b2cec5136ed1594f7ea87dbd4a4",
+      "bytes": 17371,
+      "encoding": "UTF-8",
+      "line_endings": "LF",
+      "expected_data_rows": 303,
+      "actual_data_rows": 303,
+      "malformed_lines": [],
+      "duplicate_source_keys": {},
+      "official_audit_rows": 5,
+      "official_mapping_failures": []
+    },
+    "css_unchanged": {
+      "baseline_commit": "d5e8f75d93f6760a588e592c22a3754d19370c68",
+      "expected_files": 25,
+      "baseline_files": 25,
+      "current_files": 25,
+      "missing": [],
+      "extra": [],
+      "mismatched": []
+    },
+    "boss_page_static_label": {
+      "path": "magica/js/regularEvent/groupBattle/view/BossPageView.js",
+      "manifest_rows": 1,
+      "corrected_literal_count": 1,
+      "old_literal_count": 0
+    },
+    "errors": []
+  },
+  "pass19_static_authority": {
+    "manifest_rows": 6,
+    "source_tiers": {
+      "official_cn_dump": 4,
+      "wiki": 2
+    },
+    "machine_translated": false,
+    "corrected_occurrences": 11,
+    "product_terms": {
+      "心魔战": {
+        "occurrences": 20,
+        "files": 11
+      },
+      "属性克制": {
+        "occurrences": 29,
+        "files": 5
+      }
+    },
+    "retired_terms": {
+      "心情战": 0,
+      "属性相性": 0
+    },
+    "official_product_node": "magica/template/formation/FormationQuest.html#div.deckDetailCongeniality>p=属性克制"
+  },
+  "machine_translation_review": {
+    "schema": "magireco-cn-v26-machine-translation-review/v2",
+    "counts": {
+      "master": 12930,
+      "runtime": 9665,
+      "static": 303,
+      "frontend": 1685,
+      "frontend_empty": 53,
+      "glossary": 955,
+      "overrides_fragments": 16,
+      "engine": 303,
+      "battle_miss_needs_review": 3,
+      "battle_runtime_language_decisions": 8,
+      "battle_runtime_unique_misses": 20,
+      "pass18": 939,
+      "explicit_llm_history": 264
+    },
+    "engine_partition": {
+      "engine_runtime_i18n_intentional_fragment": 1,
+      "engine_runtime_i18n_official": 6,
+      "engine_runtime_i18n_unverified": 296
+    },
+    "source_buckets": {
+      "legacy-ai": 1700,
+      "new-root-human": 15,
+      "official": 1501,
+      "unknown": 8620,
+      "wiki": 1094
+    },
+    "machine_translation_flags": {
+      "ai-assisted-unverified": 1632,
+      "false": 2658,
+      "unknown": 8640
+    },
+    "pass18_root_personal_needs_review": 12,
+    "frontend_empty_closure": {
+      "records": 53,
+      "status_counts": {
+        "runtime-absent/not-backlog": 18,
+        "visible-cn-compatible-identity": 33,
+        "identity-punctuation": 1,
+        "official-source-verified": 1
+      },
+      "official_record": "MT-01965",
+      "official_source_sha256": "8a73978062da1662bb7405d93ca37ef4e924b8a0b14bd66a56237e6ea8480f8d",
+      "product_node": "magica/template/formation/FormationQuest.html#div.deckDetailCongeniality>p"
+    },
+    "checksummed_artifacts": 31,
+    "sha256": "8f6cf5e1c894488822e9db12c73d38f20ac1612aa4963bf3e57fd4ba3fc9f574"
+  }
+}
