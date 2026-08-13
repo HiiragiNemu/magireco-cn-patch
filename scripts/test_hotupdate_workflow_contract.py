@@ -144,6 +144,24 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertLess(verify, package)
         self.assertNotIn("tools/build-v26-authority-protection.py", self.text)
 
+    def test_stable_publish_requires_closed_full_human_decision_gate(self):
+        validator = "python3 tools/validate-dsv4-human-review.py"
+        self.assertIn(validator, self.text)
+        self.assertIn("--require-release-open", self.text)
+        self.assertIn(
+            'if [ "${{ needs.setup.outputs.publish_hotfix }}" = "true" ]; then',
+            self.text,
+        )
+        self.assertIn(
+            "--decisions magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv",
+            self.text,
+        )
+        self.assertIn("--report _artifacts/dsv4_human_release_gate.json", self.text)
+        self.assertLess(
+            self.text.index(validator),
+            self.text.index("python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip"),
+        )
+
     def test_engine_table_belongs_only_to_js_package(self):
         self.assertIn('engine = "madomagi/engine_i18n.tsv"', self.text)
         self.assertIn('assert names.count(engine) == 1', self.text)

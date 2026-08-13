@@ -6,6 +6,7 @@ from __future__ import annotations
 import importlib.util
 import os
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
 
@@ -33,7 +34,14 @@ class TerminalHandoffVerifierTests(unittest.TestCase):
             copy.mkdir()
             for source in MODULE.DEFAULT_ROOT.iterdir():
                 if source.is_file():
-                    os.link(source, copy / source.name)
+                    target = copy / source.name
+                    try:
+                        os.link(source, target)
+                    except OSError:
+                        # Windows hard links cannot cross volumes.  Preserve
+                        # the byte-drift test when TEMP is intentionally on a
+                        # different disk by falling back to an exact copy.
+                        shutil.copy2(source, target)
             manifest = copy / "manifest.json"
             manifest.unlink()
             manifest.write_bytes((MODULE.DEFAULT_ROOT / "manifest.json").read_bytes() + b"\n")
