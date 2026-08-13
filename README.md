@@ -9,20 +9,19 @@
 ### 自动触发下游仓库们更新：
 [![⚙️ 触发下游更新](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/call-downstream-action.yml/badge.svg)](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/call-downstream-action.yml)
 
-### 自动更新组织下游并上传S3：
-[![🔄 同步上游并上传到 S3](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml)
+### 自动更新组织下游并上传R2：
+[![🔄 同步上游并上传到 R2](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml)
 
 > 同步分「R2 系」与「Doge 系」两条独立流水线：
 > - **R2 系**：上传到 R2 桶，刷新 EdgeOne / 阿里云 ESA / Cloudflare 三 CDN
-> - **Doge 系**：`sync-and-upload.yml` 里的 `doge-sync` job 直接
->   `runs-on [self-hosted, hk]` 在 hk 的 Docker 自托管 runner 上跑
->   `scripts/sync-dogecloud.py` —— 经 `/auth/tmp_token.json` 换三段式
->   STS 临时密钥后走 boto3（仅 Virtual Hosted Style）上传到多吉云并刷新
->   其 CDN。因 GitHub runner → 腾讯 COS 直连极慢，而 hk → GitHub ~8.6MB/s、
->   hk → COS 快，故 runner 装在 hk（Docker 容器，`--cpus=2 --memory=2g`
->   限资源；自建镜像仅含官方 runner 二进制，配置用 bind-mount 持久化、免
->   PAT）。同步指纹存 Doge 桶 `__doge_fingerprint.json`，
->   `confirm_cleanup=true` 才删过时文件
+> - **Doge 系**：`sync-and-upload.yml` 里的 `doge-sync` job 在 **mainland
+>   自托管 runner**（`runs-on [self-hosted, mainland]`）上跑
+>   `scripts/sync-dogecloud.py`，改用**多吉云服务端拉取**（`/oss/fetch.json`
+>   提交 URL + `query.json` 轮询），runner 只做控制面（换临时密钥、提交任务、
+>   轮询、列桶校验），不再下载+上传大文件。源 URL 用脚本内 `race_source_cdn()`
+>   竞速国内 CDN（edgeone/esa/hkcdn/r2 测吞吐选最快，运行时就地测）。
+>   排在 `r2-sync` 之后等 CDN 清缓存。同步指纹存 GitHub variable
+>   `LAST_DOGE_FINGERPRINTS`，`confirm_cleanup=true` 才删过时文件
 >
 > 多吉云相关密钥见 GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` /
 > `DOGE_BUCKET` / `DOGE_DOMAIN`）。
