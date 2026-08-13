@@ -1,8 +1,20 @@
 name: 🔄 同步上游并上传到 object-storage
 
 # ╔════════════════════════════════════════════════════════════════════╗
-# ║   v3.1 —— 移除 configure.json / 离线包；单 object-storage 桶；                  ║
-# ║   edge + 阿里云 ESA + CDN 三 CDN 刷新；                   ║
+# ║   v4.0 —— 单 job 21 步 → 10-job 并行 DAG；                          ║
+# ║   DAG 拓扑：                                                        ║
+# ║     [setup] 护栏/检出/同步下游/detect                                ║
+# ║       ├─ [pack-js] CSS冻结+打包JS  ║ [pack-scenario] 打包SCENARIO    ║
+# ║       └─ [publish] 热更发布(gate)                                    ║
+# ║            ├─ [r2-sync] object-storage系同步  ║ [doge-sync] Doge系(hk runner)     ║
+# ║            ├─ [mirror-release] 镜像Release                           ║
+# ║            └─ [commit-configs] 提交版本json推上下游                    ║
+# ║                 └─ [update-cursor] 推进游标 → [summary] 报告         ║
+# ║   object-storage 系：单 object-storage 桶 + edge/ESA/CDN 三 CDN 刷新               ║
+# ║   Doge 系：多吉云 S3 兼容镜像（临时密钥）+ 多吉云 CDN 刷新，          ║
+# ║     2026-08-13 起在 mainland runner 上跑：多吉云服务端 fetch 拉取     ║
+# ║     （/oss/fetch.json 轮询），源用国内 CDN 竞速，不再 runner 上传     ║
+# ║     指纹存 GitHub variable LAST_DOGE_FINGERPRINTS                    ║
 # ║   object-storage 过时文件需手动确认清理；                                       ║
 # ║   版本 json 以【同一个 commit】推送上下游（fork 页不分叉）；      ║
 # ║   每次新建/同步 Release 后强制校准 Latest 徽标到 tag=latest         ║
@@ -12,7 +24,8 @@ name: 🔄 同步上游并上传到 object-storage
 # ║ ───────                                                            ║
 # ║   1. 每次 sync：                                                   ║
 # ║        ▸ 重新生成 cn_*_update_new.zip                              ║
-# ║        ▸ 写 version_*_new.json（version+1, size, md5）             ║
+# ║        ▸ 按包指纹写 version_*_new.json；同预览复用版本，             ║
+# ║          不同字节严格越过已观察到的最高版本                         ║
 # ║        ▸ 同步到 /、/configures/、Release 三处                      ║
 # ║        ▸ 提交 _new 文件到 git（同一 commit 推送并对齐上下游），     ║
 # ║          official 文件不动                                         ║
@@ -20,26 +33,34 @@ name: 🔄 同步上游并上传到 object-storage
 # ║   2. 手动勾选 publish_hotfix=true 时：                              ║
 # ║        ▸ 把 *_new 文件去掉 _new 后缀覆盖正式文件                     ║
 # ║          （Release + /configures/；根目录不放 official version）    ║
-# ║        ▸ 转正方式：先在本地把文件复制成最终文件名再上传。           ║
+# ║        ▸ 转正方式：旧正式 asset 先 PATCH 改为 rollback 名，再把     ║
+# ║          已核验的 _new asset PATCH 为正式名；整批失败倒序恢复。      ║
 # ║          不要用 `gh release upload <tag> <file>#<name>` —— `#`     ║
 # ║          后面只是"显示标签（label）"，asset 真实 name 仍是本地      ║
 # ║          文件名，下载 URL 也按 name 走，于是出现"网页端显示正式     ║
 # ║          名、点击却下载 _new 文件"的虚空链接 bug                    ║
-# ║        ▸ 转正后删除 Release 上对应的 _new 预览 asset，              ║
+# ║        ▸ 转正后 _new asset 已改为正式名，不再留下第二个预览条目，    ║
 # ║          避免网页端同时显示带 _new 和不带 _new 两个条目             ║
 # ║                                                                    ║
 # ║ object-storage 同步                                                            ║
 # ║ ───────                                                            ║
-# ║   ▸ 黑名单：history-data*（前缀）与 *.apk（后缀）不同步          ║
+# ║   ▸ 黑名单：history-data*（前缀）不同步                          ║
 # ║   ▸ GitHub 上已不存在的文件【不主动删除】，先记入                   ║
 # ║       PENDING_DELETIONS 仓库变量并打印警告；手动以                  ║
 # ║       confirm_cleanup=true 运行时才真正删除                         ║
 # ║                                                                    ║
-# ║ CDN 刷新                                                           ║
-# ║ ───────                                                            ║
+# ║ object-storage 系 CDN 刷新                                                      ║
+# ║ ───────────                                                         ║
 # ║   ▸ 每上传一个文件，刷新 edge（EDGEONE_DOMAIN，腾讯云 TEO）、    ║
 # ║     阿里云 ESA（ESA_DOMAIN，PurgeCaches Type=file）与               ║
 # ║     CDN（CLOUDFLARE_DOMAIN，Purge Cache by URL）             ║
+# ║                                                                    ║
+# ║ DogeCloud 系（独立流水线）                                          ║
+# ║ ───────────────────                                                 ║
+# ║   ▸ scripts/sync-dogecloud.py：tmp_token 换 STS → 上传/删除 →       ║
+# ║     POST /cdn/refresh/add.json 刷新（rtype=url，同一 TOKEN 鉴权）   ║
+# ║   ▸ 独立指纹 LAST_DOGE_FINGERPRINTS；过滤规则与 object-storage 系一致；          ║
+# ║     confirm_cleanup=true 才删 Doge 桶过时文件                        ║
 # ║                                                                    ║
 # ║ 本仓库快照 Release                                                  ║
 # ║ ───────                                                            ║
@@ -47,10 +68,10 @@ name: 🔄 同步上游并上传到 object-storage
 # ║       1. YYYYmmdd-HHMMSS（UTC）命名的 Release —— 历史快照          ║
 # ║          （只放本次变化的文件，作为变更记录；显式 --latest=false，  ║
 # ║          绝不抢占仓库的 "Latest" 徽标）                             ║
-# ║       2. 名为 latest 的 Release —— 【全量镜像】：只要检测到          ║
-# ║          upstream 有任何变化，就把全部 asset 重新上传一遍           ║
-# ║          （同名先删再传），并删除 upstream 已移除的文件，确保       ║
-# ║          latest 始终是 upstream 的完整快照；同时每次运行结束都      ║
+# ║       2. 名为 latest 的 Release —— 【增量镜像】：只传新增／变化      ║
+# ║          asset，并删除 upstream 已移除的文件；完成后逐项核对         ║
+# ║          name、size、digest 与完整集合，既保持完整镜像，也避免       ║
+# ║          每次重复传输十余 GiB 未变化资产；每次运行结束都             ║
 # ║          显式 `gh release edit latest --latest` 校准，确保          ║
 # ║          "Latest" 徽标 / `/releases/latest` API 永远指向它，        ║
 # ║          不会被更晚创建的日期快照 Release 抢走                      ║
@@ -89,39 +110,31 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Release promotion changes several related assets.  Queue a later dispatch
+  # instead of cancelling between a rename and its verification/rollback.
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
+
 jobs:
-  sync-and-upload:
-    runs-on: ubuntu-latest
+  setup:
+    runs-on: ubuntu-24.04
+    outputs:
+      should_sync:    ${{ steps.check_upstream.outputs.should_sync }}
+      commit_sha:     ${{ steps.check_upstream.outputs.commit_sha }}
+      publish_hotfix: ${{ steps.check_upstream.outputs.publish_hotfix }}
+      confirm_cleanup: ${{ steps.check_upstream.outputs.confirm_cleanup }}
+      has_js:          ${{ steps.detect.outputs.has_js }}
+      has_scenario:    ${{ steps.detect.outputs.has_scenario }}
     env:
       PYTHONUNBUFFERED: "1"
       : ${{ secrets. }}
-      R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
-      R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
-      R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
-      R2_REGION: ${{ secrets.R2_REGION }}
-      R2_BUCKET: ${{ secrets.R2_BUCKET }}
-      QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
-      QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
-      EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
-      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
-      ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
-      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
-      ESA_SITE_ID: ${{ secrets.ESA_SITE_ID }}
-      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-      CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "patch-front"
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
       DOWNSTREAM_REPO: "patch-front"
-      CONFIG_DIR: "configures"
-
     steps:
       - name: 🛡 安全护栏（校验所有可写仓库都在白名单中）
         # 这是本 workflow 的"硬刹车"。下面列出的三组 owner/repo 是
@@ -164,6 +177,11 @@ jobs:
           # 区间，浅克隆拿不到旧提交
           fetch-depth: 0
 
+      - name: 🐍 固定热更新构建 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.18'
+
       - name: 🛡 安全护栏（校验 origin 指向预期下游仓库）
         # checkout 完后立刻校验本地 git 的 origin URL，确认我们真的
         # 是在操作预期的下游仓库——后续所有 git push 都会推到 origin，
@@ -181,8 +199,8 @@ jobs:
 
       - name: 🔧 配置 Git
         run: |
-          git config user.name "MagiaCN AutoBot"
-          git config user.email "bot@magiacn.com"
+          git config user.name "Hiiragi Nemu"
+          git config user.email "128921071+HiiragiNemu@users.noreply.github.com"
           git config rebase.autoStash true
 
       - name: 🔍 检查上游内容更新
@@ -304,13 +322,15 @@ jobs:
           git fetch origin main
           git reset --hard origin/main
 
-      - name: 🔍 检测变动范围
+      - name: 🔍 记录变动范围
         id: detect
         run: |
           # 对比「同步前的下游 HEAD → 同步后的最新 HEAD」整个区间，
           # 而不是只看最后一个 commit——否则上游一次推多个 commit 时，
           # 只有 HEAD 那个 commit 的文件会被检测到，其余全部漏掉。
           # PRE_SYNC_SHA 为空说明本次没有同步（无新内容），变动为空。
+          # 仅作日志/审计用：打包已改为【无条件】，无论变动如何
+          # 都同时重打 JS 与 SCENARIO 包（见 pack-js / pack-scenario）。
           if [ -n "$PRE_SYNC_SHA" ]; then
             CHANGED=$(git diff --name-only "$PRE_SYNC_SHA" HEAD 2>/dev/null || echo "ALL")
           else
@@ -318,37 +338,21 @@ jobs:
           fi
           echo "变动文件:"; echo "$CHANGED"
 
-          HAS_SCENARIO=0
-          HAS_JS=0
-
-          # 剧情包只由剧情 JSON 触发；引擎翻译表属于 JS 热更新包。
-          echo "$CHANGED" | grep -qE '^madomagi/resource/scenario/json/' && HAS_SCENARIO=1 || true
-          echo "$CHANGED" | grep -qE '^magica/(css|fonts|js|resource|template)/|^madomagi/engine_i18n\.tsv$' && HAS_JS=1 || true
-
-          # 手动运行显式选择范围；默认仅 JS，避免无关地递增几百 MB 剧情包。
+          # 自动范围和手动范围共用同一个可测试的产品所有权合同。
+          # 剧情包只由剧情 JSON 触发；引擎翻译表只属于 JS 热更新包。
+          SCOPE=auto
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             SCOPE="${{ inputs.package_scope }}"
-            case "$SCOPE" in
-              js)
-                HAS_JS=1; HAS_SCENARIO=0 ;;
-              scenario)
-                HAS_JS=0; HAS_SCENARIO=1 ;;
-              all)
-                HAS_JS=1; HAS_SCENARIO=1 ;;
-              *)
-                echo "::error::未知 package_scope: $SCOPE"
-                exit 1 ;;
-            esac
           fi
-
-          echo "has_scenario=$HAS_SCENARIO" >> $GITHUB_OUTPUT
-          echo "has_js=$HAS_JS" >> $GITHUB_OUTPUT
+          printf '%s\n' "$CHANGED" | python3 scripts/classify_hotupdate_changes.py \
+            --scope "$SCOPE" --github-output "$GITHUB_OUTPUT"
           mkdir -p _artifacts
 
       # ───────────────────────────────────────────────────────────────
       # [JS] 打包 cn_js_update_new.zip
-      #   ▸ baseline 直接取 /configures/version_js.json#version
-      #     （script 内自取，并与已有 _new 取 max，无需外部输入）
+      #   ▸ baseline 从上游 tag=latest Release 下载 stable version/zip 并
+      #     逐字节交叉核验；Release 中已有完整 _new 同指纹则复用，异指纹
+      #     则严格越过两者，并落盘可机审版本决策
       #   ▸ 产物：version_js_new.json 写到 /, /configures/, _artifacts/
       #   ▸ 产物：cn_js_update_new.zip 写到 /, _artifacts/
       # ───────────────────────────────────────────────────────────────
@@ -358,12 +362,64 @@ jobs:
       #   所以每次打包前都要确认它们还和服务端现役版本一致。
       #   不阻断构建：游戏服务端连不上时不该把发版卡死，只标红提示。
       # ───────────────────────────────────────────────────────────────
-      - name: "[HOTUPDATE] 清单所有权回归"
-        if: steps.detect.outputs.has_js == '1' || steps.detect.outputs.has_scenario == '1'
-        run: python3 scripts/test_build_manifest.py -v
+  pack-js:
+    runs-on: ubuntu-24.04
+    needs: [setup]
+    if: needs.setup.outputs.has_js == '1'
+    # 只打 JS/WebView 和引擎表；完整产品双构建并验证。
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+      CONFIG_DIR: "configures"
+    steps:
+      - name: 📦 检出下游仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets. }}
+          repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
+          # 需要完整历史：build_manifest.py 账本要 diff 上一版
+          fetch-depth: 0
+
+      - name: "[JS] 锁定上游 latest Release 正式版本基线"
+        run: |
+          set -euo pipefail
+          BASELINE_DIR="_release_baseline/js"
+          ASSET_DIR="${BASELINE_DIR}/assets"
+          rm -rf "${BASELINE_DIR}"
+          mkdir -p "${ASSET_DIR}" _artifacts
+          gh api "repos/${UPSTREAM_OWNER}/${UPSTREAM_REPO}/releases/tags/latest" \
+            > "${BASELINE_DIR}/release.json"
+          gh release download latest \
+            --repo "${UPSTREAM_OWNER}/${UPSTREAM_REPO}" \
+            --dir "${ASSET_DIR}" --clobber \
+            --pattern 'version_js.json' \
+            --pattern 'version_js_new.json' \
+            --pattern 'cn_js_update.zip' \
+            --pattern 'cn_js_update_new.zip'
+          python3 scripts/hotupdate_release_baseline.py \
+            --scope js \
+            --release-json "${BASELINE_DIR}/release.json" \
+            --asset-dir "${ASSET_DIR}" \
+            --out-version "${BASELINE_DIR}/version_js.json" \
+            --out-candidate "${BASELINE_DIR}/version_js_new.json" \
+            --out-report "_artifacts/version_js_release_baseline.json"
+
+      - name: "[HOTUPDATE] 触发分类与清单所有权回归"
+        if: needs.setup.outputs.has_js == '1'
+        run: |
+          python3 scripts/test_classify_hotupdate_changes.py -v
+          python3 scripts/test_hotupdate_workflow_contract.py -v
+          python3 scripts/test_hotupdate_version.py -v
+          python3 scripts/test_hotupdate_release_baseline.py -v
+          python3 scripts/test_hotupdate_promotion.py -v
+          python3 scripts/test_release_asset_transaction.py -v
+          python3 scripts/test_build_manifest.py -v
 
       - name: "[JS] CSS 冻结检查"
-        if: steps.detect.outputs.has_js == '1'
         continue-on-error: true
         run: |
           set -o pipefail
@@ -382,7 +438,6 @@ jobs:
           }
 
       - name: "[JS] 打包 cn_js_update_new.zip"
-        if: steps.detect.outputs.has_js == '1'
         run: |
           pip3 install requests 2>/dev/null || true
           python3 Build_JS_Injector.py
@@ -402,7 +457,17 @@ jobs:
           git diff --exit-code -- i18n/generated
           python3 tools/test-i18n-authority-guard.py -v
           python3 tools/i18n-authority-guard.py --json | tee _authority_guard.json
+          # 先重建全量来源/机翻审计，证明清单覆盖当前产品输入；随后仅验证
+          # 已提交的高权威基线。这里禁止自动重建保护基线，避免把意外漂移
+          # 当场“盖章”为新权威。
+          python3 tools/build-v26-machine-review.py
+          git diff --exit-code -- \
+            magica/i18n_audit/release_v26_authority/machine_translation_review
+          python3 tools/test-v26-authority-protection.py -v
+          python3 tools/verify-v26-authority-protection.py --json \
+            | tee _artifacts/v26_authority_protection_verification.json
           python3 tools/test-i18n-package.py -v
+          python3 tools/test-build-v26-package.py -v
           python3 scripts/test_build_manifest.py -v
 
           # 审计证据保留在仓库，但不进入运行时包。native cocos 翻译表
@@ -410,9 +475,33 @@ jobs:
           test -f madomagi/engine_i18n.tsv || {
             echo "::error::缺少 madomagi/engine_i18n.tsv"; exit 1;
           }
-          rm -f cn_js_update_new.zip
-          zip -r cn_js_update_new.zip magica/ madomagi/engine_i18n.tsv \
-            -x 'magica/research/*' 'magica/i18n_audit/*'
+          # 对完整成品进行同一固定工具链双构建，而不只测试小型 fixture。
+          python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip
+          python3 tools/build-v26-package.py --out cn_js_update_new.zip
+          cmp cn_js_update_reprocheck.zip cn_js_update_new.zip
+          python3 - <<'PYEOF'
+          import hashlib, json, platform, sys, zlib
+          from pathlib import Path
+          paths = [Path("cn_js_update_reprocheck.zip"), Path("cn_js_update_new.zip")]
+          hashes = [hashlib.sha256(path.read_bytes()).hexdigest() for path in paths]
+          assert hashes[0] == hashes[1]
+          report = {
+              "schema": "magireco-cn-hotupdate-build-environment/v1",
+              "status": "PASS",
+              "python": sys.version,
+              "zlib_compile": zlib.ZLIB_VERSION,
+              "zlib_runtime": zlib.ZLIB_RUNTIME_VERSION,
+              "platform": platform.platform(),
+              "full_product_double_build_sha256": hashes[0],
+              "full_product_double_build_identical": True,
+          }
+          Path("_artifacts").mkdir(exist_ok=True)
+          Path("_artifacts/cn_js_update_v26_build_environment.json").write_text(
+              json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PYEOF
+          rm cn_js_update_reprocheck.zip
           python3 tools/verify-v26-product.py --zip cn_js_update_new.zip \
             --out _artifacts/cn_js_update_v26_verification.json
 
@@ -431,8 +520,13 @@ jobs:
           assert not any(n.startswith("madomagi/resource/scenario/") for n in names)
           assert not any(n.startswith(("magica/research/", "magica/i18n_audit/")) for n in names)
 
-          # 权威官方文件——/configures/version_js.json
-          official_path = os.path.join(CFG_DIR, f"{NAME}.json")
+          # 权威正式基线来自本次捕获并交叉核验的上游 latest Release；
+          # repo /configures 仅是稍后提交的镜像，禁止作为版本分配真相源。
+          release_baseline_dir = os.path.join("_release_baseline", "js")
+          official_path = os.path.join(release_baseline_dir, f"{NAME}.json")
+          release_candidate_path = os.path.join(
+              release_baseline_dir, f"{NAME}_new.json"
+          )
           # 三处 _new 输出路径
           out_paths = [
               f"{NAME}_new.json",                      # 仓库根目录
@@ -440,37 +534,34 @@ jobs:
               os.path.join("_artifacts", f"{NAME}_new.json"),  # 上传 Release 用
           ]
 
-          # version 计数：以 /configures/version_js.json 当前的 version 作为
-          # baseline，bump 后写入 _new 文件。也兼容 _new 已经存在的场景：
-          # 如果 _new.version > baseline，沿用 _new（避免覆盖）
-          base = 0
-          if os.path.exists(official_path):
-              try:
-                  with open(official_path, "r") as f:
-                      official = json.load(f)
-                  base = max(base, int(official.get("version", 0) or 0))
-              except Exception:
-                  pass
-          existing_new = out_paths[1] if os.path.exists(out_paths[1]) else (
-              out_paths[0] if os.path.exists(out_paths[0]) else None
-          )
-          if existing_new:
-              try:
-                  with open(existing_new, "r") as f:
-                      ex = json.load(f)
-                  base = max(base, int(ex.get("version", 0) or 0))
-              except Exception:
-                  pass
-
           with open(ZIP_NEW, "rb") as f:
               zip_data = f.read()
+          zip_md5 = hashlib.md5(zip_data).hexdigest().lower()
+          # 预览、发布和分发重试可跨多次 workflow run；按包指纹复用已经
+          # 发布或预览的版本，只有产品字节真正变化时才递增。
+          from scripts.hotupdate_version import decide_candidate_version
+          decision = decide_candidate_version(
+              official_path,
+              [release_candidate_path],
+              len(zip_data),
+              zip_md5,
+          )
+          candidate_version = decision.version
           data = {
-              "version": base + 1,
+              "version": candidate_version,
               "size":    len(zip_data),
-              "md5":     hashlib.md5(zip_data).hexdigest().lower(),
+              "md5":     zip_md5,
           }
           os.makedirs("_artifacts", exist_ok=True)
           os.makedirs(CFG_DIR, exist_ok=True)
+          with open("_artifacts/version_js_decision.json", "w", encoding="utf-8") as f:
+              json.dump(decision.to_dict(), f, ensure_ascii=False, indent=2)
+              f.write("\n")
+          print(
+              f"ℹ JS 版本决策: {decision.strategy}, "
+              f"official={decision.official_version}, "
+              f"preview={decision.existing_candidate_version}, selected={decision.version}"
+          )
           for p in out_paths:
               with open(p, "w") as f:
                   json.dump(data, f, indent=2)
@@ -480,18 +571,35 @@ jobs:
           shutil.copy2(ZIP_NEW, os.path.join("_artifacts", ZIP_NEW))
           PYEOF
 
+      # [JS] 只生成作用域候选；绝不在预览阶段覆盖正式 manifest.json。
+      # publish job 会把 JS/SCENARIO 候选合并为 manifest_new.json，并在同一
+      # Release 事务中最后转正。
+      - name: "[JS] 生成预览分块清单候选"
+        run: |
+          MANIFEST="${CONFIG_DIR}/manifest.json"
+          test -f "${MANIFEST}" || { echo "::error::缺少正式分块清单 ${MANIFEST}"; exit 1; }
+          python3 scripts/build_chunk_manifest.py --update "${MANIFEST}" \
+              --out "_artifacts/manifest_js_new.json" \
+              --as "cn_js_update.zip=cn_js_update_new.zip" \
+              cn_js_update_new.zip
+
       # ───────────────────────────────────────────────────────────────
       # [JS] 生成文件清单与累计账本
       #   热更解压只写不删：从包里拿掉一个文件 ≠ 设备上就没有它了。
       #   账本记的是「历史上一共往设备写过哪些路径」——少了谁会在这里报出来。
       # ───────────────────────────────────────────────────────────────
       - name: "[JS] 生成文件清单与账本"
-        if: steps.detect.outputs.has_js == '1'
         run: |
           VER=$(python3 -c "import json;print(json.load(open('version_js_new.json'))['version'])")
+          LEDGER_MODE=check
+          if [ "${{ needs.setup.outputs.publish_hotfix }}" = "true" ]; then
+            LEDGER_MODE=update
+          fi
           python3 scripts/build_manifest.py \
               --zip cn_js_update_new.zip --package cn_js_update --version "$VER" \
-              --out _artifacts | tee _js_manifest.log
+              --out _artifacts --manifest-name cn_js_update_manifest_new.json \
+              --ledger-mode "$LEDGER_MODE" \
+              | tee _js_manifest.log
           if grep -q '继续盖住服务端' _js_manifest.log; then
             {
               echo "### ⚠️ cn_js_update 这一版少了文件"
@@ -505,8 +613,69 @@ jobs:
       # ───────────────────────────────────────────────────────────────
       # [SCENARIO] 同上
       # ───────────────────────────────────────────────────────────────
+      - name: 📤 上传 pack-js 产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: pack-js
+          path: |
+            version_js_new.json
+            configures/version_js_new.json
+            manifests/cn_js_update_ledger.json
+            _artifacts/cn_js_update_new.zip
+            _artifacts/cn_js_update_manifest_new.json
+            _artifacts/version_js_new.json
+            _artifacts/version_js_decision.json
+            _artifacts/version_js_release_baseline.json
+            _artifacts/manifest_js_new.json
+          if-no-files-found: warn
+  pack-scenario:
+    runs-on: ubuntu-24.04
+    needs: [setup]
+    if: needs.setup.outputs.has_scenario == '1'
+    # 仅剧情 JSON；engine_i18n.tsv 明确排除。
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+      CONFIG_DIR: "configures"
+    steps:
+      - name: 📦 检出下游仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets. }}
+          repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
+          # 需要完整历史：build_manifest.py 账本要 diff 上一版
+          fetch-depth: 0
+
+      - name: "[SCENARIO] 锁定上游 latest Release 正式版本基线"
+        run: |
+          set -euo pipefail
+          python3 scripts/test_hotupdate_release_baseline.py -v
+          BASELINE_DIR="_release_baseline/scenario"
+          ASSET_DIR="${BASELINE_DIR}/assets"
+          rm -rf "${BASELINE_DIR}"
+          mkdir -p "${ASSET_DIR}" _artifacts
+          gh api "repos/${UPSTREAM_OWNER}/${UPSTREAM_REPO}/releases/tags/latest" \
+            > "${BASELINE_DIR}/release.json"
+          gh release download latest \
+            --repo "${UPSTREAM_OWNER}/${UPSTREAM_REPO}" \
+            --dir "${ASSET_DIR}" --clobber \
+            --pattern 'version_scenario.json' \
+            --pattern 'version_scenario_new.json' \
+            --pattern 'cn_scenario_update.zip' \
+            --pattern 'cn_scenario_update_new.zip'
+          python3 scripts/hotupdate_release_baseline.py \
+            --scope scenario \
+            --release-json "${BASELINE_DIR}/release.json" \
+            --asset-dir "${ASSET_DIR}" \
+            --out-version "${BASELINE_DIR}/version_scenario.json" \
+            --out-candidate "${BASELINE_DIR}/version_scenario_new.json" \
+            --out-report "_artifacts/version_scenario_release_baseline.json"
+
       - name: "[SCENARIO] 打包 cn_scenario_update_new.zip"
-        if: steps.detect.outputs.has_scenario == '1'
         run: |
           rm -rf _pack_scn
           mkdir -p _pack_scn/madomagi/resource/scenario/json
@@ -527,41 +696,43 @@ jobs:
           assert "madomagi/engine_i18n.tsv" not in names
           assert any(n.startswith("madomagi/resource/scenario/json/") for n in names)
 
-          official_path = os.path.join(CFG_DIR, f"{NAME}.json")
+          release_baseline_dir = os.path.join("_release_baseline", "scenario")
+          official_path = os.path.join(release_baseline_dir, f"{NAME}.json")
+          release_candidate_path = os.path.join(
+              release_baseline_dir, f"{NAME}_new.json"
+          )
           out_paths = [
               f"{NAME}_new.json",
               os.path.join(CFG_DIR, f"{NAME}_new.json"),
               os.path.join("_artifacts", f"{NAME}_new.json"),
           ]
 
-          base = 0
-          if os.path.exists(official_path):
-              try:
-                  with open(official_path, "r") as f:
-                      official = json.load(f)
-                  base = max(base, int(official.get("version", 0) or 0))
-              except Exception:
-                  pass
-          existing_new = out_paths[1] if os.path.exists(out_paths[1]) else (
-              out_paths[0] if os.path.exists(out_paths[0]) else None
-          )
-          if existing_new:
-              try:
-                  with open(existing_new, "r") as f:
-                      ex = json.load(f)
-                  base = max(base, int(ex.get("version", 0) or 0))
-              except Exception:
-                  pass
-
           with open(ZIP_NEW, "rb") as f:
               zip_data = f.read()
+          zip_md5 = hashlib.md5(zip_data).hexdigest().lower()
+          from scripts.hotupdate_version import decide_candidate_version
+          decision = decide_candidate_version(
+              official_path,
+              [release_candidate_path],
+              len(zip_data),
+              zip_md5,
+          )
+          candidate_version = decision.version
           data = {
-              "version": base + 1,
+              "version": candidate_version,
               "size":    len(zip_data),
-              "md5":     hashlib.md5(zip_data).hexdigest().lower(),
+              "md5":     zip_md5,
           }
           os.makedirs("_artifacts", exist_ok=True)
           os.makedirs(CFG_DIR, exist_ok=True)
+          with open("_artifacts/version_scenario_decision.json", "w", encoding="utf-8") as f:
+              json.dump(decision.to_dict(), f, ensure_ascii=False, indent=2)
+              f.write("\n")
+          print(
+              f"ℹ SCENARIO 版本决策: {decision.strategy}, "
+              f"official={decision.official_version}, "
+              f"preview={decision.existing_candidate_version}, selected={decision.version}"
+          )
           for p in out_paths:
               with open(p, "w") as f:
                   json.dump(data, f, indent=2)
@@ -570,13 +741,28 @@ jobs:
           shutil.copy2(ZIP_NEW, os.path.join("_artifacts", ZIP_NEW))
           PYEOF
 
+      # [SCENARIO] 同样只生成候选，由 publish job 合并后事务转正。
+      - name: "[SCENARIO] 生成预览分块清单候选"
+        run: |
+          MANIFEST="${CONFIG_DIR}/manifest.json"
+          test -f "${MANIFEST}" || { echo "::error::缺少正式分块清单 ${MANIFEST}"; exit 1; }
+          python3 scripts/build_chunk_manifest.py --update "${MANIFEST}" \
+              --out "_artifacts/manifest_scenario_new.json" \
+              --as "cn_scenario_update.zip=cn_scenario_update_new.zip" \
+              cn_scenario_update_new.zip
+
       - name: "[SCENARIO] 生成文件清单与账本"
-        if: steps.detect.outputs.has_scenario == '1'
         run: |
           VER=$(python3 -c "import json;print(json.load(open('version_scenario_new.json'))['version'])")
+          LEDGER_MODE=check
+          if [ "${{ needs.setup.outputs.publish_hotfix }}" = "true" ]; then
+            LEDGER_MODE=update
+          fi
           python3 scripts/build_manifest.py \
               --zip cn_scenario_update_new.zip --package cn_scenario_update --version "$VER" \
-              --out _artifacts | tee _scn_manifest.log
+              --out _artifacts --manifest-name cn_scenario_update_manifest_new.json \
+              --ledger-mode "$LEDGER_MODE" \
+              | tee _scn_manifest.log
           if grep -q '继续盖住服务端' _scn_manifest.log; then
             {
               echo "### ⚠️ cn_scenario_update 这一版少了文件"
@@ -594,19 +780,131 @@ jobs:
       #     但 `#` 后缀只是显示标签（label），asset 的真实 name 仍是
       #     *_new.*——下载 URL 按 name 走，于是网页端显示正式名、点击却
       #     跳到 _new 下载链接；手机端只显示 name（带 _new）。
-      #     现在：本地复制成正式文件名再上传，并在转正后删除 _new 预览 asset。
+      #     现在：已核验的 _new 直接 PATCH 为正式名，旧正式 asset 保留为
+      #     rollback，整批验证后才删除；失败则倒序恢复。
       # ───────────────────────────────────────────────────────────────
+      - name: 📤 上传 pack-scenario 产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: pack-scenario
+          path: |
+            version_scenario_new.json
+            configures/version_scenario_new.json
+            manifests/cn_scenario_update_ledger.json
+            _artifacts/cn_scenario_update_new.zip
+            _artifacts/cn_scenario_update_manifest_new.json
+            _artifacts/version_scenario_new.json
+            _artifacts/version_scenario_decision.json
+            _artifacts/version_scenario_release_baseline.json
+            _artifacts/manifest_scenario_new.json
+          if-no-files-found: warn
+  publish:
+    runs-on: ubuntu-latest
+    needs: [setup, pack-js, pack-scenario]
+    if: always() && needs.setup.result == 'success'
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+      PUBLISH_HOTFIX: ${{ needs.setup.outputs.publish_hotfix }}
+      CONFIG_DIR: "configures"
+    steps:
+      - name: 🛡 兜底护栏（打包失败即停链）
+        if: needs.pack-js.result == 'failure' || needs.pack-scenario.result == 'failure'
+        run: |
+          echo "::error::JS/SCENARIO 打包失败，停止发布/上传，避免污染 Release"
+          exit 1
+      - name: 📦 检出下游仓库（正式清单基线与事务工具）
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets. }}
+          repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
+          fetch-depth: 1
+      - name: 📥 下载 pack-js
+        if: needs.pack-js.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: pack-js
+          path: .
+      - name: 📥 下载 pack-scenario
+        if: needs.pack-scenario.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: pack-scenario
+          path: .
+      - name: "[HOTUPDATE] 合并并验证 manifest_new.json"
+        run: |
+          python3 <<'PYEOF'
+          import json
+          from pathlib import Path
+
+          artifacts = Path("_artifacts")
+          baseline_path = Path("configures/manifest.json")
+          scopes = (
+              ("js", artifacts / "manifest_js_new.json", "cn_js_update.zip"),
+              (
+                  "scenario",
+                  artifacts / "manifest_scenario_new.json",
+                  "cn_scenario_update.zip",
+              ),
+          )
+          available = [(scope, path, key) for scope, path, key in scopes if path.is_file()]
+          if not available:
+              print("ℹ 本次没有热更新候选，不生成 manifest_new.json")
+              raise SystemExit(0)
+          if not baseline_path.is_file():
+              raise SystemExit(f"缺少正式清单基线: {baseline_path}")
+          baseline = json.loads(baseline_path.read_text(encoding="utf-8"))
+          if not isinstance(baseline, dict):
+              raise SystemExit("正式清单基线不是 JSON object")
+
+          merged = dict(baseline)
+          for scope, path, key in available:
+              candidate = json.loads(path.read_text(encoding="utf-8"))
+              if not isinstance(candidate, dict) or key not in candidate:
+                  raise SystemExit(f"{scope} 清单候选缺少 {key}")
+              # 每个 pack job 只能改自己拥有的热更新键；base 包和另一作用域
+              # 必须逐字义等价于正式基线，避免两个并行 job 相互覆盖。
+              for existing_key in set(candidate) | set(baseline):
+                  if existing_key == key:
+                      continue
+                  if candidate.get(existing_key) != baseline.get(existing_key):
+                      raise SystemExit(
+                          f"{scope} 清单候选越权修改正式基线键: {existing_key}"
+                      )
+              merged[key] = candidate[key]
+
+          out = artifacts / "manifest_new.json"
+          out.write_text(
+              json.dumps(merged, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          print(
+              "✔ manifest_new.json 已合并: "
+              + ", ".join(scope for scope, _, _ in available)
+          )
+          PYEOF
       - name: 🚀 上传热更新包到上游 Release
         id: hotfix_publish
-        if: steps.detect.outputs.has_js == '1' || steps.detect.outputs.has_scenario == '1'
         run: |
           python3 <<'SCRIPT_END'
           import subprocess
           import sys
           import os
           import json
+          import hashlib
           import shutil
           import urllib.request
+          from pathlib import Path
+
+          from scripts.hotupdate_promotion import (
+              PromotionError,
+              promote_available_assets,
+              validate_candidate_triplets,
+          )
 
           sys.stdout.reconfigure(line_buffering=True)
           sys.stderr.reconfigure(line_buffering=True)
@@ -641,23 +939,26 @@ jobs:
           PUBLISH        = os.environ.get("PUBLISH_HOTFIX", "false") == "true"
           ARTIFACTS_DIR  = "_artifacts"
           CFG_DIR        = os.environ["CONFIG_DIR"]
-
-          # _new → official 名字映射
-          NEW_TO_FINAL = {
-              "cn_js_update_new.zip":       "cn_js_update.zip",
-              "version_js_new.json":        "version_js.json",
-              "cn_scenario_update_new.zip": "cn_scenario_update.zip",
-              "version_scenario_new.json":  "version_scenario.json",
+          PREVIEW_ASSET_NAMES = {
+              "cn_js_update_new.zip",
+              "cn_js_update_manifest_new.json",
+              "version_js_new.json",
+              "cn_scenario_update_new.zip",
+              "cn_scenario_update_manifest_new.json",
+              "version_scenario_new.json",
+              "manifest_new.json",
           }
 
           def fetch_assets():
               r = subprocess.run(
-                  ["gh", "api", f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/latest"],
+                  ["gh", "api", f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/tags/latest"],
                   capture_output=True, text=True
               )
               if r.returncode != 0 or not r.stdout.strip():
                   return None, None
               rel = json.loads(r.stdout)
+              if rel.get("tag_name") != "latest":
+                  return None, None
               return rel, {a["name"]: a for a in rel.get("assets", [])}
 
           def delete_asset(asset_id, name):
@@ -670,10 +971,61 @@ jobs:
               )
               if r.returncode == 0:
                   ok(f"已删除 asset: {name}", indent=1)
+                  return True
               else:
                   warn(f"删除 [{name}] 失败: {r.stderr.strip()}", indent=1)
+                  return False
+
+          def rename_asset(asset_id, old_name, new_name):
+              r = subprocess.run(
+                  ["gh", "api",
+                   f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}"
+                   f"/releases/assets/{asset_id}",
+                   "--method", "PATCH", "-f", f"name={new_name}"],
+                  capture_output=True, text=True
+              )
+              if r.returncode == 0:
+                  ok(f"已重命名 asset: {old_name} → {new_name}", indent=1)
+                  return True
+              err(f"重命名 [{old_name}] → [{new_name}] 失败: {r.stderr.strip()}", indent=1)
+              return False
+
+          def verify_uploaded_asset(name, local_path):
+              """Verify the exact release name, byte size and GitHub SHA-256."""
+              _, current = fetch_assets()
+              asset = current.get(name) if current else None
+              if asset is None:
+                  err(f"上传后找不到 asset: {name}", indent=1)
+                  return False
+              digest = hashlib.sha256()
+              expected_size = 0
+              with open(local_path, "rb") as fh:
+                  while chunk := fh.read(1024 * 1024):
+                      expected_size += len(chunk)
+                      digest.update(chunk)
+              expected_digest = "sha256:" + digest.hexdigest()
+              if asset.get("name") != name:
+                  err(f"asset 名称不一致: {asset.get('name')} != {name}", indent=1)
+                  return False
+              if int(asset.get("size", -1)) != expected_size:
+                  err(f"asset 大小不一致: {asset.get('size')} != {expected_size}", indent=1)
+                  return False
+              if asset.get("digest") != expected_digest:
+                  err(f"asset SHA-256 不一致: {asset.get('digest')} != {expected_digest}", indent=1)
+                  return False
+              ok(f"上传后校验通过: {name} size={expected_size} sha256={expected_digest[7:]}", indent=1)
+              return True
 
           header("上传热更新包到上游 Release")
+
+          # 在触碰远端前验证每个 zip/package-manifest/version triplet，及合并后
+          # 的 shared chunk manifest。预览和正式发布使用同一个失败关闭门。
+          try:
+              active_scopes = validate_candidate_triplets(ARTIFACTS_DIR)
+          except PromotionError as exc:
+              err(f"候选资产预检失败: {exc}")
+              sys.exit(1)
+          info(f"候选资产预检通过: {', '.join(active_scopes) or 'none'}")
 
           # ── 1. 拿当前 Release 信息（id + asset 列表）
           section("获取上游 Release 信息")
@@ -681,7 +1033,7 @@ jobs:
           if release is None:
               err("获取上游 Release 失败")
               sys.exit(1)
-          release_tag = release.get("tag_name", "latest")
+          release_tag = release["tag_name"]
           info(f"Release tag: {c(C.BRIGHT_CYAN, release_tag)}  id={release['id']}")
 
           # ── 2. 上传所有 _artifacts 里的 _new 文件
@@ -689,13 +1041,19 @@ jobs:
           if not os.path.isdir(ARTIFACTS_DIR):
               warn("_artifacts 目录不存在，跳过")
           else:
-              for fname in os.listdir(ARTIFACTS_DIR):
+              for fname in sorted(os.listdir(ARTIFACTS_DIR)):
                   fpath = os.path.join(ARTIFACTS_DIR, fname)
                   if not os.path.isfile(fpath):
                       continue
+                  # 只上传可转正候选。版本决策和分作用域中间清单留在
+                  # Actions artifact 审计，不污染 Release asset 集合。
+                  if fname not in PREVIEW_ASSET_NAMES:
+                      skip(f"{fname} 仅作构建审计")
+                      continue
                   info(f"上传: {c(C.BRIGHT_WHITE, fname)}")
                   if fname in existing_assets:
-                      delete_asset(existing_assets[fname]["id"], fname)
+                      if not delete_asset(existing_assets[fname]["id"], fname):
+                          sys.exit(1)
                   up = subprocess.run(
                       ["gh", "release", "upload", release_tag, fpath,
                        "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
@@ -704,8 +1062,11 @@ jobs:
                   )
                   if up.returncode == 0:
                       ok(f"上传成功: {fname}", indent=1)
+                      if not verify_uploaded_asset(fname, fpath):
+                          sys.exit(1)
                   else:
                       err(f"上传失败: {up.stderr.strip()}", indent=1)
+                      sys.exit(1)
 
           # ── 3. 如果没勾发布热更新，到此为止
           if not PUBLISH:
@@ -717,53 +1078,45 @@ jobs:
 
           # ── 4. publish_hotfix=true：把 _new 文件去掉 _new 后缀
           section("发布热更新包（_new → official，覆盖正式文件）")
+          class GitHubReleaseBackend:
+              def list_assets(self):
+                  _, assets = fetch_assets()
+                  if assets is None:
+                      raise PromotionError("无法重新读取上游 latest assets")
+                  return assets
+              def rename_asset(self, asset_id, old_name, new_name):
+                  return rename_asset(asset_id, old_name, new_name)
+              def delete_asset(self, asset_id, name):
+                  return delete_asset(asset_id, name)
+              def verify_asset(self, name, local_path):
+                  return verify_uploaded_asset(name, str(local_path))
 
-          # 重新拉 asset 列表，因为上一步刚上传过新文件
-          _, assets2 = fetch_assets()
-          if assets2 is None:
-              err("重新获取 Release 失败")
+          # 行为测试覆盖每个失败点；整个 JS/scenario 批次会在任一失败时倒序
+          # 恢复。顺序固定为 zip → manifest → version，version 最后转正。
+          try:
+              promoted = promote_available_assets(
+                  GitHubReleaseBackend(),
+                  ARTIFACTS_DIR,
+                  os.environ["GITHUB_RUN_ID"],
+              )
+          except PromotionError as exc:
+              err(f"热更新转正事务失败: {exc}")
               sys.exit(1)
 
-          promote_dir = "/tmp/promote"
-          os.makedirs(promote_dir, exist_ok=True)
-
-          for new_name, final_name in NEW_TO_FINAL.items():
-              src = os.path.join(ARTIFACTS_DIR, new_name)
-              if not os.path.isfile(src):
-                  skip(f"{new_name} 在本地 _artifacts/ 不存在（本次未生成），跳过")
-                  continue
-              info(f"{c(C.BRIGHT_YELLOW, new_name)} → {c(C.BRIGHT_GREEN, final_name)}")
-
-              # 4a. 删 Release 上同名 official asset
-              if final_name in assets2:
-                  delete_asset(assets2[final_name]["id"], final_name)
-
-              # 4b. 本地复制成正式文件名再上传（不用 #label 语法！），
-              #     保证 asset 的 name == final_name，下载链接正确
-              staged = os.path.join(promote_dir, final_name)
-              shutil.copy2(src, staged)
-              up = subprocess.run(
-                  ["gh", "release", "upload", release_tag, staged,
-                   "--repo", f"{UPSTREAM_OWNER}/{UPSTREAM_REPO}",
-                   "--clobber"],
-                  capture_output=True, text=True
-              )
-              if up.returncode != 0:
-                  err(f"上传 official 失败: {up.stderr.strip()}", indent=1)
-                  continue
-              ok(f"已发布 official: {final_name}", indent=1)
-
-              # 4c. 转正后删除 Release 上的 _new 预览 asset——否则网页端会
-              #     同时显示带 _new 和不带 _new 两个条目
-              if new_name in assets2:
-                  delete_asset(assets2[new_name]["id"], new_name)
-
-              # 4d. 把本地 official JSON 同步到 /configures/（仅 .json）
-              #     根目录不再放 official version_*.json——baseline 只以
-              #     /configures/ 为准，根目录留一份带 size/md5 的副本
-              #     容易误导人
-              if final_name.endswith(".json"):
-                  with open(src, "rb") as f:
+          for new_name, final_name in promoted:
+              info(f"已转正并校验: {new_name} → {final_name}")
+              src = Path(ARTIFACTS_DIR) / new_name
+              # 把本地 official version JSON / shared chunk manifest 同步到
+              # /configures/；预览阶段绝不修改这些正式路径。
+              #     根目录不再放 official version_*.json；/configures/ 只作
+              #     Git 镜像，后续版本分配仍重新核验 latest Release 的
+              #     version + zip 实字节，避免提交滞后成为错误基线。
+              if final_name in (
+                  "version_js.json",
+                  "version_scenario.json",
+                  "manifest.json",
+              ):
+                  with src.open("rb") as f:
                       data = f.read()
                   with open(os.path.join(CFG_DIR, final_name), "wb") as f:
                       f.write(data)
@@ -774,8 +1127,44 @@ jobs:
               fh.write("hotfix_published=true\n")
           SCRIPT_END
         env:
-          PUBLISH_HOTFIX: ${{ steps.check_upstream.outputs.publish_hotfix }}
+          PUBLISH_HOTFIX: ${{ needs.setup.outputs.publish_hotfix }}
 
+      - name: 📤 上传 publish-config（热更转正后的 official 版本 json）
+        if: needs.setup.outputs.publish_hotfix == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-config
+          path: |
+            configures/version_js.json
+            configures/version_scenario.json
+            configures/manifest.json
+          if-no-files-found: warn
+  r2-sync:
+    runs-on: ubuntu-latest
+    needs: [setup, publish]
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      CONFIRM_CLEANUP: ${{ needs.setup.outputs.confirm_cleanup }}
+      R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+      R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
+      R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
+      R2_REGION: ${{ secrets.R2_REGION }}
+      R2_BUCKET: ${{ secrets.R2_BUCKET }}
+      QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
+      QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
+      EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
+      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
+      ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
+      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
+      ESA_SITE_ID: ${{ secrets.ESA_SITE_ID }}
+      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+      CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+    steps:
       - name: 🐍 设置 Python
         uses: actions/setup-python@v5
         with:
@@ -788,13 +1177,15 @@ jobs:
       # 🚀 同步 Release 文件到 object-storage（单桶）
       #   v3 改动：
       #     - 双 S3 桶 → 单 object-storage 桶
-      #     - 黑名单：history-data*（前缀）+ *.apk（后缀）
+      #     - 黑名单：history-data*（前缀）
       #     - GitHub 上已不存在的文件不主动删除，先记入
       #       PENDING_DELETIONS 变量；confirm_cleanup=true 时才删除
       #     - CDN 刷新：edge（EDGEONE_DOMAIN）+ 阿里云 ESA（ESA_DOMAIN）
       #       + CDN（CLOUDFLARE_DOMAIN）
       # ───────────────────────────────────────────────────────────────
-      - name: 🚀 运行同步脚本（上传 Release 文件到 object-storage）
+      - name: 🚀 [object-storage系] 同步 Release 文件到 object-storage 并刷新三 CDN
+        # object-storage 系：单 object-storage 桶 + edge/ESA/CDN 三 CDN 刷新（自成一系，
+        # 与下方 Doge 系互不干涉）。
         id: sync_script
         run: |
           python3 <<'SCRIPT_END'
@@ -855,12 +1246,12 @@ jobs:
           # object-storage 上传过滤规则 v3
           # ══════════════════════════════════════════════════════════════
           # history-data*  → 大体积历史数据包，不走 object-storage
-          # *.apk             → 客户端安装包，只留在 GitHub Release
+          # （*.apk 曾在此黑名单——客户端安装包只留 GitHub Release；
+          #  公测站直链改走 edge/object-storage 后移出，2026-08-10）
           R2_IGNORE_PREFIXES = (
               'history-data',
           )
           R2_IGNORE_SUFFIXES = (
-              '.apk',
           )
 
           def should_ignore_for_r2(name: str) -> bool:
@@ -904,7 +1295,7 @@ jobs:
                   except Exception as e:
                       err(f"[{self.name}] 删除异常: {e}", indent=1)
                       return False
-              def upload_file_from_url(self, url, filename):
+              def upload_file_from_url(self, url, filename, expected_size):
                   try:
                       info(f"[{c(C.BRIGHT_WHITE, self.name)}] 流式上传: "
                            f"{c(C.BRIGHT_CYAN, filename)}", indent=1)
@@ -917,8 +1308,15 @@ jobs:
                           # 文件读进内存再一次性 put——大文件耗时近减半
                           self.s3_client.upload_fileobj(
                               response, self.bucket, filename)
-                      ok(f"[{c(C.BRIGHT_WHITE, self.name)}] 上传完成: "
-                         f"{filename} {c(C.DIM, '(' + human_size(file_size) + ')')}",
+                      head = self.s3_client.head_object(
+                          Bucket=self.bucket, Key=filename)
+                      actual_size = int(head.get("ContentLength", -1))
+                      if actual_size != int(expected_size):
+                          raise RuntimeError(
+                              f"上传后大小不一致: {actual_size} != {expected_size}"
+                          )
+                      ok(f"[{c(C.BRIGHT_WHITE, self.name)}] 上传并核验完成: "
+                         f"{filename} {c(C.DIM, '(' + human_size(actual_size) + ')')}",
                          indent=1)
                       return True
                   except Exception as e:
@@ -1030,13 +1428,18 @@ jobs:
                       return False, str(e)
 
           def get_variable(name):
-              r = subprocess.run(['gh', 'variable', 'get', name],
-                                 capture_output=True, text=True)
+              # r2-sync 无 checkout，gh 推不出仓库，必须显式 --repo
+              r = subprocess.run(
+                  ['gh', 'variable', 'get', name,
+                   '--repo', os.environ.get("GITHUB_REPOSITORY", "")],
+                  capture_output=True, text=True)
               return r.stdout.strip() if r.returncode == 0 else ""
 
           def set_variable(name, body):
-              subprocess.run(['gh', 'variable', 'set', name, '--body', body],
-                             capture_output=True, text=True)
+              subprocess.run(
+                  ['gh', 'variable', 'set', name, '--body', body,
+                   '--repo', os.environ.get("GITHUB_REPOSITORY", "")],
+                  capture_output=True, text=True)
 
           def main():
               CONFIRM_CLEANUP = os.environ.get("CONFIRM_CLEANUP", "false") == "true"
@@ -1180,15 +1583,23 @@ jobs:
               header(f"上传 {len(to_process)} 个文件")
               processed = []
               for fname in to_process:
-                  url = next(a['browser_download_url']
-                             for a in release['assets'] if a['name'] == fname)
-                  if r2.upload_file_from_url(url, fname):
+                  source_asset = next(
+                      a for a in release['assets'] if a['name'] == fname)
+                  url = source_asset['browser_download_url']
+                  if r2.upload_file_from_url(url, fname, source_asset['size']):
                       edge.purge_cache(edgeone_domain, fname)
                       esa.purge_cache(fname)
                       cloudflare.purge_cache(cf_domain, fname)
                       processed.append(fname)
                   else:
                       err(f"上传失败: {fname}")
+
+              failed = sorted(set(to_process) - set(processed))
+              if failed:
+                  err(f"object-storage 有 {len(failed)} 个文件上传/核验失败，不保存指纹")
+                  for fname in failed:
+                      err(fname, indent=1)
+                  sys.exit(1)
 
               if processed:
                   header("刷新根目录 CDN 缓存")
@@ -1199,11 +1610,12 @@ jobs:
               header("保存指纹")
               final_map = old_map.copy()
               for fname in unchanged: final_map[fname] = old_map[fname]
-              for fname in to_process: final_map[fname] = current_map[fname]
+              for fname in processed: final_map[fname] = current_map[fname]
               for fname in deleted: final_map.pop(fname, None)
               subprocess.run(
                   ['gh', 'variable', 'set', 'LAST_SYNC_FINGERPRINTS',
-                   '--body', json.dumps(final_map)],
+                   '--body', json.dumps(final_map),
+                   '--repo', os.environ.get("GITHUB_REPOSITORY", "")],
                   check=True
               )
               ok(f"指纹已保存（{c(C.BOLD, str(len(final_map)))} 个）")
@@ -1217,26 +1629,176 @@ jobs:
                   sys.exit(1)
           SCRIPT_END
         env:
-          CONFIRM_CLEANUP: ${{ steps.check_upstream.outputs.confirm_cleanup }}
+          CONFIRM_CLEANUP: ${{ needs.setup.outputs.confirm_cleanup }}
 
       # ───────────────────────────────────────────────────────────────
-      # 🏷 镜像上游 Release 到本仓库（快照增量 + latest 全量）
+      # 🚀 DogeCloud 系：多吉云 S3 兼容镜像 + 多吉云 CDN 刷新（独立流水线）
+      #   ▸ 在 mainland 自托管 runner 上跑 scripts/sync-dogecloud.py：
+      #     2026-08-13 起改用多吉云**服务端 fetch 拉取**（/oss/fetch.json +
+      #     query.json 轮询），runner 只做控制面，不再下载+上传大文件
+      #   ▸ 源 URL 用脚本内 race_source_cdn() 竞速国内 CDN 选最快
+      #     （edge/esa/hkcdn/r2，吞吐会变，运行时就地测）
+      #   ▸ 排在 r2-sync 之后：CDN 要等 object-storage 系完活才能清缓存+拉到新内容
+      #   ▸ 实时日志/成败原生反馈；脚本失败即本 job 红（不静默失效）
+      #   ▸ Doge 具体逻辑全在 scripts/sync-dogecloud.py，与 object-storage 系互不干涉；
+      #     指纹存 GitHub variable LAST_DOGE_FINGERPRINTS
+      #   ▸ 过滤规则与 object-storage 系一致（history-data* 不同步）；
+      #     confirm_cleanup=true 才删除 Doge 桶过时文件，否则仅列出
+      # ───────────────────────────────────────────────────────────────
+  doge-sync:
+    runs-on: [self-hosted, mainland]
+    # 排在 r2-sync 之后：多吉云从国内 CDN 拉文件，CDN 要等 object-storage 系完活才能
+    # 清缓存+拉到新内容（2026-08-13）
+    needs: [setup, publish, r2-sync]
+    if: always() && needs.setup.result == 'success'
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      DOGE_ACCESS_KEY: ${{ secrets.DOGE_ACCESS_KEY }}
+      DOGE_SECRET_KEY: ${{ secrets.DOGE_SECRET_KEY }}
+      DOGE_BUCKET:     ${{ secrets.DOGE_BUCKET }}
+      DOGE_DOMAIN:     ${{ secrets.DOGE_DOMAIN }}
+      DOGE_API_BASE:   "https://api.dogecloud.com"
+      UPSTREAM_OWNER:  "HiiragiNemu"
+      UPSTREAM_REPO:   "patch-front"
+      CONFIRM_CLEANUP: ${{ needs.setup.outputs.confirm_cleanup }}
+    steps:
+      - name: ⬇ 下载脚本（不 clone 1.1GB 仓库）
+        run: |
+          set -euo pipefail
+          mkdir -p scripts
+          # 大陆直连 codeload 慢、raw.githubusercontent.com 被墙，用 gh-proxy.org
+          # 加速拉单文件；失败则回退 api.github.com contents API（双保险）
+          curl -fsSL \
+            "https://gh-proxy.org/https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/scripts/sync-dogecloud.py" \
+            -o scripts/sync-dogecloud.py \
+            || curl -fsSL -H "Authorization: Bearer $" \
+                 -H "Accept: application/vnd.github.raw+json" \
+                 "https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/scripts/sync-dogecloud.py?ref=main" \
+                 -o scripts/sync-dogecloud.py
+          test -s scripts/sync-dogecloud.py && echo "脚本就绪: $(wc -c < scripts/sync-dogecloud.py) bytes"
+      - name: 🐍 确保 boto3 可用
+        run: |
+          set -euo pipefail
+          # 双保险：版本兼容直接过；不兼容/没装则自举 pip 再装。裸机 runner 可能
+          # 既没 pip 也没预装依赖；apt 预装的 botocore 可能过旧不支持
+          # request_checksum_calculation（2026-08-12 RainYun 新 runner 实测 TypeError）。
+          # 判据用 botocore Config 能否接受该参数，而不是只看 boto3 能 import。
+          if ! python3 -c "from botocore.config import Config; Config(request_checksum_calculation='when_required')" >/dev/null 2>&1; then
+            echo "boto3/botocore 版本不兼容或未装，准备安装…"
+            python3 -m pip --version >/dev/null 2>&1 || {
+              echo "无 pip，自举…"
+              python3 -m ensurepip --upgrade >/dev/null 2>&1 \
+                || { sudo apt-get update -qq; sudo apt-get install -y -qq python3-pip; }
+            }
+            python3 -m pip install --break-system-packages -U -q \
+              -i https://mirrors.aliyun.com/pypi/simple/ boto3 botocore
+          fi
+          python3 -c "import boto3; print('boto3', boto3.__version__)"
+      - name: 🚀 [Doge系] 同步 Release 文件到多吉云并刷新多吉云 CDN
+        run: |
+          set -euo pipefail
+          # 在 mainland 自托管 runner 上直接执行；脚本失败即步骤红（不静默失效）
+          python3 scripts/sync-dogecloud.py
+
+  # ───────────────────────────────────────────────────────────────
+  # ☁️ [123云盘] 上传 Release 文件（WebDAV）
+  #   ▸ 123云盘（123pan.com）暴露标准 WebDAV，Basic Auth + PROPFIND/MKCOL/
+  #     PUT/DELETE。给「下载引擎不可靠」的玩家一条网盘兜底线路（配合离线包
+  #     静态站手动下载）。
+  #   ▸ 在 mainland 自托管 runner 跑（runner 从国内 CDN 拉文件、123云盘境内直连；
+  #     GitHub 官方 runner 跨太平洋 PUT 大文件会极慢）
+  #   ▸ 源站用 race_source_cdn() 竞速国内 CDN 选最快（2026-08-13，不再走 GitHub
+  #     的 browser_download_url——objects.githubusercontent.com 从 mainland 被墙）
+  #   ▸ 增量：PROPFIND 列远端目录按 getcontentlength 与 Release asset size
+  #     比对，相同跳过，只传新增/变更（幂等，重跑不重传）
+  #   ▸ 过时文件不主动删，confirm_cleanup=true 才删；目标目录应专用作镜像
+  #   ▸ secrets: PAN123_WEBDAV_URL / PAN123_USER / PAN123_PASS
+  #   ▸ vars: PAN123_DIR（可选，目标子目录；不配则用 WebDAV 根）
+  # ───────────────────────────────────────────────────────────────
+  pan123-upload:
+    runs-on: [self-hosted, mainland]
+    # 排在 r2-sync 之后：runner 从国内 CDN 下载，CDN 要等 object-storage 系完活才能
+    # 清缓存+拉到新内容（2026-08-13）
+    needs: [setup, publish, r2-sync]
+    if: always() && needs.setup.result == 'success'
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      PAN123_WEBDAV_URL: ${{ secrets.PAN123_WEBDAV_URL }}
+      PAN123_USER:       ${{ secrets.PAN123_USER }}
+      PAN123_PASS:       ${{ secrets.PAN123_PASS }}
+      PAN123_DIR:        ${{ vars.PAN123_DIR }}
+      UPSTREAM_OWNER:    "HiiragiNemu"
+      UPSTREAM_REPO:     "patch-front"
+      CONFIRM_CLEANUP:   ${{ needs.setup.outputs.confirm_cleanup }}
+    steps:
+      - name: ⬇ 下载脚本（不 clone 1.1GB 仓库）
+        run: |
+          set -euo pipefail
+          mkdir -p scripts
+          # 大陆直连 codeload 慢、raw.githubusercontent.com 被墙，用 gh-proxy.org
+          # 加速拉单文件；失败则回退 api.github.com contents API（双保险）
+          curl -fsSL \
+            "https://gh-proxy.org/https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/scripts/sync-pan123-webdav.py" \
+            -o scripts/sync-pan123-webdav.py \
+            || curl -fsSL -H "Authorization: Bearer $" \
+                 -H "Accept: application/vnd.github.raw+json" \
+                 "https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/scripts/sync-pan123-webdav.py?ref=main" \
+                 -o scripts/sync-pan123-webdav.py
+          test -s scripts/sync-pan123-webdav.py && echo "脚本就绪: $(wc -c < scripts/sync-pan123-webdav.py) bytes"
+      - name: 🐍 确保 requests 可用
+        run: |
+          set -euo pipefail
+          # 双保险：已装好直接过；没装则自举 pip（ensurepip → apt → get-pip）再装
+          if ! python3 -c "import requests" >/dev/null 2>&1; then
+            echo "requests 未装，准备安装…"
+            python3 -m pip --version >/dev/null 2>&1 || {
+              echo "无 pip，自举…"
+              python3 -m ensurepip --upgrade >/dev/null 2>&1 \
+                || { sudo apt-get update -qq; sudo apt-get install -y -qq python3-pip; }
+            }
+            python3 -m pip install --break-system-packages -q \
+              -i https://mirrors.aliyun.com/pypi/simple/ requests
+          fi
+          python3 -c "import requests; print('requests', requests.__version__)"
+      - name: ☁️ [123云盘] WebDAV 同步 Release 文件
+        run: |
+          set -euo pipefail
+          # 在 mainland 自托管 runner 上执行；脚本失败即步骤红（不静默失效）
+          python3 scripts/sync-pan123-webdav.py
+
+      # ───────────────────────────────────────────────────────────────
+      # 🏷 镜像上游 Release 到本仓库（变更快照 + latest 事务式增量）
       #   ▸ 先与下游 latest 做 diff（digest/size），完全没变化直接跳过
       #   ▸ 两种 Release 不同处理：
       #       1. YYYYmmdd-HHMMSS（UTC）日期快照 —— 只放【本次变化】的
       #          asset，相当于变更记录，体积小、上传快；显式
       #          --latest=false，绝不抢占仓库的 "Latest" 徽标
-      #       2. latest —— 【全量镜像】：只要检测到 upstream 有任何变化，
-      #          就把 upstream 当前的【全部】asset 重新上传一遍（同名先
-      #          删再传），并删除 upstream 已移除的文件；每次运行结束都
-      #          显式 `gh release edit latest --latest` 校准一次，
-      #          确保 GitHub 的 "Latest" 徽标 / `/releases/latest` API
-      #          永远指向 tag=latest，不会被更晚创建的日期快照抢走
+      #       2. latest —— 【事务式增量镜像】：变化 asset 全部先用唯一
+      #          临时名上传并核验，再以 PATCH 改名切换；旧 asset 保留为
+      #          rollback，整批成功后才删除。最后核验 upstream 的完整
+      #          name/size/digest 集合，并校准 tag=latest 的 Latest 徽标
       #   ▸ 上传为流式：上游下载 URL 直连 uploads.github.com，
       #     不落盘、内存恒定；失败自动回退「落盘 + gh release upload」
       #   ▸ 首次运行（下游无 latest）全量上传一次
       #   ▸ 注意：GitHub 单个 asset 上限 2GiB，超限文件跳过并告警
       # ───────────────────────────────────────────────────────────────
+  mirror-release:
+    runs-on: ubuntu-latest
+    needs: [setup, publish]
+    if: always() && needs.setup.result == 'success'
+    outputs:
+      snapshot_tag: ${{ steps.mirror_release.outputs.snapshot_tag }}
+      mirrored:     ${{ steps.mirror_release.outputs.mirrored }}
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+    steps:
       - name: 🏷 创建/覆盖本仓库快照 Release
         id: mirror_release
         if: always()
@@ -1251,7 +1813,14 @@ jobs:
           import urllib.error
           import urllib.parse
           import socket
+          import time
           from datetime import datetime, timezone
+
+          from scripts.release_asset_transaction import (
+              AssetExpectation,
+              AssetTransactionError,
+              replace_release_asset_set,
+          )
 
           # 兜底超时：防止某个 urlopen 无限挂起，把整个 job 卡到 6 小时上限
           socket.setdefaulttimeout(600)
@@ -1322,10 +1891,10 @@ jobs:
                   return None
 
           def asset_changed(up, dn):
-              """digest 两边都有就比 digest，否则退化为比 size"""
+              """Prefer upstream digest; never call a missing digest unchanged."""
               u_digest, u_size = up
               d_digest, d_size = dn
-              if u_digest and d_digest:
+              if u_digest:
                   return u_digest != d_digest
               return u_size != d_size
 
@@ -1389,6 +1958,18 @@ jobs:
                    f"{r.stderr.strip()}", indent=1)
               return False
 
+          def rename_asset(asset_id, old_name, new_name, tag):
+              """Rename one Release asset with the supported PATCH endpoint."""
+              r = run(["gh", "api",
+                       f"repos/{MIRROR_REPO}/releases/assets/{asset_id}",
+                       "--method", "PATCH", "-f", f"name={new_name}"])
+              if r.returncode == 0:
+                  ok(f"[{tag}] asset 改名: {old_name} → {new_name}", indent=2)
+                  return True
+              warn(f"[{tag}] asset 改名失败 [{old_name} → {new_name}]: "
+                   f"{r.stderr.strip()}", indent=2)
+              return False
+
           def stream_upload_asset(upload_url_tpl, tag, fname, size, src_url):
               """上游下载 URL → uploads.github.com 直连流式上传（不落盘）。
 
@@ -1439,16 +2020,53 @@ jobs:
                   err(f"[{tag}] 落盘上传也失败 [{fname}]: {e2}", indent=2)
               return False
 
-          def upload_to_release(rel, tag, name, up_asset, dn_assets):
-              """往指定 Release 传一个 asset；同名旧 asset 先删（API 不允许同名覆盖）"""
-              if name in dn_assets:
-                  delete_asset(dn_assets[name], tag)
-              return stream_upload_asset(
-                  rel["upload_url"], tag, name,
-                  up_asset[1], up_asset[2])
+          class TransactionalMirrorBackend:
+              """GitHub Release adapter for staged upload + PATCH name swaps."""
+
+              def __init__(self, rel, tag):
+                  self.release = rel
+                  self.tag = tag
+
+              def list_assets(self):
+                  for delay in (0, 1, 2):
+                      if delay:
+                          time.sleep(delay)
+                      current = gh_api_json(
+                          [f"repos/{MIRROR_REPO}/releases/tags/{self.tag}"])
+                      if current is not None:
+                          return {asset["name"]: asset
+                                  for asset in current.get("assets", [])}
+                  raise AssetTransactionError(
+                      f"cannot read downstream Release: {self.tag}")
+
+              def upload_asset(self, name, expected):
+                  return stream_upload_asset(
+                      self.release["upload_url"], self.tag, name,
+                      expected.size, expected.source_url)
+
+              def rename_asset(self, asset_id, old_name, new_name):
+                  return rename_asset(asset_id, old_name, new_name, self.tag)
+
+              def delete_asset(self, asset_id, name):
+                  current = self.list_assets().get(name)
+                  if current is None or int(current.get("id", -1)) != int(asset_id):
+                      return False
+                  return delete_asset(current, self.tag)
+
+              def verify_asset(self, name, expected):
+                  for delay in (0, 1, 2, 4):
+                      if delay:
+                          time.sleep(delay)
+                      asset = self.list_assets().get(name)
+                      if asset is None or int(asset.get("size", -1)) != expected.size:
+                          continue
+                      actual_digest = asset.get("digest") or ""
+                      if not expected.digest or expected.digest == actual_digest:
+                          return True
+                  return False
 
           def main():
-              header("镜像上游 Release 到本仓库（快照增量 + latest 全量）")
+              header("镜像上游 Release 到本仓库（变更快照 + latest 事务式增量）")
               info(f"来源: {c(C.BRIGHT_WHITE, f'{UPSTREAM_OWNER}/{UPSTREAM_REPO}')}")
               info(f"目标: {c(C.BRIGHT_WHITE, MIRROR_REPO)}")
 
@@ -1521,7 +2139,10 @@ jobs:
                   ok(f"滚动 Release: {c(C.BRIGHT_CYAN, 'latest')}"
                      f"（{len(upstream_map) - fails}/{len(upstream_map)}）")
                   if fails:
-                      warn(f"{fails} 个文件上传失败，下次运行会自动补齐")
+                      err(f"{fails} 个文件上传失败，首次镜像未完成")
+                      set_output("snapshot_tag", "")
+                      set_output("mirrored", "false")
+                      sys.exit(1)
                   # 再校准一次，双保险
                   mark_as_latest("latest")
                   set_output("snapshot_tag", "")
@@ -1564,34 +2185,80 @@ jobs:
               if diff_upload:
                   section(f"创建变更快照 Release: {ts}")
                   snap_rel = create_release(ts, ts, notes, mark_latest=False)
-                  if snap_rel:
-                      for n in diff_upload:
-                          stream_upload_asset(snap_rel["upload_url"], ts,
-                                              n, upstream_map[n][1],
-                                              upstream_map[n][2])
+                  if not snap_rel:
+                      sys.exit(1)
+                  snapshot_failures = []
+                  for n in diff_upload:
+                      if not stream_upload_asset(
+                          snap_rel["upload_url"], ts, n,
+                          upstream_map[n][1], upstream_map[n][2]
+                      ):
+                          snapshot_failures.append(n)
+                  if snapshot_failures:
+                      err(f"变更快照有 {len(snapshot_failures)} 个文件上传失败")
+                      sys.exit(1)
               else:
                   skip("本次只有移除没有新增/更新，不建快照")
 
               # 快照建完立刻校准一次：虽然 create 时带了 --latest=false
-              # 不会抢徽标，这里再强制一次做双保险——后面的全量上传耗时
-              # 较长，即使中途被并发取消/异常打断，徽标也已经在正确位置
+              # 不会抢徽标，这里再强制一次做双保险——后面的事务同步耗时
+              # 较长，即使后面的事务式增量同步异常，徽标也已在正确位置
               mark_as_latest("latest")
 
-              # ── 2. latest：全量同步 ──
-              #    只要检测到"有任何变化"，就把 upstream 当前【全部】asset
-              #    重新上传一遍（同名先删再传），并删除 upstream 已经没有的
-              #    文件，确保 latest 每次都是 upstream 的完整镜像，
-              #    不会因为历史遗漏 / 漏传导致下游读到不完整的文件集。
-              section("全量同步 latest Release（重新上传全部 upstream 文件）")
-              for n in diff_delete:
-                  delete_asset(dn_assets[n], "latest")
+              # ── 2. latest：增量同步 + 全集合核验 ──
+              #    缺失与 digest/size 变化项已全部包含在 diff_upload；只传
+              #    这些项即可补齐历史遗漏，同时避免每次变化都重传十余 GiB
+              #    未变化资产（尤其 scenario/voice/movie）。
+              section("事务式增量同步 latest Release（暂存、核验、改名、回滚）")
+              changed = {
+                  name: AssetExpectation(
+                      digest=upstream_map[name][0],
+                      size=upstream_map[name][1],
+                      source_url=upstream_map[name][2],
+                  )
+                  for name in diff_upload
+              }
+              run_token = (os.environ.get("GITHUB_RUN_ID", "local") + "-"
+                           + os.environ.get("GITHUB_RUN_ATTEMPT", "1"))
+              mirror_backend = TransactionalMirrorBackend(dn_rel, "latest")
+              try:
+                  replace_release_asset_set(
+                      mirror_backend,
+                      changed,
+                      diff_delete,
+                      run_token,
+                  )
+              except AssetTransactionError as exc:
+                  err(f"latest 事务式同步失败: {exc}")
+                  sys.exit(1)
 
-              all_names = list(upstream_map.keys())
-              fails = 0
-              for n in all_names:
-                  if not upload_to_release(dn_rel, "latest", n,
-                                           upstream_map[n], dn_assets):
-                      fails += 1
+              # 上传后重新读取远端；集合、名称、大小和可用 digest 必须与
+              # upstream 完全一致，防止增量策略把历史缺项静默留下。
+              try:
+                  final_assets = mirror_backend.list_assets()
+              except AssetTransactionError as exc:
+                  err(f"上传后无法读取下游 latest Release: {exc}")
+                  sys.exit(1)
+              expected_names = set(upstream_map)
+              actual_names = set(final_assets)
+              if actual_names != expected_names:
+                  err("下游 latest asset 集合与 upstream 不一致")
+                  err(f"缺失: {sorted(expected_names - actual_names)}", indent=1)
+                  err(f"多余: {sorted(actual_names - expected_names)}", indent=1)
+                  sys.exit(1)
+              mismatches = []
+              for n, (up_digest, up_size, _) in upstream_map.items():
+                  actual = final_assets[n]
+                  if actual.get("name") != n or int(actual.get("size", -1)) != up_size:
+                      mismatches.append(n)
+                      continue
+                  down_digest = actual.get("digest") or ""
+                  if up_digest and up_digest != down_digest:
+                      mismatches.append(n)
+              if mismatches:
+                  err(f"下游 latest name/size/digest 核验失败: {mismatches}")
+                  sys.exit(1)
+              ok(f"latest 全集合核验通过: {len(expected_names)} 个 asset")
 
               # ── 3. 收尾校准："Latest" 徽标必须永远落在 tag=latest 上 ──
               #    刚才如果创建了日期快照 Release，它的 created_at 比
@@ -1603,10 +2270,8 @@ jobs:
               header("镜像完成")
               ok(f"变更快照: {c(C.BRIGHT_CYAN, ts) if diff_upload else '（无）'}")
               ok(f"滚动 Release: {c(C.BRIGHT_CYAN, 'latest')} "
-                 f"（全量上传 {len(all_names) - fails}/{len(all_names)}，"
+                 f"（增量上传 {len(diff_upload)}/{len(diff_upload)}，"
                  f"移除 {len(diff_delete)}）")
-              if fails:
-                  warn(f"{fails} 个文件上传失败，下次运行会自动补齐")
               set_output("snapshot_tag", ts if diff_upload else "")
               set_output("mirrored", "true")
 
@@ -1646,9 +2311,61 @@ jobs:
       #     根目录只放 _new 预览副本。
       #   ▸  需要对上游仓库有 contents:write 权限。
       # ───────────────────────────────────────────────────────────────
+  commit-configs:
+    runs-on: ubuntu-latest
+    needs: [setup, pack-js, pack-scenario, publish]
+    if: always() && needs.setup.result == 'success'
+    outputs:
+      committed:   ${{ steps.commit_configs.outputs.committed }}
+      sha:         ${{ steps.commit_configs.outputs.sha }}
+      short_sha:   ${{ steps.commit_configs.outputs.short_sha }}
+      final_sync_sha: ${{ steps.commit_configs.outputs.final_sync_sha }}
+    env:
+      PYTHONUNBUFFERED: "1"
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+      CONFIG_DIR: "configures"
+    steps:
+      - name: 📦 检出下游仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets. }}
+          repository: MagirecoCN-Revival-Project/patch-front
+          # 浅克隆即可：本 job 只 add+commit+push，不需要 diff 完整历史区间
+          # （那是 setup/detect 的职责）。fetch-depth: 0 会把数 GB 的 blob
+          # 历史全拉下来，实跑卡在 checkout 十几分钟。并发 push 冲突的罕见
+          # 场景由 push 重试里的 unshallow 兜底。
+          fetch-depth: 1
+      - name: 🔧 配置 Git
+        run: |
+          git config user.name "Hiiragi Nemu"
+          git config user.email "128921071+HiiragiNemu@users.noreply.github.com"
+          git config rebase.autoStash true
+      - name: 📥 下载 pack-js
+        if: needs.pack-js.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: pack-js
+          path: .
+      - name: 📥 下载 pack-scenario
+        if: needs.pack-scenario.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: pack-scenario
+          path: .
+      - name: 📥 下载 publish-config（热更转正 official json）
+        if: needs.setup.outputs.publish_hotfix == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: publish-config
+          path: .
       - name: 💾 提交配置变更并同步推送上下游
         id: commit_configs
-        if: always()
+        # 分发或镜像失败时不固化 official 版本；重试仍复用同一候选版本。
+        if: success()
         run: |
           set -e
 
@@ -1666,6 +2383,10 @@ jobs:
             *) echo "::error::上游 push URL 异常，拒绝继续"; exit 1 ;;
           esac
 
+          # 正式 manifest.json 只来自 publish job 已完成并核验的 Release
+          # 转正事务（publish-config artifact）。预览运行不得在这里用 _new
+          # zip 重建正式清单，否则客户端会拿正式 zip 对上预览哈希。
+
           # 只 stage 我们已知名字的配置文件，绝不 git add -A 任意路径，
           # 避免误把别的临时产物（_artifacts/ / 上游同步进来的资源等）
           # 当成配置变更提交回去。
@@ -1678,6 +2399,7 @@ jobs:
               version_js_new.json \
               "${CONFIG_DIR}/version_scenario.json" "${CONFIG_DIR}/version_scenario_new.json" \
               "${CONFIG_DIR}/version_js.json"       "${CONFIG_DIR}/version_js_new.json" \
+              "${CONFIG_DIR}/manifest.json" \
               2>/dev/null || true
 
           if git diff --cached --quiet; then
@@ -1688,7 +2410,7 @@ jobs:
 
           # commit 消息描述本次干了什么
           MSG="ci: sync version_*.json"
-          if [ "${{ steps.check_upstream.outputs.publish_hotfix }}" = "true" ]; then
+          if [ "${{ needs.setup.outputs.publish_hotfix }}" = "true" ]; then
             MSG="$MSG (hotfix published)"
           fi
           # [skip ci] 阻止本 push 触发上游/自身的其他 workflow
@@ -1707,7 +2429,10 @@ jobs:
               break
             fi
             echo "⚠ 上游 push 失败，rebase 上游最新后重试..."
-            git pull --rebase "$UPSTREAM_PUSH_URL" main || true
+            # 浅克隆（fetch-depth: 1）下 rebase 缺历史会失败，先 unshallow 补齐再 rebase
+            git pull --rebase "$UPSTREAM_PUSH_URL" main 2>/dev/null || \
+              { git fetch --unshallow "$UPSTREAM_PUSH_URL" 2>/dev/null && \
+                git pull --rebase "$UPSTREAM_PUSH_URL" main; } || true
           done
           if [ "$PUSHED" != "1" ]; then
             echo "::error::配置 commit 推送上游失败 5 次；本次游标不会更新，下次运行自动重建并重推"
@@ -1738,20 +2463,45 @@ jobs:
       #   游标保持旧值，下次运行才能再次检测到 SHA 差异并重试，
       #   避免"失败却先把游标更新了"导致改动永久丢失。
       # ───────────────────────────────────────────────────────────────
+  update-cursor:
+    runs-on: ubuntu-latest
+    needs: [setup, commit-configs, r2-sync, doge-sync, pan123-upload, mirror-release]
+    # 自定义 if 会覆盖默认 success() 语义，这里显式要求所有关键 job 都 success
+    # （任一失败/被跳过 → 游标不推进），且确有内容才推进
+    if: needs.r2-sync.result == 'success' && needs.doge-sync.result == 'success' && needs.pan123-upload.result == 'success' && needs.mirror-release.result == 'success' && needs.commit-configs.result == 'success' && (needs.setup.outputs.should_sync == 'true' || needs.commit-configs.outputs.committed == 'true')
+    env:
+      : ${{ secrets. }}
+      FINAL_SYNC_SHA: ${{ needs.commit-configs.outputs.final_sync_sha }}
+      COMMIT_SHA: ${{ needs.setup.outputs.commit_sha }}
+    steps:
       - name: 📝 更新 Commit SHA（同步游标）
-        # should_sync=true：正常同步流程；committed=true：手动重打包
-        # 等 SHA 没变但产生了新 json commit 的场景也要把游标推过去
-        if: steps.check_upstream.outputs.should_sync == 'true' || steps.commit_configs.outputs.committed == 'true'
         run: |
-          # 优先记录「上下游最终对齐的 commit」（含本次 json 同步），
-          # 下次运行不会被 bot 自己的 commit 触发空转一轮；
-          # 没有新 commit 时退回记录运行开始时的上游 SHA。
-          if [ -n "$FINAL_SYNC_SHA" ]; then
-            gh variable set LAST_SYNC_COMMIT_SHA --body "$FINAL_SYNC_SHA"
-          else
-            gh variable set LAST_SYNC_COMMIT_SHA --body "${{ steps.check_upstream.outputs.commit_sha }}"
+          set -euo pipefail
+          SHA="${FINAL_SYNC_SHA:-${COMMIT_SHA:-}}"
+          if [ -z "$SHA" ]; then
+            echo "::warning::无可用 SHA，游标不推进"
+            exit 0
           fi
-
+          # update-cursor 无 checkout，gh 推不出仓库，必须显式 --repo
+          gh variable set LAST_SYNC_COMMIT_SHA --body "$SHA" \
+            --repo "${{ github.repository }}"
+          echo "游标已推进到 $SHA"
+  summary:
+    runs-on: ubuntu-latest
+    needs: [setup, pack-js, pack-scenario, publish, r2-sync, doge-sync, pan123-upload, mirror-release, commit-configs, update-cursor]
+    if: always()
+    env:
+      : ${{ secrets. }}
+      UPSTREAM_OWNER: "HiiragiNemu"
+      UPSTREAM_REPO: "patch-front"
+      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_REPO: "patch-front"
+      R2_BUCKET: ${{ secrets.R2_BUCKET }}
+      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
+      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
+      CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
+      DOGE_DOMAIN: ${{ secrets.DOGE_DOMAIN }}
+    steps:
       - name: 📊 生成运行摘要
         if: always()
         run: |
@@ -1762,13 +2512,15 @@ jobs:
           echo "| 上游仓库 | \`${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| object-storage 存储桶 | \`${{ env.R2_BUCKET }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 同步状态 | ${{ steps.check_upstream.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 手动打包范围 | \`${{ github.event_name == 'workflow_dispatch' && inputs.package_scope || '按变更自动判断' }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 实际打包 | JS=${{ steps.detect.outputs.has_js }}；Scenario=${{ steps.detect.outputs.has_scenario }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 热更新发布 | ${{ steps.check_upstream.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 版本 json 同步 | ${{ steps.commit_configs.outputs.committed == 'true' && format('✅ 同一 commit {0} 已推送并对齐上下游（fork 不分叉）', steps.commit_configs.outputs.short_sha) || '⏭️ 无配置变更' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| object-storage 过时文件清理 | ${{ steps.check_upstream.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 快照 Release | ${{ steps.mirror_release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量，已校准 Latest 徽标）', steps.mirror_release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| CDN 刷新 | edge（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ CDN（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
+          echo "| 同步状态 | ${{ needs.setup.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 手动打包范围 | ${{ github.event_name == 'workflow_dispatch' && inputs.package_scope || '按变更自动判断' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 实际打包 | JS=${{ needs.setup.outputs.has_js }}；Scenario=${{ needs.setup.outputs.has_scenario }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 热更新发布 | ${{ needs.setup.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 版本 json 同步 | ${{ needs.commit-configs.outputs.committed == 'true' && format('✅ 同一 commit {0} 已推送并对齐上下游（fork 不分叉）', needs.commit-configs.outputs.short_sha) || '⏭️ 无配置变更' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| object-storage 过时文件清理 | ${{ needs.setup.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 快照 Release | ${{ needs.mirror-release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量，已校准 Latest 徽标）', needs.mirror-release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| object-storage 系 CDN 刷新 | edge（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ CDN（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
+          echo "| Doge 系同步 | 多吉云（\`${{ env.DOGE_DOMAIN }}\`）：${{ needs.doge-sync.result == 'success' && '✅ 已同步' || format('⚠️ {0}', needs.doge-sync.result) }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 123云盘同步 | ${{ needs.pan123-upload.result == 'success' && '✅ 已同步' || format('⚠️ {0}', needs.pan123-upload.result) }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY

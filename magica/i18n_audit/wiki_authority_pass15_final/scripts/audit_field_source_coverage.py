@@ -23,7 +23,7 @@ from typing import Any, Iterable
 ROOT = Path(r"C:\Users\proje\Documents\Codex\2026-08-06\https-github-com-hiiraginemu-magireco-wiki-3")
 TREE = ROOT / "work" / "pass15_final_integration"
 OUT = ROOT / "work" / "final_validation_prep"
-BASE = "20e35db411e83d710662c98f12c1374fa8363dda"
+BASE = "2a5eedeef0d58b5e43f367eb420e011d27529497"
 AUDIT = ROOT / "work" / "pass15_authority" / "magica" / "i18n_audit"
 COMBINED_LEDGER = ROOT / "work" / "pass17_max_integrated" / "release" / "authority_layer_ledger_571.tsv"
 PASS10_SUMMARY = AUDIT / "wiki_authority_pass10_equivalence" / "source_summary.json"

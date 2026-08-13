@@ -5,11 +5,11 @@
 
 | 谁渲染 | 改哪里 | 怎么下发 | 唯一维护源 |
 |---|---|---|---|
-| WebView（前端） | 本目录四张表经 `tools/i18n-*.py` 明确回填进 `magica/` | `cn_js_update.zip` 的 `magica/` | 本仓库 `i18n/`、`tools/` 与 `magica/` |
+| WebView（前端） | 本目录四张迁移表经 `tools/i18n-*.py` 明确回填进 `magica/`；核验后的高权重候选另进 reviewed 审计层 | `cn_js_update.zip` 的 `magica/` | 本仓库 `i18n/`、`tools/` 与 `magica/` |
 | cocos2d 原生引擎 | `madomagi/engine_i18n.tsv`（文本 hook 的翻译表） | 同一个 `cn_js_update.zip` 的 `madomagi/engine_i18n.tsv` | 本仓库 `madomagi/engine_i18n.tsv` |
 | 烘焙进 PNG／plist 图集的文字 | 只能改图片资源 | 资源包 | 无 |
 
-本仓库同时拥有前两条翻译数据与构建工具，但两条运行时链路仍然独立：四张 TSV
+本仓库同时拥有前两条翻译数据与构建工具，但两条运行时链路仍然独立：四张迁移 TSV
 只是生成输入，只有显式运行工具、审阅差异并把结果写入 `magica/` 后才影响 WebView；
 它们绝不在客户端运行时自动覆盖 `magica/`。引擎表则由 native hook 直接消费。
 
@@ -167,6 +167,10 @@ TSV 下载数百 MB 的 scenario 包。`tools/i18n-package.py --base <旧 JS 包
 此表仍复构建完整 JS 包，并强制包内根路径精确为
 `madomagi/engine_i18n.tsv`（与 `magica/` 平行）。
 
+迁移时不重打线上历史 scenario v3217：该旧资产仍含迁移前副本，但新版 JS 包会在
+同一路径原子覆盖；后续 producer 生成的 scenario 包由合同测试强制禁含此表。这样
+完成运行时所有权迁移，同时避免用户只为移除旧副本下载约 194 MB 剧情包。
+
 > 🔴 **不要再建 `i18n/engine_i18n.tsv` 或 legacy-client 副本。** 那会造出第二个源，两边一分叉，
 > 谁也说不清哪份是真的——而这张表「译文为空 = 删除该串」的语义会让分叉直接表现为
 > 界面上的文字消失。要改译文只改本仓库 `madomagi/engine_i18n.tsv`。
@@ -182,8 +186,9 @@ TSV 下载数百 MB 的 scenario 包。`tools/i18n-package.py --base <旧 JS 包
 
 - 漏译修复前的补丁表 298 行 = 1 行注释 + 295 条精确条目 + 2 条前缀规则；当时
   设备日志是 `[i18n] 已加载 295 条 + 2 前缀规则（第 298 行止，坏行 0）`，逐字吻合。
-  加入「カーテンコールで終いやな」后，当前权威表是 299 行 = 1 行注释 + 296 条
-  精确条目 + 2 条前缀规则；设备收到新包后的期望日志相应为 296 + 2、坏行 0。
+  加入「カーテンコールで終いやな」后，当时的表为 299 行 = 1 行注释 + 296 条
+  精确条目 + 2 条前缀规则。v26 最终权威表为 304 行 = 1 行注释 + 301 条精确条目
+  + 2 条前缀规则；设备收到新包后的期望日志相应为 301 + 2、第 304 行止、坏行 0。
 - 解压根是 `/data/data/io.kamihama.totentanz/files/`（`CNHotUpdateCheck.FILES_DIR`），
   所以包内路径 `madomagi/engine_i18n.tsv` 正好落到 `MagiaLegacy.cpp` 的
   `ENGINE_I18N_PATH`。
@@ -224,11 +229,26 @@ TSV 下载数百 MB 的 scenario 包。`tools/i18n-package.py --base <旧 JS 包
 | 文件 | 列 | 干什么 |
 |---|---|---|
 | `frontend-strings.tsv` | 原文／译文／风险／出现次数／出现于 | 主表。前端所有日文字面量，1686 行 |
-| `glossary.tsv` | 日文／中文 | 术语表，从中文 Wiki 的术语模板提取，953 行 |
+| `glossary.tsv` | 日文／中文 | 术语表，从中文 Wiki 的术语模板提取，955 个有效项（含表头共 956 行） |
 | `overrides.tsv` | 文件前缀／原文／译文 | 同一原文在不同界面含义不同时按文件点名覆盖（如「サポート」= 辅助／支援） |
 | `fragments.tsv` | 文件前缀／原始片段／替换片段 | 跨节点整段改写，解决整串替换够不到的语序问题（日文宾语前置、「数+动」） |
 
 每张表的表头注释里写了它自己的判据和存在理由，改之前先读那几行。
+
+### 四表之外的 reviewed 权威层
+
+`reviewed-candidates.tsv` 不计入上面的 legacy 四表。它只记录已经找到逐项证据的
+高权重候选，至少包含来源层、稳定来源定位、来源文件 SHA-256、匹配方法、是否机翻、
+置信度和复核状态。官方候选必须是 `machine_translated=false`，并通过官方证据合同；
+Wiki 或确认人工候选也必须保留自己的真实层级，不得升级冒充官方。
+
+该表只参与 `i18n-build-effective.py` 生成的只读选择／冲突／provenance 审计，不会
+由 CI 自动回填 `magica/`。维护者显式执行 canonical `i18n-apply.py` 时，工具必须先
+验证 `generated/summary.json`：当前五份输入、policy、迁移摘要、生成器与
+`effective.tsv` 的哈希须全部一致，然后才以 effective 选择覆盖冻结表里的低权重
+候选；缺失或陈旧会在任何产品写入前失败。实际产品改动仍须验证前像、应用后值、
+受保护文本零漂移，并提供逐项回滚。低权重 LLM／DS 结果只能进入 staging 或人工复核
+清单，不能写入 reviewed 层覆盖官方、Wiki 或确认人工文本。
 
 回填铁律是**只换整条字面量**（见 `i18n-apply.py`）：不做子串替换，否则汉化会
 渗进变量名和 URL 里。语序问题一律走 `fragments.tsv`，不要手改压缩后的 JS

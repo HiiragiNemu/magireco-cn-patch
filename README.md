@@ -12,6 +12,21 @@
 ### 自动更新组织下游并上传S3：
 [![🔄 同步上游并上传到 S3](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/sync-and-upload.yml)
 
+> 同步分「object-storage 系」与「Doge 系」两条独立流水线：
+> - **object-storage 系**：上传到 object-storage 桶，刷新 edge / 阿里云 ESA / CDN 三 CDN
+> - **Doge 系**：`sync-and-upload.yml` 里的 `doge-sync` job 直接
+>   `runs-on [self-hosted, hk]` 在 hk 的 Docker 自托管 runner 上跑
+>   `scripts/sync-dogecloud.py` —— 经 `/auth/tmp_token.json` 换三段式
+>   STS 临时密钥后走 boto3（仅 Virtual Hosted Style）上传到多吉云并刷新
+>   其 CDN。因 GitHub runner → 腾讯 COS 直连极慢，而 hk → GitHub ~8.6MB/s、
+>   hk → COS 快，故 runner 装在 hk（Docker 容器，`--cpus=2 --memory=2g`
+>   限资源；自建镜像仅含官方 runner 二进制，配置用 bind-mount 持久化、免
+>   PAT）。同步指纹存 Doge 桶 `__doge_fingerprint.json`，
+>   `confirm_cleanup=true` 才删过时文件
+>
+> 多吉云相关密钥见 GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` /
+> `DOGE_BUCKET` / `DOGE_DOMAIN`）。
+
 ### 清除CDN缓存（手动）：
 [![🧹 清空CDN缓存](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml)
 
@@ -19,8 +34,8 @@
 
 # cn_js_update.zip 是怎么产出的
 
-`magica/` 前端树与 `madomagi/engine_i18n.tsv` **共同构成**包内容，CI 里
-`zip -r cn_js_update_new.zip magica/ madomagi/engine_i18n.tsv` 一步打完。
+`magica/` 前端树与 `madomagi/engine_i18n.tsv` **共同构成**包内容，CI 里由
+`python3 tools/build-v26-package.py --out cn_js_update_new.zip` 排序并固定 ZIP 元数据后打包。
 ZIP 根下的 `magica/` 与 `madomagi/` 平行；打包前先跑 `Build_JS_Injector.py`，把
 `magica/js/libs/*.json` 那
 23 张字典和运行时汉化代码注入到 `original_source/jquery-3.7.1.min.js` 的副本
@@ -33,10 +48,23 @@ ZIP 根下的 `magica/` 与 `madomagi/` 平行；打包前先跑 `Build_JS_Injec
 ## 翻译维护输入与产品树的关系
 
 `i18n/frontend-strings.tsv`、`glossary.tsv`、`overrides.tsv`、`fragments.tsv`
-以及 `tools/i18n-*.py` 现在都由本仓库维护。四张 TSV 是**生成／审计输入**，不是
+以及 `tools/i18n-*.py` 现在都由本仓库维护。上述四张迁移 TSV 是**生成／审计输入**，不是
 运行时文件，也不会被 CI 自动套用到 `magica/`；只有维护者显式运行回填、检查差异、
 完成人工复核并提交产品文件后，译文才会进入热更新包。因此别的仓库中的同名表不会
 隔空改写这里的 JS、HTML 或 JSON。
+
+`i18n/reviewed-candidates.tsv` 是四张迁移表之外的**显式高权重证据覆盖层**，只收录
+已经逐项核验的官方／Wiki／确认人工候选。它不属于 legacy 迁移四表，也不是第五张
+运行时替换表；`tools/i18n-build-effective.py` 只把它加入 effective、conflicts 与
+provenance 审计。要改变产品，仍须另有带前像、目标文件、来源定位和 SHA-256 的应用
+清单，并通过保护门和回滚验证。这样既保留四表原始来源，也避免把新核验结论伪装成
+legacy 既有译文。
+
+维护者显式运行 `tools/i18n-apply.py` 回填 canonical `frontend-strings.tsv` 时，工具
+不会直接相信冻结表中的遗留 AI 候选，而会强制读取 `i18n/generated/effective.tsv`。
+`summary.json` 必须把 effective 逐字绑定到当前五份输入、policy、迁移摘要和生成器
+哈希；任一文件缺失或陈旧都会在写产品树之前失败。因而原始四表仍保留迁移证据，
+但其中已被高权重证据否决的旧译文不会经重跑回流。
 
 冲突时固定按“官方旧国服 dump > `HiiragiNemu/wiki-data` > 已有人工译文
 > 新人工／LLM 译文”选择。`i18n/authority-policy.json` 与
@@ -50,6 +78,19 @@ ZIP 根下的 `magica/` 与 `madomagi/` 平行；打包前先跑 `Build_JS_Injec
 复核的新提案。`tools/i18n-build-effective.py` 只生成审计层，并以同权重冲突直接失败；
 它不会写入 `magica/`。
 
+
+## 16MB 分块校验（manifest.json）
+
+下载完整性从「整包重读 md5」演进为「16MB 分块哈希」：客户端下载时每个
+分片线程段内顺序喂 MessageDigest，每到块边界比对清单指纹，**坏块只重下那
+16MB**，不再整包重来（cn_base_03 等 1GB+ 包反复失败事故的根治）。
+
+- `scripts/build_chunk_manifest.py` 生成/更新 `configures/manifest.json`，
+  覆盖全部下载文件（base 包 + 热更包）的块指纹
+- base 包是静态资产，首次全量生成后提交入库；热更包每次构建增量刷新
+- 发布时 manifest.json 上传到 Release，随镜像分发，客户端走多线路拉取
+- 客户端无清单/拉取失败时静默退化为原来的 zip 结构预检 + 整包 md5
+
 ## 客户端怎么消费它
 
 热更包解压到 `/data/data/io.kamihama.totentanz/files/`，而
@@ -62,6 +103,11 @@ ZIP 根下的 `magica/` 与 `madomagi/` 平行；打包前先跑 `Build_JS_Injec
 `<files>/madomagi/engine_i18n.tsv`，由 native cocos Label hook 每 3 秒检查 mtime
 并热重载。它从 `cn_scenario_update.zip` 迁入 JS 包后路径没有变化，只改变版本与
 发布归属；清单生成会强制 JS 包必含、scenario 包禁含，装错包会直接阻断发布。
+
+迁移采用 **JS-only 发布**：线上历史 scenario v3217 仍物理保留迁移前的旧表，
+本轮不为删除几 KB 旧副本而让用户重下约 194 MB 剧情包；客户端事务先保留最后可用
+表，再由新版 JS 包在同一路径原子覆盖。今后由本工作流新生成的 scenario 包一律禁含
+该表。这里区分“历史线上资产”与“新 producer 合同”，不把旧资产误报为已重包。
 
 推论有两条，都很硬：
 

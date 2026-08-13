@@ -1,0 +1,90 @@
+{
+  "schema": "magireco-cn-v26-pass18-authority-verification/v1",
+  "status": "PASS",
+  "baseline_commit": "d5e8f75d93f6760a588e592c22a3754d19370c68",
+  "manifest": {
+    "path": "magica/i18n_audit/release_v26_authority/pass18_authority_corrections.tsv",
+    "sha256": "4d1821807ff2a1c90f026886cf6c1fe31041b687eb5270853a4d0549b39d2a30",
+    "recorded_sha256": "4d1821807ff2a1c90f026886cf6c1fe31041b687eb5270853a4d0549b39d2a30",
+    "expected_rows": 939,
+    "actual_rows": 939,
+    "after_image_matches": 939,
+    "failures": []
+  },
+  "visible_regression_scan": {
+    "expected_dictionaries": 23,
+    "actual_dictionaries": 23,
+    "visible_fields": [
+      "areaDetailName",
+      "areaName",
+      "cardName",
+      "chapterNoForView",
+      "charaName",
+      "className",
+      "conditionDescription",
+      "description",
+      "eventDescription",
+      "eventName",
+      "kana",
+      "message",
+      "name",
+      "nextClassName",
+      "outline",
+      "parameter",
+      "pieceName",
+      "pointTitle",
+      "school",
+      "shortDescription",
+      "storyTitle",
+      "title",
+      "unit"
+    ],
+    "excluded_field_classes": {
+      "technical": "IDs, codes, enums, dates, paths, openFunctions and reward fields",
+      "credits": "illustrator, designer and voiceActor"
+    },
+    "standalone_visible_values_scanned": 52400,
+    "jquery_visible_values_scanned": 52400,
+    "forbidden_rules": 43,
+    "forbidden_hits": 0,
+    "hits": []
+  },
+  "root_personal_translations": {
+    "expected": 12,
+    "actual": 12,
+    "exact_after_matches": 12,
+    "missing": [],
+    "extra": [],
+    "bad_review_status_change_ids": [],
+    "after_image_failure_change_ids": []
+  },
+  "engine_i18n": {
+    "path": "madomagi/engine_i18n.tsv",
+    "sha256": "9d14dc8c7c7a1dbfb381af86ebcfff17b2393b2cec5136ed1594f7ea87dbd4a4",
+    "bytes": 17371,
+    "encoding": "UTF-8",
+    "line_endings": "LF",
+    "expected_data_rows": 303,
+    "actual_data_rows": 303,
+    "malformed_lines": [],
+    "duplicate_source_keys": {},
+    "official_audit_rows": 5,
+    "official_mapping_failures": []
+  },
+  "css_unchanged": {
+    "baseline_commit": "d5e8f75d93f6760a588e592c22a3754d19370c68",
+    "expected_files": 25,
+    "baseline_files": 25,
+    "current_files": 25,
+    "missing": [],
+    "extra": [],
+    "mismatched": []
+  },
+  "boss_page_static_label": {
+    "path": "magica/js/regularEvent/groupBattle/view/BossPageView.js",
+    "manifest_rows": 1,
+    "corrected_literal_count": 1,
+    "old_literal_count": 0
+  },
+  "errors": []
+}

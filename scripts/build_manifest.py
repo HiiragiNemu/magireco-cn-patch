@@ -19,6 +19,8 @@
 
 第二个尤其重要：它是**已经污染了设备的路径全集**。任何一条从账本里消失（即某一
 版把它从包里拿掉了）都值得警觉——那正是制造孤儿的时刻，脚本会在这时候把它列出来。
+尚未转正的 ``*_new`` 预览包必须传 ``--ledger-mode check``：照常生成候选清单并与
+现有账本比对，但不把未发布路径写进这份历史账本。
 
 ## 输出
 
@@ -32,6 +34,7 @@
 """
 
 import argparse
+from collections import Counter
 import hashlib
 import json
 import os
@@ -76,19 +79,53 @@ def main():
                     help="cn_js_update / cn_scenario_update")
     ap.add_argument("--version", type=int, required=True)
     ap.add_argument("--out", default=".", help="manifest 写到哪个目录")
+    ap.add_argument(
+        "--manifest-name",
+        help="输出文件名；预览构建应使用 *_manifest_new.json",
+    )
     ap.add_argument("--ledger-dir", default=LEDGER_DIR)
+    ap.add_argument(
+        "--ledger-mode",
+        choices=("update", "check"),
+        default="update",
+        help=(
+            "update 写回累计账本；check 只对现有账本计算新增/移除，"
+            "用于尚未转正的预览包"
+        ),
+    )
     args = ap.parse_args()
+
+    if args.version <= 0:
+        sys.stderr.write("✘ --version 必须是正整数\n")
+        return 2
+
+    manifest_name = args.manifest_name or "%s_manifest.json" % args.package
+    if os.path.basename(manifest_name) != manifest_name or not manifest_name.endswith(".json"):
+        sys.stderr.write("✘ --manifest-name 必须是单个 .json 文件名\n")
+        return 2
 
     if not os.path.isfile(args.zip):
         sys.stderr.write("✘ 找不到 %s\n" % args.zip)
         return 2
 
-    z = zipfile.ZipFile(args.zip)
-    files = {}
-    for it in z.infolist():
-        if it.is_dir():
-            continue
-        files[it.filename] = {"size": it.file_size, "crc32": "%08x" % (it.CRC & 0xFFFFFFFF)}
+    with zipfile.ZipFile(args.zip) as z:
+        infos = [it for it in z.infolist() if not it.is_dir()]
+        names = [it.filename for it in infos]
+        if len(names) != len(set(names)):
+            duplicates = sorted(name for name, count in Counter(names).items() if count > 1)
+            sys.stderr.write("✘ 包含重复文件路径：%s\n" % ", ".join(duplicates[:20]))
+            return 1
+        bad_crc = z.testzip()
+        if bad_crc is not None:
+            sys.stderr.write("✘ ZIP CRC 校验失败：%s\n" % bad_crc)
+            return 1
+        files = {
+            it.filename: {
+                "size": it.file_size,
+                "crc32": "%08x" % (it.CRC & 0xFFFFFFFF),
+            }
+            for it in infos
+        }
     if not files:
         sys.stderr.write("✘ 包里没有文件条目\n")
         return 1
@@ -119,11 +156,7 @@ def main():
         "files": dict(sorted(files.items())),
     }
     os.makedirs(args.out, exist_ok=True)
-    mpath = os.path.join(args.out, "%s_manifest.json" % args.package)
-    with open(mpath, "w", encoding="utf-8") as f:
-        json.dump(manifest, f, ensure_ascii=False, indent=1, sort_keys=False)
-    print("✅ %s：%d 个文件，%.1f MB"
-          % (mpath, len(files), manifest["total_size"] / 1048576.0))
+    mpath = os.path.join(args.out, manifest_name)
 
     # ---- 账本 ----
     os.makedirs(args.ledger_dir, exist_ok=True)
@@ -138,7 +171,25 @@ def main():
             sys.stderr.write("⚠ 账本读不动，按空账本重建：%s\n" % e)
             ledger = {"schema": 1, "package": args.package, "paths": {}}
 
+    try:
+        ledger_last_version = int(ledger.get("last_version", 0) or 0)
+    except (TypeError, ValueError):
+        sys.stderr.write("✘ 账本 last_version 非法，拒绝覆盖\n")
+        return 1
+    if args.version < ledger_last_version:
+        sys.stderr.write(
+            "✘ 候选版本不得倒退：candidate=%d, ledger=%d\n"
+            % (args.version, ledger_last_version)
+        )
+        return 1
+
+    with open(mpath, "w", encoding="utf-8") as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=1, sort_keys=False)
+    print("✅ %s：%d 个文件，%.1f MB"
+          % (mpath, len(files), manifest["total_size"] / 1048576.0))
+
     paths = ledger["paths"]
+    historical_paths_before = len(paths)
     prev_current = {p for p, v in paths.items() if v.get("current")}
     added, dropped = [], []
 
@@ -158,10 +209,15 @@ def main():
     ledger["last_version"] = args.version
     ledger["total_paths_ever"] = len(paths)
     ledger["current_paths"] = len(files)
-    with open(lpath, "w", encoding="utf-8") as f:
-        json.dump(ledger, f, ensure_ascii=False, indent=1)
-    print("✅ %s：历史累计 %d 条路径，本版在用 %d 条（新增 %d，移除 %d）"
-          % (lpath, len(paths), len(files), len(added), len(dropped)))
+    if args.ledger_mode == "update":
+        with open(lpath, "w", encoding="utf-8") as f:
+            json.dump(ledger, f, ensure_ascii=False, indent=1)
+        print("✅ %s：历史累计 %d 条路径，本版在用 %d 条（新增 %d，移除 %d）"
+              % (lpath, len(paths), len(files), len(added), len(dropped)))
+    else:
+        print("✅ 只读核对 %s：账本历史累计 %d 条，候选并集 %d 条，候选包 %d 条"
+              "（新增 %d，移除 %d）；账本未写回"
+              % (lpath, historical_paths_before, len(paths), len(files), len(added), len(dropped)))
 
     if dropped:
         prefixes = CLEANUP_PREFIXES.get(args.package, [])

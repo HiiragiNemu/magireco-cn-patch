@@ -72,7 +72,7 @@
 
 ## 结构保护
 
-以下内容与基线提交 `2d9fad7a10cf54a20b3bb473c25971ee6bf6cabd` 保持一致：
+以下内容与基线提交 `4db6698623311ee5ab1dce9ebce940e0eb2748f0` 保持一致：
 
 - `magica/css/` 全部 8 份 CSS
 - `magica/js/campaign/box_gacha/CampaignBoxGachaTop.js`

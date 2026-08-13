@@ -1,0 +1,212 @@
+{
+  "ds_nonapproved_human_decision_required": 82,
+  "ds_phase": "closed_manual_handoff",
+  "exception_evidence": {
+    "historical_tool_policy_exception": {
+      "affected_batches_claimed": false,
+      "audit_record": {
+        "bytes": 57644,
+        "path": "dsv4_current_job_tool_usage_audit.json",
+        "sha256": "3f40a647ab7b9962ca342b7880abc7ee084d02943605c07aee19aa66fcb21915"
+      },
+      "bash_use_count": 4,
+      "events": [
+        {
+          "line": 795,
+          "result": "success",
+          "timestamp": "2026-08-11T22:46:58.679Z",
+          "tool": "Bash"
+        },
+        {
+          "line": 835,
+          "result": "success",
+          "timestamp": "2026-08-11T22:49:24.864Z",
+          "tool": "Bash"
+        },
+        {
+          "line": 874,
+          "result": "success",
+          "timestamp": "2026-08-11T22:54:36.084Z",
+          "tool": "Bash"
+        },
+        {
+          "line": 925,
+          "result": "error",
+          "timestamp": "2026-08-11T22:58:37.580Z",
+          "tool": "Bash"
+        }
+      ],
+      "host_network_configuration_writes": 0,
+      "path_boundary_violations": 0,
+      "re_review_claimed": false,
+      "result_counts": {
+        "error": 1,
+        "success": 3
+      },
+      "scope_note": "the captured audit identifies transcript line events but does not bind them to batch numbers",
+      "status": "disclosed-from-staging-evidence"
+    },
+    "stale_batch72_quarantine": {
+      "accepted_batch72": {
+        "bytes": 112713,
+        "path": "accepted/batch_072.json",
+        "sha256": "4f5e2b55b4fba7e6817e6e9d2c16f548f8db70797dca433c38352a5563dbd19a"
+      },
+      "accepted_sha256": "4f5e2b55b4fba7e6817e6e9d2c16f548f8db70797dca433c38352a5563dbd19a",
+      "audit_record": {
+        "bytes": 1111,
+        "path": "runtime/stale_pending_quarantine_20260813T084026781881Z.json",
+        "sha256": "e09fc75dab2901c82c2f908ecce1c8a5bab43e431ab1c2ef26378408a17a8dfc"
+      },
+      "authority_text_changed": false,
+      "checkpoint_before": {
+        "completed_items": 1472,
+        "last_completed_batch": 74,
+        "next_batch": 75,
+        "review_manifest_sha256": "7b2b418e48cfc1eeb5e04ebc74c8df698baa875908a0c7ff69c609d4dff887bc",
+        "schema": "magireco-cn-dsv4-v3-checkpoint/1",
+        "state": "ready",
+        "total_batches": 96,
+        "total_items": 1912,
+        "updated_at": "2026-08-12T16:47:44.392Z"
+      },
+      "pending_sha256": "ece7865d4ea8622b877ba92875f20a752d95f903cef5c5a5a3d8a173eb86cf7e",
+      "product_tree_written": false,
+      "quarantined_payload": {
+        "bytes": 51931,
+        "path": "rejected/batch_072_reboot_stale_ece7865d4ea8_20260813T084026781881Z.json",
+        "sha256": "ece7865d4ea8622b877ba92875f20a752d95f903cef5c5a5a3d8a173eb86cf7e"
+      }
+    }
+  },
+  "generated": {
+    "current_ledger_entries": 108,
+    "generated_aggregates_exact": true,
+    "generated_manifest_ledger_prefix_entries": 108,
+    "terminal_checkpoint": true,
+    "terminal_mode": "manual_handoff"
+  },
+  "human_decision_required": 522,
+  "input_snapshot_digest": "a4dc7da4b4b922dc57d0adf4fffb042fafd45cb587c03aef8de71d18ac043dfe",
+  "inventory": {
+    "accepted_batches": 74,
+    "ds_reviewed_items": 1472,
+    "manual_required_batches": 22,
+    "manual_required_items": 440,
+    "queue_coverage": {
+      "accepted_item_ids_sha256": "c1c058b3befe022267d2b5bc7864b5ec0643f987e1c3a57295f3d3ff3156c429",
+      "accepted_manual_overlap": 0,
+      "full_item_ids_sha256": "521c1b9deeea670c5a0d594201e395702c3deb50d141d14ffab31599d324bfca",
+      "inventory_missing": 0,
+      "manual_batch_range": {
+        "count": 22,
+        "end": 96,
+        "start": 75
+      },
+      "manual_first_item_id": "LOW-MT-01779",
+      "manual_item_ids_sha256": "b5c8f8b5542ad6c000ca073013f869192c983cd594558aa6413b5c0a398b5a20",
+      "manual_last_item_id": "HISTORY-LLM-264",
+      "manual_required_unreviewed": 440,
+      "manual_source_index_range": {
+        "end": 1912,
+        "start": 1473
+      },
+      "manual_unreviewed_classes": {
+        "current_low_tier": 176,
+        "current_low_tier_by_source_path": {
+          "i18n/frontend-strings.tsv": 167,
+          "i18n/overrides.tsv": 9
+        },
+        "historical_pass8_comparison_only": 264
+      }
+    },
+    "source_order": true,
+    "total_items": 1912,
+    "unique_item_ids": 1912
+  },
+  "ledger": {
+    "entries": 108,
+    "last_entry_sha256": "b4ea5401d34161f1866c76ff533c8abc475b2781352afece31a308edb9c24d1a",
+    "valid": true
+  },
+  "manual_required_classification": {
+    "current_low_tier": 176,
+    "protected_historical_comparison_only": 264
+  },
+  "network_configuration_writes": false,
+  "protection": {
+    "product_tree_writes": false,
+    "product_write_allowed_items": 0,
+    "protected_text_changes": 0
+  },
+  "reproducibility": {
+    "artifact_bytes_identical": true,
+    "independent_renders": 2,
+    "independent_stage_reads": 2,
+    "stage_snapshots_identical": true
+  },
+  "schema": "magireco-cn-dsv4-v3-terminal-assembly/2-verification",
+  "source_lock": {
+    "CROSS_ROLE_TASK_v2.txt": {
+      "bytes": 5635,
+      "sha256": "4645f8d6294bc0cda2583d3592155c2a527ff91f01fe89d3ed5164ba49aef8ca"
+    },
+    "cancel_v2_rpc_response.jsonl": {
+      "bytes": 637,
+      "sha256": "aa79b917feb3bee0aef0ea5838303159025ce317cd2ab589c12dc29ad95f2533"
+    },
+    "items.jsonl": {
+      "bytes": 2985979,
+      "sha256": "5f796440d028daf11e1b903f09a48a062ffddb5741e1a54bbbcbc05f94d47892"
+    },
+    "job_manifest_v2.json": {
+      "bytes": 3514,
+      "sha256": "2f808e81befb95ae506a7190c758383ee2d5b2272be0abb58e0238426f07e947"
+    },
+    "previous_ds_low_standard_results_72_v2.json": {
+      "bytes": 57049,
+      "sha256": "81c888b212e9135bac40c0c8965db5778f3213599f0fd54ff357cc61cfa767e4"
+    },
+    "protected_authority_reference_148_v2.tsv": {
+      "bytes": 76013,
+      "sha256": "d74cfbb3f425e80a389678c79ff36cba753881e2c8a091001281c7e3b64b6c6c"
+    },
+    "staging_v2/append_only_ledger.jsonl": {
+      "bytes": 26171,
+      "sha256": "f08a9fcbf0f4d3b24b6d70dca54ab546e72cf4ef95f932a6e5d844bfd0ab8264"
+    },
+    "staging_v2/checkpoint.json": {
+      "bytes": 6538,
+      "sha256": "590d741b8ded1e13310d5fc9175b994d714ffc90973a2ea6c81ca3890be744b7"
+    },
+    "staging_v2/heartbeat.json": {
+      "bytes": 349,
+      "sha256": "fccea0708d227a943d3c91635fd949ff55913974396b50e0bd6f133182eec300"
+    },
+    "staging_v2/review_results.jsonl": {
+      "bytes": 193954,
+      "sha256": "ef4132af771e1d56bb7f03a30cf8d1fd5411dbac981b638a873d976e540e522f"
+    },
+    "staging_v2/role_matrix.jsonl": {
+      "bytes": 465384,
+      "sha256": "077622255a313fde320d85c9464f550414cc93c7ee88fed5a86e2b1e2f37fd9b"
+    },
+    "supervisor_runtime/state.json": {
+      "bytes": 141,
+      "sha256": "9572d45e7a7caf82075794e5047d4139a5565b7b5f176b1373799dcbabb09e4e"
+    }
+  },
+  "staging_patch_executor": {
+    "bytes": 9737,
+    "path": "staging_patch_executor.py",
+    "sha256": "4b8958b54d5792f9c6cb7f6ae3743d0fe5e96bef74c4b7109534cb1dc042a021"
+  },
+  "status": "PASS",
+  "terminal_mode": "manual_handoff",
+  "tool_version": "2",
+  "verdicts": {
+    "approved": 1390,
+    "correction": 37,
+    "unresolved": 45
+  }
+}

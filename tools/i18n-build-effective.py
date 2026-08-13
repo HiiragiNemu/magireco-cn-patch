@@ -49,6 +49,23 @@ PROVENANCE_COLUMNS = (
     "source_commit",
     "evidence",
 )
+
+REVIEWED_CANDIDATE_COLUMNS = (
+    "scope",
+    "path_prefix",
+    "source_text",
+    "candidate_cn",
+    "status",
+    "authority",
+    "source_batch",
+    "source_locator",
+    "source_sha256",
+    "match_method",
+    "machine_translated",
+    "confidence",
+    "review_status",
+    "evidence",
+)
 EFFECTIVE_COLUMNS = (
     "key",
     "scope",
@@ -197,6 +214,7 @@ def build_candidates(
     table_rows: dict[str, list[tuple[int, list[str]]]],
     migration: dict[str, Any],
     weights: dict[str, int],
+    reviewed_rows: list[tuple[int, list[str]]] | None = None,
 ) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
     frontend_info = migration["source_tables"]["frontend-strings.tsv"]
@@ -301,6 +319,67 @@ def build_candidates(
                     evidence="path-specific human/model patch without per-entry review provenance",
                 )
             )
+
+    # New per-entry authority decisions must never be smuggled into the frozen
+    # legacy migration lineage.  They live in a separate, explicit table whose
+    # authority and evidence are validated here before joining the audit-only
+    # effective view.  This keeps official/Wiki/human decisions distinguishable
+    # from the inherited AI-assisted frontend rows.
+    for line_no, row in reviewed_rows or []:
+        if len(row) != len(REVIEWED_CANDIDATE_COLUMNS):
+            raise AuditError(
+                f"reviewed-candidates.tsv:{line_no}: expected "
+                f"{len(REVIEWED_CANDIDATE_COLUMNS)} columns, got {len(row)}"
+            )
+        record = dict(zip(REVIEWED_CANDIDATE_COLUMNS, row))
+        if record["scope"] not in {"global", "override", "fragment"}:
+            raise AuditError(f"reviewed-candidates.tsv:{line_no}: invalid scope")
+        if not record["source_text"] or not record["candidate_cn"]:
+            raise AuditError(
+                f"reviewed-candidates.tsv:{line_no}: source and candidate must be non-empty"
+            )
+        authority = record["authority"]
+        if authority not in {"official_cn_dump", "wiki", "existing_human_reviewed", "new_proposal"}:
+            raise AuditError(
+                f"reviewed-candidates.tsv:{line_no}: invalid explicit authority {authority!r}"
+            )
+        if record["status"] != "present":
+            raise AuditError(f"reviewed-candidates.tsv:{line_no}: only present rows are supported")
+        if record["machine_translated"].lower() not in {"true", "false", "unknown"}:
+            raise AuditError(f"reviewed-candidates.tsv:{line_no}: invalid machine_translated")
+        if authority == "official_cn_dump":
+            if record["machine_translated"].lower() != "false":
+                raise AuditError(
+                    f"reviewed-candidates.tsv:{line_no}: official CN must be machine_translated=false"
+                )
+            if len(record["source_sha256"]) != 64 or not record["source_locator"]:
+                raise AuditError(
+                    f"reviewed-candidates.tsv:{line_no}: official CN requires source locator and SHA-256"
+                )
+            if record["review_status"] != "official-source-verified":
+                raise AuditError(
+                    f"reviewed-candidates.tsv:{line_no}: official CN review status is not verified"
+                )
+        candidates.append(
+            make_candidate(
+                scope=record["scope"],
+                path_prefix=record["path_prefix"],
+                source_text=record["source_text"],
+                candidate_cn=record["candidate_cn"],
+                status=record["status"],
+                authority=authority,
+                weights=weights,
+                source_file="i18n/reviewed-candidates.tsv",
+                source_line=line_no,
+                source_batch=record["source_batch"],
+                evidence=(
+                    f"{record['evidence']}; locator={record['source_locator']}; "
+                    f"source_sha256={record['source_sha256']}; match={record['match_method']}; "
+                    f"machineTranslated={record['machine_translated']}; "
+                    f"confidence={record['confidence']}; review={record['review_status']}"
+                ),
+            )
+        )
 
     return candidates
 
@@ -418,7 +497,9 @@ def run(
     )
     table_rows = {name: read_data_rows(i18n_dir / name) for name in filenames}
     validate_source_snapshot(i18n_dir, migration, table_rows)
-    candidates = build_candidates(table_rows, migration, weights)
+    reviewed_path = i18n_dir / "reviewed-candidates.tsv"
+    reviewed_rows = read_data_rows(reviewed_path) if reviewed_path.is_file() else []
+    candidates = build_candidates(table_rows, migration, weights, reviewed_rows)
     effective, conflicts = select_effective(candidates)
 
     candidates.sort(key=lambda entry: (entry["key"], -entry["weight"], entry["candidate_id"]))
@@ -427,6 +508,26 @@ def run(
     write_tsv(out_dir / "input-provenance.tsv", PROVENANCE_COLUMNS, candidates)
     write_tsv(out_dir / "effective.tsv", EFFECTIVE_COLUMNS, effective)
     write_tsv(out_dir / "conflicts.tsv", CONFLICT_COLUMNS, conflicts)
+
+    # ``effective.tsv`` may be consumed later by the explicit, maintainer-run
+    # apply command.  Bind every generated TSV to both its complete input set
+    # and this producer implementation so a stale view cannot silently win over
+    # a newly reviewed authority decision.  The summary itself is deliberately
+    # not self-hashed.
+    generated_outputs = {
+        "input-provenance.tsv": {
+            "data_rows": len(candidates),
+            "normalized_lf_sha256": normalized_sha256(out_dir / "input-provenance.tsv"),
+        },
+        "effective.tsv": {
+            "data_rows": len(effective),
+            "normalized_lf_sha256": normalized_sha256(out_dir / "effective.tsv"),
+        },
+        "conflicts.tsv": {
+            "data_rows": len(conflicts),
+            "normalized_lf_sha256": normalized_sha256(out_dir / "conflicts.tsv"),
+        },
+    }
 
     present = [entry for entry in candidates if entry["status"] == "present"]
     fatal_count = sum(bool(entry["fatal"]) for entry in conflicts)
@@ -446,9 +547,38 @@ def run(
             ).items())),
             "normalized_lf_sha256": normalized_sha256(i18n_dir / filename),
         }
+    reviewed_relevant = [
+        entry for entry in candidates
+        if entry["source_file"] == "i18n/reviewed-candidates.tsv"
+    ]
+    table_summary["reviewed-candidates.tsv"] = {
+        "data_rows": len(reviewed_rows),
+        "present_candidates": len(reviewed_relevant),
+        "absent_candidates": 0,
+        "authority_counts": dict(sorted(Counter(
+            entry["authority"] for entry in reviewed_relevant
+        ).items())),
+        "source_batch_counts": dict(sorted(Counter(
+            entry["source_batch"] for entry in reviewed_relevant
+        ).items())),
+        "normalized_lf_sha256": normalized_sha256(reviewed_path) if reviewed_path.is_file() else "",
+    }
     summary = {
         "schema_version": 1,
         "mode": "audit-only",
+        "producer": {
+            "path": "tools/i18n-build-effective.py",
+            "normalized_lf_sha256": normalized_sha256(Path(__file__).resolve()),
+        },
+        "input_contracts": {
+            "authority-policy.json": {
+                "normalized_lf_sha256": normalized_sha256(policy_path),
+            },
+            "migration-source-summary.json": {
+                "normalized_lf_sha256": normalized_sha256(migration_path),
+            },
+        },
+        "generated_outputs": generated_outputs,
         "authority_order": [
             {"id": authority, "weight": weight}
             for authority, weight in EXPECTED_MAINTENANCE_ORDER

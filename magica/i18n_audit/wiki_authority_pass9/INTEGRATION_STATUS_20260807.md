@@ -6,7 +6,7 @@
 - First authority commit: `1b43d5a9dfc269f4d7121e188161273d5f207d15`
 - Reproducibility follow-up (the authority branch second commit): `b00812febaa3164bdf68422dca09f11aa59f255e`
 - Parallel Totentanz branch audited here: `research/totentanz-magica-cn-overlay-20260806`
-- Parallel branch head at integration fork: `1c3a9115fbf5037c79db023ba1d821f8156521a3`
+- Parallel branch head at integration fork: `214c962e24d30532468a3d5fd7268e06559cb419`
 - Final integration branch: `research/totentanz-magica-cn-overlay-pass9-final-20260807`
 
 ## Authority result

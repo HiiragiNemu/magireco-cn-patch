@@ -30,13 +30,198 @@
 """
 
 import argparse
+import csv
+import hashlib
+import json
 import os
 import re
 import sys
+from pathlib import Path
 
 JS_LIT = re.compile(r'(["\'])((?:(?!\1)[^\\]|\\.)*)\1')
 HTML_TEXT = re.compile(r'>([^<>{}]*)<')
 HTML_ATTR = re.compile(r'((?:placeholder|title|alt|value)=")([^"]*)(")')
+
+EFFECTIVE_COLUMNS = (
+    "key", "scope", "path_prefix", "source_text", "selected_cn", "authority",
+    "weight", "source_file", "source_line", "source_batch", "evidence",
+)
+CANONICAL_INPUTS = (
+    "frontend-strings.tsv", "glossary.tsv", "overrides.tsv", "fragments.tsv",
+    "reviewed-candidates.tsv",
+)
+
+
+class EffectiveGateError(ValueError):
+    """The canonical authority view is missing, stale, or structurally invalid."""
+
+
+def normalized_lf_bytes(path):
+    text = Path(path).read_text(encoding="utf-8-sig")
+    return text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+
+
+def normalized_sha256(path):
+    return hashlib.sha256(normalized_lf_bytes(path)).hexdigest()
+
+
+def decode_cell(value):
+    """Decode the literal escaping convention used by frontend-strings.tsv."""
+    return value.replace('\\t', '\t').replace('\\n', '\n').replace('\\\\', '\\')
+
+
+def canonical_i18n_dir(table_path):
+    """Return the canonical maintenance directory, or None for an ad-hoc table.
+
+    The two contract files identify the migrated authority dataset.  Detection
+    does not depend on generated files: deleting them must still fail closed.
+    """
+    table_path = Path(table_path).resolve()
+    parent = table_path.parent
+    if (
+        table_path.name == "frontend-strings.tsv"
+        and (parent / "authority-policy.json").is_file()
+        and (parent / "migration-source-summary.json").is_file()
+    ):
+        return parent
+    return None
+
+
+def source_keys(path):
+    keys = set()
+    with Path(path).open("r", encoding="utf-8-sig", newline="") as handle:
+        for row in csv.reader(handle, delimiter="\t"):
+            if not row or row[0].startswith("#"):
+                continue
+            if row[0]:
+                keys.add(decode_cell(row[0]))
+    return keys
+
+
+def _require_hash(record, label):
+    if not isinstance(record, dict):
+        raise EffectiveGateError("effective 摘要缺少 %s" % label)
+    value = record.get("normalized_lf_sha256", "")
+    if not re.fullmatch(r"[0-9a-f]{64}", str(value)):
+        raise EffectiveGateError("effective 摘要的 %s 哈希无效" % label)
+    return value
+
+
+def _verify_bound_file(path, record, label):
+    path = Path(path)
+    if not path.is_file():
+        raise EffectiveGateError("缺少 effective 绑定文件：%s" % path)
+    expected = _require_hash(record, label)
+    actual = normalized_sha256(path)
+    if actual != expected:
+        raise EffectiveGateError(
+            "%s 已变化，effective 视图陈旧（expected %s, got %s）"
+            % (label, expected, actual)
+        )
+
+
+def load_verified_effective(table_path):
+    """Load the fresh canonical effective overlay.
+
+    This is intentionally strict.  The raw migrated four-table snapshot remains
+    untouched for provenance, but applying its canonical frontend table is only
+    allowed when the generated selection is cryptographically bound to all five
+    current authority inputs, both policy contracts, the producer code, and the
+    exact effective output.
+    """
+    i18n_dir = canonical_i18n_dir(table_path)
+    if i18n_dir is None:
+        return None
+
+    generated = i18n_dir / "generated"
+    effective_path = generated / "effective.tsv"
+    summary_path = generated / "summary.json"
+    if not summary_path.is_file():
+        raise EffectiveGateError("缺少 canonical effective 摘要：%s" % summary_path)
+    if not effective_path.is_file():
+        raise EffectiveGateError("缺少 canonical effective 表：%s" % effective_path)
+    try:
+        summary = json.loads(summary_path.read_text(encoding="utf-8-sig"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise EffectiveGateError("canonical effective 摘要不可读：%s" % exc) from exc
+
+    if summary.get("schema_version") != 1:
+        raise EffectiveGateError("canonical effective 摘要 schema_version 不受支持")
+    if summary.get("result") != "pass" or summary.get("fatal_equal_weight_conflicts") != 0:
+        raise EffectiveGateError("canonical effective 审计未通过或仍有同权重冲突")
+    if (
+        summary.get("mode") != "audit-only"
+        or summary.get("product_tree_writes") != 0
+        or summary.get("magica_consumed") is not False
+        or summary.get("runtime_consumed") is not False
+    ):
+        raise EffectiveGateError("canonical effective 摘要违反只读生成合同")
+
+    input_tables = summary.get("input_tables")
+    if not isinstance(input_tables, dict):
+        raise EffectiveGateError("canonical effective 摘要缺少 input_tables")
+    for name in CANONICAL_INPUTS:
+        _verify_bound_file(i18n_dir / name, input_tables.get(name), "input_tables.%s" % name)
+
+    contracts = summary.get("input_contracts")
+    if not isinstance(contracts, dict):
+        raise EffectiveGateError("canonical effective 摘要缺少 input_contracts")
+    for name in ("authority-policy.json", "migration-source-summary.json"):
+        _verify_bound_file(i18n_dir / name, contracts.get(name), "input_contracts.%s" % name)
+
+    producer_path = Path(__file__).resolve().with_name("i18n-build-effective.py")
+    producer = summary.get("producer")
+    if not isinstance(producer, dict) or producer.get("path") != "tools/i18n-build-effective.py":
+        raise EffectiveGateError("canonical effective 摘要缺少固定 producer 身份")
+    _verify_bound_file(producer_path, producer, "producer")
+
+    outputs = summary.get("generated_outputs")
+    if not isinstance(outputs, dict):
+        raise EffectiveGateError("canonical effective 摘要缺少 generated_outputs")
+    effective_record = outputs.get("effective.tsv")
+    _verify_bound_file(effective_path, effective_record, "generated_outputs.effective.tsv")
+
+    allowed_sources = source_keys(table_path)
+    overlay = {}
+    row_count = 0
+    with effective_path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        if tuple(reader.fieldnames or ()) != EFFECTIVE_COLUMNS:
+            raise EffectiveGateError("canonical effective.tsv 表头不匹配")
+        seen_keys = set()
+        for row in reader:
+            row_count += 1
+            key = row["key"]
+            if not key or key in seen_keys:
+                raise EffectiveGateError("canonical effective.tsv 存在空键或重复键")
+            seen_keys.add(key)
+            if row["scope"] != "global" or row["path_prefix"]:
+                continue
+            src = decode_cell(row["source_text"])
+            if src not in allowed_sources:
+                continue
+            dst = decode_cell(row["selected_cn"])
+            if not dst:
+                raise EffectiveGateError("canonical effective.tsv 为原文 %r 选择了空译文" % src)
+            why = unsafe_reason(src, dst)
+            if why:
+                raise EffectiveGateError(
+                    "canonical effective.tsv 的 %r 会破坏结构：%s" % (src, why)
+                )
+            if src in overlay and overlay[src] != dst:
+                raise EffectiveGateError("canonical effective.tsv 对原文 %r 给出多个目标" % src)
+            overlay[src] = dst
+
+    if row_count != summary.get("effective_rows"):
+        raise EffectiveGateError(
+            "canonical effective.tsv 行数与摘要不一致（expected %r, got %d）"
+            % (summary.get("effective_rows"), row_count)
+        )
+    if not isinstance(effective_record, dict) or row_count != effective_record.get("data_rows"):
+        raise EffectiveGateError("canonical effective.tsv 行数与输出绑定不一致")
+    if not overlay:
+        raise EffectiveGateError("canonical effective.tsv 未覆盖 frontend-strings.tsv 的任何原文")
+    return overlay
 
 
 def load_table(path):
@@ -50,8 +235,8 @@ def load_table(path):
             col = line.rstrip('\n').split('\t')
             if len(col) < 2 or not col[1]:
                 continue
-            src = col[0].replace('\\t', '\t').replace('\\n', '\n').replace('\\\\', '\\')
-            dst = col[1].replace('\\t', '\t').replace('\\n', '\n').replace('\\\\', '\\')
+            src = decode_cell(col[0])
+            dst = decode_cell(col[1])
             why = unsafe_reason(src, dst)
             if why:
                 bad.append((lineno, src, dst, why))
@@ -134,6 +319,22 @@ def main():
             print('   第%d行  %s → %s' % (lineno, src[:26], dst[:26]), file=sys.stderr)
             print('           %s' % why, file=sys.stderr)
         return 1
+    try:
+        effective_overlay = load_verified_effective(args.table)
+    except EffectiveGateError as exc:
+        print('✘ canonical effective 权威门失败：%s' % exc, file=sys.stderr)
+        return 2
+    if effective_overlay is not None:
+        changed_authority = sum(
+            source not in table or table[source] != target
+            for source, target in effective_overlay.items()
+        )
+        filled_authority = sum(source not in table for source in effective_overlay)
+        table.update(effective_overlay)
+        print(
+            '✔ canonical effective 已验证：命中原始主表 %d 条，权威覆盖 %d 条（补全 %d 条）'
+            % (len(effective_overlay), changed_authority, filled_authority)
+        )
     if not table:
         print('对照表里没有已填写的译文', file=sys.stderr)
         return 1
