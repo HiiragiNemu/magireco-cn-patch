@@ -68,14 +68,42 @@ class EffectiveAuthorityTests(unittest.TestCase):
         self.assertEqual(tables["overrides.tsv"]["present_candidates"], 9)
         self.assertEqual(tables["fragments.tsv"]["present_candidates"], 7)
         self.assertEqual(summary["human_reviewed_candidates"], 0)
+        self.assertEqual(
+            tables["reviewed-candidates.tsv"]["authority_counts"],
+            {"official_cn_dump": 4},
+        )
         self.assertEqual(summary["fatal_equal_weight_conflicts"], 0)
-        self.assertEqual(summary["resolved_conflicts"], 2)
+        self.assertEqual(summary["resolved_conflicts"], 4)
         self.assertEqual(summary["product_tree_writes"], 0)
         self.assertFalse(summary["magica_consumed"])
         self.assertFalse(summary["runtime_consumed"])
+        self.assertEqual(summary["producer"]["path"], "tools/i18n-build-effective.py")
+        self.assertEqual(
+            summary["producer"]["normalized_lf_sha256"],
+            MOD.normalized_sha256(TOOL),
+        )
+        self.assertEqual(
+            summary["input_contracts"]["authority-policy.json"]["normalized_lf_sha256"],
+            MOD.normalized_sha256(ROOT / "i18n/authority-policy.json"),
+        )
+        self.assertEqual(
+            summary["input_contracts"]["migration-source-summary.json"]["normalized_lf_sha256"],
+            MOD.normalized_sha256(ROOT / "i18n/migration-source-summary.json"),
+        )
+        for output_name, expected_rows in (
+            ("input-provenance.tsv", 2660),
+            ("effective.tsv", 2582),
+            ("conflicts.tsv", 4),
+        ):
+            record = summary["generated_outputs"][output_name]
+            self.assertEqual(record["data_rows"], expected_rows)
+            self.assertEqual(
+                record["normalized_lf_sha256"],
+                MOD.normalized_sha256(ROOT / "i18n/generated" / output_name),
+            )
 
         provenance = read_tsv(ROOT / "i18n/generated/input-provenance.tsv")
-        self.assertEqual(len(provenance), 2656)
+        self.assertEqual(len(provenance), 2660)
         frontend_present = [
             row for row in provenance
             if row["source_file"] == "i18n/frontend-strings.tsv" and row["status"] == "present"
@@ -103,6 +131,18 @@ class EffectiveAuthorityTests(unittest.TestCase):
                          ("辅助", "wiki"))
         self.assertEqual((canonical["HP回復"]["selected_cn"], canonical["HP回復"]["authority"]),
                          ("回复HP", "wiki"))
+        self.assertEqual(
+            (canonical["属性相性"]["selected_cn"], canonical["属性相性"]["authority"]),
+            ("属性克制", "official_cn_dump"),
+        )
+        self.assertEqual(
+            (canonical["キモチ戦"]["selected_cn"], canonical["キモチ戦"]["authority"]),
+            ("心魔战", "official_cn_dump"),
+        )
+        self.assertEqual(
+            (canonical["キモチ戦は"]["selected_cn"], canonical["キモチ戦は"]["authority"]),
+            ("心魔战", "official_cn_dump"),
+        )
 
     def test_ui_text_index_has_no_human_review_claim(self):
         result = subprocess.run(
@@ -207,6 +247,24 @@ class EffectiveAuthorityTests(unittest.TestCase):
                 rows,
                 migration,
                 dict(MOD.EXPECTED_MAINTENANCE_ORDER),
+            )
+
+    def test_official_reviewed_candidate_requires_exact_evidence(self):
+        migration = json.loads(
+            (ROOT / "i18n/migration-source-summary.json").read_text(encoding="utf-8")
+        )
+        rows = {
+            "frontend-strings.tsv": [], "glossary.tsv": [],
+            "overrides.tsv": [], "fragments.tsv": [],
+        }
+        bad_reviewed = [(3, [
+            "global", "", "属性相性", "属性克制", "present", "official_cn_dump",
+            "official-test", "D:/official.html#node", "", "exact-path-dom-match",
+            "false", "exact", "official-source-verified", "fixture",
+        ])]
+        with self.assertRaises(MOD.AuditError):
+            MOD.build_candidates(
+                rows, migration, dict(MOD.EXPECTED_MAINTENANCE_ORDER), bad_reviewed
             )
 
 

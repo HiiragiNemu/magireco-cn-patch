@@ -10,8 +10,8 @@ JavaScript 语法错误或 HTML 敏感属性漂移。
 
 - common base：`3c983a778429d5e56a2569aa28ea8c622d988c63`
 - latest main：`23d21eee1c084ac0f8300cbaca4d9f0833c0440e`
-- Pass16：`b59f06d5604ad3c1b90fbad8b6b0fae5efc36c38`
-- 集成树 HEAD：`c10f127389e4d5c39842e821e31adb234910c6e3`
+- Pass16：`b7d3227bf5be8afdd03660febaa3095ab337efec`
+- 集成树 HEAD：`9af41b2bfb53d52b62140706f4b863f3a539b9ba`
 
 ## 并集验证
 

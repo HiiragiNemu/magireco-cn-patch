@@ -21,7 +21,7 @@ EXPECTED_DICTS = (
     "formationSheetList", "giftList", "itemList", "live2dList", "patrolAreaList",
     "pieceList", "pieceSkillMap", "placeSkillMap", "sectionList", "shopItemList",
 )
-BASE = "20e35db411e83d710662c98f12c1374fa8363dda"
+BASE = "2a5eedeef0d58b5e43f367eb420e011d27529497"
 GACHA = (
     "magica/js/campaign/box_gacha/CampaignBoxGachaTop.js",
     "magica/template/campaign/box_gacha/CampaignBoxGachaTop.html",

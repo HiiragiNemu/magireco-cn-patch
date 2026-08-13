@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 
-BASE_COMMIT = "2d9fad7a10cf54a20b3bb473c25971ee6bf6cabd"
+BASE_COMMIT = "4db6698623311ee5ab1dce9ebce940e0eb2748f0"
 EXPECTED_JS_COUNT = 197  # product JS, excluding derived jQuery and research evidence
 EXPECTED_HTML_COUNT = 182
 DICT_NAMES = (

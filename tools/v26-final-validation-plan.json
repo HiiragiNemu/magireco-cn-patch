@@ -1,0 +1,363 @@
+{
+  "schema": "magireco-cn-v26-validation-plan/v1",
+  "description": "Final v26 modified-worktree and isolated-baseline command matrix. Every command is argv-only; no shell or network mutation is used.",
+  "groups": [
+    {
+      "id": "modified-tests-and-authority",
+      "root": "modified",
+      "commands": [
+        {
+          "id": "test-v26-authority-protection",
+          "argv": ["${PYTHON}", "tools/test-v26-authority-protection.py"],
+          "inputs": ["tools/test-v26-authority-protection.py", "tools/v26_authority_protection.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-i18n-build-effective",
+          "argv": ["${PYTHON}", "tools/test-i18n-build-effective.py"],
+          "inputs": ["tools/test-i18n-build-effective.py", "tools/i18n-build-effective.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-i18n-authority-guard",
+          "argv": ["${PYTHON}", "tools/test-i18n-authority-guard.py"],
+          "inputs": ["tools/test-i18n-authority-guard.py", "tools/i18n-authority-guard.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-i18n-package",
+          "argv": ["${PYTHON}", "tools/test-i18n-package.py"],
+          "inputs": ["tools/test-i18n-package.py", "tools/i18n-package.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-change-classifier",
+          "argv": ["${PYTHON}", "scripts/test_classify_hotupdate_changes.py"],
+          "inputs": ["scripts/test_classify_hotupdate_changes.py", "scripts/classify_hotupdate_changes.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-build-manifest",
+          "argv": ["${PYTHON}", "scripts/test_build_manifest.py"],
+          "inputs": ["scripts/test_build_manifest.py", "scripts/build_manifest.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-hotupdate-version",
+          "argv": ["${PYTHON}", "scripts/test_hotupdate_version.py"],
+          "inputs": ["scripts/test_hotupdate_version.py", "scripts/hotupdate_version.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-hotupdate-release-baseline",
+          "argv": ["${PYTHON}", "scripts/test_hotupdate_release_baseline.py"],
+          "inputs": ["scripts/test_hotupdate_release_baseline.py", "scripts/hotupdate_release_baseline.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-hotupdate-promotion",
+          "argv": ["${PYTHON}", "scripts/test_hotupdate_promotion.py"],
+          "inputs": ["scripts/test_hotupdate_promotion.py", "scripts/hotupdate_promotion.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-release-asset-transaction",
+          "argv": ["${PYTHON}", "scripts/test_release_asset_transaction.py"],
+          "inputs": ["scripts/test_release_asset_transaction.py", "scripts/release_asset_transaction.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-workflow-contract",
+          "argv": ["${PYTHON}", "scripts/test_hotupdate_workflow_contract.py"],
+          "inputs": ["scripts/test_hotupdate_workflow_contract.py", ".github/workflows/sync-and-upload.yml"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-deterministic-package",
+          "argv": ["${PYTHON}", "tools/test-build-v26-package.py"],
+          "inputs": ["tools/test-build-v26-package.py", "tools/build-v26-package.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-final-delivery",
+          "argv": ["${PYTHON}", "tools/test-v26-final-delivery.py"],
+          "inputs": ["tools/test-v26-final-delivery.py", "tools/v26_final_delivery.py"],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "test-validation-recorder",
+          "argv": ["${PYTHON}", "tools/test-v26-validation-record.py"],
+          "inputs": ["tools/test-v26-validation-record.py", "tools/v26_validation_record.py"],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-machine-review-inventory",
+          "argv": ["${PYTHON}", "tools/test-build-v26-machine-review.py"],
+          "inputs": ["tools/test-build-v26-machine-review.py", "tools/build-v26-machine-review.py"],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "test-product-verifier",
+          "argv": ["${PYTHON}", "tools/test-verify-v26-product.py"],
+          "inputs": ["tools/test-verify-v26-product.py", "tools/verify-v26-product.py"],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "test-dsv4-terminal-assembler",
+          "argv": ["${PYTHON}", "tools/test-assemble-dsv4-v3-terminal.py"],
+          "inputs": ["tools/test-assemble-dsv4-v3-terminal.py", "tools/assemble-dsv4-v3-terminal.py", "tools/dsv4-v3-staging-patch.py"],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "test-dsv4-manual-handoff",
+          "argv": ["${PYTHON}", "tools/test-dsv4-v3-manual-handoff.py"],
+          "inputs": ["tools/test-dsv4-v3-manual-handoff.py", "tools/assemble-dsv4-v3-terminal.py", "tools/validate-dsv4-manual-decisions.py"],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "test-committed-dsv4-terminal-handoff",
+          "argv": ["${PYTHON}", "tools/test-verify-dsv4-terminal-handoff.py"],
+          "inputs": [
+            "tools/test-verify-dsv4-terminal-handoff.py",
+            "tools/verify-dsv4-terminal-handoff.py",
+            "magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff"
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "verify-committed-dsv4-terminal-handoff",
+          "argv": ["${PYTHON}", "tools/verify-dsv4-terminal-handoff.py"],
+          "inputs": [
+            "tools/verify-dsv4-terminal-handoff.py",
+            "magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff"
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "test-full-dsv4-human-decision-validator",
+          "argv": ["${PYTHON}", "tools/test-validate-dsv4-human-review.py"],
+          "inputs": [
+            "tools/test-validate-dsv4-human-review.py",
+            "tools/validate-dsv4-human-review.py",
+            "magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/full_review.tsv",
+            "magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/human_review.tsv"
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "verify-blank-full-dsv4-human-decision-template",
+          "argv": [
+            "${PYTHON}",
+            "tools/validate-dsv4-human-review.py",
+            "--source",
+            "magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/full_review.tsv",
+            "--decisions",
+            "magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv"
+          ],
+          "inputs": [
+            "tools/validate-dsv4-human-review.py",
+            "magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/full_review.tsv",
+            "magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv"
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "test-final-allowlist",
+          "argv": ["${PYTHON}", "tools/test-build-v26-final-allowlist.py"],
+          "inputs": ["tools/test-build-v26-final-allowlist.py", "tools/build-v26-final-allowlist.py"],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "test-audit-byte-clean",
+          "argv": ["${PYTHON}", "tools/test-v26-audit-byte-clean.py"],
+          "inputs": ["tools/test-v26-audit-byte-clean.py", "magica/i18n_audit"],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "authority-protection-gate",
+          "argv": ["${PYTHON}", "tools/verify-v26-authority-protection.py", "--json"],
+          "inputs": [
+            "tools/verify-v26-authority-protection.py",
+            "tools/v26_authority_protection.py",
+            "magica/i18n_audit/release_v26_authority/protected_authority",
+            "magica/i18n_audit/release_v26_authority/machine_translation_review"
+          ],
+          "timeout_seconds": 900
+        }
+      ]
+    },
+    {
+      "id": "modified-product",
+      "root": "modified",
+      "commands": [
+        {
+          "id": "build-js-injector",
+          "argv": ["${PYTHON}", "Build_JS_Injector.py"],
+          "inputs": ["Build_JS_Injector.py", "magica/js/libs"],
+          "outputs": [
+            "magica/js/libs/jquery-3.7.1.min.js",
+            "magica/i18n_audit/release_v26_authority/runtime_layer_manifest.json",
+            "magica/i18n_audit/release_v26_authority/RUNTIME_LAYER_SHA256SUMS.txt"
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "verify-runtime-layer",
+          "argv": ["${PYTHON}", "tools/verify-runtime-layer.py"],
+          "inputs": [
+            "tools/verify-runtime-layer.py",
+            "Build_JS_Injector.py",
+            "magica/js/libs",
+            "magica/i18n_audit/release_v26_authority/runtime_layer_manifest.json",
+            "magica/i18n_audit/release_v26_authority/RUNTIME_LAYER_SHA256SUMS.txt"
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "verify-v26-product-without-zip",
+          "argv": [
+            "${PYTHON}",
+            "tools/verify-v26-product.py",
+            "--out",
+            "${ARTIFACT_ROOT}/v26_product_without_zip.json"
+          ],
+          "inputs": ["tools/verify-v26-product.py", "magica", "madomagi/engine_i18n.tsv"],
+          "outputs": [
+            {
+              "path": "${ARTIFACT_ROOT}/v26_product_without_zip.json",
+              "delivery_role": "verification_support"
+            }
+          ],
+          "timeout_seconds": 1800
+        },
+        {
+          "id": "build-package-a",
+          "argv": [
+            "${PYTHON}",
+            "tools/build-v26-package.py",
+            "--out",
+            "${ARTIFACT_ROOT}/cn_js_update.zip"
+          ],
+          "inputs": ["tools/build-v26-package.py", "magica", "madomagi/engine_i18n.tsv"],
+          "outputs": [
+            {
+              "path": "${ARTIFACT_ROOT}/cn_js_update.zip",
+              "delivery_role": "modified_artifact"
+            }
+          ],
+          "timeout_seconds": 1800
+        },
+        {
+          "id": "build-package-b",
+          "argv": [
+            "${PYTHON}",
+            "tools/build-v26-package.py",
+            "--out",
+            "${ARTIFACT_ROOT}/cn_js_update.compare.zip"
+          ],
+          "inputs": ["tools/build-v26-package.py", "magica", "madomagi/engine_i18n.tsv"],
+          "outputs": ["${ARTIFACT_ROOT}/cn_js_update.compare.zip"],
+          "timeout_seconds": 1800
+        },
+        {
+          "id": "verify-zip-contract-a",
+          "argv": [
+            "${PYTHON}",
+            "tools/verify-v26-product.py",
+            "--zip",
+            "${ARTIFACT_ROOT}/cn_js_update.zip",
+            "--out",
+            "${ARTIFACT_ROOT}/v26_zip_contract_a.json"
+          ],
+          "inputs": [
+            "tools/verify-v26-product.py",
+            "magica",
+            "madomagi/engine_i18n.tsv",
+            "${ARTIFACT_ROOT}/cn_js_update.zip"
+          ],
+          "outputs": [
+            {
+              "path": "${ARTIFACT_ROOT}/v26_zip_contract_a.json",
+              "delivery_role": "verification_support"
+            }
+          ],
+          "timeout_seconds": 1800
+        },
+        {
+          "id": "verify-zip-contract-b",
+          "argv": [
+            "${PYTHON}",
+            "tools/verify-v26-product.py",
+            "--zip",
+            "${ARTIFACT_ROOT}/cn_js_update.compare.zip",
+            "--out",
+            "${ARTIFACT_ROOT}/v26_zip_contract_b.json"
+          ],
+          "inputs": [
+            "tools/verify-v26-product.py",
+            "magica",
+            "madomagi/engine_i18n.tsv",
+            "${ARTIFACT_ROOT}/cn_js_update.compare.zip"
+          ],
+          "outputs": ["${ARTIFACT_ROOT}/v26_zip_contract_b.json"],
+          "timeout_seconds": 1800
+        }
+      ]
+    },
+    {
+      "id": "baseline-runtime-engine",
+      "root": "baseline",
+      "commands": [
+        {
+          "id": "baseline-build-js-injector",
+          "argv": ["${PYTHON}", "Build_JS_Injector.py"],
+          "inputs": ["Build_JS_Injector.py", "magica/js/libs"],
+          "outputs": [
+            {"path": "magica/js/libs/jquery-3.7.1.min.js", "retention": "ephemeral"},
+            {
+              "path": "magica/i18n_audit/release_v26_authority/runtime_layer_manifest.json",
+              "retention": "ephemeral"
+            },
+            {
+              "path": "magica/i18n_audit/release_v26_authority/RUNTIME_LAYER_SHA256SUMS.txt",
+              "retention": "ephemeral"
+            }
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "baseline-verify-runtime-layer",
+          "argv": ["${PYTHON}", "tools/verify-runtime-layer.py"],
+          "inputs": [
+            "tools/verify-runtime-layer.py",
+            "Build_JS_Injector.py",
+            "magica/js/libs",
+            "magica/i18n_audit/release_v26_authority/runtime_layer_manifest.json",
+            "magica/i18n_audit/release_v26_authority/RUNTIME_LAYER_SHA256SUMS.txt"
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "id": "baseline-inspect-engine-behavior",
+          "argv": [
+            "${PYTHON}",
+            "${RUNNER}",
+            "inspect-engine",
+            "--path",
+            "${BASELINE_ROOT}/madomagi/engine_i18n.tsv"
+          ],
+          "inputs": ["madomagi/engine_i18n.tsv", "${RUNNER}"],
+          "timeout_seconds": 300
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "deterministic-package-byte-equality",
+      "left": "${ARTIFACT_ROOT}/cn_js_update.zip",
+      "right": "${ARTIFACT_ROOT}/cn_js_update.compare.zip",
+      "expect": "equal"
+    }
+  ]
+}
