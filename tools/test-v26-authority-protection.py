@@ -31,6 +31,7 @@ from v26_authority_protection import (
     ProtectionError,
     aggregate_sha256,
     build_snapshot,
+    canonical_product_file_sha256,
     candidate_only_metadata,
     combined_protected_rows,
     compare_baseline_to_master,
@@ -156,6 +157,36 @@ class AuthorityProtectionTests(unittest.TestCase):
         report = verify_snapshot(ROOT, require_freshness=False)
         self.assertEqual("PASS", report["status"])
         self.assertEqual(EXPECTED_TOTAL_WITH_PASS19, report["protected_fields"])
+
+    def test_product_snapshot_excludes_self_referential_maintenance_files(self) -> None:
+        before = product_content_snapshot(ROOT)
+        probe = ROOT / "tools" / ".authority-snapshot-probe.txt"
+        self.assertFalse(probe.exists())
+        try:
+            probe.write_text("maintenance-only\n", encoding="utf-8", newline="\n")
+            self.assertEqual(before, product_content_snapshot(ROOT))
+        finally:
+            probe.unlink(missing_ok=True)
+
+    def test_product_file_hash_normalizes_utf8_crlf_but_not_binary(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            lf = root / "lf.txt"
+            crlf = root / "crlf.txt"
+            binary_lf = root / "binary-lf.bin"
+            binary_crlf = root / "binary-crlf.bin"
+            lf.write_bytes("第一行\n第二行\n".encode("utf-8"))
+            crlf.write_bytes("第一行\r\n第二行\r\n".encode("utf-8"))
+            binary_lf.write_bytes(b"\x00first\nsecond\n")
+            binary_crlf.write_bytes(b"\x00first\r\nsecond\r\n")
+            self.assertEqual(
+                canonical_product_file_sha256(lf),
+                canonical_product_file_sha256(crlf),
+            )
+            self.assertNotEqual(
+                canonical_product_file_sha256(binary_lf),
+                canonical_product_file_sha256(binary_crlf),
+            )
 
     def test_value_hash_tamper_fails(self) -> None:
         rows = copy.deepcopy(self.baseline)

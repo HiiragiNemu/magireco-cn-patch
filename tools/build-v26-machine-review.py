@@ -207,6 +207,27 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def canonical_product_file_sha256(path: Path) -> str:
+    """Hash product text independently of checkout line-ending conversion.
+
+    Git stores the packaged text inputs with LF line endings, while a Windows
+    checkout may expose the same tracked content with CRLF.  The product
+    snapshot is a semantic freshness guard rather than an archive-byte digest,
+    so UTF-8 text is normalized to Git's LF form.  Binary and non-UTF-8 files
+    remain byte-exact.
+    """
+
+    data = path.read_bytes()
+    if b"\0" not in data:
+        try:
+            data.decode("utf-8")
+        except UnicodeDecodeError:
+            pass
+        else:
+            data = data.replace(b"\r\n", b"\n")
+    return hashlib.sha256(data).hexdigest()
+
+
 def relative_display(path: Path) -> str:
     """Return a stable repository/workspace-relative evidence path."""
 
@@ -292,7 +313,7 @@ def product_content_snapshot() -> tuple[int, str]:
     for path in paths:
         digest.update(path.relative_to(PRODUCT).as_posix().encode("utf-8"))
         digest.update(b"\0")
-        digest.update(bytes.fromhex(sha256(path)))
+        digest.update(bytes.fromhex(canonical_product_file_sha256(path)))
         digest.update(b"\n")
     return len(paths), digest.hexdigest()
 
