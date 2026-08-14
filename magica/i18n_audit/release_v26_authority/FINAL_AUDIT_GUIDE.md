@@ -31,13 +31,17 @@ python tools/verify-v26-authority-protection.py --json
 
 不要编辑稳定 ID、原文、旧译、权威层级、证据路径、受保护值及产品写入许可等来源列。只填写人工决策列：
 
+- `parent_verdict=approved` 的 1,390 条无需人工决策，其 `human_decision`、`reviewer`、`timestamp`、`final_value`、`human_revision`、`human_notes` 必须全部保持空白。
+- 只处理 `parent_verdict` 为 `manual-required`、`correction` 或 `unresolved` 的 522 条。
 - 当前低权重项：`approve-current`、`revise` 或 `unresolved`。
 - 受保护历史项：`keep-authority` 或 `unresolved`。
 - 每个已决项必须填写 reviewer 和 ISO 8601 时间。
-- `revise` 必须提供 final value；`unresolved` 不得提供可应用最终值。
-- 受保护历史项的最终值必须等于当前 Wiki/权威值。
+- `approve-current` 的 `final_value` 必须等于 `current_cn`；`revise` 必须填写与 `current_cn` 不同的 `final_value`；`unresolved` 不得填写 `final_value` 或 `human_revision`。
+- `keep-authority` 的 `final_value` 必须等于该行 `wiki_cn` 或 `current_cn` 中已有的权威值，且不得填写 `human_revision`。
 
-优先筛选 `review_kind`、`allowed_action`、`authority_status`、`machineTranslated`、`confidence` 和 `reviewStatus`。对照依据顺序固定为：官方国服文本 > HiiragiNemu Wiki > 已确认人工译文 > DS/LLM。
+优先筛选真实存在的列：`parent_verdict`、`review_kind`、`allowed_action`、`review_status`、`highest_authority_tier`、`authority_status` 和 `product_write_allowed`。对照依据顺序固定为：官方国服文本 > HiiragiNemu Wiki > 已确认人工译文 > DS/LLM。
+
+保存后文件必须仍为 UTF-8 无 BOM、LF 换行；若表格软件自动改成 CRLF 或加入 BOM，校验器会按设计拒绝该文件，需以 UTF-8 无 BOM、LF 重新导出。
 
 再次运行第 2 节的人工表校验命令。只有 522 条全部完成且 unresolved 为 0 时，`release_gate_open` 才允许变为 true。
 
