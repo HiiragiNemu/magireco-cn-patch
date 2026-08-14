@@ -126,6 +126,9 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("full_product_double_build_identical", self.text)
 
     def test_high_authority_gate_runs_before_product_packaging(self):
+        pass20 = self.text.index(
+            "python3 tools/pass20_official_static.py verify --state applied"
+        )
         rebuild = self.text.index("python3 tools/build-v26-machine-review.py")
         freshness = self.text.index("git diff --exit-code --", rebuild)
         review_path = self.text.index(
@@ -137,6 +140,7 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         package = self.text.index(
             "python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip"
         )
+        self.assertLess(pass20, rebuild)
         self.assertLess(rebuild, freshness)
         self.assertLess(freshness, review_path)
         self.assertLess(review_path, unit_tests)
@@ -154,6 +158,10 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         )
         self.assertIn(
             "--decisions magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv",
+            self.text,
+        )
+        self.assertIn(
+            "--authority-resolutions magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv",
             self.text,
         )
         self.assertIn("--report _artifacts/dsv4_human_release_gate.json", self.text)

@@ -75,7 +75,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         });
         d = "mission1";
         1 > b.children.length ? (a.doc.getElementById("mission1").innerHTML = '<p class="noMission ts_white">已完成全部任务</p>', d = "mission2") : a.doc.getElementById("mission1").appendChild(b);
-        1 > c.children.length ? (a.doc.getElementById("mission2").innerHTML = '<p class="noMission ts_white">已完成全部任务</p>', d = "mission1") : (a.doc.getElementById("mission2").appendChild(c), f || (a.doc.getElementById("mission2").innerHTML += "<div id='totalMissionValidityMask' class='c_pink'>全体击破报酬需击破自己发现的BOSS<br>【" + e.userEventRaid.eventRaid.totalChallengeOpenCount + "个以上】即可解放</div>"));
+        1 > c.children.length ? (a.doc.getElementById("mission2").innerHTML = '<p class="noMission ts_white">已完成全部任务</p>', d = "mission1") : (a.doc.getElementById("mission2").appendChild(c), f || (a.doc.getElementById("mission2").innerHTML += "<div id='totalMissionValidityMask' class='c_pink'>全体击破报酬需击破自己发现的BOSS<br>【" + e.userEventRaid.eventRaid.totalChallengeOpenCount + "个以上】<br>即可解锁全体击败的报酬</div>"));
         this.el.className = d;
         r.getBaseData(a.getNativeObj());
         c = b = null
@@ -176,13 +176,13 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
               };
               1 > Object.keys(b).length || window.isLocal && window.isBrowser && 2 > Object.keys(b).length ? new a.PopupClass(
               {
-                content: "已过领取期限,<br>无法领取该任务报酬",
+                content: "由于领取期限已过，<br>无法领取该任务报酬",
                 closeBtnText: "确定",
                 popupType: "typeC",
                 exClass: "missionPop"
               }, null, null, d) : new a.PopupClass(
               {
-                content: "已领取1件任务报酬。<br><br>※领取的道具已直接发放。",
+                content: "已领取1个任务报酬。<br><br>※可直接获得领取的道具。",
                 closeBtnText: "确定",
                 popupType: "typeC",
                 exClass: "missionPop"

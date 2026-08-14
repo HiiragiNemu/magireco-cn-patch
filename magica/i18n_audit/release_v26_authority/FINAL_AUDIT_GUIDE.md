@@ -8,7 +8,9 @@
 - DeepSeek V4 已独立审查：1,472 条（批次 1–74）。
 - 因审查服务停止而转人工：440 条。
 - 已审结果中仍需人工裁决：37 条 correction、45 条 unresolved。
-- 最终人工决策总数：522 条；其中 258 条涉及当前低权重产品文本，264 条仅用于确认受保护历史权威值。
+- 原始人工决策总数：522 条；其中 258 条涉及当前低权重产品文本，264 条仅用于确认受保护历史权威值。
+- Pass20 已用 58 条官方国服精确匹配关闭当前低权重项，并自动保留 264 条历史权威对照；合计关闭 322 条。
+- 当前真正需要人工语义裁决：200 条，全部属于当前低权重文本；中文字段为空的翻译 backlog 为 0。
 - DS/LLM 结果只存在于最低权重 staging；在人工门关闭前，产品写入数必须保持 0，受保护文本变化数必须保持 0。
 
 ## 2. 先验证封存证据
@@ -17,11 +19,13 @@
 python tools/verify-dsv4-terminal-handoff.py
 python tools/validate-dsv4-human-review.py `
   --source magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/full_review.tsv `
-  --decisions magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv
+  --decisions magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv `
+  --authority-resolutions magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv
+python tools/pass20_official_static.py verify --state applied
 python tools/verify-v26-authority-protection.py --json
 ```
 
-预期状态：封存文件 17/17；总量 1,912；已审 1,472；人工接管 440；人工决策待办 522；保护变化 0。决策表尚未填写时，校验器应明确报告 `release_gate_open=false`，这属于正确的关闭状态。
+预期状态：封存文件 17/17；总量 1,912；已审 1,472；人工接管 440；Pass20 权威关闭 322；人工决策待办 200；官方产品更正 56 条记录/59 处字面替换；保护变化 0。决策表尚未填写时，校验器应明确报告 `release_gate_open=false`，这属于正确的关闭状态。
 
 ## 3. 人工逐条校对
 
@@ -29,10 +33,12 @@ python tools/verify-v26-authority-protection.py --json
 
 `magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv`
 
+可先用 `magica/i18n_audit/release_v26_authority/pass20_remaining_manual_review.tsv` 作为只读的 200 条精简工作队列；最终决定仍写回上面的全量决策表。
+
 不要编辑稳定 ID、原文、旧译、权威层级、证据路径、受保护值及产品写入许可等来源列。只填写人工决策列：
 
 - `parent_verdict=approved` 的 1,390 条无需人工决策，其 `human_decision`、`reviewer`、`timestamp`、`final_value`、`human_revision`、`human_notes` 必须全部保持空白。
-- 只处理 `parent_verdict` 为 `manual-required`、`correction` 或 `unresolved` 的 522 条。
+- 只处理未被 `pass20_authority_resolutions.tsv` 关闭、且 `parent_verdict` 为 `manual-required`、`correction` 或 `unresolved` 的 200 条。
 - 当前低权重项：`approve-current`、`revise` 或 `unresolved`。
 - 受保护历史项：`keep-authority` 或 `unresolved`。
 - 每个已决项必须填写 reviewer 和 ISO 8601 时间。
@@ -43,7 +49,7 @@ python tools/verify-v26-authority-protection.py --json
 
 保存后文件必须仍为 UTF-8 无 BOM、LF 换行；若表格软件自动改成 CRLF 或加入 BOM，校验器会按设计拒绝该文件，需以 UTF-8 无 BOM、LF 重新导出。
 
-再次运行第 2 节的人工表校验命令。只有 522 条全部完成且 unresolved 为 0 时，`release_gate_open` 才允许变为 true。
+再次运行第 2 节的人工表校验命令。只有剩余 200 条全部完成且 unresolved 为 0 时，`release_gate_open` 才允许变为 true。
 
 ## 4. 结构、权威与确定性构建审计
 
@@ -71,7 +77,7 @@ Get-FileHash cn_js_update.audit-b.zip -Algorithm SHA256
 
 功能分支和 Draft PR 可以用于代码审查，但 stable 资产转正必须同时满足：
 
-1. 522 条人工决策全部闭合且 unresolved=0；
+1. Pass20 关闭 322 条后，剩余 200 条人工决策全部闭合且 unresolved=0；
 2. 官方/Wiki/确认人工保护字段变化=0；
 3. 最新 `main` 三方集成和完整回归通过；
 4. 两次独立构建哈希相同；

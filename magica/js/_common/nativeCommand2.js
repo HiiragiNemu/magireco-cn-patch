@@ -285,8 +285,8 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     },
     {
       type: 0,
-      title: "魔法阵形",
-      text: "阵形前排更容易受到敌人攻击@请配置防御力高的魔法少女"
+      title: "魔法阵型",
+      text: "由于阵形前列易受敌人攻击@请将防御力高的魔法少女配置在前列"
     },
     {
       type: 0,
@@ -331,7 +331,7 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     {
       type: 0,
       title: "自动战斗",
-      text: "解除自动后@从下一回合起可以手动操作"
+      text: "取消自动战斗时，从下一回合起@即可手动操作"
     },
     {
       type: 0,
@@ -361,7 +361,7 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     {
       type: 0,
       title: "选择目标",
-      text: "选择 3 张圆盘时@每次都可以更改目标"
+      text: "选择3枚行动盘时@每次都可以变更攻击目标"
     },
     {
       type: 0,
@@ -376,12 +376,12 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     {
       type: 0,
       title: "Blast 圆盘",
-      text: "Blast 圆盘越是在第 2 张、第 3 张@攻击时伤害越高"
+      text: "使用第2、第3枚Blast行动盘@攻击时的伤害增大"
     },
     {
       type: 0,
       title: "Blast 圆盘",
-      text: "Blast 圆盘分为纵向攻击与横向攻击@两种"
+      text: "Blast行动盘拥有2种攻击类型@即横向攻击和纵向攻击"
     },
     {
       type: 0,
@@ -416,7 +416,7 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     {
       type: 0,
       title: "魔女化身",
-      text: "通关★5 且 Magia Lv5 的魔法少女的@魔女化身关卡后解放"
+      text: "★5且Magia为5级的魔法少女@其魔女化身将在副本通关后解放"
     },
     {
       type: 0,
@@ -425,7 +425,7 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     },
     {
       type: 0,
-      title: "魔法等级",
+      title: "Magia等级",
       text: "Magia Lv升到5后,Magia槽上限@将解放到200"
     },
     {

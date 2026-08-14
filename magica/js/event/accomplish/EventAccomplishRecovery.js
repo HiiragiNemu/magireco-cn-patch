@@ -137,7 +137,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           else if (this.el.classList.contains("comp")) new a.PopupClass(
         {
           title: "回复确认",
-          content: "所选的魔法少女已回复完成",
+          content: "所选中的魔法少女已经回复完毕",
           closeBtnText: "关闭"
         });
         else
@@ -269,7 +269,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
       hp: "HP",
       eplv: "剧情等级",
       rev: "魔力解放",
-      mlv: "魔法等级",
+      mlv: "Magia等级",
       mp: "MP",
       revivedAt: "回复时间"
     },

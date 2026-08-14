@@ -280,6 +280,10 @@ def product_content_snapshot() -> tuple[int, str]:
             # original_source and any local/output tree are source archives,
             # not current product or maintenance inputs.
             continue
+        if rel.parts[0] == "tools":
+            # The producer and its tests are maintenance code, not product
+            # content. Including them makes this snapshot self-referential.
+            continue
         if rel == Path(".git") or ".git" in rel.parts or "__pycache__" in rel.parts:
             continue
         if path.suffix == ".pyc" or path.suffix.lower() in archive_suffixes:
@@ -527,6 +531,14 @@ def source_author_for_batch(batch: str) -> str:
 def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, int]:
     provenance_path = PRODUCT / "i18n" / "generated" / "input-provenance.tsv"
     provenance = read_tsv(provenance_path)
+    selected_authority = {
+        row["key"]: row
+        for row in provenance
+        if row["source_file"] == "i18n/reviewed-candidates.tsv"
+        and row["selected"].lower() == "true"
+        and row["authority"]
+        in {"official_cn_dump", "wiki", "existing_human_reviewed"}
+    }
     counts = Counter()
     for source in provenance:
         source_file = source["source_file"]
@@ -551,6 +563,9 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
             continue
         counts[component] += 1
         batch = source["source_batch"]
+        authority_overlay = selected_authority.get(source["key"])
+        if authority_overlay:
+            counts["explicit_authority_overlay_resolved"] += 1
         master.append(
             {
                 "record_id": "",
@@ -569,16 +584,53 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
                 "is_machine_translation": "ai_assisted_batch_unverified_per_row" if source_file.endswith("frontend-strings.tsv") else "unknown_mixed_human_model",
                 "confidence": "low",
                 "runtime_consumed": "false; offline inputs are not consumed by Actions/Build_JS/runtime",
-                "highest_authority_tier": "legacy_unverified_ai_assisted",
-                "highest_authority_match": "",
-                "authority_status": "no_per_entry_official_or_wiki_pair",
-                "risk": "high" if source["scope"] in {"fragment", "override"} else "medium",
-                "issue_type": "legacy_ai_assisted_or_mixed_i18n_input",
-                "suggested_cn": "needs-review/root-translation-required",
-                "manual_review_status": "pending",
-                "review_status": "needs-human-review",
-                "evidence": f"{relative_display(provenance_path)}:{source['source_line']};{source['evidence']};commit={source['source_commit']}",
-                "notes": f"path_prefix={source['path_prefix']};selected={source['selected']};no product-tree auto-materialization",
+                "highest_authority_tier": (
+                    authority_overlay["authority"]
+                    if authority_overlay else "legacy_unverified_ai_assisted"
+                ),
+                "highest_authority_match": (
+                    authority_overlay["candidate_cn"] if authority_overlay else ""
+                ),
+                "authority_status": (
+                    "explicit-higher-authority-selected"
+                    if authority_overlay else "no_per_entry_official_or_wiki_pair"
+                ),
+                "risk": (
+                    "low" if authority_overlay
+                    else "high" if source["scope"] in {"fragment", "override"}
+                    else "medium"
+                ),
+                "issue_type": (
+                    "legacy_low_tier_replaced_by_explicit_authority"
+                    if authority_overlay else "legacy_ai_assisted_or_mixed_i18n_input"
+                ),
+                "suggested_cn": (
+                    authority_overlay["candidate_cn"]
+                    if authority_overlay else "needs-review/root-translation-required"
+                ),
+                "manual_review_status": "authority-resolved" if authority_overlay else "pending",
+                "review_status": (
+                    "official-source-verified"
+                    if authority_overlay and authority_overlay["authority"] == "official_cn_dump"
+                    else "authority-source-verified" if authority_overlay
+                    else "needs-human-review"
+                ),
+                "evidence": (
+                    f"{relative_display(provenance_path)}:{source['source_line']};"
+                    f"{source['evidence']};commit={source['source_commit']}"
+                    + (
+                        f"; selected authority {authority_overlay['source_file']}:"
+                        f"{authority_overlay['source_line']};{authority_overlay['evidence']}"
+                        if authority_overlay else ""
+                    )
+                ),
+                "notes": (
+                    f"path_prefix={source['path_prefix']};selected={source['selected']};"
+                    + (
+                        "explicit reviewed candidate supersedes low-tier value"
+                        if authority_overlay else "no product-tree auto-materialization"
+                    )
+                ),
             }
         )
 

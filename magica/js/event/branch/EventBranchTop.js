@@ -308,7 +308,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
                 console.log(g);
                 g.cleared && (d = "clear");
                 d = "<p class='" + d + "'>" + g.description + "</p>";
-                g.operand && (b = !0, d += "<span>或</span>");
+                g.operand && (b = !0, d += "<span>或者</span>");
                 b && c ? a[a.length - 1] += d : (b && !c && (c = !0), a.push(d))
               });
               return a
