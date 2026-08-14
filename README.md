@@ -9,20 +9,19 @@
 ### 自动触发下游仓库们更新：
 [![⚙️ 触发下游更新](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/call-downstream-action.yml/badge.svg)](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/call-downstream-action.yml)
 
-### 自动更新组织下游并上传S3：
-[![🔄 同步上游并上传到 S3](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml)
+### 自动更新组织下游并上传R2：
+[![🔄 同步上游并上传到 R2](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml)
 
 > 同步分「R2 系」与「Doge 系」两条独立流水线：
 > - **R2 系**：上传到 R2 桶，刷新 EdgeOne / 阿里云 ESA / Cloudflare 三 CDN
-> - **Doge 系**：`sync-and-upload.yml` 里的 `doge-sync` job 直接
->   `runs-on [self-hosted, hk]` 在 hk 的 Docker 自托管 runner 上跑
->   `scripts/sync-dogecloud.py` —— 经 `/auth/tmp_token.json` 换三段式
->   STS 临时密钥后走 boto3（仅 Virtual Hosted Style）上传到多吉云并刷新
->   其 CDN。因 GitHub runner → 腾讯 COS 直连极慢，而 hk → GitHub ~8.6MB/s、
->   hk → COS 快，故 runner 装在 hk（Docker 容器，`--cpus=2 --memory=2g`
->   限资源；自建镜像仅含官方 runner 二进制，配置用 bind-mount 持久化、免
->   PAT）。同步指纹存 Doge 桶 `__doge_fingerprint.json`，
->   `confirm_cleanup=true` 才删过时文件
+> - **Doge 系**：`sync-and-upload.yml` 里的 `doge-sync` job 在 **mainland
+>   自托管 runner**（`runs-on [self-hosted, mainland]`）上跑
+>   `scripts/sync-dogecloud.py`，改用**多吉云服务端拉取**（`/oss/fetch.json`
+>   提交 URL + `query.json` 轮询），runner 只做控制面（换临时密钥、提交任务、
+>   轮询、列桶校验），不再下载+上传大文件。源 URL 用脚本内 `race_source_cdn()`
+>   竞速国内 CDN（edgeone/esa/hkcdn/r2 测吞吐选最快，运行时就地测）。
+>   排在 `r2-sync` 之后等 CDN 清缓存。同步指纹存 GitHub variable
+>   `LAST_DOGE_FINGERPRINTS`，`confirm_cleanup=true` 才删过时文件
 >
 > 多吉云相关密钥见 GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` /
 > `DOGE_BUCKET` / `DOGE_DOMAIN`）。
@@ -278,6 +277,26 @@ XOR，自逆。
 
 掩码表有两条独立验证：一是从密钥派生，二是拿真机素材里 ADX 开头的静音段做已知
 明文反推（明文全 0 时密文就等于掩码），两者逐字节一致，奇数位正好是 `URUC` 循环。
+
+### 密钥破解：`scripts/usm_crack.py`（2026-08-14 实破）
+
+不需要知道密钥也能拿到它——音频的 ADX 流开头是静音（明文全 0），那一段密文
+**就等于 audio_mask 本身**。`gen_masks` 的 seed 派生是仿射/异或链，给了掩码的
+偶位就能逐字节反推密钥：
+
+```bash
+python3 scripts/usm_crack.py a.usm            # 自动破解，输出密钥与等价族
+python3 scripts/usm_crack.py a.usm --dump-mask # 只抠 audio_mask(hex)
+```
+
+**等价密钥**：`gen_masks` 只用 k[0..6] 派生 seed，**k[7] 从不参与**——所以任意
+密钥的第 8 字节改多少都不影响掩码，等价密钥正好 **256 个**（`0xXX…`，XX 任意）。
+破解脚本会打印通式。若静音段混入非零样本（个别段偶位 1-2 字节污染），脚本按
+「逐段×逐相位找 seed 自洽 + gen_masks 回验全一致」自动避开污染段。
+
+**当前已知密钥**（`movie_1001` / `op_movie2` 都用它，画面与音频经真机播放确认）：
+等价族通式 `0xXX00000143484a86`，其中 k[7]=0x00 的规范形是
+`0x0000000143484a86`。
 
 ### 已经验证到哪一步
 
