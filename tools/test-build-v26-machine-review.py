@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 import importlib.util
+import tempfile
 import unittest
 from collections import Counter
 from pathlib import Path
@@ -19,6 +20,26 @@ SPEC.loader.exec_module(MODULE)
 
 
 class FrontendEmptyClassificationTests(unittest.TestCase):
+    def test_product_file_hash_normalizes_utf8_crlf_but_not_binary(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            lf = root / "lf.txt"
+            crlf = root / "crlf.txt"
+            binary_lf = root / "binary-lf.bin"
+            binary_crlf = root / "binary-crlf.bin"
+            lf.write_bytes("第一行\n第二行\n".encode("utf-8"))
+            crlf.write_bytes("第一行\r\n第二行\r\n".encode("utf-8"))
+            binary_lf.write_bytes(b"\x00first\nsecond\n")
+            binary_crlf.write_bytes(b"\x00first\r\nsecond\r\n")
+            self.assertEqual(
+                MODULE.canonical_product_file_sha256(lf),
+                MODULE.canonical_product_file_sha256(crlf),
+            )
+            self.assertNotEqual(
+                MODULE.canonical_product_file_sha256(binary_lf),
+                MODULE.canonical_product_file_sha256(binary_crlf),
+            )
+
     def test_product_snapshot_excludes_self_referential_maintenance_files(self) -> None:
         before = MODULE.product_content_snapshot()
         # The regression target is a maintenance file under tools/.  It must

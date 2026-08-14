@@ -154,6 +154,20 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def canonical_product_file_sha256(path: Path) -> str:
+    """Hash UTF-8 product text in Git's LF form; keep binary byte-exact."""
+
+    data = path.read_bytes()
+    if b"\0" not in data:
+        try:
+            data.decode("utf-8")
+        except UnicodeDecodeError:
+            pass
+        else:
+            data = data.replace(b"\r\n", b"\n")
+    return hashlib.sha256(data).hexdigest()
+
+
 def read_tsv(path: Path) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle, delimiter="\t"))
@@ -1453,7 +1467,7 @@ def product_content_snapshot(root: Path) -> tuple[int, str]:
     for path in paths:
         digest.update(path.relative_to(root).as_posix().encode("utf-8"))
         digest.update(b"\0")
-        digest.update(bytes.fromhex(sha256_file(path)))
+        digest.update(bytes.fromhex(canonical_product_file_sha256(path)))
         digest.update(b"\n")
     return len(paths), digest.hexdigest()
 
