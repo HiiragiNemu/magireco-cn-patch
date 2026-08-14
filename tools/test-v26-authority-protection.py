@@ -16,6 +16,7 @@ from v26_authority_protection import (
     EXPECTED_CANDIDATE_ONLY_METADATA,
     EXPECTED_MASTER_BUCKETS,
     EXPECTED_MASTER_TOTAL,
+    EXPECTED_OFFLINE_AUTHORITY_OVERLAYS,
     EXPECTED_PASS16_ADDITIONS,
     EXPECTED_PASS16_PROTECTED_FIELDS,
     EXPECTED_PASS19_APPLIED_CHANGES,
@@ -41,6 +42,8 @@ from v26_authority_protection import (
     protected_rows_from_pass19,
     protected_rows_from_master,
     pass19_literal_occurrences,
+    offline_authority_overlay_metadata,
+    product_content_snapshot,
     read_tsv,
     select_protected_master_rows,
     sha256_file,
@@ -70,6 +73,9 @@ class AuthorityProtectionTests(unittest.TestCase):
         self.assertEqual(EXPECTED_CANDIDATE_ONLY_METADATA, len(candidates))
         self.assertNotIn(candidates[0], selected)
         self.assertEqual("MT-01965", candidates[0]["record_id"])
+        overlays = [row for row in self.master if offline_authority_overlay_metadata(row)]
+        self.assertEqual(EXPECTED_OFFLINE_AUTHORITY_OVERLAYS, len(overlays))
+        self.assertTrue(all(row not in selected for row in overlays))
 
     def test_pass16_all_occurrences_are_merged_by_stable_identity(self) -> None:
         pass16 = protected_rows_from_pass16(ROOT)

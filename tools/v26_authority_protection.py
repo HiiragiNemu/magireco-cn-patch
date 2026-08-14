@@ -46,6 +46,7 @@ EXPECTED_PASS19_FINAL_OCCURRENCES = 15
 EXPECTED_TOTAL_WITH_PASS19 = 2777
 EXPECTED_BUCKETS_WITH_PASS19 = {"official": 1553, "wiki": 1210, "new-root-human": 14}
 EXPECTED_CANDIDATE_ONLY_METADATA = 1
+EXPECTED_OFFLINE_AUTHORITY_OVERLAYS = 59
 
 # Pass19 was applied while its preimage was still available.  These ordinals
 # record which final ``after`` occurrences are the eleven actual replacements,
@@ -212,6 +213,30 @@ def candidate_only_metadata(row: dict[str, str]) -> bool:
     )
 
 
+def offline_authority_overlay_metadata(row: dict[str, str]) -> bool:
+    """Identify reviewed authority overlays for offline i18n maintenance rows.
+
+    These records keep the old low-tier value in ``current_cn`` so the machine
+    review remains a literal before/after comparison.  Their selected official
+    replacement is stored in ``highest_authority_match`` / ``suggested_cn`` and
+    is applied to the actual ``magica/`` product by the Pass20 correction
+    manifest.  Treating the offline row itself as a protected product value
+    would freeze the pre-replacement translation and create an unsupported
+    business key, so it is deliberately excluded from the product protection
+    set while its exact cohort size is fail-closed here.
+    """
+
+    return (
+        row.get("scope", "")
+        in {"frontend_i18n_input", "frontend_i18n_override", "frontend_i18n_fragment"}
+        and row.get("field") == "candidate_cn"
+        and row.get("authority_status") == "explicit-higher-authority-selected"
+        and row.get("manual_review_status") == "authority-resolved"
+        and row.get("runtime_consumed", "").startswith("false;")
+        and bool(row.get("highest_authority_match", ""))
+    )
+
+
 def select_protected_master_rows(
     master: Iterable[dict[str, str]], *, enforce_contract: bool = True
 ) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
@@ -223,6 +248,14 @@ def select_protected_master_rows(
         raise ProtectionError(
             "candidate-only metadata contract drift: "
             f"{len(candidate_only)} != {EXPECTED_CANDIDATE_ONLY_METADATA}"
+        )
+    offline_overlays = [
+        row for row in master_rows if offline_authority_overlay_metadata(row)
+    ]
+    if enforce_contract and len(offline_overlays) != EXPECTED_OFFLINE_AUTHORITY_OVERLAYS:
+        raise ProtectionError(
+            "offline authority-overlay contract drift: "
+            f"{len(offline_overlays)} != {EXPECTED_OFFLINE_AUTHORITY_OVERLAYS}"
         )
     held = [row for row in master_rows if row_identity(row) in HELD_WIKI_IDENTITIES]
     held_identities = {row_identity(row) for row in held}
@@ -240,7 +273,7 @@ def select_protected_master_rows(
     for row in master_rows:
         bucket = row.get("source_bucket", "")
         identity = row_identity(row)
-        if candidate_only_metadata(row):
+        if candidate_only_metadata(row) or offline_authority_overlay_metadata(row):
             continue
         if bucket == "official":
             selected.append(row)
@@ -1436,6 +1469,8 @@ def product_content_snapshot(root: Path) -> tuple[int, str]:
         if len(rel.parts) == 1 and rel.name not in stable_root_files:
             continue
         if len(rel.parts) > 1 and rel.parts[0] not in stable_top_dirs:
+            continue
+        if rel.parts[0] == "tools":
             continue
         if ".git" in rel.parts or "__pycache__" in rel.parts:
             continue

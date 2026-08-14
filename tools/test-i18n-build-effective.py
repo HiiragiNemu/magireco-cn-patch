@@ -70,10 +70,15 @@ class EffectiveAuthorityTests(unittest.TestCase):
         self.assertEqual(summary["human_reviewed_candidates"], 0)
         self.assertEqual(
             tables["reviewed-candidates.tsv"]["authority_counts"],
-            {"official_cn_dump": 4},
+            {"official_cn_dump": 62},
+        )
+        self.assertEqual(
+            tables["reviewed-candidates.tsv"]["source_batch_counts"]
+            ["official-cn-static-pass20-20260815"],
+            58,
         )
         self.assertEqual(summary["fatal_equal_weight_conflicts"], 0)
-        self.assertEqual(summary["resolved_conflicts"], 4)
+        self.assertEqual(summary["resolved_conflicts"], 48)
         self.assertEqual(summary["product_tree_writes"], 0)
         self.assertFalse(summary["magica_consumed"])
         self.assertFalse(summary["runtime_consumed"])
@@ -91,9 +96,9 @@ class EffectiveAuthorityTests(unittest.TestCase):
             MOD.normalized_sha256(ROOT / "i18n/migration-source-summary.json"),
         )
         for output_name, expected_rows in (
-            ("input-provenance.tsv", 2660),
-            ("effective.tsv", 2582),
-            ("conflicts.tsv", 4),
+            ("input-provenance.tsv", 2718),
+            ("effective.tsv", 2583),
+            ("conflicts.tsv", 48),
         ):
             record = summary["generated_outputs"][output_name]
             self.assertEqual(record["data_rows"], expected_rows)
@@ -103,7 +108,7 @@ class EffectiveAuthorityTests(unittest.TestCase):
             )
 
         provenance = read_tsv(ROOT / "i18n/generated/input-provenance.tsv")
-        self.assertEqual(len(provenance), 2660)
+        self.assertEqual(len(provenance), 2718)
         frontend_present = [
             row for row in provenance
             if row["source_file"] == "i18n/frontend-strings.tsv" and row["status"] == "present"

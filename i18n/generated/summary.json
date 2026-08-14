@@ -21,21 +21,21 @@
       "weight": 100
     }
   ],
-  "candidate_rows": 2660,
-  "effective_rows": 2582,
+  "candidate_rows": 2718,
+  "effective_rows": 2583,
   "fatal_equal_weight_conflicts": 0,
   "generated_outputs": {
     "conflicts.tsv": {
-      "data_rows": 4,
-      "normalized_lf_sha256": "e3e9484098b1e29eb1cde893f67c1b10b56ba4a1ff36f6b080f0c5ad26a558c9"
+      "data_rows": 48,
+      "normalized_lf_sha256": "831f4192917a3fff21bd70ad5aa03bd3b12a91f2e1d2993ad8dc177df6be712c"
     },
     "effective.tsv": {
-      "data_rows": 2582,
-      "normalized_lf_sha256": "fd72e16bd229b41c6c414805fb528516055e0835082651523bd7779038e075af"
+      "data_rows": 2583,
+      "normalized_lf_sha256": "813273c9d9aea87348b9d6a6dd1e15316c7a650bbee2bd6d61525ef23982bb40"
     },
     "input-provenance.tsv": {
-      "data_rows": 2660,
-      "normalized_lf_sha256": "b1c05c1fa500c5b2f1087a0230aa6764b5da194009b3cf1e4b85edaa031afbc9"
+      "data_rows": 2718,
+      "normalized_lf_sha256": "7e932798f37f2b01d7f042ac96d891f64415f51f9339101b4fa1388830f0ee0d"
     }
   },
   "human_reviewed_candidates": 0,
@@ -101,34 +101,35 @@
     "reviewed-candidates.tsv": {
       "absent_candidates": 0,
       "authority_counts": {
-        "official_cn_dump": 4
+        "official_cn_dump": 62
       },
-      "data_rows": 4,
-      "normalized_lf_sha256": "2ceeec658e60084cd69bf1377d575d655a230457499337383d1e86130682b878",
-      "present_candidates": 4,
+      "data_rows": 62,
+      "normalized_lf_sha256": "41f6ee8c9512bc7d1a752605f1dbdecab58b8f333af7af7a39af394560f364c1",
+      "present_candidates": 62,
       "source_batch_counts": {
         "official-cn-static-exact-path-dom": 1,
         "official-cn-static-japanese-source-key-context-lock": 1,
         "official-cn-static-japanese-source-key-lock": 1,
+        "official-cn-static-pass20-20260815": 58,
         "official-cn-static-term-plus-wiki-fallback": 1
       }
     }
   },
   "magica_consumed": false,
   "mode": "audit-only",
-  "present_candidates": 2607,
+  "present_candidates": 2665,
   "producer": {
     "normalized_lf_sha256": "3e8415a2596364c167762bdbfc06665968bae22c48565fe1eed13055694d5b43",
     "path": "tools/i18n-build-effective.py"
   },
   "product_tree_writes": 0,
-  "resolved_conflicts": 4,
+  "resolved_conflicts": 48,
   "result": "pass",
   "runtime_consumed": false,
   "schema_version": 1,
   "selected_authority_counts": {
-    "legacy_unverified_ai_assisted": 1623,
-    "official_cn_dump": 4,
+    "legacy_unverified_ai_assisted": 1566,
+    "official_cn_dump": 62,
     "wiki": 955
   }
 }

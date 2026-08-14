@@ -188,7 +188,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
               a.questClass = "中级";
               break;
             case 3:
-              a.questTitle = "战斗 ◆ 上级";
+              a.questTitle = "BATTLE ◆ 上级";
               a.questClass = "上级";
               break;
             case 4:

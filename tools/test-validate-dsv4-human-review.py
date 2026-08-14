@@ -20,6 +20,10 @@ assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
 HANDOFF = ROOT / "magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff"
+AUTHORITY_RESOLUTIONS = (
+    ROOT
+    / "magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv"
+)
 
 
 def read_rows() -> tuple[list[str], list[dict[str, str]]]:
@@ -42,6 +46,22 @@ class FullHumanReviewValidationTests(unittest.TestCase):
         self.assertEqual(result["states"]["pending"], 522)
         self.assertEqual(result["states"]["not_required"], 1390)
         self.assertFalse(result["all_decided"])
+        self.assertFalse(result["release_gate_open"])
+
+    def test_pass20_authority_resolution_removes_only_proven_rows(self) -> None:
+        result = MODULE.validate(
+            HANDOFF / "full_review.tsv",
+            HANDOFF / "human_review.tsv",
+            AUTHORITY_RESOLUTIONS,
+        )
+        self.assertEqual(result["base_decision_required"], 522)
+        self.assertEqual(result["authority_resolved"], 322)
+        self.assertEqual(result["decision_required"], 200)
+        self.assertEqual(result["states"]["pending"], 200)
+        self.assertEqual(result["required_by_kind"], {
+            "current-low-tier-translation-review": 200,
+            "historical-pass8-llm-comparison-only": 0,
+        })
         self.assertFalse(result["release_gate_open"])
 
     def test_allowed_current_and_historical_decisions(self) -> None:

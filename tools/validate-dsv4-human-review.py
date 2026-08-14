@@ -15,6 +15,10 @@ from typing import Any
 
 TOTAL = 1912
 REQUIRED_DECISIONS = 522
+RESOLUTION_FIELDS = (
+    "item_id", "resolution_kind", "authority_tier", "final_value",
+    "evidence", "product_write_status",
+)
 ISO_8601 = re.compile(
     r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$"
 )
@@ -67,7 +71,28 @@ def _allowed(source: dict[str, str]) -> list[str]:
     raise HumanReviewError(f"unknown review_kind: {source['review_kind']}")
 
 
-def validate(source: Path, decisions: Path) -> dict[str, Any]:
+def load_authority_resolutions(path: Path | None) -> dict[str, dict[str, str]]:
+    if path is None:
+        return {}
+    header, rows = load_tsv(path)
+    if tuple(header) != RESOLUTION_FIELDS:
+        raise HumanReviewError("authority resolution table has unexpected columns")
+    result: dict[str, dict[str, str]] = {}
+    for row in rows:
+        item_id = row["item_id"]
+        if not item_id or item_id in result:
+            raise HumanReviewError("authority resolution table has empty/duplicate item_id")
+        if not row["authority_tier"] or not row["final_value"] or not row["evidence"]:
+            raise HumanReviewError(f"incomplete authority resolution: {item_id}")
+        result[item_id] = row
+    return result
+
+
+def validate(
+    source: Path,
+    decisions: Path,
+    authority_resolutions: Path | None = None,
+) -> dict[str, Any]:
     source_header, source_rows = load_tsv(source)
     decision_header, decision_rows = load_tsv(decisions)
     if len(source_rows) != TOTAL or len(decision_rows) != TOTAL:
@@ -80,6 +105,10 @@ def validate(source: Path, decisions: Path) -> dict[str, Any]:
     decision_ids = [row["item_id"] for row in decision_rows]
     if len(set(source_ids)) != TOTAL or decision_ids != source_ids:
         raise HumanReviewError("decision row order/IDs differ from the frozen source")
+    resolutions = load_authority_resolutions(authority_resolutions)
+    unknown_resolutions = set(resolutions).difference(source_ids)
+    if unknown_resolutions:
+        raise HumanReviewError("authority resolution item is absent from frozen source")
 
     states = {
         "not_required": 0,
@@ -87,7 +116,12 @@ def validate(source: Path, decisions: Path) -> dict[str, Any]:
         "approved_current": 0,
         "revised": 0,
         "kept_authority": 0,
+        "authority_resolved": 0,
         "unresolved": 0,
+    }
+    base_required_by_kind = {
+        "current-low-tier-translation-review": 0,
+        "historical-pass8-llm-comparison-only": 0,
     }
     required_by_kind = {
         "current-low-tier-translation-review": 0,
@@ -119,6 +153,35 @@ def validate(source: Path, decisions: Path) -> dict[str, Any]:
                 raise HumanReviewError(f"DS-approved row must remain decision-empty: {item_id}")
             states["not_required"] += 1
             continue
+        base_required_by_kind[source_row["review_kind"]] += 1
+        resolution = resolutions.get(item_id)
+        if resolution:
+            if any((decision, reviewer, timestamp, final_value, human_revision, notes)):
+                raise HumanReviewError(
+                    f"authority-resolved row must remain human-decision-empty: {item_id}"
+                )
+            if source_row["review_kind"] == "historical-pass8-llm-comparison-only":
+                if resolution["resolution_kind"] != "protected-history-retained":
+                    raise HumanReviewError(f"invalid historical resolution kind: {item_id}")
+                allowed_values = {
+                    value for value in (source_row["wiki_cn"], source_row["current_cn"]) if value
+                }
+                if (
+                    source_row["protected_authority_text"] != "true"
+                    or resolution["final_value"] not in allowed_values
+                    or resolution["product_write_status"] != "no-product-write-protected"
+                ):
+                    raise HumanReviewError(f"historical authority resolution drift: {item_id}")
+            else:
+                if (
+                    resolution["resolution_kind"] != "official-cn-applied"
+                    or resolution["authority_tier"] != "official_cn_dump"
+                    or resolution["product_write_status"]
+                    not in {"applied-and-verified", "equivalent-already-present"}
+                ):
+                    raise HumanReviewError(f"current authority resolution drift: {item_id}")
+            states["authority_resolved"] += 1
+            continue
         required_by_kind[source_row["review_kind"]] += 1
         if not decision:
             if any((reviewer, timestamp, final_value, human_revision, notes)):
@@ -149,19 +212,24 @@ def validate(source: Path, decisions: Path) -> dict[str, Any]:
                 raise HumanReviewError(f"human_revision/final_value disagree: {item_id}")
             states["revised"] += 1
 
-    if states["not_required"] != 1390 or sum(required_by_kind.values()) != REQUIRED_DECISIONS:
+    if states["not_required"] != 1390 or sum(base_required_by_kind.values()) != REQUIRED_DECISIONS:
         raise HumanReviewError("required/not-required partition drifted")
-    if required_by_kind != {
+    if base_required_by_kind != {
         "current-low-tier-translation-review": 258,
         "historical-pass8-llm-comparison-only": 264,
     }:
         raise HumanReviewError("current/history decision partition drifted")
-    decided = REQUIRED_DECISIONS - states["pending"]
+    effective_required = REQUIRED_DECISIONS - states["authority_resolved"]
+    if sum(required_by_kind.values()) != effective_required:
+        raise HumanReviewError("effective authority/manual partition drifted")
+    decided = effective_required - states["pending"]
     return {
         "schema": "magireco-cn-dsv4-v3-full-human-decision-validation/1",
         "status": "PASS",
         "rows": TOTAL,
-        "decision_required": REQUIRED_DECISIONS,
+        "base_decision_required": REQUIRED_DECISIONS,
+        "authority_resolved": states["authority_resolved"],
+        "decision_required": effective_required,
         "required_by_kind": required_by_kind,
         "states": states,
         "decided": decided,
@@ -171,6 +239,9 @@ def validate(source: Path, decisions: Path) -> dict[str, Any]:
         "product_tree_writes": False,
         "source_sha256": sha256(source),
         "decisions_sha256": sha256(decisions),
+        "authority_resolutions_sha256": (
+            sha256(authority_resolutions) if authority_resolutions else ""
+        ),
     }
 
 
@@ -178,6 +249,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--decisions", type=Path, required=True)
+    parser.add_argument("--authority-resolutions", type=Path)
     parser.add_argument("--report", type=Path)
     parser.add_argument(
         "--require-release-open",
@@ -186,15 +258,15 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
     try:
-        result = validate(args.source, args.decisions)
+        result = validate(args.source, args.decisions, args.authority_resolutions)
         payload = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
         if args.report:
             args.report.write_text(payload, encoding="utf-8", newline="\n")
         print(payload, end="")
         if args.require_release_open and not result["release_gate_open"]:
             print(
-                "release gate closed: all 522 human decisions must be complete "
-                "and unresolved must be zero",
+                f"release gate closed: all {result['decision_required']} remaining "
+                "decisions must be complete and unresolved must be zero",
                 file=sys.stderr,
             )
             return 3
