@@ -42,9 +42,7 @@ name: 🔄 同步上游并上传到 object-storage
 # ║                                                                    ║
 # ║ object-storage 同步                                                            ║
 # ║ ───────                                                            ║
-# ║   ▸ 黑名单：history-data*（前缀）不同步；                        ║
-# ║     apk-overlay-atlas.zip（全名）三条出口全拦——它是客户端仓库的    ║
-# ║     构建输入，不是发给玩家的东西                                    ║
+# ║   ▸ 黑名单：history-data*（前缀）不同步                          ║
 # ║   ▸ GitHub 上已不存在的文件【不主动删除】，先记入                   ║
 # ║       PENDING_DELETIONS 仓库变量并打印警告；手动以                  ║
 # ║       confirm_cleanup=true 运行时才真正删除                         ║
@@ -975,27 +973,24 @@ jobs:
           # ══════════════════════════════════════════════════════════════
           # object-storage 上传过滤规则 v3
           # ══════════════════════════════════════════════════════════════
-          # history-data*  → 大体积历史数据包，不走 object-storage
-          # （*.apk 曾在此黑名单——客户端安装包只留 GitHub Release；
-          #  公测站直链改走 edge/object-storage 后移出，2026-08-10）
+          # history-data*            → 大体积历史数据包，不走 object-storage
+          # apk-overlay-atlas.zip        → 构建期内部资产，不镜像
+          # legacy-client-archive*       → 存档 tag 备份，不镜像
+          # 非主线 APK（非 magireco-latest*）→ 只留 GitHub Release，不上传
           R2_IGNORE_PREFIXES = (
               'history-data',
+              'apk-overlay-atlas.zip',
+              'legacy-client-archive',
+              'legacy-client-archieve',
           )
           R2_IGNORE_SUFFIXES = (
           )
-          # apk-overlay-atlas* → 客户端仓库的构建输入，不是给玩家的东西。
-          #   里面是 85 个汉化图集加浮层 logo，归原包版权方；它之所以放 Release，
-          #   只是为了让构建能按 sha256 取回。推到 CDN 等于把它摆到玩家面前。
-          #   用**前缀**而不是全名，是为了连带拦住 .sha256 之类的旁挂文件与将来
-          #   可能出现的改名版本——漏一个就等于这道闸没有。
-          #   ⚠ 只拦 CDN 这两条（本处 + sync-dogecloud.py 的 IGNORE_PREFIXES，
-          #     两边同一套规则，改一处要两处一起改）。**下游 Release 镜像不拦**：
-          #     那是留档快照，且客户端构建取 overlay 走的就是它。
-          R2_IGNORE_PREFIXES = R2_IGNORE_PREFIXES + ('apk-overlay-atlas',)
 
           def should_ignore_for_r2(name: str) -> bool:
               if any(name.startswith(p) for p in R2_IGNORE_PREFIXES): return True
               if any(name.endswith(s) for s in R2_IGNORE_SUFFIXES): return True
+              # 非主线 APK（非 magireco-latest*）不上传，主线 APK 走 edge/object-storage
+              if name.endswith('.apk') and not name.startswith('magireco-latest'): return True
               return False
 
           class R2Handler:
@@ -1781,11 +1776,6 @@ jobs:
                   return
 
               # name → (digest, size, 下载 URL)，超限文件不进镜像
-              #
-              # ⚠ 这里**没有黑名单，也不该有**：本 job 是下游的留档镜像，缺一个
-              # asset 就不是完整快照了；而且客户端构建取 overlay 走的正是下游这份
-              # Release。要拦「不该给玩家的东西」，拦的位置是 object-storage / 多吉云那两条
-              # ——CDN 才是玩家直接够得到的地方，Release 是源头与存档。
               upstream_map = {}
               for a in assets:
                   if a.get("size", 0) > MAX_ASSET:
