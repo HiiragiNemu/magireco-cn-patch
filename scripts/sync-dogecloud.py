@@ -361,7 +361,15 @@ class Doge:
 # ══════════════════════════════════════════════════════════════════
 # 上游 Release 资产
 # ══════════════════════════════════════════════════════════════════
-IGNORE_PREFIXES = ('history-data',)   # 与 object-storage 系同一份过滤规则
+# 与 object-storage 系同一份过滤规则。
+# apk-overlay-atlas* 是客户端仓库的构建输入，不是发给玩家的东西——里面是 85 个
+# 汉化图集加浮层 logo，归原包版权方，放 Release 只为让构建能按 sha256 取回；
+# 推到 CDN 等于把它摆到玩家面前。用前缀而不是全名，为的是连带拦住 .sha256 之类
+# 的旁挂文件与将来可能出现的改名版本——漏一个就等于这道闸没有。
+# ⚠ 本文件与 sync-and-upload.yml 的 R2_IGNORE_PREFIXES 是同一套规则，
+#   改一处要两处一起改。下游 Release 镜像**不拦**——那是留档快照，且客户端
+#   构建取 overlay 走的就是它。
+IGNORE_PREFIXES = ('history-data', 'apk-overlay-atlas')
 
 
 def should_ignore(name):
