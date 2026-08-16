@@ -456,6 +456,11 @@ jobs:
           python3 tools/i18n-build-effective.py
           git diff --exit-code -- i18n/generated
           python3 tools/test-i18n-authority-guard.py -v
+          python3 tools/test-import-pass20-human-review-xlsx.py -v
+          python3 tools/test-stage-pass20-human-review-product.py -v
+          python3 tools/test-promote-pass20-product-stage.py -v
+          python3 tools/test-rollback-pass20-product-stage.py -v
+          python3 tools/test-verify-pass20-human-materialization.py -v
           python3 tools/i18n-authority-guard.py --json | tee _authority_guard.json
           python3 tools/pass20_official_static.py verify --state applied
           # 先重建全量来源/机翻审计，证明清单覆盖当前产品输入；随后仅验证
@@ -479,6 +484,10 @@ jobs:
             --decisions magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv \
             --authority-resolutions magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv \
             --report _artifacts/dsv4_human_release_gate.json \
+            "${HUMAN_GATE_ARGS[@]}"
+          python3 tools/verify-pass20-human-materialization.py \
+            --repo-root . \
+            --report _artifacts/pass20_human_materialization_verification.json \
             "${HUMAN_GATE_ARGS[@]}"
           python3 tools/test-i18n-package.py -v
           python3 tools/test-build-v26-package.py -v

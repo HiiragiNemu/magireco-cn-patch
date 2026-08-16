@@ -170,6 +170,23 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             self.text.index("python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip"),
         )
 
+    def test_stable_publish_requires_materialized_pass20_review(self):
+        verifier = "python3 tools/verify-pass20-human-materialization.py"
+        package = "python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip"
+        self.assertIn(verifier, self.text)
+        self.assertIn("--report _artifacts/pass20_human_materialization_verification.json", self.text)
+        self.assertIn("--require-release-open", self.text)
+        self.assertLess(self.text.index(verifier), self.text.index(package))
+        for test in (
+            "python3 tools/test-import-pass20-human-review-xlsx.py -v",
+            "python3 tools/test-stage-pass20-human-review-product.py -v",
+            "python3 tools/test-promote-pass20-product-stage.py -v",
+            "python3 tools/test-rollback-pass20-product-stage.py -v",
+            "python3 tools/test-verify-pass20-human-materialization.py -v",
+        ):
+            self.assertIn(test, self.text)
+            self.assertLess(self.text.index(test), self.text.index(verifier))
+
     def test_engine_table_belongs_only_to_js_package(self):
         self.assertIn('engine = "madomagi/engine_i18n.tsv"', self.text)
         self.assertIn('assert names.count(engine) == 1', self.text)

@@ -79,6 +79,11 @@ python tools/stage-pass20-human-review-product.py `
 python tools/promote-pass20-product-stage.py `
   --stage-root (Join-Path $pass20Work 'stage') `
   --allow-repository-write
+
+python tools/verify-pass20-human-materialization.py `
+  --repo-root . `
+  --report (Join-Path $pass20Work 'pass20_human_materialization_verification.json') `
+  --require-release-open
 ```
 
 第三步只在仓库外的 staging 副本中依次重建 effective 层，并运行 `i18n-apply` 与 `i18n-fragments`。它会生成并检查：
@@ -89,7 +94,7 @@ python tools/promote-pass20-product-stage.py `
 - `stage/rollback/rollback.json`：逐文件回撤清单和 before/after 快照；
 - staging 内的 `magica/`：仅供审计的候选运行时副本。
 
-只有当 199 条人工决定全部闭合、未决数为 0、权威保护变化为 0、目标清单完全一致、JS 语法、HTML 敏感属性、JSON 解析和逐项 rollback 演练全部通过后，第四步才会在显式写入开关下，将 canonical i18n、人工决策 TSV、审核者填写后的 XLSX 不可变回执以及允许变更的精确 `magica/` 文件原子提升到仓库。任一 before/staged-after 漂移、越界路径、报告落盘失败或中途写入失败都会拒绝或恢复全部已写文件；随后仍须重新运行第 4–6 节的完整验证。工作簿模板、导入过程和未提升的 staging 结果均不直接发布。
+只有当 199 条人工决定全部闭合、未决数为 0、权威保护变化为 0、目标清单完全一致、JS 语法、HTML 敏感属性、JSON 解析和逐项 rollback 演练全部通过后，第四步才会在显式写入开关下，将 canonical i18n、人工决策 TSV、审核者填写后的 XLSX 不可变回执以及允许变更的精确 `magica/` 文件原子提升到仓库。提升后必须运行物化验证器，逐项证明完成版 XLSX 可无损回导为已提交 decisions、199 条均进入 human-reviewed canonical/effective、180 条运行时项目的 246 个目标位置均为最终值、19 条仅维护层项目存在 canonical 记录且没有伪造写入目标。任一 before/staged-after 漂移、越界路径、报告落盘失败或中途写入失败都会拒绝或恢复全部已写文件；随后仍须重新运行第 4–6 节的完整验证。工作簿模板、导入过程和未提升的 staging 结果均不直接发布。
 
 在上述人工门和产品验证尚未全部通过时，`stable latest` 保持关闭；Draft PR 与预览资产只用于审计。
 
@@ -113,17 +118,18 @@ Get-FileHash cn_js_update.audit-b.zip -Algorithm SHA256
 
 ## 6. 回撤验证
 
-终态 handoff 包含逐项 correction patch、rollback manifest 与执行器。正式应用任何人工修订前，先保存目标文件和源字段哈希；只按稳定业务键应用。回撤必须先校验 before/after SHA 门，再逐项恢复，并重新运行权威保护与产品验证。禁止用整目录覆盖代替逐项回撤。
+终态 handoff 包含逐项 correction patch、rollback manifest 与执行器。正式应用任何人工修订前，先保存目标文件和源字段哈希；只按稳定业务键应用。回撤必须先校验 before/after SHA 门，再逐项恢复，并重新运行权威保护与产品验证。多文件回撤中途失败时，执行器会把所有目标补偿回精确 after 状态并标记为可重试，禁止留下 before/after 混合树，也禁止用整目录覆盖代替逐项回撤。
 
 ## 7. 发布门
 
 功能分支和 Draft PR 可以用于代码审查，但 stable 资产转正必须同时满足：
 
 1. Pass20 关闭 323 条后，剩余 199 条人工决策全部闭合且 unresolved=0；
-2. 官方/Wiki/确认人工保护字段变化=0；
-3. 最新 `main` 三方集成和完整回归通过；
-4. 两次独立构建哈希相同；
-5. `cn_js_update.zip`、版本文件、清单及远端资产事务一致；
-6. rollback 演练成功。
+2. 物化验证器证明完成 XLSX、decisions、199 条 canonical/effective 与 180/19 产品目标完全一致；
+3. 官方/Wiki/确认人工保护字段变化=0；
+4. 最新 `main` 三方集成和完整回归通过；
+5. 两次独立构建哈希相同；
+6. `cn_js_update.zip`、版本文件、清单及远端资产事务一致；
+7. rollback 演练成功。
 
 任一条件缺失时，发布门应保持关闭，不得用旧 ZIP 或 preview 资产替代 stable 基线。
