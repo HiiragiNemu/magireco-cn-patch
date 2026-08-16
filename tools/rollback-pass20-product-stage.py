@@ -93,11 +93,57 @@ def checked_digest(value: object, label: str, rel: str) -> str:
     return text
 
 
+def validate_review_contract(value: object) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise RollbackError("rollback manifest review contract is missing")
+    names = (
+        "machine_inventory_items", "human_review_items", "materialization_items",
+        "higher_authority_shadowed_items", "product_write_forbidden_items",
+        "authority_resolution_items", "exact_runtime_items", "maintenance_only_items",
+        "runtime_occurrences", "global_items", "override_items", "fragment_items",
+        "shadowed_low_tier_candidates_written", "shadowed_product_writes",
+    )
+    result: dict[str, Any] = {}
+    for name in names:
+        raw = value.get(name)
+        if not isinstance(raw, int) or isinstance(raw, bool) or raw < 0:
+            raise RollbackError(f"rollback review contract has an invalid {name}")
+        result[name] = raw
+    if result["human_review_items"] != result["materialization_items"]:
+        raise RollbackError("rollback human review/materialization count drifted")
+    if result["machine_inventory_items"] != (
+        result["materialization_items"] + result["higher_authority_shadowed_items"]
+    ):
+        raise RollbackError("rollback machine inventory partition drifted")
+    if result["product_write_forbidden_items"] != result["higher_authority_shadowed_items"]:
+        raise RollbackError("rollback protected shadow/write-forbidden count drifted")
+    if result["shadowed_low_tier_candidates_written"] != 0 or result["shadowed_product_writes"] != 0:
+        raise RollbackError("rollback contract records a protected shadow write")
+    if result["materialization_items"] != (
+        result["exact_runtime_items"] + result["maintenance_only_items"]
+    ):
+        raise RollbackError("rollback runtime/maintenance partition drifted")
+    if result["materialization_items"] != (
+        result["global_items"] + result["override_items"] + result["fragment_items"]
+    ):
+        raise RollbackError("rollback global/override/fragment partition drifted")
+    for name in (
+        "source_records_sha256", "target_contract_sha256", "authority_shadow_manifest_sha256",
+        "authority_resolutions_sha256",
+    ):
+        digest = value.get(name)
+        if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise RollbackError(f"rollback review contract has an invalid {name}")
+        result[name] = digest
+    return result
+
+
 def rollback(stage_root: Path, product_root: Path | None = None) -> dict[str, Any]:
     manifest_path = stage_root / "rollback/rollback.json"
     payload = json.loads(manifest_path.read_text(encoding="utf-8"))
     if payload.get("schema") != "magireco-cn-pass20-product-rollback/1":
         raise RollbackError("rollback manifest schema drifted")
+    review_contract = validate_review_contract(payload.get("review_contract"))
     files = payload.get("files")
     if not isinstance(files, list):
         raise RollbackError("rollback manifest files are invalid")
@@ -215,6 +261,7 @@ def rollback(stage_root: Path, product_root: Path | None = None) -> dict[str, An
         "restored_files": len(prepared),
         "exact_after_gate": True,
         "exact_before_restored": True,
+        "review_contract": review_contract,
     }
 
 

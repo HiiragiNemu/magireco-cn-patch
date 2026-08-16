@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+from collections import Counter
 import difflib
 from hashlib import sha256
 import importlib.util
@@ -25,13 +26,13 @@ SOURCE = AUDIT / "dsv4_terminal_handoff/full_review.tsv"
 DECISIONS = AUDIT / "dsv4_human_decisions.tsv"
 RESOLUTIONS = AUDIT / "pass20_authority_resolutions.tsv"
 TARGETS = AUDIT / "pass20_product_targets.json"
+SHADOWED = AUDIT / "pass20_authority_shadowed_machine_items.json"
+QUEUE = AUDIT / "pass20_remaining_manual_review.tsv"
 PROTECTED = AUDIT / "protected_authority/protected_translation_fields.tsv"
 DECISIONS_REL = Path("magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv")
-WORKBOOK_REL = Path("magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx")
-REVIEW_ITEMS = 199
-EXACT_RUNTIME_ITEMS = 180
-MAINTENANCE_ONLY_ITEMS = 19
-RUNTIME_OCCURRENCES = 246
+WORKBOOK_REL = Path(
+    "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"
+)
 CANONICAL_I18N_RELS = (
     Path("i18n/reviewed-candidates.tsv"),
     Path("i18n/generated/conflicts.tsv"),
@@ -51,10 +52,234 @@ SENSITIVE_HTML_ATTR = re.compile(
     r"\b(id|class|href|src|name|data-[A-Za-z0-9_.:-]+)\s*=\s*([\"'])(.*?)\2",
     re.IGNORECASE | re.DOTALL,
 )
+PLACEHOLDER = re.compile(
+    r"\{\d+\}|\{\{[^{}]+\}\}|%(?:\d+\$)?[-+#0 .'\d]*(?:hh|h|ll|l|L|z|j|t)?[diuoxXfFeEgGaAcspn]"
+)
+EJS_TOKEN = re.compile(r"<%[-_=#]?[\s\S]*?%>")
+HTML_TOKEN = re.compile(r"</?[A-Za-z][^<>]*?>")
+BACKSLASH_ESCAPE = re.compile(
+    r"\\(?:[\\'\"bfnrtv0]|x[0-9A-Fa-f]{2}|u(?:[0-9A-Fa-f]{4}|\{[0-9A-Fa-f]+\})|\r?\n)"
+)
 
 
 class StageError(RuntimeError):
     pass
+
+
+def _contract_token(value: Any) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", str(value or "").strip().lower()).strip("-")
+
+
+def target_is_higher_authority_shadowed(target: dict[str, Any]) -> bool:
+    """Recognize both the v2 review contract and the legacy target fields."""
+    scope = _contract_token(target.get("review_scope_status"))
+    policy = _contract_token(target.get("application_policy"))
+    status = _contract_token(target.get("match_status"))
+    return bool(
+        target.get("shadowed_by_higher_authority") is True
+        or scope in {
+            "higher-authority-shadowed",
+            "protected-higher-authority",
+            "protected-higher-authority-selected",
+        }
+        or policy in {
+            "higher-authority-shadowed",
+            "protected-higher-authority",
+            "protected-authority-only",
+            "product-write-forbidden",
+        }
+        or status == "protected-higher-authority-selected"
+    )
+
+
+def target_product_write_is_forbidden(target: dict[str, Any]) -> bool:
+    policy = _contract_token(target.get("application_policy"))
+    if policy:
+        return policy in {
+            "higher-authority-shadowed",
+            "protected-higher-authority",
+            "protected-authority-only",
+            "product-write-forbidden",
+            "no-product-write-protected",
+        }
+    if "product_write_allowed" in target:
+        return target.get("product_write_allowed") is False
+    return target.get("application_allowed") is False
+
+
+def derive_target_contract(
+    rows: list[dict[str, Any]], summary: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Derive review/materialization counts without trusting scattered constants."""
+    if not rows:
+        raise StageError("product target manifest contains no review items")
+    item_ids = [row.get("item_id") for row in rows]
+    if any(not isinstance(item_id, str) or not item_id for item_id in item_ids):
+        raise StageError("product target manifest contains an invalid item ID")
+    if len(set(item_ids)) != len(item_ids):
+        raise StageError("product target manifest contains duplicate item IDs")
+
+    shadowed_ids: set[str] = set()
+    materializable_ids: set[str] = set()
+    runtime_items = 0
+    maintenance_items = 0
+    runtime_occurrences = 0
+    scope_counts: Counter[str] = Counter()
+    for target in rows:
+        item_id = str(target["item_id"])
+        occurrences = target.get("occurrences")
+        if not isinstance(occurrences, list):
+            raise StageError(f"target occurrences are invalid: {item_id}")
+        shadowed = target_is_higher_authority_shadowed(target)
+        if shadowed:
+            if not target_product_write_is_forbidden(target):
+                raise StageError(f"higher-authority shadow is not product-write-forbidden: {item_id}")
+            if target.get("application_allowed") is True or occurrences:
+                raise StageError(f"higher-authority shadow claims a runtime write: {item_id}")
+            shadowed_ids.add(item_id)
+            continue
+
+        materializable_ids.add(item_id)
+        scope = target.get("maintenance_scope")
+        if scope not in {"global", "override", "fragment"}:
+            raise StageError(f"target maintenance scope is invalid: {item_id}")
+        scope_counts[str(scope)] += 1
+        if target.get("application_allowed") is True:
+            if not occurrences:
+                raise StageError(f"runtime target has no exact occurrence: {item_id}")
+            runtime_items += 1
+            runtime_occurrences += len(occurrences)
+        else:
+            if occurrences:
+                raise StageError(f"maintenance-only target claims a runtime occurrence: {item_id}")
+            maintenance_items += 1
+
+    contract = {
+        "review_items": len(rows),
+        "materialization_items": len(materializable_ids),
+        "higher_authority_shadowed_items": len(shadowed_ids),
+        "product_write_forbidden_items": len(shadowed_ids),
+        "exact_runtime_items": runtime_items,
+        "maintenance_only_items": maintenance_items,
+        "runtime_occurrences": runtime_occurrences,
+        "global_items": scope_counts["global"],
+        "override_items": scope_counts["override"],
+        "fragment_items": scope_counts["fragment"],
+        "shadowed_low_tier_candidates_written": 0,
+        "shadowed_product_writes": 0,
+        "materializable_ids": materializable_ids,
+        "shadowed_ids": shadowed_ids,
+    }
+    if contract["review_items"] != (
+        contract["materialization_items"] + contract["higher_authority_shadowed_items"]
+    ):
+        raise StageError("review/materialization/shadow partition drifted")
+    if contract["materialization_items"] != (
+        contract["global_items"] + contract["override_items"] + contract["fragment_items"]
+    ):
+        raise StageError("global/override/fragment partition drifted")
+
+    if summary is not None:
+        fixed = {
+            "items": contract["review_items"],
+            "maintenance_rows_bound": contract["review_items"],
+            "exact_runtime_items": runtime_items,
+            "runtime_occurrences": runtime_occurrences,
+            "occurrence_collisions": 0,
+            "unclassified_items": 0,
+        }
+        if any(summary.get(key) != value for key, value in fixed.items()):
+            raise StageError("product target manifest summary drifted")
+        # Legacy manifests counted protected shadows as maintenance-only.  The
+        # v2 contract excludes them because they are never materialized.
+        allowed_maintenance_counts = {maintenance_items, maintenance_items + len(shadowed_ids)}
+        if summary.get("maintenance_only_items") not in allowed_maintenance_counts:
+            raise StageError("product target maintenance count drifted")
+        optional = {
+            "human_review_materialization_items": contract["materialization_items"],
+            "materialization_items": contract["materialization_items"],
+            "higher_authority_shadowed_items": contract["higher_authority_shadowed_items"],
+            "product_write_forbidden_items": contract["product_write_forbidden_items"],
+            "global_items": contract["global_items"],
+            "override_items": contract["override_items"],
+            "fragment_items": contract["fragment_items"],
+        }
+        for key, expected in optional.items():
+            if key in summary and summary.get(key) != expected:
+                raise StageError(f"product target {key} drifted")
+    return contract
+
+
+def load_shadowed_contract(path: Path) -> dict[str, Any]:
+    if not path.is_file() or path.is_symlink():
+        raise StageError(f"higher-authority shadow manifest is missing or unsafe: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if (
+        not isinstance(payload, dict)
+        or payload.get("schema") != "magireco-cn-pass20-authority-shadowed-machine-items/2"
+        or payload.get("status") != "PASS"
+    ):
+        raise StageError("higher-authority shadow manifest root, schema, or status is invalid")
+    rows = payload.get("items")
+    if not isinstance(rows, list) or not rows:
+        raise StageError("higher-authority shadow manifest contains no items")
+    item_ids: set[str] = set()
+    effective_occurrences = 0
+    machine_occurrences = 0
+    for row in rows:
+        if not isinstance(row, dict):
+            raise StageError("higher-authority shadow manifest contains a non-object item")
+        item_id = row.get("item_id")
+        if not isinstance(item_id, str) or not item_id or item_id in item_ids:
+            raise StageError(f"higher-authority shadow manifest has an invalid item ID: {item_id!r}")
+        item_ids.add(item_id)
+        required_text = (
+            "stable_business_key", "source_path", "source_key", "japanese_or_source_original",
+            "machine_current_cn", "effective_cn", "effective_tier", "effective_source_file",
+            "evidence",
+        )
+        if any(not isinstance(row.get(field), str) or not row.get(field) for field in required_text):
+            raise StageError(f"higher-authority shadow evidence is incomplete: {item_id}")
+        expected_business_key = f"{row['source_path']}#{row['source_key']}/candidate_cn"
+        if row["stable_business_key"] != expected_business_key:
+            raise StageError(f"higher-authority shadow stable business key drifted: {item_id}")
+        if not isinstance(row.get("effective_source_line"), int) or row["effective_source_line"] <= 0:
+            raise StageError(f"higher-authority shadow source line is invalid: {item_id}")
+        if row.get("match_status") != "protected-higher-authority-selected":
+            raise StageError(f"higher-authority shadow match status drifted: {item_id}")
+        if row.get("product_write_forbidden") is not True:
+            raise StageError(f"higher-authority shadow is not product-write-forbidden: {item_id}")
+        if row.get("product_write_allowed") is not False:
+            raise StageError(f"higher-authority shadow permits a product write: {item_id}")
+        for field in ("declared_product_paths", "runtime_effective_paths", "runtime_machine_paths"):
+            paths = row.get(field)
+            if not isinstance(paths, list) or any(
+                not isinstance(rel, str) or not rel or rel.startswith(("/", "\\"))
+                or "\\" in rel or ":" in rel or ".." in rel.split("/") for rel in paths
+            ):
+                raise StageError(f"higher-authority shadow {field} is invalid: {item_id}")
+            if paths != sorted(set(paths)):
+                raise StageError(f"higher-authority shadow {field} is not a stable set: {item_id}")
+        for field in ("runtime_effective_count", "runtime_machine_count"):
+            if not isinstance(row.get(field), int) or row[field] < 0:
+                raise StageError(f"higher-authority shadow {field} is invalid: {item_id}")
+        effective_occurrences += row["runtime_effective_count"]
+        machine_occurrences += row["runtime_machine_count"]
+    summary = payload.get("summary")
+    expected_summary = {
+        "items": len(rows),
+        "higher_authority_shadowed_items": len(rows),
+        "product_write_forbidden_items": len(rows),
+        "runtime_effective_occurrences": effective_occurrences,
+        "runtime_machine_occurrences": machine_occurrences,
+    }
+    if not isinstance(summary, dict) or any(summary.get(key) != value for key, value in expected_summary.items()):
+        raise StageError("higher-authority shadow summary drifted")
+    return {
+        "items": rows, "item_ids": item_ids, "count": len(rows),
+        "runtime_effective_occurrences": effective_occurrences,
+        "runtime_machine_occurrences": machine_occurrences,
+    }
 
 
 def load_module(name: str, path: Path):
@@ -79,8 +304,71 @@ def load_tsv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
     return header, rows
 
 
+SOURCE_BINDING_FIELDS = (
+    "source_index", "batch_number", "item_id", "stable_business_key", "source_path",
+    "source_key", "source_field", "japanese_or_source_original", "old_cn", "current_cn",
+)
+
+
+def validate_queue_source_bindings(
+    queue_rows: list[dict[str, str]], source_rows: list[dict[str, str]],
+) -> None:
+    """Bind every editable queue row to the immutable DSV4 source record and its hash."""
+    source_by_id = {row.get("item_id", ""): row for row in source_rows}
+    if len(source_by_id) != len(source_rows) or "" in source_by_id:
+        raise StageError("DSV4 source table contains an empty or duplicate item ID")
+    for queue_row in queue_rows:
+        item_id = queue_row.get("item_id", "")
+        source = source_by_id.get(item_id)
+        if source is None:
+            raise StageError(f"queue source record is missing: {item_id}")
+        if any(queue_row.get(field, "") != source.get(field, "") for field in SOURCE_BINDING_FIELDS):
+            raise StageError(f"queue source record binding drifted: {item_id}")
+        expected_hash = source.get("source_text_sha256", "")
+        actual_hash = sha256(source.get("japanese_or_source_original", "").encode("utf-8")).hexdigest()
+        if expected_hash != actual_hash:
+            raise StageError(f"source-record text hash drifted: {item_id}")
+
+
 def decode_cell(value: str) -> str:
     return value.replace("\\t", "\t").replace("\\n", "\n").replace("\\\\", "\\")
+
+
+def _semantic_markup(value: str) -> str:
+    return re.sub(r"\\x3[cC]", "<", re.sub(r"\\x3[eE]", ">", value))
+
+
+def _invalid_escape_offsets(value: str) -> list[int]:
+    valid_starts = {match.start() for match in BACKSLASH_ESCAPE.finditer(value)}
+    invalid: list[int] = []
+    index = 0
+    while index < len(value):
+        if value[index] != "\\":
+            index += 1
+            continue
+        if index not in valid_starts:
+            invalid.append(index)
+            index += 1
+            continue
+        match = BACKSLASH_ESCAPE.match(value, index)
+        assert match is not None
+        index = match.end()
+    return invalid
+
+
+def validate_translation_structure(item_id: str, before: str, after: str) -> None:
+    if Counter(PLACEHOLDER.findall(before)) != Counter(PLACEHOLDER.findall(after)):
+        raise StageError(f"placeholder structure drift: {item_id}")
+    before_markup = _semantic_markup(before)
+    after_markup = _semantic_markup(after)
+    if EJS_TOKEN.findall(before_markup) != EJS_TOKEN.findall(after_markup):
+        raise StageError(f"EJS structure drift: {item_id}")
+    if HTML_TOKEN.findall(before_markup) != HTML_TOKEN.findall(after_markup):
+        raise StageError(f"HTML structure drift: {item_id}")
+    if _invalid_escape_offsets(after):
+        raise StageError(f"invalid output escape sequence: {item_id}")
+    if BACKSLASH_ESCAPE.findall(before) != BACKSLASH_ESCAPE.findall(after):
+        raise StageError(f"escape structure drift: {item_id}")
 
 
 def semantic_spans(text: str, needle: str, rel: str, scope: str) -> list[tuple[int, int]]:
@@ -119,6 +407,7 @@ def append_reviewed_candidates(
     queue: dict[str, dict[str, str]],
     decisions: list[dict[str, str]],
     targets: dict[str, dict[str, Any]],
+    expected_ids: set[str],
 ) -> int:
     existing = path.read_text(encoding="utf-8")
     existing_locators = set()
@@ -131,7 +420,7 @@ def append_reviewed_candidates(
     records = []
     for decision in decisions:
         item_id = decision["item_id"]
-        if item_id not in queue:
+        if item_id not in expected_ids:
             continue
         if decision["human_decision"] not in {"approve-current", "revise"}:
             raise StageError(f"Pass20 decision is not publishable: {item_id}")
@@ -160,15 +449,19 @@ def append_reviewed_candidates(
             "match_method": "exact-semantic-key-human-review",
             "machine_translated": "false" if decision["human_decision"] == "revise" else "unknown",
             "confidence": "human-approved",
-            "review_status": "human-reviewed",
+            "review_status": (
+                "human-reviewed-revised"
+                if decision["human_decision"] == "revise"
+                else "human-reviewed-approved-machine-origin-retained"
+            ),
             "evidence": (
                 f"item_id={item_id}; reviewer={decision['reviewer']}; timestamp={decision['timestamp']}; "
                 f"decision={decision['human_decision']}; target_status={target['match_status']}"
             ),
         }
         records.append(record)
-    if len(records) != REVIEW_ITEMS:
-        raise StageError(f"expected {REVIEW_ITEMS} reviewed candidates, got {len(records)}")
+    if len(records) != len(expected_ids):
+        raise StageError(f"expected {len(expected_ids)} reviewed candidates, got {len(records)}")
     if existing and not existing.endswith("\n"):
         raise StageError("reviewed-candidates.tsv lacks final LF")
     with path.open("a", encoding="utf-8", newline="") as stream:
@@ -222,6 +515,7 @@ def stage(
     targets_path: Path,
     stage_root: Path,
     review_workbook: Path | None = None,
+    shadowed_path: Path | None = None,
 ) -> dict[str, Any]:
     root_resolved = ROOT.resolve()
     stage_resolved = stage_root.resolve()
@@ -231,14 +525,89 @@ def stage(
         raise StageError(f"staging root must be absent or empty: {stage_root}")
     stage_root.mkdir(parents=True, exist_ok=True)
 
+    resolved_shadowed_path = shadowed_path or SHADOWED
     validator = load_module("pass20_validate_human", ROOT / "tools/validate-dsv4-human-review.py")
-    validation = validator.validate(source_path, decisions_path, resolutions_path)
+    validation = validator.validate(
+        source_path, decisions_path, resolutions_path, resolved_shadowed_path,
+    )
     if not validation["release_gate_open"]:
         raise StageError("human review release gate is closed")
     if review_workbook is None or not review_workbook.is_file() or review_workbook.is_symlink():
         raise StageError("a regular completed review workbook is required")
     if review_workbook.resolve() == (ROOT / WORKBOOK_REL).resolve():
         raise StageError("completed review workbook must be a separate external copy; keep the repository template blank")
+
+    source_header, source_rows = load_tsv(source_path)
+    decision_header, decision_rows = load_tsv(decisions_path)
+    if not source_header or not decision_header:
+        raise StageError("human review tables are empty")
+    _, remaining = load_tsv(QUEUE)
+    queue = {row["item_id"]: row for row in remaining}
+    if len(queue) != len(remaining):
+        raise StageError("Pass20 review queue contains an empty or duplicate item ID")
+    review_items = len(queue)
+    validate_queue_source_bindings(remaining, source_rows)
+    source_records_sha256 = sha256(QUEUE.read_bytes()).hexdigest()
+    decision_by_id = {row["item_id"]: row for row in decision_rows}
+    if len(decision_by_id) != len(decision_rows):
+        raise StageError("human decision table contains an empty or duplicate item ID")
+    if any(item not in decision_by_id or not decision_by_id[item]["human_decision"] for item in queue):
+        raise StageError(f"all {review_items} Pass20 items must have a human decision")
+    for item_id, source in queue.items():
+        validate_translation_structure(
+            item_id,
+            source.get("current_cn", ""),
+            decision_by_id[item_id].get("final_value", ""),
+        )
+    if validation.get("decision_required") != review_items or validation.get("decided") != review_items:
+        raise StageError("human review gate and materialization queue counts differ")
+
+    _, resolution_rows = load_tsv(resolutions_path)
+    resolution_ids = {row["item_id"] for row in resolution_rows}
+    authority_resolutions_sha256 = sha256(resolutions_path.read_bytes()).hexdigest()
+    if len(resolution_ids) != len(resolution_rows) or resolution_ids.intersection(queue):
+        raise StageError("authority resolution leaked into the human materialization queue")
+
+    target_payload = json.loads(targets_path.read_text(encoding="utf-8"))
+    target_contract_sha256 = sha256(targets_path.read_bytes()).hexdigest()
+    if (
+        target_payload.get("schema") != "magireco-cn-pass20-product-target-manifest/1"
+        or target_payload.get("status") != "PASS"
+    ):
+        raise StageError("product target manifest schema or status drifted")
+    target_rows = target_payload.get("items")
+    if not isinstance(target_rows, list):
+        raise StageError("product target manifest items are invalid")
+    target_contract = derive_target_contract(target_rows, target_payload.get("summary"))
+    if target_contract["shadowed_ids"]:
+        raise StageError("higher-authority shadow leaked into the human product target manifest")
+    targets = {row["item_id"]: row for row in target_rows}
+    if set(targets) != set(queue):
+        raise StageError("product target manifest differs from the Pass20 queue")
+    if target_contract["materialization_items"] != review_items:
+        raise StageError("review queue contains a non-materializable target")
+
+    shadowed_contract = load_shadowed_contract(resolved_shadowed_path)
+    authority_shadow_manifest_sha256 = sha256(resolved_shadowed_path.read_bytes()).hexdigest()
+    shadowed_ids = shadowed_contract["item_ids"]
+    if shadowed_ids.intersection(queue) or shadowed_ids.intersection(resolution_ids):
+        raise StageError("higher-authority shadow overlaps a review or authority-resolution item")
+    source_ids = {row.get("item_id") for row in source_rows}
+    if (
+        len(source_ids) != len(source_rows)
+        or any(not isinstance(item_id, str) or not item_id for item_id in source_ids)
+        or source_ids != set(queue).union(resolution_ids, shadowed_ids)
+    ):
+        raise StageError("source/review/resolution/shadow partition drifted")
+    decision_fields = (
+        "human_decision", "reviewer", "timestamp", "final_value", "human_revision", "human_notes",
+    )
+    for item_id in shadowed_ids:
+        decision = decision_by_id.get(item_id)
+        if decision is None or any(decision.get(field, "") for field in decision_fields):
+            raise StageError(f"higher-authority shadow carries a human decision: {item_id}")
+    machine_inventory_items = review_items + shadowed_contract["count"]
+
     importer = load_module("pass20_workbook_import", ROOT / "tools/import-pass20-human-review-xlsx.py")
     with tempfile.TemporaryDirectory(prefix="pass20-workbook-receipt-", dir=stage_root.parent) as temp:
         imported_decisions = Path(temp) / "imported-decisions.tsv"
@@ -254,56 +623,16 @@ def stage(
         except Exception as exc:
             raise StageError(f"completed review workbook validation failed: {exc}") from exc
         if (
-            workbook_import.get("decisions_imported") != REVIEW_ITEMS
+            workbook_import.get("decisions_imported") != review_items
             or workbook_import.get("pending_in_workbook") != 0
-            or sum(workbook_import.get("decision_counts", {}).values()) != REVIEW_ITEMS
+            or sum(workbook_import.get("decision_counts", {}).values()) != review_items
             or workbook_import.get("decision_counts", {}).get("unresolved") != 0
         ):
             raise StageError(
-                f"review workbook itself must contain {REVIEW_ITEMS} closed decisions and zero unresolved rows"
+                f"review workbook itself must contain {review_items} closed decisions and zero unresolved rows"
             )
         if imported_decisions.read_bytes() != decisions_path.read_bytes():
             raise StageError("completed workbook decisions differ from the closed decision TSV")
-    source_header, source_rows = load_tsv(source_path)
-    decision_header, decision_rows = load_tsv(decisions_path)
-    if not source_header or not decision_header:
-        raise StageError("human review tables are empty")
-    queue_ids = set()
-    _, remaining = load_tsv(AUDIT / "pass20_remaining_manual_review.tsv")
-    queue = {row["item_id"]: row for row in remaining}
-    queue_ids.update(queue)
-    decision_by_id = {row["item_id"]: row for row in decision_rows}
-    if len(queue) != REVIEW_ITEMS or any(not decision_by_id[item]["human_decision"] for item in queue):
-        raise StageError(f"all {REVIEW_ITEMS} Pass20 items must have a human decision")
-
-    target_payload = json.loads(targets_path.read_text(encoding="utf-8"))
-    if (
-        target_payload.get("schema") != "magireco-cn-pass20-product-target-manifest/1"
-        or target_payload.get("status") != "PASS"
-    ):
-        raise StageError("product target manifest schema or status drifted")
-    target_rows = target_payload.get("items")
-    if not isinstance(target_rows, list) or len(target_rows) != REVIEW_ITEMS:
-        raise StageError(f"product target manifest must contain {REVIEW_ITEMS} items")
-    target_ids = [row.get("item_id") for row in target_rows if isinstance(row, dict)]
-    if len(target_ids) != REVIEW_ITEMS or len(set(target_ids)) != REVIEW_ITEMS:
-        raise StageError("product target manifest contains invalid or duplicate item IDs")
-    summary = target_payload.get("summary", {})
-    expected_summary = {
-        "items": REVIEW_ITEMS,
-        "maintenance_rows_bound": REVIEW_ITEMS,
-        "exact_runtime_items": EXACT_RUNTIME_ITEMS,
-        "maintenance_only_items": MAINTENANCE_ONLY_ITEMS,
-        "runtime_occurrences": RUNTIME_OCCURRENCES,
-        "occurrence_collisions": 0,
-        "unclassified_items": 0,
-    }
-    if any(summary.get(key) != value for key, value in expected_summary.items()):
-        raise StageError("product target manifest summary drifted")
-    targets = {row["item_id"]: row for row in target_rows}
-    if set(targets) != set(queue):
-        raise StageError("product target manifest differs from the Pass20 queue")
-
     copy_tree(ROOT / "i18n", stage_root / "i18n")
     copy_tree(ROOT / "magica", stage_root / "magica", product=True)
     copy_tree(ROOT / "madomagi", stage_root / "madomagi")
@@ -319,6 +648,7 @@ def stage(
         queue,
         [decision_by_id[item] for item in queue],
         targets,
+        set(queue),
     )
 
     commands = []
@@ -353,14 +683,6 @@ def stage(
         winner = effective.get(target["semantic_key"])
         if winner is None:
             raise StageError(f"effective winner missing after human review: {item_id}")
-        if target["shadowed_by_higher_authority"]:
-            before = target["effective_before"]
-            if (
-                winner["selected_cn"] != before["selected_cn"]
-                or winner["authority"] != before["authority"]
-            ):
-                raise StageError(f"human layer displaced protected authority: {item_id}")
-            continue
         if winner["authority"] != "existing_human_reviewed" or winner["selected_cn"] != decision["final_value"]:
             raise StageError(f"human-reviewed effective winner drift: {item_id}")
         if decision["final_value"] == source["current_cn"]:
@@ -505,13 +827,43 @@ def stage(
         raise StageError("closed human decision audit did not change")
     repository_promotion_files = sorted(changed_files + canonical_changed_files)
 
+    review_contract = {
+        "machine_inventory_items": machine_inventory_items,
+        "human_review_items": review_items,
+        "materialization_items": target_contract["materialization_items"],
+        "higher_authority_shadowed_items": shadowed_contract["count"],
+        "product_write_forbidden_items": shadowed_contract["count"],
+        "authority_resolution_items": len(resolution_ids),
+        "exact_runtime_items": target_contract["exact_runtime_items"],
+        "maintenance_only_items": target_contract["maintenance_only_items"],
+        "runtime_occurrences": target_contract["runtime_occurrences"],
+        "global_items": target_contract["global_items"],
+        "override_items": target_contract["override_items"],
+        "fragment_items": target_contract["fragment_items"],
+        "shadowed_low_tier_candidates_written": 0,
+        "shadowed_product_writes": 0,
+        "source_records_sha256": source_records_sha256,
+        "target_contract_sha256": target_contract_sha256,
+        "authority_shadow_manifest_sha256": authority_shadow_manifest_sha256,
+        "authority_resolutions_sha256": authority_resolutions_sha256,
+    }
+    if review_contract["machine_inventory_items"] != (
+        review_contract["materialization_items"]
+        + review_contract["higher_authority_shadowed_items"]
+    ):
+        raise StageError("machine inventory/materialization/shadow contract drifted")
+
     (application / "product.diff").write_text("".join(diff_parts), encoding="utf-8", newline="\n")
     (application / "product_patch.json").write_text(
         json.dumps({"schema": "magireco-cn-pass20-product-patch/1", "items": patch_records}, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8", newline="\n",
     )
     (rollback_root / "rollback.json").write_text(
-        json.dumps({"schema": "magireco-cn-pass20-product-rollback/1", "files": rollback_files}, ensure_ascii=False, indent=2) + "\n",
+        json.dumps({
+            "schema": "magireco-cn-pass20-product-rollback/1",
+            "review_contract": review_contract,
+            "files": rollback_files,
+        }, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8", newline="\n",
     )
 
@@ -560,18 +912,25 @@ def stage(
         "schema": "magireco-cn-pass20-product-staging/1",
         "status": "PASS",
         "human_gate": validation,
+        "review_contract": review_contract,
         "reviewed_candidates_appended": reviewed_count,
         "effective_rows": len(effective_rows),
-        "exact_target_items": target_payload["summary"]["exact_runtime_items"],
-        "maintenance_only_items": target_payload["summary"]["maintenance_only_items"],
-        "runtime_occurrences_bound": target_payload["summary"]["runtime_occurrences"],
+        "machine_inventory_items": machine_inventory_items,
+        "human_review_items": review_items,
+        "exact_target_items": target_contract["exact_runtime_items"],
+        "maintenance_only_items": target_contract["maintenance_only_items"],
+        "higher_authority_shadowed_items": shadowed_contract["count"],
+        "product_write_forbidden_items": shadowed_contract["count"],
+        "runtime_occurrences_bound": target_contract["runtime_occurrences"],
         "patch_items": len(patch_items),
         "maintenance_only_changed_items": maintenance_only_changes,
         "changed_files": changed_files,
         "canonical_changed_files": canonical_changed_files,
         "repository_promotion_files": repository_promotion_files,
-        "canonical_human_review_items": REVIEW_ITEMS,
-        "maintenance_only_items_persisted": len(targets) - target_payload["summary"]["exact_runtime_items"],
+        "canonical_human_review_items": target_contract["materialization_items"],
+        "maintenance_only_items_persisted": target_contract["maintenance_only_items"],
+        "shadowed_low_tier_candidates_written": 0,
+        "shadowed_product_writes": 0,
         "human_review_workbook_receipt": WORKBOOK_REL.as_posix(),
         "patch_records": len(patch_records),
         "protected_fields_checked": len(protected_rows),
@@ -601,13 +960,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--decisions", type=Path, default=DECISIONS)
     parser.add_argument("--authority-resolutions", type=Path, default=RESOLUTIONS)
     parser.add_argument("--targets", type=Path, default=TARGETS)
+    parser.add_argument("--authority-shadowed", type=Path, default=SHADOWED)
     parser.add_argument("--review-workbook", type=Path, required=True)
     parser.add_argument("--stage-root", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
         report = stage(
             args.source, args.decisions, args.authority_resolutions, args.targets, args.stage_root,
-            args.review_workbook,
+            args.review_workbook, args.authority_shadowed,
         )
         print(json.dumps({key: value for key, value in report.items() if key != "commands"}, ensure_ascii=False, indent=2, sort_keys=True))
         return 0

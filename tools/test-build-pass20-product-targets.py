@@ -4,14 +4,17 @@ from __future__ import annotations
 
 import csv
 import importlib.util
+import json
 from pathlib import Path
 import shutil
+import sys
 import tempfile
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
+sys.path.insert(0, str(ROOT / "tools"))
 
 
 def load_tool():
@@ -25,28 +28,6 @@ def load_tool():
 
 TOOL = load_tool()
 
-MAINTENANCE_ONLY_IDS = {
-    "LOW-MT-00317",
-    "LOW-MT-00423",
-    "LOW-MT-00460",
-    "LOW-MT-00581",
-    "LOW-MT-00601",
-    "LOW-MT-00852",
-    "LOW-MT-01015",
-    "LOW-MT-01200",
-    "LOW-MT-01248",
-    "LOW-MT-01584",
-    "LOW-MT-01685",
-    "LOW-MT-01852",
-    "LOW-MT-01885",
-    "LOW-MT-01891",
-    "LOW-MT-01902",
-    "LOW-MT-01913",
-    "LOW-MT-01926",
-    "LOW-MT-02958",
-    "LOW-MT-02961",
-}
-
 
 def build(product_root: Path = ROOT / "magica"):
     return TOOL.build(
@@ -59,7 +40,6 @@ def build(product_root: Path = ROOT / "magica"):
 
 
 def copy_product(source: Path, target: Path) -> None:
-    """Copy only files that the target generator is permitted to inspect."""
     for path in source.rglob("*"):
         if not path.is_file() or path.suffix.lower() not in {".js", ".html", ".json"}:
             continue
@@ -77,81 +57,95 @@ class Pass20ProductTargetTests(unittest.TestCase):
         cls.result = build()
         cls.items = {item["item_id"]: item for item in cls.result["items"]}
 
-    def test_01_fixed_baseline_counts(self):
+    def test_01_full_human_target_contract(self):
+        summary = self.result["summary"]
         self.assertEqual(
-            self.result["summary"],
+            {key: summary[key] for key in (
+                "items", "maintenance_rows_bound", "exact_runtime_items",
+                "maintenance_only_items", "runtime_occurrences",
+                "occurrence_collisions", "unclassified_items",
+            )},
             {
-                "items": 199,
-                "maintenance_rows_bound": 199,
-                "exact_runtime_items": 180,
-                "maintenance_only_items": 19,
-                "runtime_occurrences": 246,
+                "items": 1565,
+                "maintenance_rows_bound": 1565,
+                "exact_runtime_items": 1443,
+                "maintenance_only_items": 122,
+                "runtime_occurrences": 2439,
                 "occurrence_collisions": 0,
                 "unclassified_items": 0,
-                "status_counts": {
-                    "exact-current-runtime-literal": 180,
-                    "maintenance-only-count-or-path-drift": 3,
-                    "maintenance-only-current-literal-absent": 10,
-                    "maintenance-only-declared-path-absent": 2,
-                    "maintenance-only-deletion-already-applied": 1,
-                    "maintenance-only-truncated-target-ambiguous": 3,
-                },
-                "xlsx_writes_product_tree": False,
-                "runtime_application_requires_human_gate": True,
             },
         )
-
-    def test_02_exact_maintenance_only_item_ids(self):
-        actual = {
-            item["item_id"]
+        self.assertEqual(
+            summary["status_counts"],
+            {
+                "exact-current-runtime-literal": 1443,
+                "maintenance-only-count-or-path-drift": 21,
+                "maintenance-only-current-literal-absent": 59,
+                "maintenance-only-declared-path-absent": 3,
+                "maintenance-only-deletion-already-applied": 1,
+                "maintenance-only-truncated-target-ambiguous": 38,
+            },
+        )
+        self.assertTrue(all(not item["shadowed_by_higher_authority"] for item in self.result["items"]))
+        self.assertTrue(all(item["canonical_write_allowed_after_human_gate"] for item in self.result["items"]))
+        self.assertEqual(
+            sum(item["runtime_write_allowed_after_human_gate"] for item in self.result["items"]),
+            1443,
+        )
+        self.assertTrue(all(
+            item["runtime_write_allowed_after_human_gate"] == item["application_allowed"]
             for item in self.result["items"]
-            if not item["application_allowed"]
-        }
-        self.assertEqual(actual, MAINTENANCE_ONLY_IDS)
+        ))
+        self.assertTrue(all(
+            item["source_product_write_allowed_provenance"] == "false"
+            for item in self.result["items"]
+        ))
+        self.assertTrue(all(
+            "product_write_allowed_from_review_queue" not in item
+            for item in self.result["items"]
+        ))
 
-    def test_03_low_mt_01485_is_authority_resolved_not_a_human_item(self):
-        self.assertNotIn("LOW-MT-01485", self.items)
+    def test_02_tracked_manifest_is_reproducible(self):
+        tracked = json.loads((AUDIT / "pass20_product_targets.json").read_text(encoding="utf-8"))
+        self.assertEqual(self.result, tracked)
+
+    def test_03_shadowed_inventory_is_disjoint_and_write_forbidden(self):
+        shadow = json.loads(
+            (AUDIT / "pass20_authority_shadowed_machine_items.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(shadow["summary"]["items"], 24)
+        shadow_ids = {row["item_id"] for row in shadow["items"]}
+        self.assertFalse(shadow_ids & set(self.items))
+        self.assertTrue(all(row["product_write_forbidden"] for row in shadow["items"]))
+        self.assertIn("LOW-MT-00401", shadow_ids)
+
+    def test_04_low_mt_00674_is_authority_resolved_path_override(self):
+        self.assertNotIn("LOW-MT-00674", self.items)
         with (AUDIT / "pass20_authority_resolutions.tsv").open(encoding="utf-8", newline="") as stream:
             resolution = next(
                 row for row in csv.DictReader(stream, delimiter="\t")
-                if row["item_id"] == "LOW-MT-01485"
+                if row["item_id"] == "LOW-MT-00674"
             )
         self.assertEqual(resolution["authority_tier"], "official_cn_dump")
-        self.assertEqual(resolution["final_value"], "心魔战")
-        self.assertEqual(resolution["product_write_status"], "equivalent-already-present")
+        self.assertEqual(resolution["product_write_status"], "applied-and-verified")
         paths = [
-            ROOT / "magica/js/regularEvent/RegularEventTop.js",
-            ROOT / "magica/js/regularEvent/groupBattle/RegularEventGroupBattleTop.js",
+            ROOT / "magica/js/event/raid/EventRaidCloseTop.js",
+            ROOT / "magica/js/event/raid/EventRaidTop.js",
         ]
         texts = [path.read_text(encoding="utf-8") for path in paths]
-        self.assertEqual(sum(text.count("心情战") for text in texts), 0)
-        self.assertEqual(sum(text.count("心魔战") for text in texts), 8)
+        self.assertEqual(sum(text.count("个以上】即可解放</div>") for text in texts), 0)
+        self.assertEqual(sum(text.count("个以上】<br>即可解锁全体击败的报酬</div>") for text in texts), 2)
 
-    def test_04_runtime_literal_drift_fails_closed(self):
+    def test_05_runtime_literal_drift_fails_closed(self):
         with tempfile.TemporaryDirectory() as temp:
             product = Path(temp) / "magica"
             copy_product(ROOT / "magica", product)
             target = product / "js/event/EventArenaRankMatch/Utility.js"
             before = target.read_text(encoding="utf-8")
             self.assertEqual(before.count("+c+a+e+l"), 1)
-            target.write_text(
-                before.replace("+c+a+e+l", "+c+a+l+e", 1),
-                encoding="utf-8",
-                newline="\n",
-            )
-
-            drifted = build(product)
-            item = next(
-                row for row in drifted["items"] if row["item_id"] == "LOW-MT-00312"
-            )
-            self.assertFalse(item["application_allowed"])
-            self.assertEqual(item["match_status"], "maintenance-only-current-literal-absent")
-            self.assertEqual(item["occurrences"], [])
-            self.assertEqual(item["match_count"], 0)
-            self.assertEqual(drifted["summary"]["exact_runtime_items"], 179)
-            self.assertEqual(drifted["summary"]["maintenance_only_items"], 20)
-            self.assertEqual(drifted["summary"]["runtime_occurrences"], 245)
-            self.assertEqual(drifted["summary"]["occurrence_collisions"], 0)
+            target.write_text(before.replace("+c+a+e+l", "+c+a+l+e", 1), encoding="utf-8", newline="\n")
+            with self.assertRaisesRegex(TOOL.TargetError, "contract drifted"):
+                build(product)
 
 
 if __name__ == "__main__":

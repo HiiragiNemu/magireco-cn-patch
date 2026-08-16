@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 from collections import defaultdict
+from hashlib import sha256
 import importlib.util
 import io
 import json
@@ -21,16 +22,14 @@ SOURCE_REL = AUDIT_REL / "dsv4_terminal_handoff/full_review.tsv"
 DECISIONS_REL = AUDIT_REL / "dsv4_human_decisions.tsv"
 RESOLUTIONS_REL = AUDIT_REL / "pass20_authority_resolutions.tsv"
 QUEUE_REL = AUDIT_REL / "pass20_remaining_manual_review.tsv"
-WORKBOOK_REL = AUDIT_REL / "pass20_human_review.xlsx"
+WORKBOOK_REL = AUDIT_REL / "magireco_v26_translation_review_1565.xlsx"
 TARGETS_REL = AUDIT_REL / "pass20_product_targets.json"
+SHADOWED_REL = AUDIT_REL / "pass20_authority_shadowed_machine_items.json"
 PROTECTED_REL = AUDIT_REL / "protected_authority/protected_translation_fields.tsv"
 REVIEWED_REL = Path("i18n/reviewed-candidates.tsv")
 EFFECTIVE_REL = Path("i18n/generated/effective.tsv")
+PROVENANCE_REL = Path("i18n/generated/input-provenance.tsv")
 
-REVIEW_ITEMS = 199
-EXACT_RUNTIME_ITEMS = 180
-MAINTENANCE_ONLY_ITEMS = 19
-RUNTIME_OCCURRENCES = 246
 LOCATOR_PREFIX = (
     "magica/i18n_audit/release_v26_authority/"
     "dsv4_human_decisions.tsv#"
@@ -106,7 +105,7 @@ def decode_cell(value: str) -> str:
 
 def validate_workbook_receipt(
     result: dict[str, Any], imported: bytes, committed: bytes,
-    expected_items: int = REVIEW_ITEMS,
+    expected_items: int,
 ) -> None:
     counts = result.get("decision_counts")
     if not isinstance(counts, dict):
@@ -133,15 +132,17 @@ def verify_materialized_bindings(
     reviewed_rows: list[dict[str, str]],
     effective_rows: list[dict[str, str]],
     *,
-    expected_items: int = REVIEW_ITEMS,
-    expected_runtime_items: int = EXACT_RUNTIME_ITEMS,
-    expected_maintenance_items: int = MAINTENANCE_ONLY_ITEMS,
-    expected_occurrences: int = RUNTIME_OCCURRENCES,
+    expected_items: int | None = None,
+    expected_runtime_items: int | None = None,
+    expected_maintenance_items: int | None = None,
+    expected_occurrences: int | None = None,
+    structure_check: Any | None = None,
 ) -> dict[str, int]:
     queue = index_unique(queue_rows, "item_id", "Pass20 queue")
     decisions = index_unique(decision_rows, "item_id", "decision table")
     targets = index_unique(target_rows, "item_id", "product target manifest")
     effective = index_unique(effective_rows, "key", "effective i18n table")
+    expected_items = len(queue) if expected_items is None else expected_items
     if len(queue) != expected_items or set(queue) != set(targets):
         raise MaterializationError("Pass20 queue and product target IDs/count differ")
 
@@ -173,6 +174,11 @@ def verify_materialized_bindings(
         final_value = decision.get("final_value", "")
         if not final_value:
             raise MaterializationError(f"decision final value is empty: {item_id}")
+        if structure_check is not None:
+            try:
+                structure_check(item_id, source.get("current_cn", ""), final_value)
+            except Exception as exc:
+                raise MaterializationError(f"translation structure gate failed: {item_id}: {exc}") from exc
         expected_reviewed = {
             "scope": target.get("maintenance_scope", ""),
             "path_prefix": target.get("path_prefix", ""),
@@ -183,11 +189,15 @@ def verify_materialized_bindings(
             "source_batch": "pass20-human-review-v1",
             "source_locator": LOCATOR_PREFIX + item_id,
             "match_method": "exact-semantic-key-human-review",
-            "review_status": "human-reviewed",
         }
         for field, expected in expected_reviewed.items():
             if reviewed.get(field) != expected:
                 raise MaterializationError(f"canonical reviewed candidate drift {field}: {item_id}")
+        if not reviewed.get("review_status", "").startswith("human-reviewed"):
+            raise MaterializationError(f"canonical review status drift: {item_id}")
+        expected_machine = "false" if decision.get("human_decision") == "revise" else "unknown"
+        if reviewed.get("machine_translated") != expected_machine:
+            raise MaterializationError(f"canonical machine-origin status drift: {item_id}")
 
         semantic_key = target.get("semantic_key")
         winner = effective.get(semantic_key)
@@ -242,6 +252,11 @@ def verify_materialized_bindings(
             })
             occurrence_count += 1
 
+    expected_runtime_items = runtime_items if expected_runtime_items is None else expected_runtime_items
+    expected_maintenance_items = (
+        maintenance_items if expected_maintenance_items is None else expected_maintenance_items
+    )
+    expected_occurrences = occurrence_count if expected_occurrences is None else expected_occurrences
     if runtime_items != expected_runtime_items:
         raise MaterializationError(f"expected {expected_runtime_items} runtime items, got {runtime_items}")
     if maintenance_items != expected_maintenance_items:
@@ -281,6 +296,77 @@ def verify_materialized_bindings(
     }
 
 
+def verify_higher_authority_shadows(
+    shadow_rows: list[dict[str, Any]],
+    decision_rows: list[dict[str, str]],
+    reviewed_rows: list[dict[str, str]],
+    provenance_rows: list[dict[str, str]],
+    effective_rows: list[dict[str, str]],
+) -> dict[str, int]:
+    shadows = index_unique(shadow_rows, "item_id", "higher-authority shadow manifest")
+    decisions = index_unique(decision_rows, "item_id", "decision table")
+    provenance = index_unique(provenance_rows, "candidate_id", "input provenance table")
+    effective = index_unique(effective_rows, "key", "effective i18n table")
+    reviewed_ids = {
+        row.get("source_locator", "")[len(LOCATOR_PREFIX):]
+        for row in reviewed_rows
+        if row.get("source_locator", "").startswith(LOCATOR_PREFIX)
+    }
+    decision_fields = (
+        "human_decision", "reviewer", "timestamp", "final_value", "human_revision", "human_notes",
+    )
+    for item_id, row in shadows.items():
+        if row.get("product_write_forbidden") is not True or row.get("product_write_allowed") is True:
+            raise MaterializationError(f"higher-authority shadow permits product write: {item_id}")
+        if item_id in reviewed_ids:
+            raise MaterializationError(f"higher-authority shadow entered human canonical input: {item_id}")
+        decision = decisions.get(item_id)
+        if decision is None or any(decision.get(field, "") for field in decision_fields):
+            raise MaterializationError(f"higher-authority shadow carries a human decision: {item_id}")
+        source_key = row.get("source_key")
+        expected_cn = row.get("effective_cn")
+        expected_authority = row.get("effective_tier")
+        if not all(isinstance(value, str) and value for value in (
+            source_key, expected_cn, expected_authority, row.get("evidence"),
+        )):
+            raise MaterializationError(f"higher-authority shadow evidence is incomplete: {item_id}")
+        low_tier = provenance.get(source_key)
+        if low_tier is None:
+            raise MaterializationError(f"higher-authority shadow source provenance is missing: {item_id}")
+        if (
+            low_tier.get("source_file") != row.get("source_path")
+            or low_tier.get("source_text") != row.get("japanese_or_source_original")
+            or low_tier.get("candidate_cn") != row.get("machine_current_cn")
+            or low_tier.get("selected") != "false"
+            or low_tier.get("authority") not in {
+                "legacy_unverified_ai_assisted", "new_llm_translation", "machine_translation",
+            }
+        ):
+            raise MaterializationError(f"higher-authority shadow low-tier binding drift: {item_id}")
+        semantic_key = low_tier.get("key")
+        if not semantic_key:
+            raise MaterializationError(f"higher-authority shadow semantic key is missing: {item_id}")
+        winner = effective.get(semantic_key)
+        if winner is None:
+            raise MaterializationError(f"higher-authority effective winner is missing: {item_id}")
+        if (
+            winner.get("selected_cn") != expected_cn
+            or winner.get("authority") != expected_authority
+            or winner.get("source_file") != row.get("effective_source_file")
+            or str(winner.get("source_line")) != str(row.get("effective_source_line"))
+            or winner.get("authority") in {
+                "legacy_unverified_ai_assisted", "new_llm_translation", "machine_translation",
+            }
+        ):
+            raise MaterializationError(f"higher-authority effective winner drift: {item_id}")
+    return {
+        "higher_authority_shadowed_items": len(shadows),
+        "product_write_forbidden_items": len(shadows),
+        "shadowed_low_tier_candidates_written": 0,
+        "shadowed_product_writes": 0,
+    }
+
+
 def verify(repo_root: Path = ROOT) -> dict[str, Any]:
     repo_root = repo_root.resolve()
     tools_root = ROOT / "tools"
@@ -289,7 +375,87 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
         repo_root / SOURCE_REL,
         repo_root / DECISIONS_REL,
         repo_root / RESOLUTIONS_REL,
+        repo_root / SHADOWED_REL,
     )
+    stage_contract = load_module(
+        "pass20_materialization_contract", tools_root / "stage-pass20-human-review-product.py"
+    )
+    _, source_rows = load_tsv(repo_root / SOURCE_REL)
+    _, queue_rows = load_tsv(repo_root / QUEUE_REL)
+    _, resolution_rows = load_tsv(repo_root / RESOLUTIONS_REL)
+    _, decision_rows = load_tsv(repo_root / DECISIONS_REL)
+    _, provenance_rows = load_tsv(repo_root / PROVENANCE_REL)
+    _, effective_rows = load_tsv(repo_root / EFFECTIVE_REL)
+    reviewed_rows = load_reviewed_candidates(repo_root / REVIEWED_REL)
+    target_path = repo_root / TARGETS_REL
+    shadow_path = repo_root / SHADOWED_REL
+    target_payload = json.loads(target_path.read_text(encoding="utf-8"))
+    if (
+        target_payload.get("schema") != "magireco-cn-pass20-product-target-manifest/1"
+        or target_payload.get("status") != "PASS"
+        or not isinstance(target_payload.get("items"), list)
+    ):
+        raise MaterializationError("Pass20 product target manifest schema or items drifted")
+    try:
+        target_contract = stage_contract.derive_target_contract(
+            target_payload["items"], target_payload.get("summary")
+        )
+        shadow_contract = stage_contract.load_shadowed_contract(shadow_path)
+    except Exception as exc:
+        raise MaterializationError(f"Pass20 materialization contract is invalid: {exc}") from exc
+    if target_contract["shadowed_ids"]:
+        raise MaterializationError("higher-authority shadow leaked into human product targets")
+    queue_ids = {row.get("item_id") for row in queue_rows}
+    resolution_ids = {row.get("item_id") for row in resolution_rows}
+    source_ids = {row.get("item_id") for row in source_rows}
+    if (
+        len(queue_ids) != len(queue_rows)
+        or len(resolution_ids) != len(resolution_rows)
+        or len(source_ids) != len(source_rows)
+        or queue_ids.intersection(resolution_ids)
+        or queue_ids.intersection(shadow_contract["item_ids"])
+        or resolution_ids.intersection(shadow_contract["item_ids"])
+        or source_ids != queue_ids.union(resolution_ids, shadow_contract["item_ids"])
+    ):
+        raise MaterializationError("source/review/resolution/shadow partition drifted")
+    try:
+        stage_contract.validate_queue_source_bindings(queue_rows, source_rows)
+    except Exception as exc:
+        raise MaterializationError(f"Pass20 queue/source binding is invalid: {exc}") from exc
+    shadow_bindings = verify_higher_authority_shadows(
+        shadow_contract["items"], decision_rows, reviewed_rows, provenance_rows, effective_rows,
+    )
+    protection = load_module("pass20_materialization_protection", tools_root / "v26_authority_protection.py")
+    protected_rows = protection.read_tsv(repo_root / PROTECTED_REL)
+    protection.validate_row_hashes(protected_rows)
+    protection.verify_current_product_values(repo_root, protected_rows)
+    review_contract = {
+        "machine_inventory_items": len(queue_rows) + shadow_contract["count"],
+        "human_review_items": len(queue_rows),
+        "materialization_items": target_contract["materialization_items"],
+        "higher_authority_shadowed_items": shadow_contract["count"],
+        "product_write_forbidden_items": shadow_contract["count"],
+        "authority_resolution_items": len(resolution_rows),
+        "exact_runtime_items": target_contract["exact_runtime_items"],
+        "maintenance_only_items": target_contract["maintenance_only_items"],
+        "runtime_occurrences": target_contract["runtime_occurrences"],
+        "global_items": target_contract["global_items"],
+        "override_items": target_contract["override_items"],
+        "fragment_items": target_contract["fragment_items"],
+        "shadowed_low_tier_candidates_written": 0,
+        "shadowed_product_writes": 0,
+        "source_records_sha256": sha256((repo_root / QUEUE_REL).read_bytes()).hexdigest(),
+        "target_contract_sha256": sha256(target_path.read_bytes()).hexdigest(),
+        "authority_shadow_manifest_sha256": sha256(shadow_path.read_bytes()).hexdigest(),
+        "authority_resolutions_sha256": sha256((repo_root / RESOLUTIONS_REL).read_bytes()).hexdigest(),
+    }
+    if (
+        review_contract["human_review_items"] != review_contract["materialization_items"]
+        or review_contract["machine_inventory_items"]
+        != review_contract["materialization_items"] + review_contract["higher_authority_shadowed_items"]
+        or gate.get("decision_required") != review_contract["human_review_items"]
+    ):
+        raise MaterializationError("human gate and materialization contract counts differ")
     result: dict[str, Any] = {
         "schema": "magireco-cn-pass20-human-materialization-verification/1",
         "status": "PASS",
@@ -301,7 +467,16 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
         "materialization_verified": False,
         "product_tree_writes": False,
         "protected_text_changes": 0,
+        "review_contract": review_contract,
+        "machine_inventory_items": review_contract["machine_inventory_items"],
+        "human_review_items": review_contract["human_review_items"],
+        "higher_authority_shadowed_items": shadow_contract["count"],
+        "product_write_forbidden_items": shadow_contract["count"],
+        "shadowed_low_tier_candidates_written": 0,
+        "shadowed_product_writes": 0,
+        "protected_fields_checked": len(protected_rows),
     }
+    result.update(shadow_bindings)
     if not gate["release_gate_open"]:
         return result
 
@@ -320,29 +495,8 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
             workbook_result,
             imported_path.read_bytes(),
             (repo_root / DECISIONS_REL).read_bytes(),
+            expected_items=len(queue_rows),
         )
-
-    _, queue_rows = load_tsv(repo_root / QUEUE_REL)
-    _, decision_rows = load_tsv(repo_root / DECISIONS_REL)
-    _, effective_rows = load_tsv(repo_root / EFFECTIVE_REL)
-    reviewed_rows = load_reviewed_candidates(repo_root / REVIEWED_REL)
-    target_payload = json.loads((repo_root / TARGETS_REL).read_text(encoding="utf-8"))
-    expected_summary = {
-        "items": REVIEW_ITEMS,
-        "maintenance_rows_bound": REVIEW_ITEMS,
-        "exact_runtime_items": EXACT_RUNTIME_ITEMS,
-        "maintenance_only_items": MAINTENANCE_ONLY_ITEMS,
-        "runtime_occurrences": RUNTIME_OCCURRENCES,
-        "occurrence_collisions": 0,
-        "unclassified_items": 0,
-    }
-    if (
-        target_payload.get("schema") != "magireco-cn-pass20-product-target-manifest/1"
-        or target_payload.get("status") != "PASS"
-        or not isinstance(target_payload.get("items"), list)
-        or any(target_payload.get("summary", {}).get(key) != value for key, value in expected_summary.items())
-    ):
-        raise MaterializationError("Pass20 product target manifest summary or schema drifted")
     bindings = verify_materialized_bindings(
         repo_root,
         queue_rows,
@@ -350,12 +504,12 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
         target_payload["items"],
         reviewed_rows,
         effective_rows,
+        expected_items=review_contract["materialization_items"],
+        expected_runtime_items=review_contract["exact_runtime_items"],
+        expected_maintenance_items=review_contract["maintenance_only_items"],
+        expected_occurrences=review_contract["runtime_occurrences"],
+        structure_check=stage_contract.validate_translation_structure,
     )
-
-    protection = load_module("pass20_materialization_protection", tools_root / "v26_authority_protection.py")
-    protected_rows = protection.read_tsv(repo_root / PROTECTED_REL)
-    protection.validate_row_hashes(protected_rows)
-    protection.verify_current_product_values(repo_root, protected_rows)
     result.update(bindings)
     result.update({
         "materialization_verified": True,

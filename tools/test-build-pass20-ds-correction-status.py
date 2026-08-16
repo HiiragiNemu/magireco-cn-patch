@@ -78,21 +78,27 @@ class Pass20CorrectionDispositionTests(unittest.TestCase):
         self.assertEqual(official_equal, ["LOW-MT-01485", "LOW-MT-01540"])
 
         expected = {row["item_id"]: row for row in pending}
-        workbook = ROOT / "magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx"
+        workbook = ROOT / "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"
         with zipfile.ZipFile(workbook) as package:
             shared = IMPORTER._shared_strings(package)
             paths = IMPORTER._sheet_paths(package)
-            review = IMPORTER._parse_sheet(package, paths["审核"], shared)["cells"]
+            reviews = [
+                IMPORTER._parse_sheet(package, paths[name], shared)["cells"]
+                for name in ("①优先审核199", "②DS已审1366")
+            ]
         visible = {}
-        for row_number in range(2, 201):
-            item_id = review[f"B{row_number}"]
-            if review[f"F{row_number}"] == "DS发现错误／建议修正但尚未应用":
-                visible[item_id] = review[f"E{row_number}"]
+        all_ids = set()
+        for review, final_row in zip(reviews, (200, 1367), strict=True):
+            for row_number in range(2, final_row + 1):
+                item_id = review[f"B{row_number}"]
+                all_ids.add(item_id)
+                if review[f"F{row_number}"] == "DS发现错误／建议修正但尚未应用":
+                    visible[item_id] = review[f"E{row_number}"]
         self.assertEqual(set(visible), set(expected))
         self.assertEqual(len(visible), 29)
         for item_id, suggestion in visible.items():
             self.assertEqual(suggestion, expected[item_id]["ds_suggested_cn"])
-        self.assertNotIn("LOW-MT-01485", {review[f"B{row}"] for row in range(2, 201)})
+        self.assertNotIn("LOW-MT-01485", all_ids)
 
     def test_queue_binding_drift_is_rejected(self):
         with tempfile.TemporaryDirectory() as temp:

@@ -37,6 +37,11 @@ class CorrectionStatusError(RuntimeError):
 HUMAN_FIELDS = {
     "human_decision", "reviewer", "timestamp", "final_value", "human_revision", "human_notes",
 }
+QUEUE_CONTRACT_FIELDS = {
+    "review_scope_status", "application_policy", "effective_cn", "effective_tier",
+    "effective_source_file", "effective_source_line", "shadowed_by_higher_authority",
+    "product_write_forbidden", "canonical_write_allowed_after_human_gate",
+}
 
 
 def read_tsv(path: Path) -> list[dict[str, str]]:
@@ -203,7 +208,7 @@ def build() -> dict[str, Any]:
             ):
                 raise CorrectionStatusError(f"pending correction queue binding drifted: {item_id}")
             for field, value in queued.items():
-                if field not in HUMAN_FIELDS and decision.get(field) != value:
+                if field not in HUMAN_FIELDS | QUEUE_CONTRACT_FIELDS and decision.get(field) != value:
                     raise CorrectionStatusError(f"pending correction decision binding drifted {field}: {item_id}")
             if any(decision[field] for field in ("human_decision", "reviewer", "timestamp", "final_value", "human_revision")):
                 raise CorrectionStatusError(f"pending correction already carries a human decision: {item_id}")
@@ -223,7 +228,7 @@ def build() -> dict[str, Any]:
                 "product_match_count": target["match_count"],
                 "application_allowed": str(target["application_allowed"]).lower(),
                 "evidence": (
-                    "pass20_human_review.xlsx; DS suggestion is visible but remains unapplied "
+                    "magireco_v26_translation_review_1565.xlsx; DS suggestion is visible but remains unapplied "
                     "until a human decision opens staging"
                 ),
             }
