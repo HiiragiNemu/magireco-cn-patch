@@ -35,6 +35,7 @@ LOCATOR_PREFIX = (
     "magica/i18n_audit/release_v26_authority/"
     "pass20_human_final_values.tsv#"
 )
+FINAL_VALUE_MODES = {"human-review", "rough-production"}
 JS_LITERAL = re.compile(r'(["\'])((?:(?!\1)[^\\]|\\.)*)\1')
 HTML_TEXT = re.compile(r'>([^<>{}]*)<')
 HTML_ATTR = re.compile(r'((?:placeholder|title|alt|value)=")([^"]*)(")')
@@ -42,6 +43,44 @@ HTML_ATTR = re.compile(r'((?:placeholder|title|alt|value)=")([^"]*)(")')
 
 class MaterializationError(RuntimeError):
     pass
+
+
+def final_value_locator(provenance_mode: str, item_id: str) -> str:
+    if provenance_mode not in FINAL_VALUE_MODES or not item_id:
+        raise MaterializationError("invalid final-value locator components")
+    return f"{LOCATOR_PREFIX}{provenance_mode}:{item_id}"
+
+
+def parse_final_value_locator(locator: str) -> tuple[str, str] | None:
+    if not locator.startswith(LOCATOR_PREFIX):
+        return None
+    suffix = locator[len(LOCATOR_PREFIX):]
+    if ":" not in suffix:
+        # Backward compatibility for a pre-mode human-review receipt.
+        if not suffix:
+            raise MaterializationError("empty legacy final-value locator")
+        return "human-review", suffix
+    mode, item_id = suffix.split(":", 1)
+    if mode not in FINAL_VALUE_MODES or not item_id:
+        raise MaterializationError(f"invalid final-value locator: {locator!r}")
+    return mode, item_id
+
+
+def receipt_provenance_profile(receipt: dict[str, str]) -> dict[str, str]:
+    review_status = receipt.get("review_status", "")
+    if review_status.startswith("rough-production-"):
+        return {
+            "mode": "rough-production", "authority": "new_proposal",
+            "source_batch": "pass20-rough-production-final-values-v1",
+            "match_method": "exact-semantic-key-user-directed-rough-production",
+        }
+    if review_status.startswith("human-"):
+        return {
+            "mode": "human-review", "authority": "existing_human_reviewed",
+            "source_batch": "pass20-human-final-values-v1",
+            "match_method": "exact-semantic-key-human-review",
+        }
+    raise MaterializationError("unsupported final-value provenance")
 
 
 def load_module(name: str, path: Path):
@@ -130,7 +169,7 @@ def exact_product_literal_count(repo_root: Path, rel: str, literal: str) -> int:
 
 def validate_workbook_receipt(
     result: dict[str, Any], imported: bytes, committed: bytes,
-    expected_items: int,
+    expected_items: int, expected_provenance_mode: str | None = None,
 ) -> None:
     if (
         result.get("status") != "PASS"
@@ -141,6 +180,11 @@ def validate_workbook_receipt(
         raise MaterializationError(
             f"completed workbook must return {expected_items} final values"
         )
+    if (
+        expected_provenance_mode is not None
+        and result.get("provenance_mode") != expected_provenance_mode
+    ):
+        raise MaterializationError("completed workbook provenance mode drifted")
     if imported != committed:
         raise MaterializationError("completed workbook does not reproduce the committed final-value TSV")
 
@@ -158,27 +202,37 @@ def verify_materialized_bindings(
     expected_maintenance_items: int | None = None,
     expected_occurrences: int | None = None,
     structure_check: Any | None = None,
-) -> dict[str, int]:
+) -> dict[str, Any]:
     queue = index_unique(queue_rows, "item_id", "Pass20 queue")
     final_values = index_unique(final_value_rows, "item_id", "final-value table")
     targets = index_unique(target_rows, "item_id", "product target manifest")
     effective = index_unique(effective_rows, "key", "effective i18n table")
     expected_items = len(queue) if expected_items is None else expected_items
-    if len(queue) != expected_items or set(queue) != set(targets):
+    if (
+        len(queue) != expected_items or set(queue) != set(targets)
+        or set(final_values) != set(queue)
+    ):
         raise MaterializationError("Pass20 queue and product target IDs/count differ")
 
+    profiles = {item_id: receipt_provenance_profile(row) for item_id, row in final_values.items()}
+    provenance_modes = {profile["mode"] for profile in profiles.values()}
+    if len(provenance_modes) != 1:
+        raise MaterializationError("canonical final values mix provenance modes")
+    provenance_mode = next(iter(provenance_modes))
+
     pass20_reviewed = [
-        row for row in reviewed_rows
-        if row.get("source_locator", "").startswith(LOCATOR_PREFIX)
+        (parsed, row) for row in reviewed_rows
+        if (parsed := parse_final_value_locator(row.get("source_locator", ""))) is not None
+        and parsed[0] == provenance_mode
     ]
     reviewed_by_id: dict[str, dict[str, str]] = {}
-    for row in pass20_reviewed:
-        item_id = row["source_locator"][len(LOCATOR_PREFIX):]
+    for parsed, row in pass20_reviewed:
+        _mode, item_id = parsed
         if not item_id or item_id in reviewed_by_id:
             raise MaterializationError(f"duplicate or invalid Pass20 reviewed candidate: {item_id!r}")
         reviewed_by_id[item_id] = row
     if set(reviewed_by_id) != set(queue):
-        raise MaterializationError("human-reviewed canonical rows do not exactly cover the Pass20 queue")
+        raise MaterializationError("current-mode canonical rows do not exactly cover the Pass20 queue")
 
     operations: dict[str, list[dict[str, Any]]] = defaultdict(list)
     runtime_items = 0
@@ -198,16 +252,20 @@ def verify_materialized_bindings(
                 structure_check(item_id, source.get("current_cn", ""), final_value)
             except Exception as exc:
                 raise MaterializationError(f"translation structure gate failed: {item_id}: {exc}") from exc
+        profile = profiles[item_id]
+        authority = profile["authority"]
+        source_batch = profile["source_batch"]
+        match_method = profile["match_method"]
         expected_reviewed = {
             "scope": target.get("maintenance_scope", ""),
             "path_prefix": target.get("path_prefix", ""),
             "source_text": source.get("japanese_or_source_original", ""),
             "candidate_cn": final_value,
             "status": "present",
-            "authority": "existing_human_reviewed",
-            "source_batch": "pass20-human-final-values-v1",
-            "source_locator": LOCATOR_PREFIX + item_id,
-            "match_method": "exact-semantic-key-human-review",
+            "authority": authority,
+            "source_batch": source_batch,
+            "source_locator": final_value_locator(provenance_mode, item_id),
+            "match_method": match_method,
         }
         for field, expected in expected_reviewed.items():
             if reviewed.get(field) != expected:
@@ -221,13 +279,17 @@ def verify_materialized_bindings(
         winner = effective.get(semantic_key)
         if winner is None:
             raise MaterializationError(f"effective i18n winner missing: {item_id}")
-        if (
-            winner.get("selected_cn") != final_value
-            or winner.get("authority") != "existing_human_reviewed"
-            or winner.get("source_file") != "i18n/reviewed-candidates.tsv"
-            or winner.get("source_batch") != "pass20-human-final-values-v1"
-        ):
-            raise MaterializationError(f"effective human-reviewed winner drift: {item_id}")
+        if winner.get("selected_cn") != final_value:
+            raise MaterializationError(f"effective final-value winner drift: {item_id}")
+        if provenance_mode == "human-review":
+            if (
+                winner.get("authority") != "existing_human_reviewed"
+                or winner.get("source_file") != "i18n/reviewed-candidates.tsv"
+                or winner.get("source_batch") != "pass20-human-final-values-v1"
+            ):
+                raise MaterializationError(f"effective human-reviewed winner drift: {item_id}")
+        elif winner.get("authority") != "legacy_unverified_ai_assisted":
+            raise MaterializationError(f"effective rough-production low-tier winner drift: {item_id}")
 
         application_allowed = target.get("application_allowed") is True
         occurrences = target.get("occurrences")
@@ -267,6 +329,7 @@ def verify_materialized_bindings(
                 "end": end,
                 "before": before,
                 "after": after,
+                "scope": target.get("maintenance_scope", ""),
             })
             occurrence_count += 1
 
@@ -291,23 +354,39 @@ def verify_materialized_bindings(
         if not product.is_file() or product.is_symlink():
             raise MaterializationError(f"runtime target missing or unsafe: {rel}")
         text = product.read_text(encoding="utf-8")
-        shift = 0
-        previous_end = -1
-        for operation in sorted(file_operations, key=lambda row: (row["start"], row["end"])):
-            if operation["start"] < previous_end:
-                raise MaterializationError(f"runtime target occurrences overlap: {rel}")
-            start = operation["start"] + shift
-            after = operation["after"]
-            if text[start:start + len(after)] != after:
+        expected_literals: dict[tuple[str, str], int] = defaultdict(int)
+        for operation in file_operations:
+            expected_literals[(operation["after"], operation["scope"])] += 1
+        for (after, scope), expected_count in expected_literals.items():
+            actual_count = (
+                text.count(after)
+                if scope == "fragment"
+                else exact_product_literal_count(repo_root, rel, after)
+            )
+            if actual_count != expected_count:
+                item_ids = sorted({
+                    operation["item_id"] for operation in file_operations
+                    if operation["after"] == after and operation["scope"] == scope
+                })
                 raise MaterializationError(
-                    f"human-reviewed runtime value is not materialized: {operation['item_id']} {rel}"
+                    "final runtime semantic count drift: "
+                    f"{rel} items={item_ids} expected={expected_count} actual={actual_count}"
                 )
-            shift += len(after) - len(operation["before"])
-            previous_end = operation["end"]
 
     return {
-        "canonical_human_reviewed": len(reviewed_by_id),
-        "effective_human_reviewed": expected_items,
+        "provenance_mode": provenance_mode,
+        "canonical_human_reviewed": (
+            len(reviewed_by_id) if provenance_mode == "human-review" else 0
+        ),
+        "effective_human_reviewed": (
+            expected_items if provenance_mode == "human-review" else 0
+        ),
+        "canonical_rough_production": (
+            len(reviewed_by_id) if provenance_mode == "rough-production" else 0
+        ),
+        "effective_low_tier_rough_production": (
+            expected_items if provenance_mode == "rough-production" else 0
+        ),
         "exact_runtime_items": runtime_items,
         "maintenance_only_items": maintenance_items,
         "runtime_occurrences": occurrence_count,
@@ -326,9 +405,9 @@ def verify_higher_authority_shadows(
     provenance = index_unique(provenance_rows, "candidate_id", "input provenance table")
     effective = index_unique(effective_rows, "key", "effective i18n table")
     reviewed_ids = {
-        row.get("source_locator", "")[len(LOCATOR_PREFIX):]
+        parsed[1]
         for row in reviewed_rows
-        if row.get("source_locator", "").startswith(LOCATOR_PREFIX)
+        if (parsed := parse_final_value_locator(row.get("source_locator", ""))) is not None
     }
     materialized_ids: set[str] = set()
     checked_paths = 0
@@ -557,7 +636,7 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
     ):
         raise MaterializationError("human gate and materialization contract counts differ")
     result: dict[str, Any] = {
-        "schema": "magireco-cn-pass20-human-materialization-verification/1",
+        "schema": "magireco-cn-pass20-final-value-materialization-verification/2",
         "status": "PASS",
         "release_gate_open": gate["release_gate_open"],
         "final_values_required": gate["final_values_required"],
@@ -589,13 +668,15 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
             repo_root / SOURCE_REL,
             repo_root / TARGETS_REL,
             imported_path,
-            accept_returned=True,
+            accept_returned=gate.get("provenance_mode") == "human-review",
+            accept_rough_production=gate.get("provenance_mode") == "rough-production",
         )
         validate_workbook_receipt(
             workbook_result,
             imported_path.read_bytes(),
             (repo_root / FINAL_VALUES_REL).read_bytes(),
             expected_items=len(queue_rows),
+            expected_provenance_mode=gate.get("provenance_mode"),
         )
     bindings = verify_materialized_bindings(
         repo_root,

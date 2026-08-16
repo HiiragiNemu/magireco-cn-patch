@@ -108,13 +108,17 @@ class Pass20WorkbookImportTests(unittest.TestCase):
     def setUpClass(cls):
         cls.cells = parsed_workbook(WORKBOOK)[TOOL.REVIEW_SHEET]["cells"]
 
-    def invoke(self, workbook: Path, output: Path, *, accept: bool = False):
+    def invoke(
+        self, workbook: Path, output: Path, *, accept: bool = False,
+        rough: bool = False,
+    ):
         return TOOL.import_workbook(
             workbook, SOURCE, SEALED, TARGETS, output,
             priority_path=PRIORITY, inventory_path=INVENTORY,
             shadow_path=SHADOW, resolutions_path=RESOLUTIONS,
             adoptions_path=ADOPTIONS,
             accept_returned=accept,
+            accept_rough_production=rough,
         )
 
     def assert_rejected(self, mutate, message: str, *, accept: bool = False):
@@ -135,12 +139,14 @@ class Pass20WorkbookImportTests(unittest.TestCase):
             self.assertEqual(result["receipt_rows_written"], 0)
             self.assertEqual(result["pending_in_workbook"], 1565)
             self.assertFalse(result["returned_workbook_accepted"])
+            self.assertEqual(result["provenance_mode"], "template")
             self.assertFalse(output.exists())
 
     def test_02_explicit_acceptance_turns_every_final_value_into_a_receipt_row(self):
         with tempfile.TemporaryDirectory() as temp:
             output = Path(temp) / "decisions.tsv"
             result = self.invoke(WORKBOOK, output, accept=True)
+            self.assertEqual(result["provenance_mode"], "human-review")
             self.assertEqual(result["receipt_rows_written"], 1565)
             self.assertEqual(result["pending_in_workbook"], 0)
             with output.open(encoding="utf-8", newline="") as stream:
@@ -234,6 +240,39 @@ class Pass20WorkbookImportTests(unittest.TestCase):
             with path.open(encoding="utf-8", newline="") as stream:
                 external = {row["item_id"] for row in csv.DictReader(stream, delimiter="\t")}
             self.assertFalse(visible & external)
+
+    def test_10_rough_production_accepts_prefill_without_human_provenance(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "rough.tsv"
+            result = self.invoke(WORKBOOK, output, rough=True)
+            self.assertEqual(result["provenance_mode"], "rough-production")
+            self.assertEqual(result["receipt_rows_written"], 1565)
+            with output.open(encoding="utf-8", newline="") as stream:
+                rows = list(csv.DictReader(stream, delimiter="\t"))
+        self.assertEqual(len(rows), 1565)
+        self.assertEqual(
+            sum(row["review_status"] == "rough-production-machine-suggestion-adopted" for row in rows),
+            29,
+        )
+        self.assertEqual(
+            sum(row["review_status"] == "rough-production-machine-current-retained" for row in rows),
+            1536,
+        )
+        self.assertTrue(all("human" not in row["review_status"] for row in rows))
+        self.assertTrue(all(row["final_origin"].startswith("machine-") for row in rows))
+
+    def test_11_rough_production_rejects_edited_text_without_output(self):
+        row = next(row for row in range(2, 1567) if self.cells[f"E{row}"] == "current")
+        with tempfile.TemporaryDirectory() as temp:
+            fixture = Path(temp) / "edited.xlsx"
+            output = Path(temp) / "rough.tsv"
+            rewrite_workbook(
+                WORKBOOK, fixture,
+                lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], f"C{row}", "人工修订"),
+            )
+            with self.assertRaisesRegex(TOOL.WorkbookImportError, "rough-production acceptance"):
+                self.invoke(fixture, output, rough=True)
+            self.assertFalse(output.exists())
 
 
 if __name__ == "__main__":

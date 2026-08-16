@@ -357,7 +357,10 @@ def import_workbook(
     resolutions_path: Path = DEFAULT_RESOLUTIONS,
     adoptions_path: Path = DEFAULT_ADOPTIONS,
     accept_returned: bool = False,
+    accept_rough_production: bool = False,
 ) -> dict[str, Any]:
+    if accept_returned and accept_rough_production:
+        raise WorkbookImportError("returned-workbook acceptance modes are mutually exclusive")
     source_header, source_rows = load_tsv(source_path)
     _priority_header, priority_rows = load_tsv(priority_path)
     _inventory_header, inventory_rows = load_tsv(inventory_path)
@@ -512,17 +515,27 @@ def import_workbook(
             raise WorkbookImportError(f"final Chinese is empty: {item_id}")
         if final_value == "<DELETE>" and row["current_cn"] != "<DELETE>":
             raise WorkbookImportError(f"reserved deletion token is forbidden as review text: {item_id}")
-        if not accept_returned:
+        if accept_rough_production and not _literal_equal(final_value, seed):
+            raise WorkbookImportError(
+                "rough-production acceptance only permits the bound prefilled final value; "
+                f"edited text requires later human review: {item_id}"
+            )
+        if not accept_returned and not accept_rough_production:
             if not _literal_equal(final_value, seed):
                 raise WorkbookImportError(
                     f"template verification found an edited final value; use explicit returned-workbook acceptance: {item_id}"
                 )
             continue
+        provenance_mode = (
+            FINAL_VALUES.ROUGH_PRODUCTION_MODE
+            if accept_rough_production else FINAL_VALUES.HUMAN_REVIEW_MODE
+        )
         parsed_receipts[item_id] = FINAL_VALUES.expected_final_value_row(
-            row, target, final_value, adopted_cn,
+            row, target, final_value, adopted_cn, provenance_mode,
         )
 
-    if accept_returned:
+    accepted = accept_returned or accept_rough_production
+    if accepted:
         priority_rank = {"correction": 0, "unresolved": 1, "manual-required": 2}
         priority_order = sorted(
             priority,
@@ -548,11 +561,16 @@ def import_workbook(
         "higher_authority_shadowed_rows": EXPECTED_COUNTS["shadowed"],
         "prefilled_from_suggestion": prefilled_suggestion,
         "prefilled_from_current": EXPECTED_COUNTS["human"] - prefilled_suggestion,
-        "returned_workbook_accepted": accept_returned,
+        "returned_workbook_accepted": accepted,
+        "provenance_mode": (
+            FINAL_VALUES.ROUGH_PRODUCTION_MODE if accept_rough_production
+            else FINAL_VALUES.HUMAN_REVIEW_MODE if accept_returned
+            else "template"
+        ),
         "receipt_rows_written": len(parsed_receipts),
         "pending_in_workbook": EXPECTED_COUNTS["human"] - len(parsed_receipts),
         "target_contract_sha256": target_contract_hash,
-        "output": str(out_path) if accept_returned else "",
+        "output": str(out_path) if accepted else "",
         "product_tree_writes": False,
         "protected_text_changes": 0,
     }
@@ -570,9 +588,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--suggested-adoptions", type=Path, default=DEFAULT_ADOPTIONS)
     parser.add_argument("--targets", type=Path, default=DEFAULT_TARGETS)
     parser.add_argument("--out", type=Path, default=DEFAULT_RECEIPT)
-    parser.add_argument(
+    acceptance = parser.add_mutually_exclusive_group()
+    acceptance.add_argument(
         "--accept-returned-workbook", action="store_true",
         help="treat every non-empty final Chinese cell as the user's returned whole-workbook confirmation",
+    )
+    acceptance.add_argument(
+        "--accept-prefilled-rough-production", action="store_true",
+        help=(
+            "accept only unchanged bound prefilled values for a user-directed rough build; "
+            "retain machine provenance and do not claim human review"
+        ),
     )
     args = parser.parse_args(argv)
     try:
@@ -581,6 +607,7 @@ def main(argv: list[str] | None = None) -> int:
             priority_path=args.priority, inventory_path=args.inventory, shadow_path=args.shadow,
             resolutions_path=args.authority_resolutions, adoptions_path=args.suggested_adoptions,
             accept_returned=args.accept_returned_workbook,
+            accept_rough_production=args.accept_prefilled_rough_production,
         )
         print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         return 0

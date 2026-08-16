@@ -23,17 +23,18 @@ def load_tool():
 TOOL = load_tool()
 
 class Pass20MaterializationTests(unittest.TestCase):
-    def test_01_current_repository_is_explicitly_closed(self):
+    def test_01_current_repository_is_open_for_rough_production(self):
         result = TOOL.verify(ROOT)
         self.assertEqual(result["status"], "PASS")
-        self.assertFalse(result["release_gate_open"])
-        self.assertFalse(result["materialization_verified"])
-        self.assertEqual(result["pending"], 1565)
+        self.assertTrue(result["release_gate_open"])
+        self.assertTrue(result["materialization_verified"])
+        self.assertEqual(result["pending"], 0)
+        self.assertEqual(result["provenance_mode"], "rough-production")
         self.assertEqual(result["protected_text_changes"], 0)
 
     def test_02_release_flag_follows_current_final_value_gate(self):
         with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
-            self.assertEqual(TOOL.main(["--repo-root", str(ROOT), "--require-release-open"]), 3)
+            self.assertEqual(TOOL.main(["--repo-root", str(ROOT), "--require-release-open"]), 0)
 
     def test_03_completed_workbook_receipt_has_no_decision_metadata(self):
         complete = {
@@ -78,7 +79,7 @@ class Pass20MaterializationTests(unittest.TestCase):
                 "scope": "global", "path_prefix": "", "source_text": source["japanese_or_source_original"],
                 "candidate_cn": receipt["final_value"], "status": "present", "authority": "existing_human_reviewed",
                 "source_batch": "pass20-human-final-values-v1",
-                "source_locator": TOOL.LOCATOR_PREFIX + receipt["item_id"],
+                "source_locator": TOOL.final_value_locator("human-review", receipt["item_id"]),
                 "match_method": "exact-semantic-key-human-review",
                 "review_status": receipt["review_status"], "machine_translated": receipt["machine_translated"],
             })
@@ -113,9 +114,88 @@ class Pass20MaterializationTests(unittest.TestCase):
         shadow = [{"item_id": "SHADOW-1", "source_key": "machine-1", "source_path": "i18n/frontend-strings.tsv", "japanese_or_source_original": "源", "machine_current_cn": "旧机翻", "effective_cn": "官方值", "effective_tier": "wiki", "effective_source_file": "i18n/glossary.tsv", "effective_source_line": 7, "evidence": "wiki", "product_write_allowed": False, "product_write_forbidden": True}]
         result = TOOL.verify_higher_authority_shadows(ROOT, shadow, [], provenance, effective, {})
         self.assertEqual(result["higher_authority_shadowed_items"], 1)
-        reviewed = [{"source_locator": TOOL.LOCATOR_PREFIX + "SHADOW-1"}]
+        reviewed = [{"source_locator": TOOL.final_value_locator("rough-production", "SHADOW-1")}]
         with self.assertRaisesRegex(TOOL.MaterializationError, "entered human canonical"):
             TOOL.verify_higher_authority_shadows(ROOT, shadow, reviewed, provenance, effective, {})
+
+    def test_07_rough_production_materializes_without_human_authority(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            product = root / "magica/js/fixture.js"
+            product.parent.mkdir(parents=True)
+            text = 'const value="粗译";\n'
+            product.write_text(text, encoding="utf-8", newline="\n")
+            queue = [{
+                "item_id": "ROUGH-1", "japanese_or_source_original": "源", "current_cn": "粗译",
+            }]
+            receipts = [{
+                "item_id": "ROUGH-1", "final_value": "粗译",
+                "review_status": "rough-production-machine-current-retained",
+                "machine_translated": "unknown",
+            }]
+            start = text.index("粗译")
+            targets = [{
+                "item_id": "ROUGH-1", "semantic_key": "global:rough",
+                "maintenance_scope": "global", "path_prefix": "", "current_cn": "粗译",
+                "application_allowed": True, "product_target_paths": ["js/fixture.js"],
+                "occurrences": [{"path": "js/fixture.js", "start": start, "end": start + 2}],
+            }]
+            reviewed = [{
+                "scope": "global", "path_prefix": "", "source_text": "源",
+                "candidate_cn": "粗译", "status": "present", "authority": "new_proposal",
+                "source_batch": "pass20-rough-production-final-values-v1",
+                "source_locator": TOOL.final_value_locator("rough-production", "ROUGH-1"),
+                "match_method": "exact-semantic-key-user-directed-rough-production",
+                "review_status": "rough-production-machine-current-retained",
+                "machine_translated": "unknown",
+            }]
+            effective = [{
+                "key": "global:rough", "selected_cn": "粗译",
+                "authority": "legacy_unverified_ai_assisted",
+                "source_file": "i18n/frontend-strings.tsv", "source_batch": "legacy-kimi",
+            }]
+            result = TOOL.verify_materialized_bindings(
+                root, queue, receipts, targets, reviewed, effective,
+                expected_items=1, expected_runtime_items=1,
+                expected_maintenance_items=0, expected_occurrences=1,
+            )
+        self.assertEqual(result["provenance_mode"], "rough-production")
+        self.assertEqual(result["canonical_rough_production"], 1)
+        self.assertEqual(result["canonical_human_reviewed"], 0)
+        self.assertEqual(result["effective_low_tier_rough_production"], 1)
+
+    def test_08_human_verification_ignores_prior_rough_locator(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            queue, receipts, targets, reviewed, effective, _ = self.binding_fixture(root)
+            reviewed.append({
+                "scope": "global", "path_prefix": "", "source_text": "源一",
+                "candidate_cn": "旧粗译", "status": "present", "authority": "new_proposal",
+                "source_batch": "pass20-rough-production-final-values-v1",
+                "source_locator": TOOL.final_value_locator("rough-production", "ITEM-1"),
+                "match_method": "exact-semantic-key-user-directed-rough-production",
+                "review_status": "rough-production-machine-current-retained",
+                "machine_translated": "unknown",
+            })
+            result = TOOL.verify_materialized_bindings(
+                root, queue, receipts, targets, reviewed, effective,
+                expected_items=2, expected_runtime_items=2,
+                expected_maintenance_items=0, expected_occurrences=2,
+            )
+        self.assertEqual(result["provenance_mode"], "human-review")
+        self.assertEqual(result["canonical_human_reviewed"], 2)
+
+    def test_09_semantic_gate_survives_unrelated_offset_drift(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            queue, receipts, targets, reviewed, effective, product = self.binding_fixture(root)
+            product.write_text("// unrelated prefix\n" + product.read_text(encoding="utf-8"), encoding="utf-8")
+            result = TOOL.verify_materialized_bindings(
+                root, queue, receipts, targets, reviewed, effective,
+                expected_items=2, expected_runtime_items=2,
+                expected_maintenance_items=0, expected_occurrences=2,
+            )
+        self.assertEqual(result["runtime_occurrences"], 2)
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
