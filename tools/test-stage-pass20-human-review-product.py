@@ -141,7 +141,11 @@ class Pass20ProductStageTests(unittest.TestCase):
             AUDIT / "pass20_authority_shadowed_machine_items.json"
         )
         self.assertEqual(shadow["count"], 24)
-        self.assertEqual(shadow["runtime_effective_occurrences"], 162)
+        self.assertEqual(shadow["runtime_effective_occurrences"], 171)
+        self.assertEqual(shadow["runtime_machine_occurrences"], 150)
+        self.assertEqual(shadow["authority_materialization_items"], 2)
+        self.assertEqual(shadow["authority_materialized_occurrences"], 9)
+        self.assertEqual(shadow["authority_verified_occurrences"], 10)
         with tempfile.TemporaryDirectory(prefix="pass20-shadow-contract-") as temp:
             bad_shadow = json.loads(
                 (AUDIT / "pass20_authority_shadowed_machine_items.json").read_text(encoding="utf-8")

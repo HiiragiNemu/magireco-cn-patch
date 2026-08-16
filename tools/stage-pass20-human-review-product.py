@@ -226,6 +226,9 @@ def load_shadowed_contract(path: Path) -> dict[str, Any]:
     item_ids: set[str] = set()
     effective_occurrences = 0
     machine_occurrences = 0
+    authority_materialization_items = 0
+    authority_materialized_occurrences = 0
+    authority_verified_occurrences = 0
     for row in rows:
         if not isinstance(row, dict):
             raise StageError("higher-authority shadow manifest contains a non-object item")
@@ -265,6 +268,49 @@ def load_shadowed_contract(path: Path) -> dict[str, Any]:
                 raise StageError(f"higher-authority shadow {field} is invalid: {item_id}")
         effective_occurrences += row["runtime_effective_count"]
         machine_occurrences += row["runtime_machine_count"]
+        materialization = row.get("authority_materialization")
+        if materialization is not None:
+            if not isinstance(materialization, dict):
+                raise StageError(f"authority materialization is invalid: {item_id}")
+            if (
+                materialization.get("machine_cn") != row["machine_current_cn"]
+                or materialization.get("effective_cn") != row["effective_cn"]
+            ):
+                raise StageError(f"authority materialization literal drifted: {item_id}")
+            path_rows = materialization.get("product_paths")
+            if not isinstance(path_rows, list) or not path_rows:
+                raise StageError(f"authority materialization paths are invalid: {item_id}")
+            path_names: set[str] = set()
+            expected_total = 0
+            materialized_total = 0
+            for path_row in path_rows:
+                if not isinstance(path_row, dict):
+                    raise StageError(f"authority materialization path is invalid: {item_id}")
+                rel = path_row.get("path")
+                expected = path_row.get("expected_effective_count")
+                if (
+                    not isinstance(rel, str) or not rel or rel in path_names
+                    or rel.startswith(("/", "\\")) or "\\" in rel or ":" in rel
+                    or ".." in rel.split("/") or not isinstance(expected, int) or expected <= 0
+                    or path_row.get("machine_count") != 0
+                    or path_row.get("effective_count") != expected
+                ):
+                    raise StageError(f"authority materialization path contract drifted: {item_id}")
+                path_names.add(rel)
+                expected_total += expected
+                if path_row.get("materialized_from_machine") is True:
+                    materialized_total += expected
+                elif path_row.get("materialized_from_machine") is not False:
+                    raise StageError(
+                        f"authority materialization repair flag drifted: {item_id}"
+                    )
+            if materialization.get("expected_effective_occurrences") != expected_total:
+                raise StageError(f"authority materialization total drifted: {item_id}")
+            if materialization.get("materialized_from_machine_occurrences") != materialized_total:
+                raise StageError(f"authority materialization repair total drifted: {item_id}")
+            authority_materialization_items += 1
+            authority_materialized_occurrences += materialized_total
+            authority_verified_occurrences += expected_total
     summary = payload.get("summary")
     expected_summary = {
         "items": len(rows),
@@ -272,6 +318,9 @@ def load_shadowed_contract(path: Path) -> dict[str, Any]:
         "product_write_forbidden_items": len(rows),
         "runtime_effective_occurrences": effective_occurrences,
         "runtime_machine_occurrences": machine_occurrences,
+        "authority_materialization_items": authority_materialization_items,
+        "authority_materialized_occurrences": authority_materialized_occurrences,
+        "authority_verified_occurrences": authority_verified_occurrences,
     }
     if not isinstance(summary, dict) or any(summary.get(key) != value for key, value in expected_summary.items()):
         raise StageError("higher-authority shadow summary drifted")
@@ -279,6 +328,9 @@ def load_shadowed_contract(path: Path) -> dict[str, Any]:
         "items": rows, "item_ids": item_ids, "count": len(rows),
         "runtime_effective_occurrences": effective_occurrences,
         "runtime_machine_occurrences": machine_occurrences,
+        "authority_materialization_items": authority_materialization_items,
+        "authority_materialized_occurrences": authority_materialized_occurrences,
+        "authority_verified_occurrences": authority_verified_occurrences,
     }
 
 

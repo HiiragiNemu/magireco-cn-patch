@@ -118,6 +118,31 @@ class Pass20ProductTargetTests(unittest.TestCase):
         self.assertFalse(shadow_ids & set(self.items))
         self.assertTrue(all(row["product_write_forbidden"] for row in shadow["items"]))
         self.assertIn("LOW-MT-00401", shadow_ids)
+        self.assertEqual(shadow["summary"]["authority_materialization_items"], 2)
+        self.assertEqual(shadow["summary"]["authority_materialized_occurrences"], 9)
+        self.assertEqual(shadow["summary"]["authority_verified_occurrences"], 10)
+        by_id = {row["item_id"]: row for row in shadow["items"]}
+        self.assertEqual(by_id["LOW-MT-01134"]["runtime_machine_count"], 0)
+        self.assertEqual(by_id["LOW-MT-01134"]["runtime_effective_count"], 5)
+        self.assertEqual(by_id["LOW-MT-01450"]["runtime_machine_count"], 0)
+        self.assertEqual(by_id["LOW-MT-01450"]["runtime_effective_count"], 6)
+        self.assertEqual(
+            sum(
+                entry["expected_effective_count"]
+                for item_id in ("LOW-MT-01134", "LOW-MT-01450")
+                for entry in by_id[item_id]["authority_materialization"]["product_paths"]
+            ),
+            10,
+        )
+        self.assertEqual(
+            sum(
+                entry["expected_effective_count"]
+                for item_id in ("LOW-MT-01134", "LOW-MT-01450")
+                for entry in by_id[item_id]["authority_materialization"]["product_paths"]
+                if entry["materialized_from_machine"]
+            ),
+            9,
+        )
 
     def test_04_low_mt_00674_is_authority_resolved_path_override(self):
         self.assertNotIn("LOW-MT-00674", self.items)
@@ -146,6 +171,26 @@ class Pass20ProductTargetTests(unittest.TestCase):
             target.write_text(before.replace("+c+a+e+l", "+c+a+l+e", 1), encoding="utf-8", newline="\n")
             with self.assertRaisesRegex(TOOL.TargetError, "contract drifted"):
                 build(product)
+
+    def test_06_shadow_authority_runtime_drift_fails_closed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            product = root / "magica"
+            copy_product(ROOT / "magica", product)
+            target = product / "js/regularEvent/accomplish/view/RegularEventAccomplishRecoverView.js"
+            before = target.read_text(encoding="utf-8")
+            self.assertEqual(before.count('title:"回复HP"'), 5)
+            target.write_text(
+                before.replace('title:"回复HP"', 'title:"HP 回复"', 1),
+                encoding="utf-8", newline="\n",
+            )
+            code = TOOL.main([
+                "--product-root", str(product),
+                "--out-json", str(root / "targets.json"),
+                "--out-tsv", str(root / "targets.tsv"),
+                "--shadow-json", str(root / "shadows.json"),
+            ])
+            self.assertEqual(code, 2)
 
 
 if __name__ == "__main__":

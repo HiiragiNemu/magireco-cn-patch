@@ -290,7 +290,7 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     },
     {
       type: 0,
-      title: "支援",
+      title: "辅助",
       text: "使用未关注玩家的支援时@无法使用 Magia 与技能，请注意"
     },
     {

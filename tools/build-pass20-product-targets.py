@@ -15,6 +15,7 @@ from typing import Any
 from pass20_review_contract import (
     EXACT_RUNTIME_ITEMS, HUMAN_REVIEW_ITEMS, MAINTENANCE_ONLY_ITEMS,
     RUNTIME_OCCURRENCES, SHADOWED_ITEMS, SHADOW_JSON, SHADOW_TSV,
+    SHADOW_RUNTIME_MATERIALIZATIONS,
 )
 from v26_authority_protection import sha256_file
 
@@ -475,7 +476,54 @@ def main(argv: list[str] | None = None) -> int:
         )
         shadow_items = []
         for item in shadow_result["items"]:
-            shadow_items.append({
+            materialization = SHADOW_RUNTIME_MATERIALIZATIONS.get(item["item_id"])
+            materialization_evidence = None
+            if materialization is not None:
+                if (
+                    item["current_cn"] != materialization["machine_cn"]
+                    or item["effective_before"]["selected_cn"] != materialization["effective_cn"]
+                ):
+                    raise TargetError(
+                        f"authority materialization literal drift: {item['item_id']}"
+                    )
+                machine_by_path = Counter(
+                    row["path"] for row in item["observed_occurrences"]
+                )
+                effective_by_path = Counter(
+                    row["path"] for row in item["effective_observed_occurrences"]
+                )
+                path_evidence = []
+                repaired_paths = materialization["repaired_paths"]
+                if not repaired_paths or not repaired_paths.issubset(materialization["paths"]):
+                    raise TargetError(
+                        f"authority materialization repaired path set drift: {item['item_id']}"
+                    )
+                for rel, expected_count in materialization["paths"].items():
+                    machine_count = machine_by_path[rel]
+                    effective_count = effective_by_path[rel]
+                    if machine_count != 0 or effective_count != expected_count:
+                        raise TargetError(
+                            "authority materialization is incomplete: "
+                            f"{item['item_id']} {rel} machine={machine_count} "
+                            f"effective={effective_count} expected={expected_count}"
+                        )
+                    path_evidence.append({
+                        "path": rel,
+                        "machine_count": machine_count,
+                        "effective_count": effective_count,
+                        "expected_effective_count": expected_count,
+                        "materialized_from_machine": rel in repaired_paths,
+                    })
+                materialization_evidence = {
+                    "machine_cn": materialization["machine_cn"],
+                    "effective_cn": materialization["effective_cn"],
+                    "expected_effective_occurrences": sum(materialization["paths"].values()),
+                    "materialized_from_machine_occurrences": sum(
+                        materialization["paths"][rel] for rel in repaired_paths
+                    ),
+                    "product_paths": path_evidence,
+                }
+            shadow_row = {
                 "item_id": item["item_id"],
                 "stable_business_key": item["stable_business_key"],
                 "source_path": item["maintenance_table"],
@@ -495,7 +543,10 @@ def main(argv: list[str] | None = None) -> int:
                 "product_write_allowed": False,
                 "product_write_forbidden": True,
                 "evidence": item["note"],
-            })
+            }
+            if materialization_evidence is not None:
+                shadow_row["authority_materialization"] = materialization_evidence
+            shadow_items.append(shadow_row)
         shadow_payload = {
             "schema": "magireco-cn-pass20-authority-shadowed-machine-items/2",
             "status": "PASS",
@@ -505,6 +556,21 @@ def main(argv: list[str] | None = None) -> int:
                 "product_write_forbidden_items": len(shadow_items),
                 "runtime_machine_occurrences": sum(row["runtime_machine_count"] for row in shadow_items),
                 "runtime_effective_occurrences": sum(row["runtime_effective_count"] for row in shadow_items),
+                "authority_materialization_items": sum(
+                    "authority_materialization" in row for row in shadow_items
+                ),
+                "authority_materialized_occurrences": sum(
+                    row.get("authority_materialization", {}).get(
+                        "materialized_from_machine_occurrences", 0
+                    )
+                    for row in shadow_items
+                ),
+                "authority_verified_occurrences": sum(
+                    row.get("authority_materialization", {}).get(
+                        "expected_effective_occurrences", 0
+                    )
+                    for row in shadow_items
+                ),
             },
             "input_sha256": shadow_result["input_sha256"],
             "items": shadow_items,
