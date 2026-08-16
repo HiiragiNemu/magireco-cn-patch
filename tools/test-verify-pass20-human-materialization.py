@@ -31,6 +31,12 @@ class Pass20MaterializationTests(unittest.TestCase):
         self.assertEqual(result["status"], "PASS")
         self.assertFalse(result["product_tree_writes"])
         self.assertEqual(result["protected_text_changes"], 0)
+        self.assertEqual(result["authority_materialization_items"], 2)
+        self.assertEqual(result["authority_materialization_paths_checked"], 6)
+        self.assertEqual(result["authority_verified_occurrences"], 10)
+        self.assertEqual(result["authority_materialized_occurrences"], 9)
+        self.assertEqual(result["shadowed_low_tier_candidates_written"], 0)
+        self.assertEqual(result["shadowed_product_writes"], 0)
         if result["release_gate_open"]:
             self.assertTrue(result["materialization_verified"])
             self.assertEqual(
@@ -182,12 +188,96 @@ class Pass20MaterializationTests(unittest.TestCase):
             "evidence": "official stable ID", "product_write_allowed": False,
             "product_write_forbidden": True,
         }]
-        result = TOOL.verify_higher_authority_shadows(shadows, decisions, [], provenance, effective)
+        result = TOOL.verify_higher_authority_shadows(
+            ROOT, shadows, decisions, [], provenance, effective, {},
+        )
         self.assertEqual(result["higher_authority_shadowed_items"], 1)
         self.assertEqual(result["shadowed_product_writes"], 0)
         reviewed = [{"source_locator": TOOL.LOCATOR_PREFIX + "SHADOW-1"}]
         with self.assertRaisesRegex(TOOL.MaterializationError, "entered human canonical"):
-            TOOL.verify_higher_authority_shadows(shadows, decisions, reviewed, provenance, effective)
+            TOOL.verify_higher_authority_shadows(
+                ROOT, shadows, decisions, reviewed, provenance, effective, {},
+            )
+
+    def test_07_higher_authority_runtime_materialization_is_read_from_product(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            product = root / "magica/js/shadow.js"
+            product.parent.mkdir(parents=True)
+            product.write_text(
+                'const winner="官方值"; const composite="旧机翻Pt";\n',
+                encoding="utf-8", newline="\n",
+            )
+            decisions = [{
+                "item_id": "SHADOW-1", "human_decision": "", "reviewer": "", "timestamp": "",
+                "final_value": "", "human_revision": "", "human_notes": "",
+            }]
+            effective = [{
+                "key": "global:shadow", "selected_cn": "官方值", "authority": "wiki",
+                "source_file": "i18n/glossary.tsv", "source_line": "7",
+            }]
+            provenance = [{
+                "candidate_id": "machine-candidate-1", "key": "global:shadow",
+                "source_text": "源文", "candidate_cn": "旧机翻", "selected": "false",
+                "authority": "legacy_unverified_ai_assisted",
+                "source_file": "i18n/frontend-strings.tsv",
+            }]
+            contracts = {
+                "SHADOW-1": {
+                    "machine_cn": "旧机翻", "effective_cn": "官方值",
+                    "paths": {"js/shadow.js": 1},
+                    "repaired_paths": {"js/shadow.js"},
+                }
+            }
+            shadows = [{
+                "item_id": "SHADOW-1", "source_key": "machine-candidate-1",
+                "source_path": "i18n/frontend-strings.tsv",
+                "japanese_or_source_original": "源文", "machine_current_cn": "旧机翻",
+                "effective_cn": "官方值", "effective_tier": "wiki",
+                "effective_source_file": "i18n/glossary.tsv", "effective_source_line": 7,
+                "evidence": "Wiki exact term", "product_write_allowed": False,
+                "product_write_forbidden": True,
+                "authority_materialization": {
+                    "machine_cn": "旧机翻", "effective_cn": "官方值",
+                    "expected_effective_occurrences": 1,
+                    "materialized_from_machine_occurrences": 1,
+                    "product_paths": [{
+                        "path": "js/shadow.js", "machine_count": 0,
+                        "effective_count": 1, "expected_effective_count": 1,
+                        "materialized_from_machine": True,
+                    }],
+                },
+            }]
+            result = TOOL.verify_higher_authority_shadows(
+                root, shadows, decisions, [], provenance, effective, contracts,
+            )
+            self.assertEqual(result["authority_materialized_occurrences"], 1)
+            self.assertEqual(result["shadowed_product_writes"], 0)
+
+            product.write_text('const winner="旧机翻";\n', encoding="utf-8", newline="\n")
+            with self.assertRaisesRegex(TOOL.MaterializationError, "not materialized"):
+                TOOL.verify_higher_authority_shadows(
+                    root, shadows, decisions, [], provenance, effective, contracts,
+                )
+
+            product.write_text('const winner="别的";\n', encoding="utf-8", newline="\n")
+            with self.assertRaisesRegex(TOOL.MaterializationError, "not materialized"):
+                TOOL.verify_higher_authority_shadows(
+                    root, shadows, decisions, [], provenance, effective, contracts,
+                )
+
+            product.write_text('const winner="官方值";\n', encoding="utf-8", newline="\n")
+            shadows[0]["authority_materialization"]["product_paths"][0]["effective_count"] = 2
+            with self.assertRaisesRegex(TOOL.MaterializationError, "manifest count drift"):
+                TOOL.verify_higher_authority_shadows(
+                    root, shadows, decisions, [], provenance, effective, contracts,
+                )
+            shadows[0]["authority_materialization"]["product_paths"][0]["effective_count"] = 1
+            contracts["SHADOW-1"]["paths"] = {"../escape.js": 1}
+            with self.assertRaises(TOOL.MaterializationError):
+                TOOL.verify_higher_authority_shadows(
+                    root, shadows, decisions, [], provenance, effective, contracts,
+                )
 
 
 if __name__ == "__main__":

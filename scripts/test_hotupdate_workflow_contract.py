@@ -187,6 +187,19 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             self.assertIn(test, self.text)
             self.assertLess(self.text.index(test), self.text.index(verifier))
 
+    def test_pass20_review_asset_uses_only_the_full_1565_workbook(self):
+        current = (
+            "test -f magica/i18n_audit/release_v26_authority/"
+            "magireco_v26_translation_review_1565.xlsx"
+        )
+        retired = (
+            "test ! -e magica/i18n_audit/release_v26_authority/"
+            "pass20_human_review.xlsx"
+        )
+        self.assertIn(current, self.text)
+        self.assertIn(retired, self.text)
+        self.assertLess(self.text.index(current), self.text.index("python3 tools/i18n-authority-guard.py"))
+
     def test_engine_table_belongs_only_to_js_package(self):
         self.assertIn('engine = "madomagi/engine_i18n.tsv"', self.text)
         self.assertIn('assert names.count(engine) == 1', self.text)

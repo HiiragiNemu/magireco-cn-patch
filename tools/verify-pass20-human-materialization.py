@@ -10,7 +10,8 @@ from hashlib import sha256
 import importlib.util
 import io
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+import re
 import sys
 import tempfile
 from typing import Any
@@ -34,6 +35,9 @@ LOCATOR_PREFIX = (
     "magica/i18n_audit/release_v26_authority/"
     "dsv4_human_decisions.tsv#"
 )
+JS_LITERAL = re.compile(r'(["\'])((?:(?!\1)[^\\]|\\.)*)\1')
+HTML_TEXT = re.compile(r'>([^<>{}]*)<')
+HTML_ATTR = re.compile(r'((?:placeholder|title|alt|value)=")([^"]*)(")')
 
 
 class MaterializationError(RuntimeError):
@@ -101,6 +105,27 @@ def index_unique(rows: list[dict[str, Any]], field: str, label: str) -> dict[str
 
 def decode_cell(value: str) -> str:
     return value.replace("\\t", "\t").replace("\\n", "\n").replace("\\\\", "\\")
+
+
+def exact_product_literal_count(repo_root: Path, rel: str, literal: str) -> int:
+    posix = PurePosixPath(rel)
+    if posix.is_absolute() or not rel or ".." in posix.parts or "\\" in rel or ":" in rel:
+        raise MaterializationError(f"unsafe authority materialization path: {rel!r}")
+    path = repo_root / "magica" / Path(*posix.parts)
+    if not path.is_file() or path.is_symlink():
+        raise MaterializationError(f"authority materialization path missing or unsafe: {rel}")
+    text = path.read_text(encoding="utf-8")
+    suffix = path.suffix.lower()
+    if suffix == ".js":
+        return sum(match.group(2) == literal for match in JS_LITERAL.finditer(text))
+    if suffix == ".html":
+        count = 0
+        for match in HTML_TEXT.finditer(text):
+            body = match.group(1)
+            count += body.strip() == literal
+        count += sum(match.group(2) == literal for match in HTML_ATTR.finditer(text))
+        return count
+    raise MaterializationError(f"unsupported authority materialization target: {rel}")
 
 
 def validate_workbook_receipt(
@@ -297,11 +322,13 @@ def verify_materialized_bindings(
 
 
 def verify_higher_authority_shadows(
+    repo_root: Path,
     shadow_rows: list[dict[str, Any]],
     decision_rows: list[dict[str, str]],
     reviewed_rows: list[dict[str, str]],
     provenance_rows: list[dict[str, str]],
     effective_rows: list[dict[str, str]],
+    materialization_contracts: dict[str, dict[str, Any]],
 ) -> dict[str, int]:
     shadows = index_unique(shadow_rows, "item_id", "higher-authority shadow manifest")
     decisions = index_unique(decision_rows, "item_id", "decision table")
@@ -315,6 +342,11 @@ def verify_higher_authority_shadows(
     decision_fields = (
         "human_decision", "reviewer", "timestamp", "final_value", "human_revision", "human_notes",
     )
+    materialized_ids: set[str] = set()
+    checked_paths = 0
+    machine_occurrences = 0
+    effective_occurrences = 0
+    materialized_occurrences = 0
     for item_id, row in shadows.items():
         if row.get("product_write_forbidden") is not True or row.get("product_write_allowed") is True:
             raise MaterializationError(f"higher-authority shadow permits product write: {item_id}")
@@ -359,11 +391,87 @@ def verify_higher_authority_shadows(
             }
         ):
             raise MaterializationError(f"higher-authority effective winner drift: {item_id}")
+        expected_materialization = materialization_contracts.get(item_id)
+        recorded_materialization = row.get("authority_materialization")
+        if expected_materialization is None:
+            if recorded_materialization is not None:
+                raise MaterializationError(
+                    f"unexpected authority materialization contract: {item_id}"
+                )
+            continue
+        if not isinstance(recorded_materialization, dict):
+            raise MaterializationError(f"authority materialization contract is missing: {item_id}")
+        if (
+            row.get("machine_current_cn") != expected_materialization.get("machine_cn")
+            or row.get("effective_cn") != expected_materialization.get("effective_cn")
+            or recorded_materialization.get("machine_cn") != expected_materialization.get("machine_cn")
+            or recorded_materialization.get("effective_cn") != expected_materialization.get("effective_cn")
+        ):
+            raise MaterializationError(f"authority materialization literal drift: {item_id}")
+        expected_paths = expected_materialization.get("paths")
+        repaired_paths = expected_materialization.get("repaired_paths")
+        recorded_paths = recorded_materialization.get("product_paths")
+        if (
+            not isinstance(expected_paths, dict) or not isinstance(repaired_paths, set)
+            or not repaired_paths or not repaired_paths.issubset(expected_paths)
+            or not isinstance(recorded_paths, list)
+        ):
+            raise MaterializationError(f"authority materialization paths are invalid: {item_id}")
+        recorded_by_path = index_unique(
+            recorded_paths, "path", f"authority materialization path list for {item_id}"
+        )
+        if set(recorded_by_path) != set(expected_paths):
+            raise MaterializationError(f"authority materialization path set drift: {item_id}")
+        expected_total = sum(expected_paths.values())
+        materialized_total = sum(expected_paths[rel] for rel in repaired_paths)
+        if recorded_materialization.get("expected_effective_occurrences") != expected_total:
+            raise MaterializationError(f"authority materialization total drift: {item_id}")
+        if recorded_materialization.get("materialized_from_machine_occurrences") != materialized_total:
+            raise MaterializationError(f"authority materialization repair total drift: {item_id}")
+        for rel, expected_count in expected_paths.items():
+            if not isinstance(expected_count, int) or expected_count <= 0:
+                raise MaterializationError(
+                    f"authority materialization expected count is invalid: {item_id} {rel}"
+                )
+            recorded = recorded_by_path[rel]
+            if (
+                recorded.get("machine_count") != 0
+                or recorded.get("effective_count") != expected_count
+                or recorded.get("expected_effective_count") != expected_count
+                or recorded.get("materialized_from_machine") is not (rel in repaired_paths)
+            ):
+                raise MaterializationError(
+                    f"authority materialization manifest count drift: {item_id} {rel}"
+                )
+            actual_machine = exact_product_literal_count(
+                repo_root, rel, expected_materialization["machine_cn"]
+            )
+            actual_effective = exact_product_literal_count(
+                repo_root, rel, expected_materialization["effective_cn"]
+            )
+            if actual_machine != 0 or actual_effective != expected_count:
+                raise MaterializationError(
+                    "authority runtime value is not materialized: "
+                    f"{item_id} {rel} machine={actual_machine} "
+                    f"effective={actual_effective} expected={expected_count}"
+                )
+            checked_paths += 1
+            machine_occurrences += actual_machine
+            effective_occurrences += actual_effective
+            if rel in repaired_paths:
+                materialized_occurrences += actual_effective
+        materialized_ids.add(item_id)
+    if materialized_ids != set(materialization_contracts):
+        raise MaterializationError("authority materialization item set drift")
     return {
         "higher_authority_shadowed_items": len(shadows),
         "product_write_forbidden_items": len(shadows),
-        "shadowed_low_tier_candidates_written": 0,
-        "shadowed_product_writes": 0,
+        "authority_materialization_items": len(materialized_ids),
+        "authority_materialization_paths_checked": checked_paths,
+        "authority_verified_occurrences": effective_occurrences,
+        "authority_materialized_occurrences": materialized_occurrences,
+        "shadowed_low_tier_candidates_written": machine_occurrences,
+        "shadowed_product_writes": machine_occurrences,
     }
 
 
@@ -422,8 +530,13 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
         stage_contract.validate_queue_source_bindings(queue_rows, source_rows)
     except Exception as exc:
         raise MaterializationError(f"Pass20 queue/source binding is invalid: {exc}") from exc
+    review_constants = load_module(
+        "pass20_review_contract_constants", tools_root / "pass20_review_contract.py"
+    )
     shadow_bindings = verify_higher_authority_shadows(
-        shadow_contract["items"], decision_rows, reviewed_rows, provenance_rows, effective_rows,
+        repo_root, shadow_contract["items"], decision_rows, reviewed_rows,
+        provenance_rows, effective_rows,
+        review_constants.SHADOW_RUNTIME_MATERIALIZATIONS,
     )
     protection = load_module("pass20_materialization_protection", tools_root / "v26_authority_protection.py")
     protected_rows = protection.read_tsv(repo_root / PROTECTED_REL)

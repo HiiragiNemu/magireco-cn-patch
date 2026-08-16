@@ -461,6 +461,10 @@ jobs:
           python3 tools/test-promote-pass20-product-stage.py -v
           python3 tools/test-rollback-pass20-product-stage.py -v
           python3 tools/test-verify-pass20-human-materialization.py -v
+          # 人工审查资产只能使用全量 1,565 项工作簿；旧 199 项文件不得
+          # 重新进入任何候选发布流程。
+          test -f magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx
+          test ! -e magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx
           python3 tools/i18n-authority-guard.py --json | tee _authority_guard.json
           python3 tools/pass20_official_static.py verify --state applied
           # 先重建全量来源/机翻审计，证明清单覆盖当前产品输入；随后仅验证

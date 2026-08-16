@@ -422,6 +422,21 @@
       "stable_business_key": "i18n/frontend-strings.tsv#7432b8db1c6ed86281f538f6/candidate_cn"
     },
     {
+      "authority_materialization": {
+        "effective_cn": "回复HP",
+        "expected_effective_occurrences": 5,
+        "machine_cn": "HP 回复",
+        "materialized_from_machine_occurrences": 5,
+        "product_paths": [
+          {
+            "effective_count": 5,
+            "expected_effective_count": 5,
+            "machine_count": 0,
+            "materialized_from_machine": true,
+            "path": "js/regularEvent/accomplish/view/RegularEventAccomplishRecoverView.js"
+          }
+        ]
+      },
       "declared_product_paths": [
         "js/regularEvent/accomplish/view/RegularEventAccomplishRecoverView.js"
       ],
@@ -436,12 +451,12 @@
       "match_status": "protected-higher-authority-selected",
       "product_write_allowed": false,
       "product_write_forbidden": true,
-      "runtime_effective_count": 0,
-      "runtime_effective_paths": [],
-      "runtime_machine_count": 5,
-      "runtime_machine_paths": [
+      "runtime_effective_count": 5,
+      "runtime_effective_paths": [
         "js/regularEvent/accomplish/view/RegularEventAccomplishRecoverView.js"
       ],
+      "runtime_machine_count": 0,
+      "runtime_machine_paths": [],
       "source_key": "7e3f73f9885dec99a4c4cf95",
       "source_path": "i18n/frontend-strings.tsv",
       "stable_business_key": "i18n/frontend-strings.tsv#7e3f73f9885dec99a4c4cf95/candidate_cn"
@@ -507,6 +522,49 @@
       "stable_business_key": "i18n/frontend-strings.tsv#ac5f3d8eecfbfc276d145706/candidate_cn"
     },
     {
+      "authority_materialization": {
+        "effective_cn": "辅助",
+        "expected_effective_occurrences": 5,
+        "machine_cn": "支援",
+        "materialized_from_machine_occurrences": 4,
+        "product_paths": [
+          {
+            "effective_count": 1,
+            "expected_effective_count": 1,
+            "machine_count": 0,
+            "materialized_from_machine": true,
+            "path": "js/_common/nativeCommand.js"
+          },
+          {
+            "effective_count": 1,
+            "expected_effective_count": 1,
+            "machine_count": 0,
+            "materialized_from_machine": true,
+            "path": "js/_common/nativeCommand2.js"
+          },
+          {
+            "effective_count": 1,
+            "expected_effective_count": 1,
+            "machine_count": 0,
+            "materialized_from_machine": false,
+            "path": "js/card/CardPopup.js"
+          },
+          {
+            "effective_count": 1,
+            "expected_effective_count": 1,
+            "machine_count": 0,
+            "materialized_from_machine": true,
+            "path": "template/quest/PreQuestPopup.html"
+          },
+          {
+            "effective_count": 1,
+            "expected_effective_count": 1,
+            "machine_count": 0,
+            "materialized_from_machine": true,
+            "path": "template/user/MyProfilePopup.html"
+          }
+        ]
+      },
       "declared_product_paths": [
         "js/_common/nativeCommand.js",
         "js/_common/nativeCommand2.js",
@@ -523,18 +581,17 @@
       "match_status": "protected-higher-authority-selected",
       "product_write_allowed": false,
       "product_write_forbidden": true,
-      "runtime_effective_count": 2,
+      "runtime_effective_count": 6,
       "runtime_effective_paths": [
-        "js/card/CardPopup.js",
-        "js/util/CardUtil.js"
-      ],
-      "runtime_machine_count": 4,
-      "runtime_machine_paths": [
         "js/_common/nativeCommand.js",
         "js/_common/nativeCommand2.js",
+        "js/card/CardPopup.js",
+        "js/util/CardUtil.js",
         "template/quest/PreQuestPopup.html",
         "template/user/MyProfilePopup.html"
       ],
+      "runtime_machine_count": 0,
+      "runtime_machine_paths": [],
       "source_key": "af905e4b8bf636d88516f71f",
       "source_path": "i18n/frontend-strings.tsv",
       "stable_business_key": "i18n/frontend-strings.tsv#af905e4b8bf636d88516f71f/candidate_cn"
@@ -747,10 +804,13 @@
   "schema": "magireco-cn-pass20-authority-shadowed-machine-items/2",
   "status": "PASS",
   "summary": {
+    "authority_materialization_items": 2,
+    "authority_materialized_occurrences": 9,
+    "authority_verified_occurrences": 10,
     "higher_authority_shadowed_items": 24,
     "items": 24,
     "product_write_forbidden_items": 24,
-    "runtime_effective_occurrences": 162,
-    "runtime_machine_occurrences": 159
+    "runtime_effective_occurrences": 171,
+    "runtime_machine_occurrences": 150
   }
 }

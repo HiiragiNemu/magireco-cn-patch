@@ -37,6 +37,41 @@ EXACT_RUNTIME_ITEMS = 1443
 MAINTENANCE_ONLY_ITEMS = 122
 RUNTIME_OCCURRENCES = 2439
 
+# These two non-equivalent Wiki winners were selected by the authority table
+# after the product tree had already been translated with the older machine
+# candidates.  Keep their exact runtime repair surface stable so rebuilding the
+# audit cannot silently turn a missing product replacement into a "shadowed"
+# success.
+SHADOW_RUNTIME_MATERIALIZATIONS = {
+    "LOW-MT-01134": {
+        "machine_cn": "HP 回复",
+        "effective_cn": "回复HP",
+        "paths": {
+            "js/regularEvent/accomplish/view/RegularEventAccomplishRecoverView.js": 5,
+        },
+        "repaired_paths": {
+            "js/regularEvent/accomplish/view/RegularEventAccomplishRecoverView.js",
+        },
+    },
+    "LOW-MT-01450": {
+        "machine_cn": "支援",
+        "effective_cn": "辅助",
+        "paths": {
+            "js/_common/nativeCommand.js": 1,
+            "js/_common/nativeCommand2.js": 1,
+            "js/card/CardPopup.js": 1,
+            "template/quest/PreQuestPopup.html": 1,
+            "template/user/MyProfilePopup.html": 1,
+        },
+        "repaired_paths": {
+            "js/_common/nativeCommand.js",
+            "js/_common/nativeCommand2.js",
+            "template/quest/PreQuestPopup.html",
+            "template/user/MyProfilePopup.html",
+        },
+    },
+}
+
 PRIORITY_VERDICTS = {"manual-required", "correction", "unresolved"}
 HUMAN_DECISIONS = ["approve-current", "revise", "unresolved"]
 DECISION_FIELDS = (
