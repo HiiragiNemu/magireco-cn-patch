@@ -307,11 +307,15 @@ def main():
     ap.add_argument('root', help='含 js/ 与 template/ 的前端根目录')
     ap.add_argument('table', help='对照表 TSV')
     ap.add_argument('--overrides', help='按文件的译文覆盖表（见 i18n/overrides.tsv）')
+    ap.add_argument(
+        '--overrides-only', action='store_true',
+        help='只应用按文件精确计划；用于已中文化产品副本上的人工复核差量',
+    )
     ap.add_argument('--dry-run', action='store_true', help='只报告，不落盘')
     ap.add_argument('--out', help='改动文件的清单落到这个文件（供打包用）')
     args = ap.parse_args()
 
-    table, bad = load_table(args.table)
+    table, bad = ({}, []) if args.overrides_only else load_table(args.table)
     if bad:
         print('✘ 以下译文会破坏结构（引入了原文没有的字符，或转义个数对不上），请先改掉：',
               file=sys.stderr)
@@ -320,7 +324,7 @@ def main():
             print('           %s' % why, file=sys.stderr)
         return 1
     try:
-        effective_overlay = load_verified_effective(args.table)
+        effective_overlay = None if args.overrides_only else load_verified_effective(args.table)
     except EffectiveGateError as exc:
         print('✘ canonical effective 权威门失败：%s' % exc, file=sys.stderr)
         return 2
@@ -335,7 +339,7 @@ def main():
             '✔ canonical effective 已验证：命中原始主表 %d 条，权威覆盖 %d 条（补全 %d 条）'
             % (len(effective_overlay), changed_authority, filled_authority)
         )
-    if not table:
+    if not table and not args.overrides_only:
         print('对照表里没有已填写的译文', file=sys.stderr)
         return 1
     print('对照表 %d 条译文' % len(table))
@@ -349,13 +353,19 @@ def main():
     # 的 を)——注意与「译文留空=未翻译」区分,留空的行永远不会被处理。
     overrides = []
     if args.overrides and os.path.isfile(args.overrides):
-        for line in open(args.overrides, encoding='utf-8'):
-            if line.startswith('#'):
-                continue
-            col = line.rstrip('\n').split('\t')
-            if len(col) >= 3 and col[0] and col[1] and col[2]:
-                dst = '' if col[2] == '<DELETE>' else col[2]
-                overrides.append((col[0], col[1], dst))
+        with open(args.overrides, encoding='utf-8-sig', newline='') as stream:
+            for col in csv.reader(stream, delimiter='\t'):
+                if not col or col[0].startswith('#'):
+                    continue
+                if len(col) >= 3 and col[0] and col[1] and col[2]:
+                    src = decode_cell(col[1])
+                    dst = '' if col[2] == '<DELETE>' else decode_cell(col[2])
+                    why = unsafe_reason(src, dst)
+                    if why:
+                        print('✘ 按文件覆盖会破坏结构：%s → %s（%s）'
+                              % (src[:26], dst[:26], why), file=sys.stderr)
+                        return 1
+                    overrides.append((col[0], src, dst))
         print('按文件的覆盖 %d 条' % len(overrides))
 
     stat = {}
@@ -366,7 +376,8 @@ def main():
                 continue
             path = os.path.join(cur, name)
             try:
-                orig = open(path, encoding='utf-8', errors='strict').read()
+                with open(path, encoding='utf-8', errors='strict', newline='') as stream:
+                    orig = stream.read()
             except (OSError, UnicodeDecodeError):
                 continue
             rel = os.path.relpath(path, args.root).replace(os.sep, '/')
@@ -380,7 +391,8 @@ def main():
             if new != orig:
                 changed.append(rel)
                 if not args.dry_run:
-                    open(path, 'w', encoding='utf-8').write(new)
+                    with open(path, 'w', encoding='utf-8', newline='') as stream:
+                        stream.write(new)
 
     total = sum(stat.values())
     print('%s %d 个文件，替换 %d 处（命中 %d 条不同译文）'

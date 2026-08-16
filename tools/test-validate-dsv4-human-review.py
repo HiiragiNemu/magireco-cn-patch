@@ -55,11 +55,11 @@ class FullHumanReviewValidationTests(unittest.TestCase):
             AUTHORITY_RESOLUTIONS,
         )
         self.assertEqual(result["base_decision_required"], 522)
-        self.assertEqual(result["authority_resolved"], 322)
-        self.assertEqual(result["decision_required"], 200)
-        self.assertEqual(result["states"]["pending"], 200)
+        self.assertEqual(result["authority_resolved"], 323)
+        self.assertEqual(result["decision_required"], 199)
+        self.assertEqual(result["states"]["pending"], 199)
         self.assertEqual(result["required_by_kind"], {
-            "current-low-tier-translation-review": 200,
+            "current-low-tier-translation-review": 199,
             "historical-pass8-llm-comparison-only": 0,
         })
         self.assertFalse(result["release_gate_open"])
