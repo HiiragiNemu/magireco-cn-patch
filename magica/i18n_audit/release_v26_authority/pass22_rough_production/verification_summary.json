@@ -284,18 +284,32 @@
     }
   },
   "tests": {
-    "focused": 145,
+    "focused": 177,
     "failures": 0,
     "python_compile": "PASS",
     "git_diff_check": "PASS",
     "primary_pipeline": 51,
     "authority_package_delivery": 58,
-    "merge_workflow": 36
+    "merge_workflow": 36,
+    "provenance_binding": 32
   },
   "rollback": {
     "rehearsal": "PASS",
     "restored_files": 5,
     "script": "rollback.ps1"
   },
-  "release_decision": "eligible-for-js-only-stable-production"
+  "release_decision": "eligible-for-js-only-stable-production",
+  "provenance_binding": {
+    "status": "PASS",
+    "provenance_mode": "rough-production",
+    "items": 1565,
+    "promotion_rehearsal": "PASS",
+    "rollback_rehearsal": "PASS",
+    "tamper_regressions": 5,
+    "semantic_target_items": 1565,
+    "final_values_receipt_sha256": "9b35b3b86ffe7e9bd9bafd65a2bfbf2b1588480be93babe15fcd0dd376ce7528",
+    "reviewed_candidates_sha256": "a6cc1313d03f6af929f32cc315bd301adb81f22dd6420ba0dd62eb418b6de2c2",
+    "materialized_review_contract_sha256": "f91297d74e8fe34e4dbeea31c953d389478d13394c8f9ed90d2de2531c4904df",
+    "receipt_origin_mode_gate": "PASS"
+  }
 }

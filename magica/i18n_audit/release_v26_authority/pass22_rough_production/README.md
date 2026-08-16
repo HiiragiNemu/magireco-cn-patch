@@ -27,11 +27,14 @@
 - `workbook_import_verification.json`：A 盘工作簿的 1,565 项导入结果
 - `staging_verification.json`：仓库外暂存、结构、JS/HTML/JSON、保护字段与回滚演练
 - `promotion_verification.json`：5 个维护层 / 审计文件的原子提升
+- `provenance_binding_verification.json`：粗译模式、1,565 条最终值、候选表和物化合同的哈希及逐项语义绑定
 - `materialization_verification.json`：1,443 项、2,439 个运行时位置及 122 项维护层文本闭合
 - `release_gate_verification.json`：粗译生产门开启，pending=0、unresolved=0
 - `product_patch.json` / `product.diff`：本轮运行时增量为 0 的机器记录
 - `rollback/`：逐文件 before/after 快照和清单
 - `rollback.ps1`：精确回滚入口
+
+提升工具在写入前同时校验最终值回执、候选表和物化合同；仅改报告中的来源标签、重算外层哈希或篡改任一绑定文件都会在零写入状态下失败。该门已通过 18 项提升测试、6 项回滚测试和 8 项暂存测试；同时将候选状态、来源标签、置信度、证据、维护范围和路径前缀逐项绑定到目标清单。
 
 ## 后续人工精修
 
