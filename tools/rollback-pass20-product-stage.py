@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 from hashlib import sha256
 import json
+import os
 from pathlib import Path, PurePosixPath
 import re
 import tempfile
@@ -14,7 +15,39 @@ from typing import Any
 
 
 class RollbackError(RuntimeError):
-    pass
+    def __init__(
+        self,
+        message: str,
+        *,
+        retryable: bool = False,
+        product_state: str = "unknown",
+    ) -> None:
+        super().__init__(message)
+        self.retryable = retryable
+        self.product_state = product_state
+
+
+def atomic_replace(source: Path, target: Path) -> None:
+    """Single indirection used by the focused transaction-failure test."""
+    source.replace(target)
+
+
+def write_temp(target: Path, data: bytes) -> Path:
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("wb", delete=False, dir=target.parent) as stream:
+        temp = Path(stream.name)
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+    return temp
+
+
+def exact_bytes(path: Path, data: bytes, digest: str, size: int) -> bool:
+    try:
+        current = path.read_bytes()
+    except OSError:
+        return False
+    return len(current) == size and sha256(current).hexdigest() == digest and current == data
 
 
 def safe_join(root: Path, rel: str) -> Path:
@@ -101,16 +134,81 @@ def rollback(stage_root: Path, product_root: Path | None = None) -> dict[str, An
             raise RollbackError(f"after snapshot digest or size drifted: {rel}")
         if len(current_bytes) != after_size or sha256(current_bytes).hexdigest() != after_digest:
             raise RollbackError(f"current product differs from exact after snapshot: {rel}")
-        prepared.append((rel, current, before_bytes, before_digest, before_size))
-    for rel, current, before_bytes, before_digest, before_size in prepared:
-        current.parent.mkdir(parents=True, exist_ok=True)
-        with tempfile.NamedTemporaryFile("wb", delete=False, dir=current.parent) as stream:
-            temp = Path(stream.name)
-            stream.write(before_bytes)
-        temp.replace(current)
-        restored = current.read_bytes()
-        if len(restored) != before_size or sha256(restored).hexdigest() != before_digest:
-            raise RollbackError(f"rollback verification failed: {rel}")
+        prepared.append({
+            "rel": rel,
+            "current": current,
+            "before": before_bytes,
+            "before_digest": before_digest,
+            "before_size": before_size,
+            "after": after_bytes,
+            "after_digest": after_digest,
+            "after_size": after_size,
+            "temp": None,
+        })
+
+    try:
+        # Prepare and flush every replacement before changing the first product file.
+        for item in prepared:
+            item["temp"] = write_temp(item["current"], item["before"])
+        for item in prepared:
+            current = item["current"]
+            if not exact_bytes(
+                current, item["after"], item["after_digest"], item["after_size"]
+            ):
+                raise RollbackError(
+                    f"current product changed during rollback: {item['rel']}"
+                )
+            atomic_replace(item["temp"], current)
+            item["temp"] = None
+            if not exact_bytes(
+                current, item["before"], item["before_digest"], item["before_size"]
+            ):
+                raise RollbackError(f"rollback verification failed: {item['rel']}")
+    except Exception as exc:
+        # A rollback is all-or-nothing.  If any later replacement fails, restore
+        # every target to the exact after snapshot so the same manifest can be
+        # retried without a mixed before/after product tree.
+        compensation_errors: list[str] = []
+        for item in prepared:
+            current = item["current"]
+            if exact_bytes(
+                current, item["after"], item["after_digest"], item["after_size"]
+            ):
+                continue
+            recovery: Path | None = None
+            try:
+                recovery = write_temp(current, item["after"])
+                atomic_replace(recovery, current)
+                recovery = None
+                if not exact_bytes(
+                    current, item["after"], item["after_digest"], item["after_size"]
+                ):
+                    raise RollbackError("exact after verification failed")
+            except Exception as recovery_exc:
+                compensation_errors.append(f"{item['rel']}: {recovery_exc}")
+            finally:
+                if recovery is not None and recovery.exists():
+                    recovery.unlink()
+        for item in prepared:
+            temp = item.get("temp")
+            if isinstance(temp, Path) and temp.exists():
+                temp.unlink()
+        if compensation_errors:
+            raise RollbackError(
+                "rollback failed and transaction compensation was incomplete: "
+                + "; ".join(compensation_errors),
+                product_state="mixed-or-unknown",
+            ) from exc
+        raise RollbackError(
+            f"rollback failed; exact after state restored and operation is retryable: {exc}",
+            retryable=True,
+            product_state="exact-after-restored",
+        ) from exc
+    finally:
+        for item in prepared:
+            temp = item.get("temp")
+            if isinstance(temp, Path) and temp.exists():
+                temp.unlink()
     return {
         "schema": "magireco-cn-pass20-product-rollback-result/1",
         "status": "PASS",
@@ -130,7 +228,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
     except (RollbackError, OSError, UnicodeError, ValueError, json.JSONDecodeError) as exc:
-        print(json.dumps({"status": "FAIL", "error": str(exc)}, ensure_ascii=False), file=sys.stderr)
+        report = {"status": "FAIL", "error": str(exc)}
+        if isinstance(exc, RollbackError):
+            report["retryable"] = exc.retryable
+            report["product_state"] = exc.product_state
+        print(json.dumps(report, ensure_ascii=False, sort_keys=True), file=sys.stderr)
         return 2
 
 
