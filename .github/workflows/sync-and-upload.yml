@@ -1838,6 +1838,15 @@ jobs:
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
       DOWNSTREAM_REPO: "patch-front"
     steps:
+      - name: 📦 检出镜像事务工具
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets. }}
+          repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts/release_asset_transaction.py
+          sparse-checkout-cone-mode: false
       - name: 🏷 创建/覆盖本仓库快照 Release
         id: mirror_release
         if: always()
