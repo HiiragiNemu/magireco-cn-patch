@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 from copy import deepcopy
+from hashlib import sha256
 import importlib.util
 import json
 from pathlib import Path
@@ -63,15 +64,28 @@ def completed_workbook(source: Path, target: Path, rows: list[dict[str, str]]) -
         infos = package.infolist()
         blobs = {info.filename: package.read(info.filename) for info in infos}
         paths = IMPORTER._sheet_paths(package)
+        shared = IMPORTER._shared_strings(package)
+        parsed = {
+            name: IMPORTER._parse_sheet(package, path, shared) for name, path in paths.items()
+        }
     sheets = {name: ET.fromstring(blobs[path]) for name, path in paths.items()}
-    set_xlsx_text(sheets["说明"], "B13", "synthetic-contract-test")
-    set_xlsx_text(sheets["说明"], "B14", "2026-08-15T12:00:00+08:00")
-    for sequence, row in enumerate(rows, 2):
-        if row["item_id"] in {"LOW-MT-00312", "LOW-MT-00322"}:
-            set_xlsx_text(sheets["审核"], f"O{sequence}", "修改译文")
-            set_xlsx_text(sheets["审核"], f"P{sequence}", row["final_value"])
-        else:
-            set_xlsx_text(sheets["审核"], f"O{sequence}", "保留现译")
+    set_xlsx_text(sheets["说明"], "B18", "synthetic-contract-test")
+    set_xlsx_text(sheets["说明"], "B19", "2026-08-15T12:00:00+08:00")
+    decision_by_id = {row["item_id"]: row for row in rows}
+    seen: set[str] = set()
+    for sheet_name, (_partition, count) in IMPORTER.EDIT_SHEETS.items():
+        cells = parsed[sheet_name]["cells"]
+        for sequence in range(2, count + 2):
+            item_id = cells.get(f"B{sequence}", "")
+            row = decision_by_id[item_id]
+            seen.add(item_id)
+            if row["item_id"] in {"LOW-MT-00312", "LOW-MT-00322"}:
+                set_xlsx_text(sheets[sheet_name], f"O{sequence}", "自行修改")
+                set_xlsx_text(sheets[sheet_name], f"P{sequence}", row["final_value"])
+            else:
+                set_xlsx_text(sheets[sheet_name], f"O{sequence}", "保留现译")
+    if seen != set(decision_by_id):
+        raise AssertionError("synthetic workbook item partition drifted")
     for name, root in sheets.items():
         blobs[paths[name]] = ET.tostring(root, encoding="utf-8", xml_declaration=True)
     with zipfile.ZipFile(target, "w") as package:
@@ -80,6 +94,64 @@ def completed_workbook(source: Path, target: Path, rows: list[dict[str, str]]) -
 
 
 class Pass20ProductStageTests(unittest.TestCase):
+    def test_00_dynamic_target_contract_and_structure_gate(self):
+        rows = [
+            {
+                "item_id": "GLOBAL", "maintenance_scope": "global",
+                "application_allowed": True, "occurrences": [{"path": "js/a.js"}],
+            },
+            {
+                "item_id": "OVERRIDE", "maintenance_scope": "override",
+                "application_allowed": False, "occurrences": [],
+            },
+            {
+                "item_id": "FRAGMENT", "maintenance_scope": "fragment",
+                "application_allowed": True, "occurrences": [{"path": "js/b.js"}],
+            },
+        ]
+        summary = {
+            "items": 3, "maintenance_rows_bound": 3, "exact_runtime_items": 2,
+            "maintenance_only_items": 1, "runtime_occurrences": 2,
+            "occurrence_collisions": 0, "unclassified_items": 0,
+        }
+        contract = STAGE.derive_target_contract(rows, summary)
+        self.assertEqual(contract["materialization_items"], 3)
+        self.assertEqual((contract["global_items"], contract["override_items"], contract["fragment_items"]), (1, 1, 1))
+        STAGE.validate_translation_structure("OK", "获得{0}<br><%= name %>", "取得{0}<br><%= name %>")
+        with self.assertRaisesRegex(STAGE.StageError, "placeholder structure drift"):
+            STAGE.validate_translation_structure("BAD", "获得{0}", "获得{1}")
+        with self.assertRaisesRegex(STAGE.StageError, "escape structure drift"):
+            STAGE.validate_translation_structure("BAD-ESCAPE", r"第一行\n第二行", "第一行第二行")
+
+        source = {
+            "source_index": "1", "batch_number": "1", "item_id": "ITEM",
+            "stable_business_key": "table#key/candidate_cn", "source_path": "i18n/table.tsv",
+            "source_key": "key", "source_field": "candidate_cn",
+            "japanese_or_source_original": "原文", "old_cn": "旧译", "current_cn": "现译",
+            "source_text_sha256": sha256("原文".encode("utf-8")).hexdigest(),
+        }
+        queue = {field: source[field] for field in STAGE.SOURCE_BINDING_FIELDS}
+        STAGE.validate_queue_source_bindings([queue], [source])
+        with self.assertRaisesRegex(STAGE.StageError, "binding drifted"):
+            STAGE.validate_queue_source_bindings([{**queue, "current_cn": "漂移"}], [source])
+        with self.assertRaisesRegex(STAGE.StageError, "text hash drifted"):
+            STAGE.validate_queue_source_bindings([queue], [{**source, "source_text_sha256": "0" * 64}])
+
+        shadow = STAGE.load_shadowed_contract(
+            AUDIT / "pass20_authority_shadowed_machine_items.json"
+        )
+        self.assertEqual(shadow["count"], 24)
+        self.assertEqual(shadow["runtime_effective_occurrences"], 162)
+        with tempfile.TemporaryDirectory(prefix="pass20-shadow-contract-") as temp:
+            bad_shadow = json.loads(
+                (AUDIT / "pass20_authority_shadowed_machine_items.json").read_text(encoding="utf-8")
+            )
+            bad_shadow["schema"] = "magireco-cn-pass20-authority-shadowed-machine-items/1"
+            bad_path = Path(temp) / "shadow.json"
+            bad_path.write_text(json.dumps(bad_shadow), encoding="utf-8", newline="\n")
+            with self.assertRaisesRegex(STAGE.StageError, "schema"):
+                STAGE.load_shadowed_contract(bad_path)
+
     def test_00_child_python_stdout_is_forced_to_utf8(self):
         result = STAGE.run_command(
             [sys.executable, "-c", "print('中文通过 ✔')"],
@@ -112,7 +184,7 @@ class Pass20ProductStageTests(unittest.TestCase):
         decisions_header, decisions = read_tsv(AUDIT / "dsv4_human_decisions.tsv")
         _, remaining = read_tsv(AUDIT / "pass20_remaining_manual_review.tsv")
         remaining_ids = {row["item_id"] for row in remaining}
-        self.assertEqual(len(remaining_ids), 199)
+        self.assertEqual(len(remaining_ids), len(remaining))
         for row in decisions:
             if row["item_id"] not in remaining_ids:
                 continue
@@ -121,15 +193,20 @@ class Pass20ProductStageTests(unittest.TestCase):
             row["timestamp"] = "2026-08-15T12:00:00+08:00"
             row["final_value"] = row["current_cn"]
             row["human_revision"] = ""
-            row["human_notes"] = ""
+            row["human_notes"] = "机器来源、人工已批准"
+            row["review_status"] = "human-reviewed-approved-current"
         revised = next(row for row in decisions if row["item_id"] == "LOW-MT-00312")
         revised["human_decision"] = "revise"
         revised["final_value"] = "+c+a+l+e"
         revised["human_revision"] = "+c+a+l+e"
+        revised["human_notes"] = "人工自行修订"
+        revised["review_status"] = "human-reviewed-revised"
         revised_global = next(row for row in decisions if row["item_id"] == "LOW-MT-00322")
         revised_global["human_decision"] = "revise"
         revised_global["final_value"] = revised_global["current_cn"][:-1] + "？"
         revised_global["human_revision"] = revised_global["final_value"]
+        revised_global["human_notes"] = "人工自行修订"
+        revised_global["review_status"] = "human-reviewed-revised"
 
         source_product = ROOT / "magica/js/event/EventArenaRankMatch/Utility.js"
         source_before = source_product.read_bytes()
@@ -141,7 +218,7 @@ class Pass20ProductStageTests(unittest.TestCase):
             write_tsv(decisions_path, decisions_header, decisions)
             workbook_path = temp_root / "completed-review.xlsx"
             completed_workbook(
-                AUDIT / "pass20_human_review.xlsx",
+                AUDIT / "magireco_v26_translation_review_1565.xlsx",
                 workbook_path,
                 [row for row in decisions if row["item_id"] in remaining_ids],
             )
@@ -156,12 +233,16 @@ class Pass20ProductStageTests(unittest.TestCase):
             )
             self.assertEqual(report["status"], "PASS")
             self.assertTrue(report["human_gate"]["release_gate_open"])
-            self.assertEqual(report["reviewed_candidates_appended"], 199)
-            self.assertEqual(report["exact_target_items"], 180)
-            self.assertEqual(report["maintenance_only_items"], 19)
-            self.assertEqual(report["canonical_human_review_items"], 199)
-            self.assertEqual(report["maintenance_only_items_persisted"], 19)
-            self.assertEqual(report["runtime_occurrences_bound"], 246)
+            contract = report["review_contract"]
+            self.assertEqual(report["reviewed_candidates_appended"], len(remaining))
+            self.assertEqual(report["canonical_human_review_items"], len(remaining))
+            self.assertEqual(contract["human_review_items"], len(remaining))
+            self.assertEqual(
+                contract["machine_inventory_items"],
+                contract["materialization_items"] + contract["higher_authority_shadowed_items"],
+            )
+            self.assertEqual(report["shadowed_low_tier_candidates_written"], 0)
+            self.assertEqual(report["shadowed_product_writes"], 0)
             self.assertEqual(report["patch_items"], 2)
             self.assertEqual(report["patch_records"], 2)
             self.assertEqual(report["changed_files"], [
@@ -194,14 +275,18 @@ class Pass20ProductStageTests(unittest.TestCase):
                 Path("magica/i18n_audit/release_v26_authority/protected_authority/protected_translation_fields.tsv"),
                 Path("magica/i18n_audit/release_v26_authority/pass19_official_static_corrections.tsv"),
                 Path("magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv"),
-                Path("magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx"),
+                Path("magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"),
+                Path("magica/i18n_audit/release_v26_authority/pass20_remaining_manual_review.tsv"),
+                Path("magica/i18n_audit/release_v26_authority/pass20_product_targets.json"),
+                Path("magica/i18n_audit/release_v26_authority/pass20_authority_shadowed_machine_items.json"),
+                Path("magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv"),
             ):
                 target = repo_copy / rel
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(ROOT / rel, target)
             promotion = PROMOTE.promote(stage_root, repo_copy)
             self.assertEqual(promotion["status"], "PASS")
-            self.assertEqual(promotion["canonical_human_review_items"], 199)
+            self.assertEqual(promotion["canonical_human_review_items"], len(remaining))
             self.assertEqual(promotion["protected_text_changes"], 0)
             self.assertIn("i18n/reviewed-candidates.tsv", promotion["canonical_i18n_and_audit_files"])
             self.assertIn(
@@ -237,7 +322,8 @@ class Pass20ProductStageTests(unittest.TestCase):
                 row["timestamp"] = "2026-08-15T12:00:00+08:00"
                 row["final_value"] = row["current_cn"]
                 row["human_revision"] = ""
-                row["human_notes"] = ""
+                row["human_notes"] = "机器来源、人工已批准"
+                row["review_status"] = "human-reviewed-approved-current"
         with tempfile.TemporaryDirectory(prefix="pass20-blank-receipt-") as temp:
             temp_root = Path(temp)
             decisions_path = temp_root / "closed-decisions.tsv"
@@ -249,12 +335,14 @@ class Pass20ProductStageTests(unittest.TestCase):
                     AUDIT / "pass20_authority_resolutions.tsv",
                     AUDIT / "pass20_product_targets.json",
                     temp_root / "same-path-stage",
-                    AUDIT / "pass20_human_review.xlsx",
+                    AUDIT / "magireco_v26_translation_review_1565.xlsx",
                 )
             blank_workbook = temp_root / "blank-review.xlsx"
-            shutil.copy2(AUDIT / "pass20_human_review.xlsx", blank_workbook)
+            shutil.copy2(AUDIT / "magireco_v26_translation_review_1565.xlsx", blank_workbook)
             stage_root = temp_root / "stage"
-            with self.assertRaisesRegex(STAGE.StageError, "workbook itself must contain 199 closed decisions"):
+            with self.assertRaisesRegex(
+                STAGE.StageError, rf"workbook itself must contain {len(remaining_ids)} closed decisions"
+            ):
                 STAGE.stage(
                     AUDIT / "dsv4_terminal_handoff/full_review.tsv",
                     decisions_path,

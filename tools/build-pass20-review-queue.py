@@ -1,93 +1,159 @@
 #!/usr/bin/env python3
-"""Rebuild the unresolved current-text Pass20 queue from frozen decisions and authority resolutions."""
+"""Build the 1,589-item machine inventory and 1,565-item human queue."""
 
 from __future__ import annotations
 
 import argparse
-import csv
+import json
 from pathlib import Path
 import sys
 
-
-ROOT = Path(__file__).resolve().parents[1]
-AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
-DECISIONS = AUDIT / "dsv4_human_decisions.tsv"
-RESOLUTIONS = AUDIT / "pass20_authority_resolutions.tsv"
-OUTPUT = AUDIT / "pass20_remaining_manual_review.tsv"
-REQUIRED_VERDICTS = {"manual-required", "correction", "unresolved"}
-DECISION_FIELDS = {
-    "human_decision", "reviewer", "timestamp", "final_value", "human_revision", "human_notes",
-}
+from pass20_review_contract import (
+    CLASSIFICATION_FIELDS, CONTRACT_JSON, DECISION_FIELDS, DECISIONS, EFFECTIVE,
+    FULL_REVIEW, HUMAN_DECISIONS, HUMAN_QUEUE, MACHINE_INVENTORY, OFFICIAL_REVIEW, PRIORITY_QUEUE,
+    PRIORITY_VERDICTS, PROVENANCE, RESOLUTIONS, SHADOW_TSV,
+    ContractError, contract_payload, human_review_status, is_shadowed, load_tsv,
+    validate_authority_resolutions, validate_contract_counts, write_tsv,
+)
 
 
-class QueueError(RuntimeError):
+class QueueError(ContractError):
     pass
 
 
-def load_tsv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
-    raw = path.read_bytes()
-    if raw.startswith(b"\xef\xbb\xbf") or b"\r" in raw:
-        raise QueueError(f"TSV must be UTF-8-no-BOM with LF endings: {path}")
-    with path.open("r", encoding="utf-8", newline="") as stream:
-        reader = csv.DictReader(stream, delimiter="\t")
-        header = list(reader.fieldnames or [])
-        rows = list(reader)
-    if not header or any(None in row for row in rows):
-        raise QueueError(f"invalid TSV structure: {path}")
-    return header, rows
-
-
-def build(decisions_path: Path, resolutions_path: Path) -> tuple[list[str], list[dict[str, str]]]:
-    header, decisions = load_tsv(decisions_path)
+def build(
+    full_review_path: Path,
+    decisions_schema_path: Path,
+    resolutions_path: Path,
+    official_review_path: Path,
+    provenance_path: Path,
+    effective_path: Path,
+) -> tuple[
+    list[str], list[dict[str, str]], list[dict[str, str]],
+    list[dict[str, str]], list[dict[str, str]],
+]:
+    source_header, source_rows = load_tsv(full_review_path)
+    decision_header, _ = load_tsv(decisions_schema_path)
     _, resolutions = load_tsv(resolutions_path)
+    _, official_review = load_tsv(official_review_path)
+    _, provenance_rows = load_tsv(provenance_path)
+    _, effective_rows = load_tsv(effective_path)
+    immutable_schema = [field for field in decision_header if field not in DECISION_FIELDS]
+    if not set(immutable_schema).issubset(source_header):
+        missing = sorted(set(immutable_schema).difference(source_header))
+        raise QueueError(f"decision schema fields are absent from frozen full_review: {missing}")
+
     resolution_ids: set[str] = set()
     for row in resolutions:
         item_id = row["item_id"]
         if not item_id or item_id in resolution_ids:
-            raise QueueError(f"authority resolutions contain a missing or duplicate item_id: {item_id!r}")
+            raise QueueError(f"authority resolutions contain missing/duplicate item_id: {item_id!r}")
         resolution_ids.add(item_id)
-    decision_ids: set[str] = set()
-    queue: list[dict[str, str]] = []
-    for row in decisions:
-        item_id = row["item_id"]
-        if not item_id or item_id in decision_ids:
-            raise QueueError(f"decision table contains a missing or duplicate item_id: {item_id!r}")
-        decision_ids.add(item_id)
+    validate_authority_resolutions(source_rows, resolutions, official_review)
+    provenance = {row["candidate_id"]: row for row in provenance_rows}
+    effective = {row["key"]: row for row in effective_rows}
+    if len(provenance) != len(provenance_rows) or len(effective) != len(effective_rows):
+        raise QueueError("provenance/effective semantic keys are not unique")
+
+    source_ids: set[str] = set()
+    inventory: list[dict[str, str]] = []
+    allowed = json.dumps(HUMAN_DECISIONS, ensure_ascii=False, separators=(",", ":"))
+    read_only = json.dumps([], ensure_ascii=False, separators=(",", ":"))
+    for source_row in source_rows:
+        item_id = source_row.get("item_id", "")
+        if not item_id or item_id in source_ids:
+            raise QueueError(f"frozen source contains missing/duplicate item_id: {item_id!r}")
+        source_ids.add(item_id)
         if (
-            row["review_kind"] == "current-low-tier-translation-review"
-            and row["parent_verdict"] in REQUIRED_VERDICTS
-            and item_id not in resolution_ids
+            source_row["review_kind"] != "current-low-tier-translation-review"
+            or item_id in resolution_ids
         ):
-            if any(row[field] for field in DECISION_FIELDS):
-                raise QueueError(f"unresolved queue candidate already carries a human decision: {item_id}")
-            queue.append(row)
-    if len(queue) != 199 or len({row["item_id"] for row in queue}) != 199:
-        raise QueueError(f"expected 199 unresolved current-text items, found {len(queue)}")
-    if "LOW-MT-01485" in {row["item_id"] for row in queue}:
-        raise QueueError("LOW-MT-01485 must be closed by existing official authority")
-    return header, queue
+            continue
+        row = {field: source_row.get(field, "") for field in decision_header}
+        source = provenance.get(row["source_key"])
+        if source is None or source["source_file"] != row["source_path"]:
+            raise QueueError(f"candidate provenance is missing or drifted: {item_id}")
+        winner = effective.get(source["key"])
+        if winner is None:
+            raise QueueError(f"effective semantic key is missing: {item_id}")
+        shadowed = is_shadowed(source, winner)
+        status = human_review_status(row["parent_verdict"])
+        if not status:
+            raise QueueError(f"unsupported DSV4 verdict: {item_id}={row['parent_verdict']!r}")
+        row.update({
+            "allowed_human_decisions": read_only if shadowed else allowed,
+            "review_status": "higher-authority-shadowed-read-only" if shadowed else status,
+            "human_decision": "", "reviewer": "", "timestamp": "",
+            "final_value": "", "human_revision": "", "human_notes": "",
+            "review_scope_status": (
+                "higher-authority-shadowed" if shadowed else "current-effective-low-authority"
+            ),
+            "application_policy": (
+                "product-write-forbidden" if shadowed else "human-reviewed-materialization"
+            ),
+            "effective_cn": winner["selected_cn"],
+            "effective_tier": winner["authority"],
+            "effective_source_file": winner["source_file"],
+            "effective_source_line": winner["source_line"],
+            "shadowed_by_higher_authority": str(shadowed).lower(),
+            "product_write_forbidden": str(shadowed).lower(),
+            "canonical_write_allowed_after_human_gate": str(not shadowed).lower(),
+        })
+        inventory.append(row)
 
-
-def write(path: Path, header: list[str], rows: list[dict[str, str]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=header, delimiter="\t", lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(rows)
+    shadowed = [row for row in inventory if row["shadowed_by_higher_authority"] == "true"]
+    human = [row for row in inventory if row["shadowed_by_higher_authority"] == "false"]
+    priority = [row for row in human if row["parent_verdict"] in PRIORITY_VERDICTS]
+    approved = [row for row in human if row["parent_verdict"] == "approved"]
+    if len(priority) + len(approved) != len(human):
+        raise QueueError("human queue contains an unsupported DSV4 verdict")
+    priority.sort(key=lambda row: int(row["source_index"]))
+    approved.sort(key=lambda row: int(row["source_index"]))
+    shadowed.sort(key=lambda row: int(row["source_index"]))
+    human = priority + approved
+    inventory = human + shadowed
+    validate_contract_counts(machine=inventory, human=human, priority=priority, shadowed=shadowed)
+    if "LOW-MT-01485" in {row["item_id"] for row in human}:
+        raise QueueError("LOW-MT-01485 must remain closed by existing official authority")
+    header = decision_header + [field for field in CLASSIFICATION_FIELDS if field not in decision_header]
+    return header, inventory, human, priority, shadowed
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--decisions", type=Path, default=DECISIONS)
+    parser.add_argument("--source", type=Path, default=FULL_REVIEW)
+    parser.add_argument("--decisions-schema", type=Path, default=DECISIONS)
     parser.add_argument("--resolutions", type=Path, default=RESOLUTIONS)
-    parser.add_argument("--out", type=Path, default=OUTPUT)
+    parser.add_argument("--official-review", type=Path, default=OFFICIAL_REVIEW)
+    parser.add_argument("--provenance", type=Path, default=PROVENANCE)
+    parser.add_argument("--effective", type=Path, default=EFFECTIVE)
+    parser.add_argument("--out", type=Path, default=HUMAN_QUEUE)
+    parser.add_argument("--priority-out", type=Path, default=PRIORITY_QUEUE)
+    parser.add_argument("--inventory-out", type=Path, default=MACHINE_INVENTORY)
+    parser.add_argument("--shadow-tsv", type=Path, default=SHADOW_TSV)
+    parser.add_argument("--contract", type=Path, default=CONTRACT_JSON)
     args = parser.parse_args(argv)
     try:
-        header, rows = build(args.decisions, args.resolutions)
-        write(args.out, header, rows)
-        print(f"PASS: wrote {len(rows)} unresolved current-text items to {args.out}")
+        header, inventory, human, priority, shadowed = build(
+            args.source, args.decisions_schema, args.resolutions, args.official_review,
+            args.provenance, args.effective,
+        )
+        write_tsv(args.inventory_out, header, inventory)
+        write_tsv(args.out, header, human)
+        write_tsv(args.priority_out, header, priority)
+        write_tsv(args.shadow_tsv, header, shadowed)
+        contract = contract_payload(
+            full_review=args.source, resolutions=args.resolutions,
+            provenance=args.provenance, effective=args.effective,
+            machine=inventory, human=human, priority=priority, shadowed=shadowed,
+        )
+        args.contract.write_text(
+            json.dumps(contract, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8", newline="\n",
+        )
+        print(json.dumps(contract["counts"], ensure_ascii=False, sort_keys=True))
         return 0
-    except (QueueError, OSError, UnicodeError, csv.Error) as exc:
+    except (ContractError, OSError, UnicodeError, ValueError, KeyError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
 

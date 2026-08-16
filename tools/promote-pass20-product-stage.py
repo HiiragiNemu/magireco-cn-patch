@@ -19,8 +19,14 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT_REL = Path("magica/i18n_audit/release_v26_authority")
 PROTECTED_REL = AUDIT_REL / "protected_authority/protected_translation_fields.tsv"
+QUEUE_REL = AUDIT_REL / "pass20_remaining_manual_review.tsv"
+TARGETS_REL = AUDIT_REL / "pass20_product_targets.json"
+SHADOWED_REL = AUDIT_REL / "pass20_authority_shadowed_machine_items.json"
+RESOLUTIONS_REL = AUDIT_REL / "pass20_authority_resolutions.tsv"
 DECISIONS_RECEIPT = "magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv"
-WORKBOOK_RECEIPT = "magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx"
+WORKBOOK_RECEIPT = (
+    "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"
+)
 CANONICAL_I18N_FILES = {
     "i18n/reviewed-candidates.tsv",
     "i18n/generated/conflicts.tsv",
@@ -28,10 +34,6 @@ CANONICAL_I18N_FILES = {
     "i18n/generated/input-provenance.tsv",
     "i18n/generated/summary.json",
 }
-REVIEW_ITEMS = 199
-MAINTENANCE_ONLY_ITEMS = 19
-
-
 class PromotionError(RuntimeError):
     pass
 
@@ -114,8 +116,6 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
         or report.get("status") != "PASS"
         or report.get("repository_product_writes") != 0
         or report.get("protected_text_changes") != 0
-        or report.get("canonical_human_review_items") != REVIEW_ITEMS
-        or report.get("maintenance_only_items_persisted") != MAINTENANCE_ONLY_ITEMS
         or not report.get("human_gate", {}).get("release_gate_open")
         or report.get("rollback_rehearsal", {}).get("status") != "PASS"
         or report.get("rollback_rehearsal", {}).get("relocated_stage_copy") is not True
@@ -130,6 +130,42 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
     manifest = read_json(stage_root / "rollback/rollback.json")
     if manifest.get("schema") != "magireco-cn-pass20-product-rollback/1":
         raise PromotionError("rollback manifest schema drifted")
+    try:
+        review_contract = rollback_tool.validate_review_contract(manifest.get("review_contract"))
+    except Exception as exc:
+        raise PromotionError(f"rollback review contract is invalid: {exc}") from exc
+    if report.get("review_contract") != review_contract:
+        raise PromotionError("staging and rollback review contracts differ")
+    report_contract_fields = {
+        "machine_inventory_items": "machine_inventory_items",
+        "human_review_items": "human_review_items",
+        "canonical_human_review_items": "materialization_items",
+        "higher_authority_shadowed_items": "higher_authority_shadowed_items",
+        "product_write_forbidden_items": "product_write_forbidden_items",
+        "exact_target_items": "exact_runtime_items",
+        "maintenance_only_items_persisted": "maintenance_only_items",
+        "runtime_occurrences_bound": "runtime_occurrences",
+        "shadowed_low_tier_candidates_written": "shadowed_low_tier_candidates_written",
+        "shadowed_product_writes": "shadowed_product_writes",
+    }
+    if any(
+        report.get(report_key) != review_contract[contract_key]
+        for report_key, contract_key in report_contract_fields.items()
+    ):
+        raise PromotionError("staging report counts differ from its review contract")
+    if report.get("reviewed_candidates_appended") != review_contract["materialization_items"]:
+        raise PromotionError("staging canonical append count drifted")
+    if report.get("human_gate", {}).get("decision_required") != review_contract["human_review_items"]:
+        raise PromotionError("human gate count differs from the materialization contract")
+    source_files = {
+        "source_records_sha256": repo_root / QUEUE_REL,
+        "target_contract_sha256": repo_root / TARGETS_REL,
+        "authority_shadow_manifest_sha256": repo_root / SHADOWED_REL,
+        "authority_resolutions_sha256": repo_root / RESOLUTIONS_REL,
+    }
+    for field, path in source_files.items():
+        if not path.is_file() or path.is_symlink() or digest(path.read_bytes()) != review_contract[field]:
+            raise PromotionError(f"repository {field} gate failed")
     records = manifest.get("files")
     if not isinstance(records, list) or not records:
         raise PromotionError("rollback manifest contains no promotion files")
@@ -274,8 +310,15 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
             "runtime_product_files": runtime_files,
             "canonical_i18n_and_audit_files": canonical_files,
             "human_review_workbook_receipt": receipt,
-            "canonical_human_review_items": REVIEW_ITEMS,
-            "maintenance_only_items_persisted": MAINTENANCE_ONLY_ITEMS,
+            "review_contract": review_contract,
+            "machine_inventory_items": review_contract["machine_inventory_items"],
+            "human_review_items": review_contract["human_review_items"],
+            "canonical_human_review_items": review_contract["materialization_items"],
+            "higher_authority_shadowed_items": review_contract["higher_authority_shadowed_items"],
+            "product_write_forbidden_items": review_contract["product_write_forbidden_items"],
+            "maintenance_only_items_persisted": review_contract["maintenance_only_items"],
+            "shadowed_low_tier_candidates_written": 0,
+            "shadowed_product_writes": 0,
             "protected_fields_checked": len(protected_rows),
             "protected_text_changes": 0,
             "js_syntax_checked": js_checked,

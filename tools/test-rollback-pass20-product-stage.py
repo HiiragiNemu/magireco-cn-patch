@@ -27,6 +27,29 @@ def load_tool():
 TOOL = load_tool()
 
 
+def review_contract() -> dict[str, object]:
+    return {
+        "machine_inventory_items": 4,
+        "human_review_items": 3,
+        "materialization_items": 3,
+        "higher_authority_shadowed_items": 1,
+        "product_write_forbidden_items": 1,
+        "authority_resolution_items": 2,
+        "exact_runtime_items": 2,
+        "maintenance_only_items": 1,
+        "runtime_occurrences": 2,
+        "global_items": 3,
+        "override_items": 0,
+        "fragment_items": 0,
+        "shadowed_low_tier_candidates_written": 0,
+        "shadowed_product_writes": 0,
+        "source_records_sha256": "0" * 64,
+        "target_contract_sha256": "1" * 64,
+        "authority_shadow_manifest_sha256": "2" * 64,
+        "authority_resolutions_sha256": "3" * 64,
+    }
+
+
 def fixture(root: Path) -> tuple[Path, Path, Path]:
     stage = root / "relocated-stage"
     product = root / "separate-product"
@@ -41,6 +64,7 @@ def fixture(root: Path) -> tuple[Path, Path, Path]:
         path.write_bytes(data)
     payload = {
         "schema": "magireco-cn-pass20-product-rollback/1",
+        "review_contract": review_contract(),
         "files": [{
             "path": rel,
             "before_snapshot": f"rollback/before/{rel}",
@@ -86,6 +110,7 @@ def two_file_fixture(root: Path) -> tuple[Path, Path, list[Path]]:
     manifest.write_text(
         json.dumps({
             "schema": "magireco-cn-pass20-product-rollback/1",
+            "review_contract": review_contract(),
             "files": records,
         }),
         encoding="utf-8",
@@ -161,6 +186,16 @@ class Pass20RollbackTests(unittest.TestCase):
             self.assertEqual(result["status"], "PASS")
             self.assertEqual(current[0].read_bytes(), b"const value = 'before-1';\n")
             self.assertEqual(current[1].read_bytes(), b"const value = 'before-2';\n")
+
+    def test_06_shadowed_low_tier_write_contract_is_rejected(self):
+        with tempfile.TemporaryDirectory(prefix="pass20-rollback-") as temp:
+            stage, product, _current = fixture(Path(temp))
+            manifest = stage / "rollback/rollback.json"
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            payload["review_contract"]["shadowed_product_writes"] = 1
+            manifest.write_text(json.dumps(payload), encoding="utf-8", newline="\n")
+            with self.assertRaisesRegex(TOOL.RollbackError, "protected shadow write"):
+                TOOL.rollback(stage, product)
 
 
 if __name__ == "__main__":

@@ -33,10 +33,11 @@ class Pass20MaterializationTests(unittest.TestCase):
         self.assertEqual(result["protected_text_changes"], 0)
         if result["release_gate_open"]:
             self.assertTrue(result["materialization_verified"])
-            self.assertEqual(result["canonical_human_reviewed"], 199)
-            self.assertEqual(result["exact_runtime_items"], 180)
-            self.assertEqual(result["maintenance_only_items"], 19)
-            self.assertEqual(result["runtime_occurrences"], 246)
+            self.assertEqual(
+                result["canonical_human_reviewed"], result["review_contract"]["materialization_items"]
+            )
+            self.assertEqual(result["shadowed_low_tier_candidates_written"], 0)
+            self.assertEqual(result["shadowed_product_writes"], 0)
         else:
             self.assertFalse(result["materialization_verified"])
             self.assertGreater(result["pending"], 0)
@@ -109,7 +110,15 @@ class Pass20MaterializationTests(unittest.TestCase):
                 "candidate_cn": decision["final_value"], "status": "present",
                 "authority": "existing_human_reviewed", "source_batch": "pass20-human-review-v1",
                 "source_locator": TOOL.LOCATOR_PREFIX + item_id,
-                "match_method": "exact-semantic-key-human-review", "review_status": "human-reviewed",
+                "match_method": "exact-semantic-key-human-review",
+                "review_status": (
+                    "human-reviewed-revised"
+                    if decision["human_decision"] == "revise"
+                    else "human-reviewed-approved-machine-origin-retained"
+                ),
+                "machine_translated": (
+                    "false" if decision["human_decision"] == "revise" else "unknown"
+                ),
             })
             effective.append({
                 "key": target_row["semantic_key"], "selected_cn": decision["final_value"],
@@ -148,6 +157,37 @@ class Pass20MaterializationTests(unittest.TestCase):
                     expected_items=3, expected_runtime_items=2,
                     expected_maintenance_items=1, expected_occurrences=2,
                 )
+
+    def test_06_higher_authority_shadow_never_enters_human_layer(self):
+        decisions = [{
+            "item_id": "SHADOW-1", "human_decision": "", "reviewer": "", "timestamp": "",
+            "final_value": "", "human_revision": "", "human_notes": "",
+        }]
+        effective = [{
+            "key": "global:shadow", "selected_cn": "官方值", "authority": "official_cn_dump",
+            "source_file": "i18n/official-cn.tsv", "source_line": "7",
+        }]
+        provenance = [{
+            "candidate_id": "machine-candidate-1", "key": "global:shadow",
+            "source_text": "源文", "candidate_cn": "旧机翻", "selected": "false",
+            "authority": "legacy_unverified_ai_assisted",
+            "source_file": "i18n/frontend-strings.tsv",
+        }]
+        shadows = [{
+            "item_id": "SHADOW-1", "source_key": "machine-candidate-1",
+            "source_path": "i18n/frontend-strings.tsv",
+            "japanese_or_source_original": "源文", "machine_current_cn": "旧机翻",
+            "effective_cn": "官方值", "effective_tier": "official_cn_dump",
+            "effective_source_file": "i18n/official-cn.tsv", "effective_source_line": 7,
+            "evidence": "official stable ID", "product_write_allowed": False,
+            "product_write_forbidden": True,
+        }]
+        result = TOOL.verify_higher_authority_shadows(shadows, decisions, [], provenance, effective)
+        self.assertEqual(result["higher_authority_shadowed_items"], 1)
+        self.assertEqual(result["shadowed_product_writes"], 0)
+        reviewed = [{"source_locator": TOOL.LOCATOR_PREFIX + "SHADOW-1"}]
+        with self.assertRaisesRegex(TOOL.MaterializationError, "entered human canonical"):
+            TOOL.verify_higher_authority_shadows(shadows, decisions, reviewed, provenance, effective)
 
 
 if __name__ == "__main__":

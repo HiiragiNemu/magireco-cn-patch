@@ -473,8 +473,10 @@ jobs:
           python3 tools/verify-v26-authority-protection.py --json \
             | tee _artifacts/v26_authority_protection_verification.json
           # Preview builds stay available for review. Stable promotion is a
-          # hard failure until every row not closed by higher authority is
-          # decided and unresolved=0.
+          # hard failure until all 1,565 human rows are decided/unresolved=0,
+          # the 323 authority resolutions stay outside that queue, and the 24
+          # higher-authority-shadowed machine rows prove zero low-tier/product
+          # writes through the materialization verifier.
           HUMAN_GATE_ARGS=()
           if [ "${{ needs.setup.outputs.publish_hotfix }}" = "true" ]; then
             HUMAN_GATE_ARGS+=(--require-release-open)

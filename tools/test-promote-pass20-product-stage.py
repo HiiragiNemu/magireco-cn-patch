@@ -59,7 +59,7 @@ class Pass20PromotionTests(unittest.TestCase):
             "magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv": (
                 b"blank-decisions\n", b"completed-decisions\n", "human-decision-audit",
             ),
-            "magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx": (
+            "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx": (
                 b"blank-workbook", b"completed-workbook", "human-review-workbook-receipt",
             ),
         }
@@ -84,14 +84,62 @@ class Pass20PromotionTests(unittest.TestCase):
                 "before_size": len(before),
                 "after_size": len(after),
             })
+        contract_sources = {
+            "magica/i18n_audit/release_v26_authority/pass20_remaining_manual_review.tsv": b"queue\n",
+            "magica/i18n_audit/release_v26_authority/pass20_product_targets.json": b"{}\n",
+            "magica/i18n_audit/release_v26_authority/pass20_authority_shadowed_machine_items.json": b"{}\n",
+            "magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv": b"resolutions\n",
+        }
+        for rel, data in contract_sources.items():
+            path = repo / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(data)
+        review_contract = {
+            "machine_inventory_items": 4,
+            "human_review_items": 3,
+            "materialization_items": 3,
+            "higher_authority_shadowed_items": 1,
+            "product_write_forbidden_items": 1,
+            "authority_resolution_items": 2,
+            "exact_runtime_items": 2,
+            "maintenance_only_items": 1,
+            "runtime_occurrences": 2,
+            "global_items": 3,
+            "override_items": 0,
+            "fragment_items": 0,
+            "shadowed_low_tier_candidates_written": 0,
+            "shadowed_product_writes": 0,
+            "source_records_sha256": PROMOTE.digest(contract_sources[
+                "magica/i18n_audit/release_v26_authority/pass20_remaining_manual_review.tsv"
+            ]),
+            "target_contract_sha256": PROMOTE.digest(contract_sources[
+                "magica/i18n_audit/release_v26_authority/pass20_product_targets.json"
+            ]),
+            "authority_shadow_manifest_sha256": PROMOTE.digest(contract_sources[
+                "magica/i18n_audit/release_v26_authority/pass20_authority_shadowed_machine_items.json"
+            ]),
+            "authority_resolutions_sha256": PROMOTE.digest(contract_sources[
+                "magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv"
+            ]),
+        }
         report = {
             "schema": "magireco-cn-pass20-product-staging/1",
             "status": "PASS",
             "repository_product_writes": 0,
             "protected_text_changes": 0,
-            "canonical_human_review_items": 199,
-            "maintenance_only_items_persisted": 19,
-            "human_gate": {"release_gate_open": True},
+            "review_contract": review_contract,
+            "machine_inventory_items": 4,
+            "human_review_items": 3,
+            "canonical_human_review_items": 3,
+            "reviewed_candidates_appended": 3,
+            "higher_authority_shadowed_items": 1,
+            "product_write_forbidden_items": 1,
+            "exact_target_items": 2,
+            "maintenance_only_items_persisted": 1,
+            "runtime_occurrences_bound": 2,
+            "shadowed_low_tier_candidates_written": 0,
+            "shadowed_product_writes": 0,
+            "human_gate": {"release_gate_open": True, "decision_required": 3},
             "rollback_rehearsal": {"status": "PASS", "relocated_stage_copy": True},
             "repository_promotion_files": sorted(files),
             "changed_files": ["magica/template/fixture.html"],
@@ -99,12 +147,16 @@ class Pass20PromotionTests(unittest.TestCase):
                 rel for rel, (_before, _after, role) in files.items()
                 if role != "runtime-product"
             ),
-            "human_review_workbook_receipt": "magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx",
+            "human_review_workbook_receipt": "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
         }
         (stage / "staging_verification.json").write_text(
             json.dumps(report), encoding="utf-8"
         )
-        manifest = {"schema": "magireco-cn-pass20-product-rollback/1", "files": records}
+        manifest = {
+            "schema": "magireco-cn-pass20-product-rollback/1",
+            "review_contract": review_contract,
+            "files": records,
+        }
         (stage / "rollback/rollback.json").write_text(
             json.dumps(manifest), encoding="utf-8"
         )
@@ -126,7 +178,7 @@ class Pass20PromotionTests(unittest.TestCase):
         self.addCleanup(temp.cleanup)
         result = self.run_promote(repo, stage, FakeProtection())
         self.assertEqual(result["status"], "PASS")
-        self.assertEqual(result["canonical_human_review_items"], 199)
+        self.assertEqual(result["canonical_human_review_items"], 3)
         for rel, (_before, after, _role) in files.items():
             self.assertEqual((repo / rel).read_bytes(), after)
 
@@ -210,7 +262,7 @@ class Pass20PromotionTests(unittest.TestCase):
             malicious,
             "i18n/reviewed-candidates.tsv",
             "magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv",
-            "magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx",
+            "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
         ])
         report["changed_files"] = [malicious]
         report_path.write_text(json.dumps(report), encoding="utf-8")
@@ -263,6 +315,17 @@ class Pass20PromotionTests(unittest.TestCase):
             self.assertRaisesRegex(PROMOTE.PromotionError, "changed files were restored"),
         ):
             self.run_promote(repo, stage, FakeProtection(), report_path)
+        for rel, (before, _after, _role) in files.items():
+            self.assertEqual((repo / rel).read_bytes(), before)
+
+    def test_12_target_contract_hash_drift_rejects_without_writes(self):
+        temp, repo, stage, files = self.fixture()
+        self.addCleanup(temp.cleanup)
+        (repo / "magica/i18n_audit/release_v26_authority/pass20_product_targets.json").write_bytes(
+            b'{"drift":true}\n'
+        )
+        with self.assertRaisesRegex(PROMOTE.PromotionError, "target_contract_sha256 gate failed"):
+            self.run_promote(repo, stage, FakeProtection())
         for rel, (before, _after, _role) in files.items():
             self.assertEqual((repo / rel).read_bytes(), before)
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bind the 199 unresolved Pass20 items to maintenance rows and current product literals."""
+"""Bind all 1,565 human-review items to maintenance and runtime targets."""
 
 from __future__ import annotations
 
@@ -12,6 +12,12 @@ import re
 import sys
 from typing import Any
 
+from pass20_review_contract import (
+    EXACT_RUNTIME_ITEMS, HUMAN_REVIEW_ITEMS, MAINTENANCE_ONLY_ITEMS,
+    RUNTIME_OCCURRENCES, SHADOWED_ITEMS, SHADOW_JSON, SHADOW_TSV,
+)
+from v26_authority_protection import sha256_file
+
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
@@ -22,7 +28,6 @@ UI_TEXT = ROOT / "i18n/uiTextList.json"
 PRODUCT = ROOT / "magica"
 OUT_JSON = AUDIT / "pass20_product_targets.json"
 OUT_TSV = AUDIT / "pass20_product_targets.tsv"
-TOTAL = 199
 JS_LIT = re.compile(r'(["\'])((?:(?!\1)[^\\]|\\.)*)\1')
 HTML_TEXT = re.compile(r'>([^<>{}]*)<')
 HTML_ATTR = re.compile(r'((?:placeholder|title|alt|value)=")([^"]*)(")')
@@ -119,12 +124,15 @@ def build(
     effective_path: Path,
     ui_text_path: Path,
     product_root: Path,
+    *,
+    expected_items: int = HUMAN_REVIEW_ITEMS,
+    allow_shadowed: bool = False,
 ) -> dict[str, Any]:
     _, queue = load_tsv(queue_path)
     _, provenance_rows = load_tsv(provenance_path)
     _, effective_rows = load_tsv(effective_path)
-    if len(queue) != TOTAL or len({row["item_id"] for row in queue}) != TOTAL:
-        raise TargetError(f"Pass20 queue must contain {TOTAL} unique items")
+    if len(queue) != expected_items or len({row["item_id"] for row in queue}) != expected_items:
+        raise TargetError(f"Pass20 queue must contain {expected_items} unique items")
     provenance: dict[str, dict[str, str]] = {}
     for row in provenance_rows:
         candidate_id = row.get("candidate_id", "")
@@ -191,6 +199,8 @@ def build(
             or effective_row["source_file"] != source["source_file"]
             or effective_row["source_line"] != source["source_line"]
         )
+        if shadowed and not allow_shadowed:
+            raise TargetError(f"human queue contains a higher-authority-shadowed item: {item_id}")
         physical = physical_rows.get((source["source_file"], int(source["source_line"])))
         if physical is None:
             raise TargetError(f"physical maintenance row missing: {item_id}")
@@ -306,6 +316,13 @@ def build(
             application_allowed = False
             note = "声明路径存在，但当前运行时已不使用这条现译；仅保留未来重建所需的维护层决定。"
 
+        effective_observed_occurrences: list[dict[str, Any]] = []
+        if shadowed:
+            effective_literal = decode_cell(effective_row["selected_cn"])
+            for rel in scan_paths:
+                text = product_files.get(rel)
+                if text is not None and effective_literal:
+                    effective_observed_occurrences.extend(contexts(text, effective_literal, rel, scope))
         exact_occurrences = observed_occurrences if exact_binding and application_allowed else []
         for occurrence in exact_occurrences:
             claimed[(occurrence["path"], occurrence["start"], occurrence["end"])].append(item_id)
@@ -337,8 +354,14 @@ def build(
             "match_count": len(observed_occurrences),
             "match_status": status,
             "context_snippets": snippets,
+            # Keep the frozen machine-origin flag as provenance, while exposing
+            # the two independent post-review permissions without overloading it.
+            "source_product_write_allowed_provenance": queue_row["product_write_allowed"],
+            "canonical_write_allowed_after_human_gate": (
+                queue_row["canonical_write_allowed_after_human_gate"] == "true"
+            ),
+            "runtime_write_allowed_after_human_gate": application_allowed,
             "application_allowed": application_allowed,
-            "product_write_allowed_from_review_queue": queue_row["product_write_allowed"],
             "effective_before": {
                 "selected_cn": effective_row["selected_cn"],
                 "authority": effective_row["authority"],
@@ -346,8 +369,16 @@ def build(
                 "source_line": int(effective_row["source_line"]),
             },
             "shadowed_by_higher_authority": shadowed,
+            "review_scope_status": (
+                "higher-authority-shadowed" if shadowed else "current-effective-low-authority"
+            ),
+            "application_policy": (
+                "product-write-forbidden" if shadowed else "human-reviewed-materialization"
+            ),
+            "product_write_forbidden": shadowed,
             "occurrences": exact_occurrences,
             "observed_occurrences": observed_occurrences,
+            "effective_observed_occurrences": effective_observed_occurrences,
             "note": note,
         }
         items.append(item)
@@ -376,7 +407,27 @@ def build(
             "xlsx_writes_product_tree": False,
             "runtime_application_requires_human_gate": True,
         },
+        "input_sha256": {
+            "queue": sha256_file(queue_path),
+            "input_provenance": sha256_file(provenance_path),
+            "effective": sha256_file(effective_path),
+            "ui_text": sha256_file(ui_text_path),
+        },
     }
+    if not allow_shadowed:
+        expected = {
+            "items": HUMAN_REVIEW_ITEMS,
+            "exact_runtime_items": EXACT_RUNTIME_ITEMS,
+            "maintenance_only_items": MAINTENANCE_ONLY_ITEMS,
+            "runtime_occurrences": RUNTIME_OCCURRENCES,
+            "occurrence_collisions": 0,
+            "unclassified_items": 0,
+        }
+        for key, value in expected.items():
+            if result["summary"].get(key) != value:
+                raise TargetError(
+                    f"human target contract drifted: {key}={result['summary'].get(key)!r}, expected {value}"
+                )
     return result
 
 
@@ -389,6 +440,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--product-root", type=Path, default=PRODUCT)
     parser.add_argument("--out-json", type=Path, default=OUT_JSON)
     parser.add_argument("--out-tsv", type=Path, default=OUT_TSV)
+    parser.add_argument("--shadow-queue", type=Path, default=SHADOW_TSV)
+    parser.add_argument("--shadow-json", type=Path, default=SHADOW_JSON)
     args = parser.parse_args(argv)
     try:
         result = build(args.queue, args.provenance, args.effective, args.ui_text, args.product_root)
@@ -416,6 +469,50 @@ def main(argv: list[str] | None = None) -> int:
                 "application_allowed": str(item["application_allowed"]).lower(),
             })
         write_tsv(args.out_tsv, rows)
+        shadow_result = build(
+            args.shadow_queue, args.provenance, args.effective, args.ui_text, args.product_root,
+            expected_items=SHADOWED_ITEMS, allow_shadowed=True,
+        )
+        shadow_items = []
+        for item in shadow_result["items"]:
+            shadow_items.append({
+                "item_id": item["item_id"],
+                "stable_business_key": item["stable_business_key"],
+                "source_path": item["maintenance_table"],
+                "source_key": item["source_key"],
+                "japanese_or_source_original": item["source_text"],
+                "machine_current_cn": item["current_cn"],
+                "effective_cn": item["effective_before"]["selected_cn"],
+                "effective_tier": item["effective_before"]["authority"],
+                "effective_source_file": item["effective_before"]["source_file"],
+                "effective_source_line": item["effective_before"]["source_line"],
+                "declared_product_paths": item["declared_product_paths"],
+                "runtime_machine_count": len(item["observed_occurrences"]),
+                "runtime_machine_paths": sorted({row["path"] for row in item["observed_occurrences"]}),
+                "runtime_effective_count": len(item["effective_observed_occurrences"]),
+                "runtime_effective_paths": sorted({row["path"] for row in item["effective_observed_occurrences"]}),
+                "match_status": item["match_status"],
+                "product_write_allowed": False,
+                "product_write_forbidden": True,
+                "evidence": item["note"],
+            })
+        shadow_payload = {
+            "schema": "magireco-cn-pass20-authority-shadowed-machine-items/2",
+            "status": "PASS",
+            "summary": {
+                "items": len(shadow_items),
+                "higher_authority_shadowed_items": len(shadow_items),
+                "product_write_forbidden_items": len(shadow_items),
+                "runtime_machine_occurrences": sum(row["runtime_machine_count"] for row in shadow_items),
+                "runtime_effective_occurrences": sum(row["runtime_effective_count"] for row in shadow_items),
+            },
+            "input_sha256": shadow_result["input_sha256"],
+            "items": shadow_items,
+        }
+        args.shadow_json.write_text(
+            json.dumps(shadow_payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8", newline="\n",
+        )
         print(json.dumps(result["summary"], ensure_ascii=False, sort_keys=True))
         return 0
     except (TargetError, OSError, UnicodeError, json.JSONDecodeError, csv.Error) as exc:

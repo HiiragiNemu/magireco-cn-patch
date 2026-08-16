@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression tests for full DSV4 human-decision validation."""
+"""Regression tests for the complete Pass20 human-decision gate."""
 
 from __future__ import annotations
 
@@ -8,26 +8,28 @@ import importlib.util
 import io
 import json
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools"))
 TOOL = ROOT / "tools/validate-dsv4-human-review.py"
 SPEC = importlib.util.spec_from_file_location("validate_dsv4_human_review", TOOL)
 assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
-HANDOFF = ROOT / "magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff"
-AUTHORITY_RESOLUTIONS = (
-    ROOT
-    / "magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv"
-)
+AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
+HANDOFF = AUDIT / "dsv4_terminal_handoff"
+DECISIONS = AUDIT / "dsv4_human_decisions.tsv"
+RESOLUTIONS = AUDIT / "pass20_authority_resolutions.tsv"
+SHADOWS = AUDIT / "pass20_authority_shadowed_machine_items.json"
 
 
 def read_rows() -> tuple[list[str], list[dict[str, str]]]:
-    with (HANDOFF / "human_review.tsv").open("r", encoding="utf-8", newline="") as stream:
+    with DECISIONS.open("r", encoding="utf-8", newline="") as stream:
         reader = csv.DictReader(stream, delimiter="\t")
         return list(reader.fieldnames or []), list(reader)
 
@@ -40,94 +42,88 @@ def write_rows(path: Path, header: list[str], rows: list[dict[str, str]]) -> Non
     path.write_text(out.getvalue(), encoding="utf-8", newline="\n")
 
 
+def resolution_ids() -> set[str]:
+    with RESOLUTIONS.open("r", encoding="utf-8", newline="") as stream:
+        return {row["item_id"] for row in csv.DictReader(stream, delimiter="\t")}
+
+
+def shadow_ids() -> set[str]:
+    payload = json.loads(SHADOWS.read_text(encoding="utf-8"))
+    return {row["item_id"] for row in payload["items"]}
+
+
 class FullHumanReviewValidationTests(unittest.TestCase):
-    def test_blank_committed_template_is_valid_and_closed(self) -> None:
-        result = MODULE.validate(HANDOFF / "full_review.tsv", HANDOFF / "human_review.tsv")
-        self.assertEqual(result["states"]["pending"], 522)
-        self.assertEqual(result["states"]["not_required"], 1390)
-        self.assertFalse(result["all_decided"])
-        self.assertFalse(result["release_gate_open"])
+    def validate(self, decisions: Path = DECISIONS, shadows: Path = SHADOWS):
+        return MODULE.validate(HANDOFF / "full_review.tsv", decisions, RESOLUTIONS, shadows)
 
-    def test_pass20_authority_resolution_removes_only_proven_rows(self) -> None:
-        result = MODULE.validate(
-            HANDOFF / "full_review.tsv",
-            HANDOFF / "human_review.tsv",
-            AUTHORITY_RESOLUTIONS,
-        )
-        self.assertEqual(result["base_decision_required"], 522)
+    def test_blank_template_has_1565_pending_and_347_authority_excluded(self):
+        result = self.validate()
+        self.assertEqual(result["decision_required"], 1565)
+        self.assertEqual(result["states"]["pending"], 1565)
         self.assertEqual(result["authority_resolved"], 323)
-        self.assertEqual(result["decision_required"], 199)
-        self.assertEqual(result["states"]["pending"], 199)
-        self.assertEqual(result["required_by_kind"], {
-            "current-low-tier-translation-review": 199,
-            "historical-pass8-llm-comparison-only": 0,
-        })
+        self.assertEqual(result["higher_authority_shadowed"], 24)
+        self.assertEqual(result["authority_excluded_total"], 347)
         self.assertFalse(result["release_gate_open"])
 
-    def test_allowed_current_and_historical_decisions(self) -> None:
+    def test_decision_rows_may_be_sorted_because_item_id_is_authoritative(self):
         header, rows = read_rows()
-        current = next(row for row in rows if row["parent_verdict"] != "approved" and row["review_kind"].startswith("current"))
-        history = next(row for row in rows if row["parent_verdict"] != "approved" and row["review_kind"].startswith("historical"))
-        stamp = "2026-08-13T12:00:00Z"
-        current.update(human_decision="approve-current", reviewer="Fixture Reviewer", timestamp=stamp, final_value=current["current_cn"])
-        final = history["wiki_cn"] or history["current_cn"]
-        history.update(human_decision="keep-authority", reviewer="Fixture Reviewer", timestamp=stamp, final_value=final)
-        with tempfile.TemporaryDirectory(prefix="dsv4-human-decisions-") as td:
-            decisions = Path(td) / "decisions.tsv"
-            write_rows(decisions, header, rows)
-            result = MODULE.validate(HANDOFF / "full_review.tsv", decisions)
-        self.assertEqual(result["states"]["approved_current"], 1)
-        self.assertEqual(result["states"]["kept_authority"], 1)
-        self.assertEqual(result["states"]["pending"], 520)
+        rows.reverse()
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "sorted.tsv"
+            write_rows(path, header, rows)
+            result = self.validate(path)
+        self.assertEqual(result["states"]["pending"], 1565)
 
-    def test_protected_historical_revision_is_rejected(self) -> None:
+    def test_shadowed_row_cannot_carry_human_decision(self):
         header, rows = read_rows()
-        history = next(row for row in rows if row["parent_verdict"] != "approved" and row["review_kind"].startswith("historical"))
-        history.update(human_decision="revise", reviewer="Fixture Reviewer", timestamp="2026-08-13T12:00:00Z", final_value="污染")
-        with tempfile.TemporaryDirectory(prefix="dsv4-human-invalid-") as td:
-            decisions = Path(td) / "decisions.tsv"
-            write_rows(decisions, header, rows)
+        item_id = next(iter(shadow_ids()))
+        row = next(row for row in rows if row["item_id"] == item_id)
+        row.update(
+            human_decision="approve-current", reviewer="Fixture Reviewer",
+            timestamp="2026-08-16T12:00:00Z", final_value=row["current_cn"],
+            review_status="human-reviewed-approved-current",
+        )
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "shadow-write.tsv"
+            write_rows(path, header, rows)
+            with self.assertRaisesRegex(MODULE.HumanReviewError, "authority-shadowed"):
+                self.validate(path)
+
+    def test_shadow_manifest_cannot_swap_in_a_human_queue_item(self):
+        payload = json.loads(SHADOWS.read_text(encoding="utf-8"))
+        payload["items"][0]["item_id"] = "LOW-MT-00312"
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "swapped-shadow.json"
+            path.write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8", newline="\n",
+            )
             with self.assertRaises(MODULE.HumanReviewError):
-                MODULE.validate(HANDOFF / "full_review.tsv", decisions)
+                self.validate(shadows=path)
 
-    def test_release_enforcement_rejects_pending_committed_template(self) -> None:
-        out = io.StringIO()
-        err = io.StringIO()
-        with redirect_stdout(out), redirect_stderr(err):
-            code = MODULE.main([
-                "--source", str(HANDOFF / "full_review.tsv"),
-                "--decisions", str(HANDOFF / "human_review.tsv"),
-                "--require-release-open",
-            ])
-        self.assertEqual(code, 3)
-        self.assertFalse(json.loads(out.getvalue())["release_gate_open"])
-        self.assertIn("release gate closed", err.getvalue())
-
-    def test_release_enforcement_accepts_complete_zero_unresolved_fixture(self) -> None:
+    def test_release_enforcement_accepts_all_1565_human_approved(self):
         header, rows = read_rows()
-        stamp = "2026-08-13T12:00:00Z"
+        excluded = resolution_ids() | shadow_ids()
+        stamp = "2026-08-16T12:00:00Z"
         for row in rows:
-            if row["parent_verdict"] == "approved":
+            if row["item_id"] in excluded:
                 continue
-            if row["review_kind"] == "historical-pass8-llm-comparison-only":
-                row.update(
-                    human_decision="keep-authority", reviewer="Fixture Reviewer",
-                    timestamp=stamp, final_value=row["wiki_cn"] or row["current_cn"],
-                )
-            else:
-                row.update(
-                    human_decision="approve-current", reviewer="Fixture Reviewer",
-                    timestamp=stamp, final_value=row["current_cn"],
-                )
-        with tempfile.TemporaryDirectory(prefix="dsv4-human-complete-") as td:
-            decisions = Path(td) / "decisions.tsv"
-            report = Path(td) / "report.json"
+            row.update(
+                human_decision="approve-current", reviewer="Fixture Reviewer",
+                timestamp=stamp, final_value=row["current_cn"], human_revision="",
+                review_status="human-reviewed-approved-current",
+            )
+        with tempfile.TemporaryDirectory() as temp:
+            decisions = Path(temp) / "decisions.tsv"
+            report = Path(temp) / "report.json"
             write_rows(decisions, header, rows)
             out = io.StringIO()
             with redirect_stdout(out):
                 code = MODULE.main([
                     "--source", str(HANDOFF / "full_review.tsv"),
                     "--decisions", str(decisions),
+                    "--authority-resolutions", str(RESOLUTIONS),
+                    "--authority-shadows", str(SHADOWS),
                     "--report", str(report),
                     "--require-release-open",
                 ])
@@ -135,8 +131,23 @@ class FullHumanReviewValidationTests(unittest.TestCase):
             self.assertEqual(json.loads(report.read_text(encoding="utf-8")), result)
         self.assertEqual(code, 0)
         self.assertTrue(result["release_gate_open"])
-        self.assertEqual(result["states"]["pending"], 0)
+        self.assertEqual(result["states"]["approved_current"], 1565)
         self.assertEqual(result["states"]["unresolved"], 0)
+
+    def test_release_enforcement_rejects_pending_template(self):
+        out = io.StringIO()
+        err = io.StringIO()
+        with redirect_stdout(out), redirect_stderr(err):
+            code = MODULE.main([
+                "--source", str(HANDOFF / "full_review.tsv"),
+                "--decisions", str(DECISIONS),
+                "--authority-resolutions", str(RESOLUTIONS),
+                "--authority-shadows", str(SHADOWS),
+                "--require-release-open",
+            ])
+        self.assertEqual(code, 3)
+        self.assertFalse(json.loads(out.getvalue())["release_gate_open"])
+        self.assertIn("all 1565", err.getvalue())
 
 
 if __name__ == "__main__":
