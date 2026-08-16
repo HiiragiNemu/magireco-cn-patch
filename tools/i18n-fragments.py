@@ -129,7 +129,8 @@ def main():
                 continue
             path = os.path.join(cur, name)
             try:
-                orig = open(path, encoding='utf-8', errors='strict').read()
+                with open(path, encoding='utf-8', errors='strict', newline='') as stream:
+                    orig = stream.read()
             except (OSError, UnicodeDecodeError):
                 continue
             rel = os.path.relpath(path, args.root).replace(os.sep, '/')
@@ -147,7 +148,8 @@ def main():
             if new != orig:
                 changed.append(rel)
                 if not args.dry_run:
-                    open(path, 'w', encoding='utf-8').write(new)
+                    with open(path, 'w', encoding='utf-8', newline='') as stream:
+                        stream.write(new)
 
     stale = [(lineno, pre) for lineno, (pre, n) in ledger.items() if n == 0]
     for lineno, pre in stale:
