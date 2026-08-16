@@ -361,11 +361,14 @@ class Doge:
 # ══════════════════════════════════════════════════════════════════
 # 上游 Release 资产
 # ══════════════════════════════════════════════════════════════════
-IGNORE_PREFIXES = ('puella-historia',)   # 与 R2 系同一份过滤规则
+IGNORE_PREFIXES = ('puella-historia', 'apk-overlay-atlas.zip', 'legacy-client-archive', 'legacy-client-archieve')   # 与 R2 系同一份过滤规则
 
 
 def should_ignore(name):
-    return any(name.startswith(p) for p in IGNORE_PREFIXES)
+    if any(name.startswith(p) for p in IGNORE_PREFIXES):
+        return True
+    # 非主线 APK（非 magireco-latest*）不上传
+    return name.endswith('.apk') and not name.startswith('magireco-latest')
 
 
 def race_source_cdn():

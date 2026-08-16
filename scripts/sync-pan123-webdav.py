@@ -48,7 +48,7 @@ from requests.auth import HTTPBasicAuth
 socket.setdefaulttimeout(900)
 
 # 与 R2/Doge 系一致的忽略规则：puella-historia 前缀（原版自带资源，无需镜像）
-IGNORE_PREFIXES = ('puella-historia',)
+IGNORE_PREFIXES = ('puella-historia', 'apk-overlay-atlas.zip', 'legacy-client-archive', 'legacy-client-archieve')
 
 # 并发上传路数：123pan WebDAV 每连接吞吐有限、单个 PUT 响应极慢（真机实测进程
 # 长时间卡在 poll() 等响应，串行上传被延迟拖死）。多路并发把等待重叠掉；别开太
@@ -78,7 +78,10 @@ def env(k, required=True):
     return v
 
 def should_ignore(name):
-    return any(name.startswith(p) for p in IGNORE_PREFIXES)
+    if any(name.startswith(p) for p in IGNORE_PREFIXES):
+        return True
+    # 非主线 APK（非 magireco-latest*）不上传
+    return name.endswith('.apk') and not name.startswith('magireco-latest')
 
 
 def race_source_cdn():
