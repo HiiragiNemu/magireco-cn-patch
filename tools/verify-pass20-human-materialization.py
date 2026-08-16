@@ -20,7 +20,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT_REL = Path("magica/i18n_audit/release_v26_authority")
 SOURCE_REL = AUDIT_REL / "dsv4_terminal_handoff/full_review.tsv"
-DECISIONS_REL = AUDIT_REL / "dsv4_human_decisions.tsv"
+FINAL_VALUES_REL = AUDIT_REL / "pass20_human_final_values.tsv"
 RESOLUTIONS_REL = AUDIT_REL / "pass20_authority_resolutions.tsv"
 QUEUE_REL = AUDIT_REL / "pass20_remaining_manual_review.tsv"
 WORKBOOK_REL = AUDIT_REL / "magireco_v26_translation_review_1565.xlsx"
@@ -33,7 +33,7 @@ PROVENANCE_REL = Path("i18n/generated/input-provenance.tsv")
 
 LOCATOR_PREFIX = (
     "magica/i18n_audit/release_v26_authority/"
-    "dsv4_human_decisions.tsv#"
+    "pass20_human_final_values.tsv#"
 )
 JS_LITERAL = re.compile(r'(["\'])((?:(?!\1)[^\\]|\\.)*)\1')
 HTML_TEXT = re.compile(r'>([^<>{}]*)<')
@@ -132,27 +132,23 @@ def validate_workbook_receipt(
     result: dict[str, Any], imported: bytes, committed: bytes,
     expected_items: int,
 ) -> None:
-    counts = result.get("decision_counts")
-    if not isinstance(counts, dict):
-        raise MaterializationError("completed workbook decision counts are missing")
     if (
         result.get("status") != "PASS"
-        or result.get("decisions_imported") != expected_items
+        or result.get("returned_workbook_accepted") is not True
+        or result.get("receipt_rows_written") != expected_items
         or result.get("pending_in_workbook") != 0
-        or sum(counts.values()) != expected_items
-        or counts.get("unresolved") != 0
     ):
         raise MaterializationError(
-            f"completed workbook must contain {expected_items} closed decisions and zero unresolved rows"
+            f"completed workbook must return {expected_items} final values"
         )
     if imported != committed:
-        raise MaterializationError("completed workbook does not reproduce the committed decision TSV")
+        raise MaterializationError("completed workbook does not reproduce the committed final-value TSV")
 
 
 def verify_materialized_bindings(
     repo_root: Path,
     queue_rows: list[dict[str, str]],
-    decision_rows: list[dict[str, str]],
+    final_value_rows: list[dict[str, str]],
     target_rows: list[dict[str, Any]],
     reviewed_rows: list[dict[str, str]],
     effective_rows: list[dict[str, str]],
@@ -164,7 +160,7 @@ def verify_materialized_bindings(
     structure_check: Any | None = None,
 ) -> dict[str, int]:
     queue = index_unique(queue_rows, "item_id", "Pass20 queue")
-    decisions = index_unique(decision_rows, "item_id", "decision table")
+    final_values = index_unique(final_value_rows, "item_id", "final-value table")
     targets = index_unique(target_rows, "item_id", "product target manifest")
     effective = index_unique(effective_rows, "key", "effective i18n table")
     expected_items = len(queue) if expected_items is None else expected_items
@@ -189,16 +185,14 @@ def verify_materialized_bindings(
     maintenance_items = 0
     occurrence_count = 0
     for item_id, source in queue.items():
-        decision = decisions.get(item_id)
+        receipt = final_values.get(item_id)
         target = targets[item_id]
         reviewed = reviewed_by_id[item_id]
-        if decision is None:
-            raise MaterializationError(f"decision row missing: {item_id}")
-        if decision.get("human_decision") not in {"approve-current", "revise"}:
-            raise MaterializationError(f"decision is not publishable: {item_id}")
-        final_value = decision.get("final_value", "")
+        if receipt is None:
+            raise MaterializationError(f"final-value row missing: {item_id}")
+        final_value = receipt.get("final_value", "")
         if not final_value:
-            raise MaterializationError(f"decision final value is empty: {item_id}")
+            raise MaterializationError(f"returned final value is empty: {item_id}")
         if structure_check is not None:
             try:
                 structure_check(item_id, source.get("current_cn", ""), final_value)
@@ -211,17 +205,16 @@ def verify_materialized_bindings(
             "candidate_cn": final_value,
             "status": "present",
             "authority": "existing_human_reviewed",
-            "source_batch": "pass20-human-review-v1",
+            "source_batch": "pass20-human-final-values-v1",
             "source_locator": LOCATOR_PREFIX + item_id,
             "match_method": "exact-semantic-key-human-review",
         }
         for field, expected in expected_reviewed.items():
             if reviewed.get(field) != expected:
                 raise MaterializationError(f"canonical reviewed candidate drift {field}: {item_id}")
-        if not reviewed.get("review_status", "").startswith("human-reviewed"):
+        if reviewed.get("review_status") != receipt.get("review_status"):
             raise MaterializationError(f"canonical review status drift: {item_id}")
-        expected_machine = "false" if decision.get("human_decision") == "revise" else "unknown"
-        if reviewed.get("machine_translated") != expected_machine:
+        if reviewed.get("machine_translated") != receipt.get("machine_translated"):
             raise MaterializationError(f"canonical machine-origin status drift: {item_id}")
 
         semantic_key = target.get("semantic_key")
@@ -232,7 +225,7 @@ def verify_materialized_bindings(
             winner.get("selected_cn") != final_value
             or winner.get("authority") != "existing_human_reviewed"
             or winner.get("source_file") != "i18n/reviewed-candidates.tsv"
-            or winner.get("source_batch") != "pass20-human-review-v1"
+            or winner.get("source_batch") != "pass20-human-final-values-v1"
         ):
             raise MaterializationError(f"effective human-reviewed winner drift: {item_id}")
 
@@ -324,14 +317,12 @@ def verify_materialized_bindings(
 def verify_higher_authority_shadows(
     repo_root: Path,
     shadow_rows: list[dict[str, Any]],
-    decision_rows: list[dict[str, str]],
     reviewed_rows: list[dict[str, str]],
     provenance_rows: list[dict[str, str]],
     effective_rows: list[dict[str, str]],
     materialization_contracts: dict[str, dict[str, Any]],
 ) -> dict[str, int]:
     shadows = index_unique(shadow_rows, "item_id", "higher-authority shadow manifest")
-    decisions = index_unique(decision_rows, "item_id", "decision table")
     provenance = index_unique(provenance_rows, "candidate_id", "input provenance table")
     effective = index_unique(effective_rows, "key", "effective i18n table")
     reviewed_ids = {
@@ -339,9 +330,6 @@ def verify_higher_authority_shadows(
         for row in reviewed_rows
         if row.get("source_locator", "").startswith(LOCATOR_PREFIX)
     }
-    decision_fields = (
-        "human_decision", "reviewer", "timestamp", "final_value", "human_revision", "human_notes",
-    )
     materialized_ids: set[str] = set()
     checked_paths = 0
     machine_occurrences = 0
@@ -352,9 +340,6 @@ def verify_higher_authority_shadows(
             raise MaterializationError(f"higher-authority shadow permits product write: {item_id}")
         if item_id in reviewed_ids:
             raise MaterializationError(f"higher-authority shadow entered human canonical input: {item_id}")
-        decision = decisions.get(item_id)
-        if decision is None or any(decision.get(field, "") for field in decision_fields):
-            raise MaterializationError(f"higher-authority shadow carries a human decision: {item_id}")
         source_key = row.get("source_key")
         expected_cn = row.get("effective_cn")
         expected_authority = row.get("effective_tier")
@@ -481,9 +466,11 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
     validator = load_module("pass20_materialization_validator", tools_root / "validate-dsv4-human-review.py")
     gate = validator.validate(
         repo_root / SOURCE_REL,
-        repo_root / DECISIONS_REL,
+        repo_root / FINAL_VALUES_REL,
         repo_root / RESOLUTIONS_REL,
         repo_root / SHADOWED_REL,
+        targets_path=repo_root / TARGETS_REL,
+        adoptions_path=repo_root / AUDIT_REL / "pass21_user_directed_suggested_adoptions.tsv",
     )
     stage_contract = load_module(
         "pass20_materialization_contract", tools_root / "stage-pass20-human-review-product.py"
@@ -491,7 +478,7 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
     _, source_rows = load_tsv(repo_root / SOURCE_REL)
     _, queue_rows = load_tsv(repo_root / QUEUE_REL)
     _, resolution_rows = load_tsv(repo_root / RESOLUTIONS_REL)
-    _, decision_rows = load_tsv(repo_root / DECISIONS_REL)
+    _, final_value_rows = load_tsv(repo_root / FINAL_VALUES_REL)
     _, provenance_rows = load_tsv(repo_root / PROVENANCE_REL)
     _, effective_rows = load_tsv(repo_root / EFFECTIVE_REL)
     reviewed_rows = load_reviewed_candidates(repo_root / REVIEWED_REL)
@@ -534,7 +521,7 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
         "pass20_review_contract_constants", tools_root / "pass20_review_contract.py"
     )
     shadow_bindings = verify_higher_authority_shadows(
-        repo_root, shadow_contract["items"], decision_rows, reviewed_rows,
+        repo_root, shadow_contract["items"], reviewed_rows,
         provenance_rows, effective_rows,
         review_constants.SHADOW_RUNTIME_MATERIALIZATIONS,
     )
@@ -566,15 +553,15 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
         review_contract["human_review_items"] != review_contract["materialization_items"]
         or review_contract["machine_inventory_items"]
         != review_contract["materialization_items"] + review_contract["higher_authority_shadowed_items"]
-        or gate.get("decision_required") != review_contract["human_review_items"]
+        or gate.get("final_values_required") != review_contract["human_review_items"]
     ):
         raise MaterializationError("human gate and materialization contract counts differ")
     result: dict[str, Any] = {
         "schema": "magireco-cn-pass20-human-materialization-verification/1",
         "status": "PASS",
         "release_gate_open": gate["release_gate_open"],
-        "decision_required": gate["decision_required"],
-        "decided": gate["decided"],
+        "final_values_required": gate["final_values_required"],
+        "final_values_received": gate["final_values_received"],
         "pending": gate["states"]["pending"],
         "unresolved": gate["states"]["unresolved"],
         "materialization_verified": False,
@@ -595,25 +582,25 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
 
     importer = load_module("pass20_materialization_importer", tools_root / "import-pass20-human-review-xlsx.py")
     with tempfile.TemporaryDirectory(prefix="pass20-materialization-verify-") as temp:
-        imported_path = Path(temp) / "imported-decisions.tsv"
+        imported_path = Path(temp) / "imported-final-values.tsv"
         workbook_result = importer.import_workbook(
             repo_root / WORKBOOK_REL,
             repo_root / QUEUE_REL,
             repo_root / SOURCE_REL,
-            repo_root / DECISIONS_REL,
             repo_root / TARGETS_REL,
             imported_path,
+            accept_returned=True,
         )
         validate_workbook_receipt(
             workbook_result,
             imported_path.read_bytes(),
-            (repo_root / DECISIONS_REL).read_bytes(),
+            (repo_root / FINAL_VALUES_REL).read_bytes(),
             expected_items=len(queue_rows),
         )
     bindings = verify_materialized_bindings(
         repo_root,
         queue_rows,
-        decision_rows,
+        final_value_rows,
         target_payload["items"],
         reviewed_rows,
         effective_rows,
@@ -626,7 +613,7 @@ def verify(repo_root: Path = ROOT) -> dict[str, Any]:
     result.update(bindings)
     result.update({
         "materialization_verified": True,
-        "completed_workbook_reproduces_decisions": True,
+        "completed_workbook_reproduces_final_values": True,
         "protected_fields_checked": len(protected_rows),
     })
     return result
@@ -654,7 +641,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         if args.require_release_open and not result["release_gate_open"]:
             print(
-                f"release gate closed: {result['pending']} decisions remain",
+                f"release gate closed: {result['pending']} final values remain",
                 file=sys.stderr,
             )
             return 3

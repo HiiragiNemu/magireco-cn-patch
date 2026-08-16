@@ -6,6 +6,8 @@ from __future__ import annotations
 import argparse
 import csv
 from collections import Counter
+from hashlib import sha256
+import importlib.util
 import json
 from pathlib import Path, PurePosixPath
 import sys
@@ -20,13 +22,20 @@ RESOLUTIONS = AUDIT / "pass20_authority_resolutions.tsv"
 TARGETS = AUDIT / "pass20_product_targets.json"
 QUEUE = AUDIT / "pass20_remaining_manual_review.tsv"
 OFFICIAL_PRODUCTS = AUDIT / "pass20_official_static_product_corrections.tsv"
+ADOPTIONS = AUDIT / "pass21_user_directed_suggested_adoptions.tsv"
 OUT_TSV = AUDIT / "pass20_ds_correction_status.tsv"
 OUT_JSON = AUDIT / "pass20_ds_correction_status.json"
 FIELDS = (
     "item_id", "source_index", "current_cn_before_ds", "ds_suggested_cn",
-    "final_status", "official_final_cn", "ds_suggestion_matches_official",
+    "final_status", "official_final_cn", "adopted_final_cn", "machine_origin",
+    "authority_tier", "review_status", "ds_suggestion_matches_official",
     "current_candidate_state", "product_target_status", "product_match_count",
     "application_allowed", "evidence",
+)
+ADOPTION_FIELDS = (
+    "item_id", "source_index", "stable_business_key", "source_key", "source_text",
+    "current_cn", "ds_suggested_cn", "adopted_cn", "adoption_kind", "runtime_strategy",
+    "explicit_rewrites_json", "machine_origin", "authority_tier", "review_status", "evidence",
 )
 
 
@@ -62,6 +71,195 @@ def index_unique(rows: list[dict[str, Any]], label: str) -> dict[str, dict[str, 
             raise CorrectionStatusError(f"{label} contains a missing or duplicate item_id: {item_id!r}")
         result[item_id] = row
     return result
+
+
+def load_stage_helper():
+    path = Path(__file__).resolve().parent / "stage-pass20-human-review-product.py"
+    spec = importlib.util.spec_from_file_location("pass21_correction_status_helper", path)
+    if spec is None or spec.loader is None:
+        raise CorrectionStatusError(f"could not load product helper: {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def fingerprint(source_text: str, candidate_cn: str) -> str:
+    return sha256((source_text + "\0" + candidate_cn).encode("utf-8")).hexdigest()
+
+
+def read_frontend_candidates(root: Path) -> dict[str, str]:
+    path = root / "i18n/frontend-strings.tsv"
+    raw = path.read_bytes()
+    if raw.startswith(b"\xef\xbb\xbf") or b"\r" in raw:
+        raise CorrectionStatusError("frontend candidate byte contract drifted")
+    lines = raw.decode("utf-8").splitlines()
+    if not lines or lines[0] != "# 原文\t译文\t风险\t出现次数\t出现于":
+        raise CorrectionStatusError("frontend candidate header drifted")
+    result: dict[str, str] = {}
+    for line in lines[1:]:
+        columns = line.split("\t")
+        if len(columns) != 5 or not columns[0] or columns[0] in result:
+            raise CorrectionStatusError("frontend candidate key/row contract drifted")
+        result[columns[0]] = columns[1]
+    return result
+
+
+def verify_user_directed_adoptions(
+    entries_by_id: dict[str, dict[str, Any]],
+    unresolved_ids: set[str],
+    queue: dict[str, dict[str, str]],
+    targets: dict[str, dict[str, Any]],
+    decisions: dict[str, dict[str, str]],
+) -> tuple[dict[str, dict[str, Any]], Counter[str]]:
+    header: list[str]
+    with ADOPTIONS.open("r", encoding="utf-8", newline="") as stream:
+        reader = csv.DictReader(stream, delimiter="\t")
+        header = list(reader.fieldnames or [])
+        adoption_rows = list(reader)
+    if tuple(header) != ADOPTION_FIELDS:
+        raise CorrectionStatusError("Pass21 adoption manifest header drifted")
+    adoptions = index_unique(adoption_rows, "Pass21 adoption manifest")
+    if set(adoptions) != unresolved_ids or len(adoptions) != 29:
+        raise CorrectionStatusError("Pass21 adoption manifest must exactly cover the 29 non-authority corrections")
+
+    frontend = read_frontend_candidates(ROOT)
+    effective_rows = read_tsv(ROOT / "i18n/generated/effective.tsv")
+    effective = {row["key"]: row for row in effective_rows}
+    if len(effective) != len(effective_rows):
+        raise CorrectionStatusError("effective authority table contains duplicate semantic keys")
+    migration = json.loads((ROOT / "i18n/migration-source-summary.json").read_text(encoding="utf-8"))
+    frontend_info = migration.get("source_tables", {}).get("frontend-strings.tsv", {})
+    lineage = frontend_info.get("translated_candidate_lineage")
+    post = migration.get("post_migration_adoptions", {}).get("pass21_user_directed_suggested_adoptions")
+    if not isinstance(lineage, dict) or not isinstance(post, dict):
+        raise CorrectionStatusError("Pass21 canonical migration metadata is missing")
+    if (
+        post.get("manifest") != "magica/i18n_audit/release_v26_authority/pass21_user_directed_suggested_adoptions.tsv"
+        or post.get("items") != 29 or post.get("machine_origin") is not True
+        or post.get("adoption_status") != "user-directed-suggestion-adopted"
+        or post.get("new_lineage_fingerprints") != 27
+        or post.get("preserved_existing_lineage_fingerprints") != 2
+    ):
+        raise CorrectionStatusError("Pass21 canonical migration summary drifted")
+
+    helper = load_stage_helper()
+    strategy_counts: Counter[str] = Counter()
+    runtime_items: set[str] = set()
+    runtime_occurrences = 0
+    runtime_files: set[str] = set()
+    results: dict[str, dict[str, Any]] = {}
+    for item_id in sorted(adoptions):
+        adoption = adoptions[item_id]
+        entry = entries_by_id[item_id]
+        queued = queue.get(item_id)
+        target = targets.get(item_id)
+        decision = decisions.get(item_id)
+        if queued is None or target is None or decision is None:
+            raise CorrectionStatusError(f"adopted correction lost its frozen source binding: {item_id}")
+        if (
+            adoption["source_index"] != str(entry["source_index"])
+            or adoption["source_index"] != queued["source_index"]
+            or adoption["source_text"] != queued["japanese_or_source_original"]
+            or adoption["current_cn"] != entry["before"]
+            or adoption["current_cn"] != queued["current_cn"]
+            or adoption["ds_suggested_cn"] != entry["after"]
+            or adoption["ds_suggested_cn"] != queued["suggested_cn"]
+            or adoption["machine_origin"] != "true"
+            or adoption["authority_tier"] != "legacy_unverified_ai_assisted"
+            or adoption["review_status"] != "user-directed-suggestion-adopted"
+            or queued["parent_verdict"] != "correction"
+        ):
+            raise CorrectionStatusError(f"Pass21 adoption source/provenance binding drifted: {item_id}")
+        for field, value in queued.items():
+            if field not in HUMAN_FIELDS | QUEUE_CONTRACT_FIELDS and decision.get(field) != value:
+                raise CorrectionStatusError(f"Pass21 adoption decision source binding drifted {field}: {item_id}")
+        if any(decision.get(field, "") for field in HUMAN_FIELDS):
+            raise CorrectionStatusError(f"Pass21 machine-origin adoption was falsely marked human-reviewed: {item_id}")
+        if frontend.get(adoption["source_text"]) != adoption["adopted_cn"]:
+            raise CorrectionStatusError(f"Pass21 canonical frontend value was not adopted: {item_id}")
+        lineage_entry = lineage.get(fingerprint(adoption["source_text"], adoption["adopted_cn"]))
+        if not isinstance(lineage_entry, dict):
+            raise CorrectionStatusError(f"Pass21 adoption lineage is missing: {item_id}")
+        if adoption["adopted_cn"] != adoption["current_cn"] and lineage_entry != {
+            "batch": "pass21-user-directed-machine-suggestion", "commit": "",
+        }:
+            raise CorrectionStatusError(f"Pass21 changed adoption lineage drifted: {item_id}")
+        if adoption["adopted_cn"] == adoption["current_cn"] and lineage_entry.get("batch") == "pass21-user-directed-machine-suggestion":
+            raise CorrectionStatusError(f"Pass21 unchanged adoption overwrote historical lineage: {item_id}")
+        winner = effective.get(target["semantic_key"])
+        if (
+            winner is None or winner.get("selected_cn") != adoption["adopted_cn"]
+            or winner.get("authority") != "legacy_unverified_ai_assisted"
+            or winner.get("source_file") != "i18n/frontend-strings.tsv"
+        ):
+            raise CorrectionStatusError(f"Pass21 effective winner/provenance drifted: {item_id}")
+
+        strategy = adoption["runtime_strategy"]
+        strategy_counts[strategy] += 1
+        rewrites: list[dict[str, Any]] = []
+        if strategy == "target-manifest-exact":
+            if target.get("application_allowed") is not True:
+                raise CorrectionStatusError(f"Pass21 exact runtime target is no longer exact: {item_id}")
+            expected_by_path: dict[str, int] = {}
+            for occurrence in target.get("occurrences", []):
+                rel = str(occurrence["path"])
+                expected_by_path[rel] = expected_by_path.get(rel, 0) + 1
+            rewrites = [{
+                "path": rel, "before": decode_cell(adoption["current_cn"]),
+                "after": decode_cell(adoption["adopted_cn"]), "expected_count": count,
+            } for rel, count in sorted(expected_by_path.items())]
+        elif strategy == "explicit-safe-paths":
+            try:
+                rewrites = json.loads(adoption["explicit_rewrites_json"])
+            except json.JSONDecodeError as exc:
+                raise CorrectionStatusError(f"Pass21 explicit rewrite JSON drifted: {item_id}") from exc
+            allowed_paths = set(target.get("product_target_paths") or [])
+            if not rewrites or any(rewrite.get("path") not in allowed_paths for rewrite in rewrites):
+                raise CorrectionStatusError(f"Pass21 explicit runtime allowlist drifted: {item_id}")
+        elif strategy == "canonical-only":
+            if target.get("application_allowed") is True or adoption["explicit_rewrites_json"] != "[]":
+                raise CorrectionStatusError(f"Pass21 canonical-only boundary drifted: {item_id}")
+        else:
+            raise CorrectionStatusError(f"Pass21 runtime strategy drifted: {item_id}")
+
+        item_occurrences = 0
+        for rewrite in rewrites:
+            rel = str(rewrite["path"])
+            expected_count = int(rewrite["expected_count"])
+            path = ROOT / "magica" / Path(*PurePosixPath(rel).parts)
+            if not path.is_file() or path.is_symlink():
+                raise CorrectionStatusError(f"Pass21 runtime product path is missing or unsafe: {item_id}")
+            text = path.read_bytes().decode("utf-8")
+            old_count = len(helper.semantic_spans(text, rewrite["before"], rel, "global"))
+            new_count = len(helper.semantic_spans(text, rewrite["after"], rel, "global"))
+            if old_count != 0 or new_count < expected_count:
+                raise CorrectionStatusError(
+                    f"Pass21 runtime product value was not adopted: {item_id} {rel} old={old_count} new={new_count}"
+                )
+            item_occurrences += expected_count
+            runtime_occurrences += expected_count
+            runtime_files.add(rel)
+        if rewrites:
+            runtime_items.add(item_id)
+        results[item_id] = {
+            "strategy": strategy,
+            "adopted_cn": adoption["adopted_cn"],
+            "product_match_count": item_occurrences,
+            "application_allowed": "true" if rewrites else "false",
+        }
+
+    if (
+        strategy_counts != {"target-manifest-exact": 22, "explicit-safe-paths": 2, "canonical-only": 5}
+        or len(runtime_items) != 24 or runtime_occurrences != 30 or len(runtime_files) != 23
+    ):
+        raise CorrectionStatusError(
+            f"Pass21 adopted runtime summary drifted: strategies={dict(strategy_counts)} "
+            f"items={len(runtime_items)} occurrences={runtime_occurrences} files={len(runtime_files)}"
+        )
+    strategy_counts["runtime_materialized_items"] = len(runtime_items)
+    strategy_counts["runtime_occurrences"] = runtime_occurrences
+    strategy_counts["runtime_files"] = len(runtime_files)
+    return results, strategy_counts
 
 
 def verify_official_product_rows(resolution_ids: set[str]) -> None:
@@ -154,8 +352,11 @@ def build() -> dict[str, Any]:
     if equivalent_ids != {"LOW-MT-01485"}:
         raise CorrectionStatusError("preexisting official correction set drifted")
     verify_existing_official_authority(resolutions["LOW-MT-01485"])
+    adopted_ids = set(entries_by_id) - resolved_correction_ids
+    adopted_products, adopted_counts = verify_user_directed_adoptions(
+        entries_by_id, adopted_ids, queue, targets, decisions,
+    )
     rows: list[dict[str, Any]] = []
-    pending_target_status = Counter()
     for entry in entries:
         item_id = entry["item_id"]
         decision = decisions.get(item_id)
@@ -185,6 +386,10 @@ def build() -> dict[str, Any]:
                     "official-cn-existing-authority" if preexisting else "official-cn-applied"
                 ),
                 "official_final_cn": resolution["final_value"],
+                "adopted_final_cn": resolution["final_value"],
+                "machine_origin": "false",
+                "authority_tier": "official_cn_dump",
+                "review_status": "official-source-verified",
                 "ds_suggestion_matches_official": str(entry["after"] == resolution["final_value"]).lower(),
                 "current_candidate_state": (
                     "official-authority-preexisting-and-verified"
@@ -199,37 +404,38 @@ def build() -> dict[str, Any]:
             target = targets.get(item_id)
             queued = queue.get(item_id)
             if target is None or queued is None:
-                raise CorrectionStatusError(f"pending correction is absent from final human queue: {item_id}")
+                raise CorrectionStatusError(f"adopted correction is absent from its frozen queue/target: {item_id}")
             if (
                 str(entry["source_index"]) != queued["source_index"]
                 or queued["parent_verdict"] != "correction"
                 or queued["current_cn"] != entry["before"]
                 or queued["suggested_cn"] != entry["after"]
             ):
-                raise CorrectionStatusError(f"pending correction queue binding drifted: {item_id}")
-            for field, value in queued.items():
-                if field not in HUMAN_FIELDS | QUEUE_CONTRACT_FIELDS and decision.get(field) != value:
-                    raise CorrectionStatusError(f"pending correction decision binding drifted {field}: {item_id}")
-            if any(decision[field] for field in ("human_decision", "reviewer", "timestamp", "final_value", "human_revision")):
-                raise CorrectionStatusError(f"pending correction already carries a human decision: {item_id}")
-            if target["current_cn"] != decode_cell(entry["before"]):
-                raise CorrectionStatusError(f"pending correction no longer retains the old candidate: {item_id}")
-            pending_target_status[target["match_status"]] += 1
+                raise CorrectionStatusError(f"adopted correction queue binding drifted: {item_id}")
+            product = adopted_products[item_id]
             row = {
                 "item_id": item_id,
                 "source_index": entry["source_index"],
                 "current_cn_before_ds": entry["before"],
                 "ds_suggested_cn": entry["after"],
-                "final_status": "human-review-pending-not-applied",
+                "final_status": "user-directed-suggestion-adopted",
                 "official_final_cn": "",
+                "adopted_final_cn": product["adopted_cn"],
+                "machine_origin": "true",
+                "authority_tier": "legacy_unverified_ai_assisted",
+                "review_status": "user-directed-suggestion-adopted",
                 "ds_suggestion_matches_official": "",
-                "current_candidate_state": "old-candidate-retained",
-                "product_target_status": target["match_status"],
-                "product_match_count": target["match_count"],
-                "application_allowed": str(target["application_allowed"]).lower(),
+                "current_candidate_state": (
+                    "machine-origin-adopted-in-canonical-and-product"
+                    if product["application_allowed"] == "true"
+                    else "machine-origin-adopted-in-canonical-maintenance-only"
+                ),
+                "product_target_status": product["strategy"],
+                "product_match_count": product["product_match_count"],
+                "application_allowed": product["application_allowed"],
                 "evidence": (
-                    "magireco_v26_translation_review_1565.xlsx; DS suggestion is visible but remains unapplied "
-                    "until a human decision opens staging"
+                    "Pass21 tracked adoption manifest; canonical effective winner and allowlisted runtime "
+                    "materialization verified; machine origin and legacy authority retained"
                 ),
             }
         rows.append(row)
@@ -238,32 +444,25 @@ def build() -> dict[str, Any]:
     official_matches = sum(row["ds_suggestion_matches_official"] == "true" for row in rows)
     if status_counts != {
         "official-cn-applied": 7,
-        "human-review-pending-not-applied": 29,
+        "user-directed-suggestion-adopted": 29,
         "official-cn-existing-authority": 1,
     }:
         raise CorrectionStatusError(f"correction disposition count drifted: {dict(status_counts)}")
     if official_matches != 2:
         raise CorrectionStatusError("exactly two higher-authority values must equal the DS suggestion")
-    expected_targets = {
-        "exact-current-runtime-literal": 22,
-        "maintenance-only-count-or-path-drift": 3,
-        "maintenance-only-declared-path-absent": 2,
-        "maintenance-only-current-literal-absent": 2,
-    }
-    if dict(pending_target_status) != expected_targets:
-        raise CorrectionStatusError(f"pending correction target classes drifted: {dict(pending_target_status)}")
     return {
-        "schema": "magireco-cn-pass20-ds-correction-disposition/1",
+        "schema": "magireco-cn-pass20-ds-correction-disposition/2",
         "status": "PASS",
         "summary": {
             "ds_corrections": 37,
             "official_cn_applied": 7,
             "official_cn_existing_authority": 1,
             "higher_authority_resolved": 8,
-            "human_review_pending_not_applied": 29,
+            "user_directed_suggestion_adopted": 29,
+            "human_review_pending_not_applied": 0,
             "ds_direct_product_writes": 0,
             "ds_suggestion_equal_to_official": 2,
-            "pending_target_status": dict(sorted(pending_target_status.items())),
+            "adopted_target_status": dict(sorted(adopted_counts.items())),
         },
         "items": rows,
     }

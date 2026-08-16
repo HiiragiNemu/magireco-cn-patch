@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 from hashlib import sha256
+import importlib.util
 import json
 from pathlib import Path
 
@@ -9,7 +10,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
 OUT = ROOT / "_artifacts/spreadsheet_build/v26_translation_review_1565_input.json"
-SCHEMA = "magireco-cn-v26-translation-human-review-workbook/3"
+SCHEMA = "magireco-cn-v26-translation-human-review-workbook/5"
+
+
+def load_final_values_contract():
+    path = Path(__file__).with_name("pass20_final_values_contract.py")
+    spec = importlib.util.spec_from_file_location("pass20_final_values_contract", path)
+    if spec is None or spec.loader is None:
+        raise SystemExit("final-values contract could not be loaded")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+FINAL_VALUES = load_final_values_contract()
 
 
 def load_tsv(path: Path) -> list[dict[str, str]]:
@@ -46,6 +60,7 @@ shadow_path = AUDIT / "pass20_authority_shadowed_machine_items.tsv"
 resolution_path = AUDIT / "pass20_authority_resolutions.tsv"
 sealed_path = AUDIT / "dsv4_terminal_handoff/full_review.tsv"
 target_path = AUDIT / "pass20_product_targets.json"
+adoption_path = AUDIT / "pass21_user_directed_suggested_adoptions.tsv"
 
 source_rows = load_tsv(source_path)
 priority_rows = load_tsv(priority_path)
@@ -53,12 +68,14 @@ inventory_rows = load_tsv(inventory_path)
 shadow_rows = load_tsv(shadow_path)
 resolution_rows = load_tsv(resolution_path)
 sealed_rows = load_tsv(sealed_path)
+adoption_rows = load_tsv(adoption_path)
 source = unique(source_rows, "human queue")
 priority = unique(priority_rows, "priority queue")
 inventory = unique(inventory_rows, "machine inventory")
 shadow = unique(shadow_rows, "higher-authority shadow")
 resolutions = unique(resolution_rows, "authority resolutions")
 sealed = unique(sealed_rows, "sealed review")
+adoptions = unique(adoption_rows, "user-directed suggested adoptions")
 
 expected = {
     "inventory": 1589, "human": 1565, "priority": 199, "approved": 1366,
@@ -82,6 +99,22 @@ if set(resolutions) & set(shadow):
     raise SystemExit("authority and shadow exclusions overlap")
 if set(sealed) != set(source) | set(resolutions) | set(shadow):
     raise SystemExit("1912 sealed partition drifted")
+if len(adoptions) != 29 or not set(adoptions) < set(source):
+    raise SystemExit("29-row user-directed suggested adoption set drifted")
+for item_id, adoption in adoptions.items():
+    row = source[item_id]
+    binding = {
+        "source_index": row.get("source_index", ""),
+        "stable_business_key": row.get("stable_business_key", ""),
+        "source_key": row.get("source_key", ""),
+        "source_text": row.get("japanese_or_source_original", ""),
+        "current_cn": row.get("current_cn", ""),
+        "ds_suggested_cn": row.get("suggested_cn", ""),
+    }
+    if any(adoption.get(field, "") != value for field, value in binding.items()):
+        raise SystemExit(f"user-directed suggestion adoption binding drifted: {item_id}")
+    if not adoption.get("adopted_cn", ""):
+        raise SystemExit(f"user-directed adopted Chinese is empty: {item_id}")
 
 target_raw = target_path.read_bytes()
 target_payload = json.loads(target_raw.decode("utf-8"))
@@ -98,24 +131,7 @@ if len(target_indices) != len(target_rows):
     raise SystemExit("target manifest external index is not unique")
 target_contract_sha256 = sha256(target_raw).hexdigest()
 
-verdict_labels = {
-    "correction": "DS发现错误／建议修正但尚未应用",
-    "unresolved": "DS未确定／需人工判断",
-    "manual-required": "尚未完成DS审查／需人工判断",
-    "approved": "DS已审通过／仍属机器来源，待人工确认",
-}
-
-
-def target_display(target: dict[str, object]) -> tuple[str, str]:
-    target_paths = target.get("product_target_paths") or target.get("declared_product_paths") or []
-    contexts = target.get("context_snippets") or []
-    return (
-        "\n".join(str(value) for value in target_paths),
-        "\n".join(str(value) for value in contexts).rstrip(" \r\n"),
-    )
-
-
-def review_row(item_id: str, sequence: int, partition: str) -> dict[str, object]:
+def review_row(item_id: str, partition: str) -> dict[str, object]:
     row = source[item_id]
     sealed_row = sealed[item_id]
     target = targets[item_id]
@@ -132,37 +148,23 @@ def review_row(item_id: str, sequence: int, partition: str) -> dict[str, object]
     }
     if any(row.get(key, "") != sealed_row.get(key, "") for key in row if key not in queue_enrichment_fields):
         raise SystemExit(f"queue/sealed source drifted: {item_id}")
-    paths, contexts = target_display(target)
-    verdict = row.get("parent_verdict", "")
-    if verdict == "approved":
-        prefix = "DS审查认为当前译文可接受，但它仍是机器来源；只有人工选择“保留现译”后，才记录为人工已批准。"
-    elif verdict == "correction":
-        prefix = "DS审查发现当前译文可能有误，请重点核对建议中文和实际上下文。"
-    elif verdict == "unresolved":
-        prefix = "DS证据不足，请人工结合原文和实际使用位置判断。"
-    else:
-        prefix = "此前未完成DS审查，请人工直接判断中文语义。"
-    rationale = row.get("parent_rationale", "")
-    explanation = prefix + (("\n\nDS原始理由：" + rationale) if rationale else "")
+    current_cn = row.get("current_cn", "")
+    adoption = adoptions.get(item_id)
+    final_seed, seed_origin = FINAL_VALUES.seed_for_source(
+        row, adoption["adopted_cn"] if adoption else "",
+    )
+    if not original or not current_cn or not final_seed:
+        raise SystemExit(f"visible review text is empty: {item_id}")
     return {
-        "sequence": sequence,
         "item_id": item_id,
         "original": original,
-        "current_cn": row.get("current_cn", ""),
-        "suggested_cn": row.get("suggested_cn", ""),
-        "parent_verdict_display": verdict_labels[verdict],
-        "review_explanation": explanation,
-        "maintenance_layer_type": str(target.get("maintenance_layer_type", "")),
-        "maintenance_table": str(target.get("maintenance_table", "")),
-        "source_key": row.get("source_key", ""),
-        "path_prefix": str(target.get("path_prefix") or "（全局）"),
-        "product_target_paths": paths,
-        "match_count": int(target.get("match_count", 0)),
-        "match_status": str(target.get("match_status", "")),
-        "context_snippets": contexts,
+        "current_cn": current_cn,
+        "final_seed": final_seed,
+        "seed_origin": seed_origin,
+        "seed_final_sha256": sha256(final_seed.encode("utf-8")).hexdigest(),
         "source_text_sha256": expected_text_hash,
-        "source_record_sha256": digest_json(row),
-        "target_row_sha256": digest_json(target),
+        "source_record_sha256": FINAL_VALUES.source_record_sha256(row),
+        "target_row_sha256": FINAL_VALUES.target_contract_sha256(target),
         "stable_business_key": row.get("stable_business_key", ""),
         "target_manifest_index": target_indices[item_id],
         "partition": partition,
@@ -175,8 +177,10 @@ priority_order = sorted(
     key=lambda item_id: (priority_rank.get(source[item_id].get("parent_verdict", ""), 9), int(source[item_id].get("source_index", "0")), item_id),
 )
 approved_order = sorted(approved_ids, key=lambda item_id: (int(source[item_id].get("source_index", "0")), item_id))
-priority_output = [review_row(item_id, index, "priority") for index, item_id in enumerate(priority_order, 1)]
-approved_output = [review_row(item_id, index, "approved") for index, item_id in enumerate(approved_order, 1)]
+review_output = [review_row(item_id, "priority") for item_id in priority_order]
+review_output.extend(review_row(item_id, "approved") for item_id in approved_order)
+if len(review_output) != expected["human"]:
+    raise SystemExit("combined workbook row count drifted")
 
 
 payload = {
@@ -188,10 +192,10 @@ payload = {
     "shadow_tsv": "magica/i18n_audit/release_v26_authority/pass20_authority_shadowed_machine_items.tsv",
     "authority_resolution_tsv": "magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv",
     "target_manifest": "magica/i18n_audit/release_v26_authority/pass20_product_targets.json",
+    "suggested_adoptions_tsv": "magica/i18n_audit/release_v26_authority/pass21_user_directed_suggested_adoptions.tsv",
     "sealed_review": "magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/full_review.tsv",
     "target_contract_sha256": target_contract_sha256,
-    "priority_rows": priority_output,
-    "approved_rows": approved_output,
+    "review_rows": review_output,
 }
 OUT.parent.mkdir(parents=True, exist_ok=True)
 OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")

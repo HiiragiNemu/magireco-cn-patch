@@ -131,7 +131,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           if (q.startSe(1002), a.userEventAccomplish && 0 >= a.userEventAccomplish.remainCount) b = String(l.parameterMap.TERMINATION_TIME).split(""), b = b[0] + b[1] + ":" + b[2] + b[3], console.log(b), new a.PopupClass(
           {
             title: "回复确认",
-            content: "今日回复次数已达上限。<br>回复次数" + b + "更新。",
+            content: "今日回复次数已达上限。<br>回复次数" + b + "时更新。",
             closeBtnText: "关闭"
           });
           else if (this.el.classList.contains("comp")) new a.PopupClass(

@@ -63,6 +63,29 @@ PRODUCT_RUNTIME = {
     "magica/js/regularEvent/groupBattle/view/UserPageView.js",
     "magica/js/view/user/GlobalMenuView.js",
     "magica/template/formation/FormationQuest.html",
+    "magica/js/event/EventArenaRankMatch/parts/CoolTime.js",
+    "magica/js/event/EventWitch/parts/ExchangeMemoria.js",
+    "magica/js/event/accomplish/EventAccomplishRecovery.js",
+    "magica/js/event/arenaranking/view/EventArenaResultView.js",
+    "magica/js/event/storyraid/EventStoryRaidTop.js",
+    "magica/js/formation/DeckFormation.js",
+    "magica/js/formation/DeckFormationUtil.js",
+    "magica/js/gacha/GachaProbability.js",
+    "magica/js/memoria/MemoriaSetEquip.js",
+    "magica/js/quest/scene0/Utility.js",
+    "magica/js/quest/secondPartLast/parts/StagePartsView.js",
+    "magica/js/regularEvent/accomplish/view/RegularEventAccomplishRecoverView.js",
+    "magica/js/view/config/ConfigTopView.js",
+    "magica/js/view/gacha/GachaBtnView.js",
+    "magica/js/view/memoria/UserMemoriaListView.js",
+    "magica/template/arena/ArenaReward.html",
+    "magica/template/chara/CharaComposeAttribute/popupItemConfirm.html",
+    "magica/template/event/arenaMission/EventArenaMissionResult.html",
+    "magica/template/event/arenaMission/EventArenaMissionTop.html",
+    "magica/template/event/dailytower/EventDailyTowerTop.html",
+    "magica/template/memoria/PieceArchive.html",
+    "magica/template/purchase/PurchaseTemps.html",
+    "magica/template/regularEvent/groupBattle/RegularEventGroupCommon.html",
 }
 
 # Files imported byte-for-byte from the live main branch while this release branch
@@ -86,11 +109,14 @@ LIVE_MAIN_IMPORT = {
 }
 
 I18N_EFFECTIVE_LAYER = {
+    "i18n/frontend-strings.tsv",
     "i18n/generated/conflicts.tsv",
     "i18n/generated/effective.tsv",
     "i18n/generated/input-provenance.tsv",
     "i18n/generated/summary.json",
     "i18n/reviewed-candidates.tsv",
+    "i18n/migration-source-summary.json",
+    "i18n/uiTextList.json",
 }
 
 RELEASE_WORKFLOW = {
@@ -116,6 +142,7 @@ RELEASE_WORKFLOW = {
 }
 
 RELEASE_TOOLING = {
+    "tools/apply-pass20-suggested-adoptions.py",
     "tools/apply-v26-authority-corrections.py",
     "tools/apply-v26-official-static-corrections.py",
     "tools/assemble-dsv4-v3-terminal.py",
@@ -124,14 +151,29 @@ RELEASE_TOOLING = {
     "tools/build-v26-final-delivery.py",
     "tools/build-v26-machine-review.py",
     "tools/build-v26-package.py",
+    "tools/build-pass20-ds-correction-status.py",
+    "tools/build-pass20-human-review-xlsx.mjs",
+    "tools/build-pass20-human-review-xlsx.py",
     "tools/dsv4-v3-staging-patch.py",
     "tools/i18n-apply.py",
     "tools/i18n-build-effective.py",
+    "tools/finalize-pass20-human-review-xlsx.py",
+    "tools/import-pass20-human-review-xlsx.py",
+    "tools/pass20_final_values_contract.py",
+    "tools/prepare-pass20-human-review-xlsx.py",
+    "tools/promote-pass20-product-stage.py",
     "tools/rollback-v26-pass18.ps1",
     "tools/run-v26-final-validation.py",
     "tools/test-build-v26-final-allowlist.py",
     "tools/test-build-v26-machine-review.py",
     "tools/test-build-v26-package.py",
+    "tools/test-apply-pass20-suggested-adoptions.py",
+    "tools/test-build-pass20-ds-correction-status.py",
+    "tools/test-build-pass20-human-review-xlsx.py",
+    "tools/test-import-pass20-human-review-xlsx.py",
+    "tools/test-promote-pass20-product-stage.py",
+    "tools/test-stage-pass20-human-review-product.py",
+    "tools/test-verify-pass20-human-materialization.py",
     "tools/test-apply-v26-official-static-corrections.py",
     "tools/test-assemble-dsv4-v3-terminal.py",
     "tools/test-dsv4-v3-manual-handoff.py",
@@ -150,6 +192,8 @@ RELEASE_TOOLING = {
     "tools/v26_validation_record.py",
     "tools/validate-dsv4-manual-decisions.py",
     "tools/validate-dsv4-human-review.py",
+    "tools/stage-pass20-human-review-product.py",
+    "tools/verify-pass20-human-materialization.py",
     "tools/verify-pass18-authority.py",
     "tools/verify-runtime-layer.py",
     "tools/verify-v26-authority-protection.py",
@@ -187,7 +231,13 @@ AUDIT_PROVENANCE_EXACT = {
     "magica/i18n_audit/manual_cn_pass16/source_evidence/post_runtime_raw_summary.json",
     "magica/i18n_audit/release_v26_authority/README.md",
     "magica/i18n_audit/release_v26_authority/FINAL_AUDIT_GUIDE.md",
-    "magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv",
+    "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
+    "magica/i18n_audit/release_v26_authority/pass20_ds_correction_status.json",
+    "magica/i18n_audit/release_v26_authority/pass20_ds_correction_status.tsv",
+    "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
+    "magica/i18n_audit/release_v26_authority/pass20_review_contract.json",
+    "magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx",
+    "magica/i18n_audit/release_v26_authority/pass21_user_directed_suggested_adoptions.tsv",
     "magica/i18n_audit/release_v26_authority/RUNTIME_LAYER_SHA256SUMS.txt",
     "magica/i18n_audit/release_v26_authority/UI_UNION_VALIDATION_REPORT.md",
     "magica/i18n_audit/release_v26_authority/pass17_targeted_authority_verification.json",
@@ -374,6 +424,8 @@ def classify_known(path: str, *, eol_only: bool, extra_repo: set[str]) -> tuple[
         return "allow", "audit_dsv4_terminal_handoff", "sealed DSV4 manual-handoff evidence and decision tables"
     if path.startswith("magica/i18n_audit/release_v26_authority/manual_queue_analysis/"):
         return "allow", "audit_manual_queue_analysis", "read-only per-item human-queue risk and routing analysis"
+    if path.startswith("magica/i18n_audit/release_v26_authority/pass21_suggested_adoption/"):
+        return "allow", "audit_pass21_suggested_adoption", "Pass21 adoption patch, verification, and rollback evidence"
     if path.startswith(prefix) and path[len(prefix):] in PASS18_FILES:
         return "allow", "audit_pass18_v26", "Pass18 baseline, patch, verification, or product report"
     if path in AUDIT_PROVENANCE_EXACT:
@@ -462,13 +514,17 @@ def capture_entries(
     for row in rows:
         path = row["path"]
         target = repo / PurePosixPath(path)
-        exists = target.is_file()
-        data = target.read_bytes() if exists else b""
         tracked = row["status"] != "??"
         # `git diff --ignore-cr-at-eol` is the deterministic whole-tree EOL
         # classifier.  Untracked files are always content changes.
         eol_only = tracked and path not in real_paths
         decision, category, reason = classify_known(path, eol_only=eol_only, extra_repo=extra_repo)
+        exists = target.is_file()
+        # Repo-local outputs are excluded before content capture.  In
+        # particular, an Excel-owned `~$` lock file may reject byte reads even
+        # though it is deliberately outside every release input.
+        unread_excluded = category == "repo_local_temp_output"
+        data = target.read_bytes() if exists and not unread_excluded else b""
         entry: dict[str, Any] = {
             **row,
             "tracked": tracked,
@@ -476,10 +532,12 @@ def capture_entries(
             "decision": decision,
             "category": category,
             "reason": reason,
-            "bytes": len(data) if exists else None,
-            "sha256": sha256_bytes(data) if exists else None,
-            "line_endings": line_kind(path, data) if exists else "deleted",
-            "bom": bool(exists and data.startswith(UTF_BOMS)),
+            "bytes": len(data) if exists and not unread_excluded else None,
+            "sha256": sha256_bytes(data) if exists and not unread_excluded else None,
+            "line_endings": line_kind(path, data) if exists and not unread_excluded else (
+                "unread-excluded" if exists else "deleted"
+            ),
+            "bom": bool(exists and not unread_excluded and data.startswith(UTF_BOMS)),
             "eol_only": eol_only,
         }
         entry.update({
@@ -1269,7 +1327,11 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, bytes]]:
     end_hashes: dict[str, str | None] = {}
     for row in end_rows:
         p = repo / PurePosixPath(row["path"])
-        end_hashes[row["path"]] = sha256_file(p) if p.is_file() else None
+        end_hashes[row["path"]] = (
+            None if row["path"].startswith("outputs/")
+            else sha256_file(p) if p.is_file()
+            else None
+        )
     repo_stable = raw_start == raw_end and start_hashes == end_hashes
 
     partition_checks = {

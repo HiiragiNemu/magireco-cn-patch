@@ -49,7 +49,7 @@ for sheet in workbook.findall(f"./{q('sheets')}/{q('sheet')}"):
     if target not in blobs or not target.startswith("xl/worksheets/"):
         raise SystemExit(f"unsafe worksheet target: {name}")
     sheet_paths[name] = target
-expected_sheets = {"说明", "①优先审核199", "②DS已审1366"}
+expected_sheets = {"人工审核1565"}
 if set(sheet_paths) != expected_sheets:
     raise SystemExit(f"sheet set drifted: {set(sheet_paths)}")
 
@@ -140,36 +140,19 @@ def hide_columns(sheet: ET.Element, start: int, end: int) -> None:
 
 
 sheets = {name: ET.fromstring(blobs[path]) for name, path in sheet_paths.items()}
-
-instruction = sheets["说明"]
-instruction_cells = cell_map(instruction)
-for ref in ("B18", "B19"):
-    cell = instruction_cells.get(ref)
+sheet = sheets["人工审核1565"]
+cells = cell_map(sheet)
+for row in range(2, 1567):
+    ref = f"C{row}"
+    cell = cells.get(ref)
     if cell is None:
-        raise SystemExit(f"missing instruction input {ref}")
+        raise SystemExit(f"missing editable cell 人工审核1565!{ref}")
     cell.set("s", str(unlocked_style(int(cell.get("s", "0")))))
-set_pane(instruction, {"ySplit": "2", "topLeftCell": "A3", "activePane": "bottomLeft", "state": "frozen"}, [
-    {"pane": "bottomLeft", "activeCell": "A3", "sqref": "A3"},
+set_pane(sheet, {"ySplit": "1", "topLeftCell": "A2", "activePane": "bottomLeft", "state": "frozen"}, [
+    {"pane": "bottomLeft", "activeCell": "C2", "sqref": "C2"},
 ])
-add_protection(instruction, allow_sort_filter=False)
-
-for name, count in (("①优先审核199", 199), ("②DS已审1366", 1366)):
-    sheet = sheets[name]
-    cells = cell_map(sheet)
-    for row in range(2, count + 2):
-        for column in ("O", "P", "Q"):
-            ref = f"{column}{row}"
-            cell = cells.get(ref)
-            if cell is None:
-                raise SystemExit(f"missing editable cell {name}!{ref}")
-            cell.set("s", str(unlocked_style(int(cell.get("s", "0")))))
-    set_pane(sheet, {"xSplit": "2", "ySplit": "1", "topLeftCell": "C2", "activePane": "bottomRight", "state": "frozen"}, [
-        {"pane": "topRight", "activeCell": "C1", "sqref": "C1"},
-        {"pane": "bottomLeft", "activeCell": "A2", "sqref": "A2"},
-        {"pane": "bottomRight", "activeCell": "C2", "sqref": "C2"},
-    ])
-    hide_columns(sheet, 18, 25)
-    add_protection(sheet, allow_sort_filter=True)
+hide_columns(sheet, 4, 14)
+add_protection(sheet, allow_sort_filter=True)
 
 blobs["xl/styles.xml"] = ET.tostring(styles, encoding="utf-8", xml_declaration=True)
 for name, sheet in sheets.items():
@@ -188,4 +171,4 @@ with zipfile.ZipFile(XLSX, "r") as check:
         raise SystemExit("output XLSX CRC failure")
     if len(check.namelist()) != len(set(check.namelist())):
         raise SystemExit("output XLSX duplicate member")
-print("PASS: 1565 workbook freeze/hide/unlock/protection hardened")
+print("PASS: one-sheet 1565 workbook freeze/hide/unlock/protection hardened")

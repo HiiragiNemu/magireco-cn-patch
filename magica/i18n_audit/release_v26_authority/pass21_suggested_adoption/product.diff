@@ -1,0 +1,126 @@
+--- a/magica/js/event/EventArenaRankMatch/parts/CoolTime.js
++++ b/magica/js/event/EventArenaRankMatch/parts/CoolTime.js
+@@ -43 +43 @@
+-      0 > b.totalMoney && (d = "statusCanNotUse", f = "确定", g = null, e = '魔法石<span class="c_pink">' + Math.abs(b.totalMoney) + "个</span>,<br>无法解除冷却时间。");
++      0 > b.totalMoney && (d = "statusCanNotUse", f = "确定", g = null, e = '魔法石<span class="c_pink">' + Math.abs(b.totalMoney) + "个</span>仍不足以<br>解除冷却时间。");
+--- a/magica/js/event/EventWitch/parts/ExchangeMemoria.js
++++ b/magica/js/event/EventWitch/parts/ExchangeMemoria.js
+@@ -4 +4 @@
+-this.viewModel.charaId})},tapExchangeBtn:function(a){a.preventDefault();if(!b.isScrolled()&&"noChange"!=this.viewModel.ExchangeBtnClass&&!this.viewModel.rewardPieceInfo.isExchanged){var g=this.viewModel.charaId,d=this.viewModel.rewardPieceId,h=this.viewModel.storyId;e=new b.PopupClass({popupType:"typeC",title:"获得记忆结晶",content:this.viewModel.charaInfo.name+"的记忆结晶。",closeBtnText:"关闭",decideBtnText:"获得",decideBtnEvent:function(){c||(c=!0,f.ajaxPost(b.linkList.eventWitchMemoriaExchange,{charaId:g},
++this.viewModel.charaId})},tapExchangeBtn:function(a){a.preventDefault();if(!b.isScrolled()&&"noChange"!=this.viewModel.ExchangeBtnClass&&!this.viewModel.rewardPieceInfo.isExchanged){var g=this.viewModel.charaId,d=this.viewModel.rewardPieceId,h=this.viewModel.storyId;e=new b.PopupClass({popupType:"typeC",title:"获得记忆结晶",content:this.viewModel.charaInfo.name+"的记忆结晶即将到手。",closeBtnText:"关闭",decideBtnText:"获得",decideBtnEvent:function(){c||(c=!0,f.ajaxPost(b.linkList.eventWitchMemoriaExchange,{charaId:g},
+--- a/magica/js/event/accomplish/EventAccomplishRecovery.js
++++ b/magica/js/event/accomplish/EventAccomplishRecovery.js
+@@ -134 +134 @@
+-            content: "今日回复次数已达上限。<br>回复次数" + b + "更新。",
++            content: "今日回复次数已达上限。<br>回复次数" + b + "时更新。",
+--- a/magica/js/event/arenaranking/view/EventArenaResultView.js
++++ b/magica/js/event/arenaranking/view/EventArenaResultView.js
+@@ -5 +5 @@
+-this.model.gameUser.remainBattleCountOfRanking&&(this.model.gameUser=this.newestModel.gameUser),a.responseSetStorage(this.model),a.androidKeyStop=!0,new a.PopupClass({title:"镜界排名",content:"不在排位战的可玩期间内,\x3cbr\x3e对战结果不会被记录。\x3cbr\x3e返回首页。",closeBtnText:"确定"},null,null,function(){e.endArena();e.nativeReload("#/TopPage")}))},battleDataMake:function(){this.battleData={};this.battleData.result=this.model.userArenaBattleResultList[0];this.battleData.battle=this.model.userArenaBattle;
++this.model.gameUser.remainBattleCountOfRanking&&(this.model.gameUser=this.newestModel.gameUser),a.responseSetStorage(this.model),a.androidKeyStop=!0,new a.PopupClass({title:"镜界排名",content:"不在排位战的可玩期间内，\x3cbr\x3e对战结果不会被记录。\x3cbr\x3e返回首页。",closeBtnText:"确定"},null,null,function(){e.endArena();e.nativeReload("#/TopPage")}))},battleDataMake:function(){this.battleData={};this.battleData.result=this.model.userArenaBattleResultList[0];this.battleData.battle=this.model.userArenaBattle;
+--- a/magica/js/event/storyraid/EventStoryRaidTop.js
++++ b/magica/js/event/storyraid/EventStoryRaidTop.js
+@@ -846 +846 @@
+-        content: "活动『" + h.name + "』<br>" + a + "为止。<br><br>参加活动需要<br>【" + k.conditionDescript + "】<br>。",
++        content: "活动『" + h.name + "』<br>" + a + "截止。<br><br>参加活动需要满足<br>【" + k.conditionDescript + "】<br>这一条件。",
+--- a/magica/js/formation/DeckFormation.js
++++ b/magica/js/formation/DeckFormation.js
+@@ -12 +12 @@
+-"secondPartLastCopy"===d&&(b="请选择编有1个以上\x3cbr\x3e未编入镜之魔女战斗的魔法少女的队伍。",l='复制这个编成。\x3cbr\x3e\x3cbr\x3e\x3cspan class\x3d"c_red"\x3e※已编入镜之魔女战斗的\x3cbr\x3e魔法少女不会被复制。\x3c/span\x3e',m="#/SecondPartLastFormation");1>e.userCardIds.length?new a.PopupClass({title:"复制编成",content:b,closeBtnText:"确定",popupType:"typeA"}):(e.episodeUserCardId||(e.episodeUserCardId=e.userCardIds[0]),new a.PopupClass({title:"复制编成",content:l,closeBtnText:"取消",decideBtnText:"复制",decideBtnEvent:function(){A.ajaxPost(a.linkList.userDeckSave,
++"secondPartLastCopy"===d&&(b="请选择编有\x3cbr\x3e1个以上未编入镜之魔女战斗的魔法少女的队伍。",l='复制这个编成。\x3cbr\x3e\x3cbr\x3e\x3cspan class\x3d"c_red"\x3e※已编入镜之魔女战斗的\x3cbr\x3e魔法少女不会被复制。\x3c/span\x3e',m="#/SecondPartLastFormation");1>e.userCardIds.length?new a.PopupClass({title:"复制编成",content:b,closeBtnText:"确定",popupType:"typeA"}):(e.episodeUserCardId||(e.episodeUserCardId=e.userCardIds[0]),new a.PopupClass({title:"复制编成",content:l,closeBtnText:"取消",decideBtnText:"复制",decideBtnEvent:function(){A.ajaxPost(a.linkList.userDeckSave,
+@@ -15,2 +15,2 @@
+-d||"arenaRankMatchDefence"===d)&&a.EventArenaRankMatchPrm&&a.EventArenaRankMatchPrm.deckMinNumList&&a.EventArenaRankMatchPrm.deckMaxNumList&&a.EventArenaRankMatchPrm.deckEditAccessTime){b=a.EventArenaRankMatchPrm.deckMinNumList[d];var g=a.EventArenaRankMatchPrm.deckMaxNumList[d];if(b>l.userCardIds.length){q.startSe(1002);new a.PopupClass({title:"编成错误",content:"开始战斗需要"+b+"人以上的魔法少女\x3cbr\x3e编在队伍中。",closeBtnText:"确定"});a.androidKeyStop=!1;return}if(l.userCardIds.length>g){q.startSe(1002);
+-new a.PopupClass({title:"编成错误",content:"开始战斗需要"+g+"人以下的魔法少女\x3cbr\x3e编成。",closeBtnText:"确定"});a.androidKeyStop=!1;return}if(!R.isOpenEvent({pageJson:p,pageAccessLocalTime:a.EventArenaRankMatchPrm.deckEditAccessTime,rankMatchEventInfo:a.EventArenaRankMatchPrm.eventInfo})){new a.PopupClass({title:"活动已结束",content:"不在活动开放期间。",closeBtnText:"确定",canClose:!1,popupType:"typeC"},null,function(){},function(){location.href="#/ArenaTop"});a.androidKeyStop=!1;return}}if("arena"===d&&!l.userCardIds.length||
++d||"arenaRankMatchDefence"===d)&&a.EventArenaRankMatchPrm&&a.EventArenaRankMatchPrm.deckMinNumList&&a.EventArenaRankMatchPrm.deckMaxNumList&&a.EventArenaRankMatchPrm.deckEditAccessTime){b=a.EventArenaRankMatchPrm.deckMinNumList[d];var g=a.EventArenaRankMatchPrm.deckMaxNumList[d];if(b>l.userCardIds.length){q.startSe(1002);new a.PopupClass({title:"编成错误",content:"开始战斗需要"+b+"名以上魔法少女\x3cbr\x3e组成的队伍。",closeBtnText:"确定"});a.androidKeyStop=!1;return}if(l.userCardIds.length>g){q.startSe(1002);
++new a.PopupClass({title:"编成错误",content:"开始战斗需要"+g+"名以内的魔法少女\x3cbr\x3e组成队伍。",closeBtnText:"确定"});a.androidKeyStop=!1;return}if(!R.isOpenEvent({pageJson:p,pageAccessLocalTime:a.EventArenaRankMatchPrm.deckEditAccessTime,rankMatchEventInfo:a.EventArenaRankMatchPrm.eventInfo})){new a.PopupClass({title:"活动已结束",content:"不在活动开放期间。",closeBtnText:"确定",canClose:!1,popupType:"typeC"},null,function(){},function(){location.href="#/ArenaTop"});a.androidKeyStop=!1;return}}if("arena"===d&&!l.userCardIds.length||
+--- a/magica/js/formation/DeckFormationUtil.js
++++ b/magica/js/formation/DeckFormationUtil.js
+@@ -61 +61 @@
+-c&&c.webData&&a.responseSetStorage(c.webData);location.href="#/QuestBackground"});h.startArena(c)},500)});a.addClass(a.ready.target,"preNativeFadeIn")})}}else h.startSe(1002),new a.PopupClass({title:"编成错误",content:"开始战斗需要"+a.EventArenaRankMatchPrm.deckMinNumList.arenaRankMatchAttack+"人以上的魔法少女\x3cbr\x3e编在队伍中。",closeBtnText:"确定"}),a.androidKeyStop=!1}else location.href="#/ArenaTop"};t.prototype.startPuellaHistoriaGroupRaidBattle=function(c){var b=c.deckModel,e=this;if(!e.questDisableFlg)if(a.androidKeyStop=
++c&&c.webData&&a.responseSetStorage(c.webData);location.href="#/QuestBackground"});h.startArena(c)},500)});a.addClass(a.ready.target,"preNativeFadeIn")})}}else h.startSe(1002),new a.PopupClass({title:"编成错误",content:"开始战斗需要"+a.EventArenaRankMatchPrm.deckMinNumList.arenaRankMatchAttack+"名以上魔法少女\x3cbr\x3e组成的队伍。",closeBtnText:"确定"}),a.androidKeyStop=!1}else location.href="#/ArenaTop"};t.prototype.startPuellaHistoriaGroupRaidBattle=function(c){var b=c.deckModel,e=this;if(!e.questDisableFlg)if(a.androidKeyStop=
+--- a/magica/js/gacha/GachaProbability.js
++++ b/magica/js/gacha/GachaProbability.js
+@@ -2 +2 @@
+-this.el.style.height="100%";this.el.style.width="100%";return this},createDom:function(){new a.PopupClass({title:"抽卡概率一览",content:"",exClass:"gachaProbabilityPop",popupType:"typeB"},null,null,this.removeHandler);var F=a.doc.getElementById("popupArea");this.probText="";switch(this.model.gachaType){case "RARE":case "PICKUP":case "ATTRIBUTE":case "SELECTABLE_PICKUP":case "SELECTABLE_MEMORIA_PICKUP":this.probText=this.model.isStepup?"※10连扭蛋中的1张,按魔法少女确定时的概率抽选。\x3cbr\x3e※10连扭蛋中的1张,按★3以上确定时的概率抽选。\x3cbr\x3e※10连扭蛋中★3以上确定时,除魔法少女确定时的8张,按通常概率抽选。\x3cbr\x3e\x3cbr\x3e※提供的魔法少女、记忆结晶可能重复。\x3cbr\x3e※获得已持有的魔法少女时,将变为该魔法少女的命运宝石\x3cbr\x3e　1个。\x3cbr\x3e\x3cbr\x3e※单个魔法少女、记忆结晶的概率,因小数点后第6位舍去,\x3cbr\x3e　合计后可能不足100%。":
++this.el.style.height="100%";this.el.style.width="100%";return this},createDom:function(){new a.PopupClass({title:"扭蛋提供一览",content:"",exClass:"gachaProbabilityPop",popupType:"typeB"},null,null,this.removeHandler);var F=a.doc.getElementById("popupArea");this.probText="";switch(this.model.gachaType){case "RARE":case "PICKUP":case "ATTRIBUTE":case "SELECTABLE_PICKUP":case "SELECTABLE_MEMORIA_PICKUP":this.probText=this.model.isStepup?"※10连扭蛋中的1张,按魔法少女确定时的概率抽选。\x3cbr\x3e※10连扭蛋中的1张,按★3以上确定时的概率抽选。\x3cbr\x3e※10连扭蛋中★3以上确定时,除魔法少女确定时的8张,按通常概率抽选。\x3cbr\x3e\x3cbr\x3e※提供的魔法少女、记忆结晶可能重复。\x3cbr\x3e※获得已持有的魔法少女时,将变为该魔法少女的命运宝石\x3cbr\x3e　1个。\x3cbr\x3e\x3cbr\x3e※单个魔法少女、记忆结晶的概率,因小数点后第6位舍去,\x3cbr\x3e　合计后可能不足100%。":
+--- a/magica/js/memoria/MemoriaSetEquip.js
++++ b/magica/js/memoria/MemoriaSetEquip.js
+@@ -11 +11 @@
+-new b.PopupClass({title:"记忆结晶套装覆盖确认",content:a+"确定吗?\x3c/p\x3e",decideBtnText:"确定",closeBtnText:"取消",exClass:"setEquipConf"},null,function(){$("#popupArea .decideBtn").on(b.cgti,function(a){a.preventDefault();b.isScrolled()||($("#popupArea .decideBtn").off(),c.setFunc(),b.g_popup_instance.remove())})})):c.setFunc()}},setFunc:function(){var a=this,c=this.model.toJSON(),f=this.parentView.equipDetailView.model.toJSON().pieceArr,e={setNum:c.setNum,name:c.name,userPieceIdList:[]};k.each(f,function(b){b&&
++new b.PopupClass({title:"记忆结晶套装覆盖确认",content:a+"确定吗？\x3c/p\x3e",decideBtnText:"确定",closeBtnText:"取消",exClass:"setEquipConf"},null,function(){$("#popupArea .decideBtn").on(b.cgti,function(a){a.preventDefault();b.isScrolled()||($("#popupArea .decideBtn").off(),c.setFunc(),b.g_popup_instance.remove())})})):c.setFunc()}},setFunc:function(){var a=this,c=this.model.toJSON(),f=this.parentView.equipDetailView.model.toJSON().pieceArr,e={setNum:c.setNum,name:c.name,userPieceIdList:[]};k.each(f,function(b){b&&
+--- a/magica/js/quest/scene0/Utility.js
++++ b/magica/js/quest/scene0/Utility.js
+@@ -6 +6 @@
+-(a.challengeBattleNum=Number(c.viewParameterMap.SCENE0_CHALLENGEBATTLE_NUM),a.isScene0=!0),c.viewParameterMap&&c.viewParameterMap.SCENE0_SIDESTORY_NUM&&(a.sideStoryNum=Number(c.viewParameterMap.SCENE0_SIDESTORY_NUM),a.isScene0=!0));return a},openStoryPopup:function(a){var c=a.needItemNum,b=a.itemInfo,d=a.noPopup,e=a.callback;if(b.quantity>=c)if(d)e();else var g=new f.PopupClass({title:"回放剧情",content:'\x3cspan class\x3d"c_pink"\x3e'+b.name+'\x3c/span\x3e\x3cspan class\x3d"c_pink"\x3e'+c+"个\x3c/span\x3e来\x3cbr\x3e回放剧情吗?",
++(a.challengeBattleNum=Number(c.viewParameterMap.SCENE0_CHALLENGEBATTLE_NUM),a.isScene0=!0),c.viewParameterMap&&c.viewParameterMap.SCENE0_SIDESTORY_NUM&&(a.sideStoryNum=Number(c.viewParameterMap.SCENE0_SIDESTORY_NUM),a.isScene0=!0));return a},openStoryPopup:function(a){var c=a.needItemNum,b=a.itemInfo,d=a.noPopup,e=a.callback;if(b.quantity>=c)if(d)e();else var g=new f.PopupClass({title:"回放剧情",content:'\x3cspan class\x3d"c_pink"\x3e'+b.name+'\x3c/span\x3e\x3cspan class\x3d"c_pink"\x3e'+c+"个\x3c/span\x3e，是否消耗这些道具并\x3cbr\x3e播放剧情？",
+--- a/magica/js/quest/secondPartLast/parts/StagePartsView.js
++++ b/magica/js/quest/secondPartLast/parts/StagePartsView.js
+@@ -15 +15 @@
+-window.isLocal?setTimeout(function(){f({})},3E3):h.ajaxPost(a.linkList.secondPartLastUnconquered,{questBattleId:c.model.questModel.questBattleId},function(a){setTimeout(function(){f(a)},3E3)});d.remove()},popupType:"typeC"},null);else"CANPLAY"==b({})?(e.startSe(3220),a.currentSecondPartLastDeckType="",a.SecondPartLastBattleConfirmModel=this.model,location.href="#/SecondPartLastBattleConfirm"):new a.PopupClass({title:"镜之魔女",content:"\x3cspan class\x3d'attention'\x3e压制镜之魔女的全部手臂后即可挑战\x3c/span\x3e。",
++window.isLocal?setTimeout(function(){f({})},3E3):h.ajaxPost(a.linkList.secondPartLastUnconquered,{questBattleId:c.model.questModel.questBattleId},function(a){setTimeout(function(){f(a)},3E3)});d.remove()},popupType:"typeC"},null);else"CANPLAY"==b({})?(e.startSe(3220),a.currentSecondPartLastDeckType="",a.SecondPartLastBattleConfirmModel=this.model,location.href="#/SecondPartLastBattleConfirm"):new a.PopupClass({title:"镜之魔女",content:"镜之魔女的手臂\x3cspan class\x3d'attention'\x3e全部压制后即可挑战\x3c/span\x3e。",
+--- a/magica/js/regularEvent/accomplish/view/RegularEventAccomplishRecoverView.js
++++ b/magica/js/regularEvent/accomplish/view/RegularEventAccomplishRecoverView.js
+@@ -5 +5 @@
+-null);new b.PopupClass({title:"回复HP",content:"已全部魔法少女的HP回复",closeBtnText:"确定",popupType:"typeC",popupId:"recoverOkPopup"},null,null,null);b.androidKeyStop=!1}.bind(this),f.ajaxPost(b.linkList.accomplishCure,{},a))}.bind(this),popupType:"typeC",popupId:"recoverConfirm"},null,function(){var a=b.doc.createElement("div");a.innerHTML='\x3cdiv id\x3d"cautionWrap" class\x3d"flexBox se_tabs"\x3e\x3cdiv class\x3d"checkBox"\x3e\x3c/div\x3e\x3cdiv\x3e\x3cdiv class\x3d"c_red"\x3e活动期间内只能回复一次。\x3c/div\x3e真的要回复吗?\x3c/div\x3e\x3c/div\x3e';
++null);new b.PopupClass({title:"回复HP",content:"已回复全部魔法少女的HP",closeBtnText:"确定",popupType:"typeC",popupId:"recoverOkPopup"},null,null,null);b.androidKeyStop=!1}.bind(this),f.ajaxPost(b.linkList.accomplishCure,{},a))}.bind(this),popupType:"typeC",popupId:"recoverConfirm"},null,function(){var a=b.doc.createElement("div");a.innerHTML='\x3cdiv id\x3d"cautionWrap" class\x3d"flexBox se_tabs"\x3e\x3cdiv class\x3d"checkBox"\x3e\x3c/div\x3e\x3cdiv\x3e\x3cdiv class\x3d"c_red"\x3e活动期间内只能回复一次。\x3c/div\x3e真的要回复吗?\x3c/div\x3e\x3c/div\x3e';
+--- a/magica/js/view/config/ConfigTopView.js
++++ b/magica/js/view/config/ConfigTopView.js
+@@ -31 +31 @@
+-break;case "DUPLICATE":c="输入的兑换码已领取过特典。\x3cbr\x3e※特典请到礼物盒领取。";break;case "OUT_OF_TERM":c="输入的兑换码已过有效期。"}new a.PopupClass({title:"错误",content:c,closeBtnText:"确定",popupType:"typeC"})}else new a.PopupClass({title:"兑换码",content:"领取完成。\x3cbr\x3e特典请到礼物盒领取。",closeBtnText:"确定",popupType:"typeC"})}))},configAllReGet:function(){var b=0;$("#configCallback").on("configCallback",function(d,e){if(void 0!==e.bgm)a.doc.getElementById("bgmSlider").value=10*
++break;case "DUPLICATE":c="输入的兑换码已领取过特典。\x3cbr\x3e※特典请到礼物盒领取。";break;case "OUT_OF_TERM":c="输入的兑换码不在有效期内。"}new a.PopupClass({title:"错误",content:c,closeBtnText:"确定",popupType:"typeC"})}else new a.PopupClass({title:"兑换码",content:"领取完成。\x3cbr\x3e特典请到礼物盒领取。",closeBtnText:"确定",popupType:"typeC"})}))},configAllReGet:function(){var b=0;$("#configCallback").on("configCallback",function(d,e){if(void 0!==e.bgm)a.doc.getElementById("bgmSlider").value=10*
+--- a/magica/js/view/gacha/GachaBtnView.js
++++ b/magica/js/view/gacha/GachaBtnView.js
+@@ -8 +8 @@
+-")\x3c/span\x3e。\x3cbr\x3e"+d:"当前\x3cspan class\x3d'c_pink'\x3e"+c.cardName+"\x3c/span\x3e。\x3cbr\x3e"+d);new b.PopupClass({title:a.name,content:d,popupType:e,decideBtnText:"进行抽卡",decideBtnEvent:function(a){a.preventDefault();b.isScrolled()||(b.g_popup_instance.popupView.close(),this.gachaStart())}.bind(this),closeBtnText:"取消",exClass:"gachaPop"+h},null,this.gachaPopupCallback.bind(this),this.gachaPopupCloseEvent)}},gachaPopupCallback:function(){var a=function(a){a.preventDefault();
++")\x3c/span\x3e已被选中。\x3cbr\x3e"+d:"当前\x3cspan class\x3d'c_pink'\x3e"+c.cardName+"\x3c/span\x3e已被选中。\x3cbr\x3e"+d);new b.PopupClass({title:a.name,content:d,popupType:e,decideBtnText:"进行抽卡",decideBtnEvent:function(a){a.preventDefault();b.isScrolled()||(b.g_popup_instance.popupView.close(),this.gachaStart())}.bind(this),closeBtnText:"取消",exClass:"gachaPop"+h},null,this.gachaPopupCallback.bind(this),this.gachaPopupCloseEvent)}},gachaPopupCallback:function(){var a=function(a){a.preventDefault();
+@@ -10 +10 @@
+-exClass:"gachaPop"}),!0},checkFreeGacha:function(a){var c=m.getPageJson(),e=b.storage.gameUser.get("freeGachaAt")?b.storage.gameUser.get("freeGachaAt"):"";if(""===e||e.substr(0,10)!==c.currentTime.substr(0,10))return a&&(a="进行每日1次免费10连普通扭蛋。\x3cbr\x3e确定吗?\x3cdiv id\x3d'saleSettingBtn' class\x3d'sb_gold_02 TE se_decide'\x3e自动设置\x3c/div\x3e",this.model.attributes.userGachaKind&&(a=this.model.attributes.userGachaKind,a="进行每日1次免费10连普通扭蛋。\x3cbr\x3e确定吗?\x3cdiv class\x3d'gachaAttentionArea commonFrame3'\x3e今天\x3cspan class\x3d'c_pink'\x3e剩余"+
++exClass:"gachaPop"}),!0},checkFreeGacha:function(a){var c=m.getPageJson(),e=b.storage.gameUser.get("freeGachaAt")?b.storage.gameUser.get("freeGachaAt"):"";if(""===e||e.substr(0,10)!==c.currentTime.substr(0,10))return a&&(a="进行每日1次免费10连普通扭蛋。\x3cbr\x3e确定要进行吗？\x3cdiv id\x3d'saleSettingBtn' class\x3d'sb_gold_02 TE se_decide'\x3e自动设置\x3c/div\x3e",this.model.attributes.userGachaKind&&(a=this.model.attributes.userGachaKind,a="进行每日1次免费10连普通扭蛋。\x3cbr\x3e确定吗?\x3cdiv class\x3d'gachaAttentionArea commonFrame3'\x3e今天\x3cspan class\x3d'c_pink'\x3e剩余"+
+--- a/magica/js/view/memoria/UserMemoriaListView.js
++++ b/magica/js/view/memoria/UserMemoriaListView.js
+@@ -35 +35 @@
+-require(["text!/magica/json/userPieceArchive/save.json"],function(a){d(JSON.parse(a))}):k.ajaxPost(a.linkList.userPieceStorage,b,d)}});a.doc.getElementById("defaultNameBtn").addEventListener(a.cgti,function(b){b.preventDefault();a.isScrolled()||(a.doc.getElementById("commentInput").value="仓库"+c.setNum,a.doc.getElementById("textCount").textContent=String("仓库"+c.setNum).length)})})}}}),w=h.View.extend({id:"memoriaSaleGlowWrap",initialize:function(){this.listenTo(this.rootView,"removeView",this.removeView);
++require(["text!/magica/json/userPieceArchive/save.json"],function(a){d(JSON.parse(a))}):k.ajaxPost(a.linkList.userPieceStorage,b,d)}});a.doc.getElementById("defaultNameBtn").addEventListener(a.cgti,function(b){b.preventDefault();a.isScrolled()||(a.doc.getElementById("commentInput").value="保管库"+c.setNum,a.doc.getElementById("textCount").textContent=String("保管库"+c.setNum).length)})})}}}),w=h.View.extend({id:"memoriaSaleGlowWrap",initialize:function(){this.listenTo(this.rootView,"removeView",this.removeView);
+--- a/magica/template/arena/ArenaReward.html
++++ b/magica/template/arena/ArenaReward.html
+@@ -6 +6 @@
+-			<!-- <li class="ranking se_decide" data-screen="ranking" data-name="ランキング報酬"><span>排名奖励</span></li> -->
++			<!-- <li class="ranking se_decide" data-screen="ranking" data-name="ランキング報酬"><span>排行榜报酬</span></li> -->
+--- a/magica/template/chara/CharaComposeAttribute/popupItemConfirm.html
++++ b/magica/template/chara/CharaComposeAttribute/popupItemConfirm.html
+@@ -2 +2 @@
+-  <%= model.attribute %>属性全体的<%= model.composeType %>提高<%= model.quantity %>!<br>
++  <%= model.attribute %>属性全体的<%= model.composeType %>提高<%= model.quantity %>！<br>
+--- a/magica/template/event/arenaMission/EventArenaMissionResult.html
++++ b/magica/template/event/arenaMission/EventArenaMissionResult.html
+@@ -101 +101 @@
+-        </div> <% } else { %> <div class="maxRank c_red">已通关的关卡点<%= model.eventModel.viewParameterMap.EVENT_POINT_NAME%>无法获得</div>
++        </div> <% } else { %> <div class="maxRank c_red">在已通关的关卡中<%= model.eventModel.viewParameterMap.EVENT_POINT_NAME%>无法获得</div>
+--- a/magica/template/event/arenaMission/EventArenaMissionTop.html
++++ b/magica/template/event/arenaMission/EventArenaMissionTop.html
+@@ -18 +18 @@
+-    <p class='caution colorB'>已通关的关卡点<%= ptName %>无法获得</p>
++    <p class='caution colorB'>在已通关的关卡中<%= ptName %>无法获得</p>
+--- a/magica/template/event/dailytower/EventDailyTowerTop.html
++++ b/magica/template/event/dailytower/EventDailyTowerTop.html
+@@ -153 +153 @@
+-		<p class='text'>通关逐步解放的方框内全部关卡,即可获得特别报酬。</p>
++		<p class='text'>通关逐步解放的方框内全部关卡，即可获得特别报酬。</p>
+--- a/magica/template/memoria/PieceArchive.html
++++ b/magica/template/memoria/PieceArchive.html
+@@ -35 +35 @@
+-			<div id="safeTitle" class="title pointFrame">仓库</div>
++			<div id="safeTitle" class="title pointFrame">保管库</div>
+--- a/magica/template/purchase/PurchaseTemps.html
++++ b/magica/template/purchase/PurchaseTemps.html
+@@ -6 +6 @@
+-	此外,登记的信息不会用于年龄确认以外的用途。
++	此外，登记的信息不会用于年龄确认以外的用途。
+--- a/magica/template/regularEvent/groupBattle/RegularEventGroupCommon.html
++++ b/magica/template/regularEvent/groupBattle/RegularEventGroupCommon.html
+@@ -138 +138 @@
+-			<li class="rewardTab TE se_tabs" data-type="groupRanking"><span>小组<br>排名奖励</span></li>
++			<li class="rewardTab TE se_tabs" data-type="groupRanking"><span>小组<br>排行榜报酬</span></li>
+@@ -140 +140 @@
+-			<li class="rewardTab TE se_tabs" data-type="memberRanking"><span>小组内<br>排名奖励</span></li>
++			<li class="rewardTab TE se_tabs" data-type="memberRanking"><span>小组内<br>排行榜报酬</span></li>

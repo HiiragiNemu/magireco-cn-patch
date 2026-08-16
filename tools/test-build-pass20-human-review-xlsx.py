@@ -13,6 +13,7 @@ import subprocess
 import tempfile
 import time
 import unittest
+from unittest import mock
 import zipfile
 import xml.etree.ElementTree as ET
 
@@ -87,26 +88,29 @@ class Pass20WorkbookBuildTests(unittest.TestCase):
         self.assertIn("__target_manifest_index", source)
         self.assertNotIn("openpyxl", source.lower())
 
-    def test_02_existing_workbook_has_three_bound_sheets_and_ui_contract(self):
-        result = BUILDER.verify_outputs()
+    def test_02_existing_workbook_has_one_human_sheet_and_three_visible_columns(self):
+        result = BUILDER.verify_outputs(BUILDER.CANONICAL, BUILDER.CANONICAL)
         self.assertEqual(result["counts"]["workbook_rows"], 1565)
         with zipfile.ZipFile(BUILDER.CANONICAL) as package:
             paths = IMPORTER._sheet_paths(package)
             self.assertEqual(tuple(paths), IMPORTER.SHEETS)
-            self.assertNotIn("只读排除347", paths)
+            self.assertEqual(tuple(paths), ("人工审核1565",))
             shared = IMPORTER._shared_strings(package)
             parsed = {
                 name: IMPORTER._parse_sheet(package, member, shared)
                 for name, member in paths.items()
             }
-            approved = parsed["②DS已审1366"]
-            priority = parsed["①优先审核199"]
+            review = parsed["人工审核1565"]
         self.assertEqual(
-            approved["cells"]["F2"],
-            "DS已审通过／仍属机器来源，待人工确认",
+            tuple(review["cells"][f"{column}1"] for column in "ABC"),
+            ("日文原文", "旧中文", "最终中文"),
         )
-        self.assertEqual(approved["cells"]["W1"], "__target_manifest_index")
-        self.assertEqual(priority["cells"]["W1"], "__target_manifest_index")
+        self.assertEqual(review["cells"]["D1"], "__item_id")
+        self.assertEqual(review["cells"]["L1"], "__target_manifest_index")
+        self.assertEqual(review["cells"]["N1"], "__partition")
+        origins = [review["cells"][f"E{row}"] for row in range(2, 1567)]
+        self.assertEqual(origins.count("adopted_suggestion"), 29)
+        self.assertEqual(origins.count("current"), 1536)
         max_cell_chars = max(
             len(value)
             for sheet in parsed.values()
@@ -120,14 +124,21 @@ class Pass20WorkbookBuildTests(unittest.TestCase):
             BUILDER.find_artifact_tool()
         except BUILDER.BuildError as exc:
             self.skipTest(str(exc))
-        first = BUILDER.build()
-        first_hash = normalized_package(BUILDER.CANONICAL)
-        second = BUILDER.build()
-        second_hash = normalized_package(BUILDER.CANONICAL)
-        self.assertEqual(first["counts"], second["counts"])
-        self.assertEqual(first["target_contract_sha256"], second["target_contract_sha256"])
-        self.assertEqual(first_hash, second_hash)
-        self.assertEqual(BUILDER.CANONICAL.read_bytes(), BUILDER.DELIVERY.read_bytes())
+        with tempfile.TemporaryDirectory() as temp:
+            canonical = Path(temp) / "canonical.xlsx"
+            delivery = Path(temp) / "delivery.xlsx"
+            with (
+                mock.patch.object(BUILDER, "CANONICAL", canonical),
+                mock.patch.object(BUILDER, "DELIVERY", delivery),
+            ):
+                first = BUILDER.build()
+                first_hash = normalized_package(canonical)
+                second = BUILDER.build()
+                second_hash = normalized_package(canonical)
+                self.assertEqual(first["counts"], second["counts"])
+                self.assertEqual(first["target_contract_sha256"], second["target_contract_sha256"])
+                self.assertEqual(first_hash, second_hash)
+                self.assertEqual(canonical.read_bytes(), delivery.read_bytes())
 
     def test_04_excel_com_sort_save_close_import_when_available(self):
         if os.name != "nt":
@@ -154,15 +165,27 @@ class Pass20WorkbookBuildTests(unittest.TestCase):
             )
 
         before_pids = excel_pids()
-        if before_pids:
-            self.skipTest("pre-existing Excel session detected; COM test did not touch it")
         script = r'''
 $ErrorActionPreference = 'Stop'
+$signature = @'
+[DllImport("user32.dll")]
+public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+'@
+Add-Type -MemberDefinition $signature -Name NativeWindow -Namespace Pass20Excel
 $excel = $null
 $book = $null
 try {
     try { $excel = New-Object -ComObject Excel.Application }
     catch { Write-Output 'EXCEL_NOT_AVAILABLE'; exit 3 }
+    [uint32]$excelPid = 0
+    [void][Pass20Excel.NativeWindow]::GetWindowThreadProcessId([IntPtr]$excel.Hwnd, [ref]$excelPid)
+    $existing = @($env:PASS20_EXISTING_EXCEL_PIDS -split ',' | Where-Object { $_ })
+    if ($existing -contains [string]$excelPid) {
+        [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($excel)
+        $excel = $null
+        Write-Output 'EXCEL_INSTANCE_NOT_ISOLATED'
+        exit 4
+    }
     $excel.Visible = $false
     $excel.DisplayAlerts = $false
     $excel.AskToUpdateLinks = $false
@@ -171,19 +194,19 @@ try {
     $book = $workbooks.Open($env:PASS20_XLSX_INPUT, 0, $true)
     [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($workbooks)
     $worksheets = $book.Worksheets
-    foreach ($name in @('①优先审核199', '②DS已审1366')) {
+    foreach ($name in @('人工审核1565')) {
         $sheet = $worksheets.Item($name)
         $listObjects = $sheet.ListObjects
         $table = $listObjects.Item(1)
         [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($listObjects)
         $tableRange = $table.Range
         $tableColumns = $tableRange.Columns
-        if ($tableColumns.Count -ne 25) { throw "$name table does not bind A:Y" }
+        if ($tableColumns.Count -ne 14) { throw "$name table does not bind A:N" }
         [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($tableColumns)
         [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($tableRange)
         $sort = $table.Sort
         $sort.SortFields.Clear()
-        $keyColumn = $table.ListColumns.Item(2)
+        $keyColumn = $table.ListColumns.Item(4)
         $keyRange = $keyColumn.DataBodyRange
         [void]$sort.SortFields.Add($keyRange, 0, 2)
         $sort.Header = 1
@@ -227,6 +250,7 @@ finally {
             env = dict(os.environ)
             env["PASS20_XLSX_INPUT"] = str(BUILDER.CANONICAL)
             env["PASS20_XLSX_OUTPUT"] = str(saved)
+            env["PASS20_EXISTING_EXCEL_PIDS"] = ",".join(str(value) for value in sorted(before_pids))
             try:
                 completed = subprocess.run(
                     [powershell, "-NoProfile", "-NonInteractive", "-Command", script],
@@ -237,6 +261,8 @@ finally {
                 self.fail("Excel COM Sort/SaveAs/Close timed out; test-created Excel was terminated")
             if completed.returncode == 3 and "EXCEL_NOT_AVAILABLE" in completed.stdout:
                 self.skipTest("Microsoft Excel COM is unavailable")
+            if completed.returncode == 4 and "EXCEL_INSTANCE_NOT_ISOLATED" in completed.stdout:
+                self.skipTest("Excel COM returned a pre-existing user instance; it was left untouched")
             if completed.returncode != 0:
                 stop_new_excel(before_pids)
             self.assertEqual(
@@ -250,28 +276,29 @@ finally {
                 saved_paths = IMPORTER._sheet_paths(saved_package)
                 original_shared = IMPORTER._shared_strings(original_package)
                 saved_shared = IMPORTER._shared_strings(saved_package)
-                for sheet_name in ("①优先审核199", "②DS已审1366"):
-                    original_sheet = IMPORTER._parse_sheet(
-                        original_package, original_paths[sheet_name], original_shared,
-                    )
-                    saved_sheet = IMPORTER._parse_sheet(
-                        saved_package, saved_paths[sheet_name], saved_shared,
-                    )
-                    self.assertNotEqual(original_sheet["cells"]["B2"], saved_sheet["cells"]["B2"])
+                sheet_name = "人工审核1565"
+                original_sheet = IMPORTER._parse_sheet(
+                    original_package, original_paths[sheet_name], original_shared,
+                )
+                saved_sheet = IMPORTER._parse_sheet(
+                    saved_package, saved_paths[sheet_name], saved_shared,
+                )
+                self.assertNotEqual(original_sheet["cells"]["D2"], saved_sheet["cells"]["D2"])
             output = Path(temp) / "saved-decisions.tsv"
             result = IMPORTER.import_workbook(
                 saved,
                 AUDIT / "pass20_remaining_manual_review.tsv",
                 AUDIT / "dsv4_terminal_handoff/full_review.tsv",
-                AUDIT / "dsv4_human_decisions.tsv",
                 AUDIT / "pass20_product_targets.json",
                 output,
                 priority_path=AUDIT / "pass20_priority_manual_review.tsv",
                 inventory_path=AUDIT / "pass20_machine_source_inventory.tsv",
                 shadow_path=AUDIT / "pass20_authority_shadowed_machine_items.tsv",
                 resolutions_path=AUDIT / "pass20_authority_resolutions.tsv",
+                adoptions_path=AUDIT / "pass21_user_directed_suggested_adoptions.tsv",
             )
-            self.assertEqual(result["decisions_imported"], 0)
+            self.assertEqual(result["receipt_rows_written"], 0)
+            self.assertFalse(output.exists())
         for _attempt in range(20):
             lingering = excel_pids() - before_pids
             if not lingering:
