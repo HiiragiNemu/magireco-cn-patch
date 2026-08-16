@@ -4,7 +4,7 @@
 The workbook itself is authored by @oai/artifact-tool.  This wrapper prepares
 the bound source/target records, discovers the bundled Node runtime without
 changing host network settings, invokes the artifact-tool authoring script,
-hardens worksheet protection, and validates the blank import contract.
+hardens worksheet protection, and validates the prefilled template contract.
 """
 
 from __future__ import annotations
@@ -85,7 +85,9 @@ def _load_importer():
     return module
 
 
-def verify_outputs(canonical: Path = CANONICAL, delivery: Path = DELIVERY) -> dict[str, object]:
+def verify_outputs(canonical: Path | None = None, delivery: Path | None = None) -> dict[str, object]:
+    canonical = CANONICAL if canonical is None else canonical
+    delivery = DELIVERY if delivery is None else delivery
     for path in (canonical, delivery):
         if not path.is_file() or path.is_symlink():
             raise BuildError(f"workbook missing or unsafe: {path}")
@@ -100,21 +102,21 @@ def verify_outputs(canonical: Path = CANONICAL, delivery: Path = DELIVERY) -> di
 
     importer = _load_importer()
     with tempfile.TemporaryDirectory() as temp:
-        output = Path(temp) / "blank-decisions.tsv"
+        output = Path(temp) / "template-decisions.tsv"
         result = importer.import_workbook(
             canonical,
             AUDIT / "pass20_remaining_manual_review.tsv",
             AUDIT / "dsv4_terminal_handoff/full_review.tsv",
-            AUDIT / "dsv4_human_decisions.tsv",
             AUDIT / "pass20_product_targets.json",
             output,
             priority_path=AUDIT / "pass20_priority_manual_review.tsv",
             inventory_path=AUDIT / "pass20_machine_source_inventory.tsv",
             shadow_path=AUDIT / "pass20_authority_shadowed_machine_items.tsv",
             resolutions_path=AUDIT / "pass20_authority_resolutions.tsv",
+            adoptions_path=AUDIT / "pass21_user_directed_suggested_adoptions.tsv",
         )
-        if output.read_bytes() != (AUDIT / "dsv4_human_decisions.tsv").read_bytes():
-            raise BuildError("blank workbook import was not byte-preserving")
+        if output.exists():
+            raise BuildError("template workbook verification unexpectedly wrote a final-values receipt")
     expected = {
         "workbook_rows": 1565,
         "priority_rows": 199,
@@ -122,11 +124,15 @@ def verify_outputs(canonical: Path = CANONICAL, delivery: Path = DELIVERY) -> di
         "workbook_excluded_rows": 0,
         "external_authority_audit_rows": 347,
         "higher_authority_shadowed_rows": 24,
-        "decisions_imported": 0,
+        "prefilled_from_suggestion": 29,
+        "prefilled_from_current": 1536,
+        "returned_workbook_accepted": False,
+        "receipt_rows_written": 0,
+        "pending_in_workbook": 1565,
         "protected_text_changes": 0,
     }
     if any(result.get(key) != value for key, value in expected.items()):
-        raise BuildError(f"blank workbook verification count drifted: {result}")
+        raise BuildError(f"template workbook verification count drifted: {result}")
     return {
         "status": "PASS",
         "canonical": str(canonical),

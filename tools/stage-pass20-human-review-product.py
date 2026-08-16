@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Materialize approved Pass20 decisions into an external staging product copy."""
+"""Materialize returned Pass20 final values into an external product copy."""
 
 from __future__ import annotations
 
@@ -23,13 +23,14 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
 SOURCE = AUDIT / "dsv4_terminal_handoff/full_review.tsv"
-DECISIONS = AUDIT / "dsv4_human_decisions.tsv"
+FINAL_VALUES = AUDIT / "pass20_human_final_values.tsv"
 RESOLUTIONS = AUDIT / "pass20_authority_resolutions.tsv"
 TARGETS = AUDIT / "pass20_product_targets.json"
 SHADOWED = AUDIT / "pass20_authority_shadowed_machine_items.json"
 QUEUE = AUDIT / "pass20_remaining_manual_review.tsv"
 PROTECTED = AUDIT / "protected_authority/protected_translation_fields.tsv"
-DECISIONS_REL = Path("magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv")
+FINAL_VALUES_REL = Path("magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv")
+ADOPTIONS = AUDIT / "pass21_user_directed_suggested_adoptions.tsv"
 WORKBOOK_REL = Path(
     "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"
 )
@@ -440,6 +441,44 @@ def semantic_spans(text: str, needle: str, rel: str, scope: str) -> list[tuple[i
     return []
 
 
+def verify_pass21_runtime_baselines(
+    product_root: Path,
+    targets: dict[str, dict[str, Any]],
+    adoptions: dict[str, dict[str, Any]],
+) -> dict[str, int]:
+    checked_items = checked_paths = checked_occurrences = 0
+    for item_id, adoption in adoptions.items():
+        if adoption["runtime_strategy"] == "canonical-only":
+            continue
+        target = targets[item_id]
+        expected_by_path: Counter[str] = Counter()
+        if adoption["runtime_strategy"] == "explicit-safe-paths":
+            for rewrite in adoption["runtime_rewrites_parsed"]:
+                expected_by_path[rewrite["path"]] += rewrite["expected_count"]
+        else:
+            expected_by_path.update(row["path"] for row in target["occurrences"])
+        literal = decode_cell(adoption["adopted_cn"])
+        for rel, expected_count in expected_by_path.items():
+            path = product_root / rel
+            if not path.is_file() or path.is_symlink():
+                raise StageError(f"Pass21 runtime baseline path is missing: {item_id} {rel}")
+            text = path.read_text(encoding="utf-8")
+            actual = len(semantic_spans(text, literal, rel, target["maintenance_scope"]))
+            if actual != expected_count:
+                raise StageError(
+                    f"Pass21 runtime baseline is not materialized: {item_id} {rel} "
+                    f"actual={actual} expected={expected_count}"
+                )
+            checked_paths += 1
+            checked_occurrences += actual
+        checked_items += 1
+    return {
+        "items": checked_items,
+        "paths": checked_paths,
+        "occurrences": checked_occurrences,
+    }
+
+
 def copy_tree(source: Path, target: Path, *, product: bool = False) -> None:
     for path in source.rglob("*"):
         rel = path.relative_to(source)
@@ -457,7 +496,7 @@ def copy_tree(source: Path, target: Path, *, product: bool = False) -> None:
 def append_reviewed_candidates(
     path: Path,
     queue: dict[str, dict[str, str]],
-    decisions: list[dict[str, str]],
+    final_values: list[dict[str, str]],
     targets: dict[str, dict[str, Any]],
     expected_ids: set[str],
 ) -> int:
@@ -470,22 +509,20 @@ def append_reviewed_candidates(
             if len(row) == len(REVIEWED_COLUMNS):
                 existing_locators.add(row[7])
     records = []
-    for decision in decisions:
-        item_id = decision["item_id"]
+    for receipt in final_values:
+        item_id = receipt["item_id"]
         if item_id not in expected_ids:
             continue
-        if decision["human_decision"] not in {"approve-current", "revise"}:
-            raise StageError(f"Pass20 decision is not publishable: {item_id}")
         source = queue[item_id]
         target = targets[item_id]
-        locator = f"magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv#{item_id}"
+        locator = f"magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv#{item_id}"
         if locator in existing_locators:
             raise StageError(f"reviewed candidate already exists: {item_id}")
-        final_value = decision["final_value"]
+        final_value = receipt["final_value"]
         if not final_value:
-            raise StageError(f"human decision has no final value: {item_id}")
+            raise StageError(f"human return has no final value: {item_id}")
         if final_value == "<DELETE>" and not (
-            decision["human_decision"] == "approve-current" and source["current_cn"] == "<DELETE>"
+            receipt["final_origin"] == "machine-current" and source["current_cn"] == "<DELETE>"
         ):
             raise StageError(f"reserved deletion token is forbidden as review text: {item_id}")
         record = {
@@ -495,20 +532,16 @@ def append_reviewed_candidates(
             "candidate_cn": final_value,
             "status": "present",
             "authority": "existing_human_reviewed",
-            "source_batch": "pass20-human-review-v1",
+            "source_batch": "pass20-human-final-values-v1",
             "source_locator": locator,
             "source_sha256": "",
             "match_method": "exact-semantic-key-human-review",
-            "machine_translated": "false" if decision["human_decision"] == "revise" else "unknown",
+            "machine_translated": receipt["machine_translated"],
             "confidence": "human-approved",
-            "review_status": (
-                "human-reviewed-revised"
-                if decision["human_decision"] == "revise"
-                else "human-reviewed-approved-machine-origin-retained"
-            ),
+            "review_status": receipt["review_status"],
             "evidence": (
-                f"item_id={item_id}; reviewer={decision['reviewer']}; timestamp={decision['timestamp']}; "
-                f"decision={decision['human_decision']}; target_status={target['match_status']}"
+                f"item_id={item_id}; final_origin={receipt['final_origin']}; "
+                f"target_status={target['match_status']}"
             ),
         }
         records.append(record)
@@ -562,7 +595,7 @@ def html_sensitive_signature(text: str) -> list[tuple[str, str]]:
 
 def stage(
     source_path: Path,
-    decisions_path: Path,
+    final_values_path: Path,
     resolutions_path: Path,
     targets_path: Path,
     stage_root: Path,
@@ -580,7 +613,8 @@ def stage(
     resolved_shadowed_path = shadowed_path or SHADOWED
     validator = load_module("pass20_validate_human", ROOT / "tools/validate-dsv4-human-review.py")
     validation = validator.validate(
-        source_path, decisions_path, resolutions_path, resolved_shadowed_path,
+        source_path, final_values_path, resolutions_path, resolved_shadowed_path,
+        targets_path=targets_path, adoptions_path=ADOPTIONS,
     )
     if not validation["release_gate_open"]:
         raise StageError("human review release gate is closed")
@@ -590,8 +624,8 @@ def stage(
         raise StageError("completed review workbook must be a separate external copy; keep the repository template blank")
 
     source_header, source_rows = load_tsv(source_path)
-    decision_header, decision_rows = load_tsv(decisions_path)
-    if not source_header or not decision_header:
+    final_header, final_rows = load_tsv(final_values_path)
+    if not source_header or not final_header:
         raise StageError("human review tables are empty")
     _, remaining = load_tsv(QUEUE)
     queue = {row["item_id"]: row for row in remaining}
@@ -600,18 +634,13 @@ def stage(
     review_items = len(queue)
     validate_queue_source_bindings(remaining, source_rows)
     source_records_sha256 = sha256(QUEUE.read_bytes()).hexdigest()
-    decision_by_id = {row["item_id"]: row for row in decision_rows}
-    if len(decision_by_id) != len(decision_rows):
-        raise StageError("human decision table contains an empty or duplicate item ID")
-    if any(item not in decision_by_id or not decision_by_id[item]["human_decision"] for item in queue):
-        raise StageError(f"all {review_items} Pass20 items must have a human decision")
-    for item_id, source in queue.items():
-        validate_translation_structure(
-            item_id,
-            source.get("current_cn", ""),
-            decision_by_id[item_id].get("final_value", ""),
-        )
-    if validation.get("decision_required") != review_items or validation.get("decided") != review_items:
+    final_by_id = {row["item_id"]: row for row in final_rows}
+    if len(final_by_id) != len(final_rows) or set(final_by_id) != set(queue):
+        raise StageError(f"final-value table must cover all {review_items} Pass20 items")
+    if (
+        validation.get("final_values_required") != review_items
+        or validation.get("final_values_received") != review_items
+    ):
         raise StageError("human review gate and materialization queue counts differ")
 
     _, resolution_rows = load_tsv(resolutions_path)
@@ -638,6 +667,15 @@ def stage(
         raise StageError("product target manifest differs from the Pass20 queue")
     if target_contract["materialization_items"] != review_items:
         raise StageError("review queue contains a non-materializable target")
+    adoption_tool = load_module(
+        "pass21_adoption_contract", ROOT / "tools/apply-pass20-suggested-adoptions.py"
+    )
+    adoptions = adoption_tool.read_adoption_manifest(ADOPTIONS)
+    if not set(adoptions).issubset(queue):
+        raise StageError("Pass21 suggestion adoption contains an excluded final-value item")
+    for item_id, source in queue.items():
+        baseline = adoptions.get(item_id, {}).get("adopted_cn", source.get("current_cn", ""))
+        validate_translation_structure(item_id, baseline, final_by_id[item_id]["final_value"])
 
     shadowed_contract = load_shadowed_contract(resolved_shadowed_path)
     authority_shadow_manifest_sha256 = sha256(resolved_shadowed_path.read_bytes()).hexdigest()
@@ -651,40 +689,34 @@ def stage(
         or source_ids != set(queue).union(resolution_ids, shadowed_ids)
     ):
         raise StageError("source/review/resolution/shadow partition drifted")
-    decision_fields = (
-        "human_decision", "reviewer", "timestamp", "final_value", "human_revision", "human_notes",
-    )
-    for item_id in shadowed_ids:
-        decision = decision_by_id.get(item_id)
-        if decision is None or any(decision.get(field, "") for field in decision_fields):
-            raise StageError(f"higher-authority shadow carries a human decision: {item_id}")
+    if shadowed_ids.intersection(final_by_id):
+        raise StageError("higher-authority shadow entered the final-value receipt")
     machine_inventory_items = review_items + shadowed_contract["count"]
 
     importer = load_module("pass20_workbook_import", ROOT / "tools/import-pass20-human-review-xlsx.py")
     with tempfile.TemporaryDirectory(prefix="pass20-workbook-receipt-", dir=stage_root.parent) as temp:
-        imported_decisions = Path(temp) / "imported-decisions.tsv"
+        imported_final_values = Path(temp) / "imported-final-values.tsv"
         try:
             workbook_import = importer.import_workbook(
                 review_workbook,
                 AUDIT / "pass20_remaining_manual_review.tsv",
                 source_path,
-                DECISIONS,
                 targets_path,
-                imported_decisions,
+                imported_final_values,
+                accept_returned=True,
             )
         except Exception as exc:
             raise StageError(f"completed review workbook validation failed: {exc}") from exc
         if (
-            workbook_import.get("decisions_imported") != review_items
+            workbook_import.get("receipt_rows_written") != review_items
             or workbook_import.get("pending_in_workbook") != 0
-            or sum(workbook_import.get("decision_counts", {}).values()) != review_items
-            or workbook_import.get("decision_counts", {}).get("unresolved") != 0
+            or workbook_import.get("returned_workbook_accepted") is not True
         ):
             raise StageError(
-                f"review workbook itself must contain {review_items} closed decisions and zero unresolved rows"
+                f"review workbook itself must return all {review_items} final values"
             )
-        if imported_decisions.read_bytes() != decisions_path.read_bytes():
-            raise StageError("completed workbook decisions differ from the closed decision TSV")
+        if imported_final_values.read_bytes() != final_values_path.read_bytes():
+            raise StageError("completed workbook differs from the committed final-value TSV")
     copy_tree(ROOT / "i18n", stage_root / "i18n")
     copy_tree(ROOT / "magica", stage_root / "magica", product=True)
     copy_tree(ROOT / "madomagi", stage_root / "madomagi")
@@ -698,7 +730,7 @@ def stage(
     reviewed_count = append_reviewed_candidates(
         stage_root / "i18n/reviewed-candidates.tsv",
         queue,
-        [decision_by_id[item] for item in queue],
+        [final_by_id[item] for item in queue],
         targets,
         set(queue),
     )
@@ -714,40 +746,44 @@ def stage(
     _, effective_rows = load_tsv(stage_root / "i18n/generated/effective.tsv")
     effective = {row["key"]: row for row in effective_rows}
 
-    target_builder = load_module("pass20_target_builder", ROOT / "tools/build-pass20-product-targets.py")
-    current_mapping = target_builder.build(
-        AUDIT / "pass20_remaining_manual_review.tsv",
-        ROOT / "i18n/generated/input-provenance.tsv",
-        ROOT / "i18n/generated/effective.tsv",
-        ROOT / "i18n/uiTextList.json",
-        stage_root / "magica",
-    )
-    require_fresh_target_manifest(target_payload, current_mapping)
-
     override_rows: list[tuple[str, str, str]] = []
     fragment_rows: list[tuple[str, str, str]] = []
     patch_items: list[dict[str, Any]] = []
     maintenance_only_changes: list[str] = []
     for item_id in queue:
         source = queue[item_id]
-        decision = decision_by_id[item_id]
+        receipt = final_by_id[item_id]
         target = targets[item_id]
         winner = effective.get(target["semantic_key"])
         if winner is None:
             raise StageError(f"effective winner missing after human review: {item_id}")
-        if winner["authority"] != "existing_human_reviewed" or winner["selected_cn"] != decision["final_value"]:
+        if winner["authority"] != "existing_human_reviewed" or winner["selected_cn"] != receipt["final_value"]:
             raise StageError(f"human-reviewed effective winner drift: {item_id}")
-        if decision["final_value"] == source["current_cn"]:
+        adoption = adoptions.get(item_id)
+        baseline = adoption["adopted_cn"] if adoption else source["current_cn"]
+        if receipt["final_value"] == baseline:
             continue
-        if not target["application_allowed"]:
+        if adoption and adoption["runtime_strategy"] == "canonical-only":
             maintenance_only_changes.append(item_id)
             continue
-        paths = target["product_target_paths"]
+        if adoption and adoption["runtime_strategy"] == "explicit-safe-paths":
+            rewrites = adoption["runtime_rewrites_parsed"]
+            paths = sorted({row["path"] for row in rewrites})
+            expected_occurrences = [
+                {"path": row["path"], "start": -1, "end": -1}
+                for row in rewrites for _ in range(row["expected_count"])
+            ]
+        else:
+            if not target["application_allowed"]:
+                maintenance_only_changes.append(item_id)
+                continue
+            paths = target["product_target_paths"]
+            expected_occurrences = target["occurrences"]
         if not paths:
-            raise StageError(f"applicable decision has no product path: {item_id}")
+            raise StageError(f"applicable final value has no product path: {item_id}")
         table_rows = fragment_rows if target["maintenance_scope"] == "fragment" else override_rows
         for rel in paths:
-            row = (rel, source["current_cn"], decision["final_value"])
+            row = (rel, baseline, receipt["final_value"])
             if row in table_rows:
                 raise StageError(f"duplicate application row: {item_id} {rel}")
             table_rows.append(row)
@@ -755,16 +791,19 @@ def stage(
             "item_id": item_id,
             "semantic_key": target["semantic_key"],
             "scope": target["maintenance_scope"],
-            "before": source["current_cn"],
-            "after": decision["final_value"],
+            "before": baseline,
+            "after": receipt["final_value"],
             "paths": paths,
-            "expected_occurrences": target["occurrences"],
+            "expected_occurrences": expected_occurrences,
         })
 
     product_before = {
         path.relative_to(stage_root).as_posix(): path.read_bytes()
         for path in (stage_root / "magica").rglob("*") if path.is_file()
     }
+    pass21_runtime_baseline = verify_pass21_runtime_baselines(
+        stage_root / "magica", targets, adoptions,
+    )
     application = stage_root / "review_application"
     empty_table = application / "frontend-empty.tsv"
     write_plan_table(empty_table, [], "Pass20 overrides-only application; intentionally empty global table")
@@ -817,10 +856,10 @@ def stage(
                 "before_count_after": before_post, "after_delta": after_post - after_pre,
             })
 
-    staged_decisions = stage_root / DECISIONS_REL
-    staged_decisions.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(decisions_path, staged_decisions)
-    canonical_before[DECISIONS_REL.as_posix()] = (ROOT / DECISIONS_REL).read_bytes()
+    staged_final_values = stage_root / FINAL_VALUES_REL
+    staged_final_values.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(final_values_path, staged_final_values)
+    canonical_before[FINAL_VALUES_REL.as_posix()] = (ROOT / FINAL_VALUES_REL).read_bytes()
     canonical_after = {
         rel: (stage_root / rel).read_bytes()
         for rel in canonical_before
@@ -865,8 +904,8 @@ def stage(
         after_bytes = canonical_after[rel]
         if before_bytes == after_bytes:
             continue
-        if rel == DECISIONS_REL.as_posix():
-            role = "human-decision-audit"
+        if rel == FINAL_VALUES_REL.as_posix():
+            role = "human-final-values-audit"
         elif rel == WORKBOOK_REL.as_posix():
             role = "human-review-workbook-receipt"
         else:
@@ -875,8 +914,8 @@ def stage(
         canonical_changed_files.append(rel)
     if "i18n/reviewed-candidates.tsv" not in canonical_changed_files:
         raise StageError("human-reviewed canonical authority input did not change")
-    if DECISIONS_REL.as_posix() not in canonical_changed_files:
-        raise StageError("closed human decision audit did not change")
+    if FINAL_VALUES_REL.as_posix() not in canonical_changed_files:
+        raise StageError("returned human final-value audit did not change")
     repository_promotion_files = sorted(changed_files + canonical_changed_files)
 
     review_contract = {
@@ -974,6 +1013,7 @@ def stage(
         "higher_authority_shadowed_items": shadowed_contract["count"],
         "product_write_forbidden_items": shadowed_contract["count"],
         "runtime_occurrences_bound": target_contract["runtime_occurrences"],
+        "pass21_preapplied_runtime_baseline": pass21_runtime_baseline,
         "patch_items": len(patch_items),
         "maintenance_only_changed_items": maintenance_only_changes,
         "changed_files": changed_files,
@@ -1009,7 +1049,7 @@ def stage(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, default=SOURCE)
-    parser.add_argument("--decisions", type=Path, default=DECISIONS)
+    parser.add_argument("--final-values", type=Path, default=FINAL_VALUES)
     parser.add_argument("--authority-resolutions", type=Path, default=RESOLUTIONS)
     parser.add_argument("--targets", type=Path, default=TARGETS)
     parser.add_argument("--authority-shadowed", type=Path, default=SHADOWED)
@@ -1018,7 +1058,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     try:
         report = stage(
-            args.source, args.decisions, args.authority_resolutions, args.targets, args.stage_root,
+            args.source, args.final_values, args.authority_resolutions, args.targets, args.stage_root,
             args.review_workbook, args.authority_shadowed,
         )
         print(json.dumps({key: value for key, value in report.items() if key != "commands"}, ensure_ascii=False, indent=2, sort_keys=True))

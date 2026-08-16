@@ -1,0 +1,61 @@
+{
+  "authority_protection_status": "PASS",
+  "baseline_command": "python tools/apply-pass20-suggested-adoptions.py --stage-root <external-stage>",
+  "baseline_exit_status": 0,
+  "canonical_adoptions": 29,
+  "canonical_only_items": 5,
+  "human_final_value_gate": {
+    "final_values_required": 1565,
+    "pending": 1565,
+    "release_gate_open": false,
+    "status": "PASS"
+  },
+  "modified_command": "python tools/apply-pass20-suggested-adoptions.py --stage-root <external-stage> --allow-repository-write",
+  "modified_exit_status": 0,
+  "package": {
+    "audit_entries": 0,
+    "bytes": 8633379,
+    "compression": "deflate-9",
+    "dos_time": [
+      1980,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "duplicate_paths": 0,
+    "engine_entries": 1,
+    "engine_member": "madomagi/engine_i18n.tsv",
+    "engine_sha256": "9d14dc8c7c7a1dbfb381af86ebcfff17b2393b2cec5136ed1594f7ea87dbd4a4",
+    "entry_order": "utf-8-posix-name",
+    "file_entries": 442,
+    "path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\_artifacts\\cn_js_update.zip",
+    "research_entries": 0,
+    "scenario_entries": 0,
+    "schema": "magireco-cn-v26-deterministic-package/v1",
+    "sha256": "cdf2b5f92cd4d5648b6ee78c4b44bb92f28007305c2e7e2fd67078d225047d59",
+    "status": "PASS",
+    "unix_mode": "100644"
+  },
+  "protected_fields_checked": 2777,
+  "protected_text_changes": 0,
+  "repromotion_after_image_matches": "30/30",
+  "repromotion_exit_status": 0,
+  "rollback_before_image_matches": "30/30",
+  "rollback_command": "python tools/apply-pass20-suggested-adoptions.py --stage-root <external-stage> --allow-repository-write --rollback",
+  "rollback_exit_status": 0,
+  "runnable_audit_bundle": {
+    "crc": "PASS",
+    "entries": 71,
+    "extracted_repromotion_exit_status": 0,
+    "extracted_rollback_exit_status": 0,
+    "path": "_artifacts/pass21_suggested_adoption_audit_bundle.zip"
+  },
+  "runtime_files": 23,
+  "runtime_materialized_items": 24,
+  "runtime_occurrences": 30,
+  "schema": "magireco-cn-pass21-suggested-adoption-final-verification/1",
+  "stage_root_used_for_local_rollback_exercise": "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass21-adoption-contract-20260816T194032580Z",
+  "status": "PASS"
+}

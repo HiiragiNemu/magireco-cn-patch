@@ -23,7 +23,7 @@ QUEUE_REL = AUDIT_REL / "pass20_remaining_manual_review.tsv"
 TARGETS_REL = AUDIT_REL / "pass20_product_targets.json"
 SHADOWED_REL = AUDIT_REL / "pass20_authority_shadowed_machine_items.json"
 RESOLUTIONS_REL = AUDIT_REL / "pass20_authority_resolutions.tsv"
-DECISIONS_RECEIPT = "magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv"
+FINAL_VALUES_RECEIPT = "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv"
 WORKBOOK_RECEIPT = (
     "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"
 )
@@ -98,8 +98,8 @@ def role_path_valid(role: str, path: str) -> bool:
         )
     if role == "canonical-i18n":
         return path in CANONICAL_I18N_FILES
-    if role == "human-decision-audit":
-        return path == DECISIONS_RECEIPT
+    if role == "human-final-values-audit":
+        return path == FINAL_VALUES_RECEIPT
     if role == "human-review-workbook-receipt":
         return path == WORKBOOK_RECEIPT
     return False
@@ -155,7 +155,7 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
         raise PromotionError("staging report counts differ from its review contract")
     if report.get("reviewed_candidates_appended") != review_contract["materialization_items"]:
         raise PromotionError("staging canonical append count drifted")
-    if report.get("human_gate", {}).get("decision_required") != review_contract["human_review_items"]:
+    if report.get("human_gate", {}).get("final_values_required") != review_contract["human_review_items"]:
         raise PromotionError("human gate count differs from the materialization contract")
     source_files = {
         "source_records_sha256": repo_root / QUEUE_REL,
@@ -178,7 +178,7 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
     if not isinstance(promotion_files, list) or sorted(paths) != sorted(promotion_files):
         raise PromotionError("promotion allowlist differs from rollback manifest")
     allowed_roles = {
-        "runtime-product", "canonical-i18n", "human-decision-audit",
+        "runtime-product", "canonical-i18n", "human-final-values-audit",
         "human-review-workbook-receipt",
     }
     unknown_roles = sorted(
@@ -198,7 +198,7 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
     canonical_files = sorted(
         record["path"] for record in records
         if record.get("role") in {
-            "canonical-i18n", "human-decision-audit", "human-review-workbook-receipt",
+            "canonical-i18n", "human-final-values-audit", "human-review-workbook-receipt",
         }
     )
     if runtime_files != sorted(report.get("changed_files", [])):
@@ -212,8 +212,8 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
         raise PromotionError("staging changed-file lists do not exactly cover the promotion manifest")
     if "i18n/reviewed-candidates.tsv" not in canonical_files:
         raise PromotionError("canonical human-reviewed authority input is absent from promotion")
-    if DECISIONS_RECEIPT not in canonical_files:
-        raise PromotionError("completed human decision receipt is absent from promotion")
+    if FINAL_VALUES_RECEIPT not in canonical_files:
+        raise PromotionError("completed human final-value receipt is absent from promotion")
     receipt = report.get("human_review_workbook_receipt")
     if receipt != WORKBOOK_RECEIPT:
         raise PromotionError("completed review workbook receipt contract drifted")

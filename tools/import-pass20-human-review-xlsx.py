@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Validate the 1,565-row v26 review workbook and merge decisions by stable item ID."""
+"""Validate the one-sheet 1,565-row workbook and optionally accept all returned final values."""
 
 from __future__ import annotations
 
 import argparse
 import csv
-from datetime import datetime
 from hashlib import sha256
+import importlib.util
 import json
 from pathlib import Path, PurePosixPath
 import posixpath
@@ -27,9 +27,10 @@ DEFAULT_INVENTORY = AUDIT / "pass20_machine_source_inventory.tsv"
 DEFAULT_SHADOW = AUDIT / "pass20_authority_shadowed_machine_items.tsv"
 DEFAULT_RESOLUTIONS = AUDIT / "pass20_authority_resolutions.tsv"
 DEFAULT_SEALED = AUDIT / "dsv4_terminal_handoff/full_review.tsv"
-DEFAULT_DECISIONS = AUDIT / "dsv4_human_decisions.tsv"
+DEFAULT_ADOPTIONS = AUDIT / "pass21_user_directed_suggested_adoptions.tsv"
+DEFAULT_RECEIPT = AUDIT / "pass20_human_final_values.tsv"
 DEFAULT_TARGETS = AUDIT / "pass20_product_targets.json"
-SCHEMA = "magireco-cn-v26-translation-human-review-workbook/3"
+SCHEMA = "magireco-cn-v26-translation-human-review-workbook/5"
 EXPECTED_COUNTS = {
     "inventory": 1589,
     "human": 1565,
@@ -39,31 +40,19 @@ EXPECTED_COUNTS = {
     "authority": 323,
     "shadowed": 24,
 }
-SHEETS = ("说明", "①优先审核199", "②DS已审1366")
-EDIT_SHEETS = {"①优先审核199": ("priority", 199), "②DS已审1366": ("approved", 1366)}
+SHEETS = ("人工审核1565",)
+REVIEW_SHEET = "人工审核1565"
 NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 PKG_REL_NS = "http://schemas.openxmlformats.org/package/2006/relationships"
 Q = lambda tag: f"{{{NS}}}{tag}"
 
 HEADERS = (
-    "序号", "稳定ID", "原文（日文/源文）", "当前中文", "建议中文", "审查状态", "审查说明（含DS原始理由）",
-    "维护层类型", "维护表", "原文键", "路径前缀", "产品目标路径", "匹配次数", "上下文片段",
-    "人工决定", "最终中文", "人工备注", "__source_text_sha256", "__source_record_sha256",
-    "__target_contract_sha256", "__target_row_sha256", "__stable_business_key", "__target_manifest_index", "__schema_version", "__partition",
+    "日文原文", "旧中文", "最终中文", "__item_id", "__seed_origin",
+    "__seed_final_sha256", "__source_text_sha256", "__source_record_sha256",
+    "__target_contract_sha256", "__target_row_sha256", "__stable_business_key",
+    "__target_manifest_index", "__schema_version", "__partition",
 )
-DECISION_LABELS = {
-    "保留现译": "approve-current",
-    "采用建议": "adopt-suggestion",
-    "自行修改": "revise",
-    "暂时无法判断": "unresolved",
-}
-VERDICT_LABELS = {
-    "correction": "DS发现错误／建议修正但尚未应用",
-    "unresolved": "DS未确定／需人工判断",
-    "manual-required": "尚未完成DS审查／需人工判断",
-    "approved": "DS已审通过／仍属机器来源，待人工确认",
-}
 SOURCE_FIELDS = (
     "source_index", "batch_number", "item_id", "stable_business_key",
     "source_path", "source_key", "source_field", "review_kind", "allowed_action",
@@ -72,8 +61,20 @@ SOURCE_FIELDS = (
     "protected_authority_text", "product_write_allowed", "highest_authority_tier",
     "authority_status", "authority_evidence", "official_cn", "wiki_cn", "confirmed_human_cn",
 )
-DECISION_FIELDS = ("human_decision", "reviewer", "timestamp", "final_value", "human_revision", "human_notes")
-ISO_8601 = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$")
+
+
+def load_final_values_contract():
+    path = Path(__file__).with_name("pass20_final_values_contract.py")
+    spec = importlib.util.spec_from_file_location("pass20_final_values_contract", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("final-values contract could not be loaded")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+FINAL_VALUES = load_final_values_contract()
+RECEIPT_FIELDS = FINAL_VALUES.FINAL_VALUE_FIELDS
 
 
 class WorkbookImportError(RuntimeError):
@@ -193,10 +194,7 @@ def _safe_relationship_target(source_path: str, raw_target: str, required_prefix
 
 
 def _require_table_ranges(package: zipfile.ZipFile, sheet_paths: dict[str, str]) -> None:
-    expected = {
-        "①优先审核199": "A1:Y200",
-        "②DS已审1366": "A1:Y1367",
-    }
+    expected = {REVIEW_SHEET: "A1:N1566"}
     for sheet_name, table_ref in expected.items():
         sheet_path = sheet_paths[sheet_name]
         sheet_root = ET.fromstring(package.read(sheet_path))
@@ -273,53 +271,31 @@ def _hidden_columns(sheet: dict[str, Any]) -> set[int]:
     return hidden
 
 
-def _require_pane(sheet: dict[str, Any], label: str, *, instruction: bool = False) -> None:
+def _require_pane(sheet: dict[str, Any], label: str) -> None:
     pane = sheet["root"].find(f"./{Q('sheetViews')}/{Q('sheetView')}/{Q('pane')}")
     if pane is None or pane.get("state") != "frozen":
         raise WorkbookImportError(f"{label} freeze pane drifted")
-    if instruction:
-        if pane.get("ySplit") != "2":
-            raise WorkbookImportError(f"{label} freeze pane drifted")
-    elif pane.get("xSplit") != "2" or pane.get("ySplit") != "1":
+    if pane.get("xSplit") not in {None, "0"} or pane.get("ySplit") != "1":
         raise WorkbookImportError(f"{label} freeze pane drifted")
 
 
-def _require_workbook_ui(
-    sheets: dict[str, dict[str, Any]], unlocked: dict[int, bool], row_counts: dict[str, int]
-) -> None:
+def _require_workbook_ui(sheets: dict[str, dict[str, Any]], unlocked: dict[int, bool]) -> None:
     for name, sheet in sheets.items():
         protection = sheet["root"].find(Q("sheetProtection"))
         if protection is None:
             raise WorkbookImportError(f"{name} sheet protection is missing")
-    instruction = sheets["说明"]
-    _require_pane(instruction, "说明", instruction=True)
-    for ref in ("B18", "B19"):
-        if not unlocked.get(instruction["styles"].get(ref, -1), False):
-            raise WorkbookImportError(f"instruction input cell is locked: {ref}")
-    for name, count in row_counts.items():
-        sheet = sheets[name]
-        _require_pane(sheet, name)
-        if not set(range(18, 26)).issubset(_hidden_columns(sheet)):
-            raise WorkbookImportError(f"{name} hidden audit columns R:Y drifted")
-        for row in range(2, count + 2):
-            for column in "OPQ":
-                ref = f"{column}{row}"
-                if not unlocked.get(sheet["styles"].get(ref, -1), False):
-                    raise WorkbookImportError(f"review input cell is locked: {name}!{ref}")
-            for column in "ABCDEFGHIJKLMNRSTUVWXY":
-                ref = f"{column}{row}"
-                if unlocked.get(sheet["styles"].get(ref, -1), False):
-                    raise WorkbookImportError(f"immutable review cell is unlocked: {name}!{ref}")
-        validations = sheet["root"].find(Q("dataValidations"))
-        expected_range = f"O2:O{count + 1}"
-        matched = False
-        for validation in list(validations) if validations is not None else []:
-            formula = validation.find(Q("formula1"))
-            if validation.get("sqref") == expected_range and formula is not None:
-                values = formula.text or ""
-                matched = all(label in values for label in DECISION_LABELS)
-        if not matched:
-            raise WorkbookImportError(f"{name} Chinese decision dropdown drifted")
+    sheet = sheets[REVIEW_SHEET]
+    _require_pane(sheet, REVIEW_SHEET)
+    if not set(range(4, 15)).issubset(_hidden_columns(sheet)):
+        raise WorkbookImportError(f"{REVIEW_SHEET} hidden audit columns D:N drifted")
+    for row in range(2, EXPECTED_COUNTS["human"] + 2):
+        editable_ref = f"C{row}"
+        if not unlocked.get(sheet["styles"].get(editable_ref, -1), False):
+            raise WorkbookImportError(f"final Chinese cell is locked: {REVIEW_SHEET}!{editable_ref}")
+        for column in "ABDEFGHIJKLMN":
+            ref = f"{column}{row}"
+            if unlocked.get(sheet["styles"].get(ref, -1), False):
+                raise WorkbookImportError(f"immutable review cell is unlocked: {REVIEW_SHEET}!{ref}")
 
 
 def _literal_equal(actual: str, expected: str) -> bool:
@@ -334,12 +310,6 @@ def _integer_cell(value: str, label: str) -> int:
     return int(float(value))
 
 
-def _validate_iso(value: str) -> None:
-    if not ISO_8601.fullmatch(value):
-        raise WorkbookImportError("review timestamp must be an ISO 8601 string with timezone")
-    datetime.fromisoformat(value.replace("Z", "+00:00"))
-
-
 def _write_tsv(path: Path, header: list[str], rows: list[dict[str, str]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", newline="", delete=False, dir=path.parent) as stream:
@@ -348,29 +318,6 @@ def _write_tsv(path: Path, header: list[str], rows: list[dict[str, str]]) -> Non
         writer.writeheader()
         writer.writerows(rows)
     temp.replace(path)
-
-
-def _review_explanation(row: dict[str, str]) -> str:
-    verdict = row["parent_verdict"]
-    if verdict == "approved":
-        prefix = "DS审查认为当前译文可接受，但它仍是机器来源；只有人工选择“保留现译”后，才记录为人工已批准。"
-    elif verdict == "correction":
-        prefix = "DS审查发现当前译文可能有误，请重点核对建议中文和实际上下文。"
-    elif verdict == "unresolved":
-        prefix = "DS证据不足，请人工结合原文和实际使用位置判断。"
-    else:
-        prefix = "此前未完成DS审查，请人工直接判断中文语义。"
-    rationale = row.get("parent_rationale", "")
-    return prefix + (("\n\nDS原始理由：" + rationale) if rationale else "")
-
-
-def _target_display(target: dict[str, Any]) -> tuple[str, str]:
-    paths = target.get("product_target_paths") or target.get("declared_product_paths") or []
-    contexts = target.get("context_snippets") or []
-    return (
-        "\n".join(str(value) for value in paths),
-        "\n".join(str(value) for value in contexts).rstrip(" \r\n"),
-    )
 
 
 def _sheet_data_rows(sheet: dict[str, Any], headers: tuple[str, ...], count: int, label: str) -> dict[str, int]:
@@ -389,15 +336,11 @@ def _sheet_data_rows(sheet: dict[str, Any], headers: tuple[str, ...], count: int
     if nonempty_extra:
         raise WorkbookImportError(f"{label} workbook has unexpected data cells: {nonempty_extra[:3]}")
     row_by_id: dict[str, int] = {}
-    sequences: set[int] = set()
     for row_number in range(2, count + 2):
-        item_id = cells.get(f"B{row_number}", "")
+        item_id = cells.get(f"D{row_number}", "")
         if not item_id or item_id in row_by_id:
             raise WorkbookImportError(f"{label} has blank or duplicate stable ID")
         row_by_id[item_id] = row_number
-        sequences.add(_integer_cell(cells.get(f"A{row_number}", ""), f"{label}!A{row_number}"))
-    if sequences != set(range(1, count + 1)):
-        raise WorkbookImportError(f"{label} display sequence drifted")
     return row_by_id
 
 
@@ -405,7 +348,6 @@ def import_workbook(
     xlsx: Path,
     source_path: Path,
     sealed_path: Path,
-    decisions_path: Path,
     targets_path: Path,
     out_path: Path,
     *,
@@ -413,6 +355,8 @@ def import_workbook(
     inventory_path: Path = DEFAULT_INVENTORY,
     shadow_path: Path = DEFAULT_SHADOW,
     resolutions_path: Path = DEFAULT_RESOLUTIONS,
+    adoptions_path: Path = DEFAULT_ADOPTIONS,
+    accept_returned: bool = False,
 ) -> dict[str, Any]:
     source_header, source_rows = load_tsv(source_path)
     _priority_header, priority_rows = load_tsv(priority_path)
@@ -420,14 +364,14 @@ def import_workbook(
     _shadow_header, shadow_rows = load_tsv(shadow_path)
     _resolution_header, resolution_rows = load_tsv(resolutions_path)
     sealed_header, sealed_rows = load_tsv(sealed_path)
-    decision_header, decision_rows = load_tsv(decisions_path)
+    _adoption_header, adoption_rows = load_tsv(adoptions_path)
     source = unique_by_id(source_rows, "human queue")
     priority = unique_by_id(priority_rows, "priority queue")
     inventory = unique_by_id(inventory_rows, "machine inventory")
     shadow = unique_by_id(shadow_rows, "higher-authority shadow")
     resolutions = unique_by_id(resolution_rows, "authority resolutions")
     sealed = unique_by_id(sealed_rows, "sealed review")
-    decisions = unique_by_id(decision_rows, "full decision TSV")
+    adoptions = unique_by_id(adoption_rows, "user-directed suggested adoptions")
     actual_counts = {
         "inventory": len(inventory), "human": len(source), "priority": len(priority),
         "approved": len(source) - len(priority), "excluded": len(resolutions) + len(shadow),
@@ -446,21 +390,12 @@ def import_workbook(
         raise WorkbookImportError("authority and shadow exclusions overlap")
     if set(sealed) != set(source) | set(resolutions) | set(shadow):
         raise WorkbookImportError("1,912-item sealed partition drifted")
-    if len(sealed_rows) != 1912 or len(decision_rows) != 1912 or set(decisions) != set(sealed):
-        raise WorkbookImportError("sealed and decision TSVs must contain the same 1,912 unique items")
-    if not set(decision_header).issubset(source_header):
-        raise WorkbookImportError("human queue does not preserve all full decision TSV columns")
+    if len(sealed_rows) != 1912:
+        raise WorkbookImportError("sealed review must contain 1,912 unique items")
     if not set(SOURCE_FIELDS + ("source_text_sha256",)).issubset(sealed_header):
         raise WorkbookImportError("sealed source lacks immutable fields or source hash")
-    if not set(SOURCE_FIELDS + DECISION_FIELDS).issubset(decision_header):
-        raise WorkbookImportError("full decision TSV lacks immutable or decision fields")
-    if [row["item_id"] for row in sealed_rows] != [row["item_id"] for row in decision_rows]:
-        raise WorkbookImportError("full decision order differs from sealed source")
-    for sealed_row, decision in zip(sealed_rows, decision_rows):
+    for sealed_row in sealed_rows:
         item_id = sealed_row["item_id"]
-        for field in SOURCE_FIELDS:
-            if decision[field] != sealed_row[field]:
-                raise WorkbookImportError(f"full decision immutable field drift {field}: {item_id}")
         expected_text_hash = sha256(sealed_row["japanese_or_source_original"].encode("utf-8")).hexdigest()
         if sealed_row["source_text_sha256"] != expected_text_hash:
             raise WorkbookImportError(f"sealed source hash does not match source text: {item_id}")
@@ -474,6 +409,22 @@ def import_workbook(
         forbidden = row.get("product_write_forbidden", "").lower()
         if allowed != "false" and forbidden != "true":
             raise WorkbookImportError(f"shadowed item is not product-write-forbidden: {item_id}")
+    if len(adoptions) != 29 or not set(adoptions) < set(source):
+        raise WorkbookImportError("29-row user-directed suggested adoption set drifted")
+    for item_id, adoption in adoptions.items():
+        row = source[item_id]
+        binding = {
+            "source_index": row.get("source_index", ""),
+            "stable_business_key": row.get("stable_business_key", ""),
+            "source_key": row.get("source_key", ""),
+            "source_text": row.get("japanese_or_source_original", ""),
+            "current_cn": row.get("current_cn", ""),
+            "ds_suggested_cn": row.get("suggested_cn", ""),
+        }
+        if any(adoption.get(field, "") != value for field, value in binding.items()):
+            raise WorkbookImportError(f"user-directed suggestion adoption binding drifted: {item_id}")
+        if not adoption.get("adopted_cn", ""):
+            raise WorkbookImportError(f"user-directed adopted Chinese is empty: {item_id}")
 
     target_raw = targets_path.read_bytes()
     target_payload = json.loads(target_raw.decode("utf-8"))
@@ -513,126 +464,81 @@ def import_workbook(
         _require_table_ranges(package, paths)
         shared = _shared_strings(package)
         sheets = {name: _parse_sheet(package, paths[name], shared) for name in SHEETS}
-        _require_workbook_ui(sheets, _styles_unlocked(package), {name: count for name, (_partition, count) in EDIT_SHEETS.items()})
+        _require_workbook_ui(sheets, _styles_unlocked(package))
 
     expected_excluded = set(resolutions) | set(shadow)
     _require_external_authority_ids_absent(sheets, expected_excluded)
 
-    if sheets["说明"]["formulas"].intersection({"B18", "B19"}):
-        raise WorkbookImportError("reviewer or timestamp cell contains a formula")
-    reviewer = sheets["说明"]["cells"].get("B18", "").strip()
-    timestamp = sheets["说明"]["cells"].get("B19", "").strip()
+    expected_partitions = {item_id: ("priority" if item_id in priority else "approved") for item_id in source}
+    parsed_receipts: dict[str, dict[str, str]] = {}
+    sheet = sheets[REVIEW_SHEET]
+    row_by_id = _sheet_data_rows(sheet, HEADERS, EXPECTED_COUNTS["human"], REVIEW_SHEET)
+    if set(row_by_id) != set(source):
+        raise WorkbookImportError(f"{REVIEW_SHEET} stable ID set drifted")
+    for item_id, row_number in row_by_id.items():
+        row = source[item_id]
+        sealed_row = sealed[item_id]
+        target = targets[item_id]
+        suggested = row["suggested_cn"]
+        adoption = adoptions.get(item_id)
+        adopted_cn = adoption["adopted_cn"] if adoption else ""
+        seed, seed_origin = FINAL_VALUES.seed_for_source(row, adopted_cn)
+        if not row["japanese_or_source_original"] or not row["current_cn"] or not seed:
+            raise WorkbookImportError(f"visible review text is empty: {item_id}")
+        bound = {
+            "A": row["japanese_or_source_original"],
+            "B": row["current_cn"],
+            "D": item_id,
+            "E": seed_origin,
+            "F": sha256(seed.encode("utf-8")).hexdigest(),
+            "G": sealed_row["source_text_sha256"],
+            "H": FINAL_VALUES.source_record_sha256(row),
+            "I": target_contract_hash,
+            "J": FINAL_VALUES.target_contract_sha256(target),
+            "K": row["stable_business_key"],
+            "L": str(target_indices[item_id]),
+            "M": SCHEMA,
+            "N": expected_partitions[item_id],
+        }
+        for column, expected in bound.items():
+            actual = sheet["cells"].get(f"{column}{row_number}", "")
+            if column == "L":
+                if _integer_cell(actual, f"{item_id}:{column}") != int(expected):
+                    raise WorkbookImportError(f"bound workbook field drift {column}: {item_id}")
+            elif not _literal_equal(actual, expected):
+                raise WorkbookImportError(f"bound workbook field drift {column}: {item_id}")
+        final_value = sheet["cells"].get(f"C{row_number}", "")
+        if not final_value:
+            raise WorkbookImportError(f"final Chinese is empty: {item_id}")
+        if final_value == "<DELETE>" and row["current_cn"] != "<DELETE>":
+            raise WorkbookImportError(f"reserved deletion token is forbidden as review text: {item_id}")
+        if not accept_returned:
+            if not _literal_equal(final_value, seed):
+                raise WorkbookImportError(
+                    f"template verification found an edited final value; use explicit returned-workbook acceptance: {item_id}"
+                )
+            continue
+        parsed_receipts[item_id] = FINAL_VALUES.expected_final_value_row(
+            row, target, final_value, adopted_cn,
+        )
 
-    expected_sheet_ids = {"①优先审核199": set(priority), "②DS已审1366": approved_ids}
-    parsed_decisions: dict[str, dict[str, str]] = {}
-    for sheet_name, (partition, count) in EDIT_SHEETS.items():
-        sheet = sheets[sheet_name]
-        row_by_id = _sheet_data_rows(sheet, HEADERS, count, sheet_name)
-        if set(row_by_id) != expected_sheet_ids[sheet_name]:
-            raise WorkbookImportError(f"{sheet_name} stable ID set drifted")
-        for item_id, row_number in row_by_id.items():
-            row = source[item_id]
-            sealed_row = sealed[item_id]
-            target = targets[item_id]
-            paths_text, contexts = _target_display(target)
-            visible = {
-                "B": item_id, "C": row["japanese_or_source_original"], "D": row["current_cn"],
-                "E": row["suggested_cn"], "F": VERDICT_LABELS[row["parent_verdict"]],
-                "G": _review_explanation(row), "H": str(target.get("maintenance_layer_type", "")),
-                "I": str(target.get("maintenance_table", "")), "J": row["source_key"],
-                "K": str(target.get("path_prefix") or "（全局）"), "L": paths_text,
-                "M": str(target.get("match_count", 0)),
-                "N": (str(target.get("match_status", "")) + "\n" + contexts).rstrip(" \r\n"),
-                "R": sealed_row["source_text_sha256"], "S": json_digest(row),
-                "T": target_contract_hash, "U": json_digest(target),
-                "V": row["stable_business_key"], "W": str(target_indices[item_id]), "X": SCHEMA, "Y": partition,
-            }
-            for column, expected in visible.items():
-                actual = sheet["cells"].get(f"{column}{row_number}", "")
-                if column in {"M", "W"}:
-                    if _integer_cell(actual, f"{item_id}:{column}") != int(expected):
-                        raise WorkbookImportError(f"visible source field drift {column}: {item_id}")
-                elif not _literal_equal(actual, expected):
-                    raise WorkbookImportError(f"visible source field drift {column}: {item_id}")
-            label = sheet["cells"].get(f"O{row_number}", "").strip()
-            final_value = sheet["cells"].get(f"P{row_number}", "")
-            notes = sheet["cells"].get(f"Q{row_number}", "").strip()
-            if not label:
-                if final_value or notes:
-                    raise WorkbookImportError(f"blank decision carries output: {item_id}")
-                continue
-            action = DECISION_LABELS.get(label)
-            if action is None:
-                raise WorkbookImportError(f"unknown decision label for {item_id}: {label!r}")
-            if not reviewer or not timestamp:
-                raise WorkbookImportError("reviewer and ISO timestamp are required for decided rows")
-            _validate_iso(timestamp)
-            if action == "approve-current":
-                if final_value and final_value != row["current_cn"]:
-                    raise WorkbookImportError(f"keep-current row has a changed final value: {item_id}")
-                final_value = row["current_cn"]
-                decision = "approve-current"
-                human_revision = ""
-                source_note = "机器来源、人工已批准"
-                review_status = "human-reviewed-approved-current"
-            elif action == "adopt-suggestion":
-                suggestion = row["suggested_cn"]
-                if not suggestion:
-                    raise WorkbookImportError(f"adopt-suggestion row has no DS suggestion: {item_id}")
-                if final_value and final_value != suggestion:
-                    raise WorkbookImportError(f"adopt-suggestion row changed the suggestion: {item_id}")
-                final_value = suggestion
-                decision = "revise"
-                human_revision = suggestion
-                source_note = "人工采用DS建议"
-                review_status = "human-reviewed-revised"
-            elif action == "revise":
-                if not final_value or final_value == row["current_cn"]:
-                    raise WorkbookImportError(f"revision requires a changed final value: {item_id}")
-                decision = "revise"
-                human_revision = final_value
-                source_note = "人工自行修订"
-                review_status = "human-reviewed-revised"
-            else:
-                if final_value:
-                    raise WorkbookImportError(f"unresolved row carries an applicable value: {item_id}")
-                decision = "unresolved"
-                human_revision = ""
-                source_note = "暂时无法判断"
-                review_status = "human-reviewed-unresolved"
-            if final_value == "<DELETE>" and not (decision == "approve-current" and row["current_cn"] == "<DELETE>"):
-                raise WorkbookImportError(f"reserved deletion token is forbidden as review text: {item_id}")
-            combined_notes = source_note + (("；" + notes) if notes else "")
-            parsed_decisions[item_id] = {
-                "review_status": review_status,
-                "human_decision": decision,
-                "reviewer": reviewer,
-                "timestamp": timestamp,
-                "final_value": final_value,
-                "human_revision": human_revision,
-                "human_notes": combined_notes,
-            }
-
-    for item_id in expected_excluded:
-        if any(decisions[item_id].get(field, "") for field in DECISION_FIELDS):
-            raise WorkbookImportError(f"excluded item carries a human decision: {item_id}")
-    changed = 0
-    for item_id, update in parsed_decisions.items():
-        row = decisions[item_id]
-        if any(row[field] != value for field, value in update.items()):
-            changed += 1
-        row.update(update)
-    ordered = [decisions[row["item_id"]] for row in decision_rows]
-    if changed == 0:
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        out_path.write_bytes(decisions_path.read_bytes())
-    else:
-        _write_tsv(out_path, decision_header, ordered)
-    counts = {"approve-current": 0, "revise": 0, "unresolved": 0}
-    for update in parsed_decisions.values():
-        counts[update["human_decision"]] += 1
+    if accept_returned:
+        priority_rank = {"correction": 0, "unresolved": 1, "manual-required": 2}
+        priority_order = sorted(
+            priority,
+            key=lambda item_id: (
+                priority_rank.get(source[item_id].get("parent_verdict", ""), 9),
+                int(source[item_id].get("source_index", "0")), item_id,
+            ),
+        )
+        approved_order = sorted(
+            set(source) - set(priority),
+            key=lambda item_id: (int(source[item_id].get("source_index", "0")), item_id),
+        )
+        _write_tsv(out_path, list(RECEIPT_FIELDS), [parsed_receipts[item_id] for item_id in priority_order + approved_order])
+    prefilled_suggestion = len(adoptions)
     return {
-        "schema": "magireco-cn-v26-translation-xlsx-import/3",
+        "schema": "magireco-cn-v26-translation-xlsx-import/5",
         "status": "PASS",
         "workbook_rows": EXPECTED_COUNTS["human"],
         "priority_rows": EXPECTED_COUNTS["priority"],
@@ -640,12 +546,13 @@ def import_workbook(
         "workbook_excluded_rows": 0,
         "external_authority_audit_rows": EXPECTED_COUNTS["excluded"],
         "higher_authority_shadowed_rows": EXPECTED_COUNTS["shadowed"],
-        "decisions_imported": len(parsed_decisions),
-        "decision_rows_changed": changed,
-        "pending_in_workbook": EXPECTED_COUNTS["human"] - len(parsed_decisions),
-        "decision_counts": counts,
+        "prefilled_from_suggestion": prefilled_suggestion,
+        "prefilled_from_current": EXPECTED_COUNTS["human"] - prefilled_suggestion,
+        "returned_workbook_accepted": accept_returned,
+        "receipt_rows_written": len(parsed_receipts),
+        "pending_in_workbook": EXPECTED_COUNTS["human"] - len(parsed_receipts),
         "target_contract_sha256": target_contract_hash,
-        "output": str(out_path),
+        "output": str(out_path) if accept_returned else "",
         "product_tree_writes": False,
         "protected_text_changes": 0,
     }
@@ -660,15 +567,20 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--shadow", type=Path, default=DEFAULT_SHADOW)
     parser.add_argument("--authority-resolutions", type=Path, default=DEFAULT_RESOLUTIONS)
     parser.add_argument("--sealed", type=Path, default=DEFAULT_SEALED)
-    parser.add_argument("--decisions", type=Path, default=DEFAULT_DECISIONS)
+    parser.add_argument("--suggested-adoptions", type=Path, default=DEFAULT_ADOPTIONS)
     parser.add_argument("--targets", type=Path, default=DEFAULT_TARGETS)
-    parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--out", type=Path, default=DEFAULT_RECEIPT)
+    parser.add_argument(
+        "--accept-returned-workbook", action="store_true",
+        help="treat every non-empty final Chinese cell as the user's returned whole-workbook confirmation",
+    )
     args = parser.parse_args(argv)
     try:
         result = import_workbook(
-            args.xlsx, args.source, args.sealed, args.decisions, args.targets, args.out,
+            args.xlsx, args.source, args.sealed, args.targets, args.out,
             priority_path=args.priority, inventory_path=args.inventory, shadow_path=args.shadow,
-            resolutions_path=args.authority_resolutions,
+            resolutions_path=args.authority_resolutions, adoptions_path=args.suggested_adoptions,
+            accept_returned=args.accept_returned_workbook,
         )
         print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         return 0

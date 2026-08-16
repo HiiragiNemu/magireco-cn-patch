@@ -456,6 +456,8 @@ jobs:
           python3 tools/i18n-build-effective.py
           git diff --exit-code -- i18n/generated
           python3 tools/test-i18n-authority-guard.py -v
+          python3 tools/test-apply-pass20-suggested-adoptions.py -v
+          python3 tools/test-build-pass20-ds-correction-status.py -v
           python3 tools/test-import-pass20-human-review-xlsx.py -v
           python3 tools/test-stage-pass20-human-review-product.py -v
           python3 tools/test-promote-pass20-product-stage.py -v
@@ -465,6 +467,7 @@ jobs:
           # 重新进入任何候选发布流程。
           test -f magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx
           test ! -e magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx
+          test -f magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv
           python3 tools/i18n-authority-guard.py --json | tee _authority_guard.json
           python3 tools/pass20_official_static.py verify --state applied
           # 先重建全量来源/机翻审计，证明清单覆盖当前产品输入；随后仅验证
@@ -477,7 +480,7 @@ jobs:
           python3 tools/verify-v26-authority-protection.py --json \
             | tee _artifacts/v26_authority_protection_verification.json
           # Preview builds stay available for review. Stable promotion is a
-          # hard failure until all 1,565 human rows are decided/unresolved=0,
+          # hard failure until the returned workbook supplies all 1,565 final values,
           # the 323 authority resolutions stay outside that queue, and the 24
           # higher-authority-shadowed machine rows prove zero low-tier/product
           # writes through the materialization verifier.
@@ -487,7 +490,7 @@ jobs:
           fi
           python3 tools/validate-dsv4-human-review.py \
             --source magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/full_review.tsv \
-            --decisions magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv \
+            --final-values magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv \
             --authority-resolutions magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv \
             --report _artifacts/dsv4_human_release_gate.json \
             "${HUMAN_GATE_ARGS[@]}"

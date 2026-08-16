@@ -40,7 +40,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         e = "",
         f = "取消",
         g = "解除";
-      0 > b.totalMoney && (d = "statusCanNotUse", f = "确定", g = null, e = '魔法石<span class="c_pink">' + Math.abs(b.totalMoney) + "个</span>,<br>无法解除冷却时间。");
+      0 > b.totalMoney && (d = "statusCanNotUse", f = "确定", g = null, e = '魔法石<span class="c_pink">' + Math.abs(b.totalMoney) + "个</span>仍不足以<br>解除冷却时间。");
       a.popup = new c.PopupClass(
       {
         title: "解除冷却",

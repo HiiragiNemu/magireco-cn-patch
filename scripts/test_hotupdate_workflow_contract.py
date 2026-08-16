@@ -148,7 +148,7 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertLess(verify, package)
         self.assertNotIn("tools/build-v26-authority-protection.py", self.text)
 
-    def test_stable_publish_requires_closed_full_human_decision_gate(self):
+    def test_stable_publish_requires_closed_full_human_final_value_gate(self):
         validator = "python3 tools/validate-dsv4-human-review.py"
         self.assertIn(validator, self.text)
         self.assertIn("--require-release-open", self.text)
@@ -157,7 +157,7 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             self.text,
         )
         self.assertIn(
-            "--decisions magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv",
+            "--final-values magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
             self.text,
         )
         self.assertIn(

@@ -56,8 +56,9 @@ class EffectiveAuthorityTests(unittest.TestCase):
         self.assertEqual(
             tables["frontend-strings.tsv"]["source_batch_counts"],
             {
-                "legacy-claude-ai-assisted": 318,
-                "legacy-kimi-ai-assisted": 1314,
+                "legacy-claude-ai-assisted": 315,
+                "legacy-kimi-ai-assisted": 1290,
+                "pass21-user-directed-machine-suggestion": 27,
             },
         )
         self.assertEqual(tables["glossary.tsv"]["data_rows"], 955)
@@ -170,7 +171,11 @@ class EffectiveAuthorityTests(unittest.TestCase):
             self.assertNotEqual(entry.get("authority"), "existing_human_reviewed")
         self.assertEqual(
             batches,
-            {"legacy-claude-ai-assisted": 318, "legacy-kimi-ai-assisted": 1314},
+            {
+                "legacy-claude-ai-assisted": 315,
+                "legacy-kimi-ai-assisted": 1290,
+                "pass21-user-directed-machine-suggestion": 27,
+            },
         )
         proposals = [entry["proposal"] for entry in data.values() if "proposal" in entry]
         self.assertEqual(len(proposals), 3)

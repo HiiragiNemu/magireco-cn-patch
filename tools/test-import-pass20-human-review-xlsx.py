@@ -5,12 +5,10 @@ from __future__ import annotations
 from copy import deepcopy
 import csv
 import importlib.util
-import json
 from pathlib import Path
 import re
 import tempfile
 import unittest
-import warnings
 import zipfile
 import xml.etree.ElementTree as ET
 
@@ -24,8 +22,8 @@ INVENTORY = AUDIT / "pass20_machine_source_inventory.tsv"
 SHADOW = AUDIT / "pass20_authority_shadowed_machine_items.tsv"
 RESOLUTIONS = AUDIT / "pass20_authority_resolutions.tsv"
 SEALED = AUDIT / "dsv4_terminal_handoff/full_review.tsv"
-DECISIONS = AUDIT / "dsv4_human_decisions.tsv"
 TARGETS = AUDIT / "pass20_product_targets.json"
+ADOPTIONS = AUDIT / "pass21_user_directed_suggested_adoptions.tsv"
 NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 Q = lambda tag: f"{{{NS}}}{tag}"
 
@@ -33,8 +31,8 @@ Q = lambda tag: f"{{{NS}}}{tag}"
 def load_tool():
     path = ROOT / "tools/import-pass20-human-review-xlsx.py"
     spec = importlib.util.spec_from_file_location("pass20_xlsx_import", path)
+    assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
     spec.loader.exec_module(module)
     return module
 
@@ -65,8 +63,7 @@ def set_text(sheet: ET.Element, ref: str, value: str) -> None:
             cell.remove(child)
     cell.set("t", "inlineStr")
     inline = ET.SubElement(cell, Q("is"))
-    text = ET.SubElement(inline, Q("t"))
-    text.text = value
+    ET.SubElement(inline, Q("t")).text = value
 
 
 def set_formula(sheet: ET.Element, ref: str, formula: str) -> None:
@@ -99,18 +96,6 @@ def swap_rows(sheet: ET.Element, first: int, second: int) -> None:
     data[second_index] = _move_row(first_row, second)
 
 
-def rewrite_tsv(source: Path, target: Path, mutate) -> None:
-    with source.open("r", encoding="utf-8", newline="") as stream:
-        reader = csv.DictReader(stream, delimiter="\t")
-        header = list(reader.fieldnames or [])
-        rows = list(reader)
-    mutate(rows)
-    with target.open("w", encoding="utf-8", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=header, delimiter="\t", lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(rows)
-
-
 def parsed_workbook(path: Path) -> dict[str, dict]:
     with zipfile.ZipFile(path) as package:
         paths = TOOL._sheet_paths(package)
@@ -121,180 +106,134 @@ def parsed_workbook(path: Path) -> dict[str, dict]:
 class Pass20WorkbookImportTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.cells = parsed_workbook(WORKBOOK)
+        cls.cells = parsed_workbook(WORKBOOK)[TOOL.REVIEW_SHEET]["cells"]
 
-    def invoke(
-        self,
-        workbook: Path,
-        output: Path,
-        *,
-        source: Path = SOURCE,
-        targets: Path = TARGETS,
-        decisions: Path = DECISIONS,
-    ):
+    def invoke(self, workbook: Path, output: Path, *, accept: bool = False):
         return TOOL.import_workbook(
-            workbook, source, SEALED, decisions, targets, output,
+            workbook, SOURCE, SEALED, TARGETS, output,
             priority_path=PRIORITY, inventory_path=INVENTORY,
             shadow_path=SHADOW, resolutions_path=RESOLUTIONS,
+            adoptions_path=ADOPTIONS,
+            accept_returned=accept,
         )
 
-    def assert_rejected(self, mutate, message: str):
+    def assert_rejected(self, mutate, message: str, *, accept: bool = False):
         with tempfile.TemporaryDirectory() as temp:
             fixture = Path(temp) / "bad.xlsx"
             rewrite_workbook(WORKBOOK, fixture, mutate)
             with self.assertRaisesRegex(TOOL.WorkbookImportError, message):
-                self.invoke(fixture, Path(temp) / "out.tsv")
+                self.invoke(fixture, Path(temp) / "out.tsv", accept=accept)
 
-    def test_01_blank_workbook_is_valid_and_byte_preserving(self):
+    def test_01_template_is_prefilled_and_verification_writes_no_receipt(self):
         with tempfile.TemporaryDirectory() as temp:
             output = Path(temp) / "decisions.tsv"
             result = self.invoke(WORKBOOK, output)
-            self.assertEqual(result["schema"], "magireco-cn-v26-translation-xlsx-import/3")
+            self.assertEqual(result["schema"], "magireco-cn-v26-translation-xlsx-import/5")
             self.assertEqual(result["workbook_rows"], 1565)
-            self.assertEqual(result["priority_rows"], 199)
-            self.assertEqual(result["approved_machine_rows"], 1366)
-            self.assertEqual(result["workbook_excluded_rows"], 0)
-            self.assertEqual(result["external_authority_audit_rows"], 347)
-            self.assertEqual(result["higher_authority_shadowed_rows"], 24)
-            self.assertEqual(result["decisions_imported"], 0)
-            self.assertEqual(output.read_bytes(), DECISIONS.read_bytes())
+            self.assertEqual(result["prefilled_from_suggestion"], 29)
+            self.assertEqual(result["prefilled_from_current"], 1536)
+            self.assertEqual(result["receipt_rows_written"], 0)
+            self.assertEqual(result["pending_in_workbook"], 1565)
+            self.assertFalse(result["returned_workbook_accepted"])
+            self.assertFalse(output.exists())
 
-    def test_02_chinese_labels_map_and_machine_approval_is_explicit(self):
-        priority_cells = self.cells["①优先审核199"]["cells"]
-        approved_cells = self.cells["②DS已审1366"]["cells"]
-        suggestion_row = next(row for row in range(2, 201) if priority_cells.get(f"E{row}", ""))
-        other_rows = [row for row in range(2, 201) if row != suggestion_row][:2]
-        approved_row = 2
-        expected_suggestion = priority_cells[f"E{suggestion_row}"]
-        suggestion_id = priority_cells[f"B{suggestion_row}"]
-        revision_id = priority_cells[f"B{other_rows[0]}"]
-        unresolved_id = priority_cells[f"B{other_rows[1]}"]
-        approved_id = approved_cells[f"B{approved_row}"]
-
+    def test_02_explicit_acceptance_turns_every_final_value_into_a_receipt_row(self):
         with tempfile.TemporaryDirectory() as temp:
-            fixture = Path(temp) / "filled.xlsx"
             output = Path(temp) / "decisions.tsv"
-
-            def mutate(sheets):
-                set_text(sheets["说明"], "B18", "人工审校员")
-                set_text(sheets["说明"], "B19", "2026-08-16T23:30:00+08:00")
-                set_text(sheets["①优先审核199"], f"O{suggestion_row}", "采用建议")
-                set_text(sheets["①优先审核199"], f"O{other_rows[0]}", "自行修改")
-                set_text(sheets["①优先审核199"], f"P{other_rows[0]}", "人工修订后的中文")
-                set_text(sheets["①优先审核199"], f"O{other_rows[1]}", "暂时无法判断")
-                set_text(sheets["①优先审核199"], f"Q{other_rows[1]}", "需要更多剧情上下文")
-                set_text(sheets["②DS已审1366"], f"O{approved_row}", "保留现译")
-
-            rewrite_workbook(WORKBOOK, fixture, mutate)
-            result = self.invoke(fixture, output)
-            self.assertEqual(result["decisions_imported"], 4)
+            result = self.invoke(WORKBOOK, output, accept=True)
+            self.assertEqual(result["receipt_rows_written"], 1565)
+            self.assertEqual(result["pending_in_workbook"], 0)
             with output.open(encoding="utf-8", newline="") as stream:
-                rows = {row["item_id"]: row for row in csv.DictReader(stream, delimiter="\t")}
-            self.assertEqual(rows[suggestion_id]["human_decision"], "revise")
-            self.assertEqual(rows[suggestion_id]["review_status"], "human-reviewed-revised")
-            self.assertEqual(rows[suggestion_id]["final_value"], expected_suggestion)
-            self.assertIn("人工采用DS建议", rows[suggestion_id]["human_notes"])
-            self.assertEqual(rows[revision_id]["final_value"], "人工修订后的中文")
-            self.assertEqual(rows[revision_id]["review_status"], "human-reviewed-revised")
-            self.assertEqual(rows[unresolved_id]["human_decision"], "unresolved")
-            self.assertEqual(rows[unresolved_id]["review_status"], "human-reviewed-unresolved")
-            self.assertEqual(rows[unresolved_id]["final_value"], "")
-            self.assertEqual(rows[approved_id]["human_decision"], "approve-current")
-            self.assertEqual(rows[approved_id]["review_status"], "human-reviewed-approved-current")
-            self.assertIn("机器来源、人工已批准", rows[approved_id]["human_notes"])
+                reader = csv.DictReader(stream, delimiter="\t")
+                self.assertEqual(tuple(reader.fieldnames or ()), TOOL.RECEIPT_FIELDS)
+                rows = {row["item_id"]: row for row in reader}
+            suggestion_id = next(
+                self.cells[f"D{row}"] for row in range(2, 1567)
+                if self.cells[f"E{row}"] == "adopted_suggestion"
+            )
+            current_id = next(
+                self.cells[f"D{row}"] for row in range(2, 1567)
+                if self.cells[f"E{row}"] == "current"
+            )
+            self.assertEqual(rows[suggestion_id]["seed_origin"], "adopted_suggestion")
+            self.assertEqual(rows[suggestion_id]["final_value"], rows[suggestion_id]["seed_cn"])
+            self.assertEqual(rows[suggestion_id]["review_status"], "human-confirmed-machine-suggestion-adopted")
+            self.assertEqual(rows[suggestion_id]["final_origin"], "machine-suggestion")
+            self.assertEqual(rows[suggestion_id]["machine_translated"], "true")
+            self.assertEqual(rows[current_id]["seed_origin"], "current")
+            self.assertEqual(rows[current_id]["final_value"], rows[current_id]["current_cn"])
+            self.assertEqual(rows[current_id]["review_status"], "human-confirmed-machine-origin-retained")
+            self.assertEqual(rows[current_id]["final_origin"], "machine-current")
+            self.assertEqual(rows[current_id]["machine_translated"], "unknown")
+            self.assertNotIn("reviewer", rows[current_id])
+            self.assertNotIn("timestamp", rows[current_id])
+            self.assertNotIn("human_decision", rows[current_id])
 
-    def test_03_physical_row_sorting_is_accepted(self):
+    def test_03_manual_final_value_is_accepted_without_decision_or_notes_columns(self):
+        row = next(row for row in range(2, 1567) if self.cells[f"E{row}"] == "current")
+        item_id = self.cells[f"D{row}"]
+        with tempfile.TemporaryDirectory() as temp:
+            fixture = Path(temp) / "edited.xlsx"
+            output = Path(temp) / "decisions.tsv"
+            rewrite_workbook(WORKBOOK, fixture, lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], f"C{row}", "人工最终译文"))
+            result = self.invoke(fixture, output, accept=True)
+            self.assertEqual(result["receipt_rows_written"], 1565)
+            with output.open(encoding="utf-8", newline="") as stream:
+                decisions = {entry["item_id"]: entry for entry in csv.DictReader(stream, delimiter="\t")}
+            self.assertEqual(decisions[item_id]["final_value"], "人工最终译文")
+            self.assertEqual(decisions[item_id]["review_status"], "human-revised")
+            self.assertEqual(decisions[item_id]["final_origin"], "human-revision")
+            self.assertEqual(decisions[item_id]["machine_translated"], "false")
+
+    def test_04_physical_row_sorting_is_bound_by_hidden_item_id(self):
         with tempfile.TemporaryDirectory() as temp:
             fixture = Path(temp) / "sorted.xlsx"
             output = Path(temp) / "decisions.tsv"
-            rewrite_workbook(WORKBOOK, fixture, lambda sheets: swap_rows(sheets["②DS已审1366"], 2, 3))
+            rewrite_workbook(WORKBOOK, fixture, lambda sheets: swap_rows(sheets[TOOL.REVIEW_SHEET], 2, 1566))
             result = self.invoke(fixture, output)
-            self.assertEqual(result["decisions_imported"], 0)
-            self.assertEqual(output.read_bytes(), DECISIONS.read_bytes())
+            self.assertEqual(result["receipt_rows_written"], 0)
+            self.assertFalse(output.exists())
 
-    def test_04_stable_id_tamper_is_rejected(self):
-        self.assert_rejected(lambda sheets: set_text(sheets["①优先审核199"], "B2", "BAD-ID"), "stable ID set drifted")
-
-    def test_05_duplicate_id_is_rejected(self):
-        item_id = self.cells["①优先审核199"]["cells"]["B2"]
-        self.assert_rejected(lambda sheets: set_text(sheets["①优先审核199"], "B3", item_id), "blank or duplicate stable ID")
-
-    def test_06_source_record_hash_tamper_is_rejected(self):
-        self.assert_rejected(lambda sheets: set_text(sheets["①优先审核199"], "S2", "0" * 64), "visible source field drift S")
-
-    def test_07_source_record_change_is_rejected(self):
+    def test_05_template_mode_rejects_an_edit_and_writes_nothing(self):
+        row = next(row for row in range(2, 1567) if self.cells[f"E{row}"] == "current")
         with tempfile.TemporaryDirectory() as temp:
-            source = Path(temp) / "source.tsv"
-            rewrite_tsv(SOURCE, source, lambda rows: rows[0].update({"effective_cn": rows[0]["effective_cn"] + "漂移"}))
-            with self.assertRaisesRegex(TOOL.WorkbookImportError, "visible source field drift S"):
-                self.invoke(WORKBOOK, Path(temp) / "out.tsv", source=source)
+            fixture = Path(temp) / "edited.xlsx"
+            output = Path(temp) / "out.tsv"
+            rewrite_workbook(WORKBOOK, fixture, lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], f"C{row}", "未显式接受"))
+            with self.assertRaisesRegex(TOOL.WorkbookImportError, "explicit returned-workbook acceptance"):
+                self.invoke(fixture, output)
+            self.assertFalse(output.exists())
 
-    def test_08_target_contract_hash_binds_raw_manifest(self):
-        with tempfile.TemporaryDirectory() as temp:
-            targets = Path(temp) / "targets.json"
-            targets.write_bytes(TARGETS.read_bytes() + b"\n")
-            with self.assertRaisesRegex(TOOL.WorkbookImportError, "visible source field drift T"):
-                self.invoke(WORKBOOK, Path(temp) / "out.tsv", targets=targets)
+    def test_06_stable_id_and_binding_tamper_are_rejected(self):
+        self.assert_rejected(lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], "D2", "BAD-ID"), "stable ID set drifted")
+        item_id = self.cells["D2"]
+        self.assert_rejected(lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], "D3", item_id), "blank or duplicate stable ID")
+        for column in "EFGHIJKMN":
+            with self.subTest(column=column):
+                self.assert_rejected(
+                    lambda sheets, column=column: set_text(sheets[TOOL.REVIEW_SHEET], f"{column}2", "tampered"),
+                    f"bound workbook field drift {column}",
+                )
+        self.assert_rejected(lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], "L2", "999999"), "bound workbook field drift L")
 
-    def test_09_target_visible_drift_is_rejected(self):
-        self.assert_rejected(lambda sheets: set_text(sheets["①优先审核199"], "L2", "magica/unknown.js"), "visible source field drift L")
+    def test_07_visible_source_formula_and_empty_final_are_rejected(self):
+        self.assert_rejected(lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], "A2", "源文漂移"), "bound workbook field drift A")
+        self.assert_rejected(lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], "B2", "旧译漂移"), "bound workbook field drift B")
+        self.assert_rejected(lambda sheets: set_formula(sheets[TOOL.REVIEW_SHEET], "C2", "1+1"), "contain a formula")
+        self.assert_rejected(lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], "C2", ""), "final Chinese is empty", accept=True)
 
-    def test_09a_target_row_hash_tamper_is_rejected(self):
-        self.assert_rejected(lambda sheets: set_text(sheets["①优先审核199"], "U2", "0" * 64), "visible source field drift U")
-
-    def test_09b_stable_business_key_tamper_is_rejected(self):
-        self.assert_rejected(lambda sheets: set_text(sheets["①优先审核199"], "V2", "bad#stable/key"), "visible source field drift V")
-
-    def test_09c_target_manifest_index_tamper_is_rejected(self):
-        self.assert_rejected(lambda sheets: set_text(sheets["①优先审核199"], "W2", "999999"), "visible source field drift W")
-
-    def test_10_formula_in_human_cell_is_rejected(self):
-        self.assert_rejected(lambda sheets: set_formula(sheets["①优先审核199"], "P2", "1+1"), "contain a formula")
-
-    def test_11_authority_rows_are_external_only_and_not_editable(self):
-        editable = {
-            self.cells[sheet]["cells"][f"B{row}"]
-            for sheet, count in (("①优先审核199", 199), ("②DS已审1366", 1366))
-            for row in range(2, count + 2)
-        }
-        with SHADOW.open(encoding="utf-8", newline="") as stream:
-            shadow = {row["item_id"] for row in csv.DictReader(stream, delimiter="\t")}
-        with RESOLUTIONS.open(encoding="utf-8", newline="") as stream:
-            resolutions = {row["item_id"] for row in csv.DictReader(stream, delimiter="\t")}
-        self.assertTrue(shadow.isdisjoint(editable))
-        self.assertTrue(resolutions.isdisjoint(editable))
-        self.assertEqual(set(self.cells), set(TOOL.SHEETS))
-        external_id = sorted(shadow | resolutions)[0]
+    def test_08_reserved_deletion_token_is_rejected(self):
         self.assert_rejected(
-            lambda sheets: set_text(sheets["说明"], "B35", external_id),
-            "external authority item appears in workbook",
+            lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], "C2", "<DELETE>"),
+            "reserved deletion token", accept=True,
         )
 
-    def test_12_reserved_deletion_token_is_rejected(self):
-        def mutate(sheets):
-            set_text(sheets["说明"], "B18", "人工审校员")
-            set_text(sheets["说明"], "B19", "2026-08-16T23:30:00+08:00")
-            set_text(sheets["①优先审核199"], "O2", "自行修改")
-            set_text(sheets["①优先审核199"], "P2", "<DELETE>")
-        self.assert_rejected(mutate, "reserved deletion token")
-
-    def test_13_blank_decision_with_value_is_rejected(self):
-        self.assert_rejected(lambda sheets: set_text(sheets["①优先审核199"], "P2", "未作决定的值"), "blank decision carries output")
-
-    def test_14_duplicate_zip_member_is_rejected(self):
-        with tempfile.TemporaryDirectory() as temp:
-            fixture = Path(temp) / "duplicate.xlsx"
-            with zipfile.ZipFile(WORKBOOK) as source:
-                infos = source.infolist()
-                blobs = {info.filename: source.read(info.filename) for info in infos}
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore", UserWarning)
-                with zipfile.ZipFile(fixture, "w") as package:
-                    for info in infos:
-                        package.writestr(info, blobs[info.filename])
-                    package.writestr("xl/workbook.xml", blobs["xl/workbook.xml"])
-            with self.assertRaisesRegex(TOOL.WorkbookImportError, "duplicate ZIP members"):
-                self.invoke(fixture, Path(temp) / "out.tsv")
+    def test_09_authority_resolved_ids_are_absent_from_every_sheet(self):
+        visible = {self.cells[f"D{row}"] for row in range(2, 1567)}
+        for path in (SHADOW, RESOLUTIONS):
+            with path.open(encoding="utf-8", newline="") as stream:
+                external = {row["item_id"] for row in csv.DictReader(stream, delimiter="\t")}
+            self.assertFalse(visible & external)
 
 
 if __name__ == "__main__":

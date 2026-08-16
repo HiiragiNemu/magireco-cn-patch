@@ -56,8 +56,8 @@ class Pass20PromotionTests(unittest.TestCase):
         files = {
             "magica/template/fixture.html": (b"<p>old</p>\n", b"<p>new</p>\n", "runtime-product"),
             "i18n/reviewed-candidates.tsv": (b"old-candidate\n", b"new-candidate\n", "canonical-i18n"),
-            "magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv": (
-                b"blank-decisions\n", b"completed-decisions\n", "human-decision-audit",
+            "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv": (
+                b"blank-final-values\n", b"completed-final-values\n", "human-final-values-audit",
             ),
             "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx": (
                 b"blank-workbook", b"completed-workbook", "human-review-workbook-receipt",
@@ -139,7 +139,7 @@ class Pass20PromotionTests(unittest.TestCase):
             "runtime_occurrences_bound": 2,
             "shadowed_low_tier_candidates_written": 0,
             "shadowed_product_writes": 0,
-            "human_gate": {"release_gate_open": True, "decision_required": 3},
+            "human_gate": {"release_gate_open": True, "final_values_required": 3},
             "rollback_rehearsal": {"status": "PASS", "relocated_stage_copy": True},
             "repository_promotion_files": sorted(files),
             "changed_files": ["magica/template/fixture.html"],
@@ -261,7 +261,7 @@ class Pass20PromotionTests(unittest.TestCase):
         report["repository_promotion_files"] = sorted([
             malicious,
             "i18n/reviewed-candidates.tsv",
-            "magica/i18n_audit/release_v26_authority/dsv4_human_decisions.tsv",
+            "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
             "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
         ])
         report["changed_files"] = [malicious]

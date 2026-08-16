@@ -843,7 +843,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
       new b.PopupClass(
       {
         title: "活动参加条件",
-        content: "活动『" + h.name + "』<br>" + a + "为止。<br><br>参加活动需要<br>【" + k.conditionDescript + "】<br>。",
+        content: "活动『" + h.name + "』<br>" + a + "截止。<br><br>参加活动需要满足<br>【" + k.conditionDescript + "】<br>这一条件。",
         exClass: "eventCondPopup",
         decideBtnText: "前往主线剧情",
         decideBtnLink: "#/MainQuest",
