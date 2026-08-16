@@ -21,7 +21,6 @@ const previewPaths = {
   instruction: path.join(buildDir, "v26_translation_review_1565_instructions.png"),
   priority: path.join(buildDir, "v26_translation_review_1565_priority.png"),
   approved: path.join(buildDir, "v26_translation_review_1565_approved.png"),
-  excluded: path.join(buildDir, "v26_translation_review_1565_excluded.png"),
 };
 
 const input = JSON.parse(await fs.readFile(inputPath, "utf8"));
@@ -31,14 +30,13 @@ for (const [key, value] of Object.entries(expected)) {
 }
 if (input.priority_rows.length !== expected.priority) throw new Error("priority rows drifted");
 if (input.approved_rows.length !== expected.approved) throw new Error("approved rows drifted");
-if (input.excluded_rows.length !== expected.excluded) throw new Error("excluded rows drifted");
+if (Object.hasOwn(input, "excluded_rows")) throw new Error("authority rows must remain outside the human workbook input");
 
 const workbook = Workbook.create();
 const instruction = workbook.worksheets.add("说明");
 const priority = workbook.worksheets.add("①优先审核199");
 const approved = workbook.worksheets.add("②DS已审1366");
-const excluded = workbook.worksheets.add("只读排除347");
-for (const sheet of [instruction, priority, approved, excluded]) sheet.showGridLines = false;
+for (const sheet of [instruction, priority, approved]) sheet.showGridLines = false;
 
 const navy = "#17365D";
 const teal = "#0F6B78";
@@ -60,12 +58,10 @@ instruction.getRange("A1:H2").format = {
 };
 instruction.getRange("A1:H2").format.rowHeight = 30;
 
-instruction.getRange("A4:B14").values = [
-  ["机器来源总清单", expected.inventory],
+instruction.getRange("A4:B12").values = [
   ["本工作簿需人工审核", expected.human],
   ["优先审核", expected.priority],
   ["DS已审但仍需人工", expected.approved],
-  ["只读排除", expected.excluded],
   ["已填写决定", null],
   ["人工保留现译", null],
   ["采用DS建议", null],
@@ -75,17 +71,17 @@ instruction.getRange("A4:B14").values = [
 ];
 const pEnd = expected.priority + 1;
 const aEnd = expected.approved + 1;
-instruction.getRange("B9").formulas = [[`=COUNTA('①优先审核199'!O2:O${pEnd})+COUNTA('②DS已审1366'!O2:O${aEnd})`]];
-instruction.getRange("B10").formulas = [[`=COUNTIF('①优先审核199'!O2:O${pEnd},"保留现译")+COUNTIF('②DS已审1366'!O2:O${aEnd},"保留现译")`]];
-instruction.getRange("B11").formulas = [[`=COUNTIF('①优先审核199'!O2:O${pEnd},"采用建议")+COUNTIF('②DS已审1366'!O2:O${aEnd},"采用建议")`]];
-instruction.getRange("B12").formulas = [[`=COUNTIF('①优先审核199'!O2:O${pEnd},"自行修改")+COUNTIF('②DS已审1366'!O2:O${aEnd},"自行修改")`]];
-instruction.getRange("B13").formulas = [[`=COUNTIF('①优先审核199'!O2:O${pEnd},"暂时无法判断")+COUNTIF('②DS已审1366'!O2:O${aEnd},"暂时无法判断")`]];
-instruction.getRange("B14").formulas = [["=B5-B9"]];
-instruction.getRange("A4:A14").format = { fill: paleBlue, font: { ...bodyFont, bold: true, color: navy } };
-instruction.getRange("B4:B14").format = {
+instruction.getRange("B7").formulas = [[`=COUNTA('①优先审核199'!O2:O${pEnd})+COUNTA('②DS已审1366'!O2:O${aEnd})`]];
+instruction.getRange("B8").formulas = [[`=COUNTIF('①优先审核199'!O2:O${pEnd},"保留现译")+COUNTIF('②DS已审1366'!O2:O${aEnd},"保留现译")`]];
+instruction.getRange("B9").formulas = [[`=COUNTIF('①优先审核199'!O2:O${pEnd},"采用建议")+COUNTIF('②DS已审1366'!O2:O${aEnd},"采用建议")`]];
+instruction.getRange("B10").formulas = [[`=COUNTIF('①优先审核199'!O2:O${pEnd},"自行修改")+COUNTIF('②DS已审1366'!O2:O${aEnd},"自行修改")`]];
+instruction.getRange("B11").formulas = [[`=COUNTIF('①优先审核199'!O2:O${pEnd},"暂时无法判断")+COUNTIF('②DS已审1366'!O2:O${aEnd},"暂时无法判断")`]];
+instruction.getRange("B12").formulas = [["=B4-B7"]];
+instruction.getRange("A4:A12").format = { fill: paleBlue, font: { ...bodyFont, bold: true, color: navy } };
+instruction.getRange("B4:B12").format = {
   fill: "#FFFFFF", font: { ...bodyFont, bold: true }, horizontalAlignment: "center", numberFormat: "#,##0",
 };
-instruction.getRange("A4:B14").format.borders = { preset: "all", style: "thin", color: "#B8C7D1" };
+instruction.getRange("A4:B12").format.borders = { preset: "all", style: "thin", color: "#B8C7D1" };
 
 instruction.mergeCells("D4:H14");
 instruction.getRange("D4:H14").values = [[
@@ -114,7 +110,7 @@ instruction.getRange("A24:B35").values = [
   ["页面", "含义"],
   ["①优先审核199", "29项DS纠错、34项DS未决、136项未完成DS审查；优先处理"],
   ["②DS已审1366", "DS认为当前译文可接受，但仍未经人工确认、仍属最低权重机器来源"],
-  ["只读排除347", "323项已有高权威裁决，另24项机器候选被更高权威遮蔽；禁止人工回填机器候选"],
+  ["权威审计证据", "已由更高权威处理的项目保存在随附独立TSV／JSON中，不进入本人工工作簿"],
   ["frontend-strings.tsv", "全局原文映射：同一原文在多个界面使用同一译文"],
   ["overrides.tsv", "路径限定覆盖：同一原文在指定文件内使用特定译文"],
   ["fragments.tsv", "指定文件代码片段：处理跨节点语序或完整片段"],
@@ -207,49 +203,11 @@ function buildReviewSheet(sheet, rows, tableName, verdictColor) {
 buildReviewSheet(priority, input.priority_rows, "V26PriorityReviewTable", paleRed);
 buildReviewSheet(approved, input.approved_rows, "V26ApprovedReviewTable", paleBlue);
 
-const excludedHeaders = [
-  "序号", "稳定ID", "排除原因", "原文（日文/源文）", "机器候选", "高权威／最终中文", "权威层级", "权威证据",
-  "来源位置", "产品回填状态", "__source_record_sha256", "__excluded_row_sha256", "__excluded_row_json", "__schema_version",
-];
-const excludedValues = [excludedHeaders];
-for (const row of input.excluded_rows) {
-  excludedValues.push([
-    row.sequence, row.item_id, row.exclusion_reason, literal(row.original), literal(row.machine_candidate),
-    literal(row.authority_value), row.authority_tier, literal(row.authority_evidence), row.source_location,
-    "禁止机器候选回填", row.source_record_sha256, row.excluded_row_sha256, row.excluded_row_json, input.schema,
-  ]);
-}
-const xEnd = expected.excluded + 1;
-excluded.getRange(`A1:N${xEnd}`).values = excludedValues;
-excluded.getRange("A1:J1").format = {
-  fill: navy, font: { name: "Microsoft YaHei", size: 11, bold: true, color: "#FFFFFF" },
-  horizontalAlignment: "center", verticalAlignment: "center", wrapText: true,
-};
-excluded.getRange(`A2:J${xEnd}`).format = { font: bodyFont, verticalAlignment: "top", wrapText: true, fill: "#F8F9FA" };
-excluded.getRange(`C2:C${xEnd}`).format = { fill: paleGreen, font: { ...bodyFont, bold: true, color: "#375623" } };
-excluded.getRange(`J2:J${xEnd}`).format = { fill: grey, font: { ...bodyFont, bold: true }, horizontalAlignment: "center" };
-excluded.getRange(`A2:J${xEnd}`).format.rowHeight = 68;
-excluded.getRange(`A1:A${xEnd}`).format.columnWidth = 7;
-excluded.getRange(`B1:B${xEnd}`).format.columnWidth = 19;
-excluded.getRange(`C1:C${xEnd}`).format.columnWidth = 29;
-excluded.getRange(`D1:F${xEnd}`).format.columnWidth = 40;
-excluded.getRange(`G1:G${xEnd}`).format.columnWidth = 24;
-excluded.getRange(`H1:H${xEnd}`).format.columnWidth = 52;
-excluded.getRange(`I1:I${xEnd}`).format.columnWidth = 38;
-excluded.getRange(`J1:J${xEnd}`).format.columnWidth = 22;
-excluded.getRange(`K1:N${xEnd}`).format.columnHidden = true;
-excluded.freezePanes.freezeRows(1);
-excluded.freezePanes.freezeColumns(2);
-const excludedTable = excluded.tables.add(`A1:N${xEnd}`, true, "V26ExcludedAuthorityTable");
-excludedTable.style = "TableStyleMedium4";
-excludedTable.showFilterButton = true;
-
 const inspectChunks = [];
 for (const request of [
   { kind: "table", range: "说明!A1:H35", include: "values,formulas", tableMaxRows: 35, tableMaxCols: 8, maxChars: 6000 },
   { kind: "table", range: "①优先审核199!A1:Q5", include: "values,formulas", tableMaxRows: 5, tableMaxCols: 17, maxChars: 5000 },
   { kind: "table", range: "②DS已审1366!A1:Q5", include: "values,formulas", tableMaxRows: 5, tableMaxCols: 17, maxChars: 5000 },
-  { kind: "table", range: "只读排除347!A1:J5", include: "values,formulas", tableMaxRows: 5, tableMaxCols: 10, maxChars: 4000 },
 ]) {
   inspectChunks.push((await workbook.inspect(request)).ndjson);
 }
@@ -264,7 +222,6 @@ for (const [key, options] of Object.entries({
   instruction: { sheetName: "说明", range: "A1:H35", scale: 1.25 },
   priority: { sheetName: "①优先审核199", range: "A1:Q7", scale: 1.1 },
   approved: { sheetName: "②DS已审1366", range: "A1:Q7", scale: 1.1 },
-  excluded: { sheetName: "只读排除347", range: "A1:J7", scale: 1.1 },
 })) {
   const preview = await workbook.render({ ...options, format: "png" });
   await fs.writeFile(previewPaths[key], new Uint8Array(await preview.arrayBuffer()));
