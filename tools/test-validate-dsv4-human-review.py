@@ -44,7 +44,9 @@ def write_tsv(path: Path, rows: list[dict[str, str]]) -> None:
         writer.writeheader()
         writer.writerows(rows)
 
-def completed_rows() -> list[dict[str, str]]:
+def completed_rows(
+    provenance_mode: str = CONTRACT.HUMAN_REVIEW_MODE,
+) -> list[dict[str, str]]:
     _, queue = read_tsv(AUDIT / "pass20_remaining_manual_review.tsv")
     targets = {row["item_id"]: row for row in json.loads(TARGETS.read_text(encoding="utf-8"))["items"]}
     adoptions = MODULE.load_adoptions(ADOPTIONS)
@@ -53,6 +55,7 @@ def completed_rows() -> list[dict[str, str]]:
             row, targets[row["item_id"]],
             CONTRACT.seed_for_source(row, adoptions.get(row["item_id"], ""))[0],
             adoptions.get(row["item_id"], ""),
+            provenance_mode,
         )
         for row in queue
     ]
@@ -64,11 +67,14 @@ class FinalValueValidationTests(unittest.TestCase):
         )
 
     def test_01_header_only_template_keeps_release_closed(self):
-        result = self.validate()
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "header-only.tsv"
+            write_tsv(path, [])
+            result = self.validate(path)
+            header, rows = read_tsv(path)
         self.assertFalse(result["release_gate_open"])
         self.assertEqual(result["states"]["pending"], 1565)
         self.assertEqual(result["final_values_received"], 0)
-        header, rows = read_tsv(FINAL_VALUES)
         self.assertEqual(tuple(header), CONTRACT.FINAL_VALUE_FIELDS)
         self.assertEqual(rows, [])
         self.assertTrue({"reviewer", "timestamp", "human_decision", "human_notes"}.isdisjoint(header))
@@ -84,6 +90,7 @@ class FinalValueValidationTests(unittest.TestCase):
         self.assertEqual(result["states"]["machine_suggestion_adopted"], 29)
         self.assertEqual(result["states"]["machine_current_retained"], 1536)
         self.assertEqual(result["states"]["human_revised"], 0)
+        self.assertEqual(result["provenance_mode"], "human-review")
 
     def test_03_rows_may_be_sorted_by_stable_id(self):
         rows = list(reversed(completed_rows()))
@@ -126,16 +133,43 @@ class FinalValueValidationTests(unittest.TestCase):
 
     def test_07_release_cli_rejects_header_only_template(self):
         out, err = io.StringIO(), io.StringIO()
-        with redirect_stdout(out), redirect_stderr(err):
-            code = MODULE.main([
-                "--source", str(HANDOFF / "full_review.tsv"),
-                "--final-values", str(FINAL_VALUES),
-                "--authority-resolutions", str(RESOLUTIONS),
-                "--require-release-open",
-            ])
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "header-only.tsv"
+            write_tsv(path, [])
+            with redirect_stdout(out), redirect_stderr(err):
+                code = MODULE.main([
+                    "--source", str(HANDOFF / "full_review.tsv"),
+                    "--final-values", str(path),
+                    "--authority-resolutions", str(RESOLUTIONS),
+                    "--require-release-open",
+                ])
         self.assertEqual(code, 3)
         self.assertFalse(json.loads(out.getvalue())["release_gate_open"])
         self.assertIn("1565 final values", err.getvalue())
+
+    def test_08_rough_production_opens_gate_without_human_review_claim(self):
+        rows = completed_rows(CONTRACT.ROUGH_PRODUCTION_MODE)
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "rough.tsv"
+            write_tsv(path, rows)
+            result = self.validate(path)
+        self.assertTrue(result["release_gate_open"])
+        self.assertEqual(result["provenance_mode"], "rough-production")
+        self.assertTrue(result["machine_provenance_retained"])
+        self.assertEqual(result["states"]["rough_production_rows"], 1565)
+        self.assertEqual(result["states"]["human_review_mode_rows"], 0)
+        self.assertEqual(result["states"]["machine_suggestion_adopted"], 29)
+        self.assertEqual(result["states"]["machine_current_retained"], 1536)
+
+    def test_09_rough_production_cannot_disguise_an_edit(self):
+        rows = completed_rows(CONTRACT.ROUGH_PRODUCTION_MODE)
+        row = next(row for row in rows if row["seed_origin"] == "current")
+        row["final_value"] = "人工改写但伪装粗译"
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "bad.tsv"
+            write_tsv(path, rows)
+            with self.assertRaisesRegex(MODULE.HumanReviewError, "prefilled value"):
+                self.validate(path)
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

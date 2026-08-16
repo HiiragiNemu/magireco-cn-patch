@@ -12,6 +12,11 @@ import json
 from typing import Any
 
 
+HUMAN_REVIEW_MODE = "human-review"
+ROUGH_PRODUCTION_MODE = "rough-production"
+PROVENANCE_MODES = {HUMAN_REVIEW_MODE, ROUGH_PRODUCTION_MODE}
+
+
 FINAL_VALUE_FIELDS = (
     "item_id",
     "stable_business_key",
@@ -74,10 +79,30 @@ def seed_for_source(
 
 def classify_final_value(
     source: dict[str, str], final_value: str, adopted_suggestion: str = "",
+    provenance_mode: str = HUMAN_REVIEW_MODE,
 ) -> dict[str, str]:
     """Derive the only provenance status accepted by the product pipeline."""
+    if provenance_mode not in PROVENANCE_MODES:
+        raise ValueError(f"unknown final-value provenance mode: {provenance_mode}")
     current = source.get("current_cn", "")
     suggested = adopted_suggestion or source.get("suggested_cn", "")
+    seed, _ = seed_for_source(source, adopted_suggestion)
+    if provenance_mode == ROUGH_PRODUCTION_MODE:
+        if final_value != seed:
+            raise ValueError(
+                "rough-production final values must equal the bound prefilled value"
+            )
+        if suggested and final_value == suggested:
+            return {
+                "review_status": "rough-production-machine-suggestion-adopted",
+                "final_origin": "machine-suggestion",
+                "machine_translated": "true",
+            }
+        return {
+            "review_status": "rough-production-machine-current-retained",
+            "final_origin": "machine-current",
+            "machine_translated": "unknown",
+        }
     if (
         adopted_suggestion and final_value == adopted_suggestion
     ) or (
@@ -104,6 +129,7 @@ def classify_final_value(
 def expected_final_value_row(
     source: dict[str, str], target: dict[str, Any], final_value: str,
     adopted_suggestion: str = "",
+    provenance_mode: str = HUMAN_REVIEW_MODE,
 ) -> dict[str, str]:
     seed_cn, seed_origin = seed_for_source(source, adopted_suggestion)
     result = {
@@ -121,5 +147,16 @@ def expected_final_value_row(
         "source_record_sha256": source_record_sha256(source),
         "target_contract_sha256": target_contract_sha256(target),
     }
-    result.update(classify_final_value(source, final_value, adopted_suggestion))
+    result.update(classify_final_value(
+        source, final_value, adopted_suggestion, provenance_mode,
+    ))
     return result
+
+
+def provenance_mode_for_receipt(row: dict[str, str]) -> str:
+    status = row.get("review_status", "")
+    if status.startswith("rough-production-"):
+        return ROUGH_PRODUCTION_MODE
+    if status.startswith("human-"):
+        return HUMAN_REVIEW_MODE
+    raise ValueError(f"unknown final-value review_status: {status!r}")

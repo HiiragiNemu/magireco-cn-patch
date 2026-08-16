@@ -30,6 +30,7 @@ SHADOWED = AUDIT / "pass20_authority_shadowed_machine_items.json"
 QUEUE = AUDIT / "pass20_remaining_manual_review.tsv"
 PROTECTED = AUDIT / "protected_authority/protected_translation_fields.tsv"
 FINAL_VALUES_REL = Path("magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv")
+REVIEW_CONTRACT_REL = Path("magica/i18n_audit/release_v26_authority/pass20_review_contract.json")
 ADOPTIONS = AUDIT / "pass21_user_directed_suggested_adoptions.tsv"
 WORKBOOK_REL = Path(
     "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"
@@ -45,6 +46,9 @@ REVIEWED_COLUMNS = (
     "scope", "path_prefix", "source_text", "candidate_cn", "status", "authority",
     "source_batch", "source_locator", "source_sha256", "match_method",
     "machine_translated", "confidence", "review_status", "evidence",
+)
+FINAL_VALUE_LOCATOR_BASE = (
+    "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv#"
 )
 JS_LIT = re.compile(r'(["\'])((?:(?!\1)[^\\]|\\.)*)\1')
 HTML_TEXT = re.compile(r'>([^<>{}]*)<')
@@ -509,15 +513,13 @@ def append_reviewed_candidates(
             if len(row) == len(REVIEWED_COLUMNS):
                 existing_locators.add(row[7])
     records = []
+    modes: set[str] = set()
     for receipt in final_values:
         item_id = receipt["item_id"]
         if item_id not in expected_ids:
             continue
         source = queue[item_id]
         target = targets[item_id]
-        locator = f"magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv#{item_id}"
-        if locator in existing_locators:
-            raise StageError(f"reviewed candidate already exists: {item_id}")
         final_value = receipt["final_value"]
         if not final_value:
             raise StageError(f"human return has no final value: {item_id}")
@@ -525,26 +527,48 @@ def append_reviewed_candidates(
             receipt["final_origin"] == "machine-current" and source["current_cn"] == "<DELETE>"
         ):
             raise StageError(f"reserved deletion token is forbidden as review text: {item_id}")
+        review_status = receipt["review_status"]
+        if review_status.startswith("rough-production-"):
+            mode = "rough-production"
+            authority = "new_proposal"
+            source_batch = "pass20-rough-production-final-values-v1"
+            match_method = "exact-semantic-key-user-directed-rough-production"
+            confidence = "user-directed-rough-production-unreviewed"
+        elif review_status.startswith("human-"):
+            mode = "human-review"
+            authority = "existing_human_reviewed"
+            source_batch = "pass20-human-final-values-v1"
+            match_method = "exact-semantic-key-human-review"
+            confidence = "human-approved"
+        else:
+            raise StageError(f"unsupported final-value provenance: {item_id}")
+        modes.add(mode)
+        locator = f"{FINAL_VALUE_LOCATOR_BASE}{mode}:{item_id}"
+        if locator in existing_locators:
+            raise StageError(f"reviewed candidate already exists: {mode}:{item_id}")
         record = {
             "scope": target["maintenance_scope"],
             "path_prefix": target["path_prefix"],
             "source_text": source["japanese_or_source_original"],
             "candidate_cn": final_value,
             "status": "present",
-            "authority": "existing_human_reviewed",
-            "source_batch": "pass20-human-final-values-v1",
+            "authority": authority,
+            "source_batch": source_batch,
             "source_locator": locator,
             "source_sha256": "",
-            "match_method": "exact-semantic-key-human-review",
+            "match_method": match_method,
             "machine_translated": receipt["machine_translated"],
-            "confidence": "human-approved",
-            "review_status": receipt["review_status"],
+            "confidence": confidence,
+            "review_status": review_status,
             "evidence": (
                 f"item_id={item_id}; final_origin={receipt['final_origin']}; "
+                f"provenance_mode={mode}; "
                 f"target_status={target['match_status']}"
             ),
         }
         records.append(record)
+    if len(modes) != 1:
+        raise StageError("final-value candidates mix provenance modes")
     if len(records) != len(expected_ids):
         raise StageError(f"expected {len(expected_ids)} reviewed candidates, got {len(records)}")
     if existing and not existing.endswith("\n"):
@@ -553,6 +577,43 @@ def append_reviewed_candidates(
         writer = csv.DictWriter(stream, fieldnames=REVIEWED_COLUMNS, delimiter="\t", lineterminator="\n")
         writer.writerows(records)
     return len(records)
+
+
+def refresh_review_contract(
+    stage_root: Path,
+    source_path: Path,
+    resolutions_path: Path,
+    provenance_mode: str,
+) -> None:
+    """Bind the frozen Pass20 queue contract to the newly generated provenance."""
+    path = stage_root / REVIEW_CONTRACT_REL
+    contract = json.loads(path.read_text(encoding="utf-8"))
+    if contract.get("schema") != "magireco-cn-pass20-review-contract/2" or contract.get("status") != "PASS":
+        raise StageError("Pass20 review contract schema/status drifted")
+    before_sources = {
+        "full_review": sha256(source_path.read_bytes()).hexdigest(),
+        "authority_resolutions": sha256(resolutions_path.read_bytes()).hexdigest(),
+        "input_provenance": sha256((ROOT / "i18n/generated/input-provenance.tsv").read_bytes()).hexdigest(),
+        "effective": sha256((ROOT / "i18n/generated/effective.tsv").read_bytes()).hexdigest(),
+    }
+    if contract.get("source_sha256") != before_sources:
+        raise StageError("Pass20 frozen review contract preimage drifted")
+    contract["source_sha256"] = {
+        "full_review": before_sources["full_review"],
+        "authority_resolutions": before_sources["authority_resolutions"],
+        "input_provenance": sha256((stage_root / "i18n/generated/input-provenance.tsv").read_bytes()).hexdigest(),
+        "effective": sha256((stage_root / "i18n/generated/effective.tsv").read_bytes()).hexdigest(),
+    }
+    contract["post_final_value_materialization"] = {
+        "items": 1565,
+        "provenance_mode": provenance_mode,
+        "queue_and_targets_frozen": True,
+        "machine_provenance_retained": provenance_mode == "rough-production",
+    }
+    path.write_text(
+        json.dumps(contract, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8", newline="\n",
+    )
 
 
 def run_command(command: list[str], cwd: Path) -> dict[str, Any]:
@@ -617,7 +678,10 @@ def stage(
         targets_path=targets_path, adoptions_path=ADOPTIONS,
     )
     if not validation["release_gate_open"]:
-        raise StageError("human review release gate is closed")
+        raise StageError("final-value release gate is closed")
+    provenance_mode = validation.get("provenance_mode")
+    if provenance_mode not in {"human-review", "rough-production"}:
+        raise StageError("final-value provenance mode is invalid")
     if review_workbook is None or not review_workbook.is_file() or review_workbook.is_symlink():
         raise StageError("a regular completed review workbook is required")
     if review_workbook.resolve() == (ROOT / WORKBOOK_REL).resolve():
@@ -641,7 +705,7 @@ def stage(
         validation.get("final_values_required") != review_items
         or validation.get("final_values_received") != review_items
     ):
-        raise StageError("human review gate and materialization queue counts differ")
+        raise StageError("final-value gate and materialization queue counts differ")
 
     _, resolution_rows = load_tsv(resolutions_path)
     resolution_ids = {row["item_id"] for row in resolution_rows}
@@ -703,7 +767,8 @@ def stage(
                 source_path,
                 targets_path,
                 imported_final_values,
-                accept_returned=True,
+                accept_returned=provenance_mode == "human-review",
+                accept_rough_production=provenance_mode == "rough-production",
             )
         except Exception as exc:
             raise StageError(f"completed review workbook validation failed: {exc}") from exc
@@ -723,9 +788,12 @@ def stage(
     staged_workbook = stage_root / WORKBOOK_REL
     staged_workbook.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(review_workbook, staged_workbook)
+    staged_review_contract = stage_root / REVIEW_CONTRACT_REL
+    staged_review_contract.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ROOT / REVIEW_CONTRACT_REL, staged_review_contract)
     canonical_before = {
         rel.as_posix(): (ROOT / rel).read_bytes()
-        for rel in CANONICAL_I18N_RELS + (WORKBOOK_REL,)
+        for rel in CANONICAL_I18N_RELS + (REVIEW_CONTRACT_REL, WORKBOOK_REL)
     }
     reviewed_count = append_reviewed_candidates(
         stage_root / "i18n/reviewed-candidates.tsv",
@@ -743,6 +811,7 @@ def stage(
         "--policy", str(stage_root / "i18n/authority-policy.json"),
         "--migration-summary", str(stage_root / "i18n/migration-source-summary.json"),
     ], ROOT))
+    refresh_review_contract(stage_root, source_path, resolutions_path, provenance_mode)
     _, effective_rows = load_tsv(stage_root / "i18n/generated/effective.tsv")
     effective = {row["key"]: row for row in effective_rows}
 
@@ -756,9 +825,18 @@ def stage(
         target = targets[item_id]
         winner = effective.get(target["semantic_key"])
         if winner is None:
-            raise StageError(f"effective winner missing after human review: {item_id}")
-        if winner["authority"] != "existing_human_reviewed" or winner["selected_cn"] != receipt["final_value"]:
-            raise StageError(f"human-reviewed effective winner drift: {item_id}")
+            raise StageError(f"effective winner missing after final-value import: {item_id}")
+        if winner["selected_cn"] != receipt["final_value"]:
+            raise StageError(f"final-value effective winner drift: {item_id}")
+        if provenance_mode == "human-review":
+            if (
+                winner["authority"] != "existing_human_reviewed"
+                or winner.get("source_file") != "i18n/reviewed-candidates.tsv"
+                or winner.get("source_batch") != "pass20-human-final-values-v1"
+            ):
+                raise StageError(f"human-reviewed effective winner drift: {item_id}")
+        elif winner["authority"] != "legacy_unverified_ai_assisted":
+            raise StageError(f"rough-production low-tier winner drift: {item_id}")
         adoption = adoptions.get(item_id)
         baseline = adoption["adopted_cn"] if adoption else source["current_cn"]
         if receipt["final_value"] == baseline:
@@ -809,8 +887,8 @@ def stage(
     write_plan_table(empty_table, [], "Pass20 overrides-only application; intentionally empty global table")
     overrides_table = application / "review-overrides.tsv"
     fragments_table = application / "review-fragments.tsv"
-    write_plan_table(overrides_table, override_rows, "path-bound current-CN to human-approved-CN plan")
-    write_plan_table(fragments_table, fragment_rows, "path-bound current-fragment to human-approved-fragment plan")
+    write_plan_table(overrides_table, override_rows, "path-bound current-CN to final-CN plan")
+    write_plan_table(fragments_table, fragment_rows, "path-bound current-fragment to final-fragment plan")
 
     commands.append(run_command([
         sys.executable, str(ROOT / "tools/i18n-apply.py"), str(stage_root / "magica"),
@@ -906,6 +984,8 @@ def stage(
             continue
         if rel == FINAL_VALUES_REL.as_posix():
             role = "human-final-values-audit"
+        elif rel == REVIEW_CONTRACT_REL.as_posix():
+            role = "review-contract-audit"
         elif rel == WORKBOOK_REL.as_posix():
             role = "human-review-workbook-receipt"
         else:
@@ -913,9 +993,9 @@ def stage(
         add_rollback_record(rel, before_bytes, after_bytes, role)
         canonical_changed_files.append(rel)
     if "i18n/reviewed-candidates.tsv" not in canonical_changed_files:
-        raise StageError("human-reviewed canonical authority input did not change")
+        raise StageError("canonical final-value provenance input did not change")
     if FINAL_VALUES_REL.as_posix() not in canonical_changed_files:
-        raise StageError("returned human final-value audit did not change")
+        raise StageError("returned final-value audit did not change")
     repository_promotion_files = sorted(changed_files + canonical_changed_files)
 
     review_contract = {
@@ -1005,6 +1085,7 @@ def stage(
         "human_gate": validation,
         "review_contract": review_contract,
         "reviewed_candidates_appended": reviewed_count,
+        "provenance_mode": provenance_mode,
         "effective_rows": len(effective_rows),
         "machine_inventory_items": machine_inventory_items,
         "human_review_items": review_items,
@@ -1019,7 +1100,12 @@ def stage(
         "changed_files": changed_files,
         "canonical_changed_files": canonical_changed_files,
         "repository_promotion_files": repository_promotion_files,
-        "canonical_human_review_items": target_contract["materialization_items"],
+        "canonical_human_review_items": (
+            target_contract["materialization_items"] if provenance_mode == "human-review" else 0
+        ),
+        "canonical_rough_production_items": (
+            target_contract["materialization_items"] if provenance_mode == "rough-production" else 0
+        ),
         "maintenance_only_items_persisted": target_contract["maintenance_only_items"],
         "shadowed_low_tier_candidates_written": 0,
         "shadowed_product_writes": 0,

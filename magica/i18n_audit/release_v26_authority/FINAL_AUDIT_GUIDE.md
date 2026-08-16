@@ -42,7 +42,9 @@
 
 ## 发布门
 
-当前仓库中的 `pass20_human_final_values.tsv` 只有表头，因此正式发布门保持关闭。只有用户返回工作簿并由代理成功导入全部 1,565 个最终值后，才允许门变为：
+用户已明确授权把当前 C 列的 1,565 个预填值作为粗译版本用于生产。仓库中的
+`pass20_human_final_values.tsv` 现已完整记录这些值，并保留机器低权重来源；这不是人工精修认证。
+当前粗译生产门为：
 
 ```text
 final_values=1565
@@ -53,11 +55,21 @@ unresolved=0
 
 权威顺序始终是：官方国服文本 > HiiragiNemu Wiki > 已确认人工译文 > 机器／LLM／DS 文本。低层文本不得覆盖前三层。
 
-稳定版 `latest` 在人工表返回和全部产品验证通过前保持不变；功能分支、Draft PR 和 Draft Release 仅供当前校对与预览。
+粗译版本通过全部产品验证后可进入稳定版 `latest`。以后用户修改同一工作簿 C 列并交回时，
+再走人工精修模式；新的人工作品只提升对应稳定 ID，不会抹去本次粗译来源记录，也不会覆盖官方、Wiki 或已确认人工文本。
 
 ## 维护代理命令参考
 
-以下命令仅由维护代理执行：
+以下命令仅由维护代理执行。当前粗译生产使用：
+
+```powershell
+python tools/import-pass20-human-review-xlsx.py `
+  --xlsx <当前预填XLSX> `
+  --accept-prefilled-rough-production `
+  --out magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv
+```
+
+以后人工精修返回时使用：
 
 ```powershell
 python tools/import-pass20-human-review-xlsx.py `

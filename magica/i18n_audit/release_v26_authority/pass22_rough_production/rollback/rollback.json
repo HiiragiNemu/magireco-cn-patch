@@ -1,0 +1,75 @@
+{
+  "schema": "magireco-cn-pass20-product-rollback/1",
+  "review_contract": {
+    "machine_inventory_items": 1589,
+    "human_review_items": 1565,
+    "materialization_items": 1565,
+    "higher_authority_shadowed_items": 24,
+    "product_write_forbidden_items": 24,
+    "authority_resolution_items": 323,
+    "exact_runtime_items": 1443,
+    "maintenance_only_items": 122,
+    "runtime_occurrences": 2439,
+    "global_items": 1549,
+    "override_items": 9,
+    "fragment_items": 7,
+    "shadowed_low_tier_candidates_written": 0,
+    "shadowed_product_writes": 0,
+    "source_records_sha256": "4cd8f78b73728e3d9afc204f88439d0679b83de0f37166c8411bf0c2a9d0acdf",
+    "target_contract_sha256": "ac34f49e20f554897d1035593ffcd595bd176d404734cf39979189afa818661a",
+    "authority_shadow_manifest_sha256": "79d27d6f7000053f089533202cdb5de99890abf5819699c0583b2187ec4ba15f",
+    "authority_resolutions_sha256": "f5316b4009ff3a7209589a01e3fe87b3a45cd9ee6cdbbdcdecd5bbba42f1b90f"
+  },
+  "files": [
+    {
+      "path": "i18n/generated/input-provenance.tsv",
+      "role": "canonical-i18n",
+      "before_snapshot": "rollback/before/i18n/generated/input-provenance.tsv",
+      "after_snapshot": "rollback/after/i18n/generated/input-provenance.tsv",
+      "before_sha256": "7dceba083ea5ee8bad7020cd7e80ccd69db24392a6bfe88c00554bcf16331aae",
+      "after_sha256": "20d27f1157509a2040bcbb9047ad4ac6049bfe44ac7c6e5bed6e7b746e8a9139",
+      "before_size": 853582,
+      "after_size": 1926733
+    },
+    {
+      "path": "i18n/generated/summary.json",
+      "role": "canonical-i18n",
+      "before_snapshot": "rollback/before/i18n/generated/summary.json",
+      "after_snapshot": "rollback/after/i18n/generated/summary.json",
+      "before_sha256": "ad6794914be7f8f54cfd4ee6d709c0b19dceb31f1e43b35c8b42b41f32cda700",
+      "after_sha256": "10e350bc2b115f1212890551ed7f55525a84870cc7e43e43dc8bcdb539840c0c",
+      "before_size": 4017,
+      "after_size": 4108
+    },
+    {
+      "path": "i18n/reviewed-candidates.tsv",
+      "role": "canonical-i18n",
+      "before_snapshot": "rollback/before/i18n/reviewed-candidates.tsv",
+      "after_snapshot": "rollback/after/i18n/reviewed-candidates.tsv",
+      "before_sha256": "41f6ee8c9512bc7d1a752605f1dbdecab58b8f333af7af7a39af394560f364c1",
+      "after_sha256": "a6cc1313d03f6af929f32cc315bd301adb81f22dd6420ba0dd62eb418b6de2c2",
+      "before_size": 37735,
+      "after_size": 848904
+    },
+    {
+      "path": "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
+      "role": "human-final-values-audit",
+      "before_snapshot": "rollback/before/magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
+      "after_snapshot": "rollback/after/magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
+      "before_sha256": "8f3f42a6978e8a54bfcd76f8d33ded36d9f0d9c40cb64b15b9e960ed7f41bd5f",
+      "after_sha256": "9b35b3b86ffe7e9bd9bafd65a2bfbf2b1588480be93babe15fcd0dd376ce7528",
+      "before_size": 238,
+      "after_size": 756488
+    },
+    {
+      "path": "magica/i18n_audit/release_v26_authority/pass20_review_contract.json",
+      "role": "review-contract-audit",
+      "before_snapshot": "rollback/before/magica/i18n_audit/release_v26_authority/pass20_review_contract.json",
+      "after_snapshot": "rollback/after/magica/i18n_audit/release_v26_authority/pass20_review_contract.json",
+      "before_sha256": "eb3b663209c4680816f539c98726013f9af8c9214b227db59ad5fafdf3a67f24",
+      "after_sha256": "f91297d74e8fe34e4dbeea31c953d389478d13394c8f9ed90d2de2531c4904df",
+      "before_size": 75958,
+      "after_size": 76143
+    }
+  ]
+}

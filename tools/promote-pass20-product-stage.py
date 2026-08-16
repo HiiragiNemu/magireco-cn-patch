@@ -27,6 +27,9 @@ FINAL_VALUES_RECEIPT = "magica/i18n_audit/release_v26_authority/pass20_human_fin
 WORKBOOK_RECEIPT = (
     "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"
 )
+REVIEW_CONTRACT_RECEIPT = (
+    "magica/i18n_audit/release_v26_authority/pass20_review_contract.json"
+)
 CANONICAL_I18N_FILES = {
     "i18n/reviewed-candidates.tsv",
     "i18n/generated/conflicts.tsv",
@@ -102,6 +105,8 @@ def role_path_valid(role: str, path: str) -> bool:
         return path == FINAL_VALUES_RECEIPT
     if role == "human-review-workbook-receipt":
         return path == WORKBOOK_RECEIPT
+    if role == "review-contract-audit":
+        return path == REVIEW_CONTRACT_RECEIPT
     return False
 
 
@@ -136,10 +141,12 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
         raise PromotionError(f"rollback review contract is invalid: {exc}") from exc
     if report.get("review_contract") != review_contract:
         raise PromotionError("staging and rollback review contracts differ")
+    provenance_mode = report.get("provenance_mode", "human-review")
+    if provenance_mode not in {"human-review", "rough-production"}:
+        raise PromotionError("staging provenance mode is invalid")
     report_contract_fields = {
         "machine_inventory_items": "machine_inventory_items",
         "human_review_items": "human_review_items",
-        "canonical_human_review_items": "materialization_items",
         "higher_authority_shadowed_items": "higher_authority_shadowed_items",
         "product_write_forbidden_items": "product_write_forbidden_items",
         "exact_target_items": "exact_runtime_items",
@@ -153,6 +160,13 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
         for report_key, contract_key in report_contract_fields.items()
     ):
         raise PromotionError("staging report counts differ from its review contract")
+    expected_human = review_contract["materialization_items"] if provenance_mode == "human-review" else 0
+    expected_rough = review_contract["materialization_items"] if provenance_mode == "rough-production" else 0
+    if (
+        report.get("canonical_human_review_items") != expected_human
+        or report.get("canonical_rough_production_items", 0) != expected_rough
+    ):
+        raise PromotionError("staging provenance counts differ from the materialization contract")
     if report.get("reviewed_candidates_appended") != review_contract["materialization_items"]:
         raise PromotionError("staging canonical append count drifted")
     if report.get("human_gate", {}).get("final_values_required") != review_contract["human_review_items"]:
@@ -179,7 +193,7 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
         raise PromotionError("promotion allowlist differs from rollback manifest")
     allowed_roles = {
         "runtime-product", "canonical-i18n", "human-final-values-audit",
-        "human-review-workbook-receipt",
+        "human-review-workbook-receipt", "review-contract-audit",
     }
     unknown_roles = sorted(
         {record.get("role") for record in records} - allowed_roles,
@@ -199,6 +213,7 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
         record["path"] for record in records
         if record.get("role") in {
             "canonical-i18n", "human-final-values-audit", "human-review-workbook-receipt",
+            "review-contract-audit",
         }
     )
     if runtime_files != sorted(report.get("changed_files", [])):
@@ -211,14 +226,31 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
     if len(report_paths) != len(set(report_paths)) or sorted(report_paths) != sorted(paths):
         raise PromotionError("staging changed-file lists do not exactly cover the promotion manifest")
     if "i18n/reviewed-candidates.tsv" not in canonical_files:
-        raise PromotionError("canonical human-reviewed authority input is absent from promotion")
+        raise PromotionError("canonical final-value provenance input is absent from promotion")
     if FINAL_VALUES_RECEIPT not in canonical_files:
         raise PromotionError("completed human final-value receipt is absent from promotion")
+    if REVIEW_CONTRACT_RECEIPT not in canonical_files:
+        raise PromotionError("refreshed review contract is absent from promotion")
     receipt = report.get("human_review_workbook_receipt")
     if receipt != WORKBOOK_RECEIPT:
         raise PromotionError("completed review workbook receipt contract drifted")
+    workbook_receipt_preexisting_identical = False
     if receipt not in canonical_files:
-        raise PromotionError("completed review workbook receipt is absent from promotion")
+        if provenance_mode != "rough-production":
+            raise PromotionError("completed review workbook receipt is absent from promotion")
+        try:
+            repository_receipt = rollback_tool.safe_join(repo_root, receipt)
+            staged_receipt = rollback_tool.safe_join(stage_root, receipt)
+        except Exception as exc:
+            raise PromotionError("unsafe preexisting rough workbook receipt path") from exc
+        if any(
+            path.is_symlink() or not path.is_file()
+            for path in (repository_receipt, staged_receipt)
+        ):
+            raise PromotionError("preexisting rough workbook receipt is missing or unsafe")
+        if repository_receipt.read_bytes() != staged_receipt.read_bytes():
+            raise PromotionError("preexisting rough workbook receipt differs from staging")
+        workbook_receipt_preexisting_identical = True
 
     prepared: list[dict[str, Any]] = []
     for record in records:
@@ -310,10 +342,13 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
             "runtime_product_files": runtime_files,
             "canonical_i18n_and_audit_files": canonical_files,
             "human_review_workbook_receipt": receipt,
+            "workbook_receipt_preexisting_identical": workbook_receipt_preexisting_identical,
             "review_contract": review_contract,
             "machine_inventory_items": review_contract["machine_inventory_items"],
             "human_review_items": review_contract["human_review_items"],
-            "canonical_human_review_items": review_contract["materialization_items"],
+            "provenance_mode": provenance_mode,
+            "canonical_human_review_items": expected_human,
+            "canonical_rough_production_items": expected_rough,
             "higher_authority_shadowed_items": review_contract["higher_authority_shadowed_items"],
             "product_write_forbidden_items": review_contract["product_write_forbidden_items"],
             "maintenance_only_items_persisted": review_contract["maintenance_only_items"],

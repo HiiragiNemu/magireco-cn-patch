@@ -15,7 +15,10 @@ from pathlib import Path
 import sys
 from typing import Any
 
-from pass20_final_values_contract import FINAL_VALUE_FIELDS, expected_final_value_row
+from pass20_final_values_contract import (
+    FINAL_VALUE_FIELDS, HUMAN_REVIEW_MODE, ROUGH_PRODUCTION_MODE,
+    expected_final_value_row, provenance_mode_for_receipt,
+)
 from pass20_review_contract import (
     AUTHORITY_RESOLUTIONS, CONTRACT_JSON, EFFECTIVE, HUMAN_REVIEW_ITEMS,
     OFFICIAL_REVIEW, PROVENANCE, SHADOWED_ITEMS, SHADOW_JSON, TOTAL_ROWS,
@@ -271,11 +274,14 @@ def validate(
         "machine_current_retained": 0,
         "machine_suggestion_adopted": 0,
         "human_revised": 0,
+        "human_review_mode_rows": 0,
+        "rough_production_rows": 0,
         "unresolved": 0,
         "authority_resolved": len(resolutions),
         "higher_authority_shadowed": len(shadows),
     }
     final_sha = ""
+    receipt_modes: set[str] = set()
     if final_values is not None and final_values.is_file():
         header, final_rows = load_tsv(final_values)
         if tuple(header) != FINAL_VALUE_FIELDS:
@@ -293,9 +299,18 @@ def validate(
                 if not final_value:
                     raise HumanReviewError(f"final value is empty: {item_id}")
                 source_row = source_by_id[item_id]
-                expected = expected_final_value_row(
-                    source_row, targets[item_id], final_value, adoptions.get(item_id, ""),
-                )
+                try:
+                    provenance_mode = provenance_mode_for_receipt(row)
+                except ValueError as exc:
+                    raise HumanReviewError(str(exc)) from exc
+                receipt_modes.add(provenance_mode)
+                try:
+                    expected = expected_final_value_row(
+                        source_row, targets[item_id], final_value, adoptions.get(item_id, ""),
+                        provenance_mode,
+                    )
+                except ValueError as exc:
+                    raise HumanReviewError(str(exc)) from exc
                 for field in FINAL_VALUE_FIELDS:
                     if row.get(field, "") != expected[field]:
                         raise HumanReviewError(f"final-value binding drift {field}: {item_id}")
@@ -306,6 +321,13 @@ def validate(
                     "machine-suggestion": "machine_suggestion_adopted",
                     "human-revision": "human_revised",
                 }[row["final_origin"]]] += 1
+                states[
+                    "rough_production_rows"
+                    if provenance_mode == ROUGH_PRODUCTION_MODE
+                    else "human_review_mode_rows"
+                ] += 1
+            if len(receipt_modes) != 1:
+                raise HumanReviewError("final-value table mixes provenance modes")
             states["pending"] = 0
             final_sha = sha256(final_values)
     elif final_values is not None and final_values.exists():
@@ -315,8 +337,9 @@ def validate(
     ))
     if completed + states["pending"] != HUMAN_REVIEW_ITEMS:
         raise HumanReviewError("final-value completion partition drifted")
+    provenance_mode = next(iter(receipt_modes), "pending")
     return {
-        "schema": "magireco-cn-pass20-human-final-values-validation/1",
+        "schema": "magireco-cn-pass20-final-values-validation/2",
         "status": "PASS",
         "rows": TOTAL_ROWS,
         "machine_source_inventory": HUMAN_REVIEW_ITEMS + SHADOWED_ITEMS,
@@ -328,6 +351,11 @@ def validate(
         "final_values_received": completed,
         "all_final_values_received": states["pending"] == 0,
         "release_gate_open": states["pending"] == 0,
+        "provenance_mode": provenance_mode,
+        "machine_provenance_retained": (
+            provenance_mode == ROUGH_PRODUCTION_MODE
+            and states["rough_production_rows"] == HUMAN_REVIEW_ITEMS
+        ),
         "protected_text_changes": 0,
         "product_tree_writes": False,
         "source_sha256": sha256(source),

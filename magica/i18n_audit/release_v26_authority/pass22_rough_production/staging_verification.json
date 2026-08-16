@@ -1,0 +1,192 @@
+{
+  "artifacts": {
+    "product_diff": "review_application/product.diff",
+    "product_patch": "review_application/product_patch.json",
+    "rollback": "rollback/rollback.json"
+  },
+  "canonical_changed_files": [
+    "i18n/generated/input-provenance.tsv",
+    "i18n/generated/summary.json",
+    "i18n/reviewed-candidates.tsv",
+    "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
+    "magica/i18n_audit/release_v26_authority/pass20_review_contract.json"
+  ],
+  "canonical_human_review_items": 0,
+  "canonical_rough_production_items": 1565,
+  "changed_files": [],
+  "commands": [
+    {
+      "command": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\tools\\i18n-build-effective.py",
+        "--i18n-dir",
+        "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\i18n",
+        "--out-dir",
+        "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\i18n\\generated",
+        "--policy",
+        "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\i18n\\authority-policy.json",
+        "--migration-summary",
+        "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\i18n\\migration-source-summary.json"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "i18n authority audit: candidates=4230, effective=2583, resolved_conflicts=48, fatal_conflicts=0, magica_writes=0\n"
+    },
+    {
+      "command": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\tools\\i18n-apply.py",
+        "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\magica",
+        "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\review_application\\frontend-empty.tsv",
+        "--overrides",
+        "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\review_application\\review-overrides.tsv",
+        "--overrides-only",
+        "--out",
+        "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\review_application\\changed-files.txt"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "对照表 0 条译文\n按文件的覆盖 0 条\n已改动 0 个文件，替换 0 处（命中 0 条不同译文）\n  改动清单 → C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\review_application\\changed-files.txt\n"
+    },
+    {
+      "command": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\tools\\i18n-fragments.py",
+        "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\magica",
+        "C:\\Users\\proje\\AppData\\Local\\Temp\\magireco-pass22-rough-production-a25fed522fb046938fbc9d3aaaca2a96\\review_application\\review-fragments.tsv"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "片段补丁 0 条\n已改动 0 个文件\n"
+    },
+    {
+      "command": [
+        "C:\\nvm4w\\nodejs\\node.EXE",
+        "--check",
+        "<198 staged JS files>"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "effective_rows": 2583,
+  "exact_target_items": 1443,
+  "higher_authority_shadowed_items": 24,
+  "html_sensitive_attribute_changes": 0,
+  "human_gate": {
+    "adoptions_sha256": "f9b2a6f71a6e7eadcceadb9d0cf2cf37e27888537427a864d1964ef5d5f1ca42",
+    "all_final_values_received": true,
+    "authority_excluded_total": 347,
+    "authority_resolutions_sha256": "f5316b4009ff3a7209589a01e3fe87b3a45cd9ee6cdbbdcdecd5bbba42f1b90f",
+    "authority_resolved": 323,
+    "authority_shadows_sha256": "79d27d6f7000053f089533202cdb5de99890abf5819699c0583b2187ec4ba15f",
+    "final_values_received": 1565,
+    "final_values_required": 1565,
+    "final_values_sha256": "9b35b3b86ffe7e9bd9bafd65a2bfbf2b1588480be93babe15fcd0dd376ce7528",
+    "higher_authority_shadowed": 24,
+    "machine_provenance_retained": true,
+    "machine_source_inventory": 1589,
+    "product_tree_writes": false,
+    "protected_text_changes": 0,
+    "provenance_mode": "rough-production",
+    "release_gate_open": true,
+    "rows": 1912,
+    "schema": "magireco-cn-pass20-final-values-validation/2",
+    "source_sha256": "fbafc21974a7454611e27059ec0a6916a13d6a1e3d3f1cd346f98e53195a6ef3",
+    "states": {
+      "authority_resolved": 323,
+      "higher_authority_shadowed": 24,
+      "human_review_mode_rows": 0,
+      "human_revised": 0,
+      "machine_current_retained": 1536,
+      "machine_suggestion_adopted": 29,
+      "pending": 0,
+      "rough_production_rows": 1565,
+      "unresolved": 0
+    },
+    "status": "PASS",
+    "targets_sha256": "ac34f49e20f554897d1035593ffcd595bd176d404734cf39979189afa818661a"
+  },
+  "human_review_items": 1565,
+  "human_review_workbook_receipt": "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
+  "js_syntax_checked": 198,
+  "json_parsed": 23,
+  "machine_inventory_items": 1589,
+  "maintenance_only_changed_items": [],
+  "maintenance_only_items": 122,
+  "maintenance_only_items_persisted": 122,
+  "pass21_preapplied_runtime_baseline": {
+    "items": 24,
+    "occurrences": 30,
+    "paths": 28
+  },
+  "patch_items": 0,
+  "patch_records": 0,
+  "product_write_forbidden_items": 24,
+  "protected_fields_checked": 2777,
+  "protected_text_changes": 0,
+  "provenance_mode": "rough-production",
+  "repository_product_writes": 0,
+  "repository_promotion_files": [
+    "i18n/generated/input-provenance.tsv",
+    "i18n/generated/summary.json",
+    "i18n/reviewed-candidates.tsv",
+    "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
+    "magica/i18n_audit/release_v26_authority/pass20_review_contract.json"
+  ],
+  "review_contract": {
+    "authority_resolution_items": 323,
+    "authority_resolutions_sha256": "f5316b4009ff3a7209589a01e3fe87b3a45cd9ee6cdbbdcdecd5bbba42f1b90f",
+    "authority_shadow_manifest_sha256": "79d27d6f7000053f089533202cdb5de99890abf5819699c0583b2187ec4ba15f",
+    "exact_runtime_items": 1443,
+    "fragment_items": 7,
+    "global_items": 1549,
+    "higher_authority_shadowed_items": 24,
+    "human_review_items": 1565,
+    "machine_inventory_items": 1589,
+    "maintenance_only_items": 122,
+    "materialization_items": 1565,
+    "override_items": 9,
+    "product_write_forbidden_items": 24,
+    "runtime_occurrences": 2439,
+    "shadowed_low_tier_candidates_written": 0,
+    "shadowed_product_writes": 0,
+    "source_records_sha256": "4cd8f78b73728e3d9afc204f88439d0679b83de0f37166c8411bf0c2a9d0acdf",
+    "target_contract_sha256": "ac34f49e20f554897d1035593ffcd595bd176d404734cf39979189afa818661a"
+  },
+  "reviewed_candidates_appended": 1565,
+  "rollback_rehearsal": {
+    "exact_after_gate": true,
+    "exact_before_restored": true,
+    "relocated_stage_copy": true,
+    "restored_files": 5,
+    "review_contract": {
+      "authority_resolution_items": 323,
+      "authority_resolutions_sha256": "f5316b4009ff3a7209589a01e3fe87b3a45cd9ee6cdbbdcdecd5bbba42f1b90f",
+      "authority_shadow_manifest_sha256": "79d27d6f7000053f089533202cdb5de99890abf5819699c0583b2187ec4ba15f",
+      "exact_runtime_items": 1443,
+      "fragment_items": 7,
+      "global_items": 1549,
+      "higher_authority_shadowed_items": 24,
+      "human_review_items": 1565,
+      "machine_inventory_items": 1589,
+      "maintenance_only_items": 122,
+      "materialization_items": 1565,
+      "override_items": 9,
+      "product_write_forbidden_items": 24,
+      "runtime_occurrences": 2439,
+      "shadowed_low_tier_candidates_written": 0,
+      "shadowed_product_writes": 0,
+      "source_records_sha256": "4cd8f78b73728e3d9afc204f88439d0679b83de0f37166c8411bf0c2a9d0acdf",
+      "target_contract_sha256": "ac34f49e20f554897d1035593ffcd595bd176d404734cf39979189afa818661a"
+    },
+    "schema": "magireco-cn-pass20-product-rollback-result/1",
+    "status": "PASS"
+  },
+  "runtime_occurrences_bound": 2439,
+  "schema": "magireco-cn-pass20-product-staging/1",
+  "shadowed_low_tier_candidates_written": 0,
+  "shadowed_product_writes": 0,
+  "status": "PASS"
+}

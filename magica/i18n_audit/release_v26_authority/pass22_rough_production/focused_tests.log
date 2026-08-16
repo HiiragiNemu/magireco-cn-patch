@@ -1,0 +1,178 @@
+=== tools/test-import-pass20-human-review-xlsx.py ===
+test_01_template_is_prefilled_and_verification_writes_no_receipt (__main__.Pass20WorkbookImportTests.test_01_template_is_prefilled_and_verification_writes_no_receipt) ... ok
+test_02_explicit_acceptance_turns_every_final_value_into_a_receipt_row (__main__.Pass20WorkbookImportTests.test_02_explicit_acceptance_turns_every_final_value_into_a_receipt_row) ... ok
+test_03_manual_final_value_is_accepted_without_decision_or_notes_columns (__main__.Pass20WorkbookImportTests.test_03_manual_final_value_is_accepted_without_decision_or_notes_columns) ... ok
+test_04_physical_row_sorting_is_bound_by_hidden_item_id (__main__.Pass20WorkbookImportTests.test_04_physical_row_sorting_is_bound_by_hidden_item_id) ... ok
+test_05_template_mode_rejects_an_edit_and_writes_nothing (__main__.Pass20WorkbookImportTests.test_05_template_mode_rejects_an_edit_and_writes_nothing) ... ok
+test_06_stable_id_and_binding_tamper_are_rejected (__main__.Pass20WorkbookImportTests.test_06_stable_id_and_binding_tamper_are_rejected) ... ok
+test_07_visible_source_formula_and_empty_final_are_rejected (__main__.Pass20WorkbookImportTests.test_07_visible_source_formula_and_empty_final_are_rejected) ... ok
+test_08_reserved_deletion_token_is_rejected (__main__.Pass20WorkbookImportTests.test_08_reserved_deletion_token_is_rejected) ... ok
+test_09_authority_resolved_ids_are_absent_from_every_sheet (__main__.Pass20WorkbookImportTests.test_09_authority_resolved_ids_are_absent_from_every_sheet) ... ok
+test_10_rough_production_accepts_prefill_without_human_provenance (__main__.Pass20WorkbookImportTests.test_10_rough_production_accepts_prefill_without_human_provenance) ... ok
+test_11_rough_production_rejects_edited_text_without_output (__main__.Pass20WorkbookImportTests.test_11_rough_production_rejects_edited_text_without_output) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 15.250s
+
+OK
+EXIT=0
+=== tools/test-validate-dsv4-human-review.py ===
+test_01_header_only_template_keeps_release_closed (__main__.FinalValueValidationTests.test_01_header_only_template_keeps_release_closed) ... ok
+test_02_all_prefilled_final_values_open_gate_without_decision_metadata (__main__.FinalValueValidationTests.test_02_all_prefilled_final_values_open_gate_without_decision_metadata) ... ok
+test_03_rows_may_be_sorted_by_stable_id (__main__.FinalValueValidationTests.test_03_rows_may_be_sorted_by_stable_id) ... ok
+test_04_changed_final_value_is_derived_as_human_revision (__main__.FinalValueValidationTests.test_04_changed_final_value_is_derived_as_human_revision) ... ok
+test_05_machine_suggestion_keeps_machine_origin (__main__.FinalValueValidationTests.test_05_machine_suggestion_keeps_machine_origin) ... ok
+test_06_binding_drift_fails_closed (__main__.FinalValueValidationTests.test_06_binding_drift_fails_closed) ... ok
+test_07_release_cli_rejects_header_only_template (__main__.FinalValueValidationTests.test_07_release_cli_rejects_header_only_template) ... ok
+test_08_rough_production_opens_gate_without_human_review_claim (__main__.FinalValueValidationTests.test_08_rough_production_opens_gate_without_human_review_claim) ... ok
+test_09_rough_production_cannot_disguise_an_edit (__main__.FinalValueValidationTests.test_09_rough_production_cannot_disguise_an_edit) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 2.792s
+
+OK
+EXIT=0
+=== tools/test-stage-pass20-human-review-product.py ===
+test_01_header_only_final_values_keep_stage_closed (__main__.FinalValueStageTests.test_01_header_only_final_values_keep_stage_closed) ... ok
+test_02_reviewed_candidate_provenance_is_derived_from_receipt (__main__.FinalValueStageTests.test_02_reviewed_candidate_provenance_is_derived_from_receipt) ... ok
+test_03_preapplied_pass21_runtime_baseline_is_required (__main__.FinalValueStageTests.test_03_preapplied_pass21_runtime_baseline_is_required) ... ok
+test_04_explicit_and_canonical_only_adoptions_are_distinguished (__main__.FinalValueStageTests.test_04_explicit_and_canonical_only_adoptions_are_distinguished) ... ok
+test_05_target_contract_remains_frozen_at_1565 (__main__.FinalValueStageTests.test_05_target_contract_remains_frozen_at_1565) ... ok
+test_06_rough_production_candidate_stays_low_authority (__main__.FinalValueStageTests.test_06_rough_production_candidate_stays_low_authority) ... ok
+test_07_human_review_can_follow_existing_rough_provenance (__main__.FinalValueStageTests.test_07_human_review_can_follow_existing_rough_provenance) ... ok
+test_08_review_contract_is_rebound_to_staged_provenance (__main__.FinalValueStageTests.test_08_review_contract_is_rebound_to_staged_provenance) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.543s
+
+OK
+EXIT=0
+=== tools/test-verify-pass20-human-materialization.py ===
+test_01_current_repository_is_open_for_rough_production (__main__.Pass20MaterializationTests.test_01_current_repository_is_open_for_rough_production) ... ok
+test_02_release_flag_follows_current_final_value_gate (__main__.Pass20MaterializationTests.test_02_release_flag_follows_current_final_value_gate) ... ok
+test_03_completed_workbook_receipt_has_no_decision_metadata (__main__.Pass20MaterializationTests.test_03_completed_workbook_receipt_has_no_decision_metadata) ... ok
+test_04_machine_suggestion_and_human_revision_provenance_pass (__main__.Pass20MaterializationTests.test_04_machine_suggestion_and_human_revision_provenance_pass) ... ok
+test_05_machine_suggestion_must_not_be_labeled_human_translation (__main__.Pass20MaterializationTests.test_05_machine_suggestion_must_not_be_labeled_human_translation) ... ok
+test_06_shadow_never_enters_final_value_canonical_layer (__main__.Pass20MaterializationTests.test_06_shadow_never_enters_final_value_canonical_layer) ... ok
+test_07_rough_production_materializes_without_human_authority (__main__.Pass20MaterializationTests.test_07_rough_production_materializes_without_human_authority) ... ok
+test_08_human_verification_ignores_prior_rough_locator (__main__.Pass20MaterializationTests.test_08_human_verification_ignores_prior_rough_locator) ... ok
+test_09_semantic_gate_survives_unrelated_offset_drift (__main__.Pass20MaterializationTests.test_09_semantic_gate_survives_unrelated_offset_drift) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 5.512s
+
+OK
+EXIT=0
+=== tools/test-promote-pass20-product-stage.py ===
+..............
+----------------------------------------------------------------------
+Ran 14 tests in 0.875s
+
+OK
+EXIT=0
+PY_COMPILE=PASS
+GIT_DIFF_CHECK=PASS
+TOTAL_TESTS=51
+=== tools/test-build-v26-machine-review.py ===
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 2.343s
+
+OK
+EXIT=0
+=== tools/test-v26-authority-protection.py ===
+test_aggregate_is_stable_after_readback (__main__.AuthorityProtectionTests.test_aggregate_is_stable_after_readback) ... ok
+test_authority_demotion_fails (__main__.AuthorityProtectionTests.test_authority_demotion_fails) ... ok
+test_builder_is_byte_deterministic (__main__.AuthorityProtectionTests.test_builder_is_byte_deterministic) ... ok
+test_committed_snapshot_verifies_without_freshness_side_effects (__main__.AuthorityProtectionTests.test_committed_snapshot_verifies_without_freshness_side_effects) ... ok
+test_direct_protected_runtime_mutation_fails_release_gate (__main__.AuthorityProtectionTests.test_direct_protected_runtime_mutation_fails_release_gate) ... ok
+test_glossary_whole_file_digest_is_locked (__main__.AuthorityProtectionTests.test_glossary_whole_file_digest_is_locked) ... ok
+test_lower_tier_cannot_overwrite_official_value (__main__.AuthorityProtectionTests.test_lower_tier_cannot_overwrite_official_value) ... ok
+test_mixed_runtime_file_allows_unprotected_change (__main__.AuthorityProtectionTests.test_mixed_runtime_file_allows_unprotected_change) ... ok
+test_pass16_all_occurrences_are_merged_by_stable_identity (__main__.AuthorityProtectionTests.test_pass16_all_occurrences_are_merged_by_stable_identity) ... ok
+test_pass16_only_field_mutation_fails_release_gate (__main__.AuthorityProtectionTests.test_pass16_only_field_mutation_fails_release_gate) ... ok
+test_pass19_applied_ordinals_and_external_evidence_are_exact (__main__.AuthorityProtectionTests.test_pass19_applied_ordinals_and_external_evidence_are_exact) ... ok
+test_pass19_context_anchor_is_value_independent_and_unique (__main__.AuthorityProtectionTests.test_pass19_context_anchor_is_value_independent_and_unique) ... ok
+test_pass19_literal_or_occurrence_drift_fails (__main__.AuthorityProtectionTests.test_pass19_literal_or_occurrence_drift_fails) ... ok
+test_product_file_hash_normalizes_utf8_crlf_but_not_binary (__main__.AuthorityProtectionTests.test_product_file_hash_normalizes_utf8_crlf_but_not_binary) ... ok
+test_product_snapshot_excludes_self_referential_maintenance_files (__main__.AuthorityProtectionTests.test_product_snapshot_excludes_self_referential_maintenance_files) ... ok
+test_selection_contract_is_exact (__main__.AuthorityProtectionTests.test_selection_contract_is_exact) ... ok
+test_two_wiki_equivalences_and_confirmed_human_fields_are_protected (__main__.AuthorityProtectionTests.test_two_wiki_equivalences_and_confirmed_human_fields_are_protected) ... ok
+test_value_hash_tamper_fails (__main__.AuthorityProtectionTests.test_value_hash_tamper_fails) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 48.485s
+
+OK
+EXIT=0
+=== tools/test-build-v26-package.py ===
+test_missing_engine_is_rejected_without_output (__main__.DeterministicV26PackageTest.test_missing_engine_is_rejected_without_output) ... ok
+test_two_builds_are_identical_and_layout_is_exact (__main__.DeterministicV26PackageTest.test_two_builds_are_identical_and_layout_is_exact) ... ok
+test_validator_rejects_duplicate_and_forbidden_members (__main__.DeterministicV26PackageTest.test_validator_rejects_duplicate_and_forbidden_members) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.060s
+
+OK
+EXIT=0
+=== tools/test-verify-v26-product.py ===
+test_current_frontend53_partition_and_pass19_product (__main__.V26ProductAuthorityTests.test_current_frontend53_partition_and_pass19_product) ... ok
+test_frontend53_status_drift_is_rejected (__main__.V26ProductAuthorityTests.test_frontend53_status_drift_is_rejected) ... ok
+test_official_formation_node_reflux_is_rejected (__main__.V26ProductAuthorityTests.test_official_formation_node_reflux_is_rejected) ... ok
+test_old_kimochi_term_reflux_is_rejected (__main__.V26ProductAuthorityTests.test_old_kimochi_term_reflux_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.466s
+
+OK
+EXIT=0
+=== tools/test-v26-final-delivery.py ===
+test_bad_manifest_sha_stops_before_mutation (__main__.FinalDeliveryTests.test_bad_manifest_sha_stops_before_mutation) ... ok
+test_duplicate_product_zip_member_is_rejected (__main__.FinalDeliveryTests.test_duplicate_product_zip_member_is_rejected) ... ok
+test_manifest_covers_modified_added_deleted_and_binary_patch (__main__.FinalDeliveryTests.test_manifest_covers_modified_added_deleted_and_binary_patch) ... ok
+test_output_inside_repo_and_unlisted_change_fail_closed (__main__.FinalDeliveryTests.test_output_inside_repo_and_unlisted_change_fail_closed) ... ok
+test_post_apply_failure_compensates_to_exact_final_tree (__main__.FinalDeliveryTests.test_post_apply_failure_compensates_to_exact_final_tree) ... ok
+test_rollback_restores_exact_baseline_tree (__main__.FinalDeliveryTests.test_rollback_restores_exact_baseline_tree) ... ok
+test_shared_clone_can_verify_cached_roundtrip (__main__.FinalDeliveryTests.test_shared_clone_can_verify_cached_roundtrip) ... ok
+test_structurally_valid_stale_product_zip_is_rejected_before_output (__main__.FinalDeliveryTests.test_structurally_valid_stale_product_zip_is_rejected_before_output) ... ok
+test_tampered_but_structurally_valid_product_zip_is_rejected (__main__.FinalDeliveryTests.test_tampered_but_structurally_valid_product_zip_is_rejected) ... ok
+test_wrong_product_zip_contract_fails_before_output (__main__.FinalDeliveryTests.test_wrong_product_zip_contract_fails_before_output) ... ok
+test_wrong_submission_identity_fails_before_output (__main__.FinalDeliveryTests.test_wrong_submission_identity_fails_before_output) ... ok
+test_wrong_worktree_blob_sha_stops_before_mutation (__main__.FinalDeliveryTests.test_wrong_worktree_blob_sha_stops_before_mutation) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 36.763s
+
+OK
+EXIT=0
+=== tools/test-v26-validation-record.py ===
+test_cli_returns_nonzero_when_any_command_is_nonzero (__main__.ValidationRecordTest.test_cli_returns_nonzero_when_any_command_is_nonzero) ... ok
+test_deterministic_double_run_compares_literal_file_bytes (__main__.ValidationRecordTest.test_deterministic_double_run_compares_literal_file_bytes) ... ok
+test_engine_inspector_reports_prefix_and_empty_target_behavior (__main__.ValidationRecordTest.test_engine_inspector_reports_prefix_and_empty_target_behavior) ... ok
+test_git_status_after_tracked_mtime_change_cannot_refresh_real_index (__main__.ValidationRecordTest.test_git_status_after_tracked_mtime_change_cannot_refresh_real_index) ... ok
+test_index_guard_blocks_descendant_that_discards_read_only_environment (__main__.ValidationRecordTest.test_index_guard_blocks_descendant_that_discards_read_only_environment) ... ok
+test_nonzero_command_makes_entire_record_fail (__main__.ValidationRecordTest.test_nonzero_command_makes_entire_record_fail) ... ok
+test_sidecar_tamper_is_detected_on_reopen (__main__.ValidationRecordTest.test_sidecar_tamper_is_detected_on_reopen) ... ok
+test_success_captures_modified_and_isolated_baseline_commands (__main__.ValidationRecordTest.test_success_captures_modified_and_isolated_baseline_commands) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 5.050s
+
+OK
+EXIT=0
+=== tools/test-build-v26-final-allowlist.py ===
+test_current_worktree_snapshot_is_read_only_when_available (__main__.FinalAllowlistTests.test_current_worktree_snapshot_is_read_only_when_available) ... ok
+test_existing_output_and_unknown_extra_fail_before_write (__main__.FinalAllowlistTests.test_existing_output_and_unknown_extra_fail_before_write) ... ok
+test_explicit_manual_handoff_is_terminal_without_claiming_ds_complete (__main__.FinalAllowlistTests.test_explicit_manual_handoff_is_terminal_without_claiming_ds_complete) ... ok
+test_live_main_import_is_commit_bound_and_fails_on_drift (__main__.FinalAllowlistTests.test_live_main_import_is_commit_bound_and_fails_on_drift) ... ok
+test_manual_handoff_artifact_hash_drift_fails_closed (__main__.FinalAllowlistTests.test_manual_handoff_artifact_hash_drift_fails_closed) ... ok
+test_manual_handoff_retry_flag_and_top_level_seal_are_mandatory (__main__.FinalAllowlistTests.test_manual_handoff_retry_flag_and_top_level_seal_are_mandatory) ... ok
+test_nonterminal_is_fail_closed_but_writes_audit (__main__.FinalAllowlistTests.test_nonterminal_is_fail_closed_but_writes_audit) ... ok
+test_terminal_build_is_deterministic_and_exact (__main__.FinalAllowlistTests.test_terminal_build_is_deterministic_and_exact) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 19.319s
+
+OK
+EXIT=0
+ADDITIONAL_TESTS=58

@@ -59,6 +59,9 @@ class Pass20PromotionTests(unittest.TestCase):
             "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv": (
                 b"blank-final-values\n", b"completed-final-values\n", "human-final-values-audit",
             ),
+            "magica/i18n_audit/release_v26_authority/pass20_review_contract.json": (
+                b"old-review-contract\n", b"new-review-contract\n", "review-contract-audit",
+            ),
             "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx": (
                 b"blank-workbook", b"completed-workbook", "human-review-workbook-receipt",
             ),
@@ -130,7 +133,9 @@ class Pass20PromotionTests(unittest.TestCase):
             "review_contract": review_contract,
             "machine_inventory_items": 4,
             "human_review_items": 3,
+            "provenance_mode": "human-review",
             "canonical_human_review_items": 3,
+            "canonical_rough_production_items": 0,
             "reviewed_candidates_appended": 3,
             "higher_authority_shadowed_items": 1,
             "product_write_forbidden_items": 1,
@@ -262,6 +267,7 @@ class Pass20PromotionTests(unittest.TestCase):
             malicious,
             "i18n/reviewed-candidates.tsv",
             "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
+            "magica/i18n_audit/release_v26_authority/pass20_review_contract.json",
             "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
         ])
         report["changed_files"] = [malicious]
@@ -328,6 +334,56 @@ class Pass20PromotionTests(unittest.TestCase):
             self.run_promote(repo, stage, FakeProtection())
         for rel, (before, _after, _role) in files.items():
             self.assertEqual((repo / rel).read_bytes(), before)
+
+    def test_13_rough_production_promotes_without_human_review_claim(self):
+        temp, repo, stage, files = self.fixture()
+        self.addCleanup(temp.cleanup)
+        report_path = stage / "staging_verification.json"
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        report["provenance_mode"] = "rough-production"
+        report["canonical_human_review_items"] = 0
+        report["canonical_rough_production_items"] = 3
+        report_path.write_text(json.dumps(report), encoding="utf-8")
+        result = self.run_promote(repo, stage, FakeProtection())
+        self.assertEqual(result["provenance_mode"], "rough-production")
+        self.assertEqual(result["canonical_human_review_items"], 0)
+        self.assertEqual(result["canonical_rough_production_items"], 3)
+        for rel, (_before, after, _role) in files.items():
+            self.assertEqual((repo / rel).read_bytes(), after)
+
+    def test_14_rough_production_accepts_identical_preexisting_workbook_receipt(self):
+        temp, repo, stage, files = self.fixture()
+        self.addCleanup(temp.cleanup)
+        workbook = (
+            "magica/i18n_audit/release_v26_authority/"
+            "magireco_v26_translation_review_1565.xlsx"
+        )
+        _before, workbook_after, _role = files[workbook]
+        (repo / workbook).write_bytes(workbook_after)
+
+        manifest_path = stage / "rollback/rollback.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["files"] = [
+            record for record in manifest["files"] if record["path"] != workbook
+        ]
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+        report_path = stage / "staging_verification.json"
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        report["provenance_mode"] = "rough-production"
+        report["canonical_human_review_items"] = 0
+        report["canonical_rough_production_items"] = 3
+        report["repository_promotion_files"].remove(workbook)
+        report["canonical_changed_files"].remove(workbook)
+        report_path.write_text(json.dumps(report), encoding="utf-8")
+
+        result = self.run_promote(repo, stage, FakeProtection())
+        self.assertTrue(result["workbook_receipt_preexisting_identical"])
+        self.assertNotIn(workbook, result["promoted_files"])
+        self.assertEqual((repo / workbook).read_bytes(), workbook_after)
+        for rel, (_before, after, _role) in files.items():
+            if rel != workbook:
+                self.assertEqual((repo / rel).read_bytes(), after)
 
 
 if __name__ == "__main__":
