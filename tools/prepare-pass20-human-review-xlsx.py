@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
 OUT = ROOT / "_artifacts/spreadsheet_build/v26_translation_review_1565_input.json"
-SCHEMA = "magireco-cn-v26-translation-human-review-workbook/2"
+SCHEMA = "magireco-cn-v26-translation-human-review-workbook/3"
 
 
 def load_tsv(path: Path) -> list[dict[str, str]]:
@@ -37,14 +37,6 @@ def canonical(value: object) -> str:
 
 def digest_json(value: object) -> str:
     return sha256(canonical(value).encode("utf-8")).hexdigest()
-
-
-def first(mapping: dict[str, str], *keys: str) -> str:
-    for key in keys:
-        value = mapping.get(key, "")
-        if value:
-            return value
-    return ""
 
 
 source_path = AUDIT / "pass20_remaining_manual_review.tsv"
@@ -187,46 +179,6 @@ priority_output = [review_row(item_id, index, "priority") for index, item_id in 
 approved_output = [review_row(item_id, index, "approved") for index, item_id in enumerate(approved_order, 1)]
 
 
-def excluded_row(item_id: str, sequence: int, category: str) -> dict[str, object]:
-    sealed_row = sealed[item_id]
-    metadata = resolutions[item_id] if category == "authority-resolved" else shadow[item_id]
-    if category == "authority-resolved":
-        reason = "已有官方／Wiki／确认人工等高权威裁决"
-        authority_value = metadata.get("final_value", "")
-        machine_candidate = sealed_row.get("old_cn", "") or sealed_row.get("current_cn", "")
-        authority_tier = metadata.get("authority_tier", "")
-        evidence = metadata.get("evidence", "")
-    else:
-        reason = "机器候选已被更高权威值遮蔽"
-        machine_candidate = first(metadata, "machine_candidate", "low_tier_candidate", "candidate_cn") or sealed_row.get("old_cn", "")
-        authority_value = first(
-            metadata, "authority_value", "selected_value", "effective_cn", "final_value", "protected_authority_text"
-        ) or sealed_row.get("protected_authority_text", "") or sealed_row.get("current_cn", "")
-        authority_tier = first(metadata, "authority_tier", "selected_authority_tier", "highest_authority_tier")
-        evidence = first(metadata, "evidence", "authority_evidence", "selected_authority_evidence")
-    payload = {"category": category, "sealed": sealed_row, "metadata": metadata}
-    return {
-        "sequence": sequence,
-        "item_id": item_id,
-        "exclusion_reason": reason,
-        "original": sealed_row.get("japanese_or_source_original", ""),
-        "machine_candidate": machine_candidate,
-        "authority_value": authority_value,
-        "authority_tier": authority_tier,
-        "authority_evidence": evidence,
-        "source_location": f"{sealed_row.get('source_path', '')}#{sealed_row.get('source_key', '')}",
-        "source_record_sha256": digest_json(sealed_row),
-        "excluded_row_sha256": digest_json(payload),
-        "excluded_row_json": canonical(payload),
-    }
-
-
-excluded_output = []
-for item_id in sorted(resolutions, key=lambda value: (int(sealed[value].get("source_index", "0")), value)):
-    excluded_output.append(excluded_row(item_id, len(excluded_output) + 1, "authority-resolved"))
-for item_id in sorted(shadow, key=lambda value: (int(sealed[value].get("source_index", "0")), value)):
-    excluded_output.append(excluded_row(item_id, len(excluded_output) + 1, "higher-authority-shadowed"))
-
 payload = {
     "schema": SCHEMA,
     "counts": expected,
@@ -234,12 +186,12 @@ payload = {
     "priority_tsv": "magica/i18n_audit/release_v26_authority/pass20_priority_manual_review.tsv",
     "inventory_tsv": "magica/i18n_audit/release_v26_authority/pass20_machine_source_inventory.tsv",
     "shadow_tsv": "magica/i18n_audit/release_v26_authority/pass20_authority_shadowed_machine_items.tsv",
+    "authority_resolution_tsv": "magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv",
     "target_manifest": "magica/i18n_audit/release_v26_authority/pass20_product_targets.json",
     "sealed_review": "magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/full_review.tsv",
     "target_contract_sha256": target_contract_sha256,
     "priority_rows": priority_output,
     "approved_rows": approved_output,
-    "excluded_rows": excluded_output,
 }
 OUT.parent.mkdir(parents=True, exist_ok=True)
 OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")

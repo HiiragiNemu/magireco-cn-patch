@@ -49,7 +49,7 @@ for sheet in workbook.findall(f"./{q('sheets')}/{q('sheet')}"):
     if target not in blobs or not target.startswith("xl/worksheets/"):
         raise SystemExit(f"unsafe worksheet target: {name}")
     sheet_paths[name] = target
-expected_sheets = {"说明", "①优先审核199", "②DS已审1366", "只读排除347"}
+expected_sheets = {"说明", "①优先审核199", "②DS已审1366"}
 if set(sheet_paths) != expected_sheets:
     raise SystemExit(f"sheet set drifted: {set(sheet_paths)}")
 
@@ -170,15 +170,6 @@ for name, count in (("①优先审核199", 199), ("②DS已审1366", 1366)):
     ])
     hide_columns(sheet, 18, 25)
     add_protection(sheet, allow_sort_filter=True)
-
-readonly = sheets["只读排除347"]
-set_pane(readonly, {"xSplit": "2", "ySplit": "1", "topLeftCell": "C2", "activePane": "bottomRight", "state": "frozen"}, [
-    {"pane": "topRight", "activeCell": "C1", "sqref": "C1"},
-    {"pane": "bottomLeft", "activeCell": "A2", "sqref": "A2"},
-    {"pane": "bottomRight", "activeCell": "C2", "sqref": "C2"},
-])
-hide_columns(readonly, 11, 14)
-add_protection(readonly, allow_sort_filter=True)
 
 blobs["xl/styles.xml"] = ET.tostring(styles, encoding="utf-8", xml_declaration=True)
 for name, sheet in sheets.items():

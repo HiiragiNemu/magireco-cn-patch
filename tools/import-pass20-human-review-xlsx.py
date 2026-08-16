@@ -29,7 +29,7 @@ DEFAULT_RESOLUTIONS = AUDIT / "pass20_authority_resolutions.tsv"
 DEFAULT_SEALED = AUDIT / "dsv4_terminal_handoff/full_review.tsv"
 DEFAULT_DECISIONS = AUDIT / "dsv4_human_decisions.tsv"
 DEFAULT_TARGETS = AUDIT / "pass20_product_targets.json"
-SCHEMA = "magireco-cn-v26-translation-human-review-workbook/2"
+SCHEMA = "magireco-cn-v26-translation-human-review-workbook/3"
 EXPECTED_COUNTS = {
     "inventory": 1589,
     "human": 1565,
@@ -39,7 +39,7 @@ EXPECTED_COUNTS = {
     "authority": 323,
     "shadowed": 24,
 }
-SHEETS = ("说明", "①优先审核199", "②DS已审1366", "只读排除347")
+SHEETS = ("说明", "①优先审核199", "②DS已审1366")
 EDIT_SHEETS = {"①优先审核199": ("priority", 199), "②DS已审1366": ("approved", 1366)}
 NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
@@ -51,10 +51,6 @@ HEADERS = (
     "维护层类型", "维护表", "原文键", "路径前缀", "产品目标路径", "匹配次数", "上下文片段",
     "人工决定", "最终中文", "人工备注", "__source_text_sha256", "__source_record_sha256",
     "__target_contract_sha256", "__target_row_sha256", "__stable_business_key", "__target_manifest_index", "__schema_version", "__partition",
-)
-EXCLUDED_HEADERS = (
-    "序号", "稳定ID", "排除原因", "原文（日文/源文）", "机器候选", "高权威／最终中文", "权威层级", "权威证据",
-    "来源位置", "产品回填状态", "__source_record_sha256", "__excluded_row_sha256", "__excluded_row_json", "__schema_version",
 )
 DECISION_LABELS = {
     "保留现译": "approve-current",
@@ -200,7 +196,6 @@ def _require_table_ranges(package: zipfile.ZipFile, sheet_paths: dict[str, str])
     expected = {
         "①优先审核199": "A1:Y200",
         "②DS已审1366": "A1:Y1367",
-        "只读排除347": "A1:N348",
     }
     for sheet_name, table_ref in expected.items():
         sheet_path = sheet_paths[sheet_name]
@@ -241,6 +236,20 @@ def _parse_sheet(package: zipfile.ZipFile, path: str, shared: list[str]) -> dict
         if cell.find(Q("f")) is not None:
             formulas.add(ref)
     return {"root": root, "cells": cells, "formulas": formulas, "styles": styles}
+
+
+def _require_external_authority_ids_absent(
+    sheets: dict[str, dict[str, Any]], external_item_ids: set[str]
+) -> None:
+    """Keep authority-resolved records entirely outside the human workbook."""
+    pattern = re.compile("|".join(re.escape(item_id) for item_id in sorted(external_item_ids, key=len, reverse=True)))
+    for sheet_name, sheet in sheets.items():
+        for reference, value in sheet["cells"].items():
+            matched = pattern.search(value)
+            if matched is not None:
+                raise WorkbookImportError(
+                    f"external authority item appears in workbook: {matched.group(0)} at {sheet_name}!{reference}"
+                )
 
 
 def _styles_unlocked(package: zipfile.ZipFile) -> dict[int, bool]:
@@ -311,15 +320,6 @@ def _require_workbook_ui(
                 matched = all(label in values for label in DECISION_LABELS)
         if not matched:
             raise WorkbookImportError(f"{name} Chinese decision dropdown drifted")
-    readonly = sheets["只读排除347"]
-    _require_pane(readonly, "只读排除347")
-    if not set(range(11, 15)).issubset(_hidden_columns(readonly)):
-        raise WorkbookImportError("只读排除347 hidden audit columns K:N drifted")
-    for row in range(2, EXPECTED_COUNTS["excluded"] + 2):
-        for column in "ABCDEFGHIJKLMN":
-            ref = f"{column}{row}"
-            if unlocked.get(readonly["styles"].get(ref, -1), False):
-                raise WorkbookImportError(f"read-only exclusion cell is unlocked: {ref}")
 
 
 def _literal_equal(actual: str, expected: str) -> bool:
@@ -371,44 +371,6 @@ def _target_display(target: dict[str, Any]) -> tuple[str, str]:
         "\n".join(str(value) for value in paths),
         "\n".join(str(value) for value in contexts).rstrip(" \r\n"),
     )
-
-
-def _first(mapping: dict[str, str], *keys: str) -> str:
-    for key in keys:
-        value = mapping.get(key, "")
-        if value:
-            return value
-    return ""
-
-
-def _excluded_expected(
-    item_id: str,
-    sealed: dict[str, str],
-    metadata: dict[str, str],
-    category: str,
-) -> tuple[dict[str, str], dict[str, object]]:
-    if category == "authority-resolved":
-        reason = "已有官方／Wiki／确认人工等高权威裁决"
-        machine_candidate = sealed.get("old_cn", "") or sealed.get("current_cn", "")
-        authority_value = metadata.get("final_value", "")
-        authority_tier = metadata.get("authority_tier", "")
-        evidence = metadata.get("evidence", "")
-    else:
-        reason = "机器候选已被更高权威值遮蔽"
-        machine_candidate = _first(metadata, "machine_candidate", "low_tier_candidate", "candidate_cn") or sealed.get("old_cn", "")
-        authority_value = _first(
-            metadata, "authority_value", "selected_value", "effective_cn", "final_value", "protected_authority_text"
-        ) or sealed.get("protected_authority_text", "") or sealed.get("current_cn", "")
-        authority_tier = _first(metadata, "authority_tier", "selected_authority_tier", "highest_authority_tier")
-        evidence = _first(metadata, "evidence", "authority_evidence", "selected_authority_evidence")
-    payload = {"category": category, "sealed": sealed, "metadata": metadata}
-    visible = {
-        "B": item_id, "C": reason, "D": sealed.get("japanese_or_source_original", ""),
-        "E": machine_candidate, "F": authority_value, "G": authority_tier, "H": evidence,
-        "I": f"{sealed.get('source_path', '')}#{sealed.get('source_key', '')}", "J": "禁止机器候选回填",
-        "K": json_digest(sealed), "L": json_digest(payload), "M": canonical_json(payload), "N": SCHEMA,
-    }
-    return visible, payload
 
 
 def _sheet_data_rows(sheet: dict[str, Any], headers: tuple[str, ...], count: int, label: str) -> dict[str, int]:
@@ -553,6 +515,9 @@ def import_workbook(
         sheets = {name: _parse_sheet(package, paths[name], shared) for name in SHEETS}
         _require_workbook_ui(sheets, _styles_unlocked(package), {name: count for name, (_partition, count) in EDIT_SHEETS.items()})
 
+    expected_excluded = set(resolutions) | set(shadow)
+    _require_external_authority_ids_absent(sheets, expected_excluded)
+
     if sheets["说明"]["formulas"].intersection({"B18", "B19"}):
         raise WorkbookImportError("reviewer or timestamp cell contains a formula")
     reviewer = sheets["说明"]["cells"].get("B18", "").strip()
@@ -648,20 +613,6 @@ def import_workbook(
                 "human_notes": combined_notes,
             }
 
-    readonly = sheets["只读排除347"]
-    readonly_rows = _sheet_data_rows(readonly, EXCLUDED_HEADERS, EXPECTED_COUNTS["excluded"], "只读排除347")
-    expected_excluded = set(resolutions) | set(shadow)
-    if set(readonly_rows) != expected_excluded:
-        raise WorkbookImportError("只读排除347 stable ID set drifted")
-    for item_id, row_number in readonly_rows.items():
-        category = "authority-resolved" if item_id in resolutions else "higher-authority-shadowed"
-        metadata = resolutions.get(item_id) or shadow[item_id]
-        visible, _payload = _excluded_expected(item_id, sealed[item_id], metadata, category)
-        for column, expected in visible.items():
-            actual = readonly["cells"].get(f"{column}{row_number}", "")
-            if not _literal_equal(actual, expected):
-                raise WorkbookImportError(f"read-only exclusion field drift {column}: {item_id}")
-
     for item_id in expected_excluded:
         if any(decisions[item_id].get(field, "") for field in DECISION_FIELDS):
             raise WorkbookImportError(f"excluded item carries a human decision: {item_id}")
@@ -681,12 +632,13 @@ def import_workbook(
     for update in parsed_decisions.values():
         counts[update["human_decision"]] += 1
     return {
-        "schema": "magireco-cn-v26-translation-xlsx-import/2",
+        "schema": "magireco-cn-v26-translation-xlsx-import/3",
         "status": "PASS",
         "workbook_rows": EXPECTED_COUNTS["human"],
         "priority_rows": EXPECTED_COUNTS["priority"],
         "approved_machine_rows": EXPECTED_COUNTS["approved"],
-        "read_only_excluded_rows": EXPECTED_COUNTS["excluded"],
+        "workbook_excluded_rows": 0,
+        "external_authority_audit_rows": EXPECTED_COUNTS["excluded"],
         "higher_authority_shadowed_rows": EXPECTED_COUNTS["shadowed"],
         "decisions_imported": len(parsed_decisions),
         "decision_rows_changed": changed,

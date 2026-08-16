@@ -87,12 +87,13 @@ class Pass20WorkbookBuildTests(unittest.TestCase):
         self.assertIn("__target_manifest_index", source)
         self.assertNotIn("openpyxl", source.lower())
 
-    def test_02_existing_workbook_has_four_bound_sheets_and_ui_contract(self):
+    def test_02_existing_workbook_has_three_bound_sheets_and_ui_contract(self):
         result = BUILDER.verify_outputs()
         self.assertEqual(result["counts"]["workbook_rows"], 1565)
         with zipfile.ZipFile(BUILDER.CANONICAL) as package:
             paths = IMPORTER._sheet_paths(package)
             self.assertEqual(tuple(paths), IMPORTER.SHEETS)
+            self.assertNotIn("只读排除347", paths)
             shared = IMPORTER._shared_strings(package)
             parsed = {
                 name: IMPORTER._parse_sheet(package, member, shared)

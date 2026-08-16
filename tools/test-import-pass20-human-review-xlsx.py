@@ -149,10 +149,12 @@ class Pass20WorkbookImportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             output = Path(temp) / "decisions.tsv"
             result = self.invoke(WORKBOOK, output)
+            self.assertEqual(result["schema"], "magireco-cn-v26-translation-xlsx-import/3")
             self.assertEqual(result["workbook_rows"], 1565)
             self.assertEqual(result["priority_rows"], 199)
             self.assertEqual(result["approved_machine_rows"], 1366)
-            self.assertEqual(result["read_only_excluded_rows"], 347)
+            self.assertEqual(result["workbook_excluded_rows"], 0)
+            self.assertEqual(result["external_authority_audit_rows"], 347)
             self.assertEqual(result["higher_authority_shadowed_rows"], 24)
             self.assertEqual(result["decisions_imported"], 0)
             self.assertEqual(output.read_bytes(), DECISIONS.read_bytes())
@@ -249,18 +251,24 @@ class Pass20WorkbookImportTests(unittest.TestCase):
     def test_10_formula_in_human_cell_is_rejected(self):
         self.assert_rejected(lambda sheets: set_formula(sheets["①优先审核199"], "P2", "1+1"), "contain a formula")
 
-    def test_11_shadowed_rows_are_read_only_and_not_editable(self):
+    def test_11_authority_rows_are_external_only_and_not_editable(self):
         editable = {
             self.cells[sheet]["cells"][f"B{row}"]
             for sheet, count in (("①优先审核199", 199), ("②DS已审1366", 1366))
             for row in range(2, count + 2)
         }
-        readonly = {self.cells["只读排除347"]["cells"][f"B{row}"] for row in range(2, 349)}
         with SHADOW.open(encoding="utf-8", newline="") as stream:
             shadow = {row["item_id"] for row in csv.DictReader(stream, delimiter="\t")}
-        self.assertTrue(shadow <= readonly)
+        with RESOLUTIONS.open(encoding="utf-8", newline="") as stream:
+            resolutions = {row["item_id"] for row in csv.DictReader(stream, delimiter="\t")}
         self.assertTrue(shadow.isdisjoint(editable))
-        self.assert_rejected(lambda sheets: set_text(sheets["只读排除347"], "F2", "机器候选"), "read-only exclusion field drift F")
+        self.assertTrue(resolutions.isdisjoint(editable))
+        self.assertEqual(set(self.cells), set(TOOL.SHEETS))
+        external_id = sorted(shadow | resolutions)[0]
+        self.assert_rejected(
+            lambda sheets: set_text(sheets["说明"], "B35", external_id),
+            "external authority item appears in workbook",
+        )
 
     def test_12_reserved_deletion_token_is_rejected(self):
         def mutate(sheets):
