@@ -414,6 +414,12 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertNotIn("bot@magiacn.com", self.text)
 
     def test_downstream_latest_mirror_is_incremental_then_complete_verified(self):
+        mirror = self.workflow_jobs()["mirror-release"]
+        checkout = mirror.index("name: 📦 检出镜像事务工具")
+        transaction_import = mirror.index("from scripts.release_asset_transaction import")
+        self.assertLess(checkout, transaction_import)
+        self.assertIn("scripts/release_asset_transaction.py", mirror)
+        self.assertIn("sparse-checkout-cone-mode: false", mirror)
         self.assertIn("replace_release_asset_set(", self.text)
         self.assertIn("class TransactionalMirrorBackend:", self.text)
         self.assertNotIn("def upload_to_release(", self.text)
