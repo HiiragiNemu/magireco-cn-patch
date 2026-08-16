@@ -104,6 +104,10 @@ def validate_review_contract(value: object) -> dict[str, Any]:
         "shadowed_low_tier_candidates_written", "shadowed_product_writes",
     )
     result: dict[str, Any] = {}
+    provenance_mode = value.get("provenance_mode")
+    if provenance_mode not in {"human-review", "rough-production"}:
+        raise RollbackError("rollback review contract has an invalid provenance_mode")
+    result["provenance_mode"] = provenance_mode
     for name in names:
         raw = value.get(name)
         if not isinstance(raw, int) or isinstance(raw, bool) or raw < 0:
@@ -129,7 +133,8 @@ def validate_review_contract(value: object) -> dict[str, Any]:
         raise RollbackError("rollback global/override/fragment partition drifted")
     for name in (
         "source_records_sha256", "target_contract_sha256", "authority_shadow_manifest_sha256",
-        "authority_resolutions_sha256",
+        "authority_resolutions_sha256", "final_values_receipt_sha256",
+        "reviewed_candidates_sha256", "materialized_review_contract_sha256",
     ):
         digest = value.get(name)
         if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):

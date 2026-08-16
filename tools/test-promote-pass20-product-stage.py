@@ -47,20 +47,127 @@ class FakeProtection:
 
 
 class Pass20PromotionTests(unittest.TestCase):
-    def fixture(self):
+    def fixture(self, provenance_mode: str = "human-review"):
         temp = tempfile.TemporaryDirectory(prefix="pass20-promote-test-")
         base = Path(temp.name)
         repo = base / "repo"
         stage = base / "stage"
         records = []
+        if provenance_mode == "human-review":
+            review_status = "human-confirmed-machine-origin-retained"
+            authority = "existing_human_reviewed"
+            source_batch = "pass20-human-final-values-v1"
+            canonical_human = 3
+            canonical_rough = 0
+        elif provenance_mode == "rough-production":
+            review_status = "rough-production-machine-current-retained"
+            authority = "new_proposal"
+            source_batch = "pass20-rough-production-final-values-v1"
+            canonical_human = 0
+            canonical_rough = 3
+        else:
+            raise AssertionError(f"unsupported fixture provenance: {provenance_mode}")
+        final_rows = []
+        candidate_rows = []
+        target_rows = []
+        for number in range(1, 4):
+            item_id = f"LOW-MT-{number:05d}"
+            source_text = f"source-{number}"
+            final_value = f"candidate-{number}"
+            target = {
+                "item_id": item_id,
+                "maintenance_scope": "global",
+                "maintenance_table": "i18n/frontend-strings.tsv",
+                "path_prefix": "",
+                "source_key": f"fixture-{number}",
+                "source_text": source_text,
+                "stable_business_key": f"fixture#{number}/candidate_cn",
+                "match_status": "exact-current-runtime-literal",
+            }
+            target_rows.append(target)
+            final_row = {
+                field: "" for field in PROMOTE.FINAL_VALUE_FIELDS
+            }
+            final_row.update({
+                "item_id": item_id,
+                "stable_business_key": f"fixture#{number}/candidate_cn",
+                "source_path": "i18n/frontend-strings.tsv",
+                "source_key": f"fixture-{number}",
+                "source_field": "candidate_cn",
+                "japanese_or_source_original": source_text,
+                "seed_cn": final_value,
+                "seed_origin": "current",
+                "current_cn": final_value,
+                "final_value": final_value,
+                "source_record_sha256": str(number) * 64,
+                "target_contract_sha256": PROMOTE._canonical_json_digest(target),
+                "review_status": review_status,
+                "final_origin": "machine-current",
+                "machine_translated": "unknown",
+            })
+            final_rows.append(final_row)
+            candidate_row = {field: "" for field in PROMOTE.REVIEWED_COLUMNS}
+            candidate_row.update({
+                "scope": "global",
+                "source_text": source_text,
+                "candidate_cn": final_value,
+                "status": "present",
+                "authority": authority,
+                "source_batch": source_batch,
+                "source_locator": f"{PROMOTE.FINAL_VALUE_LOCATOR_BASE}{provenance_mode}:{item_id}",
+                "match_method": (
+                    "exact-semantic-key-human-review"
+                    if provenance_mode == "human-review"
+                    else "exact-semantic-key-user-directed-rough-production"
+                ),
+                "machine_translated": "unknown",
+                "confidence": (
+                    "human-approved"
+                    if provenance_mode == "human-review"
+                    else "user-directed-rough-production-unreviewed"
+                ),
+                "review_status": review_status,
+                "evidence": (
+                    f"item_id={item_id}; final_origin=machine-current; "
+                    f"provenance_mode={provenance_mode}; "
+                    "target_status=exact-current-runtime-literal"
+                ),
+            })
+            candidate_rows.append(candidate_row)
+        final_values_after = (
+            "\t".join(PROMOTE.FINAL_VALUE_FIELDS) + "\n"
+            + "".join(
+                "\t".join(row[field] for field in PROMOTE.FINAL_VALUE_FIELDS) + "\n"
+                for row in final_rows
+            )
+        ).encode("utf-8")
+        candidates_after = (
+            "# " + "\t".join(PROMOTE.REVIEWED_COLUMNS) + "\n"
+            + "".join(
+                "\t".join(row[field] for field in PROMOTE.REVIEWED_COLUMNS) + "\n"
+                for row in candidate_rows
+            )
+        ).encode("utf-8")
+        materialized_contract_after = (
+            json.dumps({
+                "schema": "magireco-cn-pass20-review-contract/2",
+                "status": "PASS",
+                "post_final_value_materialization": {
+                    "items": 3,
+                    "provenance_mode": provenance_mode,
+                    "queue_and_targets_frozen": True,
+                    "machine_provenance_retained": provenance_mode == "rough-production",
+                },
+            }, sort_keys=True) + "\n"
+        ).encode("utf-8")
         files = {
             "magica/template/fixture.html": (b"<p>old</p>\n", b"<p>new</p>\n", "runtime-product"),
-            "i18n/reviewed-candidates.tsv": (b"old-candidate\n", b"new-candidate\n", "canonical-i18n"),
+            "i18n/reviewed-candidates.tsv": (b"old-candidate\n", candidates_after, "canonical-i18n"),
             "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv": (
-                b"blank-final-values\n", b"completed-final-values\n", "human-final-values-audit",
+                b"blank-final-values\n", final_values_after, "human-final-values-audit",
             ),
             "magica/i18n_audit/release_v26_authority/pass20_review_contract.json": (
-                b"old-review-contract\n", b"new-review-contract\n", "review-contract-audit",
+                b"old-review-contract\n", materialized_contract_after, "review-contract-audit",
             ),
             "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx": (
                 b"blank-workbook", b"completed-workbook", "human-review-workbook-receipt",
@@ -87,9 +194,16 @@ class Pass20PromotionTests(unittest.TestCase):
                 "before_size": len(before),
                 "after_size": len(after),
             })
+        target_manifest = (
+            json.dumps({
+                "schema": "magireco-cn-pass20-product-target-manifest/1",
+                "status": "PASS",
+                "items": target_rows,
+            }, ensure_ascii=False, sort_keys=True) + "\n"
+        ).encode("utf-8")
         contract_sources = {
             "magica/i18n_audit/release_v26_authority/pass20_remaining_manual_review.tsv": b"queue\n",
-            "magica/i18n_audit/release_v26_authority/pass20_product_targets.json": b"{}\n",
+            "magica/i18n_audit/release_v26_authority/pass20_product_targets.json": target_manifest,
             "magica/i18n_audit/release_v26_authority/pass20_authority_shadowed_machine_items.json": b"{}\n",
             "magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv": b"resolutions\n",
         }
@@ -98,6 +212,7 @@ class Pass20PromotionTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(data)
         review_contract = {
+            "provenance_mode": provenance_mode,
             "machine_inventory_items": 4,
             "human_review_items": 3,
             "materialization_items": 3,
@@ -124,6 +239,9 @@ class Pass20PromotionTests(unittest.TestCase):
             "authority_resolutions_sha256": PROMOTE.digest(contract_sources[
                 "magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv"
             ]),
+            "final_values_receipt_sha256": PROMOTE.digest(final_values_after),
+            "reviewed_candidates_sha256": PROMOTE.digest(candidates_after),
+            "materialized_review_contract_sha256": PROMOTE.digest(materialized_contract_after),
         }
         report = {
             "schema": "magireco-cn-pass20-product-staging/1",
@@ -133,9 +251,9 @@ class Pass20PromotionTests(unittest.TestCase):
             "review_contract": review_contract,
             "machine_inventory_items": 4,
             "human_review_items": 3,
-            "provenance_mode": "human-review",
-            "canonical_human_review_items": 3,
-            "canonical_rough_production_items": 0,
+            "provenance_mode": provenance_mode,
+            "canonical_human_review_items": canonical_human,
+            "canonical_rough_production_items": canonical_rough,
             "reviewed_candidates_appended": 3,
             "higher_authority_shadowed_items": 1,
             "product_write_forbidden_items": 1,
@@ -177,6 +295,23 @@ class Pass20PromotionTests(unittest.TestCase):
             mock.patch.object(PROMOTE, "run_node_checks", return_value=0),
         ):
             return PROMOTE.promote(stage, repo, report_path)
+
+    @staticmethod
+    def rebind_staged_file(stage: Path, rel: str, data: bytes, contract_field: str) -> None:
+        """Simulate internally rehashed, but semantically inconsistent, staged content."""
+        (stage / rel).write_bytes(data)
+        (stage / "rollback/after" / rel).write_bytes(data)
+        manifest_path = stage / "rollback/rollback.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        record = next(item for item in manifest["files"] if item["path"] == rel)
+        record["after_sha256"] = PROMOTE.digest(data)
+        record["after_size"] = len(data)
+        manifest["review_contract"][contract_field] = PROMOTE.digest(data)
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        report_path = stage / "staging_verification.json"
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        report["review_contract"][contract_field] = PROMOTE.digest(data)
+        report_path.write_text(json.dumps(report), encoding="utf-8")
 
     def test_01_success_promotes_exact_runtime_and_canonical_files(self):
         temp, repo, stage, files = self.fixture()
@@ -335,7 +470,7 @@ class Pass20PromotionTests(unittest.TestCase):
         for rel, (before, _after, _role) in files.items():
             self.assertEqual((repo / rel).read_bytes(), before)
 
-    def test_13_rough_production_promotes_without_human_review_claim(self):
+    def test_13_report_only_provenance_tamper_rejects_without_writes(self):
         temp, repo, stage, files = self.fixture()
         self.addCleanup(temp.cleanup)
         report_path = stage / "staging_verification.json"
@@ -344,15 +479,15 @@ class Pass20PromotionTests(unittest.TestCase):
         report["canonical_human_review_items"] = 0
         report["canonical_rough_production_items"] = 3
         report_path.write_text(json.dumps(report), encoding="utf-8")
-        result = self.run_promote(repo, stage, FakeProtection())
-        self.assertEqual(result["provenance_mode"], "rough-production")
-        self.assertEqual(result["canonical_human_review_items"], 0)
-        self.assertEqual(result["canonical_rough_production_items"], 3)
-        for rel, (_before, after, _role) in files.items():
-            self.assertEqual((repo / rel).read_bytes(), after)
+        with self.assertRaisesRegex(
+            PROMOTE.PromotionError, "provenance mode differs from its rollback contract",
+        ):
+            self.run_promote(repo, stage, FakeProtection())
+        for rel, (before, _after, _role) in files.items():
+            self.assertEqual((repo / rel).read_bytes(), before)
 
     def test_14_rough_production_accepts_identical_preexisting_workbook_receipt(self):
-        temp, repo, stage, files = self.fixture()
+        temp, repo, stage, files = self.fixture("rough-production")
         self.addCleanup(temp.cleanup)
         workbook = (
             "magica/i18n_audit/release_v26_authority/"
@@ -370,9 +505,6 @@ class Pass20PromotionTests(unittest.TestCase):
 
         report_path = stage / "staging_verification.json"
         report = json.loads(report_path.read_text(encoding="utf-8"))
-        report["provenance_mode"] = "rough-production"
-        report["canonical_human_review_items"] = 0
-        report["canonical_rough_production_items"] = 3
         report["repository_promotion_files"].remove(workbook)
         report["canonical_changed_files"].remove(workbook)
         report_path.write_text(json.dumps(report), encoding="utf-8")
@@ -384,6 +516,86 @@ class Pass20PromotionTests(unittest.TestCase):
         for rel, (_before, after, _role) in files.items():
             if rel != workbook:
                 self.assertEqual((repo / rel).read_bytes(), after)
+
+    def test_15_rehashed_candidate_semantic_drift_rejects_without_writes(self):
+        temp, repo, stage, files = self.fixture()
+        self.addCleanup(temp.cleanup)
+        rel = "i18n/reviewed-candidates.tsv"
+        tampered = (stage / rel).read_bytes().replace(b"candidate-1", b"tampered-1", 1)
+        self.rebind_staged_file(stage, rel, tampered, "reviewed_candidates_sha256")
+        with self.assertRaisesRegex(
+            PROMOTE.PromotionError, "reviewed candidate differs from its final-value receipt",
+        ):
+            self.run_promote(repo, stage, FakeProtection())
+        for path, (before, _after, _role) in files.items():
+            self.assertEqual((repo / path).read_bytes(), before)
+
+    def test_16_rehashed_materialized_contract_mode_drift_rejects_without_writes(self):
+        temp, repo, stage, files = self.fixture()
+        self.addCleanup(temp.cleanup)
+        rel = "magica/i18n_audit/release_v26_authority/pass20_review_contract.json"
+        payload = json.loads((stage / rel).read_text(encoding="utf-8"))
+        post = payload["post_final_value_materialization"]
+        post["provenance_mode"] = "rough-production"
+        post["machine_provenance_retained"] = True
+        tampered = (json.dumps(payload, sort_keys=True) + "\n").encode("utf-8")
+        self.rebind_staged_file(
+            stage, rel, tampered, "materialized_review_contract_sha256",
+        )
+        with self.assertRaisesRegex(
+            PROMOTE.PromotionError, "materialized review contract provenance drifted",
+        ):
+            self.run_promote(repo, stage, FakeProtection())
+        for path, (before, _after, _role) in files.items():
+            self.assertEqual((repo / path).read_bytes(), before)
+
+    def test_17_rehashed_low_tier_human_label_rejects_without_writes(self):
+        temp, repo, stage, files = self.fixture("rough-production")
+        self.addCleanup(temp.cleanup)
+        rel = "i18n/reviewed-candidates.tsv"
+        tampered = (stage / rel).read_bytes().replace(
+            b"exact-semantic-key-user-directed-rough-production",
+            b"exact-semantic-key-human-review",
+        ).replace(
+            b"user-directed-rough-production-unreviewed", b"human-approved",
+        )
+        self.rebind_staged_file(stage, rel, tampered, "reviewed_candidates_sha256")
+        with self.assertRaisesRegex(
+            PROMOTE.PromotionError, "reviewed candidate differs from its final-value receipt",
+        ):
+            self.run_promote(repo, stage, FakeProtection())
+        for path, (before, _after, _role) in files.items():
+            self.assertEqual((repo / path).read_bytes(), before)
+
+    def test_18_rehashed_rough_user_origin_rejects_without_writes(self):
+        temp, repo, stage, files = self.fixture("rough-production")
+        self.addCleanup(temp.cleanup)
+        receipt_rel = (
+            "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv"
+        )
+        receipt = (stage / receipt_rel).read_bytes().replace(
+            b"rough-production-machine-current-retained\tmachine-current\tunknown",
+            b"rough-production-user-edited-retained\tuser-edited\tunknown",
+        )
+        self.rebind_staged_file(
+            stage, receipt_rel, receipt, "final_values_receipt_sha256",
+        )
+        candidate_rel = "i18n/reviewed-candidates.tsv"
+        candidate = (stage / candidate_rel).read_bytes().replace(
+            b"rough-production-machine-current-retained\t",
+            b"rough-production-user-edited-retained\t",
+        ).replace(
+            b"final_origin=machine-current", b"final_origin=user-edited",
+        )
+        self.rebind_staged_file(
+            stage, candidate_rel, candidate, "reviewed_candidates_sha256",
+        )
+        with self.assertRaisesRegex(
+            PROMOTE.PromotionError, "receipt origin is invalid for its mode",
+        ):
+            self.run_promote(repo, stage, FakeProtection())
+        for path, (before, _after, _role) in files.items():
+            self.assertEqual((repo / path).read_bytes(), before)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,35 @@
+
+===== tools/test-promote-pass20-product-stage.py =====
+..................
+----------------------------------------------------------------------
+Ran 18 tests in 0.854s
+
+OK
+
+===== tools/test-rollback-pass20-product-stage.py =====
+test_01_relocated_stage_rolls_back_exact_bytes (__main__.Pass20RollbackTests.test_01_relocated_stage_rolls_back_exact_bytes) ... ok
+test_02_backslash_traversal_is_rejected (__main__.Pass20RollbackTests.test_02_backslash_traversal_is_rejected) ... ok
+test_03_snapshot_digest_drift_is_rejected (__main__.Pass20RollbackTests.test_03_snapshot_digest_drift_is_rejected) ... ok
+test_04_duplicate_product_path_is_rejected (__main__.Pass20RollbackTests.test_04_duplicate_product_path_is_rejected) ... ok
+test_05_second_file_failure_compensates_to_after_and_is_retryable (__main__.Pass20RollbackTests.test_05_second_file_failure_compensates_to_after_and_is_retryable) ... ok
+test_06_shadowed_low_tier_write_contract_is_rejected (__main__.Pass20RollbackTests.test_06_shadowed_low_tier_write_contract_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.094s
+
+OK
+
+===== tools/test-stage-pass20-human-review-product.py =====
+test_01_header_only_final_values_keep_stage_closed (__main__.FinalValueStageTests.test_01_header_only_final_values_keep_stage_closed) ... ok
+test_02_reviewed_candidate_provenance_is_derived_from_receipt (__main__.FinalValueStageTests.test_02_reviewed_candidate_provenance_is_derived_from_receipt) ... ok
+test_03_preapplied_pass21_runtime_baseline_is_required (__main__.FinalValueStageTests.test_03_preapplied_pass21_runtime_baseline_is_required) ... ok
+test_04_explicit_and_canonical_only_adoptions_are_distinguished (__main__.FinalValueStageTests.test_04_explicit_and_canonical_only_adoptions_are_distinguished) ... ok
+test_05_target_contract_remains_frozen_at_1565 (__main__.FinalValueStageTests.test_05_target_contract_remains_frozen_at_1565) ... ok
+test_06_rough_production_candidate_stays_low_authority (__main__.FinalValueStageTests.test_06_rough_production_candidate_stays_low_authority) ... ok
+test_07_human_review_can_follow_existing_rough_provenance (__main__.FinalValueStageTests.test_07_human_review_can_follow_existing_rough_provenance) ... ok
+test_08_review_contract_is_rebound_to_staged_provenance (__main__.FinalValueStageTests.test_08_review_contract_is_rebound_to_staged_provenance) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.543s
+
+OK

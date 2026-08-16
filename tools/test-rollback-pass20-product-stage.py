@@ -29,6 +29,7 @@ TOOL = load_tool()
 
 def review_contract() -> dict[str, object]:
     return {
+        "provenance_mode": "human-review",
         "machine_inventory_items": 4,
         "human_review_items": 3,
         "materialization_items": 3,
@@ -47,6 +48,9 @@ def review_contract() -> dict[str, object]:
         "target_contract_sha256": "1" * 64,
         "authority_shadow_manifest_sha256": "2" * 64,
         "authority_resolutions_sha256": "3" * 64,
+        "final_values_receipt_sha256": "4" * 64,
+        "reviewed_candidates_sha256": "5" * 64,
+        "materialized_review_contract_sha256": "6" * 64,
     }
 
 

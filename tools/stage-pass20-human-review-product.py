@@ -999,6 +999,7 @@ def stage(
     repository_promotion_files = sorted(changed_files + canonical_changed_files)
 
     review_contract = {
+        "provenance_mode": provenance_mode,
         "machine_inventory_items": machine_inventory_items,
         "human_review_items": review_items,
         "materialization_items": target_contract["materialization_items"],
@@ -1017,6 +1018,15 @@ def stage(
         "target_contract_sha256": target_contract_sha256,
         "authority_shadow_manifest_sha256": authority_shadow_manifest_sha256,
         "authority_resolutions_sha256": authority_resolutions_sha256,
+        "final_values_receipt_sha256": sha256(
+            (stage_root / FINAL_VALUES_REL).read_bytes()
+        ).hexdigest(),
+        "reviewed_candidates_sha256": sha256(
+            (stage_root / "i18n/reviewed-candidates.tsv").read_bytes()
+        ).hexdigest(),
+        "materialized_review_contract_sha256": sha256(
+            (stage_root / REVIEW_CONTRACT_REL).read_bytes()
+        ).hexdigest(),
     }
     if review_contract["machine_inventory_items"] != (
         review_contract["materialization_items"]

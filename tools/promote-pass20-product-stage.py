@@ -4,8 +4,10 @@
 from __future__ import annotations
 
 import argparse
+import csv
 from hashlib import sha256
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -29,6 +31,19 @@ WORKBOOK_RECEIPT = (
 )
 REVIEW_CONTRACT_RECEIPT = (
     "magica/i18n_audit/release_v26_authority/pass20_review_contract.json"
+)
+REVIEWED_CANDIDATES_RECEIPT = "i18n/reviewed-candidates.tsv"
+FINAL_VALUE_LOCATOR_BASE = f"{FINAL_VALUES_RECEIPT}#"
+FINAL_VALUE_FIELDS = (
+    "item_id", "stable_business_key", "source_path", "source_key", "source_field",
+    "japanese_or_source_original", "seed_cn", "seed_origin", "current_cn",
+    "suggested_cn", "final_value", "source_record_sha256", "target_contract_sha256",
+    "review_status", "final_origin", "machine_translated",
+)
+REVIEWED_COLUMNS = (
+    "scope", "path_prefix", "source_text", "candidate_cn", "status", "authority",
+    "source_batch", "source_locator", "source_sha256", "match_method",
+    "machine_translated", "confidence", "review_status", "evidence",
 )
 CANONICAL_I18N_FILES = {
     "i18n/reviewed-candidates.tsv",
@@ -110,6 +125,231 @@ def role_path_valid(role: str, path: str) -> bool:
     return False
 
 
+def _decode_tsv(data: bytes, label: str) -> str:
+    try:
+        return data.decode("utf-8-sig")
+    except UnicodeDecodeError as exc:
+        raise PromotionError(f"{label} is not valid UTF-8") from exc
+
+
+def _receipt_rows(data: bytes) -> list[dict[str, str]]:
+    reader = csv.reader(io.StringIO(_decode_tsv(data, "final-value receipt"), newline=""), delimiter="\t")
+    try:
+        header = tuple(next(reader))
+    except StopIteration as exc:
+        raise PromotionError("final-value receipt is empty") from exc
+    if header != FINAL_VALUE_FIELDS:
+        raise PromotionError("final-value receipt header drifted")
+    rows: list[dict[str, str]] = []
+    for number, values in enumerate(reader, start=2):
+        if not values:
+            continue
+        if len(values) != len(FINAL_VALUE_FIELDS):
+            raise PromotionError(f"final-value receipt row {number} has the wrong field count")
+        rows.append(dict(zip(FINAL_VALUE_FIELDS, values)))
+    return rows
+
+
+def _reviewed_candidate_rows(data: bytes) -> list[dict[str, str]]:
+    reader = csv.reader(
+        io.StringIO(_decode_tsv(data, "reviewed candidates"), newline=""), delimiter="\t",
+    )
+    rows: list[dict[str, str]] = []
+    for number, values in enumerate(reader, start=1):
+        if not values or values[0].startswith("#"):
+            continue
+        if len(values) != len(REVIEWED_COLUMNS):
+            raise PromotionError(f"reviewed-candidates row {number} has the wrong field count")
+        rows.append(dict(zip(REVIEWED_COLUMNS, values)))
+    return rows
+
+
+def _canonical_json_digest(value: Any) -> str:
+    return digest(json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+    ).encode("utf-8"))
+
+
+def validate_staged_provenance(
+    stage_root: Path, contract: dict[str, Any], target_manifest_path: Path,
+) -> dict[str, Any]:
+    """Bind promotion claims to the exact staged receipt, candidates, and review contract."""
+    bound_files = {
+        "final_values_receipt_sha256": FINAL_VALUES_RECEIPT,
+        "reviewed_candidates_sha256": REVIEWED_CANDIDATES_RECEIPT,
+        "materialized_review_contract_sha256": REVIEW_CONTRACT_RECEIPT,
+    }
+    payloads: dict[str, bytes] = {}
+    for field, rel in bound_files.items():
+        path = stage_root / rel
+        if path.is_symlink() or not path.is_file():
+            raise PromotionError(f"staged provenance input is missing or unsafe: {rel}")
+        data = path.read_bytes()
+        if digest(data) != contract[field]:
+            raise PromotionError(f"staged {field} gate failed")
+        payloads[rel] = data
+
+    mode = contract["provenance_mode"]
+    expected_items = contract["materialization_items"]
+    target_payload = read_json(target_manifest_path)
+    target_rows = target_payload.get("items")
+    if (
+        target_payload.get("schema") != "magireco-cn-pass20-product-target-manifest/1"
+        or target_payload.get("status") != "PASS"
+        or not isinstance(target_rows, list)
+    ):
+        raise PromotionError("product target provenance manifest is invalid")
+    targets: dict[str, dict[str, Any]] = {}
+    for target in target_rows:
+        if not isinstance(target, dict):
+            raise PromotionError("product target provenance row is invalid")
+        item_id = target.get("item_id")
+        if not isinstance(item_id, str) or not item_id or item_id in targets:
+            raise PromotionError("product target provenance has a missing or duplicate item_id")
+        targets[item_id] = target
+    receipts = _receipt_rows(payloads[FINAL_VALUES_RECEIPT])
+    receipt_by_id: dict[str, dict[str, str]] = {}
+    receipt_modes: set[str] = set()
+    for row in receipts:
+        item_id = row.get("item_id", "")
+        if not item_id or item_id in receipt_by_id:
+            raise PromotionError("final-value receipt has a missing or duplicate item_id")
+        status = row.get("review_status", "")
+        if status.startswith("rough-production-"):
+            row_mode = "rough-production"
+        elif status.startswith("human-"):
+            row_mode = "human-review"
+        else:
+            raise PromotionError(f"final-value receipt has an invalid review_status: {item_id}")
+        receipt_modes.add(row_mode)
+        receipt_by_id[item_id] = row
+    if (
+        len(receipts) != expected_items
+        or receipt_modes != {mode}
+        or set(receipt_by_id) != set(targets)
+    ):
+        raise PromotionError("final-value receipt provenance differs from rollback contract")
+
+    prefix = f"{FINAL_VALUE_LOCATOR_BASE}{mode}:"
+    candidates: dict[str, dict[str, str]] = {}
+    for row in _reviewed_candidate_rows(payloads[REVIEWED_CANDIDATES_RECEIPT]):
+        locator = row.get("source_locator", "")
+        if not locator.startswith(prefix):
+            continue
+        item_id = locator[len(prefix):]
+        if not item_id or item_id in candidates:
+            raise PromotionError("reviewed candidates have a missing or duplicate bound item_id")
+        candidates[item_id] = row
+    if len(candidates) != expected_items or set(candidates) != set(receipt_by_id):
+        raise PromotionError("reviewed candidate provenance differs from final-value receipt")
+    expected_authority = "existing_human_reviewed" if mode == "human-review" else "new_proposal"
+    expected_batch = (
+        "pass20-human-final-values-v1"
+        if mode == "human-review"
+        else "pass20-rough-production-final-values-v1"
+    )
+    expected_match_method = (
+        "exact-semantic-key-human-review"
+        if mode == "human-review"
+        else "exact-semantic-key-user-directed-rough-production"
+    )
+    expected_confidence = (
+        "human-approved"
+        if mode == "human-review"
+        else "user-directed-rough-production-unreviewed"
+    )
+    for item_id, receipt in receipt_by_id.items():
+        candidate = candidates[item_id]
+        target = targets[item_id]
+        receipt_origin = receipt.get("final_origin")
+        if mode == "rough-production":
+            allowed_receipt_provenance = {
+                "machine-current": (
+                    "rough-production-machine-current-retained", "unknown", "current",
+                ),
+                "machine-suggestion": (
+                    "rough-production-machine-suggestion-adopted", "true", "suggestion",
+                ),
+            }
+        else:
+            allowed_receipt_provenance = {
+                "machine-current": (
+                    "human-confirmed-machine-origin-retained", "unknown", "current",
+                ),
+                "machine-suggestion": (
+                    "human-confirmed-machine-suggestion-adopted", "true", "suggestion",
+                ),
+                "human-revision": ("human-revised", "false", "revision"),
+            }
+        expected_receipt = allowed_receipt_provenance.get(receipt_origin)
+        if expected_receipt is None:
+            raise PromotionError(f"final-value receipt origin is invalid for its mode: {item_id}")
+        expected_review_status, expected_machine_flag, value_rule = expected_receipt
+        if (
+            receipt.get("review_status") != expected_review_status
+            or receipt.get("machine_translated") != expected_machine_flag
+            or (
+                value_rule == "current"
+                and (
+                    receipt.get("seed_origin") != "current"
+                    or receipt.get("seed_cn") != receipt.get("current_cn")
+                    or receipt.get("final_value") != receipt.get("current_cn")
+                )
+            )
+            or (
+                value_rule == "suggestion"
+                and (
+                    receipt.get("seed_origin") not in {"suggested", "adopted_suggestion"}
+                    or receipt.get("final_value") != receipt.get("seed_cn")
+                )
+            )
+        ):
+            raise PromotionError(f"final-value receipt status is invalid for its mode: {item_id}")
+        expected_evidence = (
+            f"item_id={item_id}; final_origin={receipt['final_origin']}; "
+            f"provenance_mode={mode}; target_status={target.get('match_status', '')}"
+        )
+        if any((
+            candidate.get("candidate_cn") != receipt.get("final_value"),
+            candidate.get("source_text") != receipt.get("japanese_or_source_original"),
+            candidate.get("status") != "present",
+            candidate.get("review_status") != receipt.get("review_status"),
+            candidate.get("machine_translated") != receipt.get("machine_translated"),
+            candidate.get("authority") != expected_authority,
+            candidate.get("source_batch") != expected_batch,
+            candidate.get("match_method") != expected_match_method,
+            candidate.get("confidence") != expected_confidence,
+            candidate.get("evidence") != expected_evidence,
+            candidate.get("source_sha256") != "",
+            candidate.get("scope") != target.get("maintenance_scope"),
+            candidate.get("path_prefix") != target.get("path_prefix"),
+            receipt.get("source_field") != "candidate_cn",
+            receipt.get("stable_business_key") != target.get("stable_business_key"),
+            receipt.get("source_path") != target.get("maintenance_table"),
+            receipt.get("source_key") != target.get("source_key"),
+            receipt.get("target_contract_sha256") != _canonical_json_digest(target),
+        )):
+            raise PromotionError(f"reviewed candidate differs from its final-value receipt: {item_id}")
+
+    materialized = json.loads(payloads[REVIEW_CONTRACT_RECEIPT].decode("utf-8-sig"))
+    post = materialized.get("post_final_value_materialization", {})
+    if (
+        materialized.get("schema") != "magireco-cn-pass20-review-contract/2"
+        or materialized.get("status") != "PASS"
+        or post.get("items") != expected_items
+        or post.get("provenance_mode") != mode
+        or post.get("machine_provenance_retained") is not (mode == "rough-production")
+    ):
+        raise PromotionError("materialized review contract provenance drifted")
+    return {
+        "provenance_mode": mode,
+        "items": expected_items,
+        "final_values_receipt_sha256": contract["final_values_receipt_sha256"],
+        "reviewed_candidates_sha256": contract["reviewed_candidates_sha256"],
+        "materialized_review_contract_sha256": contract["materialized_review_contract_sha256"],
+    }
+
+
 def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) -> dict[str, Any]:
     stage_root = stage_root.resolve()
     repo_root = repo_root.resolve()
@@ -141,9 +381,9 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
         raise PromotionError(f"rollback review contract is invalid: {exc}") from exc
     if report.get("review_contract") != review_contract:
         raise PromotionError("staging and rollback review contracts differ")
-    provenance_mode = report.get("provenance_mode", "human-review")
-    if provenance_mode not in {"human-review", "rough-production"}:
-        raise PromotionError("staging provenance mode is invalid")
+    provenance_mode = review_contract["provenance_mode"]
+    if report.get("provenance_mode") != provenance_mode:
+        raise PromotionError("staging provenance mode differs from its rollback contract")
     report_contract_fields = {
         "machine_inventory_items": "machine_inventory_items",
         "human_review_items": "human_review_items",
@@ -286,6 +526,10 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
             "temp": None,
         })
 
+    provenance_binding = validate_staged_provenance(
+        stage_root, review_contract, repo_root / TARGETS_REL,
+    )
+
     node = shutil.which("node")
     if not node:
         raise PromotionError("Node.js is required for promotion syntax validation")
@@ -344,6 +588,7 @@ def promote(stage_root: Path, repo_root: Path, report_path: Path | None = None) 
             "human_review_workbook_receipt": receipt,
             "workbook_receipt_preexisting_identical": workbook_receipt_preexisting_identical,
             "review_contract": review_contract,
+            "provenance_binding": provenance_binding,
             "machine_inventory_items": review_contract["machine_inventory_items"],
             "human_review_items": review_contract["human_review_items"],
             "provenance_mode": provenance_mode,
