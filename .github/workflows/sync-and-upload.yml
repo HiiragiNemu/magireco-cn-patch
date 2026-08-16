@@ -480,7 +480,8 @@ jobs:
           python3 tools/verify-v26-authority-protection.py --json \
             | tee _artifacts/v26_authority_protection_verification.json
           # Preview builds stay available for review. Stable promotion is a
-          # hard failure until the returned workbook supplies all 1,565 final values,
+          # hard failure until all 1,565 final values are sealed either as a returned
+          # human review or as the explicitly authorized rough-production receipt,
           # the 323 authority resolutions stay outside that queue, and the 24
           # higher-authority-shadowed machine rows prove zero low-tier/product
           # writes through the materialization verifier.
@@ -1277,11 +1278,15 @@ jobs:
           # ══════════════════════════════════════════════════════════════
           # object-storage 上传过滤规则 v3
           # ══════════════════════════════════════════════════════════════
-          # history-data*  → 大体积历史数据包，不走 object-storage
-          # （*.apk 曾在此黑名单——客户端安装包只留 GitHub Release；
-          #  公测站直链改走 edge/object-storage 后移出，2026-08-10）
+          # history-data*            → 大体积历史数据包，不走 object-storage
+          # apk-overlay-atlas.zip        → 构建期内部资产，不镜像
+          # legacy-client-archive*       → 存档 tag 备份，不镜像
+          # 非主线 APK（非 magireco-latest*）→ 只留 GitHub Release，不上传
           R2_IGNORE_PREFIXES = (
               'history-data',
+              'apk-overlay-atlas.zip',
+              'legacy-client-archive',
+              'legacy-client-archieve',
           )
           R2_IGNORE_SUFFIXES = (
           )
@@ -1289,6 +1294,8 @@ jobs:
           def should_ignore_for_r2(name: str) -> bool:
               if any(name.startswith(p) for p in R2_IGNORE_PREFIXES): return True
               if any(name.endswith(s) for s in R2_IGNORE_SUFFIXES): return True
+              # 非主线 APK（非 magireco-latest*）不上传，主线 APK 走 edge/object-storage
+              if name.endswith('.apk') and not name.startswith('magireco-latest'): return True
               return False
 
           class R2Handler:
