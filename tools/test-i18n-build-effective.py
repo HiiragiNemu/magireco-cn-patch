@@ -71,12 +71,17 @@ class EffectiveAuthorityTests(unittest.TestCase):
         self.assertEqual(summary["human_reviewed_candidates"], 0)
         self.assertEqual(
             tables["reviewed-candidates.tsv"]["authority_counts"],
-            {"official_cn_dump": 62},
+            {"new_proposal": 1565, "official_cn_dump": 62},
         )
         self.assertEqual(
             tables["reviewed-candidates.tsv"]["source_batch_counts"]
             ["official-cn-static-pass20-20260815"],
             58,
+        )
+        self.assertEqual(
+            tables["reviewed-candidates.tsv"]["source_batch_counts"]
+            ["pass20-rough-production-final-values-v1"],
+            1565,
         )
         self.assertEqual(summary["fatal_equal_weight_conflicts"], 0)
         self.assertEqual(summary["resolved_conflicts"], 48)
@@ -97,7 +102,7 @@ class EffectiveAuthorityTests(unittest.TestCase):
             MOD.normalized_sha256(ROOT / "i18n/migration-source-summary.json"),
         )
         for output_name, expected_rows in (
-            ("input-provenance.tsv", 2718),
+            ("input-provenance.tsv", 4283),
             ("effective.tsv", 2583),
             ("conflicts.tsv", 48),
         ):
@@ -109,7 +114,7 @@ class EffectiveAuthorityTests(unittest.TestCase):
             )
 
         provenance = read_tsv(ROOT / "i18n/generated/input-provenance.tsv")
-        self.assertEqual(len(provenance), 2718)
+        self.assertEqual(len(provenance), 4283)
         frontend_present = [
             row for row in provenance
             if row["source_file"] == "i18n/frontend-strings.tsv" and row["status"] == "present"
@@ -120,6 +125,17 @@ class EffectiveAuthorityTests(unittest.TestCase):
             {"legacy_unverified_ai_assisted"},
         )
         self.assertNotIn("human-reviewed", {row["status"] for row in provenance})
+        rough_present = [
+            row for row in provenance
+            if row["source_file"] == "i18n/reviewed-candidates.tsv"
+            and row["authority"] == "new_proposal"
+            and row["status"] == "present"
+        ]
+        self.assertEqual(len(rough_present), 1565)
+        self.assertEqual(
+            {row["source_batch"] for row in rough_present},
+            {"pass20-rough-production-final-values-v1"},
+        )
 
         effective = read_tsv(ROOT / "i18n/generated/effective.tsv")
         canonical = {
