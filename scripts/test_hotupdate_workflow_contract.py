@@ -37,6 +37,16 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             jobs[match.group(1)] = jobs_text[match.end() : end]
         return jobs
 
+    def test_stale_promotion_recovery_and_r2_ordering(self):
+        # F-R7（取消/杀死自愈）：转正被中途取消会留下 *.rollback-* 残留，
+        # 下一次运行必须能把它恢复回转正前状态；R2 上传版本/配置类文件
+        # 排最后，把「新版本指向未上传内容」的错配窗口缩到最小。
+        self.assertIn("恢复上次未完成的转正", self.text)
+        self.assertIn("还原正式", self.text)
+        r2 = self.workflow_jobs()["r2-sync"]
+        self.assertIn("VERSION_LAST", r2)
+        self.assertIn("to_process.sort", r2)
+
     def test_change_detection_uses_the_tested_classifier(self):
         self.assertIn("scripts/classify_hotupdate_changes.py", self.text)
         self.assertIn('CHANGED=$(git diff --name-only', self.text)
@@ -460,19 +470,15 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("首次镜像未完成", self.text)
         self.assertIn("变更快照有", self.text)
 
-    def test_manual_default_is_js_only(self):
-        block = re.search(
-            r"package_scope:.*?options:\s*\n\s*- js\s*\n\s*- scenario\s*\n\s*- all",
-            self.text,
-            flags=re.S,
-        )
-        self.assertIsNotNone(block)
-        self.assertIn("default: 'js'", block.group(0))
-        self.assertIn(
-            "github.event_name == 'workflow_dispatch' && inputs.package_scope "
-            "|| '按变更自动判断'",
-            self.text,
-        )
+    def test_packaging_is_unconditional_both_scopes(self):
+        # F-R7（回退 package_scope 门控）：打包恢复无条件双打。流水线同时负责
+        # APK 上传，打包范围一旦可跳过，R2 不刷新、其后的上传步骤全部空转浪费
+        # 流量。classify --scope all 恒产出 has_js=has_scenario=1，pack-js /
+        # pack-scenario 的 if 门控恒真，两个包每次运行都重打。
+        self.assertNotIn("package_scope:", self.text)
+        self.assertNotIn("inputs.package_scope", self.text)
+        self.assertIn("SCOPE=all", self.text)
+        self.assertIn('--scope "$SCOPE"', self.text)
 
 
 if __name__ == "__main__":
