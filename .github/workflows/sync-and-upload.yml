@@ -81,15 +81,6 @@ name: 🔄 同步上游并上传到 object-storage
 on:
   workflow_dispatch:
     inputs:
-      package_scope:
-        description: '手动打包范围（js=JS/WebView+引擎表；scenario=仅剧情；all=两者）'
-        required: true
-        default: 'js'
-        type: choice
-        options:
-          - js
-          - scenario
-          - all
       force_sync:
         description: '强制同步（无视指纹）'
         required: false
@@ -338,12 +329,12 @@ jobs:
           fi
           echo "变动文件:"; echo "$CHANGED"
 
-          # 自动范围和手动范围共用同一个可测试的产品所有权合同。
-          # 剧情包只由剧情 JSON 触发；引擎翻译表只属于 JS 热更新包。
-          SCOPE=auto
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            SCOPE="${{ inputs.package_scope }}"
-          fi
+          # F-R7（回退 package_scope 门控）：本流水线同时负责 APK 包上传，
+          # 打包范围一旦被跳过，object-storage 不刷新、其后的上传步骤全部空转浪费流量。
+          # 恢复无条件双打：js 与 scenario 恒都打包（classify --scope all 即
+          # has_js=has_scenario=1，pack 两个 job 的 if 门控恒真）。
+          # 下方 CHANGED 列表仍打日志供审计，不再参与打包判定。
+          SCOPE=all
           printf '%s\n' "$CHANGED" | python3 scripts/classify_hotupdate_changes.py \
             --scope "$SCOPE" --github-output "$GITHUB_OUTPUT"
           mkdir -p _artifacts
@@ -845,6 +836,71 @@ jobs:
       PUBLISH_HOTFIX: ${{ needs.setup.outputs.publish_hotfix }}
       CONFIG_DIR: "configures"
     steps:
+      - name: 🩹 恢复上次未完成的转正（取消/杀死遗留的半拉配置）
+        # F-R7：转正把旧正式 asset 改名为 *.rollback-<run> 再上新，中途被取消/
+        # 杀死时回滚代码不执行，Release 会留下「正式名缺位」的半态。备份名残留
+        # 即日志（成功会清掉）：下次运行在这里把 Release 恢复到转正前状态（旧
+        # 正式 + _new 预览），让接下来的转正从干净基线重来。也兜住「回滚本身
+        # 失败」的残留。放兜底护栏之前：打包失败该跑完自愈也得跑完。
+        run: |
+          python3 <<'SCRIPT_END'
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+
+          UPSTREAM = f"{os.environ['UPSTREAM_OWNER']}/{os.environ['UPSTREAM_REPO']}"
+
+          def gh(*args):
+              r = subprocess.run(["gh", "api", f"repos/{UPSTREAM}", *args],
+                                 capture_output=True, text=True)
+              if r.returncode != 0:
+                  raise RuntimeError(f"gh api 失败: {r.stderr.strip()}")
+              return r.stdout
+
+          def fetch_assets():
+              rel = json.loads(gh("/releases/tags/latest"))
+              return {a["name"]: a for a in rel.get("assets", [])}
+
+          def rename(asset_id, old_name, new_name):
+              r = subprocess.run(
+                  ["gh", "api", f"repos/{UPSTREAM}/releases/assets/{asset_id}",
+                   "--method", "PATCH", "-f", f"name={new_name}"],
+                  capture_output=True, text=True)
+              if r.returncode != 0:
+                  raise RuntimeError(f"重命名 {old_name} → {new_name} 失败: "
+                                     + r.stderr.strip())
+
+          backups = sorted(
+              (n, a) for n, a in fetch_assets().items()
+              if re.search(r"\.rollback-\d+$", n)
+          )
+          if not backups:
+              print("✓ 无残留转正备份，Release 干净")
+              sys.exit(0)
+
+          print(f"⚠ 发现 {len(backups)} 个残留转正备份，恢复 Release 到转正前状态：")
+          restored = 0
+          for backup_name, backup_asset in backups:
+              final_name = re.sub(r"\.rollback-\d+$", "", backup_name)
+              current = fetch_assets()
+              promoted = current.get(final_name)
+              if promoted:
+                  # 新资产已占正式名：先退回 _new 预览名（转正前它就是 _new），
+                  # 再把旧正式从备份名还原。
+                  head, _sep, ext = final_name.rpartition(".")
+                  preview_name = f"{head}_new.{ext}"
+                  if preview_name in current:
+                      raise RuntimeError(
+                          f"预览名 {preview_name} 已存在，无法退回（残留冲突）")
+                  rename(promoted["id"], final_name, preview_name)
+                  print(f"  退回预览: {final_name} → {preview_name}")
+              rename(backup_asset["id"], backup_name, final_name)
+              print(f"  还原正式: {backup_name} → {final_name}")
+              restored += 1
+          print(f"✅ 已恢复 {restored} 个正式资产——Release 回到转正前状态")
+          SCRIPT_END
       - name: 🛡 兜底护栏（打包失败即停链）
         if: needs.pack-js.result == 'failure' || needs.pack-scenario.result == 'failure'
         run: |
@@ -1565,6 +1621,12 @@ jobs:
               for fname in old_map:
                   if fname not in current_map:
                       deleted.append(fname)
+
+              # H2（F-R7）：版本/配置类文件排最后上传——若中途被取消，object-storage 里旧的
+              # 版本文件还指着旧内容（更新客户端看版本没变就不会拉包），把「新
+              # 版本指向未上传内容」的错配窗口缩到最小。
+              VERSION_LAST = {"version_js.json", "version_scenario.json", "manifest.json"}
+              to_process.sort(key=lambda n: (1 if n in VERSION_LAST else 0, n))
 
               # ════════════════════════════════════════════════════════
               # 过时文件处理（v3：不主动删除，需手动确认）
@@ -2561,7 +2623,7 @@ jobs:
           echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| object-storage 存储桶 | \`${{ env.R2_BUCKET }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 同步状态 | ${{ needs.setup.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 手动打包范围 | ${{ github.event_name == 'workflow_dispatch' && inputs.package_scope || '按变更自动判断' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 打包范围 | JS + SCENARIO（无条件双打，package_scope 已回退） |" >> $GITHUB_STEP_SUMMARY
           echo "| 实际打包 | JS=${{ needs.setup.outputs.has_js }}；Scenario=${{ needs.setup.outputs.has_scenario }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 热更新发布 | ${{ needs.setup.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 版本 json 同步 | ${{ needs.commit-configs.outputs.committed == 'true' && format('✅ 同一 commit {0} 已推送并对齐上下游（fork 不分叉）', needs.commit-configs.outputs.short_sha) || '⏭️ 无配置变更' }} |" >> $GITHUB_STEP_SUMMARY
