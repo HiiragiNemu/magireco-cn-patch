@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import importlib.util
 import io
 import json
 import os
@@ -19,6 +20,10 @@ ROOT = Path(__file__).resolve().parents[1]
 TOOL = ROOT / "tools/build-v26-final-allowlist.py"
 EXPECTED_NAME = "Hiiragi Nemu"
 EXPECTED_EMAIL = "128921071+HiiragiNemu@users.noreply.github.com"
+SPEC = importlib.util.spec_from_file_location("build_v26_final_allowlist", TOOL)
+assert SPEC and SPEC.loader
+MOD = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(MOD)
 
 
 def sha(data: bytes) -> str:
@@ -384,6 +389,66 @@ def run_builder(repo: Path, stage: Path, output: Path, stub: Path, *extra: str) 
 
 
 class FinalAllowlistTests(unittest.TestCase):
+    def test_selective_product_contract_rejects_unlisted_runtime_paths(self) -> None:
+        self.assertEqual(len(MOD.TOTENTANZ_SELECTIVE_RUNTIME), 44)
+        self.assertTrue(MOD.TOTENTANZ_SELECTIVE_RUNTIME.isdisjoint(MOD.PRODUCT_RUNTIME))
+
+        for path in (
+            "magica/template/card/CardSort.html",
+            "magica/template/user/APPopup.html",
+            "magica/css/arena/ArenaResult.css",
+            "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+            "magica/css/_common/common.css",
+            "magica/template/collection/StoryCollection.html",
+        ):
+            with self.subTest(path=path):
+                decision, category, _reason = MOD.classify_known(
+                    path, eol_only=False, extra_repo=set()
+                )
+                self.assertEqual(
+                    (decision, category), ("allow", "totentanz_selective_runtime")
+                )
+
+        for path in (
+            "magica/research/totentanz-selective-localization-20260817/README.md",
+            "magica/research/totentanz-selective-localization-20260817/engine_i18n_selected_additions.tsv",
+            "magica/research/totentanz-selective-localization-20260817/native_battle_popup_audit.md",
+        ):
+            with self.subTest(path=path):
+                decision, category, _reason = MOD.classify_known(
+                    path, eol_only=False, extra_repo=set()
+                )
+                self.assertEqual(
+                    (decision, category), ("allow", "totentanz_selective_audit")
+                )
+
+        for path in (
+            "magica/js/new-unlisted.js",
+            "magica/template/new-unlisted.html",
+            "magica/css/new-unlisted.css",
+            "magica/js/libs/new-unlisted.json",
+            "magica/research/new-reviewed.html",
+            "magica/i18n_audit/new-reviewed.json",
+            "magica/image/new-reviewed.png",
+            "magica/font/new-reviewed.ttf",
+        ):
+            with self.subTest(path=path):
+                decision, category, _reason = MOD.classify_known(
+                    path, eol_only=False, extra_repo=set()
+                )
+                self.assertEqual((decision, category), ("exclude", "unclassified_change"))
+
+        selected_png = (
+            "magica/resource/image_web/regularEvent/groupBattle/common/result/"
+            "result_title_header.png"
+        )
+        decision, category, _reason = MOD.classify_known(
+            selected_png, eol_only=False, extra_repo=set()
+        )
+        self.assertEqual(
+            (decision, category), ("allow", "totentanz_selective_runtime")
+        )
+
     def test_live_main_import_is_commit_bound_and_fails_on_drift(self) -> None:
         with tempfile.TemporaryDirectory(prefix="v26-allow-live-main-") as td:
             base = Path(td)

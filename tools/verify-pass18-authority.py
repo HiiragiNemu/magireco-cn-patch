@@ -4,8 +4,9 @@
 This verifier is deliberately narrower than the general runtime-layer audit.  It
 checks the exact Pass18 after-images, scans only user-visible dictionary fields
 for known translation regressions, protects the twelve root-authored background
-translations, validates the engine table, and proves that CSS is identical to
-the recorded Pass18 baseline commit.
+translations, validates the engine table, and proves that the Pass18 CSS is
+preserved while the explicitly selected Totentanz localization overlay is the
+only CSS addition.
 """
 
 from __future__ import annotations
@@ -31,10 +32,43 @@ REPORT = AUDIT / "pass18_verification.json"
 
 BASELINE_COMMIT = "d5e8f75d93f6760a588e592c22a3754d19370c68"
 EXPECTED_MANIFEST_ROWS = 939
-EXPECTED_ENGINE_ROWS = 303
+EXPECTED_ENGINE_ROWS = 306
 EXPECTED_ENGINE_OFFICIAL_ROWS = 5
 EXPECTED_DICTIONARIES = 23
 EXPECTED_CSS_FILES = 25
+
+SELECTIVE_CSS_ADDITIONS = frozenset(
+    {
+        "magica/css/arena/ArenaResult.css",
+        "magica/css/chara/CharaCommon.css",
+        "magica/css/chara/CharaEnhancementTree.css",
+        "magica/css/collection/MemoriaCollection.css",
+        "magica/css/event/EventWitch/ExchangeTop.css",
+        "magica/css/event/dailytower/EventDailyTower.css",
+        "magica/css/event/raid/EventRaidTop.css",
+        "magica/css/event/tower/EventTower.css",
+        "magica/css/formation/DeckFormation.css",
+        "magica/css/memoria/MemoriaComposeTop.css",
+        "magica/css/memoria/UserMemoriaList.css",
+        "magica/css/mission/MissionTop.css",
+        "magica/css/patrol/PatrolLumpFormation.css",
+        "magica/css/quest/SecondPartLastBattleConfirm.css",
+        "magica/css/quest/SecondPartLastFormation.css",
+        "magica/css/regularEvent/extermination/RegularEventExterminationBattleConfirm.css",
+        "magica/css/regularEvent/extermination/RegularEventExterminationFormation.css",
+        "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+        "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+        "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+        "magica/css/shop/ShopTop.css",
+        "magica/css/user/EventRecord.css",
+    }
+)
+CSS_BASELINE_APPEND = frozenset(
+    {
+        "magica/css/_common/common.css",
+        "magica/css/quest/MainQuest.css",
+    }
+)
 
 # These are fields rendered as text or otherwise consumed as translated display
 # content.  Identifier/code fields and credits (illustrator/designer/voiceActor)
@@ -540,14 +574,59 @@ def verify_css() -> tuple[dict[str, Any], list[str]]:
                     "current_filtered_blob": current_blob,
                 }
             )
+    mismatch_paths = {row["path"] for row in mismatched}
+    unexpected_extra = sorted(set(extra) - SELECTIVE_CSS_ADDITIONS)
+    missing_additions = sorted(SELECTIVE_CSS_ADDITIONS - set(extra))
+    unexpected_mismatches = sorted(mismatch_paths - CSS_BASELINE_APPEND)
+    missing_appends = sorted(CSS_BASELINE_APPEND - mismatch_paths)
+    invalid_appends: list[dict[str, Any]] = []
+    for relative in sorted(CSS_BASELINE_APPEND & set(current_paths)):
+        baseline_raw = run_git("cat-file", "blob", expected[relative])
+        assert isinstance(baseline_raw, bytes)
+        current_raw = current_paths[relative].read_bytes()
+        if not current_raw.startswith(baseline_raw):
+            invalid_appends.append(
+                {
+                    "path": relative,
+                    "reason": "current CSS does not preserve the baseline byte prefix",
+                }
+            )
+
+    invalid_additions: list[dict[str, Any]] = []
+    for relative in sorted(SELECTIVE_CSS_ADDITIONS & set(current_paths)):
+        text = current_paths[relative].read_text(encoding="utf-8")
+        reasons: list[str] = []
+        if not text.strip():
+            reasons.append("empty")
+        if "/* MagiaCN:" not in text:
+            reasons.append("missing MagiaCN provenance marker")
+        if text.count("{") != text.count("}"):
+            reasons.append("unbalanced braces")
+        if reasons:
+            invalid_additions.append({"path": relative, "reasons": reasons})
+
     if len(expected) != EXPECTED_CSS_FILES:
         errors.append(
             f"baseline has {len(expected)} CSS files, expected {EXPECTED_CSS_FILES}"
         )
-    if missing or extra or mismatched:
+    if (
+        missing
+        or unexpected_extra
+        or missing_additions
+        or unexpected_mismatches
+        or missing_appends
+        or invalid_appends
+        or invalid_additions
+    ):
         errors.append(
-            "CSS differs from Pass18 baseline: "
-            f"missing={len(missing)}, extra={len(extra)}, changed={len(mismatched)}"
+            "CSS differs from the selected Pass18/Totentanz contract: "
+            f"missing_baseline={len(missing)}, "
+            f"unexpected_extra={len(unexpected_extra)}, "
+            f"missing_additions={len(missing_additions)}, "
+            f"unexpected_changed={len(unexpected_mismatches)}, "
+            f"missing_appends={len(missing_appends)}, "
+            f"invalid_appends={len(invalid_appends)}, "
+            f"invalid_additions={len(invalid_additions)}"
         )
     return {
         "baseline_commit": BASELINE_COMMIT,
@@ -557,6 +636,16 @@ def verify_css() -> tuple[dict[str, Any], list[str]]:
         "missing": missing,
         "extra": extra,
         "mismatched": mismatched,
+        "selected_additions_expected": len(SELECTIVE_CSS_ADDITIONS),
+        "selected_additions_present": len(SELECTIVE_CSS_ADDITIONS & set(current_paths)),
+        "baseline_appends_expected": len(CSS_BASELINE_APPEND),
+        "baseline_appends_present": len(CSS_BASELINE_APPEND & mismatch_paths),
+        "unexpected_extra": unexpected_extra,
+        "missing_additions": missing_additions,
+        "unexpected_mismatches": unexpected_mismatches,
+        "missing_appends": missing_appends,
+        "invalid_appends": invalid_appends,
+        "invalid_additions": invalid_additions,
     }, errors
 
 

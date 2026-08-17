@@ -88,6 +88,65 @@ PRODUCT_RUNTIME = {
     "magica/template/regularEvent/groupBattle/RegularEventGroupCommon.html",
 }
 
+# Selective Totentanz recovery: only files with verified localization value are
+# eligible.  This deliberately is not a suffix/prefix wildcard; an unrelated
+# future JS/HTML/CSS/JSON file must remain unclassified until explicitly chosen.
+# Paths already present in PRODUCT_RUNTIME are omitted to keep the sets disjoint.
+TOTENTANZ_SELECTIVE_RUNTIME = {
+    "magica/css/_common/common.css",
+    "magica/css/arena/ArenaResult.css",
+    "magica/css/chara/CharaCommon.css",
+    "magica/css/chara/CharaEnhancementTree.css",
+    "magica/css/collection/MemoriaCollection.css",
+    "magica/css/event/EventWitch/ExchangeTop.css",
+    "magica/css/event/dailytower/EventDailyTower.css",
+    "magica/css/event/raid/EventRaidTop.css",
+    "magica/css/event/tower/EventTower.css",
+    "magica/css/formation/DeckFormation.css",
+    "magica/css/memoria/MemoriaComposeTop.css",
+    "magica/css/memoria/UserMemoriaList.css",
+    "magica/css/mission/MissionTop.css",
+    "magica/css/patrol/PatrolLumpFormation.css",
+    "magica/css/quest/MainQuest.css",
+    "magica/css/quest/SecondPartLastBattleConfirm.css",
+    "magica/css/quest/SecondPartLastFormation.css",
+    "magica/css/regularEvent/extermination/RegularEventExterminationBattleConfirm.css",
+    "magica/css/regularEvent/extermination/RegularEventExterminationFormation.css",
+    "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+    "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+    "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+    "magica/css/shop/ShopTop.css",
+    "magica/css/user/EventRecord.css",
+    "magica/resource/image_web/regularEvent/groupBattle/common/result/result_title_header.png",
+    "magica/template/card/CardSort.html",
+    "magica/template/chara/CharaCustomizePopup.html",
+    "magica/template/collection/MagiRepo.html",
+    "magica/template/collection/StoryCollection.html",
+    "magica/template/config/ConfigTop.html",
+    "magica/template/etc/GameStartPopup.html",
+    "magica/template/formation/DeckFormation.html",
+    "magica/template/formation/FormationSupport.html",
+    "magica/template/memoria/MemoriaSetEquip.html",
+    "magica/template/quest/QuestBattleSelect.html",
+    "magica/template/quest/SupportSelect.html",
+    "magica/template/quest/scene0/SideStorySelect.html",
+    "magica/template/quest/scene0/Top.html",
+    "magica/template/regularEvent/groupBattle/RegularEventGroupBattleBoss.html",
+    "magica/template/user/APPopup.html",
+    "magica/template/user/BackgroundSet.html",
+    "magica/template/user/MyProfilePopup.html",
+    "magica/template/user/MyProfilePopup2.html",
+    "magica/template/util/SearchQuest.html",
+}
+
+TOTENTANZ_SELECTIVE_AUDIT = {
+    "magica/research/totentanz-selective-localization-20260817/README.md",
+    "magica/research/totentanz-selective-localization-20260817/engine_i18n_authority_summary.json",
+    "magica/research/totentanz-selective-localization-20260817/engine_i18n_selected_additions.tsv",
+    "magica/research/totentanz-selective-localization-20260817/native_battle_popup_audit.md",
+    "magica/research/totentanz-selective-localization-20260817/selected_files.tsv",
+}
+
 # Files imported byte-for-byte from the live main branch while this release branch
 # was being integrated.  They are eligible only when a second gate proves that
 # their current bytes still exactly match the requested main commit.
@@ -407,6 +466,18 @@ def classify_known(path: str, *, eol_only: bool, extra_repo: set[str]) -> tuple[
         return "allow", "explicit_extra", "explicit caller allow path"
     if path in PRODUCT_RUNTIME:
         return "allow", "product_runtime", "v26 JS or engine runtime product path"
+    if path in TOTENTANZ_SELECTIVE_RUNTIME:
+        return (
+            "allow",
+            "totentanz_selective_runtime",
+            "exact Totentanz path selected for verified localization value",
+        )
+    if path in TOTENTANZ_SELECTIVE_AUDIT:
+        return (
+            "allow",
+            "totentanz_selective_audit",
+            "exact provenance/control-source evidence for the selective Totentanz runtime set",
+        )
     if path in LIVE_MAIN_IMPORT:
         return "allow", "live_main_import", "byte-exact live-main import; separately commit-bound"
     if path in I18N_EFFECTIVE_LAYER:

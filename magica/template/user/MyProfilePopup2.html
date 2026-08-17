@@ -1,0 +1,7 @@
+	<div class="profileChange">
+		<textarea id="commentInput" class="" maxlength="50" readonly="readonly"><%= model.comment %></textarea><br>
+		<span class="commentNotis c_red">无法使用表情符号。</span>
+		<div class="textCount"><span id="textCount"><%= model.comment.length %></span>/50</div><br>
+		<div class="btn TE se_cancel b_white popupCloseBtn commentCancel"><span class="b_screen"></span>取消</div>
+		<div class="btn TE se_decide b_pink" id="commentDecide"><span class="b_screen"></span>确定</div>
+	</div>

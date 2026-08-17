@@ -5,13 +5,13 @@
 
 ## 总览
 
-- 全量统一主表：**12,930** 行（`full_machine_translation_review.tsv`）
+- 全量统一主表：**12,933** 行（`full_machine_translation_review.tsv`）
 - runtime residual／非 residual：**9,665**
 - static JS／HTML：**303**
 - frontend：**1,685**（含 **53** 条空候选）
 - Wiki glossary 支撑层：**955**
 - overrides／fragments：**16**
-- engine runtime：**303**（官方 6：稳定 ID 4、art-ID 拼接 1、官方 UI 原样保留 1；结构性空项 1；来源未知 296）
+- engine runtime：**306**（原 303 条保持原来源状态；另新增 3 条截图实证 exact 规则，来源分别为官中 native、Wiki/稳定业务键和本轮粗译）
 - battle miss 候选但未进入 runtime：**3**
 - battle runtime 全量采样：**20** 个唯一 miss，含 **8** 条语言决策；7 条 actionable、1 条国服原样保留、12 条中文／非语言项
 - Pass18：**939**，其中 **12** 条 root 亲译仍待人工复核
@@ -30,7 +30,7 @@ frontend 历史空候选 53 条按精确证据闭合：18 条 `runtime-absent/no
 - `frontend_all_1685.tsv`：四表中的 frontend 全量，含空候选。
 - `glossary_wiki_955.tsv`：Wiki 第二权威支撑层。
 - `overrides_fragments_16.tsv`：路径／跨节点混合来源补丁。
-- `engine_i18n_review_303.tsv`：native 直接读取的 engine 表。
+- `engine_i18n_review_306.tsv`：native 直接读取的 engine 表。
 - `battle_miss_needs_review.tsv`：仅供根任务复核、未进入 runtime 的候选。
 - `battle_runtime_language_decisions_8.tsv`：实战 8 条语言决策的来源／机翻状态。
 - `battle_runtime_unique_misses_20.tsv`：持久日志 20 个唯一 miss 的无遗漏分类。

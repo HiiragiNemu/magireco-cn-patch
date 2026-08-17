@@ -203,6 +203,43 @@ class FinalDeliveryTests(unittest.TestCase):
             verified["cached_patch_roundtrip"]["reverse"]["actual_tree"],
         )
 
+    def test_default_artifact_contract_derives_variable_product_counts(self) -> None:
+        _data, report = MODULE.inspect_product_artifact(self.artifact)
+        self.assertEqual(
+            {
+                "file_entries": 4,
+                "magica_entries": 3,
+                "engine_entries": 1,
+                "scenario_entries": 0,
+                "audit_research_entries": 0,
+            },
+            report["expected"],
+        )
+
+        expanded = self.root / "expanded.zip"
+        members = dict(self.artifact_members)
+        members["magica/template/reviewed-new.html"] = b"<p>new</p>\n"
+        write_product_zip(expanded, members)
+        _data, expanded_report = MODULE.inspect_product_artifact(expanded)
+        self.assertEqual(expanded_report["expected"]["file_entries"], 5)
+        self.assertEqual(expanded_report["expected"]["magica_entries"], 4)
+
+    def test_default_artifact_contract_still_rejects_audit_or_scenario(self) -> None:
+        for name in (
+            "magica/i18n_audit/leak.txt",
+            "madomagi/resource/scenario/leak.txt",
+        ):
+            with self.subTest(name=name):
+                path = self.root / ("forbidden-" + name.replace("/", "-") + ".zip")
+                members = dict(self.artifact_members)
+                members[name] = b"forbidden\n"
+                write_product_zip(path, members)
+                with self.assertRaisesRegex(
+                    MODULE.DeliveryError,
+                    "(?:product ZIP contract mismatch|artifact contract file_entries)",
+                ):
+                    MODULE.inspect_product_artifact(path)
+
     def test_shared_clone_can_verify_cached_roundtrip(self) -> None:
         shared = self.root / "shared-clone"
         run(["git", "clone", "--shared", str(self.repo), str(shared)], self.root)

@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 AUDIT = ROOT / "magica" / "i18n_audit" / "release_v26_authority"
 EXCLUDED = ("magica/research/", "magica/i18n_audit/")
 ENGINE = "madomagi/engine_i18n.tsv"
-EXPECTED_ENGINE_ROWS = 303
+EXPECTED_ENGINE_ROWS = 306
 MACHINE_REVIEW = AUDIT / "machine_translation_review"
 PASS19_CORRECTIONS = AUDIT / "pass19_official_static_corrections.tsv"
 FRONTEND_EMPTY_STATUS_COUNTS = {
@@ -30,9 +30,9 @@ FRONTEND_EMPTY_STATUS_COUNTS = {
     "official-source-verified": 1,
 }
 FRONTEND_EMPTY_RECORD_IDS = {
-    f"MT-{number:05d}" for number in range(1946, 1999)
+    f"MT-{number:05d}" for number in range(1949, 2002)
 }
-FRONTEND_OFFICIAL_ID = "MT-01965"
+FRONTEND_OFFICIAL_ID = "MT-01968"
 OFFICIAL_FORMATION_SHA256 = "8a73978062da1662bb7405d93ca37ef4e924b8a0b14bd66a56237e6ea8480f8d"
 WIKI_PAGES_INDEX_SHA256 = "e3fda452a6e6e90d75025ae89c2dc1cb9bd40cc69540bf843e1eb2c3061b078a"
 
@@ -115,14 +115,14 @@ EXPECTED_PRODUCT_TERM_FILES = {
 }
 
 EXPECTED_MACHINE_REVIEW_COUNTS = {
-    "master": 12930,
+    "master": 12933,
     "runtime": 9665,
     "static": 303,
     "frontend": 1685,
     "frontend_empty": 53,
     "glossary": 955,
     "overrides_fragments": 16,
-    "engine": 303,
+    "engine": 306,
     "battle_miss_needs_review": 3,
     "battle_runtime_language_decisions": 8,
     "battle_runtime_unique_misses": 20,
@@ -131,11 +131,69 @@ EXPECTED_MACHINE_REVIEW_COUNTS = {
 }
 
 
-def product_files(suffix: str):
+def product_files(suffix: str, root: Path = ROOT):
     return sorted(
-        path for path in (ROOT / "magica").rglob(f"*{suffix}")
-        if not path.relative_to(ROOT).as_posix().startswith(EXCLUDED)
+        path for path in (root / "magica").rglob(f"*{suffix}")
+        if path.is_file()
+        and not path.relative_to(root).as_posix().startswith(EXCLUDED)
     )
+
+
+def verify_product_inventory(root: Path = ROOT) -> dict[str, object]:
+    """Verify and describe the package input tree without freezing file counts.
+
+    The deterministic package builder owns the membership contract: every file
+    below ``magica/`` except research/audit evidence, plus exactly one engine
+    table.  This verifier mirrors that path contract and derives type counts from
+    the selected tree, so adding a reviewed HTML/CSS product does not require an
+    unrelated numeric constant change.
+    """
+
+    root = root.resolve()
+    magica = root / "magica"
+    engine = root / ENGINE
+    assert magica.is_dir(), f"missing product directory: {magica}"
+    assert engine.is_file() and not engine.is_symlink(), f"missing regular {ENGINE}"
+
+    members = [ENGINE]
+    for path in sorted(magica.rglob("*")):
+        assert not path.is_symlink(), f"product tree contains symlink: {path}"
+        if not path.is_file():
+            continue
+        relative = path.relative_to(root).as_posix()
+        if relative.startswith(EXCLUDED):
+            continue
+        members.append(relative)
+
+    members.sort()
+    assert members.count(ENGINE) == 1, f"{ENGINE} must appear exactly once"
+    assert len(members) == len(set(members)), "duplicate product member path"
+    folded: dict[str, str] = {}
+    for member in members:
+        previous = folded.setdefault(member.casefold(), member)
+        assert previous == member, f"case-folded product path collision: {previous} / {member}"
+        assert member == ENGINE or member.startswith("magica/"), (
+            f"unsupported product root: {member}"
+        )
+        assert not member.startswith(("magica/research/", "magica/i18n_audit/")), (
+            f"audit/research leaked into product inventory: {member}"
+        )
+
+    magica_members = [member for member in members if member.startswith("magica/")]
+    suffix_counts = Counter(Path(member).suffix.lower() for member in magica_members)
+    runtime_json = [
+        member for member in magica_members
+        if member.startswith("magica/js/libs/") and member.endswith(".json")
+    ]
+    return {
+        "package_entries": len(members),
+        "magica_entries": len(magica_members),
+        "engine_entries": members.count(ENGINE),
+        "scenario_entries": 0,
+        "audit_research_entries": 0,
+        "suffix_counts": dict(sorted(suffix_counts.items())),
+        "runtime_json_dictionaries": len(runtime_json),
+    }
 
 
 def display_path(path: Path) -> str:
@@ -316,7 +374,7 @@ def verify_frontend_empty_closure(rows: list[dict[str, str]], product_root: Path
             assert row["issue_type"] == "frontend_visible_identity_retain"
             assert row["runtime_consumed"] == "visible exact runtime node; offline candidate remains unselected"
         elif status == "identity-punctuation":
-            assert row["record_id"] == "MT-01983"
+            assert row["record_id"] == "MT-01986"
             assert row["suggested_cn"] == row["original_text"] == "・"
             assert row["source_bucket"] == "legacy-ai"
             assert row["source_tier"] == "current-product-visible-identity-audit"
@@ -391,8 +449,10 @@ def verify_machine_review():
         assert counts[key] == expected, (key, counts[key], expected)
     assert counts["engine_partition"] == {
         "engine_runtime_i18n_intentional_fragment": 1,
-        "engine_runtime_i18n_official": 6,
+        "engine_runtime_i18n_official": 7,
+        "engine_runtime_i18n_root_translation": 1,
         "engine_runtime_i18n_unverified": 296,
+        "engine_runtime_i18n_wiki": 1,
     }
     assert counts["pass18_root_personal_needs_review"] == 12
 
@@ -404,7 +464,7 @@ def verify_machine_review():
         "frontend_untranslated_53.tsv": counts["frontend_empty"],
         "glossary_wiki_955.tsv": counts["glossary"],
         "overrides_fragments_16.tsv": counts["overrides_fragments"],
-        "engine_i18n_review_303.tsv": counts["engine"],
+        "engine_i18n_review_306.tsv": counts["engine"],
         "battle_miss_needs_review.tsv": counts["battle_miss_needs_review"],
         "battle_runtime_language_decisions_8.tsv": counts["battle_runtime_language_decisions"],
         "battle_runtime_unique_misses_20.tsv": counts["battle_runtime_unique_misses"],
@@ -477,7 +537,7 @@ def verify_machine_review():
         if not line or line.startswith("#"):
             continue
         engine_product.append(tuple(line.split("\t", 1)))
-    engine_review = parsed["engine_i18n_review_303.tsv"]
+    engine_review = parsed["engine_i18n_review_306.tsv"]
     review_pairs = [(row["original_text"], row["current_cn"]) for row in engine_review]
     assert sorted(engine_product) == sorted(review_pairs), "engine review/product mismatch"
 
@@ -555,6 +615,7 @@ def main() -> int:
     assert runtime["status"] == "PASS" and authority["ok"] is True
     assert pass18["status"] == "PASS"
 
+    inventory = verify_product_inventory()
     js_files = product_files(".js")
     js_failures = []
     for path in js_files:
@@ -571,7 +632,12 @@ def main() -> int:
     html_files = product_files(".html")
     css_files = product_files(".css")
     json_files = sorted((ROOT / "magica/js/libs").glob("*.json"))
-    assert (len(js_files), len(html_files), len(css_files), len(json_files)) == (198, 182, 19, 23)
+    suffix_counts = inventory["suffix_counts"]
+    assert isinstance(suffix_counts, dict)
+    assert len(js_files) == suffix_counts.get(".js", 0)
+    assert len(html_files) == suffix_counts.get(".html", 0)
+    assert len(css_files) == suffix_counts.get(".css", 0)
+    assert len(json_files) == inventory["runtime_json_dictionaries"]
 
     ui = json.loads((AUDIT / "ui_union_validation.json").read_text(encoding="utf-8"))
     assert ui["status"] == "PASS"
@@ -601,11 +667,14 @@ def main() -> int:
             "product_js": len(js_files), "js_syntax_failures": len(js_failures),
             "product_html": len(html_files), "product_css": len(css_files),
             "runtime_json_dictionaries": len(json_files),
+            "package_entries": inventory["package_entries"],
+            "package_magica_entries": inventory["magica_entries"],
             "visible_untranslated_backlog": len(remaining_rows),
             "manual_review_rows": checklist_summary["total_rows"],
             "machine_translation_review_rows": machine_review["counts"]["master"],
         },
         "runtime_layer": runtime,
+        "product_inventory": inventory,
         "authority_guard": authority,
         "ui_union": {
             "status": ui["status"], "main_only": "12/12", "pass_only": "14/14",

@@ -73,7 +73,10 @@ class AuthorityProtectionTests(unittest.TestCase):
         candidates = [row for row in self.master if candidate_only_metadata(row)]
         self.assertEqual(EXPECTED_CANDIDATE_ONLY_METADATA, len(candidates))
         self.assertNotIn(candidates[0], selected)
-        self.assertEqual("MT-01965", candidates[0]["record_id"])
+        self.assertEqual(
+            ("i18n/frontend-strings.tsv", "global:6ec4009aee4bddf7aa31", "candidate_cn"),
+            (candidates[0]["file"], candidates[0]["stable_key_or_line"], candidates[0]["field"]),
+        )
         overlays = [row for row in self.master if offline_authority_overlay_metadata(row)]
         self.assertEqual(EXPECTED_OFFLINE_AUTHORITY_OVERLAYS, len(overlays))
         self.assertTrue(all(row not in selected for row in overlays))

@@ -1,0 +1,93 @@
+{
+  "schema": "magireco-engine-i18n-authority-summary-v1",
+  "generated_for": "totentanz-selective-localization-20260817",
+  "runtime_path": "madomagi/engine_i18n.tsv",
+  "rule_counts": {
+    "total": 306,
+    "exact": 304,
+    "prefix": 2,
+    "targets_containing_chinese": 289,
+    "formal_retained_or_not_requiring_translation": 16,
+    "documented_structural_empty_target": 1
+  },
+  "evidence_dimensions": {
+    "official_direct_or_context": 17,
+    "dual_abi_native_literal_presence": 62,
+    "wiki_additional_matches": 19,
+    "wiki_conflicts": 2,
+    "documented_structural": 1,
+    "remaining_unknown_or_low_authority": 202
+  },
+  "evidence_dimension_scope": "The overlapping evidence_dimensions above describe the historical first 303 rules. The three screenshot additions are itemized separately and are not folded into those legacy counters.",
+  "screenshot_addition_provenance": {
+    "official_cn_native_exact_context": 1,
+    "wiki_exact_stable_id": 1,
+    "llm_root_rough_authorized_for_production": 1
+  },
+  "counting_warning": "Evidence dimensions may overlap. They must not be summed and presented as mutually exclusive provenance totals. A dual-ABI native literal hit proves source-key presence only; it does not prove that the Chinese target is official.",
+  "authority_conclusion": {
+    "full_native_reverse_performed": false,
+    "full_native_translation_extraction_proven": false,
+    "targeted_elf_reverse_performed": true,
+    "targeted_elf_method": "pyelftools plus Capstone string/xref/function alignment across arm64-v8a and armeabi-v7a; 30205 common dynamic functions aligned",
+    "native_sizes_bytes": {
+      "arm64-v8a": 277065000,
+      "armeabi-v7a": 221488240
+    },
+    "supported_workflow": "runtime-miss-driven maintenance plus targeted native source-key/context evidence, official stable-ID verification, Wiki comparison, and existing human/low-authority translations",
+    "native_scan_in_this_pass": false,
+    "recommendation": "Do not require a complete reverse of the two 200MB-plus native libraries for this 306-rule table. Continue exact miss capture and authority lookup per key."
+  },
+  "current_key_repairs": [
+    {
+      "before": "マギア·スキル発動",
+      "after": "マギア・スキル発動",
+      "change": "source-key punctuation only; Chinese target unchanged"
+    },
+    {
+      "before": "マギア·スキルを所持しておりません。",
+      "after": "マギア・スキルを所持しておりません。",
+      "change": "source-key punctuation only; Chinese target unchanged"
+    },
+    {
+      "before": "ディスク·スキル",
+      "after": "ディスク・スキル",
+      "change": "source-key punctuation only; Chinese target unchanged"
+    },
+    {
+      "before": "獲得したEXP·カースチップ(CC)·宝箱は\\n入手できなくなります",
+      "after": "獲得したEXP・カースチップ(CC)・宝箱は\\n入手できなくなります",
+      "change": "source-key punctuation only; Chinese target unchanged"
+    }
+  ],
+  "current_screenshot_additions": [
+    {
+      "source": "発動",
+      "target": "发动",
+      "authority": "official-cn-native-exact"
+    },
+    {
+      "source": "Magia Drain [VI]",
+      "target": "Magia汲取[Ⅵ]",
+      "authority": "llm-root-rough"
+    },
+    {
+      "source": "Magia Damage DOWN [VI] (Target/1 Turn) / Magia Damage UP [VI] (Self/1 Turn)",
+      "target": "Magia伤害DOWN[Ⅵ](敌单/1T) & Magia伤害UP[Ⅵ](自/1T)",
+      "authority": "wiki-exact-stable-id"
+    }
+  ],
+  "absolute_evidence_paths": [
+    "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\madomagi\\engine_i18n.tsv",
+    "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\i18n_audit\\release_v26_authority\\machine_translation_review\\engine_i18n_review_306.tsv",
+    "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\i18n_audit\\release_v26_authority\\pass18_engine_official_additions.tsv",
+    "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Decoded_MyPage.json",
+    "D:\\magia\\MyProducts\\MAGIA RECORD CN\\origin_apktool_decoded\\lib\\arm64-v8a\\libmadomagi_native.so",
+    "D:\\magia\\MyProducts\\MAGIA RECORD CN\\origin_apktool_decoded\\lib\\armeabi-v7a\\libmadomagi_native.so",
+    "D:\\magia\\MyProducts\\magireco-wiki-data",
+    "D:\\magia\\AuditSnapshots\\20260809-181134360-author-correction-native-abi-checkpoint",
+    "D:\\magia\\AuditSnapshots\\2026-08-08-official-cn-recovery\\align_engine_table.py",
+    "D:\\magia\\AuditSnapshots\\2026-08-08-official-cn-recovery\\engine-table-official-cn-audit.json",
+    "D:\\magia\\AuditSnapshots\\2026-08-09-official-cn-recovery-current-table-v2\\run-a\\manifest.json"
+  ]
+}

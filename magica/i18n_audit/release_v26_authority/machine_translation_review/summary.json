@@ -12,8 +12,8 @@
   "snapshot": {
     "baseline_head": "d5e8f75d93f6760a588e592c22a3754d19370c68",
     "baseline_commit_epoch": "2026-08-09T22:46:21+08:00",
-    "product_content_file_count": 492,
-    "product_content_sha256": "8f6f32cbc0fc0c99fa05881488063e1f6843ddb3c60280a81907270f8ea53364",
+    "product_content_file_count": 528,
+    "product_content_sha256": "2d2c4585bcc9ffad2e0583483b8698e411eebd30be41d5dfddf5e85432e2b25d",
     "wiki_head": "42641f87818b37262032fd4dc5d5c756a48fed7a",
     "runtime_dictionary_count": 23,
     "runtime_dictionary_sha256": {
@@ -41,30 +41,32 @@
       "sectionList.json": "1652d2070f30bb8d4500cc51433ed5439ee2048d9c6004ac0bf8fd70f956677a",
       "shopItemList.json": "db028283ee141eea5279c81fe73d71323528e2ee12779073d6861e88b352dfd6"
     },
-    "engine_i18n_sha256": "9d14dc8c7c7a1dbfb381af86ebcfff17b2393b2cec5136ed1594f7ea87dbd4a4"
+    "engine_i18n_sha256": "faf509d606d3240f618132cb29425c1b4800fc0660b5c74195ee5f6266b51295"
   },
   "counts": {
-    "master": 12930,
+    "master": 12933,
     "runtime": 9665,
     "static": 303,
     "frontend": 1685,
     "frontend_empty": 53,
     "glossary": 955,
     "overrides_fragments": 16,
-    "engine": 303,
+    "engine": 306,
     "battle_miss_needs_review": 3,
     "battle_runtime_language_decisions": 8,
     "battle_runtime_unique_misses": 20,
     "pass18": 939,
     "explicit_llm_history": 264,
-    "unique_text_pairs": 8515,
+    "unique_text_pairs": 8518,
     "proper_name_priority_rows": 4708,
     "authority_name_candidates": 3,
     "by_component": {
       "battle_miss_needs_review": 3,
       "engine_runtime_i18n_intentional_fragment": 1,
-      "engine_runtime_i18n_official": 6,
+      "engine_runtime_i18n_official": 7,
+      "engine_runtime_i18n_root_translation": 1,
       "engine_runtime_i18n_unverified": 296,
+      "engine_runtime_i18n_wiki": 1,
       "fragments_unverified_mixed": 7,
       "frontend_ai_assisted_translated": 1632,
       "frontend_untranslated": 53,
@@ -82,7 +84,7 @@
       "frontend_i18n_fragment": 7,
       "frontend_i18n_input": 1685,
       "frontend_i18n_override": 9,
-      "native_engine_i18n": 303,
+      "native_engine_i18n": 306,
       "offline_authority_support": 955,
       "runtime_dictionary": 9665,
       "static_js_html": 303
@@ -90,9 +92,9 @@
     "by_source_bucket": {
       "legacy-ai": 1641,
       "new-root-human": 15,
-      "official": 1560,
-      "unknown": 8620,
-      "wiki": 1094
+      "official": 1561,
+      "unknown": 8621,
+      "wiki": 1095
     },
     "by_source_tier": {
       "1_official_cn_dump_component": 32,
@@ -105,6 +107,7 @@
       "current-product-visible-identity-audit": 34,
       "intentional-structural-rule": 1,
       "legacy_unverified_ai_assisted": 1589,
+      "llm-root-rough": 1,
       "none_exact_found": 8323,
       "official+wiki": 7,
       "official-cn": 4,
@@ -112,6 +115,7 @@
       "official-cn-component;official_component+wiki_component+new_human": 12,
       "official-cn-exact-art-id-join": 1,
       "official-cn-exact-path-dom-match": 1,
+      "official-cn-native-exact": 1,
       "official-cn-ui-exact-retained": 1,
       "official-same-character-or-wiki": 13,
       "official-same-character-or-wiki;official_cn_game_term": 18,
@@ -123,7 +127,7 @@
       "official_cn_term_component": 6,
       "official_or_wiki+root_context": 2,
       "unknown": 296,
-      "wiki": 970,
+      "wiki": 971,
       "wiki-exact-piece-id-name_sc-empty": 2,
       "wiki-exact-piece-id;official-parallel-timed-art-only": 1,
       "wiki_exact_character_name": 2,
@@ -132,8 +136,8 @@
     },
     "by_machine_translation": {
       "ai-assisted-unverified": 1632,
-      "false": 2658,
-      "unknown": 8640
+      "false": 2659,
+      "unknown": 8642
     },
     "by_review_status": {
       "authority-applied-pending-human-check": 704,
@@ -144,17 +148,19 @@
       "identity-punctuation": 1,
       "needs-human-review": 296,
       "needs-review/root-translation-required": 3,
-      "official-source-verified": 6,
+      "official-source-verified": 7,
       "pending": 9914,
       "root-translated-needs-human-review": 12,
+      "rough-production-authorized-needs-human-review": 1,
       "runtime-absent/not-backlog": 18,
       "verify-join": 1,
-      "visible-cn-compatible-identity": 33
+      "visible-cn-compatible-identity": 33,
+      "wiki-source-verified": 1
     },
     "by_risk": {
       "high": 8103,
       "low": 1049,
-      "medium": 3760,
+      "medium": 3763,
       "none": 18
     },
     "frontend_empty_53_partition": {
@@ -165,8 +171,10 @@
     },
     "engine_partition": {
       "engine_runtime_i18n_intentional_fragment": 1,
-      "engine_runtime_i18n_official": 6,
-      "engine_runtime_i18n_unverified": 296
+      "engine_runtime_i18n_official": 7,
+      "engine_runtime_i18n_root_translation": 1,
+      "engine_runtime_i18n_unverified": 296,
+      "engine_runtime_i18n_wiki": 1
     },
     "runtime_changed_after_pass15": 1068,
     "runtime_changed_resolution": {
@@ -190,7 +198,7 @@
     "frontend_all_including_empty": 1685,
     "glossary_wiki_support": 955,
     "overrides_and_fragments": 16,
-    "engine_runtime": 303,
+    "engine_runtime": 306,
     "battle_miss_candidate_only": 3,
     "battle_runtime_language_decisions": 8,
     "battle_runtime_unique_misses": 20,
@@ -209,7 +217,7 @@
     "untranslated_policy": "The generator writes no product text. The historic empty-53 cohort follows exact evidence: 18 runtime-absent/not-backlog, 33 visible-cn-compatible-identity, one identity-punctuation, and 属性相性 resolved by an official-CN exact path/DOM match to 属性克制.",
     "pass18_policy": "All 939 after-images are read from the manifest and verified against the current product before inclusion.",
     "explicit_llm_doppel": "Wiki-equivalent text further normalized by the stronger official-cn term Doppel->魔女化身 is recorded as resolved, not drift.",
-    "engine_policy": "Six official mappings are separated from one documented intentional empty fragment and 296 unknown-provenance entries: four exact stable-ID mappings (existing Livia plus three Mitama), one exact-art-ID join, and one official-UI identity retain.",
+    "engine_policy": "The original six official mappings remain protected. Three screenshot-proven exact-key additions are separately classified as official native exact, Wiki/current stable-ID, or root-reviewed rough; the documented empty fragment and all pre-existing unknown-provenance rows retain their original status.",
     "battle_runtime_policy": "The complete observed set is preserved as 20 unique misses: seven actionable rows, one official retained term, and twelve already-CN or nonlinguistic rows. Four captured current candidates have unknown provenance; after the official exact-art join is applied, three Wiki/parallel-art candidates remain machineTranslated=unknown and review-only.",
     "offline_tables": "frontend/glossary/overrides/fragments are maintenance inputs; only engine_i18n.tsv is directly consumed by the native client."
   },
@@ -231,8 +239,10 @@
     },
     "component_counts": {
       "engine_runtime_i18n_intentional_fragment": 1,
-      "engine_runtime_i18n_official": 6,
+      "engine_runtime_i18n_official": 7,
+      "engine_runtime_i18n_root_translation": 1,
       "engine_runtime_i18n_unverified": 296,
+      "engine_runtime_i18n_wiki": 1,
       "fragments_unverified_mixed": 7,
       "frontend_ai_assisted_translated": 1632,
       "overrides_unverified_mixed": 9,
@@ -249,8 +259,10 @@
       "overrides_unverified_mixed": 9,
       "engine_runtime_i18n_unverified": 296,
       "engine_runtime_i18n_intentional_fragment": 1,
-      "engine_runtime_i18n_official": 6,
-      "engine_total": 303
+      "engine_runtime_i18n_official": 7,
+      "engine_runtime_i18n_root_translation": 1,
+      "engine_runtime_i18n_wiki": 1,
+      "engine_total": 306
     }
   },
   "inputs": {
@@ -263,6 +275,7 @@
     "magica/i18n_audit/release_v26_authority/pass18_authority_corrections.tsv": "4d1821807ff2a1c90f026886cf6c1fe31041b687eb5270853a4d0549b39d2a30",
     "magica/i18n_audit/release_v26_authority/pass18_baseline.json": "e6d687f4caf7a8e7e949b40023a2f2b71c282f7fbc8c881ed4c3f75765cc940b",
     "magica/i18n_audit/release_v26_authority/pass18_engine_official_additions.tsv": "545934bc88e7377c3a0213abe836abf534cf967ca7ce13b2bb9d78c0999043e5",
+    "magica/research/totentanz-selective-localization-20260817/engine_i18n_selected_additions.tsv": "9a20baccda2386f76a30ba05604c985b79f19cebf74a2afcf7422ecb0059d612",
     "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/wiki_characters.json.gz": "6418c55e2581d5bb5251054830776a1061edd62c9c750daf4de6bb4fe682ff39",
     "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/wiki_memoria_battle_miss_extract.json": "412e679656691c939eec42261b25c12025eb3d5101e90c71c21de4378cedf205",
     "magica/i18n_audit/release_v26_authority/machine_translation_review/inputs/legacy_battle_runtime_miss_audit_8.tsv": "b335af2086095673cbe59f7251cc4c13e5b55bee83afd56f1f6903ee4cdaf0d9",
@@ -274,6 +287,6 @@
     "i18n/glossary.tsv": "f4e5679b9b32dac910d0326558986d22cb56bae8a14baf15e18e0a103f3cfba9",
     "i18n/overrides.tsv": "bb3fde799cb80f4b0cfb3aa7d1f9cef26a7e6d321a5b76b0a62b694047ad4265",
     "i18n/fragments.tsv": "304ff1f741ae2887db70267e89222b9f2578f2e1e6523954e5f548fe322694f7",
-    "madomagi/engine_i18n.tsv": "9d14dc8c7c7a1dbfb381af86ebcfff17b2393b2cec5136ed1594f7ea87dbd4a4"
+    "madomagi/engine_i18n.tsv": "faf509d606d3240f618132cb29425c1b4800fc0660b5c74195ee5f6266b51295"
   }
 }

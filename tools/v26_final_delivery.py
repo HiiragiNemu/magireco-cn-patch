@@ -51,13 +51,17 @@ RESEARCH_PREFIX = "magica/research/"
 AUDIT_PREFIX = "magica/i18n_audit/"
 EXPECTED_DOS_TIME = (1980, 1, 1, 0, 0, 0)
 EXPECTED_UNIX_MODE = stat.S_IFREG | 0o644
-DEFAULT_ARTIFACT_CONTRACT = {
-    "file_entries": 442,
-    "magica_entries": 441,
+DEFAULT_ARTIFACT_CONTRACT: dict[str, int | None] = {
+    # Product membership is already bound byte-for-byte to the final Git tree.
+    # Derive the variable product counts from that selected archive instead of
+    # freezing a number that changes whenever a reviewed HTML/CSS file is added.
+    "file_entries": None,
+    "magica_entries": None,
     "engine_entries": 1,
     "scenario_entries": 0,
     "audit_research_entries": 0,
 }
+DYNAMIC_ARTIFACT_CONTRACT_FIELDS = frozenset({"file_entries", "magica_entries"})
 
 OID_RE = re.compile(r"^[0-9a-f]{40,64}$")
 
@@ -84,7 +88,11 @@ def canonical_json_bytes(value: Any) -> bytes:
     ).encode("utf-8")
 
 
-def normalize_artifact_contract(value: dict[str, Any] | None) -> dict[str, int]:
+def normalize_artifact_contract(
+    value: dict[str, Any] | None,
+    *,
+    actual: dict[str, Any] | None = None,
+) -> dict[str, int]:
     contract = dict(DEFAULT_ARTIFACT_CONTRACT if value is None else value)
     expected_keys = set(DEFAULT_ARTIFACT_CONTRACT)
     if set(contract) != expected_keys:
@@ -92,7 +100,16 @@ def normalize_artifact_contract(value: dict[str, Any] | None) -> dict[str, int]:
             f"artifact contract keys mismatch: expected={sorted(expected_keys)} "
             f"actual={sorted(contract)}"
         )
-    for key, count in contract.items():
+    for key, count in list(contract.items()):
+        if count is None:
+            if key not in DYNAMIC_ARTIFACT_CONTRACT_FIELDS:
+                raise DeliveryError(f"artifact contract {key} cannot be dynamic")
+            if actual is None or type(actual.get(key)) is not int:
+                raise DeliveryError(
+                    f"artifact contract {key} requires a discovered archive inventory"
+                )
+            count = actual[key]
+            contract[key] = count
         if type(count) is not int or count < 0:
             raise DeliveryError(f"artifact contract {key} must be a non-negative integer")
     if contract["file_entries"] != (
@@ -123,7 +140,6 @@ def inspect_product_artifact(
     path: Path, contract: dict[str, Any] | None = None
 ) -> tuple[bytes, dict[str, Any]]:
     """Read once, reopen in memory, and enforce the complete product ZIP contract."""
-    contract = normalize_artifact_contract(contract)
     path = path.resolve()
     if not path.is_file() or path.is_symlink():
         raise DeliveryError(f"--artifact must be an existing regular ZIP file: {path}")
@@ -186,6 +202,8 @@ def inspect_product_artifact(
         if isinstance(exc, DeliveryError):
             raise
         raise DeliveryError(f"invalid product ZIP {path}: {exc}") from exc
+
+    contract = normalize_artifact_contract(contract, actual=actual)
 
     mismatches = {
         key: {"expected": expected, "actual": actual[key]}

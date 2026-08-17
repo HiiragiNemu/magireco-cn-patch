@@ -44,7 +44,7 @@ class V26ProductAuthorityTests(unittest.TestCase):
     def test_current_frontend53_partition_and_pass19_product(self) -> None:
         frontend = MOD.verify_frontend_empty_closure(self.frontend_empty_rows())
         self.assertEqual(frontend["status_counts"], MOD.FRONTEND_EMPTY_STATUS_COUNTS)
-        self.assertEqual(frontend["official_record"], "MT-01965")
+        self.assertEqual(frontend["official_record"], "MT-01968")
 
         pass19 = MOD.verify_pass19_product_closure(self.pass19_rows())
         self.assertEqual(pass19["manifest_rows"], 6)
@@ -53,6 +53,39 @@ class V26ProductAuthorityTests(unittest.TestCase):
         self.assertEqual(pass19["product_terms"]["心魔战"], {"occurrences": 20, "files": 11})
         self.assertEqual(pass19["product_terms"]["属性克制"], {"occurrences": 29, "files": 5})
         self.assertEqual(pass19["retired_terms"], {"心情战": 0, "属性相性": 0})
+
+    def test_product_inventory_counts_follow_selected_tree(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            files = {
+                "madomagi/engine_i18n.tsv": "戻る\t返回\n",
+                "magica/js/a.js": "define(function(){return true;});\n",
+                "magica/template/a.html": "<p>ok</p>\n",
+                "magica/css/a.css": "body{}\n",
+                "magica/image/a.png": "not-a-real-png",
+                "magica/research/notes.html": "excluded\n",
+                "magica/i18n_audit/report.html": "excluded\n",
+            }
+            for relative, value in files.items():
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(value, encoding="utf-8", newline="\n")
+
+            first = MOD.verify_product_inventory(root)
+            self.assertEqual(first["package_entries"], 5)
+            self.assertEqual(first["magica_entries"], 4)
+            self.assertEqual(first["engine_entries"], 1)
+            self.assertEqual(first["audit_research_entries"], 0)
+            self.assertEqual(
+                first["suffix_counts"],
+                {".css": 1, ".html": 1, ".js": 1, ".png": 1},
+            )
+
+            added = root / "magica/template/reviewed-new.html"
+            added.write_text("<p>new</p>\n", encoding="utf-8", newline="\n")
+            second = MOD.verify_product_inventory(root)
+            self.assertEqual(second["package_entries"], 6)
+            self.assertEqual(second["suffix_counts"][".html"], 2)
 
     def test_frontend53_status_drift_is_rejected(self) -> None:
         rows = copy.deepcopy(self.frontend_empty_rows())
