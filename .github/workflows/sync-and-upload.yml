@@ -853,7 +853,11 @@ jobs:
           UPSTREAM = f"{os.environ['UPSTREAM_OWNER']}/{os.environ['UPSTREAM_REPO']}"
 
           def gh(*args):
-              r = subprocess.run(["gh", "api", f"repos/{UPSTREAM}", *args],
+              # gh api 只收一个路径参数：repos/{UPSTREAM} 与后续段拼成单参数，
+              # 否则「accepts 1 arg(s), received 2」。
+              path = f"repos/{UPSTREAM}/" + "/".join(
+                  a.lstrip("/") for a in args)
+              r = subprocess.run(["gh", "api", path],
                                  capture_output=True, text=True)
               if r.returncode != 0:
                   raise RuntimeError(f"gh api 失败: {r.stderr.strip()}")
