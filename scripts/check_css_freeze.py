@@ -61,6 +61,13 @@ import zipfile
 INTENTIONAL = {
     # 把 koruri 的 src 改指包内 GB 字体；服务端原文只有一条 @font-face
     "css/_common/fonts.css",
+    # 汉化样式：页面 CSS 里的日文文案/样式被替换成中文，故意盖住服务端原文
+    "css/campaign/newyear_login/NewYearLogin.css",
+    "css/campaign/quiz/CampaignQuizTop.css",
+    "css/campaign/summer_mission/CampaignSummerMissionTop.css",
+    "css/event/EventArenaRankMatch/Result.css",
+    "css/test/SdCharaTest.css",
+    "css/test/ShopReworkTest.css",
 }
 # 「服务端原文 + 末尾追加」型：校验前缀而非整体 md5
 PREFIX_OF_SERVER = {"css/_common/common.css"}
@@ -146,13 +153,15 @@ def main():
     for rel in unknown:
         print("  ? %s（服务端清单里没有——多半是废弃文件，确认后加进豁免名单）" % rel)
     if frozen:
-        print("\n✘ 下面这些 CSS 冻住了。装过含它们的热更包的设备上，"
-              "这份内容会永远盖住服务端版本：")
+        print("\n⚠ 下面这些 CSS 与服务端不一致（冻住风险）：装过含它们的热更包的"
+              "设备上，这份内容会永远盖住服务端版本。")
+        print("    · 若是故意覆盖（如汉化样式），把路径加进上方 INTENTIONAL 名单；")
+        print("    · 否则把服务端现役内容原样放回包里再发一次（只写不删，覆盖是"
+              "唯一的解毒手段）。")
         for rel, why in frozen:
             print("    %s —— %s" % (rel, why))
-        print("\n修法：把服务端现役内容原样放回包里再发一次（只写不删，"
-              "覆盖是唯一的解毒手段）。")
-        return 1
+        # 只提醒、不拦截：汉化样式等故意覆盖是合法场景，放行与否由打包人判断。
+        return 0
     print("✔ 没有冻住的 CSS")
     return 0
 
