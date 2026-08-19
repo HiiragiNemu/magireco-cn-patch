@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="bossHpTextWrap gbFontImgS" data-before="<%= beforeHp %>" after="<%= afterHp %>"></div>
-    <div class="bossName gbFontWhite"><%= battleDetailModel.boss.name %></div>
+    <div class="bossName gbFontWhite"><%= battleDetailModel.boss.name === "幸福な魔女" ? "幸福魔女" : battleDetailModel.boss.name %></div>
     <div class="bossLevel gbFontGold">Lv <%= battleDetailModel.boss.level %></div>
     <div class="bossAttribute attribute">
       <span class="type_f <%= battleDetailModel.boss.attributeId %>"></span>
@@ -133,7 +133,7 @@
 			<div class="title"></div>
 			<div class="title effect"></div>
 			<div class="subtitle"></div>
-			<div class="text"><%= battleDetailModel.boss.name %>  Lv<%= battleDetailModel.boss.level %>出现了!</div>
+			<div class="text"><%= battleDetailModel.boss.name === "幸福な魔女" ? "幸福魔女" : battleDetailModel.boss.name %>  Lv<%= battleDetailModel.boss.level %>出现了!</div>
 		</div>
 	</div>
 </script>

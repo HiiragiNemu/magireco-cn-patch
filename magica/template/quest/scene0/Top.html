@@ -1,0 +1,19 @@
+<div id="Scene0Top" class="<%= model.templateClass %> <%= model.terminalClass %>">
+	<div id="mainSec" class="mainSec">
+		<div id="mainStoryBtn" class="mainStoryBtn se_decide TE"></div>
+		<div id="battleBtn" class="battleBtn se_decide TE"></div>
+		<div id="sideStoryBtn" class="sideStoryBtn se_decide TE"></div>
+		<div id="missionBtn" class="missionBtn se_decide TE">
+			<div class="balloonSec <%= model.limitedMission.balloonSecClass %>">
+				<div class="textSec">
+					<span class="textDate"><span>截止至 </span><%= model.limitedMission.endDateText %></span><br>
+					限时<br>
+					任务<br>
+					<span class="textOp">正在举办</span>
+				</div>
+			</div>
+		</div>
+		<div id="helpBtn" class="se_decide TE sb_gold_02">玩法说明</div>
+		<div id="movieBtn" class="se_decide TE c_gold">影片</div>
+	</div>
+</div>
