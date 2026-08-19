@@ -242,29 +242,30 @@ def relative_display(path: Path) -> str:
 
 
 def product_content_snapshot() -> tuple[int, str]:
-    """Hash stable product and maintenance inputs without generated reports."""
+    """Hash stable product inputs without generated reports or maintenance files.
+
+    2026-08-20：哈希范围收窄到真正的产品/翻译内容（i18n/madomagi/magica）。
+    此前把 .github/configures/manifests/scripts/tools 一并纳入，任何非产品
+    commit（改 CI、改脚本）都会让哈希漂移，触发 machine-review 内容漂移
+    校验，汉化改一两个字就阻断发布。收窄后改维护文件不再误报，产品内容
+    被篡改仍能拦截。
+    """
 
     archive_suffixes = {".zip", ".7z", ".tar", ".gz", ".apk"}
     stable_top_dirs = {
-        ".github",
-        "configures",
         "i18n",
         "madomagi",
         "magica",
-        "manifests",
-        "scripts",
-        "tools",
     }
     stable_magica_dirs = {"css", "fonts", "js", "resource", "template"}
     stable_root_files = {
+        # 2026-08-20 收窄：剔除维护脚本/文档/产物镜像，只保留产品配置。
+        # Build_JS_Injector.py（构建脚本）、README.md（文档）、version_*_new.json
+        # （sync 产物，每次变化）不再纳入，避免维护改动触发产品内容哈希漂移。
         ".gitattributes",
         ".gitignore",
         "asset_main_cn.json",
-        "Build_JS_Injector.py",
-        "README.md",
         "url_map.json",
-        "version_js_new.json",
-        "version_scenario_new.json",
     }
     excluded_i18n_files = {"migration-source-summary.json", "uiTextList.json"}
     paths: list[Path] = []
