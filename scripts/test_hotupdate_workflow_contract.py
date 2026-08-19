@@ -324,8 +324,13 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             "needs: [setup, commit-configs, r2-sync, doge-sync, pan123-upload, mirror-release]",
             cursor,
         )
-        for job in ("r2-sync", "doge-sync", "pan123-upload", "mirror-release"):
+        # 必须 success 的分发 job：object-storage 系与 Release 镜像（无变量停用开关）。
+        for job in ("r2-sync", "mirror-release"):
             self.assertIn(f"needs.{job}.result == 'success'", cursor)
+        # 可被 ENABLE_*_SYNC 仓库变量停用的分发 job：停用是主动选择
+        # （result=skipped），不算失败，游标照常推进——契约里它们是 != 'failure'。
+        for job in ("doge-sync", "pan123-upload"):
+            self.assertIn(f"needs.{job}.result != 'failure'", cursor)
 
         self.assertIn(
             "needs: [setup, pack-js, pack-scenario, publish, r2-sync, doge-sync, "
