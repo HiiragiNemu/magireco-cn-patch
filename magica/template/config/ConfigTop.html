@@ -196,8 +196,8 @@
 		<span class="leftCol c_gold">转移 ID</span><span class="rightCol transferId"><%='<%= user.personalId %\>'%></span><br>
 		<span class="leftCol c_gold">密码</span><span class="rightCol"><input readonly="readonly" type="password" id="transferPassword" class="commonFrame3" value=""></span><br>
 		<span class="leftCol c_gold">确认密码</span><span class="rightCol"><input readonly="readonly" type="password" id="checkPassWord" class="commonFrame3" value=""></span>
-		<div class="transferAlert">※Passwords must be 8-15个字符。</div>
-		<div class="transferNotice">转移账号时需要用到你的转移 ID is needed when transfering accounts.<br>请记录下你的 ID 和密码。</div>
+		<div class="transferAlert">※密码为8到15字符以内</div>
+		<div class="transferNotice">继承／绑定时需要输入继承／绑定ID。<br>请自行记录在备忘录中。</div>
 	</div>
 </script>
 
@@ -215,12 +215,12 @@
 		</div>
 		<p id="dataPopText">
 			<%='<% if((model.type === "voice" && model.onFlag) || (model.type === "movie" && model.newType === "off")){ %\>'%>
-				将删除所有已下载的 will delete all downloaded <%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%>.<br>
-				<%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%> 更改后将不再播放。
+				已下载的<%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%>数据将被删除。<br>
+				变更后<%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%>将无法播放。
 			<%="<% }else{ %\>"%>
-				下载中 <%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%> 数据<br>
-				全部 <%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%> 更改后将会播放。<br>
-				<span class="c_red">※We recommend using a stable Wi-Fi 网络。</span>
+				将下载<%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%>数据。<br>
+				变更后<%="<% if(model.type === 'voice'){ %\>"%>语音<%="<% }else{ %\>"%>影片<%="<% } %\>"%>将能够播放。<br>
+				<span class="c_red">※推荐在Wi-Fi等稳定的通讯环境下进行。</span>
 			<%="<% } %\>"%>
 		</p>
 		<div class="popBtnWrap">
@@ -241,17 +241,17 @@
 	<div class="textCount" style="display:inline-block;margin-left:50px;">
 		<span id="textCount">0</span>/8
 	</div>
-	<div class="c_red" style="margin-top:20px;">※Player Names can be changed only once a day.</div>
+	<div class="c_red" style="margin-top:20px;">※姓名每天只能变更1次</div>
 </script>
 
 <script id="deleteConfirmPop" type="text/template">
 <div id="dataDeletePopupText">
 	<%='<% if(isOn){ %\>'%>
 	你已选择使用后不再保留以下数据在本设备上。<br>
-	※This data will be deleted when the app is closed and will be downloaded again when needed.
+	※该数据将在应用关闭后删除，需要时会重新下载。
 	<%='<% } else { %\>'%>
 	你已选择使用后保留以下数据在本设备上。<br>
-	※This data will not be deleted when the app is closed.
+	※该数据在应用关闭后不会被删除。
 	<%='<% } %\>'%>
 
 	<div class="c_red" style="margin-top:20px;">
