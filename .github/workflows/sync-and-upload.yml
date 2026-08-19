@@ -2639,7 +2639,7 @@ jobs:
           echo "| R2 过时文件清理 | ${{ needs.setup.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 快照 Release | ${{ needs.mirror-release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量，已校准 Latest 徽标）', needs.mirror-release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| R2 系 CDN 刷新 | EdgeOne（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ Cloudflare（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
-          echo "| Doge 系同步 | 多吉云（\`${{ env.DOGE_DOMAIN }}\`）：${{ needs.doge-sync.result == 'success' && '✅ 已同步' || (fromJSON(vars.ENABLE_DOGE_SYNC || 'true') ? '⚠️ ' + needs.doge-sync.result : '🚫 已停用') }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 123云盘同步 | ${{ needs.pan123-upload.result == 'success' && '✅ 已同步' || (fromJSON(vars.ENABLE_PAN123_SYNC || 'true') ? '⚠️ ' + needs.pan123-upload.result : '🚫 已停用') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Doge 系同步 | 多吉云（\`${{ env.DOGE_DOMAIN }}\`）：${{ needs.doge-sync.result == 'success' && '✅ 已同步' || (fromJSON(vars.ENABLE_DOGE_SYNC || 'true') && format('⚠️ {0}', needs.doge-sync.result)) || '🚫 已停用' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 123云盘同步 | ${{ needs.pan123-upload.result == 'success' && '✅ 已同步' || (fromJSON(vars.ENABLE_PAN123_SYNC || 'true') && format('⚠️ {0}', needs.pan123-upload.result)) || '🚫 已停用' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
