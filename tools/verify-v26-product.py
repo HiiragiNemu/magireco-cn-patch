@@ -115,14 +115,15 @@ EXPECTED_PRODUCT_TERM_FILES = {
 }
 
 EXPECTED_MACHINE_REVIEW_COUNTS = {
-    "master": 12930,
+    # 2026-08-20 同步 HiiragiNemu i18n 合并：master 12930→12933, engine 303→306。
+    "master": 12933,
     "runtime": 9665,
     "static": 303,
     "frontend": 1685,
     "frontend_empty": 53,
     "glossary": 955,
     "overrides_fragments": 16,
-    "engine": 303,
+    "engine": 306,
     "battle_miss_needs_review": 3,
     "battle_runtime_language_decisions": 8,
     "battle_runtime_unique_misses": 20,
@@ -392,7 +393,7 @@ def verify_machine_review():
     assert counts["engine_partition"] == {
         "engine_runtime_i18n_intentional_fragment": 1,
         "engine_runtime_i18n_official": 6,
-        "engine_runtime_i18n_unverified": 296,
+        "engine_runtime_i18n_unverified": 299,
     }
     assert counts["pass18_root_personal_needs_review"] == 12
 
