@@ -100,7 +100,11 @@ on:
     types: [upstream-update]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  # 加 event_name 维度：2026-08-19 一个 repository_dispatch run 在 GitHub
+  # 侧卡死在 queued（cancel/网页端都收不掉），死锁在旧的 workflow+ref 组，
+  # 把后续所有 run 堵在队列外。按事件源分组后，手动 dispatch 与上游
+  # dispatch 各走各的组，立即绕开卡死 run；同事件源之间仍串行。
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
   # Release promotion changes several related assets.  Queue a later dispatch
   # instead of cancelling between a rename and its verification/rollback.
   cancel-in-progress: false
