@@ -140,23 +140,41 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             "python3 tools/pass20_official_static.py verify --state applied"
         )
         rebuild = self.text.index("python3 tools/build-v26-machine-review.py")
-        freshness = self.text.index("git diff --exit-code --", rebuild)
-        review_path = self.text.index(
-            "magica/i18n_audit/release_v26_authority/machine_translation_review",
-            freshness,
-        )
         unit_tests = self.text.index("python3 tools/test-v26-authority-protection.py -v")
         verify = self.text.index("python3 tools/verify-v26-authority-protection.py --json")
         package = self.text.index(
             "python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip"
         )
         self.assertLess(pass20, rebuild)
-        self.assertLess(rebuild, freshness)
-        self.assertLess(freshness, review_path)
-        self.assertLess(review_path, unit_tests)
+        self.assertLess(rebuild, unit_tests)
         self.assertLess(unit_tests, verify)
         self.assertLess(verify, package)
         self.assertNotIn("tools/build-v26-authority-protection.py", self.text)
+
+    def test_no_content_drift_guard_for_patch_repo(self):
+        """汉化 patch 仓库禁止内容漂移护栏，避免改一两个字就阻断发布。
+
+        2026-08-19：product_content_sha256 覆盖 .github/scripts/tools 等维护
+        文件，任何非产品 commit 都会让重建哈希漂移，触发 git diff --exit-code
+        硬失败，连带 APK/热更发布全部停摆，下游玩家更新不了客户端。已移除
+        i18n/generated 与 machine_translation_review 两处内容漂移护栏。
+        这里显式拒绝加回——谁加回来，本契约测试就红。
+        """
+        self.assertNotIn(
+            "git diff --exit-code -- i18n/generated",
+            self.text,
+        )
+        self.assertNotIn(
+            "git diff --exit-code -- \\\n"
+            "            magica/i18n_audit/release_v26_authority/machine_translation_review",
+            self.text,
+        )
+        # 双构建一致性护栏（Build_JS_Injector 防构建不确定性）与此无关，
+        # 必须保留——它校验的是构建是否可复现，而非内容是否漂移。
+        self.assertIn(
+            "test \"$FIRST_RUNTIME_SHA\" = \"$SECOND_RUNTIME_SHA\"",
+            self.text,
+        )
 
     def test_stable_publish_requires_closed_full_human_final_value_gate(self):
         validator = "python3 tools/validate-dsv4-human-review.py"
