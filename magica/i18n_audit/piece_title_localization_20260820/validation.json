@@ -17,19 +17,28 @@
     "wiki_commit": "2a27d64e3c59c893c177c5349b3a6c8134117aea",
     "pieceList_before_sha256": "d65b662fb8d740a30a985ee507227eb4b1372d05542d96a1261c4279ab20e5ed",
     "pieceList_after_sha256": "ebcbea6e3a87173d6883823a96eb7ae906a66733f12e1731a74483330ab6e40e",
-    "wiki_records_scanned": 1404
+    "wiki_records_scanned": 1404,
+    "main_before_manual_round": "66da7cbac7f5db215a17077bcb85b081ccf1d2c2",
+    "pieceList_before_manual_round_sha256": "ebcbea6e3a87173d6883823a96eb7ae906a66733f12e1731a74483330ab6e40e",
+    "pieceList_after_manual_round_sha256": "dc1c40d9111716c6ced7a5d3de15a40a61562b5cb25a332dcac07ebca3baf6fd"
   },
   "changes": {
-    "title_fields": 10,
+    "title_fields": 30,
     "by_source_tier": {
+      "current-product-character-name+manual": 1,
+      "current-product-cn-exclusive+manual": 1,
+      "manual-context": 15,
       "manual-user-directed-fallback": 1,
-      "wiki-exact-same-record": 9
+      "wiki-exact-same-record": 9,
+      "wiki-tw-simplified": 2,
+      "wiki-tw-support+manual": 1
     },
     "descriptions_changed": 0,
-    "non_pieceName_fields_changed": 0
+    "non_pieceName_fields_changed": 0,
+    "manual_context_round_title_fields": 20
   },
   "remaining": {
-    "latin_only_piece_titles": 20,
+    "latin_only_piece_titles": 0,
     "wiki_mapping_conflicts": 0
   },
   "required_user_examples": {
@@ -79,6 +88,133 @@
     "parsed_diff_equals_audit": true,
     "only_pieceName_changed": true,
     "dialogue_and_descriptions_untouched": true,
-    "json_round_trip": true
+    "json_round_trip": true,
+    "manual_round_only_approved_pieceName_changed": true,
+    "all_20_manual_decisions_materialized": true
+  },
+  "manual_context_round": {
+    "count": 20,
+    "decisions": {
+      "1356": {
+        "before": "Standby Ready",
+        "after": "准备就绪",
+        "source_tier": "manual-context",
+        "rationale": "结合“旭日之心”待命语境的完整标题人工翻译"
+      },
+      "1524": {
+        "before": "Miracle Heroines",
+        "after": "奇迹女主角们",
+        "source_tier": "wiki-tw-simplified",
+        "rationale": "Wiki 同记录 name_tw=奇蹟女主角們，转换为简体"
+      },
+      "1548": {
+        "before": "The Great Escape",
+        "after": "大逃亡",
+        "source_tier": "wiki-tw-simplified",
+        "rationale": "Wiki 同记录 name_tw=大逃亡"
+      },
+      "1554": {
+        "before": "Maid in Vampire",
+        "after": "吸血鬼女仆",
+        "source_tier": "wiki-tw-support+manual",
+        "rationale": "Wiki 同记录 name_tw=MAID·IN·吸血鬼；将完整独立标题中文化并保留女仆/吸血鬼双重意象"
+      },
+      "1571": {
+        "before": "Little Vacation",
+        "after": "小小假期",
+        "source_tier": "manual-context",
+        "rationale": "结合“小さな世界”与圣诞假期语境翻译"
+      },
+      "1588": {
+        "before": "The Great Father",
+        "after": "伟大的父亲",
+        "source_tier": "manual-context",
+        "rationale": "完整标题直译，正文不含需另行保留的英语口癖"
+      },
+      "1608": {
+        "before": "Disguise",
+        "after": "伪装",
+        "source_tier": "manual-context",
+        "rationale": "结合真假世界与隐藏自我的正文语境翻译"
+      },
+      "1609": {
+        "before": "Night Buzz Time",
+        "after": "夜间热议时刻",
+        "source_tier": "manual-context",
+        "rationale": "结合视频发布网站与 SNS 传播热度语境翻译"
+      },
+      "1610": {
+        "before": "Secret of Success",
+        "after": "成功的秘诀",
+        "source_tier": "manual-context",
+        "rationale": "结合向自己施加魔法、跨越黑暗的正文语境翻译"
+      },
+      "1611": {
+        "before": "Naked Heart",
+        "after": "赤裸之心",
+        "source_tier": "manual-context",
+        "rationale": "结合温泉、裸の自分与一糸まとわぬ想い的意象翻译"
+      },
+      "1612": {
+        "before": "Never Forget",
+        "after": "永不忘却",
+        "source_tier": "manual-context",
+        "rationale": "结合共同铺设道路与铭记希望的正文语境翻译"
+      },
+      "1678": {
+        "before": "Miracle☆Reporters",
+        "after": "奇迹☆记者们",
+        "source_tier": "manual-context",
+        "rationale": "保留标题星号与复数记者含义"
+      },
+      "1745": {
+        "before": "First record",
+        "after": "最初的记录",
+        "source_tier": "manual-context",
+        "rationale": "结合 TV 动画第一季先导视觉图与“持续刻录的唱片”双关翻译"
+      },
+      "1767": {
+        "before": "Forever in Me",
+        "after": "永存我心",
+        "source_tier": "manual-context",
+        "rationale": "结合只属于二人的幸福世界语境意译"
+      },
+      "1791": {
+        "before": "Little Summer Vacation",
+        "after": "小小暑假",
+        "source_tier": "manual-context",
+        "rationale": "结合“小さなサマー・バケーション”与无夏世界语境翻译"
+      },
+      "1808": {
+        "before": "Mikoto in Mirrors",
+        "after": "镜界中的濑奈命",
+        "source_tier": "current-product-character-name+manual",
+        "rationale": "角色名采用 charaList.json id=1044 的“濑奈命”；Mirrors 采用现有“镜界”术语"
+      },
+      "1863": {
+        "before": "Bitter & Citrus",
+        "after": "苦涩与柑橘",
+        "source_tier": "manual-context",
+        "rationale": "保留并列意象，结合逃避与温暖可能性的正文语境翻译"
+      },
+      "1961": {
+        "before": "Next☆Actor",
+        "after": "下一位☆演员",
+        "source_tier": "manual-context",
+        "rationale": "保留标题星号与下一位登场成员的语义"
+      },
+      "1985": {
+        "before": "Bitter Sweet Heart",
+        "after": "苦甜之心",
+        "source_tier": "manual-context",
+        "rationale": "结合巧克力与真实心意的苦甜双关翻译"
+      },
+      "10002": {
+        "before": "Artist and assistants",
+        "after": "艺术家与助手们",
+        "source_tier": "current-product-cn-exclusive+manual",
+        "rationale": "简中服专属记忆结晶；结合阿莉娜及两位助手的中文正文翻译"
+      }
+    }
   }
 }
