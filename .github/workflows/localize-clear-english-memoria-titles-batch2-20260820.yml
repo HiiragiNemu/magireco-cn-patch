@@ -1,0 +1,275 @@
+name: Localize clear English memoria titles batch 2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/localize-clear-english-memoria-titles-batch2-trigger-20260820.txt
+
+permissions:
+  contents: write
+
+concurrency:
+  group: localize-clear-english-memoria-titles-batch2-20260820
+  cancel-in-progress: false
+
+jobs:
+  localize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          path: patch
+
+      - uses: actions/checkout@v4
+        with:
+          repository: HiiragiNemu/magireco-wiki-data
+          path: wiki
+          fetch-depth: 1
+
+      - name: Apply clear title translations with Wiki precedence
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd patch
+          python -X utf8 - <<'PY'
+          from __future__ import annotations
+
+          import copy
+          import csv
+          import hashlib
+          import json
+          import re
+          import unicodedata
+          from pathlib import Path
+          from typing import Any, Iterable
+
+          piece_path = Path('magica/js/libs/pieceList.json')
+          wiki_path = Path('../wiki/data/memoria.json')
+          audit = Path('magica/i18n_audit/clear_english_memoria_titles_batch2_20260820')
+          audit.mkdir(parents=True, exist_ok=True)
+
+          manual_pairs = {
+              'Standby Ready': '准备就绪',
+              'Miracle Heroines': '奇迹女主角们',
+              'Little Vacation': '小小假期',
+              'The Great Escape': '大逃亡',
+              'Secret of Success': '成功的秘诀',
+              'Never Forget': '永不忘怀',
+              'First record': '最初的记录',
+              'Forever in Me': '永存我心',
+              'Next☆Actor': '下一位☆演员',
+              'Bitter Sweet Heart': '苦甜之心',
+              'Artist and assistants': '艺术家与助手们',
+          }
+          review_only = {
+              'Maid in Vampire': '含 Made/Maid 双关，需结合日文标题与卡面语境',
+              'Night Buzz Time': 'Buzz 的具体语义依活动语境而定',
+              'Naked Heart': '直译与意译差异较大，需结合卡面语境',
+              'Bitter & Citrus': '可能是口味、人物代称或专名，需结合卡面语境',
+          }
+          title_fields = ('pieceName', 'name', 'title')
+          id_fields = ('pieceId', 'piece_id', 'memoriaId', 'memoria_id', 'id')
+          cn_fields = ('name_zh', 'nameZh', 'name_cn', 'nameCn', 'name_sc', 'nameSc', 'title_zh', 'titleZh')
+
+          def norm(value: str) -> str:
+              value = unicodedata.normalize('NFKC', value)
+              return re.sub(r'\s+', ' ', value).strip().casefold()
+
+          manual = {norm(source): target for source, target in manual_pairs.items()}
+          review = {norm(source): (source, reason) for source, reason in review_only.items()}
+
+          def has_han(value: str) -> bool:
+              return bool(re.search(r'[\u3400-\u4dbf\u4e00-\u9fff]', value))
+
+          def walk(value: Any) -> Iterable[dict[str, Any]]:
+              if isinstance(value, dict):
+                  yield value
+                  for child in value.values():
+                      yield from walk(child)
+              elif isinstance(value, list):
+                  for child in value:
+                      yield from walk(child)
+
+          def stable_id(row: dict[str, Any]) -> str:
+              for key in id_fields:
+                  if row.get(key) not in (None, ''):
+                      return str(row[key])
+              return ''
+
+          def wiki_cn(row: dict[str, Any]) -> str | None:
+              for key in cn_fields:
+                  value = row.get(key)
+                  if isinstance(value, str):
+                      value = value.strip()
+                      if value and has_han(value):
+                          return value
+              return None
+
+          raw = piece_path.read_text(encoding='utf-8-sig')
+          data = json.loads(raw)
+          before = copy.deepcopy(data)
+          wiki = json.loads(wiki_path.read_text(encoding='utf-8-sig'))
+
+          wiki_sets: dict[str, set[str]] = {}
+          for row in walk(wiki):
+              pid = stable_id(row)
+              cn = wiki_cn(row)
+              if pid and cn:
+                  wiki_sets.setdefault(pid, set()).add(cn)
+          wiki_by_id = {pid: next(iter(values)) for pid, values in wiki_sets.items() if len(values) == 1}
+
+          changes = []
+          conflicts = []
+          remaining_review = []
+          seen = {key: 0 for key in manual}
+
+          for row in walk(data):
+              pid = stable_id(row)
+              if not pid:
+                  continue
+              for field in title_fields:
+                  value = row.get(field)
+                  if not isinstance(value, str) or not value.strip():
+                      continue
+                  key = norm(value)
+                  if key in review:
+                      source, reason = review[key]
+                      remaining_review.append({
+                          'piece_id': pid,
+                          'field': field,
+                          'source_title': value,
+                          'reason': reason,
+                          'required_next_source': 'Wiki 同 pieceId、日文原题、卡面/活动语境',
+                      })
+                      continue
+                  if key not in manual:
+                      continue
+                  seen[key] += 1
+                  wiki_values = wiki_sets.get(pid, set())
+                  if len(wiki_values) > 1:
+                      conflicts.append({
+                          'piece_id': pid,
+                          'field': field,
+                          'source_title': value,
+                          'wiki_candidates': ' | '.join(sorted(wiki_values)),
+                          'reason': '同一 pieceId 存在多个 Wiki 中文标题，未自动选择',
+                      })
+                      continue
+                  if pid in wiki_by_id:
+                      target = wiki_by_id[pid]
+                      source_tier = '2_wiki_exact_piece_id'
+                      source_record = f'data/memoria.json::pieceId={pid}'
+                  else:
+                      target = manual[key]
+                      source_tier = '4_root_human_clear_title'
+                      source_record = f'clear-title batch 2::{value}'
+                  if target == value:
+                      continue
+                  row[field] = target
+                  changes.append({
+                      'piece_id': pid,
+                      'field': field,
+                      'before': value,
+                      'after': target,
+                      'source_tier': source_tier,
+                      'source_record': source_record,
+                  })
+
+          before_rows = {stable_id(row): row for row in walk(before) if stable_id(row)}
+          after_rows = {stable_id(row): row for row in walk(data) if stable_id(row)}
+          for pid, old in before_rows.items():
+              new = after_rows.get(pid)
+              if new is None:
+                  raise AssertionError(f'missing pieceId={pid}')
+              old_other = {key: value for key, value in old.items() if key not in title_fields}
+              new_other = {key: value for key, value in new.items() if key not in title_fields}
+              if old_other != new_other:
+                  raise AssertionError(f'non-title field changed: pieceId={pid}')
+
+          still_present = []
+          for row in walk(data):
+              pid = stable_id(row)
+              if not pid:
+                  continue
+              for field in title_fields:
+                  value = row.get(field)
+                  if isinstance(value, str) and norm(value) in manual:
+                      still_present.append({'piece_id': pid, 'field': field, 'value': value})
+          if still_present:
+              raise AssertionError(f'clear English titles remain: {still_present}')
+
+          if changes:
+              rendered = json.dumps(data, ensure_ascii=False, indent=2) + '\n' if '\n' in raw else json.dumps(data, ensure_ascii=False, separators=(',', ':'))
+              piece_path.write_text(rendered, encoding='utf-8')
+          json.loads(piece_path.read_text(encoding='utf-8-sig'))
+
+          with (audit / 'APPLIED.tsv').open('w', encoding='utf-8-sig', newline='') as handle:
+              fields = ['piece_id', 'field', 'before', 'after', 'source_tier', 'source_record']
+              writer = csv.DictWriter(handle, fieldnames=fields, delimiter='\t', lineterminator='\n')
+              writer.writeheader()
+              writer.writerows(changes)
+          with (audit / 'CONFLICTS.tsv').open('w', encoding='utf-8-sig', newline='') as handle:
+              fields = ['piece_id', 'field', 'source_title', 'wiki_candidates', 'reason']
+              writer = csv.DictWriter(handle, fieldnames=fields, delimiter='\t', lineterminator='\n')
+              writer.writeheader()
+              writer.writerows(conflicts)
+          with (audit / 'CONTEXT_REVIEW.tsv').open('w', encoding='utf-8-sig', newline='') as handle:
+              fields = ['piece_id', 'field', 'source_title', 'reason', 'required_next_source']
+              writer = csv.DictWriter(handle, fieldnames=fields, delimiter='\t', lineterminator='\n')
+              writer.writeheader()
+              writer.writerows(remaining_review)
+
+          decisions = []
+          for source, target in manual_pairs.items():
+              count = seen[norm(source)]
+              decisions.append({
+                  'source': source,
+                  'manual_fallback': target,
+                  'occurrences_on_checked_main': count,
+                  'status': 'localized' if count else 'already-resolved-or-source-absent',
+              })
+          validation = {
+              'schema': 'magireco-cn-clear-english-memoria-titles-batch2/v1',
+              'status': 'PASS',
+              'scope': 'piece title fields only',
+              'title_fields_changed': len(changes),
+              'wiki_exact_changes': sum(row['source_tier'] == '2_wiki_exact_piece_id' for row in changes),
+              'human_fallback_changes': sum(row['source_tier'] == '4_root_human_clear_title' for row in changes),
+              'clear_source_titles_remaining': 0,
+              'context_review_rows': len(remaining_review),
+              'wiki_conflicts': len(conflicts),
+              'non_title_fields_changed': 0,
+              'intentional_dialogue_english_touched': False,
+              'pieceList_sha256': hashlib.sha256(piece_path.read_bytes()).hexdigest(),
+              'decisions': decisions,
+          }
+          (audit / 'validation.json').write_text(json.dumps(validation, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          (audit / 'README.md').write_text(
+              '# 明确英文记忆结晶标题汉化：第二批\n\n'
+              '仅修改标题字段。Wiki 同 `pieceId` 中文优先；无 Wiki 中文时才采用本批次人工译名。剧情、说明、角色台词和阿莉娜的英语夹杂均不修改。\n\n'
+              '双关或语境依赖标题进入 `CONTEXT_REVIEW.tsv`，不靠字面强行翻译。\n',
+              encoding='utf-8',
+          )
+          print(json.dumps(validation, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Publish and remove one-shot files
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd patch
+          rm -f .github/workflows/localize-clear-english-memoria-titles-batch2-20260820.yml
+          rm -f .github/localize-clear-english-memoria-titles-batch2-trigger-20260820.txt
+          git diff --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'fix(i18n): localize clear English memoria titles batch 2'
+          git pull --rebase origin main
+          git push origin HEAD:main
