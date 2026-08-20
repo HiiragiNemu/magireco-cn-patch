@@ -9,4 +9,10 @@
 - 优先采用 Wiki 同一条记录中的人工中文标题；只有本轮用户明确点名且 Wiki 无可用中文时，才启用五项限定人工兜底。
 - 不做子串替换，不改说明正文，不改任何 ID。
 
-本轮写入标题字段：**10**；剩余纯英文标题：**20**；Wiki 映射冲突：**0**。
+两轮合计写入标题字段：**30**；剩余纯英文独立标题：**0**；Wiki 映射冲突：**0**。
+
+## 第二轮：剩余 20 项
+
+第二轮读取每条记忆结晶的现有中文正文及 Wiki 同记录字段逐条判断。其中 `Miracle Heroines` 与 `The Great Escape` 采用 Wiki 繁中字段转简体；`Mikoto in Mirrors` 的角色名采用当前 `charaList.json` 的“濑奈命”；其余为有上下文记录的人工翻译。完整决策见 `MANUAL_CONTEXT_APPLIED.tsv`。
+
+两轮均未修改 `description`、scenario、角色语音、对白或任何非 `pieceName` 字段。
