@@ -1,0 +1,84 @@
+{
+  "schema": "patch-front/piece-title-localization/v1",
+  "status": "PASS",
+  "scope": {
+    "included": [
+      "magica/js/libs/pieceList.json::pieceName（纯英文独立标题）"
+    ],
+    "excluded": [
+      "scenario 剧情文本",
+      "角色语音与对白",
+      "piece description 正文",
+      "阿莉娜等角色刻意夹用的 body/show/fool girl 等英语口癖"
+    ]
+  },
+  "source": {
+    "main_before": "5041f1ef4a4598387db347832de5bd7e3ff2eb34",
+    "wiki_commit": "2a27d64e3c59c893c177c5349b3a6c8134117aea",
+    "pieceList_before_sha256": "d65b662fb8d740a30a985ee507227eb4b1372d05542d96a1261c4279ab20e5ed",
+    "pieceList_after_sha256": "ebcbea6e3a87173d6883823a96eb7ae906a66733f12e1731a74483330ab6e40e",
+    "wiki_records_scanned": 1404
+  },
+  "changes": {
+    "title_fields": 10,
+    "by_source_tier": {
+      "manual-user-directed-fallback": 1,
+      "wiki-exact-same-record": 9
+    },
+    "descriptions_changed": 0,
+    "non_pieceName_fields_changed": 0
+  },
+  "remaining": {
+    "latin_only_piece_titles": 20,
+    "wiki_mapping_conflicts": 0
+  },
+  "required_user_examples": {
+    "Different Story：Rookies": {
+      "status": "localized-this-run",
+      "pieceIds": [
+        "1025"
+      ],
+      "final": "另一段故事：新人们",
+      "source_tier": "manual-user-directed-fallback"
+    },
+    "As a fashion model": {
+      "status": "localized-this-run",
+      "pieceIds": [
+        "1050"
+      ],
+      "final": "作为一位时尚模特",
+      "source_tier": "wiki-exact-same-record"
+    },
+    "Begin a Hunt": {
+      "status": "localized-this-run",
+      "pieceIds": [
+        "1061"
+      ],
+      "final": "开始狩猎",
+      "source_tier": "wiki-exact-same-record"
+    },
+    "Splash party!": {
+      "status": "localized-this-run",
+      "pieceIds": [
+        "1065"
+      ],
+      "final": "戏水派对！",
+      "source_tier": "wiki-exact-same-record"
+    },
+    "Three geniuses": {
+      "status": "localized-this-run",
+      "pieceIds": [
+        "1322"
+      ],
+      "final": "三位天才",
+      "source_tier": "wiki-exact-same-record"
+    }
+  },
+  "checks": {
+    "all_targets_contain_han": true,
+    "parsed_diff_equals_audit": true,
+    "only_pieceName_changed": true,
+    "dialogue_and_descriptions_untouched": true,
+    "json_round_trip": true
+  }
+}
