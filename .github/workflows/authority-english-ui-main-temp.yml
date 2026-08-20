@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: authority-english-ui-main-temp-20260820
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   publish:
@@ -42,8 +42,9 @@ jobs:
             .github/authority-english-ui-trigger.txt
             magica/js/libs/**
             magica/i18n_audit/libs_json_completion_20260820/**
-            magica/i18n_audit/release_v26_authority/machine_translation_review/**
-            magica/resource/image_web/**
+            magica/i18n_audit/release_v26_authority/machine_translation_review/battle_runtime_unique_misses_20.tsv
+            magica/i18n_audit/release_v26_authority/machine_translation_review/frontend_untranslated_53.tsv
+            magica/i18n_audit/release_v26_authority/machine_translation_review/summary.json
 
       - name: Checkout pinned Wiki authority
         uses: actions/checkout@v4
