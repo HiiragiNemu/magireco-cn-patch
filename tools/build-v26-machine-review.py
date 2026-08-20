@@ -242,29 +242,30 @@ def relative_display(path: Path) -> str:
 
 
 def product_content_snapshot() -> tuple[int, str]:
-    """Hash stable product and maintenance inputs without generated reports."""
+    """Hash stable product inputs without generated reports or maintenance files.
+
+    2026-08-20：哈希范围收窄到真正的产品/翻译内容（i18n/madomagi/magica）。
+    此前把 .github/configures/manifests/scripts/tools 一并纳入，任何非产品
+    commit（改 CI、改脚本）都会让哈希漂移，触发 machine-review 内容漂移
+    校验，汉化改一两个字就阻断发布。收窄后改维护文件不再误报，产品内容
+    被篡改仍能拦截。
+    """
 
     archive_suffixes = {".zip", ".7z", ".tar", ".gz", ".apk"}
     stable_top_dirs = {
-        ".github",
-        "configures",
         "i18n",
         "madomagi",
         "magica",
-        "manifests",
-        "scripts",
-        "tools",
     }
     stable_magica_dirs = {"css", "fonts", "js", "resource", "template"}
     stable_root_files = {
+        # 2026-08-20 收窄：剔除维护脚本/文档/产物镜像，只保留产品配置。
+        # Build_JS_Injector.py（构建脚本）、README.md（文档）、version_*_new.json
+        # （sync 产物，每次变化）不再纳入，避免维护改动触发产品内容哈希漂移。
         ".gitattributes",
         ".gitignore",
         "asset_main_cn.json",
-        "Build_JS_Injector.py",
-        "README.md",
         "url_map.json",
-        "version_js_new.json",
-        "version_scenario_new.json",
     }
     excluded_i18n_files = {"migration-source-summary.json", "uiTextList.json"}
     paths: list[Path] = []
@@ -1882,14 +1883,17 @@ def main() -> None:
     frontend_empty_partition = Counter(r["manual_review_status"] for r in frontend_untranslated)
 
     expected = {
-        "master": 12930,
+        # 2026-08-20 同步 HiiragiNemu i18n 合并：madomagi/engine_i18n.tsv
+        # 新增 3 条 master 翻译、3 条 engine 翻译（master 12930→12933,
+        # engine 303→306）。其余计数未变。
+        "master": 12933,
         "runtime": 9665,
         "static": 303,
         "frontend": 1685,
         "frontend_empty": 53,
         "glossary": 955,
         "overrides_fragments": 16,
-        "engine": 303,
+        "engine": 306,
         "battle_miss_needs_review": 3,
         "battle_runtime_language_decisions": 8,
         "battle_runtime_unique_misses": 20,
@@ -1928,7 +1932,9 @@ def main() -> None:
         )
     if engine_component_counts != Counter(
         {
-            "engine_runtime_i18n_unverified": 296,
+            # 2026-08-20 同步 HiiragiNemu i18n 合并：新增 3 条 engine 翻译
+            # 均为 unverified（296→299），official 6 与 fragment 1 不变。
+            "engine_runtime_i18n_unverified": 299,
             "engine_runtime_i18n_official": 6,
             "engine_runtime_i18n_intentional_fragment": 1,
         }
@@ -2128,7 +2134,7 @@ def main() -> None:
             "untranslated_policy": "The generator writes no product text. The historic empty-53 cohort follows exact evidence: 18 runtime-absent/not-backlog, 33 visible-cn-compatible-identity, one identity-punctuation, and 属性相性 resolved by an official-CN exact path/DOM match to 属性克制.",
             "pass18_policy": "All 939 after-images are read from the manifest and verified against the current product before inclusion.",
             "explicit_llm_doppel": "Wiki-equivalent text further normalized by the stronger official-cn term Doppel->魔女化身 is recorded as resolved, not drift.",
-            "engine_policy": "Six official mappings are separated from one documented intentional empty fragment and 296 unknown-provenance entries: four exact stable-ID mappings (existing Livia plus three Mitama), one exact-art-ID join, and one official-UI identity retain.",
+            "engine_policy": "Six official mappings are separated from one documented intentional empty fragment and 299 unknown-provenance entries: four exact stable-ID mappings (existing Livia plus three Mitama), one exact-art-ID join, and one official-UI identity retain.",
             "battle_runtime_policy": "The complete observed set is preserved as 20 unique misses: seven actionable rows, one official retained term, and twelve already-CN or nonlinguistic rows. Four captured current candidates have unknown provenance; after the official exact-art join is applied, three Wiki/parallel-art candidates remain machineTranslated=unknown and review-only.",
             "offline_tables": "frontend/glossary/overrides/fragments are maintenance inputs; only engine_i18n.tsv is directly consumed by the native client.",
         },
@@ -2150,7 +2156,7 @@ def main() -> None:
 - frontend：**{len(frontend_rows):,}**（含 **{len(frontend_untranslated)}** 条空候选）
 - Wiki glossary 支撑层：**{len(glossary_master):,}**
 - overrides／fragments：**{len(override_fragment_rows):,}**
-- engine runtime：**{len(engine_rows):,}**（官方 6：稳定 ID 4、art-ID 拼接 1、官方 UI 原样保留 1；结构性空项 1；来源未知 296）
+- engine runtime：**{len(engine_rows):,}**（官方 6：稳定 ID 4、art-ID 拼接 1、官方 UI 原样保留 1；结构性空项 1；来源未知 299）
 - battle miss 候选但未进入 runtime：**{len(battle_miss_master):,}**
 - battle runtime 全量采样：**{len(legacy_battle_inventory):,}** 个唯一 miss，含 **{len(legacy_battle_decisions):,}** 条语言决策；7 条 actionable、1 条国服原样保留、12 条中文／非语言项
 - Pass18：**{len(pass18_applied):,}**，其中 **12** 条 root 亲译仍待人工复核

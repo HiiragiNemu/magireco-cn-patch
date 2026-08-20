@@ -73,7 +73,10 @@ class AuthorityProtectionTests(unittest.TestCase):
         candidates = [row for row in self.master if candidate_only_metadata(row)]
         self.assertEqual(EXPECTED_CANDIDATE_ONLY_METADATA, len(candidates))
         self.assertNotIn(candidates[0], selected)
-        self.assertEqual("MT-01965", candidates[0]["record_id"])
+        # 2026-08-20 同步 HiiragiNemu i18n 合并：MT-01965 来源改为 legacy-ai
+        # （不再满足 official source_bucket 候选条件），MT-01968（official
+        # 新增候选）成为唯一候选。
+        self.assertEqual("MT-01968", candidates[0]["record_id"])
         overlays = [row for row in self.master if offline_authority_overlay_metadata(row)]
         self.assertEqual(EXPECTED_OFFLINE_AUTHORITY_OVERLAYS, len(overlays))
         self.assertTrue(all(row not in selected for row in overlays))

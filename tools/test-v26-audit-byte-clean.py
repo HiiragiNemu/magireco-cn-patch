@@ -82,7 +82,8 @@ def main() -> None:
         raise AssertionError(
             f"protection manifest summary binding drift: {actual_summary} != {expected_summary}"
         )
-    if summary.get("counts", {}).get("master") != 12930:
+    # 2026-08-20 同步 HiiragiNemu i18n 合并：master 12930→12933。
+    if summary.get("counts", {}).get("master") != 12933:
         raise AssertionError("unexpected machine-review master count")
 
     print(
