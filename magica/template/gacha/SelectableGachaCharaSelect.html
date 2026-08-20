@@ -15,7 +15,7 @@
 				<span></span>
 			</div>
 
-			<div id='cv'>cv:<%= model.voiceActor %></div>
+			<div id='cv'>声优：<%= model.voiceActor %></div>
 			<div class='attribute'>
 				<span class='<%= model.defaultCard.attributeId %> type_f'></span>
 			</div>
@@ -52,15 +52,15 @@
 							'SUPPORT' : '协助',
 							'ULTIMATE': '究极',
 							'CIRCLE_MAGIA' : '圆环Magia',
-							'CIRCLE_SUPPORT' : '圆环协助',
+							'CIRCLE_SUPPORT' : '圆环助战',
 							'EXCEED'  : '超越',
 							'AKUMA'  : '恶魔',
 							'ARUTEMETTO'  : '究极',
 							'INFINITE'  : '无限',
-							'MUGENDAI':'无限',
+							'MUGENDAI':'无限大',
 							'MYSTIC':'神秘',
 							'DEVIL':'恶魔',
-							'LASTCONNECT':'最终Connect',
+							'LASTCONNECT':'最终连携',
 						}
 					%>
 					<p class='value'><%= typeText[model.initialType] %></p>
@@ -74,7 +74,7 @@
 				</ul>
 				<div class='connect'>
 					<div class="flexBox">
-						<div class="dtElm long">Connect</div>
+						<div class="dtElm long">连携</div>
 						<p class='title c_purple'><%= model.defaultCard.cardSkill.name %></p>
 					</div>
 					<p class='detail ts_white'><%= model.defaultCard.cardSkill.shortDescription %></p>

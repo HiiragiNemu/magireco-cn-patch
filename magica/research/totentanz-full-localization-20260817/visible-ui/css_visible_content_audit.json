@@ -1,0 +1,2026 @@
+{
+  "schema_version": 1,
+  "ok": true,
+  "scope": "magica/css/**/*.css quoted content declarations",
+  "authority_order": [
+    "A:/magicaOLD/css same-path same-selector official CN",
+    "existing confirmed MagiaCN same-selector override",
+    "new path-scoped human translation"
+  ],
+  "policy": {
+    "formal_terms_preserved": [
+      "AP",
+      "HP",
+      "ATK",
+      "DEF",
+      "SPD",
+      "BP",
+      "MP",
+      "GP",
+      "Pt",
+      "Magia",
+      "Charge",
+      "Accele",
+      "Blast",
+      "EX",
+      "EXP"
+    ],
+    "ordinary_english_localized": [
+      "Illustrator",
+      "Rank",
+      "Stage",
+      "Lv",
+      "LV",
+      "Lv MAX",
+      "OVER",
+      "BONUS"
+    ],
+    "duplicate_source_rules": "original Japanese/English declarations are replaced even when a later Chinese override exists",
+    "connect_supersession": "UI-075 standalone visible Connect is superseded by official terminology 连携; identifiers and protected complete strings remain out of scope"
+  },
+  "counts": {
+    "css_files_scanned": 41,
+    "content_declarations_scanned": 540,
+    "localized_rules_this_pass": 110,
+    "localized_literal_fields_this_pass": 110,
+    "localized_files_this_pass": 26,
+    "official_cn_same_selector": 31,
+    "confirmed_existing_human": 72,
+    "new_human": 7,
+    "kana_residuals": 0,
+    "unwanted_residuals": 0,
+    "intentional_formal_residual_groups": 8,
+    "connect_supersessions": 1
+  },
+  "manifest": {
+    "path": "magica/research/totentanz-full-localization-20260817/visible-ui/visible_ui_manifest.json",
+    "sha256": "e45a3199092452c3e047e7e97d358ac054d52af53d45067a50e121dcb9b29dc9",
+    "item_range": [
+      "UI-066",
+      "UI-175"
+    ]
+  },
+  "verification": {
+    "full_application_report": "magica/research/totentanz-full-localization-20260817/visible-ui/application_verification.json",
+    "css_final_verify_report": "magica/research/totentanz-full-localization-20260817/visible-ui/css_content_verify_final.json",
+    "rollback_rehearsal_report": "magica/research/totentanz-full-localization-20260817/visible-ui/css_content_rollback_rehearsal.json"
+  },
+  "intentional_residuals": [
+    {
+      "value": "ATK",
+      "count": 3,
+      "classification": "formal-game-term",
+      "reason": "kept by localization terminology contract",
+      "paths": [
+        "magica/css/_common/common.css",
+        "magica/css/chara/CharaEnhancementTree.css"
+      ]
+    },
+    {
+      "value": "DEF",
+      "count": 3,
+      "classification": "formal-game-term",
+      "reason": "kept by localization terminology contract",
+      "paths": [
+        "magica/css/_common/common.css",
+        "magica/css/chara/CharaEnhancementTree.css"
+      ]
+    },
+    {
+      "value": "EXP",
+      "count": 1,
+      "classification": "formal-game-term",
+      "reason": "kept by localization terminology contract",
+      "paths": [
+        "magica/css/patrol/PatrolLumpFormation.css"
+      ]
+    },
+    {
+      "value": "EX技能",
+      "count": 2,
+      "classification": "formal-game-term",
+      "reason": "kept by localization terminology contract",
+      "paths": [
+        "magica/css/_common/common.css"
+      ]
+    },
+    {
+      "value": "HP",
+      "count": 3,
+      "classification": "formal-game-term",
+      "reason": "kept by localization terminology contract",
+      "paths": [
+        "magica/css/_common/common.css",
+        "magica/css/chara/CharaEnhancementTree.css"
+      ]
+    },
+    {
+      "value": "Magia",
+      "count": 2,
+      "classification": "formal-game-term",
+      "reason": "kept by localization terminology contract",
+      "paths": [
+        "magica/css/_common/common.css"
+      ]
+    },
+    {
+      "value": "Magia\\A强化",
+      "count": 2,
+      "classification": "formal-game-term",
+      "reason": "kept by localization terminology contract",
+      "paths": [
+        "magica/css/chara/CharaCommon.css"
+      ]
+    },
+    {
+      "value": "GP",
+      "count": 9,
+      "classification": "formal-game-term-inside-localized-label",
+      "reason": "GP remains formal while surrounding text is Chinese",
+      "paths": [
+        "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+        "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+        "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+        "magica/css/test/SdCharaTest.css",
+        "magica/css/user/EventRecord.css"
+      ]
+    }
+  ],
+  "unwanted_residuals": [],
+  "items": [
+    {
+      "item_id": "UI-066",
+      "path": "magica/css/_common/common.css",
+      "selector": ".userCharaIcon .lv:before",
+      "source_values": [
+        "Lv"
+      ],
+      "target_values": [
+        "等级"
+      ],
+      "source_tier": "new-human",
+      "evidence": "path-scoped visible CSS selector context; no usable same-selector CN in A:\\magicaOLD; content=['等级']",
+      "before_sha256": "c1ca98ada035dcaa4df852c8dcb69ad339059c510ce4ea19be3bebe3c3406950",
+      "after_sha256": "92266610ca309bbc100bba8cb59e25364399fe10f2ed28f36c93a4c0ebc01ce7",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-067",
+      "path": "magica/css/_common/common.css",
+      "selector": ".userCharaIcon .eplv:before",
+      "source_values": [
+        "エピソードLv"
+      ],
+      "target_values": [
+        "事件等级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['事件等级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "deb43e75120f8de38ea793396d9d7bfe66d9c62785a2d798dd804a9a2aa59ccf",
+      "after_sha256": "0e0903f27118cc893107280517c712f5bef17da21920c1432006e5fce8b6f6ce",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-068",
+      "path": "magica/css/_common/common.css",
+      "selector": ".userCharaIcon .mlv:before",
+      "source_values": [
+        "マギアLv"
+      ],
+      "target_values": [
+        "魔法等级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['魔法等级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "de5fb098277b83ed0ef393b15c93c5a3a481f8c46b91dc9ad436b6473378c04a",
+      "after_sha256": "8e64caa3632e634b46eebe218ab658a5ac0a47b36c80e1d87108284eb01bcea7",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-069",
+      "path": "magica/css/_common/common.css",
+      "selector": ".userCharaIcon .enhance:before",
+      "source_values": [
+        "精神強化"
+      ],
+      "target_values": [
+        "精神强化"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['精神强化']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "edca4d9262074922545ddbe181336a7e9bdf4be4faa82eb028ddabda64353e72",
+      "after_sha256": "f0c3d1f346f112f8d6ebdef5d473b11ee44e266302199b42972933ba178f989f",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-070",
+      "path": "magica/css/_common/common.css",
+      "selector": ".userCharaIcon .composeAttribute:before",
+      "source_values": [
+        "属性強化"
+      ],
+      "target_values": [
+        "属性强化"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['属性强化']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "c0ee15295bed2a64bb96017556c79f137cc6a536b52b0bb10b007474f107eab2",
+      "after_sha256": "6766ea605dfcdb736e770be33b9611eb28eecb66a0b09be5c9af409cd2cb467a",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-071",
+      "path": "magica/css/_common/common.css",
+      "selector": "#memoriaDetailWrap #memoriaDetailPopup .popupDetailWrap .infoWrap .paramWrap .cardLevel:before",
+      "source_values": [
+        "Lv"
+      ],
+      "target_values": [
+        "等级"
+      ],
+      "source_tier": "new-human",
+      "evidence": "path-scoped visible CSS selector context; no usable same-selector CN in A:\\magicaOLD; content=['等级']",
+      "before_sha256": "1150dede8fa5a6b7dce9fc6325f02b51e6c90b357af9a43b12c5a9dd27fb8763",
+      "after_sha256": "cf0dc1f627192719257135fe95f0628c31613c623482694d6fc843da13d3f754",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-072",
+      "path": "magica/css/_common/common.css",
+      "selector": "#memoriaDetailWrap #memoriaDetailPopup .popupDetailWrap .infoWrap .illustrator:before",
+      "source_values": [
+        "Illustrator"
+      ],
+      "target_values": [
+        "画师"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\_common\\common.css same-path same-selector content=['画师']",
+      "before_sha256": "1d8cd162d24c97afe1e08613cec3bcfa7db7c933d6b440b4d2b8f2d032bb48ee",
+      "after_sha256": "b042eb623c34432daf1332cf520c0f92087b89548b28e21602e3687f760d52af",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-073",
+      "path": "magica/css/_common/common.css",
+      "selector": "#charaComposeResult .resultMessageWrap .rowBox.magia .titleBox:after",
+      "source_values": [
+        "マギア"
+      ],
+      "target_values": [
+        "Magia"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\_common\\common.css same-path same-selector content=['Magia']",
+      "before_sha256": "7a0a6ebed34f6f099c5d7a0ff02e4cebfc04883da77fb5b79fd3a294f5e886fc",
+      "after_sha256": "dd8edb6b6a6a1e5b34b07801b3c71cbb6ffbcff71610a7a9ab14b4221573a8ee",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-074",
+      "path": "magica/css/_common/common.css",
+      "selector": "#charaComposeResult .resultMessageWrap .rowBox.exSkill .titleBox:after",
+      "source_values": [
+        "EXスキル"
+      ],
+      "target_values": [
+        "EX技能"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\_common\\common.css same-path same-selector content=['EX技能']",
+      "before_sha256": "f106ffe8d94ef5a2883ecaef4c3b89596ffd0e1e6e3efe776d02d9358a7e609c",
+      "after_sha256": "3cebf4f63d909a48b986e8e0728443cce8e74c7fff5af0e013704123bbfd85c8",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-075",
+      "path": "magica/css/_common/common.css",
+      "selector": "#charaComposeResult .resultMessageWrap .rowBox.connect .titleBox:after",
+      "source_values": [
+        "コネクト"
+      ],
+      "target_values": [
+        "连携"
+      ],
+      "source_tier": "official-cn-terminology",
+      "evidence": "connect_supersession_ui075.json; official UI terminology; historical manifest target Connect retained only as provenance",
+      "historical_before_sha256": "f0c6d6e9730b739f231566b134a166c4c3f7d404b84c39406b8f8c1130d56740",
+      "historical_after_sha256": "c4760d86babeb8cfa73799acf6cc37f35f04119f7398f5f6c62a2c4b7fc3e8cb",
+      "before_rule_count_in_product": 0,
+      "historical_connect_rule_count_in_product": 0,
+      "primary_target_rule_count_in_product": 1,
+      "append_override_rule_count_in_product": 1,
+      "after_rule_count_in_product": 2,
+      "supersession_evidence": "magica/research/totentanz-full-localization-20260817/visible-ui/connect_supersession_ui075.json"
+    },
+    {
+      "item_id": "UI-076",
+      "path": "magica/css/_common/common.css",
+      "selector": "#charaComposeResult .resultMessageWrap .rowBox.close .titleBox:after",
+      "source_values": [
+        "条件クリアで解放"
+      ],
+      "target_values": [
+        "达成条件即可解锁"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\_common\\common.css same-path same-selector content=['达成条件即可解锁']",
+      "before_sha256": "88812618db422d8964f7d68f58dc6b404d58d00fe38a9ea1ad8045207a303f4e",
+      "after_sha256": "7b5e53f75a7717eb194db389acba018fcbc15115a019d1b1de7b21451298e566",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-077",
+      "path": "magica/css/_common/common.css",
+      "selector": "#myProfile #followerParamDetail .detailMainWrap .userLevel:before",
+      "source_values": [
+        "Rank"
+      ],
+      "target_values": [
+        "等级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['等级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "62df7899d353f0162f390d32ae600c760d103f81904615b1fc3532e11a84a1ba",
+      "after_sha256": "133d89b16c5ca4229e30a9863177351b6cbf861ffe7202f1a884cea7229b4234",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-078",
+      "path": "magica/css/_common/common.css",
+      "selector": "#myProfile #followerParamDetail .detailMainWrap .reachingAccomplish:after",
+      "source_values": [
+        "Stage"
+      ],
+      "target_values": [
+        "关卡"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['关卡']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "19b26a0d2c44c993d2b49a3787c05589467d20925c4ba0667dc6344dd9d279e3",
+      "after_sha256": "c8999f3ecc3b44f5d584dae30901a0117d995377ae0330a3a549b1d22cde4b53",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-079",
+      "path": "magica/css/_common/common.css",
+      "selector": "#myProfile #followerParamDetail .detailMainWrap .totalForcesWrap #totalForces:before",
+      "source_values": [
+        "総合戦力値"
+      ],
+      "target_values": [
+        "综合战力值"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['综合战力值']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "5de3275aaafbc39e74ac095c538f1022e1b2a2dd450ce2cdf148e41d84096231",
+      "after_sha256": "a17d84ada5e650758de254ecf75fd2cb383469c9855369cb6d3d8c76189f922f",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-080",
+      "path": "magica/css/_common/common.css",
+      "selector": "#myProfile #followerParamDetail .detailMainWrap .friendWrap .lastLogin:before",
+      "source_values": [
+        "最終ログイン"
+      ],
+      "target_values": [
+        "最终登录"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['最终登录']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "9347a4579f1a9e423475d876a329c4cf85b9517f69a1aebf807e23adbff396de",
+      "after_sha256": "374ed44f2434bd3633f77d22f8f93e75bdeda00ebed4ac78bc74ad9b185e0783",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-081",
+      "path": "magica/css/_common/common.css",
+      "selector": ".announcementPopup .pickUpDetail.MEMORIA.SKILL .memoriaTypeName:before,.announcementPopupMainte .pickUpDetail.MEMORIA.SKILL .memoriaTypeName:before",
+      "source_values": [
+        "スキルタイプ"
+      ],
+      "target_values": [
+        "技能类型"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\_common\\common.css same-path same-selector content=['技能类型']",
+      "before_sha256": "cdb29379bea9c3f2f85d58240e63f9259e239dde2f42821d784b60ece9bff786",
+      "after_sha256": "c9fd5b7985778e1b0906d00cc495da18366427fb828696b3f8045ba5659e73a1",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-082",
+      "path": "magica/css/_common/common.css",
+      "selector": ".announcementPopup .pickUpDetail.MEMORIA.SKILL .description .common_dl dt:before,.announcementPopupMainte .pickUpDetail.MEMORIA.SKILL .description .common_dl dt:before",
+      "source_values": [
+        "スキル"
+      ],
+      "target_values": [
+        "技能"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\_common\\common.css same-path same-selector content=['技能']",
+      "before_sha256": "5d1aef3811eb1b6d0ef0a74b0f29e636e2dd7a329207e2f23d0c0e3cd19df699",
+      "after_sha256": "b4903feea22a58fb0b8f1bf50b8f176c8a112a2e77eb6d8b16bc3685aee9a3b5",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-083",
+      "path": "magica/css/_common/common.css",
+      "selector": ".announcementPopup .pickUpDetail.MEMORIA.ABILITY .memoriaTypeName:before,.announcementPopupMainte .pickUpDetail.MEMORIA.ABILITY .memoriaTypeName:before",
+      "source_values": [
+        "アビリティタイプ"
+      ],
+      "target_values": [
+        "能力类型"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\_common\\common.css same-path same-selector content=['能力类型']",
+      "before_sha256": "797124cc4e524d0734351466f509e532c72f9a21561c6bbb2ed922d716963efa",
+      "after_sha256": "f0e261809282f2485b59f29af2b07cc7757bf60822d0279572c2d9f306b70238",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-084",
+      "path": "magica/css/_common/common.css",
+      "selector": ".announcementPopup .pickUpDetail.MEMORIA.ABILITY .description .common_dl dt:before,.announcementPopupMainte .pickUpDetail.MEMORIA.ABILITY .description .common_dl dt:before",
+      "source_values": [
+        "アビリティ"
+      ],
+      "target_values": [
+        "能力"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\_common\\common.css same-path same-selector content=['能力']",
+      "before_sha256": "640d9beabc65cf29f965cd8481b16fac735a38f1a804f1fc1b835239580bf60e",
+      "after_sha256": "adae218c6876430042347e6dc93a8581a29fff654bb45823754cebc221bc0c94",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-085",
+      "path": "magica/css/_common/common.css",
+      "selector": ".itemSalePop .itemSalePopup .itemPopMiniWrap .afterPoint .pointFrame:before",
+      "source_values": [
+        "入手数"
+      ],
+      "target_values": [
+        "获得数量"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\_common\\common.css same-path same-selector content=['获得数量']",
+      "before_sha256": "8b701918924d7def629f5e98791f47267c3214a87ab8eb1bdaafd9e2ae6a31fb",
+      "after_sha256": "4f163c7bd7555d1386c00cf629b1a98e68c939ab1792b995d2a7ed6aeee854e1",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-086",
+      "path": "magica/css/_common/common.css",
+      "selector": ".itemSalePop .itemSalePopup .hasAmount:before",
+      "source_values": [
+        "所持"
+      ],
+      "target_values": [
+        "持有"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\_common\\common.css same-path same-selector content=['持有']",
+      "before_sha256": "30a2a1c148d3bf28f4841cbc1fb2da031d2d08e17b4f34e27db494d3d5e28073",
+      "after_sha256": "4d7bbe3276832f50a70b0b4165aa714adfcb9ee18d334499b76fc24c18f1896f",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-087",
+      "path": "magica/css/arena/ArenaResult.css",
+      "selector": "#ArenaResult #enemyBtn .enemyTitle:before",
+      "source_values": [
+        "対戦相手"
+      ],
+      "target_values": [
+        "对手"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['对手']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "0db8881d766c3bb287ce296fe2c5719d7ed683e30308f3ff3cf99b64fab8c6af",
+      "after_sha256": "aa5c06094b3c1709787b793c52245c5a290fd7c4cc4cc85386371eae90c05c76",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-088",
+      "path": "magica/css/chara/CharaCommon.css",
+      "selector": "#btnArea.charaDetail li.compose:before",
+      "source_values": [
+        "魔力\\a 強化"
+      ],
+      "target_values": [
+        "魔力\\A强化"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['魔力\\\\A强化']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "380c2a33519adf78c0cf8e444e87cb5660f7f85974395148b66ad8c462f71aa7",
+      "after_sha256": "56af1783ea05396437d7c1e60595de4c610f008a9cd6de9acf7d05ab1b1a4e76",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-089",
+      "path": "magica/css/chara/CharaCommon.css",
+      "selector": "#btnArea.charaDetail li.composeMagia:before",
+      "source_values": [
+        "マギア\\a 強化"
+      ],
+      "target_values": [
+        "Magia\\A强化"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['Magia\\\\A强化']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "eee9a6910371c2bef7d4d9af2ba33d02ed6acd9500fb69a51cd710dfd2164dca",
+      "after_sha256": "8c24ff3bc0a1cc540f43895505350453810254d40f1a0dedce7aa1ab6f25394a",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-090",
+      "path": "magica/css/chara/CharaCommon.css",
+      "selector": "#btnArea.charaDetail li.customize:before",
+      "source_values": [
+        "覚醒"
+      ],
+      "target_values": [
+        "觉醒"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['觉醒']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "3ee52629aaa346c37d2b2e6de9e2babb94a2f98e71f69d98df8bb8d7d1e4653d",
+      "after_sha256": "1041ecad04363f851ddef767fbb543adb443d19daac1d457739627af45770827",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-091",
+      "path": "magica/css/chara/CharaCommon.css",
+      "selector": "#btnArea.charaDetail li.equip:before",
+      "source_values": [
+        "魔力\\a 解放"
+      ],
+      "target_values": [
+        "魔力\\A解放"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['魔力\\\\A解放']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "425fcc2f094a2353511aedbf2f163d7e9b958e4abb01c821311b35b927da151d",
+      "after_sha256": "9212206511b34e0795f9e03d27bfe56c7f14c03e8675e4655ce831528b51e182",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-092",
+      "path": "magica/css/chara/CharaCommon.css",
+      "selector": "#btnArea.charaDetail li.enhance:before",
+      "source_values": [
+        "精神\\a 強化"
+      ],
+      "target_values": [
+        "精神\\A强化"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['精神\\\\A强化']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "c0b6db252521b757271a49ece708d09bae63776226997d93b58573ce867d554e",
+      "after_sha256": "7548e29ce3d52daed34c28d5517362a0c2989c0b82a2c5b720636aa5bdd901f7",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-093",
+      "path": "magica/css/chara/CharaCommon.css",
+      "selector": "#btnArea.charaDetail li.composeAttribute:before",
+      "source_values": [
+        "属性\\a 強化"
+      ],
+      "target_values": [
+        "属性\\A强化"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['属性\\\\A强化']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "44f098a600aad7dd0c7b8f88a4aa8e8bac789e767c1e8cfdcfe603fdbcb76964",
+      "after_sha256": "d6c99d368e424f0b5f658ca971a2fa6cd16cf484b6678a106b823e4d5ac40f99",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-094",
+      "path": "magica/css/chara/CharaEnhancementTree.css",
+      "selector": ".popupEnhanceReset .popupTextArea .resetItem .hasIcons:before",
+      "source_values": [
+        "所持"
+      ],
+      "target_values": [
+        "持有"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['持有']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "2d178ac180cd558052149370c3c5b619328d1904c6d17019d3321b0de205d21d",
+      "after_sha256": "cce1f808be57c50677c273b9716b068cd08577479fa37a3ab4a01be1dc02fdb2",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-095",
+      "path": "magica/css/collection/MemoriaCollection.css",
+      "selector": "#MemoriaCollection ul#memoriaListInfo .cardCount_2:before",
+      "source_values": [
+        "所持数"
+      ],
+      "target_values": [
+        "持有数量"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\collection\\MemoriaCollection.css same-path same-selector content=['持有数量']",
+      "before_sha256": "7c9b4cd69d6481f6788a781b7531fc538daf77366a1e033e5a7a3b8d4121c29b",
+      "after_sha256": "84cb6b5fcf8552ccc617382829b4b69b5c41f9007753d7cc39fc2de61dbb635c",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-096",
+      "path": "magica/css/collection/MemoriaCollection.css",
+      "selector": "#MemoriaCollection ul#memoriaListInfo .cardCount_3:before",
+      "source_values": [
+        "選択数"
+      ],
+      "target_values": [
+        "选择数量"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\collection\\MemoriaCollection.css same-path same-selector content=['选择数量']",
+      "before_sha256": "dc94cef0ea9a3b95b5b2aa42eafc5c4802bbadd15b7ded24bee6009bff12cd4d",
+      "after_sha256": "033e831698a30add4725b8500515b4ff370484b8a6fb2986e15892bb68fa7eff",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-097",
+      "path": "magica/css/collection/StoryCollection.css",
+      "selector": ".openStoryPopup .costHasNum:before",
+      "source_values": [
+        "所持"
+      ],
+      "target_values": [
+        "持有"
+      ],
+      "source_tier": "new-human",
+      "evidence": "path-scoped visible CSS selector context; no usable same-selector CN in A:\\magicaOLD; content=['持有']",
+      "before_sha256": "c220cac61ff6afcc5719aa2f02d28b273a852de048db08a889abd52167032a55",
+      "after_sha256": "49a7cb930b4ecee64451b8fd423d0a988bfb8b8b54452cc1a165911f2bac1327",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-098",
+      "path": "magica/css/collection/StoryCollection.css",
+      "selector": "#StoryCollection #listWrap #unlockItems:before",
+      "source_values": [
+        "所持"
+      ],
+      "target_values": [
+        "持有"
+      ],
+      "source_tier": "new-human",
+      "evidence": "path-scoped visible CSS selector context; no usable same-selector CN in A:\\magicaOLD; content=['持有']",
+      "before_sha256": "4b1063d853c8677308825752c567272b6658b60faf1fee41eb5d76d41a7906c4",
+      "after_sha256": "d49e6b53b2c81fc15c665ed1ff3cf328eb4fd33320fdc4e3cb500c94fe3ecdec",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-099",
+      "path": "magica/css/event/EventWitch/ExchangeTop.css",
+      "selector": ".EventMemoriaDetailPopup.popupContent.typeA .popupInner .popupTextArea .pickUpDetail.MEMORIA.SKILL .memoriaTypeName:before",
+      "source_values": [
+        "スキルタイプ"
+      ],
+      "target_values": [
+        "技能类型"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['技能类型']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "4acbd746c60b034cc2ff479fe8351ad3cd11993821d0c4f50c1db8247311abca",
+      "after_sha256": "8f9a58b36fe0dda2db5fa498a59dfa0f6e6f14f6c6c8402deb97d51b0bbb015b",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-100",
+      "path": "magica/css/event/EventWitch/ExchangeTop.css",
+      "selector": ".EventMemoriaDetailPopup.popupContent.typeA .popupInner .popupTextArea .pickUpDetail.MEMORIA.SKILL .description .common_dl dt:before",
+      "source_values": [
+        "スキル"
+      ],
+      "target_values": [
+        "技能"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['技能']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "2067a5f677570a2e81883f8db2c5f83e94f76b4b85054616bc7e1a7c4b31a390",
+      "after_sha256": "974ffe3a8281def008e33a566405989376efc550b2ef44e488a11bed19859faf",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-101",
+      "path": "magica/css/event/EventWitch/ExchangeTop.css",
+      "selector": ".EventMemoriaDetailPopup.popupContent.typeA .popupInner .popupTextArea .pickUpDetail.MEMORIA.ABILITY .memoriaTypeName:before",
+      "source_values": [
+        "アビリティタイプ"
+      ],
+      "target_values": [
+        "能力类型"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['能力类型']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "87542ea1d681dcbe28e22d5ce958eb5c1583f7aa33f5118c904da32ec19db5ab",
+      "after_sha256": "f5da66d92d71087d2fae6b527d227fdaf6c21ecb5c42fd5128033f6ec6dfd970",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-102",
+      "path": "magica/css/event/EventWitch/ExchangeTop.css",
+      "selector": ".EventMemoriaDetailPopup.popupContent.typeA .popupInner .popupTextArea .pickUpDetail.MEMORIA.ABILITY .description .common_dl dt:before",
+      "source_values": [
+        "アビリティ"
+      ],
+      "target_values": [
+        "能力"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['能力']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "20b0d46fc82b9c9ee176511d0da6472dcbe64dc224c74158477641db14038ab0",
+      "after_sha256": "375c2b97cda5ddff560401aec3dc61a695d5519ea3c037d8db2cff5c3ba12414",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-103",
+      "path": "magica/css/event/dailytower/EventDailyTower.css",
+      "selector": "#EventDailyTower.EventDailyTowerTop .allClear:before",
+      "source_values": [
+        "次のクエストは未解放です\\a 解放日時までお待ち下さい"
+      ],
+      "target_values": [
+        "下一个副本尚未解锁\\A解锁前请耐心等候"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\event\\dailytower\\EventDailyTower.css same-path same-selector content=['下一个副本尚未解锁\\\\A解锁前请耐心等候']",
+      "before_sha256": "e13cb2463f6f02f6d1b66f2f90b21cc464f8a2db34376fe57196fd65017498a3",
+      "after_sha256": "3b42d5bccfc5ab88c51d1b5d96e06a85c6192fdd44799f3940c32e1fcf9b863a",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-104",
+      "path": "magica/css/event/raid/EventRaidTop.css",
+      "selector": "#MissionArea .wrap .missionBtn:before",
+      "source_values": [
+        "受け取る"
+      ],
+      "target_values": [
+        "领取"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\event\\raid\\EventRaidTop.css same-path same-selector content=['领取']",
+      "before_sha256": "22fb2b7613e71abf4903de8ec03f6599f6ed3fdfe2712fb4a5b0b6b7807a2653",
+      "after_sha256": "47c1631315e20497b1202639ca6310766022a6a57cffd977b5af439f4f83cdba",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-105",
+      "path": "magica/css/event/tower/EventTower.css",
+      "selector": "#EventTower.EventTowerTop .allClear:before",
+      "source_values": [
+        "次のクエストは未解放です\\a 解放日時までお待ち下さい"
+      ],
+      "target_values": [
+        "下一个副本尚未解锁\\A解锁前请耐心等候"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\event\\tower\\EventTower.css same-path same-selector content=['下一个副本尚未解锁\\\\A解锁前请耐心等候']",
+      "before_sha256": "826982e541363f5bbf6bc9751bad218bab8b9fc0d687af865a00f14a28af55ec",
+      "after_sha256": "c229727221779b6a891c54a3d814de4c227725f4cea689bf031abedb24365a95",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-106",
+      "path": "magica/css/formation/DeckFormation.css",
+      "selector": "#DeckFormation.deckCopy .deckSelectInner .currentDeck .detailOverwrap:before",
+      "source_values": [
+        "コピー先"
+      ],
+      "target_values": [
+        "复制位置"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\formation\\DeckFormation.css same-path same-selector content=['复制位置']",
+      "before_sha256": "82d4179698192b10ad41b505d8be3d0b81abbd796cb176b4f213a7ebcb5889ce",
+      "after_sha256": "2415f6250ad9d49656784f57b36fe0e498da3b757d1b7f78cdda5e377aaa4268",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-107",
+      "path": "magica/css/formation/DeckFormation.css",
+      "selector": "#DeckFormation .deckName.deck71:before",
+      "source_values": [
+        "第一の結界"
+      ],
+      "target_values": [
+        "第一结界"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['第一结界']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "7846d7ec42b1e892d941cdbbe6916c832b7126ae8985dccae4e7475fda8a8c39",
+      "after_sha256": "4239f542af871785c607bf7e95d8ca788203e9b1de8b3bcfe3fbc500030097ae",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-108",
+      "path": "magica/css/formation/DeckFormation.css",
+      "selector": "#DeckFormation .deckName.deck72:before",
+      "source_values": [
+        "第二の結界"
+      ],
+      "target_values": [
+        "第二结界"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['第二结界']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "616ca2b7c5cf6758946920d58e3b12a8d9645b97cb58bd43fc4fd44f1c9d9f6d",
+      "after_sha256": "bebb0c13135487712dce5173cb9f931cf9c97dec311dceadba794f19d3fc6f72",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-109",
+      "path": "magica/css/formation/DeckFormation.css",
+      "selector": "#DeckFormation .deckName.deck73:before",
+      "source_values": [
+        "第三の結界"
+      ],
+      "target_values": [
+        "第三结界"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['第三结界']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "d933ba679b6542d2f734659985f1ea673ec73d4f431de3658de1b14bc9ac639f",
+      "after_sha256": "6a12c257c2d89af06ac28b02603367bfccafcaae92c3666d88fe8bf8c04b7c67",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-110",
+      "path": "magica/css/formation/DeckFormation.css",
+      "selector": "#DeckFormation .deckName.deck74:before",
+      "source_values": [
+        "第四の結界"
+      ],
+      "target_values": [
+        "第四结界"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['第四结界']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "9d027702dd8b444b423937dd94762f228ae6bb06d1f14fa396db57f78156a0ec",
+      "after_sha256": "b2557baf448a1ebee6b1edcdc459c8eaaa1349f1f03ef3dc05b1c56936c274be",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-111",
+      "path": "magica/css/formation/DeckFormation.css",
+      "selector": "#DeckFormation .deckName.deck75:before",
+      "source_values": [
+        "終の結界"
+      ],
+      "target_values": [
+        "终之结界"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['终之结界']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "03d78bc327dcacee6bfb596c048fb1d7d68d5d7dd69cf6f84b7743a7297b5216",
+      "after_sha256": "ff71230b82060446d1d5f62ab519b552a7eac496f182740159049ff7c74900de",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-112",
+      "path": "magica/css/memoria/MemoriaComposeTop.css",
+      "selector": "#MemoriaComposeTop #mainWrap #statusWrap #beforeStatus .lvWrap:before,#MemoriaComposeTop #mainWrap #statusWrap #afterStatus .lvWrap:before",
+      "source_values": [
+        "LV"
+      ],
+      "target_values": [
+        "等级"
+      ],
+      "source_tier": "new-human",
+      "evidence": "path-scoped visible CSS selector context; no usable same-selector CN in A:\\magicaOLD; content=['等级']",
+      "before_sha256": "26e790630c36068c5a55174d623908c5842a8117255512a57d85a637a507c056",
+      "after_sha256": "8afdfac81e6ed607fc7f5024ed575a366bb7f15febddf4deb102157e4e7a243b",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-113",
+      "path": "magica/css/memoria/MemoriaComposeTop.css",
+      "selector": "#MemoriaComposeTop #cardListWrap .userMemoriaIcon.select .overWrap:before",
+      "source_values": [
+        "ベース選択"
+      ],
+      "target_values": [
+        "基础选择"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\memoria\\MemoriaComposeTop.css same-path same-selector content=['基础选择']",
+      "before_sha256": "18adca85d8f70b03dc2ebedb25bb232550acd9056d6a026f46d3f41c0de8ba10",
+      "after_sha256": "c31da4d95d1b0eaddcfcb42b3cb6d440a9746b71eb704464a791595634422045",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-114",
+      "path": "magica/css/memoria/MemoriaComposeTop.css",
+      "selector": "#MemoriaComposeTop #cardListWrap ul#memoriaListInfo .cardCount_2:before",
+      "source_values": [
+        "所持数"
+      ],
+      "target_values": [
+        "持有数量"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\memoria\\MemoriaComposeTop.css same-path same-selector content=['持有数量']",
+      "before_sha256": "0048783bef56cc4e33317aac4595c85d46750e364adee7734da0c4b07e61f29c",
+      "after_sha256": "ee5598f6ea17e837aae6782e8c786b45fecc37fb333c9ee2e6e936d73a1f6b23",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-115",
+      "path": "magica/css/memoria/MemoriaComposeTop.css",
+      "selector": "#MemoriaComposeTop #cardListWrap ul#memoriaListInfo .cardCount_3:before",
+      "source_values": [
+        "選択数"
+      ],
+      "target_values": [
+        "选择数量"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\memoria\\MemoriaComposeTop.css same-path same-selector content=['选择数量']",
+      "before_sha256": "7d9d7c88a19823e150b2e3e1bc328f4cf0864ff5f4b2f53bbb8f2175d57ab3b9",
+      "after_sha256": "ee78b18211892808bcba030643743e807ccb35f0cb0cf314cefea0ed0b780dd6",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-116",
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "selector": "#popupArea .archiveMoveSelectPop .popupBtnArea .toListBtn.off:after,#popupArea .archiveMoveSelectPop .popupBtnArea .toListBtn.now:after",
+      "source_values": [
+        "OVER"
+      ],
+      "target_values": [
+        "不可用"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['不可用']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "5e8ef330675f3829f320cf0edc2d3fc1d7ef66eeb6a215e675cd857ebb8f58eb",
+      "after_sha256": "926508bd8d6f1534b6598bf881054e73b25d0753fbbaf834aef7c56048b8b289",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-117",
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "selector": "#popupArea .archiveMoveSelectPop .popupBtnArea .toListBtn.now:after",
+      "source_values": [
+        "表示中"
+      ],
+      "target_values": [
+        "显示中"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['显示中']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "54f4f134e5506339807c641422732098a528dae32e6c99cd1dff3d87aa87889d",
+      "after_sha256": "0be5e45dcfbec8e90a39ea24f296addbce7595ade9ef002a17255285ae426409",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-118",
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "selector": "#popupArea .archiveMoveSelectPop .popupBtnArea .toArchiveBtn.off:after,#popupArea .archiveMoveSelectPop .popupBtnArea .toArchiveBtn.now:after",
+      "source_values": [
+        "OVER"
+      ],
+      "target_values": [
+        "不可用"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['不可用']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "664c2f85111b61c79ed9aed5ec6ed3e9827e324b16dddd95df3d3f557910cab6",
+      "after_sha256": "19b63db2bd5f8dce071940fdace3888c79f2c561e54ea56ad6c8e3df12aceaf9",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-119",
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "selector": "#popupArea .archiveMoveSelectPop .popupBtnArea .toArchiveBtn.now:after",
+      "source_values": [
+        "表示中"
+      ],
+      "target_values": [
+        "显示中"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['显示中']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "69ce976325115a99a7c132f7a6cf71b46e1423ed058b6def23be6f6915969317",
+      "after_sha256": "a1a6e780df829cd0314b77b6e7a3c2380d76d168670b221c46a1264b30bc55dd",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-120",
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "selector": "#UserMemoriaList.compose .userMemoriaIcon.lvMax .overWrap:before",
+      "source_values": [
+        "Lv MAX"
+      ],
+      "target_values": [
+        "满级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['满级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "81c65b8d861dd973d9be047969569c1ba1b1fd0e2fc767698a40d48b3361f6f0",
+      "after_sha256": "3412ed881a45576ec8fe8b40eb64b9ec6b21405a4dc2e176dad16148d1f6e931",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-121",
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "selector": "#UserMemoriaList.limitbreak .userMemoriaIcon.lbMax .overWrap:before",
+      "source_values": [
+        "限界突破済"
+      ],
+      "target_values": [
+        "界限突破完成"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\memoria\\UserMemoriaList.css same-path same-selector content=['界限突破完成']",
+      "before_sha256": "45c73e1d257f464824aa4d287f0447693b965173485d21bd83b6f50f6e815756",
+      "after_sha256": "0290317437402efd1194516dfa6d27ce6e2724e6ca737f2907ab7b939eddad38",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-122",
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "selector": "#memoriaSaleGlowWrap #memoriaListInfo .hasMemoriaNum:before",
+      "source_values": [
+        "所持数"
+      ],
+      "target_values": [
+        "持有数量"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\memoria\\UserMemoriaList.css same-path same-selector content=['持有数量']",
+      "before_sha256": "feeae9bb494b9b6077bb0661e94e38d3f7c3ee61de65c30a9f0b14e7c08dc2b0",
+      "after_sha256": "4464568ae70b525da4a2a94f673a1a12006e1366e5073e2392a697bf1f73c02e",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-123",
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "selector": "#memoriaSaleGlowWrap #memoriaListInfo .hasMemoriaNum.archive:before",
+      "source_values": [
+        "保管数"
+      ],
+      "target_values": [
+        "保管数量"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['保管数量']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "e127ec8e4f5d433d53cfd9833ab682c7062f66771a3e648c49d68d744c6c6036",
+      "after_sha256": "401e357b58770bacab75b7ab79e72014520229a3226539276348b925f7dc5e89",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-124",
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "selector": "#memoriaSaleGlowWrap #memoriaListInfo .memoriaSelectNum:before",
+      "source_values": [
+        "選択数"
+      ],
+      "target_values": [
+        "选择数"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\memoria\\UserMemoriaList.css same-path same-selector content=['选择数']",
+      "before_sha256": "2e46c7061d8479afd02fcb903bb29748678c5bf71124cab4337ecb5b8cd61ab9",
+      "after_sha256": "e5efe11cd2ba40897fb1bff7679445f06ea6be8c7434a81021c19a2e63cae543",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-125",
+      "path": "magica/css/mission/MissionTop.css",
+      "selector": "#MissionList .wrap .missionBtn:before",
+      "source_values": [
+        "挑戦する"
+      ],
+      "target_values": [
+        "挑战"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\mission\\MissionTop.css same-path same-selector content=['挑战']",
+      "before_sha256": "f2b6544ef559aca02b701ec415607b7284b1b1731f28b0cacc8c3257b918737d",
+      "after_sha256": "9c5163e83bc22365c06c570606174673592984cb353f1f0cb74df77ed7cffb0d",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-126",
+      "path": "magica/css/mission/MissionTop.css",
+      "selector": "#MissionList .wrap .missionBtn.clear:before",
+      "source_values": [
+        "受け取る"
+      ],
+      "target_values": [
+        "领取"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\mission\\MissionTop.css same-path same-selector content=['领取']",
+      "before_sha256": "70cc0cad9e71dc59335716fefdd54e447079a8b9a0c4a2c6c3d067765666a0c2",
+      "after_sha256": "7b2226d036775415a6d49288ba782eaab550b2e7ef66d8900849f379daecd153",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-127",
+      "path": "magica/css/patrol/PatrolLumpFormation.css",
+      "selector": "#popupArea #autoFormationContainer .deck .header .playerPower:after,#PatrolLumpFormation #deckWrap .deck .header .playerPower:after",
+      "source_values": [
+        "戦力値"
+      ],
+      "target_values": [
+        "战力值"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['战力值']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "08584d1845bb2eeb84f1c54b5cceca141be048bbca2fa404f741212660ed6fef",
+      "after_sha256": "5bf2a29ed6c69dfca401c64378ebf08f73a4f654d4c68d08110eedbe70e33bd7",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-128",
+      "path": "magica/css/patrol/PatrolLumpFormation.css",
+      "selector": "#popupArea #autoFormationContainer .deck .header .requiredTime:after,#PatrolLumpFormation #deckWrap .deck .header .requiredTime:after",
+      "source_values": [
+        "所用時間"
+      ],
+      "target_values": [
+        "所需时间"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['所需时间']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "7aef6e7fb48be97b2ee119e50d6e1aece05ee6f74b75c6dfabdd1c0f70f8086b",
+      "after_sha256": "acb7447dfb86cb99b085808d8b50747100af1cc22672446bf2652c842106e64d",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-129",
+      "path": "magica/css/patrol/PatrolLumpFormation.css",
+      "selector": "#popupArea #autoFormationContainer .deck .userCharaListWarp .rightArea #strengthArea #goalStrength:after,#PatrolLumpFormation #deckWrap .deck .userCharaListWarp .rightArea #strengthArea #goalStrength:after",
+      "source_values": [
+        "総戦力値"
+      ],
+      "target_values": [
+        "综合战力值"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['综合战力值']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "caa8ed722c759a238e50eab9762730982925cd65a615f53f3a27ad9986578431",
+      "after_sha256": "9f50c4de25ac350dff733e83bd80b01cf16de31f79618902edfc55e4b7cc90f3",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-130",
+      "path": "magica/css/patrol/PatrolLumpFormation.css",
+      "selector": "#popupArea #autoFormationContainer .deck .userCharaListWarp .rightArea #strengthArea #goalStrength #expected:before,#PatrolLumpFormation #deckWrap .deck .userCharaListWarp .rightArea #strengthArea #goalStrength #expected:before",
+      "source_values": [
+        "ドロップ期待度"
+      ],
+      "target_values": [
+        "掉落期望值"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['掉落期望值']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "426268814fcb1234f3bc617070c97bc42bd938973b60d2fed59d6c3f73cac420",
+      "after_sha256": "19c43674288d83f7ba3c1d64bb22c490320a9da034466557913d3cf82e79c775",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-131",
+      "path": "magica/css/patrol/PatrolLumpFormation.css",
+      "selector": "#PatrolLumpFormation #rightArea #strengthArea #goalStrength:after",
+      "source_values": [
+        "総戦力値"
+      ],
+      "target_values": [
+        "综合战力值"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['综合战力值']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "625039e14cafbcb11b6dac11c8b7f89ea034a7b7282af1029f985c45418b18d1",
+      "after_sha256": "d31d5d5910964d81bbe4b32918488f8b59f7325d8a3aeed3322e6b2a28d336c5",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-132",
+      "path": "magica/css/patrol/PatrolLumpFormation.css",
+      "selector": "#PatrolLumpFormation #rightArea #strengthArea #goalStrength #expected:before",
+      "source_values": [
+        "ドロップ期待度"
+      ],
+      "target_values": [
+        "掉落期望值"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['掉落期望值']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "a8faf19f5ebc142552e6472133d2bf1f73c140fba006e2fa2dabb4afae8b41a1",
+      "after_sha256": "fadddfec490f50c7a58f17004e4412067752169d82849a0addcb0c09d605a524",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-133",
+      "path": "magica/css/patrol/PatrolLumpFormation.css",
+      "selector": "#popupArea .popupDetail #popupDetailScrollWrap .scrollInner .commonItemImgWrap.bonus:after",
+      "source_values": [
+        "BONUS"
+      ],
+      "target_values": [
+        "加成"
+      ],
+      "source_tier": "new-human",
+      "evidence": "path-scoped visible CSS selector context; no usable same-selector CN in A:\\magicaOLD; content=['加成']",
+      "before_sha256": "60a8e9e18efcfc6f5bd1e67adcec4b8c87bea0a391a9f342e40bb86c7eb0cdd1",
+      "after_sha256": "28dd390c93dd091a5ac5d2665762ac47fc6b94f0c1702fa091c57844422698e3",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-134",
+      "path": "magica/css/quest/MainQuest.css",
+      "selector": "#QuestMap #content #questListWrap #questList.allClear:before,#QuestMap #content #questListWrap #questListSeason2.allClear:before,#QuestMap #content #questListWrapSeason2 #questList.allClear:before,#QuestMap #content #questListWrapSeason2 #questListSeason2.allClear:before",
+      "source_values": [
+        "最新までクリア済です\\a 次回のストーリー配信をお待ち下さい"
+      ],
+      "target_values": [
+        "已通关最新剧情\\A请等待后续剧情的更新"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\quest\\MainQuest.css same-path same-selector content=['已通关最新剧情\\\\A请等待后续剧情的更新']",
+      "before_sha256": "0e02ecf49c603ac3f34b6a3eb7d3c628e7766c462dc4e6c8015060b41609fd68",
+      "after_sha256": "92cdda59aebbe1c335a7365a4c1023bec5ef9bbb05ac60665ee96a1a033dcd02",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-135",
+      "path": "magica/css/quest/SecondPartLastBattleConfirm.css",
+      "selector": "#SecondPartLastBattleConfirm #deckListArea.off:after",
+      "source_values": [
+        "参加済"
+      ],
+      "target_values": [
+        "已参加"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['已参加']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "cd8a4f11d2b73a5116fb20082def427e9cd6ca6ee1813728688ef19c17bc1efa",
+      "after_sha256": "aef0a1eadf2f0b12876314754dda3c1d362b170eee4e4909ccf2984ca6e20305",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-136",
+      "path": "magica/css/quest/SecondPartLastFormation.css",
+      "selector": "#SecondPartLastFormation #deckWrap .deck .enemyPower:after,#popupArea #autoFormationContainer .deck .enemyPower:after",
+      "source_values": [
+        "推奨戦力"
+      ],
+      "target_values": [
+        "推荐战力"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['推荐战力']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "146b56defad7ef82fc49fa4e5aa868b413037e8c894ecf7604665022c2cd9fcc",
+      "after_sha256": "f0f0dc187a93b85a7d61dc6d55e1bedca702b95b73beff3d5938a16d3e249cda",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-137",
+      "path": "magica/css/quest/SecondPartLastFormation.css",
+      "selector": "#SecondPartLastFormation #deckWrap .deck .playerPower:after,#popupArea #autoFormationContainer .deck .playerPower:after",
+      "source_values": [
+        "戦力値"
+      ],
+      "target_values": [
+        "战力值"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['战力值']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "5a21ee40455a25c4fc44bfef0aa67d2c891eba070c08bf3c0e83b72d2585bab4",
+      "after_sha256": "7bf20453d51b8a10a7cd7bccfa52189ef8c12c6f83a96b43c55e6845d033d57f",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-138",
+      "path": "magica/css/regularEvent/extermination/RegularEventExterminationBattleConfirm.css",
+      "selector": "#RegularEventExterminationBattleConfirm #deckListArea.off:after",
+      "source_values": [
+        "参加済"
+      ],
+      "target_values": [
+        "已参加"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['已参加']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "88f95ac7d8f0105ce5dafd3e737fe7e1e1eb57d0160fc8b59058f8ca46ecb700",
+      "after_sha256": "301dda6066085f4d9e9a46e1b1b316ef0c34b33eaef52ae6ac90175d172a8280",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-139",
+      "path": "magica/css/regularEvent/extermination/RegularEventExterminationFormation.css",
+      "selector": "#RegularEventExterminationFormation #deckWrap .deck .enemyPower:after,#popupArea #autoFormationContainer .deck .enemyPower:after",
+      "source_values": [
+        "推奨戦力"
+      ],
+      "target_values": [
+        "推荐战力"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['推荐战力']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "7f335c1ece581b07ad896bffa93873684532a15019049aaea57fcb817bd46ecd",
+      "after_sha256": "1743951ccd7ab0e5e09c9bd27fdd7ee1351fafb1340c7bc9ba11c7aefdb6a976",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-140",
+      "path": "magica/css/regularEvent/extermination/RegularEventExterminationFormation.css",
+      "selector": "#RegularEventExterminationFormation #deckWrap .deck .playerPower:after,#popupArea #autoFormationContainer .deck .playerPower:after",
+      "source_values": [
+        "戦力値"
+      ],
+      "target_values": [
+        "战力值"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['战力值']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "acf61b89512af699fe52187c5cdc96d5636f4c4372207bc97146bf13bf0ba133",
+      "after_sha256": "e07960332c4b22ac8fdb20e853cc1f140676bc93f0e38f78a7b251eb6c6ebe0a",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-141",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward.current:before",
+      "source_values": [
+        "現在のグレード"
+      ],
+      "target_values": [
+        "现在的层级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['现在的层级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "21c6585fcd583e77ca382c9b3e5ccadda58b3c46e5047dd9e9b8d173657275f7",
+      "after_sha256": "d87da2b5ec422ec7b8e39d769c0ee23adfe76fa8f8c8b9e5142bf3552c3eefe4",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-142",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward .needGp:after",
+      "source_values": [
+        "必要GP"
+      ],
+      "target_values": [
+        "所需GP"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['所需GP']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "e71a9244b6b52a928fdf804e4e60ffad20737a117cd1380ce182de7bba993d69",
+      "after_sha256": "a0886a66501f70d5b724ecf62a81fd896db36a948665bd3ac27ad6e1ca945b87",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-143",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward .needRepel:after",
+      "source_values": [
+        "必要撃退数"
+      ],
+      "target_values": [
+        "所需击退数"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['所需击退数']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "360fe75b8227a988c203b66a9074d62dce7038117ef72db99ca683ef8a303eb8",
+      "after_sha256": "ae5c63a55c02b402ef8c18c161aac7085079885107ec5d88c382919c3ce05ff7",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-144",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+      "selector": "#rewardPopup #rewardListWrap.subjugation #rewardList .reward.current:before",
+      "source_values": [
+        "到達した撃退Lv"
+      ],
+      "target_values": [
+        "已达成的击退等级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['已达成的击退等级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "2db771c9b062aee190ebc4cf7846c478fd2849c940dd4ed56c06046eeb80788c",
+      "after_sha256": "3a731354a00e809e949dc45ea9f83fd1666f5848290506fc481b8635628a2f8d",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-145",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+      "selector": "#rewardPopup #rewardListWrap.emblem #rewardList .reward.current:before",
+      "source_values": [
+        "最高獲得エンブレム"
+      ],
+      "target_values": [
+        "最高获得徽章"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['最高获得徽章']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "1c71b00920a189a936df4df9ecd3a6ee9fe169a46b40a1d2ad972fcbd94e31a5",
+      "after_sha256": "86db14f8c891233c01248693282fdcc3806ec45ce0937c056444bf59d64b682c",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-146",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+      "selector": "#rewardPopup #rewardListWrap.emblem #rewardList .reward .needGp:after",
+      "source_values": [
+        "デイリーダメージ"
+      ],
+      "target_values": [
+        "每日伤害"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['每日伤害']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "340830c193dd7d3760a1da5f5415259dbe868c94b62c59d74a083d9050916683",
+      "after_sha256": "78ed2758133c3e341e4973b5fb4ac2fb2eabb7f4e3bb802e872ec771a4b877ff",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-147",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+      "selector": "#rewardPopup #rewardListWrap.group #rewardList .reward.current:before",
+      "source_values": [
+        "現在のグレード"
+      ],
+      "target_values": [
+        "现在的层级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['现在的层级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "987d875306bb336dbd8cf1de123f5797a359c5eeaa23f61851084df912e52fa9",
+      "after_sha256": "545f9a8006662bf664ee4e6567a1e0d66a04c2dd8ddcb87e932f2fb7da5dff00",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-148",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward.current:before",
+      "source_values": [
+        "現在のグレード"
+      ],
+      "target_values": [
+        "现在的层级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['现在的层级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "21c6585fcd583e77ca382c9b3e5ccadda58b3c46e5047dd9e9b8d173657275f7",
+      "after_sha256": "d87da2b5ec422ec7b8e39d769c0ee23adfe76fa8f8c8b9e5142bf3552c3eefe4",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-149",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward .needGp:after",
+      "source_values": [
+        "必要GP"
+      ],
+      "target_values": [
+        "所需GP"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['所需GP']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "e71a9244b6b52a928fdf804e4e60ffad20737a117cd1380ce182de7bba993d69",
+      "after_sha256": "a0886a66501f70d5b724ecf62a81fd896db36a948665bd3ac27ad6e1ca945b87",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-150",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward .needRepel:after",
+      "source_values": [
+        "必要撃退数"
+      ],
+      "target_values": [
+        "所需击退数"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['所需击退数']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "360fe75b8227a988c203b66a9074d62dce7038117ef72db99ca683ef8a303eb8",
+      "after_sha256": "ae5c63a55c02b402ef8c18c161aac7085079885107ec5d88c382919c3ce05ff7",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-151",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+      "selector": "#rewardPopup #rewardListWrap.subjugation #rewardList .reward.current:before",
+      "source_values": [
+        "到達した撃退Lv"
+      ],
+      "target_values": [
+        "已达成的击退等级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['已达成的击退等级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "2db771c9b062aee190ebc4cf7846c478fd2849c940dd4ed56c06046eeb80788c",
+      "after_sha256": "3a731354a00e809e949dc45ea9f83fd1666f5848290506fc481b8635628a2f8d",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-152",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+      "selector": "#rewardPopup #rewardListWrap.emblem #rewardList .reward.current:before",
+      "source_values": [
+        "最高獲得エンブレム"
+      ],
+      "target_values": [
+        "最高获得徽章"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['最高获得徽章']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "1c71b00920a189a936df4df9ecd3a6ee9fe169a46b40a1d2ad972fcbd94e31a5",
+      "after_sha256": "86db14f8c891233c01248693282fdcc3806ec45ce0937c056444bf59d64b682c",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-153",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+      "selector": "#rewardPopup #rewardListWrap.emblem #rewardList .reward .needGp:after",
+      "source_values": [
+        "デイリーダメージ"
+      ],
+      "target_values": [
+        "每日伤害"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['每日伤害']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "340830c193dd7d3760a1da5f5415259dbe868c94b62c59d74a083d9050916683",
+      "after_sha256": "78ed2758133c3e341e4973b5fb4ac2fb2eabb7f4e3bb802e872ec771a4b877ff",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-154",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+      "selector": "#rewardPopup #rewardListWrap.group #rewardList .reward.current:before",
+      "source_values": [
+        "現在のグレード"
+      ],
+      "target_values": [
+        "现在的层级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['现在的层级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "987d875306bb336dbd8cf1de123f5797a359c5eeaa23f61851084df912e52fa9",
+      "after_sha256": "545f9a8006662bf664ee4e6567a1e0d66a04c2dd8ddcb87e932f2fb7da5dff00",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-155",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward.current:before",
+      "source_values": [
+        "現在のグレード"
+      ],
+      "target_values": [
+        "现在的层级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['现在的层级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "21c6585fcd583e77ca382c9b3e5ccadda58b3c46e5047dd9e9b8d173657275f7",
+      "after_sha256": "d87da2b5ec422ec7b8e39d769c0ee23adfe76fa8f8c8b9e5142bf3552c3eefe4",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-156",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward .needGp:after",
+      "source_values": [
+        "必要GP"
+      ],
+      "target_values": [
+        "所需GP"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['所需GP']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "e71a9244b6b52a928fdf804e4e60ffad20737a117cd1380ce182de7bba993d69",
+      "after_sha256": "a0886a66501f70d5b724ecf62a81fd896db36a948665bd3ac27ad6e1ca945b87",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-157",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward .needRepel:after",
+      "source_values": [
+        "必要撃退数"
+      ],
+      "target_values": [
+        "所需击退数"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['所需击退数']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "360fe75b8227a988c203b66a9074d62dce7038117ef72db99ca683ef8a303eb8",
+      "after_sha256": "ae5c63a55c02b402ef8c18c161aac7085079885107ec5d88c382919c3ce05ff7",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-158",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+      "selector": "#rewardPopup #rewardListWrap.subjugation #rewardList .reward.current:before",
+      "source_values": [
+        "到達した撃退Lv"
+      ],
+      "target_values": [
+        "已达成的击退等级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['已达成的击退等级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "2db771c9b062aee190ebc4cf7846c478fd2849c940dd4ed56c06046eeb80788c",
+      "after_sha256": "3a731354a00e809e949dc45ea9f83fd1666f5848290506fc481b8635628a2f8d",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-159",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+      "selector": "#rewardPopup #rewardListWrap.emblem #rewardList .reward.current:before",
+      "source_values": [
+        "最高獲得エンブレム"
+      ],
+      "target_values": [
+        "最高获得徽章"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['最高获得徽章']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "1c71b00920a189a936df4df9ecd3a6ee9fe169a46b40a1d2ad972fcbd94e31a5",
+      "after_sha256": "86db14f8c891233c01248693282fdcc3806ec45ce0937c056444bf59d64b682c",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-160",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+      "selector": "#rewardPopup #rewardListWrap.emblem #rewardList .reward .needGp:after",
+      "source_values": [
+        "デイリーダメージ"
+      ],
+      "target_values": [
+        "每日伤害"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['每日伤害']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "340830c193dd7d3760a1da5f5415259dbe868c94b62c59d74a083d9050916683",
+      "after_sha256": "78ed2758133c3e341e4973b5fb4ac2fb2eabb7f4e3bb802e872ec771a4b877ff",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-161",
+      "path": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+      "selector": "#rewardPopup #rewardListWrap.group #rewardList .reward.current:before",
+      "source_values": [
+        "現在のグレード"
+      ],
+      "target_values": [
+        "现在的层级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['现在的层级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "987d875306bb336dbd8cf1de123f5797a359c5eeaa23f61851084df912e52fa9",
+      "after_sha256": "545f9a8006662bf664ee4e6567a1e0d66a04c2dd8ddcb87e932f2fb7da5dff00",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-162",
+      "path": "magica/css/shop/ShopTop.css",
+      "selector": "#ShopTop #hasItems:before",
+      "source_values": [
+        "所持"
+      ],
+      "target_values": [
+        "持有"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\shop\\ShopTop.css same-path same-selector content=['持有']",
+      "before_sha256": "cfa3d8c48a914db6cb7772bdfbaceccec0f9e2d97fc4519d8b881214d04fc9f1",
+      "after_sha256": "b4ef15ca0b103167b2c764b2888e60970d92bf95d47976c56243cbff1f2d81be",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-163",
+      "path": "magica/css/shop/ShopTop.css",
+      "selector": "#popupArea .popupShop .costWrap .useCost:before",
+      "source_values": [
+        "合計価格"
+      ],
+      "target_values": [
+        "合计价格"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\shop\\ShopTop.css same-path same-selector content=['合计价格']",
+      "before_sha256": "7433e298e04aabaf1038e33fdc539102c4877ae8e03da6312fa21e3160a61ccf",
+      "after_sha256": "829a136656fd7f35018a2e73724513ebd423b8a5f7e1ce680ad090554797a12e",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-164",
+      "path": "magica/css/shop/ShopTop.css",
+      "selector": "#popupArea .popupShop .costWrap .costHasNum:before",
+      "source_values": [
+        "所持"
+      ],
+      "target_values": [
+        "持有"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\shop\\ShopTop.css same-path same-selector content=['持有']",
+      "before_sha256": "2cecb0bd64bc06a2dd6ee915ad8acaf343c14bb0ecc2b8b83be62244665f2720",
+      "after_sha256": "9064c9296a593dabcca9ac62556ba7e26845400eccd8ff4ed8dd16c8508d047e",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-165",
+      "path": "magica/css/shop/ShopTop.css",
+      "selector": "#popupArea .popupShop #shopPopMain .itemPopMiniWrap .useCost:before",
+      "source_values": [
+        "価格"
+      ],
+      "target_values": [
+        "价格"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\shop\\ShopTop.css same-path same-selector content=['价格']",
+      "before_sha256": "37955095eaad894faf4770251c08d017beb0b059648bd380c6f795e05049db9b",
+      "after_sha256": "e0dfa6497c0e7efb6139abad13be6369f08b001055dc178625a9e12479b2a85b",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-166",
+      "path": "magica/css/shop/ShopTop.css",
+      "selector": "#popupArea .popupShop.forMoney #shopPopMain .amountSelectWrap .useCost:before",
+      "source_values": [
+        "合計価格"
+      ],
+      "target_values": [
+        "合计价格"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['合计价格']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "c41bfdd66b24a91276ce5b791cebc8ee6daeb778051c015436914c4ac5c463e7",
+      "after_sha256": "c569cc3a83a22617061e3875261b42b7eb4db83c6b501f0a3307fd5b533afb7b",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-167",
+      "path": "magica/css/shop/ShopTop.css",
+      "selector": "#popupArea .completePop .completeQuantity:before",
+      "source_values": [
+        "所持数"
+      ],
+      "target_values": [
+        "持有数"
+      ],
+      "source_tier": "official-cn-css",
+      "evidence": "A:\\magicaOLD\\css\\shop\\ShopTop.css same-path same-selector content=['持有数']",
+      "before_sha256": "93550fc1f5c03bacd655e105781473ffc89ff956b7941973e4728288d84d17b9",
+      "after_sha256": "a2cd63211e54c5492566556ab003b963687ca8082f92b7e4049e86cf820af0d2",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-168",
+      "path": "magica/css/test/SdCharaTest.css",
+      "selector": "#rewardPopup #rewardListWrap.subjugation #rewardList .reward.current:before",
+      "source_values": [
+        "已达到的击退Lv"
+      ],
+      "target_values": [
+        "已达到的击退等级"
+      ],
+      "source_tier": "new-human",
+      "evidence": "path-scoped visible CSS selector context; no usable same-selector CN in A:\\magicaOLD; content=['已达到的击退等级']",
+      "before_sha256": "faec14e26467cfdf12c5baa7f57ca0ed08df3acec8386e75042a3418a51d46a5",
+      "after_sha256": "3bbc2eb8267762da180116f4bddc8acfbfb750f181ac54b52becbe8ab246b3be",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-169",
+      "path": "magica/css/user/EventRecord.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward.current:before",
+      "source_values": [
+        "現在のグレード"
+      ],
+      "target_values": [
+        "现在的层级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['现在的层级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "21c6585fcd583e77ca382c9b3e5ccadda58b3c46e5047dd9e9b8d173657275f7",
+      "after_sha256": "d87da2b5ec422ec7b8e39d769c0ee23adfe76fa8f8c8b9e5142bf3552c3eefe4",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-170",
+      "path": "magica/css/user/EventRecord.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward .needGp:after",
+      "source_values": [
+        "必要GP"
+      ],
+      "target_values": [
+        "所需GP"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['所需GP']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "e71a9244b6b52a928fdf804e4e60ffad20737a117cd1380ce182de7bba993d69",
+      "after_sha256": "a0886a66501f70d5b724ecf62a81fd896db36a948665bd3ac27ad6e1ca945b87",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-171",
+      "path": "magica/css/user/EventRecord.css",
+      "selector": "#rewardPopup #rewardListWrap #rewardList .reward .needRepel:after",
+      "source_values": [
+        "必要撃退数"
+      ],
+      "target_values": [
+        "所需击退数"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['所需击退数']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "360fe75b8227a988c203b66a9074d62dce7038117ef72db99ca683ef8a303eb8",
+      "after_sha256": "ae5c63a55c02b402ef8c18c161aac7085079885107ec5d88c382919c3ce05ff7",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-172",
+      "path": "magica/css/user/EventRecord.css",
+      "selector": "#rewardPopup #rewardListWrap.subjugation #rewardList .reward.current:before",
+      "source_values": [
+        "到達した撃退Lv"
+      ],
+      "target_values": [
+        "已达成的击退等级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['已达成的击退等级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "2db771c9b062aee190ebc4cf7846c478fd2849c940dd4ed56c06046eeb80788c",
+      "after_sha256": "3a731354a00e809e949dc45ea9f83fd1666f5848290506fc481b8635628a2f8d",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-173",
+      "path": "magica/css/user/EventRecord.css",
+      "selector": "#rewardPopup #rewardListWrap.emblem #rewardList .reward.current:before",
+      "source_values": [
+        "最高獲得エンブレム"
+      ],
+      "target_values": [
+        "最高获得徽章"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['最高获得徽章']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "1c71b00920a189a936df4df9ecd3a6ee9fe169a46b40a1d2ad972fcbd94e31a5",
+      "after_sha256": "86db14f8c891233c01248693282fdcc3806ec45ce0937c056444bf59d64b682c",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-174",
+      "path": "magica/css/user/EventRecord.css",
+      "selector": "#rewardPopup #rewardListWrap.emblem #rewardList .reward .needGp:after",
+      "source_values": [
+        "デイリーダメージ"
+      ],
+      "target_values": [
+        "每日伤害"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['每日伤害']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "340830c193dd7d3760a1da5f5415259dbe868c94b62c59d74a083d9050916683",
+      "after_sha256": "78ed2758133c3e341e4973b5fb4ac2fb2eabb7f4e3bb802e872ec771a4b877ff",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    },
+    {
+      "item_id": "UI-175",
+      "path": "magica/css/user/EventRecord.css",
+      "selector": "#rewardPopup #rewardListWrap.group #rewardList .reward.current:before",
+      "source_values": [
+        "現在のグレード"
+      ],
+      "target_values": [
+        "现在的层级"
+      ],
+      "source_tier": "confirmed-existing-human",
+      "evidence": "current MagiaCN same-path same-selector override content=['现在的层级']; old official CSS absent or untranslated at this selector",
+      "before_sha256": "987d875306bb336dbd8cf1de123f5797a359c5eeaa23f61851084df912e52fa9",
+      "after_sha256": "545f9a8006662bf664ee4e6567a1e0d66a04c2dd8ddcb87e932f2fb7da5dff00",
+      "before_rule_count_in_product": 0,
+      "after_rule_count_in_product": 1
+    }
+  ]
+}

@@ -7,16 +7,20 @@ import shutil
 import zipfile
 import xml.etree.ElementTree as ET
 
+from pass20_review_contract import (
+    HUMAN_REVIEW_ITEMS, WORKBOOK_FILE_NAME, WORKBOOK_SHEET_NAME,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description="Harden worksheet protection in the artifact-tool review workbook")
 parser.add_argument(
     "--xlsx", type=Path,
-    default=ROOT / "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
+    default=ROOT / "magica/i18n_audit/release_v26_authority" / WORKBOOK_FILE_NAME,
 )
 parser.add_argument(
     "--delivery", type=Path,
-    default=ROOT / "outputs/019fd6ce-093f-7d63-ac45-ca01a7008cf8/magireco_v26_translation_review_1565.xlsx",
+    default=ROOT / "outputs/019fd6ce-093f-7d63-ac45-ca01a7008cf8" / WORKBOOK_FILE_NAME,
 )
 args = parser.parse_args()
 XLSX = args.xlsx.resolve()
@@ -49,7 +53,7 @@ for sheet in workbook.findall(f"./{q('sheets')}/{q('sheet')}"):
     if target not in blobs or not target.startswith("xl/worksheets/"):
         raise SystemExit(f"unsafe worksheet target: {name}")
     sheet_paths[name] = target
-expected_sheets = {"人工审核1565"}
+expected_sheets = {WORKBOOK_SHEET_NAME}
 if set(sheet_paths) != expected_sheets:
     raise SystemExit(f"sheet set drifted: {set(sheet_paths)}")
 
@@ -140,13 +144,13 @@ def hide_columns(sheet: ET.Element, start: int, end: int) -> None:
 
 
 sheets = {name: ET.fromstring(blobs[path]) for name, path in sheet_paths.items()}
-sheet = sheets["人工审核1565"]
+sheet = sheets[WORKBOOK_SHEET_NAME]
 cells = cell_map(sheet)
-for row in range(2, 1567):
+for row in range(2, HUMAN_REVIEW_ITEMS + 2):
     ref = f"C{row}"
     cell = cells.get(ref)
     if cell is None:
-        raise SystemExit(f"missing editable cell 人工审核1565!{ref}")
+        raise SystemExit(f"missing editable cell {WORKBOOK_SHEET_NAME}!{ref}")
     cell.set("s", str(unlocked_style(int(cell.get("s", "0")))))
 set_pane(sheet, {"ySplit": "1", "topLeftCell": "A2", "activePane": "bottomLeft", "state": "frozen"}, [
     {"pane": "bottomLeft", "activeCell": "C2", "sqref": "C2"},
@@ -171,4 +175,7 @@ with zipfile.ZipFile(XLSX, "r") as check:
         raise SystemExit("output XLSX CRC failure")
     if len(check.namelist()) != len(set(check.namelist())):
         raise SystemExit("output XLSX duplicate member")
-print("PASS: one-sheet 1565 workbook freeze/hide/unlock/protection hardened")
+print(
+    f"PASS: one-sheet {HUMAN_REVIEW_ITEMS} workbook "
+    "freeze/hide/unlock/protection hardened"
+)

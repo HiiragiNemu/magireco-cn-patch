@@ -5,6 +5,7 @@ ZIP 根布局只有两棵并行路径：
 
     magica/**                    WebView 前端产品树
     madomagi/engine_i18n.tsv     native/cocos2d 翻译表（必含）
+    madomagi/resource/image_native/**  固定 native 修复层（必含）
 
 scenario 资源不属于 JS 包。以旧 JS 包为底时，本工具保留完整 ``magica/``，用
 本仓库当前 ``madomagi/engine_i18n.tsv`` 覆盖底包版本，并剔除越界根路径。只改
@@ -30,8 +31,10 @@ import zipfile
 
 
 ENGINE_MEMBER = 'madomagi/engine_i18n.tsv'
+REPAIR_PREFIX = 'madomagi/resource/image_native/'
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_ENGINE = REPO_ROOT / ENGINE_MEMBER
+DEFAULT_REPAIR_ROOT = REPO_ROOT / REPAIR_PREFIX
 RUNTIME_EXCLUDED_PREFIXES = ('magica/research/', 'magica/i18n_audit/')
 
 
@@ -70,7 +73,7 @@ def validate_engine(path):
 
 
 def allowed_base_member(name):
-    """JS 包只继承 magica/ 与唯一 engine 表。"""
+    """JS 包只继承 magica/、唯一 engine 表与固定 native 修复层。"""
     normalized = name.replace('\\', '/')
     path = PurePosixPath(normalized)
     if normalized != name or path.is_absolute() or '..' in path.parts:
@@ -82,6 +85,7 @@ def allowed_base_member(name):
         or normalized.startswith('magica/')
         or normalized == 'madomagi/'
         or normalized == ENGINE_MEMBER
+        or normalized.startswith(REPAIR_PREFIX)
     )
 
 
@@ -105,6 +109,17 @@ def main():
         engine_bytes = validate_engine(args.engine)
     except ValueError as exc:
         print(str(exc), file=sys.stderr)
+        return 1
+
+    if not DEFAULT_REPAIR_ROOT.is_dir():
+        print('native 修复目录不存在：%s' % DEFAULT_REPAIR_ROOT, file=sys.stderr)
+        return 1
+    repair_files = {
+        REPAIR_PREFIX + path.relative_to(DEFAULT_REPAIR_ROOT).as_posix(): path
+        for path in DEFAULT_REPAIR_ROOT.rglob('*') if path.is_file()
+    }
+    if not repair_files:
+        print('native 修复目录为空', file=sys.stderr)
         return 1
 
     extras = {}
@@ -156,7 +171,7 @@ def main():
     n_rejected = 0
     with zipfile.ZipFile(args.out, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
         # 先铺底包；新文件同名时跳过旧项，稍后写入新内容。
-        new_names = set(file_members.values()) | set(extras) | {ENGINE_MEMBER}
+        new_names = set(file_members.values()) | set(extras) | set(repair_files) | {ENGINE_MEMBER}
         if args.base:
             try:
                 base = zipfile.ZipFile(args.base)
@@ -200,6 +215,10 @@ def main():
             n_extra += 1
             print('  + %s ← %s' % (name, src))
 
+        for name, src in sorted(repair_files.items()):
+            z.write(src, name)
+            seen.add(name)
+
         # 必含且永远以当前权威源覆盖旧表。
         z.writestr(ENGINE_MEMBER, engine_bytes)
         seen.add(ENGINE_MEMBER)
@@ -209,8 +228,8 @@ def main():
         print('额外追加 %d 项' % n_extra)
     if n_rejected:
         print('已剔除 %d 个越界/重复底包项' % n_rejected)
-    print('底包沿用 %d 项，新增/覆盖 %d 项，引擎表 1 项，共 %d 项'
-          % (n_base, n_new, len(seen)))
+    print('底包沿用 %d 项，新增/覆盖 %d 项，native 修复 %d 项，引擎表 1 项，共 %d 项'
+          % (n_base, n_new, len(repair_files), len(seen)))
     print('→ %s（%.1f MB）' % (args.out, size / 1024.0 / 1024.0))
     print('\n发布前还要做两件事：')
     print('  1. 上传 cn_js_update.zip（scenario 包保持不变）')

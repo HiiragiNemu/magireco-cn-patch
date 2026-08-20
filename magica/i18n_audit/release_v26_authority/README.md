@@ -40,7 +40,7 @@
   1,912/1,472/440/522 分区、37 条 patch/rollback 双射、决策枚举、来源字段、
   保护边界和 SHA-256。终态材料只供审计，不进入运行时包。
 - `dsv4_human_decisions.tsv`：DSV4 封存阶段的历史审计副本，不再作为用户填写表或
-  当前发布门输入。实际用户界面只有 `magireco_v26_translation_review_1565.xlsx`
+  当前发布门输入。实际用户界面只有 `magireco_v26_translation_review_1564.xlsx`
   的“日文原文／旧中文／最终中文”三列，且只编辑“最终中文”；不需要决定、备注、
   审核人或时间。返回表由代理导入 `pass20_human_final_values.tsv`。
 - `pass18_verification.json`：939/939 后像、43 条禁回流规则、303 条 engine、
@@ -52,8 +52,8 @@
 未被产品运行时消费的四张迁移 TSV 另按有无逐条复核证据分层，详见仓库根目录
 `i18n/generated/`；它们不会自动覆盖 `magica/`。
 
-当前发布硬门为 **1,565 项最终中文回执**：仓库中的
+当前发布硬门为 **1,564 项最终中文回执**：仓库中的
 `pass20_human_final_values.tsv` 只有表头，因此只允许构建候选包、推送功能分支和
 建立 Draft PR。用户返回工作簿后，未修改的预填值视为接受，修改后的单元格视为采用
-用户文本；全部 1,565 条导入并通过 `tools/validate-dsv4-human-review.py` 后，仍须重跑
+用户文本；全部 1,564 条导入并通过 `tools/validate-dsv4-human-review.py` 后，仍须重跑
 权威保护、运行时结构、确定性构建和事务发布回归，才允许 stable promotion。

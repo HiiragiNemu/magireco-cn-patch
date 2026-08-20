@@ -1,0 +1,33 @@
+The following Player Data will be deleted from the server.<br>
+Are you sure you want to proceed?
+<br>
+<div class="statusSec">
+	<div class="statusMain">
+	<dl class="colWrap common_dl">
+		<dt class="colLeft">Player Name</dt>
+		<dd class="colRight">
+			<span class="black"><%= model.loginName %></span>
+		</dd>
+	</dl>
+	</div>
+	<div class="statusMain">
+		<dl class="colWrap common_dl">
+			<dt class="colLeft">Player Rank</dt>
+			<dd class="colRight">
+				<span class="black"><%= model.level %></span>
+			</dd>
+		</dl>
+	</div><br>
+	<div class="statusMain <%= model.isDispBirthDay %>">
+	<dl class="colWrap common_dl">
+		<dt class="colLeft">Birthday</dt>
+		<dd class="colRight">
+			<span class="black"><%= model.birthDay %></span>
+		</dd>
+	</dl>
+	</div>
+</div><!-- statusSec -->
+<br>
+<div class="c_red caution">
+	※If you do not wish to delete your data, please select Cancel.
+</div>

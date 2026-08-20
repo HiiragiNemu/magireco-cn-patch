@@ -1,0 +1,129 @@
+{
+  "ok": true,
+  "mode": "verify",
+  "rules": 9,
+  "exact": 4,
+  "prefix": 3,
+  "substring": 2,
+  "line_count": 316,
+  "consumer_requirement": "legacy-client commit cba75af6bdbb19ccd44d1766ec9870e86ab755bf",
+  "records": [
+    {
+      "rule_id": "ENGINE-AP-ITEM-001",
+      "kind": "exact",
+      "source": "50 AP Potion",
+      "target": "AP回复药50",
+      "source_tier": "official-cn",
+      "evidence": "A:/magicaOLD official item name",
+      "rendered": "50 AP Potion\tAP回复药50",
+      "matching_source_rules": [
+        "50 AP Potion\tAP回复药50"
+      ],
+      "exact_line_count": 1
+    },
+    {
+      "rule_id": "ENGINE-AP-ITEM-002",
+      "kind": "exact",
+      "source": "AP Potion",
+      "target": "AP回复药",
+      "source_tier": "official-cn",
+      "evidence": "A:/magicaOLD official item name",
+      "rendered": "AP Potion\tAP回复药",
+      "matching_source_rules": [
+        "AP Potion\tAP回复药"
+      ],
+      "exact_line_count": 1
+    },
+    {
+      "rule_id": "ENGINE-AP-ITEM-003",
+      "kind": "exact",
+      "source": "Magia Stones",
+      "target": "魔法石",
+      "source_tier": "official-cn",
+      "evidence": "A:/magicaOLD official item name",
+      "rendered": "Magia Stones\t魔法石",
+      "matching_source_rules": [
+        "Magia Stones\t魔法石"
+      ],
+      "exact_line_count": 1
+    },
+    {
+      "rule_id": "ENGINE-AP-ACTION-001",
+      "kind": "prefix",
+      "source": "Use ",
+      "target": "消费 ",
+      "source_tier": "official-cn",
+      "evidence": "A:/magicaOLD/template/user/APPopup.html",
+      "rendered": "^Use \t消费 ",
+      "matching_source_rules": [
+        "^Use \t消费 "
+      ],
+      "exact_line_count": 1
+    },
+    {
+      "rule_id": "ENGINE-AP-COUNT-001",
+      "kind": "prefix",
+      "source": "Stock: ",
+      "target": "持有数 ",
+      "source_tier": "official-cn",
+      "evidence": "A:/magicaOLD/template/user/APPopup.html",
+      "rendered": "^Stock: \t持有数 ",
+      "matching_source_rules": [
+        "^Stock: \t持有数 "
+      ],
+      "exact_line_count": 1
+    },
+    {
+      "rule_id": "ENGINE-AP-COST-001",
+      "kind": "prefix",
+      "source": "Cost: ",
+      "target": "消费 ",
+      "source_tier": "official-cn",
+      "evidence": "A:/magicaOLD/template/user/APPopup.html",
+      "rendered": "^Cost: \t消费 ",
+      "matching_source_rules": [
+        "^Cost: \t消费 "
+      ],
+      "exact_line_count": 1
+    },
+    {
+      "rule_id": "ENGINE-AP-ACTION-002",
+      "kind": "exact",
+      "source": "Restore",
+      "target": "回复",
+      "source_tier": "official-cn",
+      "evidence": "A:/magicaOLD/template/user/APPopup.html",
+      "rendered": "Restore\t回复",
+      "matching_source_rules": [
+        "Restore\t回复"
+      ],
+      "exact_line_count": 1
+    },
+    {
+      "rule_id": "ENGINE-AP-TIMER-001",
+      "kind": "substring",
+      "source": " AP will recover in ",
+      "target": " AP恢复倒计时：",
+      "source_tier": "confirmed-human",
+      "evidence": "native dynamic AP timer fragment",
+      "rendered": "~ AP will recover in \t AP恢复倒计时：",
+      "matching_source_rules": [
+        "~ AP will recover in \t AP恢复倒计时："
+      ],
+      "exact_line_count": 1
+    },
+    {
+      "rule_id": "ENGINE-AP-TIMER-002",
+      "kind": "substring",
+      "source": " / AP will be fully recovered in ",
+      "target": " / AP全满倒计时：",
+      "source_tier": "confirmed-human",
+      "evidence": "native dynamic full-AP timer fragment",
+      "rendered": "~ / AP will be fully recovered in \t / AP全满倒计时：",
+      "matching_source_rules": [
+        "~ / AP will be fully recovered in \t / AP全满倒计时："
+      ],
+      "exact_line_count": 1
+    }
+  ]
+}

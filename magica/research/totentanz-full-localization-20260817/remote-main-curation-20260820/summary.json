@@ -1,0 +1,39 @@
+{
+  "schema": "magireco-cn-remote-main-curation/v1",
+  "status": "PASS",
+  "remote_main": "ad4f4daf494b10793d23e045fe8ff24d01835afd",
+  "merge_base": "075678ea15fd5d25257932df8e35c9e9a65e24cb",
+  "selected_changes": 83,
+  "selected_by_file": {
+    "magica/js/libs/eventStoryList.json": 59,
+    "magica/js/libs/itemList.json": 2,
+    "magica/js/libs/pieceList.json": 17,
+    "magica/js/libs/pieceSkillMap.json": 2,
+    "magica/js/libs/shopItemList.json": 3
+  },
+  "retained_higher_authority_local": 1,
+  "latest_remote_action": {
+    "run": 32329948471,
+    "status": "failure",
+    "reason": "wiki repository checkout returned Not Found before localization step",
+    "product_writes": 0
+  },
+  "comparison": {
+    "remote_product_files_same": 107,
+    "remote_product_files_different": 39,
+    "local_engine_rules": 314,
+    "remote_engine_rules": 306,
+    "local_engine_unverified": 0
+  },
+  "authority_order": [
+    "official-cn",
+    "wiki",
+    "confirmed-human",
+    "reviewed-manual",
+    "machine/llm"
+  ],
+  "product_files_written": 5,
+  "post_apply_exact": 83,
+  "json_parse_failures": 0,
+  "note": "远端不是整树覆盖源；仅逐项采纳有来源或语义更优的83个叶字段。CSS/HTML/engine保留本地更完整版本。"
+}

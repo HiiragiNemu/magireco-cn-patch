@@ -132,7 +132,7 @@
 			<%="<% } %\>"%>
 
 			<%="<% if(model.combo > 0) { %\>"%>
-			<div class="combo bgBonus c_white"><%="<%= model.combo %\>"%> COMBO！</div>
+			<div class="combo bgBonus c_white"><%="<%= model.combo %\>"%> 连击！</div>
 			<%="<% } %\>"%>
 			<%="<% if(model.type == 'RELIEF' || model.combo > 0) { %\>"%>
 			<div class="atkBonus">
@@ -329,7 +329,7 @@
 		</div>
 
 		<div class="userInfoWrap">
-			<div class="rank c_white">Rank<%="<%= model.level %\>"%></div>
+			<div class="rank c_white">等级<%="<%= model.level %\>"%></div>
 			<div class="name"><%="<%= _.escape(model.loginName) %\>"%></div>
 			<div class="time c_red"><%="<%= model.createdAt.slice(5,16) %\>"%></div>
 		</div>

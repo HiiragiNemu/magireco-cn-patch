@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the one-sheet 1,565-row workbook and optionally accept all returned final values."""
+"""Validate the one-sheet Pass20 workbook and optionally accept all returned final values."""
 
 from __future__ import annotations
 
@@ -17,10 +17,16 @@ from typing import Any
 import zipfile
 import xml.etree.ElementTree as ET
 
+from pass20_review_contract import (
+    AUTHORITY_EXCLUDED_ITEMS, AUTHORITY_RESOLUTIONS, DS_APPROVED_ITEMS,
+    HUMAN_REVIEW_ITEMS, MACHINE_SOURCE_ITEMS, PRIORITY_ITEMS, SHADOWED_ITEMS,
+    WORKBOOK_FILE_NAME, WORKBOOK_SHEET_NAME,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
-DEFAULT_XLSX = AUDIT / "magireco_v26_translation_review_1565.xlsx"
+DEFAULT_XLSX = AUDIT / WORKBOOK_FILE_NAME
 DEFAULT_SOURCE = AUDIT / "pass20_remaining_manual_review.tsv"
 DEFAULT_PRIORITY = AUDIT / "pass20_priority_manual_review.tsv"
 DEFAULT_INVENTORY = AUDIT / "pass20_machine_source_inventory.tsv"
@@ -32,16 +38,16 @@ DEFAULT_RECEIPT = AUDIT / "pass20_human_final_values.tsv"
 DEFAULT_TARGETS = AUDIT / "pass20_product_targets.json"
 SCHEMA = "magireco-cn-v26-translation-human-review-workbook/5"
 EXPECTED_COUNTS = {
-    "inventory": 1589,
-    "human": 1565,
-    "priority": 199,
-    "approved": 1366,
-    "excluded": 347,
-    "authority": 323,
-    "shadowed": 24,
+    "inventory": MACHINE_SOURCE_ITEMS,
+    "human": HUMAN_REVIEW_ITEMS,
+    "priority": PRIORITY_ITEMS,
+    "approved": DS_APPROVED_ITEMS,
+    "excluded": AUTHORITY_EXCLUDED_ITEMS,
+    "authority": AUTHORITY_RESOLUTIONS,
+    "shadowed": SHADOWED_ITEMS,
 }
-SHEETS = ("人工审核1565",)
-REVIEW_SHEET = "人工审核1565"
+SHEETS = (WORKBOOK_SHEET_NAME,)
+REVIEW_SHEET = WORKBOOK_SHEET_NAME
 NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 PKG_REL_NS = "http://schemas.openxmlformats.org/package/2006/relationships"
@@ -194,7 +200,7 @@ def _safe_relationship_target(source_path: str, raw_target: str, required_prefix
 
 
 def _require_table_ranges(package: zipfile.ZipFile, sheet_paths: dict[str, str]) -> None:
-    expected = {REVIEW_SHEET: "A1:N1566"}
+    expected = {REVIEW_SHEET: f"A1:N{HUMAN_REVIEW_ITEMS + 1}"}
     for sheet_name, table_ref in expected.items():
         sheet_path = sheet_paths[sheet_name]
         sheet_root = ET.fromstring(package.read(sheet_path))
@@ -438,12 +444,17 @@ def import_workbook(
         raise WorkbookImportError("product target manifest items are invalid")
     targets = unique_by_id(target_rows, "product target manifest")
     if set(targets) != set(source):
-        raise WorkbookImportError("product target manifest differs from the 1,565-item human queue")
+        raise WorkbookImportError(
+            f"product target manifest differs from the {HUMAN_REVIEW_ITEMS}-item human queue"
+        )
     target_indices = {str(row.get("item_id", "")): index for index, row in enumerate(target_rows)}
     if "" in target_indices or len(target_indices) != len(target_rows):
         raise WorkbookImportError("product target manifest external index is not unique")
     summary = target_payload.get("summary", {})
-    if summary.get("items") != 1565 or summary.get("maintenance_rows_bound") != 1565:
+    if (
+        summary.get("items") != HUMAN_REVIEW_ITEMS
+        or summary.get("maintenance_rows_bound") != HUMAN_REVIEW_ITEMS
+    ):
         raise WorkbookImportError("product target manifest item count drifted")
     if summary.get("occurrence_collisions") != 0 or summary.get("unclassified_items") != 0:
         raise WorkbookImportError("product target manifest is not closed")

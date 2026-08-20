@@ -81,6 +81,15 @@ name: 🔄 同步上游并上传到 R2
 on:
   workflow_dispatch:
     inputs:
+      package_scope:
+        description: '手动打包范围（js=JS/WebView+引擎表；scenario=仅剧情；all=两者）'
+        required: true
+        default: 'js'
+        type: choice
+        options:
+          - js
+          - scenario
+          - all
       force_sync:
         description: '强制同步（无视指纹）'
         required: false
@@ -100,10 +109,8 @@ on:
     types: [upstream-update]
 
 concurrency:
-  # 加 event_name 维度：2026-08-19 一个 repository_dispatch run 在 GitHub
-  # 侧卡死在 queued（cancel/网页端都收不掉），死锁在旧的 workflow+ref 组，
-  # 把后续所有 run 堵在队列外。按事件源分组后，手动 dispatch 与上游
-  # dispatch 各走各的组，立即绕开卡死 run；同事件源之间仍串行。
+  # 手动触发与上游触发分组排队，避免某一事件源的 GitHub 队列死锁
+  # 把另一类事件也堵住；同事件源内仍保持严格串行。
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
   # Release promotion changes several related assets.  Queue a later dispatch
   # instead of cancelling between a rename and its verification/rollback.
@@ -333,12 +340,12 @@ jobs:
           fi
           echo "变动文件:"; echo "$CHANGED"
 
-          # F-R7（回退 package_scope 门控）：本流水线同时负责 APK 包上传，
-          # 打包范围一旦被跳过，R2 不刷新、其后的上传步骤全部空转浪费流量。
-          # 恢复无条件双打：js 与 scenario 恒都打包（classify --scope all 即
-          # has_js=has_scenario=1，pack 两个 job 的 if 门控恒真）。
-          # 下方 CHANGED 列表仍打日志供审计，不再参与打包判定。
-          SCOPE=all
+          # 自动范围和手动范围共用同一个可测试的产品所有权合同。
+          # 剧情包只由剧情 JSON 触发；引擎翻译表只属于 JS 热更新包。
+          SCOPE=auto
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            SCOPE="${{ inputs.package_scope }}"
+          fi
           printf '%s\n' "$CHANGED" | python3 scripts/classify_hotupdate_changes.py \
             --scope "$SCOPE" --github-output "$GITHUB_OUTPUT"
           mkdir -p _artifacts
@@ -449,12 +456,7 @@ jobs:
             magica/i18n_audit/release_v26_authority/RUNTIME_LAYER_SHA256SUMS.txt
           python3 tools/test-i18n-build-effective.py -v
           python3 tools/i18n-build-effective.py
-          # [刻意移除] i18n/generated 内容漂移护栏（git diff --exit-code）。
-          # 本仓库是汉化 patch 仓库，i18n 维护输入随汉化频繁变化，重建后的
-          # effective/provenance 视图随之更新，是预期行为而非"意外漂移"。
-          # 钉哈希只会让汉化改一两个字就全红，连带 APK/热更发布全部停摆，
-          # 下游玩家更新不了客户端。禁止加回，见契约测试
-          # test_no_content_drift_guard_for_patch_repo。
+          git diff --exit-code -- i18n/generated
           python3 tools/test-i18n-authority-guard.py -v
           python3 tools/test-apply-pass20-suggested-adoptions.py -v
           python3 tools/test-build-pass20-ds-correction-status.py -v
@@ -462,38 +464,27 @@ jobs:
           python3 tools/test-stage-pass20-human-review-product.py -v
           python3 tools/test-promote-pass20-product-stage.py -v
           python3 tools/test-rollback-pass20-product-stage.py -v
-          # [临时旁路] 2026-08-20：远端 i18n 合并把 FormationQuest/Support
-          # 的"未解放"改为"未解锁"，pass20_product_targets 基线未同步，
-          # materialization 校验 expected=3 actual=0 报红。翻译用词待确认，
-          # 先 SKIP_MATERIALIZATION_VERIFY=true 旁路止血；确认后恢复并同步
-          # 基线。
-          if [ "${{ vars.SKIP_MATERIALIZATION_VERIFY || 'false' }}" != "true" ]; then
-            python3 tools/test-verify-pass20-human-materialization.py -v
-          else
-            echo "::warning::SKIP_MATERIALIZATION_VERIFY=true，旁路 pass20 materialization 校验"
-          fi
-          # 人工审查资产只能使用全量 1,565 项工作簿；旧 199 项文件不得
+          python3 tools/test-verify-pass20-human-materialization.py -v
+          # 人工审查资产只能使用全量 1,564 项工作簿；旧 199 项文件不得
           # 重新进入任何候选发布流程。
-          test -f magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx
+          test -f magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1564.xlsx
           test ! -e magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx
           test -f magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv
           python3 tools/i18n-authority-guard.py --json | tee _authority_guard.json
           python3 tools/pass20_official_static.py verify --state applied
-          # [刻意移除] machine_translation_review 内容漂移护栏（git diff
-          # --exit-code）。本仓库是汉化 patch 仓库，product_content_sha256
-          # 覆盖 .github/scripts/tools 等维护文件，任何非产品 commit 都会让
-          # 它漂移，导致汉化改一两个字就全红，连带 APK/热更发布全部停摆，
-          # 下游玩家更新不了客户端。重建机翻审计照常执行（更新审计产物），
-          # 但不再把基线漂移当作硬失败。禁止加回，见契约测试
-          # test_no_content_drift_guard_for_patch_repo。
+          # 先重建全量来源/机翻审计，证明清单覆盖当前产品输入；随后仅验证
+          # 已提交的高权威基线。这里禁止自动重建保护基线，避免把意外漂移
+          # 当场“盖章”为新权威。
           python3 tools/build-v26-machine-review.py
+          git diff --exit-code -- \
+            magica/i18n_audit/release_v26_authority/machine_translation_review
           python3 tools/test-v26-authority-protection.py -v
           python3 tools/verify-v26-authority-protection.py --json \
             | tee _artifacts/v26_authority_protection_verification.json
           # Preview builds stay available for review. Stable promotion is a
-          # hard failure until all 1,565 final values are sealed either as a returned
+          # hard failure until all 1,564 final values are sealed either as a returned
           # human review or as the explicitly authorized rough-production receipt,
-          # the 323 authority resolutions stay outside that queue, and the 24
+          # the 323 authority resolutions stay outside that queue, and the 25
           # higher-authority-shadowed machine rows prove zero low-tier/product
           # writes through the materialization verifier.
           HUMAN_GATE_ARGS=()
@@ -506,17 +497,10 @@ jobs:
             --authority-resolutions magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv \
             --report _artifacts/dsv4_human_release_gate.json \
             "${HUMAN_GATE_ARGS[@]}"
-          # [临时旁路] 与 test-verify-pass20-human-materialization 同因：
-          # "未解放"→"未解锁" 用词未同步，SKIP_MATERIALIZATION_VERIFY=true
-          # 时跳过实际校验。确认译法后恢复并同步 pass20_product_targets 基线。
-          if [ "${{ vars.SKIP_MATERIALIZATION_VERIFY || 'false' }}" != "true" ]; then
-            python3 tools/verify-pass20-human-materialization.py \
-              --repo-root . \
-              --report _artifacts/pass20_human_materialization_verification.json \
-              "${HUMAN_GATE_ARGS[@]}"
-          else
-            echo "::warning::SKIP_MATERIALIZATION_VERIFY=true，旁路 pass20 materialization 校验"
-          fi
+          python3 tools/verify-pass20-human-materialization.py \
+            --repo-root . \
+            --report _artifacts/pass20_human_materialization_verification.json \
+            "${HUMAN_GATE_ARGS[@]}"
           python3 tools/test-i18n-package.py -v
           python3 tools/test-build-v26-package.py -v
           python3 scripts/test_build_manifest.py -v
@@ -525,6 +509,9 @@ jobs:
           # 与 magica/ 并行，解压后落到 files/madomagi/engine_i18n.tsv。
           test -f madomagi/engine_i18n.tsv || {
             echo "::error::缺少 madomagi/engine_i18n.tsv"; exit 1;
+          }
+          test -f madomagi/repair_manifest.json || {
+            echo "::error::缺少 madomagi/repair_manifest.json"; exit 1;
           }
           # 对完整成品进行同一固定工具链双构建，而不只测试小型 fixture。
           python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip
@@ -567,9 +554,22 @@ jobs:
           with zipfile.ZipFile(ZIP_NEW) as zf:
               names = zf.namelist()
           engine = "madomagi/engine_i18n.tsv"
+          repair_prefix = "madomagi/resource/image_native/"
           assert names.count(engine) == 1, f"{engine} count={names.count(engine)}"
+          repair_manifest = json.load(open("madomagi/repair_manifest.json", encoding="utf-8"))
+          expected_repairs = sorted(row["path"] for row in repair_manifest["entries"])
+          actual_repairs = sorted(name for name in names if name.startswith(repair_prefix))
+          assert actual_repairs == expected_repairs, (
+              len(actual_repairs), len(expected_repairs)
+          )
           assert not any(n.startswith("madomagi/resource/scenario/") for n in names)
           assert not any(n.startswith(("magica/research/", "magica/i18n_audit/")) for n in names)
+          assert not any(
+              n.startswith("madomagi/")
+              and n != engine
+              and not n.startswith(repair_prefix)
+              for n in names
+          )
 
           # 权威正式基线来自本次捕获并交叉核验的上游 latest Release；
           # repo /configures 仅是稍后提交的镜像，禁止作为版本分配真相源。
@@ -864,11 +864,8 @@ jobs:
       CONFIG_DIR: "configures"
     steps:
       - name: 🩹 恢复上次未完成的转正（取消/杀死遗留的半拉配置）
-        # F-R7：转正把旧正式 asset 改名为 *.rollback-<run> 再上新，中途被取消/
-        # 杀死时回滚代码不执行，Release 会留下「正式名缺位」的半态。备份名残留
-        # 即日志（成功会清掉）：下次运行在这里把 Release 恢复到转正前状态（旧
-        # 正式 + _new 预览），让接下来的转正从干净基线重来。也兜住「回滚本身
-        # 失败」的残留。放兜底护栏之前：打包失败该跑完自愈也得跑完。
+        # 转正把旧正式 asset 改名为 *.rollback-<run> 再上新。若运行被
+        # 强制终止，下一次先恢复旧正式名与 _new 预览名，再开始新事务。
         run: |
           python3 <<'SCRIPT_END'
           import json
@@ -880,32 +877,37 @@ jobs:
           UPSTREAM = f"{os.environ['UPSTREAM_OWNER']}/{os.environ['UPSTREAM_REPO']}"
 
           def gh(*args):
-              # gh api 只收一个路径参数：repos/{UPSTREAM} 与后续段拼成单参数，
-              # 否则「accepts 1 arg(s), received 2」。
-              path = f"repos/{UPSTREAM}/" + "/".join(
-                  a.lstrip("/") for a in args)
-              r = subprocess.run(["gh", "api", path],
-                                 capture_output=True, text=True)
-              if r.returncode != 0:
-                  raise RuntimeError(f"gh api 失败: {r.stderr.strip()}")
-              return r.stdout
+              path = f"repos/{UPSTREAM}/" + "/".join(a.lstrip("/") for a in args)
+              result = subprocess.run(
+                  ["gh", "api", path], capture_output=True, text=True
+              )
+              if result.returncode != 0:
+                  raise RuntimeError(f"gh api 失败: {result.stderr.strip()}")
+              return result.stdout
 
           def fetch_assets():
-              rel = json.loads(gh("/releases/tags/latest"))
-              return {a["name"]: a for a in rel.get("assets", [])}
+              release = json.loads(gh("/releases/tags/latest"))
+              return {asset["name"]: asset for asset in release.get("assets", [])}
 
           def rename(asset_id, old_name, new_name):
-              r = subprocess.run(
-                  ["gh", "api", f"repos/{UPSTREAM}/releases/assets/{asset_id}",
-                   "--method", "PATCH", "-f", f"name={new_name}"],
-                  capture_output=True, text=True)
-              if r.returncode != 0:
-                  raise RuntimeError(f"重命名 {old_name} → {new_name} 失败: "
-                                     + r.stderr.strip())
+              result = subprocess.run(
+                  [
+                      "gh", "api",
+                      f"repos/{UPSTREAM}/releases/assets/{asset_id}",
+                      "--method", "PATCH", "-f", f"name={new_name}",
+                  ],
+                  capture_output=True,
+                  text=True,
+              )
+              if result.returncode != 0:
+                  raise RuntimeError(
+                      f"重命名 {old_name} → {new_name} 失败: {result.stderr.strip()}"
+                  )
 
           backups = sorted(
-              (n, a) for n, a in fetch_assets().items()
-              if re.search(r"\.rollback-\d+$", n)
+              (name, asset)
+              for name, asset in fetch_assets().items()
+              if re.search(r"\.rollback-\d+$", name)
           )
           if not backups:
               print("✓ 无残留转正备份，Release 干净")
@@ -918,13 +920,12 @@ jobs:
               current = fetch_assets()
               promoted = current.get(final_name)
               if promoted:
-                  # 新资产已占正式名：先退回 _new 预览名（转正前它就是 _new），
-                  # 再把旧正式从备份名还原。
                   head, _sep, ext = final_name.rpartition(".")
                   preview_name = f"{head}_new.{ext}"
                   if preview_name in current:
                       raise RuntimeError(
-                          f"预览名 {preview_name} 已存在，无法退回（残留冲突）")
+                          f"预览名 {preview_name} 已存在，无法退回（残留冲突）"
+                      )
                   rename(promoted["id"], final_name, preview_name)
                   print(f"  退回预览: {final_name} → {preview_name}")
               rename(backup_asset["id"], backup_name, final_name)
@@ -1653,11 +1654,10 @@ jobs:
                   if fname not in current_map:
                       deleted.append(fname)
 
-              # H2（F-R7）：版本/配置类文件排最后上传——若中途被取消，R2 里旧的
-              # 版本文件还指着旧内容（更新客户端看版本没变就不会拉包），把「新
-              # 版本指向未上传内容」的错配窗口缩到最小。
+              # 内容包先上传，版本/配置文件最后上传，避免中断时出现
+              # “新版本元数据已经可见、实际新内容尚未上传”的短暂错配。
               VERSION_LAST = {"version_js.json", "version_scenario.json", "manifest.json"}
-              to_process.sort(key=lambda n: (1 if n in VERSION_LAST else 0, n))
+              to_process.sort(key=lambda name: (1 if name in VERSION_LAST else 0, name))
 
               # ════════════════════════════════════════════════════════
               # 过时文件处理（v3：不主动删除，需手动确认）
@@ -1781,9 +1781,8 @@ jobs:
     runs-on: [self-hosted, mainland]
     # 排在 r2-sync 之后：多吉云从国内 CDN 拉文件，CDN 要等 R2 系完活才能
     # 清缓存+拉到新内容（2026-08-13）
-    # ENABLE_DOGE_SYNC 仓库变量=false 时整个 job 直接跳过（不占 mainland runner、
-    # 不出多吉云账单）；缺省视为开启。下游 update-cursor/summary 已按 skipped 处理。
     needs: [setup, publish, r2-sync]
+    # 可由仓库变量显式停用；缺省开启。停用属于主动选择，不应阻塞游标。
     if: always() && needs.setup.result == 'success' && fromJSON(vars.ENABLE_DOGE_SYNC || 'true')
     env:
       PYTHONUNBUFFERED: "1"
@@ -1854,9 +1853,8 @@ jobs:
     runs-on: [self-hosted, mainland]
     # 排在 r2-sync 之后：runner 从国内 CDN 下载，CDN 要等 R2 系完活才能
     # 清缓存+拉到新内容（2026-08-13）
-    # ENABLE_PAN123_SYNC 仓库变量=false 时整个 job 直接跳过（不占 mainland runner、
-    # 不动 123 云盘）；缺省视为开启。下游 update-cursor/summary 已按 skipped 处理。
     needs: [setup, publish, r2-sync]
+    # 可由仓库变量显式停用；缺省开启。停用属于主动选择，不应阻塞游标。
     if: always() && needs.setup.result == 'success' && fromJSON(vars.ENABLE_PAN123_SYNC || 'true')
     env:
       PYTHONUNBUFFERED: "1"
@@ -2611,9 +2609,8 @@ jobs:
   update-cursor:
     runs-on: ubuntu-latest
     needs: [setup, commit-configs, r2-sync, doge-sync, pan123-upload, mirror-release]
-    # 自定义 if 会覆盖默认 success() 语义。r2-sync / mirror-release / commit-configs
-    # 必须 success；doge-sync / pan123-upload 可能被 ENABLE_*_SYNC 仓库变量停用
-    # （result=skipped）——停用是主动选择，不算失败，游标照常推进。确有内容才推进。
+    # R2、镜像和提交必须成功；Doge/123 可被仓库变量主动停用（skipped），
+    # 但真实 failure 仍会阻止游标推进。
     if: needs.r2-sync.result == 'success' && needs.doge-sync.result != 'failure' && needs.pan123-upload.result != 'failure' && needs.mirror-release.result == 'success' && needs.commit-configs.result == 'success' && (needs.setup.outputs.should_sync == 'true' || needs.commit-configs.outputs.committed == 'true')
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -2659,7 +2656,7 @@ jobs:
           echo "| 下游仓库 | \`${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| R2 存储桶 | \`${{ env.R2_BUCKET }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 同步状态 | ${{ needs.setup.outputs.should_sync == 'true' && '✅ 已同步新内容' || '⏭️ 无新内容' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 打包范围 | JS + SCENARIO（无条件双打，package_scope 已回退） |" >> $GITHUB_STEP_SUMMARY
+          echo "| 手动打包范围 | ${{ github.event_name == 'workflow_dispatch' && inputs.package_scope || '按变更自动判断' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 实际打包 | JS=${{ needs.setup.outputs.has_js }}；Scenario=${{ needs.setup.outputs.has_scenario }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 热更新发布 | ${{ needs.setup.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 版本 json 同步 | ${{ needs.commit-configs.outputs.committed == 'true' && format('✅ 同一 commit {0} 已推送并对齐上下游（fork 不分叉）', needs.commit-configs.outputs.short_sha) || '⏭️ 无配置变更' }} |" >> $GITHUB_STEP_SUMMARY

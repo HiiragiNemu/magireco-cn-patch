@@ -23,6 +23,9 @@ i18n/generated/* text eol=lf
 tools/*.py text eol=lf
 scripts/*.py text eol=lf
 madomagi/engine_i18n.tsv text eol=lf
+# Native repair assets are manifest-bound byte-for-byte. Several plist/vfxj
+# files are textual, but checkout policy must never rewrite their line endings.
+madomagi/resource/image_native/** -text
 .github/workflows/*.yml text eol=lf
 .gitignore text eol=lf
 README.md text eol=lf

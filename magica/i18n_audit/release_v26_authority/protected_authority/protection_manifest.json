@@ -1,5 +1,5 @@
 {
-  "schema": "magireco-cn-v26-authority-protection/v2",
+  "schema": "magireco-cn-v26-authority-protection/v4",
   "generated_at": "2026-08-09T22:46:21+08:00",
   "generator": "tools/build-v26-authority-protection.py",
   "authority_order": [
@@ -11,10 +11,11 @@
   "selection_policy": {
     "official": "protect every source_bucket=official row",
     "wiki": "protect every source_bucket=wiki row except the three explicitly held review-only candidates",
-    "confirmed_human": "protect source_bucket=new-root-human with review_status=authority-verified plus Pass16 3_manual_verified occurrences, including the separately logged official-CN punctuation field",
-    "pass16": "merge 854 protected runtime_change_log fields by stable business key; retain 682 identical machine-review overlaps, add 172 omitted fields, and exclude the single unreviewed 3_manual_translation candidate",
+    "confirmed_human": "protect only source_bucket=new-root-human rows with review_status=authority-verified or confirmed-human-verified, plus exact Pass16 3_manual_verified occurrences; root-reviewed terminology and root-translated review candidates are not confirmed-human",
+    "pass16": "from 855 runtime_change_log fields, exclude the one unreviewed 3_manual_translation candidate and 27 exact root-reviewed terminology supersessions; merge the remaining 827 high-authority/current fields by stable business key, retaining 682 identical machine-review overlaps and adding 145 omitted fields",
     "pass19": "protect all eleven applied authority replacements as independent local-context occurrences; the six source contracts also validate the rejected/final literal counts without freezing whole JS/HTML files",
     "candidate_only_metadata": "exclude high-authority frontend candidate metadata with blank current_cn; its applied product value must be protected through an explicit product authority contract",
+    "root_reviewed_terminology": "never classify source_tier=root-reviewed-official-cn-terminology, review_status=root-reviewed-approved, or any Codex/LLM coarse translation as confirmed-human authority",
     "llm": "never protected as authority and never allowed to replace a protected field"
   },
   "held_wiki_review_only": [
@@ -48,13 +49,19 @@
     "confirmed_human_map_types": 8,
     "confirmed_human_punctuation_types": 1,
     "applied_product_fields": 855,
-    "protected_product_fields": 854,
+    "protected_product_fields": 827,
+    "superseded_non_authority_product_fields": 27,
+    "superseded_source_tiers": {
+      "2_wiki_component": 1,
+      "2_wiki_explicit_pair": 26
+    },
+    "supersession_evidence": "magica/i18n_audit/release_v26_authority/machine_translation_review/visible_term_closure_3136.tsv",
     "confirmed_human_product_fields": 11,
     "official_cn_punctuation_product_fields_included_above": 1,
     "excluded_unreviewed_manual_translation_types": 1,
     "excluded_unreviewed_product_fields": 1,
     "excluded_unreviewed_business_key": "magica/js/libs/emotionSkillMap.json#2203113/name",
-    "note": "The nine confirmed-human types are eight 3_manual_verified map types plus the official-CN punctuation field. The high-risk 3_manual_translation candidate is not protected."
+    "note": "The nine confirmed-human types are eight 3_manual_verified map types plus the official-CN punctuation field. The high-risk 3_manual_translation candidate is not protected. Twenty-seven later root-reviewed terminology values are verified as exact supersessions but remain outside the authority snapshot."
   },
   "pass19_applied_authority_contract": {
     "manifest": "magica/i18n_audit/release_v26_authority/pass19_official_static_corrections.tsv",
@@ -97,7 +104,7 @@
   },
   "excluded_candidate_only_metadata": [
     {
-      "master_record_id": "MT-01968",
+      "master_record_id": "MT-02277",
       "file": "i18n/frontend-strings.tsv",
       "stable_key": "global:6ec4009aee4bddf7aa31",
       "field": "candidate_cn",
@@ -105,57 +112,57 @@
     }
   ],
   "counts": {
-    "protected_fields": 2777,
-    "protected_files": 24,
+    "protected_fields": 3466,
+    "protected_files": 23,
     "merge": {
-      "master_fields": 2594,
-      "pass16_fields": 854,
+      "master_fields": 3310,
+      "pass16_fields": 827,
+      "pass16_superseded_non_authority_fields": 27,
       "pass16_overlap": 682,
-      "pass16_added": 172,
+      "pass16_added": 145,
       "pass19_contracts": 6,
       "pass19_protected_occurrences": 11,
       "pass19_applied_changes": 11,
       "pass19_final_occurrences": 15
     },
     "by_source_bucket": {
-      "new-root-human": 14,
-      "official": 1553,
-      "wiki": 1210
+      "new-root-human": 315,
+      "official": 1965,
+      "wiki": 1186
     },
     "by_authority_rank": {
-      "1-official-cn": 1553,
-      "2-wiki": 1210,
-      "3-confirmed-human": 14
+      "1-official-cn": 1965,
+      "2-wiki": 1186,
+      "3-confirmed-human": 315
     },
     "by_scope": {
-      "native_engine_i18n": 6,
+      "native_engine_i18n": 362,
       "offline_authority_support": 955,
       "pass19_static_literal": 11,
-      "runtime_dictionary": 1804,
+      "runtime_dictionary": 2137,
       "static_js_html": 1
     },
     "by_protection_origin": {
-      "machine-review-master": 2594,
-      "pass16-runtime-change-log": 172,
+      "machine-review-master": 3310,
+      "pass16-runtime-change-log": 145,
       "pass19-applied-authority-manifest": 11
     },
     "by_file": {
       "i18n/glossary.tsv": 955,
-      "madomagi/engine_i18n.tsv": 6,
+      "madomagi/engine_i18n.tsv": 362,
       "magica/js/libs/cardList.json": 16,
-      "magica/js/libs/cardMagiaMap.json": 4,
+      "magica/js/libs/cardMagiaMap.json": 2,
+      "magica/js/libs/cardSkillMap.json": 5,
       "magica/js/libs/chapterList.json": 1,
       "magica/js/libs/charaList.json": 7,
       "magica/js/libs/charaMessageList.json": 10,
-      "magica/js/libs/doppelCardMagiaMap.json": 2,
       "magica/js/libs/doppelList.json": 110,
-      "magica/js/libs/emotionSkillMap.json": 382,
+      "magica/js/libs/emotionSkillMap.json": 728,
       "magica/js/libs/itemList.json": 723,
       "magica/js/libs/live2dList.json": 32,
       "magica/js/libs/patrolAreaList.json": 1,
       "magica/js/libs/pieceList.json": 18,
-      "magica/js/libs/pieceSkillMap.json": 80,
-      "magica/js/libs/placeSkillMap.json": 1,
+      "magica/js/libs/pieceSkillMap.json": 67,
       "magica/js/libs/sectionList.json": 355,
       "magica/js/libs/shopItemList.json": 62,
       "magica/js/regularEvent/RegularEventTop.js": 1,
@@ -168,18 +175,20 @@
   },
   "baseline": {
     "machine_review_master": "magica/i18n_audit/release_v26_authority/machine_translation_review/full_machine_translation_review.tsv",
-    "machine_review_master_sha256": "c50e9f5fab7fdf092992afbce3cd214cbcbca6196e77ab8ca70fdca90ede1410",
+    "machine_review_master_sha256": "08910a4bdd70cb822da16bf1d472af57bb265d1c49113a7fc2b4fe1f0a78f84b",
     "machine_review_summary": "magica/i18n_audit/release_v26_authority/machine_translation_review/summary.json",
-    "machine_review_summary_sha256": "25b98a78188074f6b16cf76e2deb23a506427a04bb05087a253df22b56881b38",
+    "machine_review_summary_sha256": "820e3ac4001320e7c3fa57a7e47da835d9c0b70898380fc060c8d733e3dce0d7",
     "pass16_runtime_change_log": "magica/i18n_audit/manual_cn_pass16/runtime_change_log.tsv",
     "pass16_runtime_change_log_sha256": "4ad80d87acc5537d0cc2fd0a7ed5fe5eae7f3a418189534d343377d9ae526d00",
     "pass16_runtime_translation_map": "magica/i18n_audit/manual_cn_pass16/runtime_translation_map.tsv",
     "pass16_runtime_translation_map_sha256": "73becdbff8d5061cbf44df5788de12e93ea7f798f8f8c872664eb36df470a7fe",
     "pass19_applied_authority_manifest": "magica/i18n_audit/release_v26_authority/pass19_official_static_corrections.tsv",
     "pass19_applied_authority_manifest_sha256": "c91c351cc4e786b0d62911d96bd66af577dcf21c7cbfff3e752e9e10d51d0d9f",
+    "visible_term_closure": "magica/i18n_audit/release_v26_authority/machine_translation_review/visible_term_closure_3136.tsv",
+    "visible_term_closure_sha256": "eca4c2a169383dd218672adedd97ef3c58f5b493b7b71c78dc392b02bfc5ed38",
     "protected_fields_tsv": "magica/i18n_audit/release_v26_authority/protected_authority/protected_translation_fields.tsv",
-    "protected_fields_tsv_sha256": "132c3a5d3dfdbc59d37aef8e9c1641006fc9f8e4bf0832bcc313b1af60e8512b",
-    "protected_fields_aggregate_sha256": "dd9676c2569f90464cdd168812a7f86f05c66e79d1a83b3abaa0c43715e66ee6"
+    "protected_fields_tsv_sha256": "8f376e666d5d232be88d02e3aae59143a53da21f8e3817bb139ee50778087ff3",
+    "protected_fields_aggregate_sha256": "fbc40995614d21608137c79cbe35f5e13aa299b66469c965bf0ad88eceef3b7e"
   },
   "whole_file_protections": {
     "i18n/glossary.tsv": {
@@ -192,10 +201,10 @@
       "madomagi/engine_i18n.tsv",
       "magica/js/libs/cardList.json",
       "magica/js/libs/cardMagiaMap.json",
+      "magica/js/libs/cardSkillMap.json",
       "magica/js/libs/chapterList.json",
       "magica/js/libs/charaList.json",
       "magica/js/libs/charaMessageList.json",
-      "magica/js/libs/doppelCardMagiaMap.json",
       "magica/js/libs/doppelList.json",
       "magica/js/libs/emotionSkillMap.json",
       "magica/js/libs/itemList.json",
@@ -203,7 +212,6 @@
       "magica/js/libs/patrolAreaList.json",
       "magica/js/libs/pieceList.json",
       "magica/js/libs/pieceSkillMap.json",
-      "magica/js/libs/placeSkillMap.json",
       "magica/js/libs/sectionList.json",
       "magica/js/libs/shopItemList.json",
       "magica/js/regularEvent/RegularEventTop.js",
@@ -221,7 +229,7 @@
       "git diff --exit-code -- magica/i18n_audit/release_v26_authority/machine_translation_review",
       "python tools/verify-v26-authority-protection.py --json"
     ],
-    "summary_product_content_sha256": "e5244bee409b41a09f5f70e9b92a01b639e0cc968695a05fcc791c70ca9a4e92",
-    "summary_product_content_file_count": 490
+    "summary_product_content_sha256": "20df4ba4eac8c37079c3240376b0548914aedb0eb5efd7e3750c5fc5b18d043e",
+    "summary_product_content_file_count": 1588
   }
 }

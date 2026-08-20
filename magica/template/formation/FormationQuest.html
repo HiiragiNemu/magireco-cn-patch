@@ -87,7 +87,7 @@
 		<input id="commentInput" readonly="readonly" value='<%="<%= model.name %\>"%>' maxlength="50" /><br>
 		<span class="commentNotis c_red">不能使用表情符号</span>
 		<div class="textCount c_gold"><span id="textCount" class="c_gold"><%="<%= model.name.length %\>"%></span>/10</div>
-		<div class="btn b_pink se_decide TE" id="commentDecide"><span class="b_screen"></span>OK</div>
+		<div class="btn b_pink se_decide TE" id="commentDecide"><span class="b_screen"></span>确定</div>
 	</div>
 </script>
 
@@ -211,7 +211,7 @@
 				</div>
 
 				<div class="diskWrap">
-					<p>圆盘</p>
+					<p>行动盘</p>
 					<ul class="commandList">
 						<li class="<%='<%= (model.card.commandType1) ? model.card.commandType1 : "" %\>'%>"></li>
 						<li class="<%='<%= (model.card.commandType2) ? model.card.commandType2 : "" %\>'%>"></li>

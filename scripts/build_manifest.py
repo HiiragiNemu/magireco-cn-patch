@@ -57,11 +57,26 @@ CLEANUP_PREFIXES = {
 # 包结构的所有权约束。清单生成是发布前最后一道看得见 ZIP 中央目录的门：
 # 在这里 fail-fast，避免「版本号和 MD5 都正确，但文件装进了错误的包」。
 REQUIRED_FILES = {
-    "cn_js_update": {"madomagi/engine_i18n.tsv"},
+    "cn_js_update": {
+        "madomagi/engine_i18n.tsv",
+        "madomagi/repair_manifest.json",
+    },
+}
+REQUIRED_PREFIXES = {
+    "cn_js_update": {"madomagi/resource/image_native/"},
 }
 FORBIDDEN_FILES = {
-    "cn_scenario_update": {"madomagi/engine_i18n.tsv"},
+    "cn_scenario_update": {
+        "madomagi/engine_i18n.tsv",
+        "madomagi/repair_manifest.json",
+    },
 }
+
+ENGINE_TABLE = "madomagi/engine_i18n.tsv"
+REPAIR_MANIFEST = "madomagi/repair_manifest.json"
+REPAIR_PREFIX = "madomagi/resource/image_native/"
+SCENARIO_PREFIX = "madomagi/resource/scenario/json/"
+KNOWN_PACKAGES = {"cn_js_update", "cn_scenario_update"}
 
 # 已知的跨包所有权迁移。它只影响报告文案，不扩大客户端删除范围；旧 scenario
 # 清单拿掉该文件时，设备保留旧副本，随后 JS 事务在同一路径原子覆盖。
@@ -70,6 +85,150 @@ OWNERSHIP_TRANSFERS = {
 }
 
 LEDGER_DIR = "manifests"
+
+
+def is_canonical_member_path(path):
+    """ZIP members must be relative POSIX paths without aliasing segments."""
+
+    if not path or path.startswith("/") or "\\" in path:
+        return False
+    parts = path.split("/")
+    return all(part not in ("", ".", "..") for part in parts)
+
+
+def _object_without_duplicate_keys(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("JSON 含重复键 %s" % key)
+        result[key] = value
+    return result
+
+
+def read_repair_contract(raw):
+    """Return ``{member_path: byte_count}`` plus fail-closed schema errors."""
+
+    errors = []
+    try:
+        data = json.loads(
+            raw.decode("utf-8"),
+            object_pairs_hook=_object_without_duplicate_keys,
+        )
+    except Exception as exc:
+        return {}, ["repair_manifest.json 不是严格 UTF-8 JSON：%s" % exc]
+
+    if not isinstance(data, dict):
+        return {}, ["repair_manifest.json 顶层必须是对象"]
+    if data.get("schema") != "magireco-cn-madomagi-repair/v1":
+        errors.append("repair_manifest.json schema 不受支持")
+    if data.get("package_prefix") != REPAIR_PREFIX:
+        errors.append("repair_manifest.json package_prefix 不匹配")
+
+    entries = data.get("entries")
+    if not isinstance(entries, list):
+        return {}, errors + ["repair_manifest.json entries 必须是数组"]
+
+    expected = {}
+    for index, entry in enumerate(entries):
+        if not isinstance(entry, dict):
+            errors.append("repair_manifest.json entries[%d] 必须是对象" % index)
+            continue
+        path = entry.get("path")
+        size = entry.get("bytes")
+        if not isinstance(path, str) or not is_canonical_member_path(path):
+            errors.append("repair_manifest.json entries[%d] 路径非法" % index)
+            continue
+        if not path.startswith(REPAIR_PREFIX):
+            errors.append("repair_manifest.json entries[%d] 路径越界：%s" % (index, path))
+            continue
+        if path in expected:
+            errors.append("repair_manifest.json 重复声明：%s" % path)
+            continue
+        if isinstance(size, bool) or not isinstance(size, int) or size < 0:
+            errors.append("repair_manifest.json entries[%d] bytes 非法" % index)
+            continue
+        expected[path] = size
+
+    if not expected:
+        errors.append("repair_manifest.json 未声明 image_native 文件")
+    file_count = data.get("file_count")
+    if isinstance(file_count, bool) or not isinstance(file_count, int):
+        errors.append("repair_manifest.json file_count 非法")
+    elif file_count != len(entries):
+        errors.append(
+            "repair_manifest.json file_count=%d，entries=%d"
+            % (file_count, len(entries))
+        )
+    total_bytes = data.get("total_bytes")
+    if isinstance(total_bytes, bool) or not isinstance(total_bytes, int):
+        errors.append("repair_manifest.json total_bytes 非法")
+    elif total_bytes != sum(expected.values()):
+        errors.append(
+            "repair_manifest.json total_bytes=%d，声明合计=%d"
+            % (total_bytes, sum(expected.values()))
+        )
+    return expected, errors
+
+
+def validate_package_contract(package, files, repair_manifest_raw):
+    """Validate package ownership before any manifest or ledger is written."""
+
+    errors = []
+    if package not in KNOWN_PACKAGES:
+        return ["未知 package：%s" % package]
+
+    noncanonical = sorted(path for path in files if not is_canonical_member_path(path))
+    for path in noncanonical:
+        errors.append("ZIP 路径不是规范相对路径：%s" % path)
+
+    missing_required = sorted(REQUIRED_FILES.get(package, set()) - set(files))
+    missing_prefixes = sorted(
+        prefix for prefix in REQUIRED_PREFIXES.get(package, set())
+        if not any(path.startswith(prefix) for path in files)
+    )
+    forbidden_present = sorted(FORBIDDEN_FILES.get(package, set()) & set(files))
+    for path in missing_required:
+        errors.append("%s 缺少必需文件 %s" % (package, path))
+    for path in forbidden_present:
+        errors.append("%s 仍含已迁出的文件 %s" % (package, path))
+    for prefix in missing_prefixes:
+        errors.append("%s 缺少必需路径前缀 %s" % (package, prefix))
+
+    if package == "cn_js_update":
+        expected_repairs = {}
+        if repair_manifest_raw is not None:
+            expected_repairs, repair_errors = read_repair_contract(repair_manifest_raw)
+            errors.extend(repair_errors)
+
+        actual_repairs = {
+            path: metadata["size"]
+            for path, metadata in files.items()
+            if path.startswith(REPAIR_PREFIX)
+        }
+        for path in sorted(set(expected_repairs) - set(actual_repairs)):
+            errors.append("repair_manifest.json 声明文件缺失：%s" % path)
+        for path in sorted(set(actual_repairs) - set(expected_repairs)):
+            errors.append("image_native 文件未在 repair_manifest.json 声明：%s" % path)
+        for path in sorted(set(expected_repairs) & set(actual_repairs)):
+            if expected_repairs[path] != actual_repairs[path]:
+                errors.append(
+                    "image_native 字节数不匹配：%s（manifest=%d, zip=%d）"
+                    % (path, expected_repairs[path], actual_repairs[path])
+                )
+
+        allowed_exact = {ENGINE_TABLE, REPAIR_MANIFEST} | set(expected_repairs)
+        unowned = sorted(
+            path for path in files
+            if not path.startswith("magica/") and path not in allowed_exact
+        )
+        for path in unowned:
+            errors.append("cn_js_update 含越界路径：%s" % path)
+    else:
+        unowned = sorted(path for path in files if not path.startswith(SCENARIO_PREFIX))
+        for path in unowned:
+            errors.append("cn_scenario_update 含越界路径：%s" % path)
+
+    return errors
 
 
 def main():
@@ -126,17 +285,21 @@ def main():
             }
             for it in infos
         }
+        repair_manifest_raw = (
+            z.read(REPAIR_MANIFEST) if REPAIR_MANIFEST in files else None
+        )
     if not files:
         sys.stderr.write("✘ 包里没有文件条目\n")
         return 1
 
-    missing_required = sorted(REQUIRED_FILES.get(args.package, set()) - set(files))
-    forbidden_present = sorted(FORBIDDEN_FILES.get(args.package, set()) & set(files))
-    if missing_required or forbidden_present:
-        for path in missing_required:
-            sys.stderr.write("✘ %s 缺少必需文件 %s\n" % (args.package, path))
-        for path in forbidden_present:
-            sys.stderr.write("✘ %s 仍含已迁出的文件 %s\n" % (args.package, path))
+    contract_errors = validate_package_contract(
+        args.package,
+        files,
+        repair_manifest_raw,
+    )
+    if contract_errors:
+        for error in contract_errors:
+            sys.stderr.write("✘ %s\n" % error)
         return 1
 
     with open(args.zip, "rb") as f:

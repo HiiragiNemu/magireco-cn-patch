@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import importlib.util
 import io
 import json
 import os
@@ -19,6 +20,10 @@ ROOT = Path(__file__).resolve().parents[1]
 TOOL = ROOT / "tools/build-v26-final-allowlist.py"
 EXPECTED_NAME = "Hiiragi Nemu"
 EXPECTED_EMAIL = "128921071+HiiragiNemu@users.noreply.github.com"
+SPEC = importlib.util.spec_from_file_location("build_v26_final_allowlist", TOOL)
+assert SPEC and SPEC.loader
+MOD = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(MOD)
 
 
 def sha(data: bytes) -> str:
@@ -70,6 +75,21 @@ print(json.dumps({
     write(repo / "magica/js/_common/base.js", b"const value = 1;\r\n")
     write(repo / "candidate.zip", b"PK\x03\x04synthetic")
     write(repo / "notes/review.json", "{\"reviewed\":true}\n")
+    repair_data = b"\xef\xbb\xbf<?xml version=\"1.0\"?><plist/>"
+    repair_path = "madomagi/resource/image_native/test/sample.plist"
+    write(repo / repair_path, repair_data)
+    repair_manifest = {
+        "schema": "magireco-cn-madomagi-repair/v1",
+        "source_fixture": "synthetic-test",
+        "package_prefix": "madomagi/resource/image_native/",
+        "file_count": 1,
+        "total_bytes": len(repair_data),
+        "entries": [{"path": repair_path, "bytes": len(repair_data)}],
+    }
+    write(
+        repo / "madomagi/repair_manifest.json",
+        json.dumps(repair_manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+    )
 
     machine = repo / "magica/i18n_audit/release_v26_authority/machine_translation_review"
     summary = b'{"counts":{"master":1}}\n'
@@ -384,6 +404,169 @@ def run_builder(repo: Path, stage: Path, output: Path, stub: Path, *extra: str) 
 
 
 class FinalAllowlistTests(unittest.TestCase):
+    def test_selective_product_contract_rejects_unlisted_runtime_paths(self) -> None:
+        self.assertEqual(len(MOD.TOTENTANZ_SELECTIVE_RUNTIME), 44)
+        self.assertTrue(MOD.TOTENTANZ_SELECTIVE_RUNTIME.isdisjoint(MOD.PRODUCT_RUNTIME))
+
+        for path in (
+            "magica/template/card/CardSort.html",
+            "magica/template/user/APPopup.html",
+            "magica/css/arena/ArenaResult.css",
+            "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+            "magica/css/_common/common.css",
+            "magica/template/collection/StoryCollection.html",
+        ):
+            with self.subTest(path=path):
+                decision, category, _reason = MOD.classify_known(
+                    path, eol_only=False, extra_repo=set()
+                )
+                self.assertEqual(
+                    (decision, category), ("allow", "totentanz_selective_runtime")
+                )
+
+        for path in (
+            "magica/research/totentanz-selective-localization-20260817/README.md",
+            "magica/research/totentanz-selective-localization-20260817/engine_i18n_selected_additions.tsv",
+            "magica/research/totentanz-selective-localization-20260817/native_battle_popup_audit.md",
+        ):
+            with self.subTest(path=path):
+                decision, category, _reason = MOD.classify_known(
+                    path, eol_only=False, extra_repo=set()
+                )
+                self.assertEqual(
+                    (decision, category), ("allow", "totentanz_selective_audit")
+                )
+
+        for path in (
+            "magica/js/new-unlisted.js",
+            "magica/template/new-unlisted.html",
+            "magica/css/new-unlisted.css",
+            "magica/js/libs/new-unlisted.json",
+            "magica/research/new-reviewed.html",
+            "magica/i18n_audit/new-reviewed.json",
+            "magica/image/new-reviewed.png",
+            "magica/font/new-reviewed.ttf",
+        ):
+            with self.subTest(path=path):
+                decision, category, _reason = MOD.classify_known(
+                    path, eol_only=False, extra_repo=set()
+                )
+                self.assertEqual((decision, category), ("exclude", "unclassified_change"))
+
+        selected_png = (
+            "magica/resource/image_web/regularEvent/groupBattle/common/result/"
+            "result_title_header.png"
+        )
+        decision, category, _reason = MOD.classify_known(
+            selected_png, eol_only=False, extra_repo=set()
+        )
+        self.assertEqual(
+            (decision, category), ("allow", "totentanz_selective_runtime")
+        )
+
+        decision, category, _reason = MOD.classify_known(
+            "madomagi/resource/image_native/unknown.bin",
+            eol_only=False,
+            extra_repo=set(),
+            repair_repo={"madomagi/resource/image_native/test/sample.plist"},
+        )
+        self.assertEqual((decision, category), ("exclude", "unclassified_change"))
+
+        decision, category, _reason = MOD.classify_known(
+            "madomagi/resource/image_native/test/sample.plist",
+            eol_only=True,
+            extra_repo=set(),
+            repair_repo={"madomagi/resource/image_native/test/sample.plist"},
+        )
+        self.assertEqual((decision, category), ("allow", "madomagi_repair_resource"))
+
+    def test_manifest_bound_repair_is_strong_and_preserves_exact_bom_bytes(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="v26-allow-repair-") as td:
+            base = Path(td)
+            repo, stub = init_repo(base)
+            stage = make_stage(base, mode="full")
+            output = base / "audit"
+            result = run_builder(repo, stage, output, stub)
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+            repair = json.loads(
+                (output / "madomagi_repair_manifest_verification.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(repair["status"], "PASS")
+            self.assertEqual(repair["file_count"], 1)
+            self.assertEqual(repair["bom_file_count"], 1)
+            self.assertEqual(
+                repair["bom_paths"],
+                ["madomagi/resource/image_native/test/sample.plist"],
+            )
+            allow = json.loads((output / "allowlist_manifest.json").read_text(encoding="utf-8"))
+            categories = {row["path"]: row["category"] for row in allow["entries"]}
+            self.assertEqual(categories["madomagi/repair_manifest.json"], "madomagi_repair_manifest")
+            self.assertEqual(
+                categories["madomagi/resource/image_native/test/sample.plist"],
+                "madomagi_repair_resource",
+            )
+            self.assertTrue(
+                next(
+                    row for row in allow["entries"]
+                    if row["path"] == "madomagi/resource/image_native/test/sample.plist"
+                )["bom"]
+            )
+
+    def test_repair_manifest_drift_and_unknown_resource_fail_before_write(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="v26-allow-repair-drift-") as td:
+            base = Path(td)
+            repo, stub = init_repo(base)
+            stage = make_stage(base, mode="full")
+            write(repo / "madomagi/resource/image_native/unknown.bin", b"unknown")
+            output = base / "audit"
+            result = run_builder(repo, stage, output, stub)
+            self.assertEqual(result.returncode, 1, result.stderr + result.stdout)
+            self.assertIn("repair manifest path-set mismatch", result.stderr)
+            self.assertFalse(output.exists())
+
+    def test_extra_allow_cannot_overlap_strong_rules_or_exact_exclusions(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="v26-allow-extra-overlap-") as td:
+            base = Path(td)
+            repo, stub = init_repo(base)
+            stage = make_stage(base, mode="full")
+
+            output = base / "strong"
+            result = run_builder(
+                repo, stage, output, stub,
+                "--extra-allow", "madomagi/engine_i18n.tsv",
+            )
+            self.assertEqual(result.returncode, 1, result.stderr + result.stdout)
+            self.assertIn("extra allow overlaps strong classification", result.stderr)
+            self.assertFalse(output.exists())
+
+            damaged = MOD.CORRUPT_UNREFERENCED_PREVIEW
+            write(repo / damaged, "broken \ufffd preview\n")
+            output = base / "excluded"
+            result = run_builder(
+                repo, stage, output, stub,
+                "--extra-allow", damaged,
+            )
+            self.assertEqual(result.returncode, 1, result.stderr + result.stdout)
+            self.assertIn("corrupt_unreferenced_preview", result.stderr)
+            self.assertFalse(output.exists())
+
+    def test_corrupt_unreferenced_preview_is_exactly_excluded(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="v26-allow-corrupt-preview-") as td:
+            base = Path(td)
+            repo, stub = init_repo(base)
+            stage = make_stage(base, mode="full")
+            write(repo / MOD.CORRUPT_UNREFERENCED_PREVIEW, "broken \ufffd preview\n")
+            output = base / "audit"
+            result = run_builder(repo, stage, output, stub)
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            excluded = json.loads((output / "exclude_manifest.json").read_text(encoding="utf-8"))
+            row = next(
+                row for row in excluded["entries"]
+                if row["path"] == MOD.CORRUPT_UNREFERENCED_PREVIEW
+            )
+            self.assertEqual(row["category"], "corrupt_unreferenced_preview")
+
     def test_live_main_import_is_commit_bound_and_fails_on_drift(self) -> None:
         with tempfile.TemporaryDirectory(prefix="v26-allow-live-main-") as td:
             base = Path(td)

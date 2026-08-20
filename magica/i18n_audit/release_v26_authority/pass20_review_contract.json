@@ -1,16 +1,16 @@
 {
   "counts": {
-    "authority_excluded_total": 347,
-    "ds_approved_but_human_required": 1366,
-    "exact_runtime_items": 1443,
+    "authority_excluded_total": 348,
+    "ds_approved_but_human_required": 1365,
+    "exact_runtime_items": 1376,
     "existing_authority_resolutions": 323,
     "frozen_rows": 1912,
-    "higher_authority_shadowed": 24,
-    "human_review_required": 1565,
+    "higher_authority_shadowed": 25,
+    "human_review_required": 1564,
     "machine_source_inventory": 1589,
-    "maintenance_only_items": 122,
+    "maintenance_only_items": 188,
     "priority_human_review": 199,
-    "runtime_occurrences": 2439
+    "runtime_occurrences": 2260
   },
   "item_ids": {
     "higher_authority_shadowed": [
@@ -21,6 +21,7 @@
       "LOW-MT-00539",
       "LOW-MT-00546",
       "LOW-MT-00606",
+      "LOW-MT-00681",
       "LOW-MT-00708",
       "LOW-MT-00762",
       "LOW-MT-00976",
@@ -553,7 +554,6 @@
       "LOW-MT-00678",
       "LOW-MT-00679",
       "LOW-MT-00680",
-      "LOW-MT-00681",
       "LOW-MT-00682",
       "LOW-MT-00686",
       "LOW-MT-00687",
@@ -2120,7 +2120,6 @@
       "LOW-MT-00678",
       "LOW-MT-00679",
       "LOW-MT-00680",
-      "LOW-MT-00681",
       "LOW-MT-00682",
       "LOW-MT-00686",
       "LOW-MT-00687",
@@ -3179,6 +3178,7 @@
       "LOW-MT-00539",
       "LOW-MT-00546",
       "LOW-MT-00606",
+      "LOW-MT-00681",
       "LOW-MT-00708",
       "LOW-MT-00762",
       "LOW-MT-00976",
@@ -3408,24 +3408,17 @@
     "stable_id_driven": true
   },
   "post_final_value_materialization": {
-    "items": 1565,
+    "items": 1564,
     "machine_provenance_retained": true,
     "provenance_mode": "rough-production",
-    "queue_and_targets_frozen": true
-  },
-  "post_pass21_adoption": {
-    "authority_tier": "legacy_unverified_ai_assisted",
-    "items": 29,
-    "machine_origin": true,
-    "manifest": "magica/i18n_audit/release_v26_authority/pass21_user_directed_suggested_adoptions.tsv",
     "queue_and_targets_frozen": true
   },
   "schema": "magireco-cn-pass20-review-contract/2",
   "source_sha256": {
     "authority_resolutions": "f5316b4009ff3a7209589a01e3fe87b3a45cd9ee6cdbbdcdecd5bbba42f1b90f",
-    "effective": "f7c574e93a715af746f2c9304e9cb8d4b4f18874e7d5ada6df84ae8c75ccf79a",
+    "effective": "47b50ef7da3c515b733dd1fba9c86c53dd2bc27b2b72711509a539ac5d7293fc",
     "full_review": "fbafc21974a7454611e27059ec0a6916a13d6a1e3d3f1cd346f98e53195a6ef3",
-    "input_provenance": "20d27f1157509a2040bcbb9047ad4ac6049bfe44ac7c6e5bed6e7b746e8a9139"
+    "input_provenance": "c38ec070da82e354d63275a7360549f31cae797b7c1c9d4d0ebc640a681f7144"
   },
   "status": "PASS"
 }

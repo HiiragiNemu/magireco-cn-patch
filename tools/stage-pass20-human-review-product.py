@@ -9,6 +9,7 @@ from collections import Counter
 import difflib
 from hashlib import sha256
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -33,7 +34,7 @@ FINAL_VALUES_REL = Path("magica/i18n_audit/release_v26_authority/pass20_human_fi
 REVIEW_CONTRACT_REL = Path("magica/i18n_audit/release_v26_authority/pass20_review_contract.json")
 ADOPTIONS = AUDIT / "pass21_user_directed_suggested_adoptions.tsv"
 WORKBOOK_REL = Path(
-    "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"
+    "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1564.xlsx"
 )
 CANONICAL_I18N_RELS = (
     Path("i18n/reviewed-candidates.tsv"),
@@ -505,13 +506,22 @@ def append_reviewed_candidates(
     expected_ids: set[str],
 ) -> int:
     existing = path.read_text(encoding="utf-8")
-    existing_locators = set()
+    if existing and not existing.endswith("\n"):
+        raise StageError("reviewed-candidates.tsv lacks final LF")
+    existing_lines = existing.splitlines(keepends=True)
+    existing_by_locator: dict[str, tuple[int, dict[str, str]]] = {}
     with path.open("r", encoding="utf-8-sig", newline="") as stream:
-        for row in csv.reader(stream, delimiter="\t"):
+        for line_index, row in enumerate(csv.reader(stream, delimiter="\t")):
             if not row or row[0].startswith("#"):
                 continue
             if len(row) == len(REVIEWED_COLUMNS):
-                existing_locators.add(row[7])
+                record = dict(zip(REVIEWED_COLUMNS, row))
+                locator = record["source_locator"]
+                if not locator.startswith(FINAL_VALUE_LOCATOR_BASE):
+                    continue
+                if locator in existing_by_locator:
+                    raise StageError(f"duplicate reviewed candidate locator: {locator}")
+                existing_by_locator[locator] = (line_index, record)
     records = []
     modes: set[str] = set()
     for receipt in final_values:
@@ -544,8 +554,6 @@ def append_reviewed_candidates(
             raise StageError(f"unsupported final-value provenance: {item_id}")
         modes.add(mode)
         locator = f"{FINAL_VALUE_LOCATOR_BASE}{mode}:{item_id}"
-        if locator in existing_locators:
-            raise StageError(f"reviewed candidate already exists: {mode}:{item_id}")
         record = {
             "scope": target["maintenance_scope"],
             "path_prefix": target["path_prefix"],
@@ -571,11 +579,39 @@ def append_reviewed_candidates(
         raise StageError("final-value candidates mix provenance modes")
     if len(records) != len(expected_ids):
         raise StageError(f"expected {len(expected_ids)} reviewed candidates, got {len(records)}")
-    if existing and not existing.endswith("\n"):
-        raise StageError("reviewed-candidates.tsv lacks final LF")
-    with path.open("a", encoding="utf-8", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=REVIEWED_COLUMNS, delimiter="\t", lineterminator="\n")
-        writer.writerows(records)
+
+    # A user-directed rough build may be refreshed after target manifests or
+    # authority shadows change. Replace only this tool's own low-tier record;
+    # every higher-authority or differently sourced locator remains immutable.
+    appended_records: list[dict[str, str]] = []
+    for record in records:
+        locator = record["source_locator"]
+        existing_entry = existing_by_locator.get(locator)
+        if existing_entry is None:
+            appended_records.append(record)
+            continue
+        line_index, previous = existing_entry
+        if not (
+            record["source_batch"] == "pass20-rough-production-final-values-v1"
+            and previous.get("authority") == "new_proposal"
+            and previous.get("source_batch") == "pass20-rough-production-final-values-v1"
+            and previous.get("match_method") == "exact-semantic-key-user-directed-rough-production"
+        ):
+            raise StageError(f"reviewed candidate already exists: {locator}")
+        buffer = io.StringIO(newline="")
+        writer = csv.DictWriter(
+            buffer, fieldnames=REVIEWED_COLUMNS, delimiter="\t", lineterminator="\n"
+        )
+        writer.writerow(record)
+        existing_lines[line_index] = buffer.getvalue()
+
+    path.write_text("".join(existing_lines), encoding="utf-8", newline="")
+    if appended_records:
+        with path.open("a", encoding="utf-8", newline="") as stream:
+            writer = csv.DictWriter(
+                stream, fieldnames=REVIEWED_COLUMNS, delimiter="\t", lineterminator="\n"
+            )
+            writer.writerows(appended_records)
     return len(records)
 
 
@@ -605,7 +641,7 @@ def refresh_review_contract(
         "effective": sha256((stage_root / "i18n/generated/effective.tsv").read_bytes()).hexdigest(),
     }
     contract["post_final_value_materialization"] = {
-        "items": 1565,
+        "items": 1564,
         "provenance_mode": provenance_mode,
         "queue_and_targets_frozen": True,
         "machine_provenance_retained": provenance_mode == "rough-production",

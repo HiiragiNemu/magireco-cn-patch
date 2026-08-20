@@ -21,6 +21,8 @@ JS_PREFIXES = tuple(
     for directory in ("css", "fonts", "js", "resource", "template")
 )
 ENGINE_TABLE = "madomagi/engine_i18n.tsv"
+REPAIR_MANIFEST = "madomagi/repair_manifest.json"
+MADOMAGI_REPAIR_PREFIX = "madomagi/resource/image_native/"
 SCOPES = ("auto", "js", "scenario", "all")
 
 
@@ -54,7 +56,12 @@ def classify(paths: Iterable[str], scope: str = "auto") -> Classification:
             has_js = True
             has_scenario = True
             continue
-        if path == ENGINE_TABLE or path.startswith(JS_PREFIXES):
+        if (
+            path == ENGINE_TABLE
+            or path == REPAIR_MANIFEST
+            or path.startswith(JS_PREFIXES)
+            or path.startswith(MADOMAGI_REPAIR_PREFIX)
+        ):
             has_js = True
         if path.startswith(SCENARIO_PREFIX):
             has_scenario = True

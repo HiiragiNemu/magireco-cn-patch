@@ -5,22 +5,29 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const toolDir = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(toolDir, "..");
 const buildDir = path.join(root, "_artifacts/spreadsheet_build");
+const reviewCount = 1564;
+const workbookFileName = `magireco_v26_translation_review_${reviewCount}.xlsx`;
+const inputFileName = `v26_translation_review_${reviewCount}_input.json`;
+const previewFileName = `v26_translation_review_${reviewCount}_review.png`;
+const inspectFileName = `v26_translation_review_${reviewCount}.inspect.ndjson`;
+const reviewSheetName = `人工审核${reviewCount}`;
 const artifactModule = process.env.OAI_ARTIFACT_TOOL_ENTRY
   ? await import(pathToFileURL(process.env.OAI_ARTIFACT_TOOL_ENTRY).href)
   : await import("@oai/artifact-tool");
 const { SpreadsheetFile, Workbook } = artifactModule;
-const inputPath = path.join(buildDir, "v26_translation_review_1565_input.json");
+const inputPath = path.join(buildDir, inputFileName);
 const canonicalPath = process.env.PASS20_XLSX_OUTPUT || path.join(
   root,
-  "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
+  "magica/i18n_audit/release_v26_authority",
+  workbookFileName,
 );
 const defaultDeliveryDir = path.join(root, "outputs/019fd6ce-093f-7d63-ac45-ca01a7008cf8");
 const deliveryPath = process.env.PASS20_XLSX_DELIVERY || path.join(
   defaultDeliveryDir,
-  "magireco_v26_translation_review_1565.xlsx",
+  workbookFileName,
 );
 const deliveryDir = path.dirname(deliveryPath);
-const previewPath = path.join(buildDir, "v26_translation_review_1565_review.png");
+const previewPath = path.join(buildDir, previewFileName);
 
 const input = JSON.parse(await fs.readFile(inputPath, "utf8"));
 if (input.schema !== "magireco-cn-v26-translation-human-review-workbook/5") {
@@ -28,12 +35,12 @@ if (input.schema !== "magireco-cn-v26-translation-human-review-workbook/5") {
 }
 const expected = {
   inventory: 1589,
-  human: 1565,
+  human: reviewCount,
   priority: 199,
-  approved: 1366,
-  excluded: 347,
+  approved: 1365,
+  excluded: 348,
   authority: 323,
-  shadowed: 24,
+  shadowed: 25,
 };
 for (const [key, value] of Object.entries(expected)) {
   if (input.counts?.[key] !== value) throw new Error(`count drift ${key}: ${input.counts?.[key]}`);
@@ -68,7 +75,14 @@ const literal = (value) => {
 };
 
 const workbook = Workbook.create();
-const sheet = workbook.worksheets.add("人工审核1565");
+if (
+  input.workbook?.file_name !== workbookFileName
+  || input.workbook?.sheet_name !== reviewSheetName
+  || input.workbook?.input_name !== inputFileName
+) {
+  throw new Error("workbook identity contract drifted");
+}
+const sheet = workbook.worksheets.add(reviewSheetName);
 sheet.showGridLines = false;
 
 const values = [headers];
@@ -128,7 +142,7 @@ table.showFilterButton = true;
 const inspectChunks = [];
 inspectChunks.push((await workbook.inspect({
   kind: "table",
-  range: "人工审核1565!A1:C7",
+  range: `${reviewSheetName}!A1:C7`,
   include: "values,formulas",
   tableMaxRows: 7,
   tableMaxCols: 3,
@@ -141,13 +155,13 @@ inspectChunks.push((await workbook.inspect({
   summary: "final formula error scan",
 })).ndjson);
 await fs.writeFile(
-  path.join(buildDir, "v26_translation_review_1565.inspect.ndjson"),
+  path.join(buildDir, inspectFileName),
   inspectChunks.join("\n"),
   "utf8",
 );
 
 const preview = await workbook.render({
-  sheetName: "人工审核1565",
+  sheetName: reviewSheetName,
   range: "A1:C7",
   scale: 1.15,
   format: "png",

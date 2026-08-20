@@ -36,9 +36,17 @@ class Pass20ReviewQueueTests(unittest.TestCase):
 
     def test_dual_scope_is_exactly_reproducible(self):
         header, inventory, human, priority, shadowed = self.build()
-        self.assertEqual((len(inventory), len(human), len(priority), len(shadowed)), (1589, 1565, 199, 24))
-        self.assertEqual(sum(row["parent_verdict"] == "approved" for row in human), 1366)
+        self.assertEqual((len(inventory), len(human), len(priority), len(shadowed)), (1589, 1564, 199, 25))
+        self.assertEqual(sum(row["parent_verdict"] == "approved" for row in human), 1365)
         self.assertNotIn("LOW-MT-01485", {row["item_id"] for row in human})
+        shadow_by_id = {row["item_id"]: row for row in shadowed}
+        self.assertEqual(shadow_by_id["LOW-MT-00395"]["effective_cn"], "圆环助战")
+        self.assertEqual(shadow_by_id["LOW-MT-00395"]["effective_tier"], "official_cn_dump")
+        self.assertEqual(shadow_by_id["LOW-MT-00681"]["effective_cn"], "最终连携")
+        self.assertEqual(
+            shadow_by_id["LOW-MT-00681"]["effective_tier"],
+            "existing_human_reviewed",
+        )
         self.assertTrue(all(row["product_write_forbidden"] == "true" for row in shadowed))
         self.assertTrue(all(row["allowed_human_decisions"] == "[]" for row in shadowed))
         self.assertTrue(all(row["canonical_write_allowed_after_human_gate"] == "false" for row in shadowed))

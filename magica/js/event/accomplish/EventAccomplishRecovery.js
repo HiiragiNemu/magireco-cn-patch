@@ -144,7 +144,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         {
           var c = this,
             d = null;
-          b = "「" + this.model.toJSON().chara.name + "」要回复吗?<br>";
+          b = "「" + this.model.toJSON().chara.name + "」要回复吗？<br>";
           this.model.toJSON().reviveAtDisp && (b += '距回复还有 <span id="popupTimer">' + this.model.toJSON().reviveAtDisp + "</span>");
           console.log(a.userEventAccomplish);
           b += "<br><br>今日回复次数：" + (a.userEventAccomplish ? a.userEventAccomplish.remainCount : 0) + "/" + l.parameterMap.CURE_COUNT + "次";

@@ -230,7 +230,7 @@ define("underscore backbone backboneCommon ajaxControl command QuestUtil text!te
               d = "⑪"
           }
           b.questBattleIndex = f - 1;
-          b.questTitle = "BATTLE " + f;
+          b.questTitle = "战斗 " + f;
           b.questType = a.questType;
           b.charaId = a.section.charaId;
           b.charaTitle = a.section.charaName + "篇" + d;
@@ -473,7 +473,7 @@ define("underscore backbone backboneCommon ajaxControl command QuestUtil text!te
             {
               popupType: "typeC",
               title: a + "到手！",
-              content: a + "已发放。<br>" + a + ",<br>游玩活动关卡吧!",
+              content: a + "已发放。<br>消耗" + a + "<br>参加活动副本吧！",
               closeBtnText: "关闭"
             }, null, null, function()
             {
@@ -495,7 +495,7 @@ define("underscore backbone backboneCommon ajaxControl command QuestUtil text!te
             {
               popupType: "typeC",
               title: a + "到手！",
-              content: a + "已发放。<br>" + a + ",<br>游玩活动关卡吧!",
+              content: a + "已发放。<br>消耗" + a + "<br>参加活动副本吧！",
               closeBtnText: "关闭"
             }, null, null, function()
             {

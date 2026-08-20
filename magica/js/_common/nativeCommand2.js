@@ -265,8 +265,8 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     },
     {
       type: 0,
-      title: "Charge 圆盘",
-      text: "连续使用 Charge 圆盘@可以积攒充能，造成大量伤害"
+      title: "Charge 行动盘",
+      text: "连续使用 Charge 行动盘@可以积攒充能，造成大量伤害"
     },
     {
       type: 0,
@@ -306,12 +306,12 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     {
       type: 0,
       title: "Puella 连击",
-      text: "用相同圆盘达成 Puella Combo@可以造成更大的伤害"
+      text: "用相同行动盘达成 Puella Combo@可以造成更大的伤害"
     },
     {
       type: 0,
-      title: "取消圆盘",
-      text: "点击已选中的圆盘即可取消@从而重新选择圆盘"
+      title: "取消行动盘",
+      text: "点击已选中的行动盘即可取消@从而重新选择行动盘"
     },
     {
       type: 0,
@@ -321,7 +321,7 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     {
       type: 0,
       title: "技能",
-      text: "即使在选择圆盘的过程中@也可以发动技能"
+      text: "即使在选择行动盘的过程中@也可以发动技能"
     },
     {
       type: 0,
@@ -340,8 +340,8 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     },
     {
       type: 0,
-      title: "更改圆盘外观",
-      text: "在魔法少女详情画面的设置中@可以更改圆盘的外观"
+      title: "更改行动盘外观",
+      text: "在魔法少女详情画面的设置中@可以更改行动盘的外观"
     },
     {
       type: 0,
@@ -365,33 +365,33 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     },
     {
       type: 0,
-      title: "Accele 圆盘",
-      text: "先用 Accele 圆盘攻击@之后的圆盘更容易积攒 Magia 槽"
+      title: "Accele 行动盘",
+      text: "先用 Accele 行动盘攻击@之后的行动盘更容易积攒 Magia 槽"
     },
     {
       type: 0,
-      title: "Accele 圆盘",
-      text: "越是第 2 张、第 3 张 Accele 圆盘@越容易积攒 Magia 槽"
+      title: "Accele 行动盘",
+      text: "越是第 2 张、第 3 张 Accele 行动盘@越容易积攒 Magia 槽"
     },
     {
       type: 0,
-      title: "Blast 圆盘",
+      title: "Blast 行动盘",
       text: "使用第2、第3枚Blast行动盘@攻击时的伤害增大"
     },
     {
       type: 0,
-      title: "Blast 圆盘",
+      title: "Blast 行动盘",
       text: "Blast行动盘拥有2种攻击类型@即横向攻击和纵向攻击"
     },
     {
       type: 0,
-      title: "Blast 圆盘",
-      text: "用 Blast 圆盘攻击时@不会积攒 Magia 槽，请注意"
+      title: "Blast 行动盘",
+      text: "用 Blast 行动盘攻击时@不会积攒 Magia 槽，请注意"
     },
     {
       type: 0,
-      title: "圆盘的出现",
-      text: "被指定为队长的魔法少女@圆盘更容易出现"
+      title: "行动盘的出现",
+      text: "被指定为队长的魔法少女@行动盘更容易出现"
     },
     {
       type: 0,

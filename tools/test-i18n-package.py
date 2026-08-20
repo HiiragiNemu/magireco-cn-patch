@@ -12,6 +12,7 @@ import zipfile
 
 SCRIPT = Path(__file__).with_name('i18n-package.py')
 ENGINE_MEMBER = 'madomagi/engine_i18n.tsv'
+REPAIR_PREFIX = 'madomagi/resource/image_native/'
 REPO_ENGINE = SCRIPT.parent.parent / ENGINE_MEMBER
 
 
@@ -66,8 +67,12 @@ class I18nPackageTest(unittest.TestCase):
                 self.assertNotIn('magica/i18n_audit/report.json', names)
                 self.assertTrue(all(
                     name.startswith('magica/') or name == ENGINE_MEMBER
+                    or name.startswith(REPAIR_PREFIX)
                     for name in names
                 ))
+                self.assertEqual(
+                    91, sum(name.startswith(REPAIR_PREFIX) for name in names)
+                )
 
     def test_default_engine_is_repository_authority_file(self):
         with tempfile.TemporaryDirectory() as temp:

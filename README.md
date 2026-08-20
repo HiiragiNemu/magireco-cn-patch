@@ -33,9 +33,13 @@
 
 # cn_js_update.zip 是怎么产出的
 
-`magica/` 前端树与 `madomagi/engine_i18n.tsv` **共同构成**包内容，CI 里由
+`magica/` 前端树、`madomagi/engine_i18n.tsv` 与固定的
+`madomagi/resource/image_native/` 修复层 **共同构成**包内容，CI 里由
 `python3 tools/build-v26-package.py --out cn_js_update_new.zip` 排序并固定 ZIP 元数据后打包。
-ZIP 根下的 `magica/` 与 `madomagi/` 平行；打包前先跑 `Build_JS_Injector.py`，把
+ZIP 根下的 `magica/` 与 `madomagi/` 平行。native 修复层由
+`madomagi/repair_manifest.json` 固定路径和大小；当前 91 项必须每版完整进入 JS 包，
+并在成品验证中逐项与产品树比较，且不得顺带装入 scenario、数据库或 asset manifest。
+打包前先跑 `Build_JS_Injector.py`，把
 `magica/js/libs/*.json` 那
 23 张字典和运行时汉化代码注入到 `original_source/jquery-3.7.1.min.js` 的副本
 里，写成 `magica/js/libs/jquery-3.7.1.min.js`。所以那个 4 MB 的 jQuery 是
@@ -102,6 +106,11 @@ legacy 既有译文。
 `<files>/madomagi/engine_i18n.tsv`，由 native cocos Label hook 每 3 秒检查 mtime
 并热重载。它从 `cn_scenario_update.zip` 迁入 JS 包后路径没有变化，只改变版本与
 发布归属；清单生成会强制 JS 包必含、scenario 包禁含，装错包会直接阻断发布。
+
+同一 JS 包还固定携带 `madomagi/resource/image_native/` 下清单声明的 91 项角色、
+卡面与小人修复资源。它们来自用户提供的 `A:\madomagi` 修复层；构建器逐项要求路径
+和大小一致，解包验证再逐项比较产品字节。工作树中其他 `madomagi/` 数据库、资源清单
+和 scenario 不因此进入 JS 包。
 
 迁移采用 **JS-only 发布**：线上历史 scenario v3217 仍物理保留迁移前的旧表，
 本轮不为删除几 KB 旧副本而让用户重下约 194 MB 剧情包；客户端事务先保留最后可用

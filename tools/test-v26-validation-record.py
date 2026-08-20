@@ -13,6 +13,7 @@ import tempfile
 import unittest
 
 from v26_validation_record import (
+    DEFAULT_PLAN,
     PLAN_SCHEMA,
     ValidationError,
     inspect_engine,
@@ -87,6 +88,47 @@ class ValidationRecordTest(unittest.TestCase):
             inline_limit=inline_limit,
         )
         return record, output, artifacts
+
+    def test_repository_plan_includes_css_and_html_structure_gates(self) -> None:
+        plan = json.loads(DEFAULT_PLAN.read_text(encoding="utf-8"))
+        group = next(
+            item for item in plan["groups"]
+            if item["id"] == "modified-tests-and-authority"
+        )
+        commands = {item["id"]: item for item in group["commands"]}
+        self.assertEqual(
+            commands["test-css-visible-content-audit"],
+            {
+                "id": "test-css-visible-content-audit",
+                "argv": ["${PYTHON}", "tools/test-css-visible-content-audit.py"],
+                "inputs": [
+                    "tools/test-css-visible-content-audit.py",
+                    "magica/css",
+                    "magica/research/totentanz-full-localization-20260817/"
+                    "visible-ui/visible_ui_manifest.json",
+                    "magica/research/totentanz-full-localization-20260817/"
+                    "visible-ui/css_visible_content_audit.json",
+                    "magica/research/totentanz-full-localization-20260817/"
+                    "visible-ui/connect_supersession_ui075.json",
+                ],
+                "timeout_seconds": 600,
+            },
+        )
+        self.assertEqual(
+            commands["test-html-structure-contract"],
+            {
+                "id": "test-html-structure-contract",
+                "argv": ["${PYTHON}", "tools/test-build-html-structure-contract.py"],
+                "inputs": [
+                    "tools/test-build-html-structure-contract.py",
+                    "tools/build-html-structure-contract.py",
+                    "magica/template",
+                    "magica/research/totentanz-full-localization-20260817/"
+                    "html-structure-contract-20260819/html_structure_contract.json",
+                ],
+                "timeout_seconds": 900,
+            },
+        )
 
     def test_success_captures_modified_and_isolated_baseline_commands(self) -> None:
         plan = self.write_plan(

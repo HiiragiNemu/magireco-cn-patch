@@ -46,18 +46,27 @@ VERIFICATION_SCHEMA = "magireco-cn-v26-delivery-verification/v1"
 ROLLBACK_REPORT_SCHEMA = "magireco-cn-v26-rollback-execution/v1"
 
 ENGINE_MEMBER = "madomagi/engine_i18n.tsv"
+REPAIR_PREFIX = "madomagi/resource/image_native/"
+REPAIR_MANIFEST = "madomagi/repair_manifest.json"
 SCENARIO_PREFIX = "madomagi/resource/scenario/"
 RESEARCH_PREFIX = "magica/research/"
 AUDIT_PREFIX = "magica/i18n_audit/"
 EXPECTED_DOS_TIME = (1980, 1, 1, 0, 0, 0)
 EXPECTED_UNIX_MODE = stat.S_IFREG | 0o644
-DEFAULT_ARTIFACT_CONTRACT = {
-    "file_entries": 442,
-    "magica_entries": 441,
+DEFAULT_ARTIFACT_CONTRACT: dict[str, int | None] = {
+    # Product membership is already bound byte-for-byte to the final Git tree.
+    # Derive the variable product counts from that selected archive instead of
+    # freezing a number that changes whenever a reviewed HTML/CSS file is added.
+    "file_entries": None,
+    "magica_entries": None,
     "engine_entries": 1,
+    "repair_entries": None,
     "scenario_entries": 0,
     "audit_research_entries": 0,
 }
+DYNAMIC_ARTIFACT_CONTRACT_FIELDS = frozenset({
+    "file_entries", "magica_entries", "repair_entries"
+})
 
 OID_RE = re.compile(r"^[0-9a-f]{40,64}$")
 
@@ -84,24 +93,42 @@ def canonical_json_bytes(value: Any) -> bytes:
     ).encode("utf-8")
 
 
-def normalize_artifact_contract(value: dict[str, Any] | None) -> dict[str, int]:
+def normalize_artifact_contract(
+    value: dict[str, Any] | None,
+    *,
+    actual: dict[str, Any] | None = None,
+) -> dict[str, int]:
     contract = dict(DEFAULT_ARTIFACT_CONTRACT if value is None else value)
+    if "repair_entries" not in contract:
+        contract["repair_entries"] = (
+            actual["repair_entries"] if actual is not None else 0
+        )
     expected_keys = set(DEFAULT_ARTIFACT_CONTRACT)
     if set(contract) != expected_keys:
         raise DeliveryError(
             f"artifact contract keys mismatch: expected={sorted(expected_keys)} "
             f"actual={sorted(contract)}"
         )
-    for key, count in contract.items():
+    for key, count in list(contract.items()):
+        if count is None:
+            if key not in DYNAMIC_ARTIFACT_CONTRACT_FIELDS:
+                raise DeliveryError(f"artifact contract {key} cannot be dynamic")
+            if actual is None or type(actual.get(key)) is not int:
+                raise DeliveryError(
+                    f"artifact contract {key} requires a discovered archive inventory"
+                )
+            count = actual[key]
+            contract[key] = count
         if type(count) is not int or count < 0:
             raise DeliveryError(f"artifact contract {key} must be a non-negative integer")
     if contract["file_entries"] != (
         contract["magica_entries"]
         + contract["engine_entries"]
+        + contract["repair_entries"]
         + contract["scenario_entries"]
     ):
         raise DeliveryError(
-            "artifact contract file_entries must equal magica + engine + scenario"
+            "artifact contract file_entries must equal magica + engine + repair + scenario"
         )
     return contract
 
@@ -123,7 +150,6 @@ def inspect_product_artifact(
     path: Path, contract: dict[str, Any] | None = None
 ) -> tuple[bytes, dict[str, Any]]:
     """Read once, reopen in memory, and enforce the complete product ZIP contract."""
-    contract = normalize_artifact_contract(contract)
     path = path.resolve()
     if not path.is_file() or path.is_symlink():
         raise DeliveryError(f"--artifact must be an existing regular ZIP file: {path}")
@@ -142,11 +168,16 @@ def inspect_product_artifact(
             directory_entries = sum(info.is_dir() for info in infos)
             magica_entries = sum(name.startswith("magica/") for name in names)
             engine_entries = names.count(ENGINE_MEMBER)
+            repair_entries = sum(name.startswith(REPAIR_PREFIX) for name in names)
             scenario_entries = sum(name.startswith(SCENARIO_PREFIX) for name in names)
             research_entries = sum(name.startswith(RESEARCH_PREFIX) for name in names)
             audit_entries = sum(name.startswith(AUDIT_PREFIX) for name in names)
             unsupported_root_entries = sum(
-                not (name.startswith("magica/") or name == ENGINE_MEMBER)
+                not (
+                    name.startswith("magica/")
+                    or name == ENGINE_MEMBER
+                    or name.startswith(REPAIR_PREFIX)
+                )
                 for name in names
             )
             metadata_errors: list[str] = []
@@ -168,6 +199,7 @@ def inspect_product_artifact(
                 "magica_entries": magica_entries,
                 "engine_member": ENGINE_MEMBER,
                 "engine_entries": engine_entries,
+                "repair_entries": repair_entries,
                 "engine_sha256": engine_sha256,
                 "scenario_entries": scenario_entries,
                 "research_entries": research_entries,
@@ -186,6 +218,8 @@ def inspect_product_artifact(
         if isinstance(exc, DeliveryError):
             raise
         raise DeliveryError(f"invalid product ZIP {path}: {exc}") from exc
+
+    contract = normalize_artifact_contract(contract, actual=actual)
 
     mismatches = {
         key: {"expected": expected, "actual": actual[key]}
@@ -460,7 +494,10 @@ def _product_tree_blobs(repo: Path, tree: str) -> dict[str, dict[str, Any]]:
     """Return every final-tree blob that must be shipped by cn_js_update.zip."""
     result = run_git(
         repo,
-        ["ls-tree", "-r", "-z", tree, "--", "magica", ENGINE_MEMBER],
+        [
+            "ls-tree", "-r", "-z", tree, "--",
+            "magica", ENGINE_MEMBER, REPAIR_PREFIX.rstrip("/"),
+        ],
     )
     metadata: list[tuple[str, str, str]] = []
     for record in (item for item in result.stdout.split(b"\x00") if item):
@@ -472,7 +509,11 @@ def _product_tree_blobs(repo: Path, tree: str) -> dict[str, dict[str, Any]]:
             rel = normalize_repo_path(raw_path.decode("utf-8"))
         except (UnicodeDecodeError, ValueError) as exc:
             raise DeliveryError("malformed recursive ls-tree product record") from exc
-        if rel != ENGINE_MEMBER and not rel.startswith("magica/"):
+        if not (
+            rel == ENGINE_MEMBER
+            or rel.startswith("magica/")
+            or rel.startswith(REPAIR_PREFIX)
+        ):
             continue
         if rel.startswith(RESEARCH_PREFIX) or rel.startswith(AUDIT_PREFIX):
             continue
@@ -526,11 +567,108 @@ def _product_tree_blobs(repo: Path, tree: str) -> dict[str, dict[str, Any]]:
     return blobs
 
 
+def _validate_repair_manifest_against_blobs(
+    repo: Path,
+    tree: str,
+    blobs: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    """Bind the final-tree native repair set to its deterministic manifest."""
+    manifest_entry = tree_entry(repo, tree, REPAIR_MANIFEST)
+    if manifest_entry is None:
+        raise DeliveryError(f"final tree is missing required repair manifest: {REPAIR_MANIFEST}")
+    if manifest_entry.get("mode") != "100644":
+        raise DeliveryError(
+            f"repair manifest must be a regular 100644 blob: {REPAIR_MANIFEST}"
+        )
+    manifest_bytes = run_git(
+        repo, ["cat-file", "blob", str(manifest_entry["git_oid"])]
+    ).stdout
+    try:
+        manifest = json.loads(manifest_bytes.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise DeliveryError(f"repair manifest is not valid UTF-8 JSON: {exc}") from exc
+    if not isinstance(manifest, dict):
+        raise DeliveryError("repair manifest root must be an object")
+    if manifest.get("schema") != "magireco-cn-madomagi-repair/v1":
+        raise DeliveryError("repair manifest schema mismatch")
+    entries = manifest.get("entries")
+    if not isinstance(entries, list) or not entries:
+        raise DeliveryError("repair manifest entries must be a non-empty array")
+
+    declared: dict[str, int] = {}
+    ordered_paths: list[str] = []
+    for index, row in enumerate(entries):
+        if not isinstance(row, dict):
+            raise DeliveryError(f"repair manifest entry {index} is not an object")
+        raw_path = row.get("path")
+        byte_count = row.get("bytes")
+        if not isinstance(raw_path, str):
+            raise DeliveryError(f"repair manifest entry {index} has no path")
+        path = normalize_repo_path(raw_path)
+        if not path.startswith(REPAIR_PREFIX):
+            raise DeliveryError(f"repair manifest path escapes repair prefix: {path}")
+        if path in declared:
+            raise DeliveryError(f"repair manifest contains duplicate path: {path}")
+        if type(byte_count) is not int or byte_count < 0:
+            raise DeliveryError(f"repair manifest byte count is invalid: {path}")
+        ordered_paths.append(path)
+        declared[path] = byte_count
+    if ordered_paths != sorted(ordered_paths):
+        raise DeliveryError("repair manifest paths are not sorted")
+
+    if type(manifest.get("file_count")) is not int or manifest["file_count"] != len(declared):
+        raise DeliveryError("repair manifest file_count mismatch")
+    declared_total = sum(declared.values())
+    if type(manifest.get("total_bytes")) is not int or manifest["total_bytes"] != declared_total:
+        raise DeliveryError("repair manifest total_bytes mismatch")
+
+    repair_blobs = {
+        path: record for path, record in blobs.items() if path.startswith(REPAIR_PREFIX)
+    }
+    declared_paths = set(declared)
+    tree_paths = set(repair_blobs)
+    if declared_paths != tree_paths:
+        raise DeliveryError(
+            "repair manifest path set mismatch: "
+            + json.dumps(
+                {
+                    "missing_from_tree": sorted(declared_paths - tree_paths),
+                    "undeclared_in_tree": sorted(tree_paths - declared_paths),
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+            )
+        )
+    byte_mismatches = sorted(
+        path for path in declared if repair_blobs[path]["bytes"] != declared[path]
+    )
+    if byte_mismatches:
+        raise DeliveryError(
+            f"repair manifest byte count differs from final tree: {byte_mismatches[:10]}"
+        )
+
+    return {
+        "status": "PASS",
+        "path": REPAIR_MANIFEST,
+        "schema": manifest["schema"],
+        "git_oid": manifest_entry["git_oid"],
+        "sha256": manifest_entry["sha256"],
+        "declared_entries": len(declared),
+        "tree_entries": len(repair_blobs),
+        "total_bytes": declared_total,
+        "path_set_exact": True,
+        "byte_counts_exact": True,
+    }
+
+
 def verify_product_artifact_against_tree(
     repo: Path, final_tree: str, artifact_bytes: bytes
 ) -> dict[str, Any]:
     """Bind every ZIP payload byte to the corresponding final Git-tree blob."""
     blobs = _product_tree_blobs(repo, final_tree)
+    repair_manifest_binding = _validate_repair_manifest_against_blobs(
+        repo, final_tree, blobs
+    )
     try:
         with zipfile.ZipFile(io.BytesIO(artifact_bytes), "r") as archive:
             archive_paths = sorted(
@@ -583,6 +721,7 @@ def verify_product_artifact_against_tree(
         "extra_path_count": 0,
         "byte_mismatch_count": 0,
         "inventory_sha256": sha256_bytes(canonical_json_bytes(inventory)),
+        "repair_manifest_binding": repair_manifest_binding,
     }
 
 
@@ -596,13 +735,82 @@ def missing_entry() -> dict[str, Any]:
     }
 
 
+def tree_path_entries(
+    repo: Path, tree: str, paths: Sequence[str]
+) -> dict[str, dict[str, Any]]:
+    """Read all requested blob metadata with one tree walk and one batch read."""
+    wanted = set(paths)
+    if len(wanted) != len(paths):
+        raise DeliveryError("tree entry request contains duplicate paths")
+
+    result = run_git(repo, ["ls-tree", "-r", "-z", tree])
+    metadata: dict[str, tuple[str, str]] = {}
+    for record in (item for item in result.stdout.split(b"\x00") if item):
+        header, separator, raw_path = record.partition(b"\t")
+        if not separator:
+            raise DeliveryError("malformed recursive ls-tree output")
+        try:
+            mode, object_type, oid = header.decode("ascii").split(" ")
+            rel = normalize_repo_path(raw_path.decode("utf-8"))
+        except (UnicodeDecodeError, ValueError) as exc:
+            raise DeliveryError("malformed recursive ls-tree record") from exc
+        if rel not in wanted:
+            continue
+        if rel in metadata:
+            raise DeliveryError(f"tree lookup was not exact for {rel}: duplicate record")
+        if object_type != "blob":
+            raise DeliveryError(f"unsupported non-blob path {rel}: {object_type}")
+        if not OID_RE.fullmatch(oid):
+            raise DeliveryError(f"invalid tree blob id for {rel}: {oid!r}")
+        metadata[rel] = (mode, oid)
+
+    ordered = [(rel, *metadata[rel]) for rel in sorted(metadata)]
+    requested = b"".join(oid.encode("ascii") + b"\n" for _, _, oid in ordered)
+    batch = io.BytesIO(
+        run_git(repo, ["cat-file", "--batch"], input_bytes=requested).stdout
+    )
+    entries: dict[str, dict[str, Any]] = {}
+    for rel, mode, expected_oid in ordered:
+        header = batch.readline().rstrip(b"\n")
+        fields = header.split(b" ")
+        if len(fields) != 3:
+            raise DeliveryError(f"malformed cat-file header for {rel}")
+        try:
+            actual_oid = fields[0].decode("ascii")
+            object_type = fields[1].decode("ascii")
+            size = int(fields[2].decode("ascii"))
+        except (UnicodeDecodeError, ValueError) as exc:
+            raise DeliveryError(f"malformed cat-file header for {rel}") from exc
+        data = batch.read(size)
+        terminator = batch.read(1)
+        if (
+            actual_oid != expected_oid
+            or object_type != "blob"
+            or len(data) != size
+            or terminator != b"\n"
+        ):
+            raise DeliveryError(f"cat-file blob mismatch for {rel}")
+        entries[rel] = {
+            "exists": True,
+            "mode": mode,
+            "git_oid": expected_oid,
+            "bytes": size,
+            "sha256": sha256_bytes(data),
+        }
+    if batch.read(1) != b"":
+        raise DeliveryError("unexpected trailing cat-file output")
+    return entries
+
+
 def path_manifest(
     repo: Path, before_tree: str, after_tree: str, paths: Sequence[str]
 ) -> list[dict[str, Any]]:
+    before_entries = tree_path_entries(repo, before_tree, paths)
+    after_entries = tree_path_entries(repo, after_tree, paths)
     rows: list[dict[str, Any]] = []
     for rel in paths:
-        before = tree_entry(repo, before_tree, rel) or missing_entry()
-        after = tree_entry(repo, after_tree, rel) or missing_entry()
+        before = before_entries.get(rel, missing_entry())
+        after = after_entries.get(rel, missing_entry())
         if not before["exists"] and after["exists"]:
             change_type = "A"
         elif before["exists"] and not after["exists"]:

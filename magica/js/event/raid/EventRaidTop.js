@@ -764,7 +764,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
               };
               1 > Object.keys(a).length || window.isLocal && window.isBrowser && 2 > Object.keys(a).length ? new b.PopupClass(
               {
-                content: "已过领取期限,<br>无法领取该任务报酬",
+                content: "由于领取期限已过，<br>无法领取该任务报酬",
                 closeBtnText: "确定",
                 popupType: "typeC",
                 exClass: "missionPop"

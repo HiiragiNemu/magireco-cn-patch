@@ -44,6 +44,11 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_ARTIFACT_CONTRACT["engine_entries"],
     )
     parser.add_argument(
+        "--expected-repair-entries",
+        type=int,
+        default=DEFAULT_ARTIFACT_CONTRACT["repair_entries"],
+    )
+    parser.add_argument(
         "--expected-scenario-entries",
         type=int,
         default=DEFAULT_ARTIFACT_CONTRACT["scenario_entries"],
@@ -72,6 +77,7 @@ def main() -> int:
                 "file_entries": args.expected_entries,
                 "magica_entries": args.expected_magica_entries,
                 "engine_entries": args.expected_engine_entries,
+                "repair_entries": args.expected_repair_entries,
                 "scenario_entries": args.expected_scenario_entries,
                 "audit_research_entries": args.expected_audit_research_entries,
             },

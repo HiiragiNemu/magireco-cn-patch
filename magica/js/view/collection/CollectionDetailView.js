@@ -11,7 +11,7 @@ var e=a.doc.querySelector("#detailCardImage .cardImg"),f=a.doc.querySelector("#d
 "resource/image_native/card/frame/"+g+".png";d.getBaseData(a.getNativeObj());a.doc.querySelector(".illustrator").textContent=b.card.illustrator;a.doc.querySelector(".illustTitle").textContent="★"+b.rankNum+
 
 // TL(LiviaMedeiros): "插画"
-" Illustrator"
+"插画"
 
 }},visualChangeCommand:function(b){var e,f;b.preventDefault();a.isScrolled()||(b=b.currentTarget,b.classList.contains("off")||b.classList.contains("selected")||(a.removeClass(a.doc.querySelector(".miniCharaBtn .selected"),"selected"),a.addClass(b,"selected"),"chara"==b.dataset.commandtype?
 (e="mini/image/",f="mini_"+this.model.toJSON().currentCard.card.miniCharaNo+"_d",this.model.toJSON()):(e="card/image/",f="card_"+this.model.get("cardList")[b.dataset.cardarrindex].cardId+"_d",this.model.get("cardList")),b=a.doc.querySelectorAll(".discPreview .discWrap img"),h.each(b,function(a){a.dataset.nativeimgkey=f;a.dataset.src="resource/image_native/"+e+f+".png"}),d.getBaseData(a.getNativeObj())))},live2dChange:function(b){b.preventDefault();a.isScrolled()||(a.removeClass(a.doc.querySelector(".live2dBtns .current"),

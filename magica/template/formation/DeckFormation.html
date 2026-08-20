@@ -63,7 +63,7 @@
 				<div id='nextPageBtn' class='nextPageBtn noneDisp'>开始</div>
 				<% } %>
 				<% if(questLoopStatus != "none"){ %>
-				<div id='nextPageBtnLoop' class='nextPageBtn loop noneDisp <%= questLoopStatus %>'>自动<br>播放</div>
+				<div id='nextPageBtnLoop' class='nextPageBtn loop noneDisp <%= questLoopStatus %>'>自动<br>续战</div>
 				<% } %>
 			</div>
 			<div class='btns flexBox preview noneDisp'>
@@ -676,7 +676,7 @@
 				<input id="commentInput" readonly="readonly" value='<%="<%= model.name %\>"%>' maxlength="50" /><br>
 				<span class="commentNotis c_red">不能使用表情符号。</span>
 				<div class="textCount c_gold"><span id="textCount" class="c_gold"><%="<%= model.name.length %\>"%></span>/10</div>
-				<div class="btn b_pink se_decide TE" id="commentDecide"><span class="b_screen"></span>OK</div>
+				<div class="btn b_pink se_decide TE" id="commentDecide"><span class="b_screen"></span>确定</div>
 			</div>
 		</div>
 	</div>
@@ -694,7 +694,7 @@
 		<table class="popupBtnArea" border="0" cellspacing="0" cellpadding="0">
 			<tr>
 				<td><span class="cancelBtn se_cancel popupCloseBtn btn TE b_white"><span class='b_screen'></span>取消</span></td>
-				<td><span class="decideBtn se_decide btn b_pink TE"><span class='b_screen'></span>OK</span></td>
+				<td><span class="decideBtn se_decide btn b_pink TE"><span class='b_screen'></span>确定</span></td>
 			</tr>
 		</table>
 	</div>
@@ -817,7 +817,7 @@
 		<table class="popupBtnArea" width="400" border="0" cellspacing="0" cellpadding="0">
 			<tr>
 				<td><span class="btn b_white popupCloseBtn TE se_cancel"><span class='b_screen'></span>取消</span></td>
-				<td><span id="autoFormationBtn" class="btn b_pink TE se_decide"><span class='b_screen'></span>OK</span></td>
+				<td><span id="autoFormationBtn" class="btn b_pink TE se_decide"><span class='b_screen'></span>确定</span></td>
 			</tr>
 		</table>
 
@@ -851,7 +851,7 @@
 		<table class="popupBtnArea" width="400" border="0" cellspacing="0" cellpadding="0">
 			<tr>
 				<td><span class="btn b_white popupCloseBtn TE se_cancel"><span class='b_screen'></span>取消</span></td>
-				<td><span id="autoFormationBtn" class="btn b_pink TE se_decide"><span class='b_screen'></span>OK</span></td>
+				<td><span id="autoFormationBtn" class="btn b_pink TE se_decide"><span class='b_screen'></span>确定</span></td>
 			</tr>
 		</table>
 
@@ -865,7 +865,7 @@
 
 		<div class="popupTextArea">
 			<div class="autoText" style="height:auto;">
-				自动编成一支克制该 Kimochi 战的队伍。<br>
+				自动编成一支克制该心魔战的队伍。<br>
 				选择想要的队伍类型。
 			</div>
 
@@ -885,7 +885,7 @@
 		<table class="popupBtnArea" width="400" border="0" cellspacing="0" cellpadding="0">
 			<tr>
 				<td><span class="btn b_white popupCloseBtn TE se_cancel"><span class='b_screen'></span>取消</span></td>
-				<td><span id="autoFormationBtn" class="btn b_pink TE se_decide"><span class='b_screen'></span>OK</span></td>
+				<td><span id="autoFormationBtn" class="btn b_pink TE se_decide"><span class='b_screen'></span>确定</span></td>
 			</tr>
 		</table>
 

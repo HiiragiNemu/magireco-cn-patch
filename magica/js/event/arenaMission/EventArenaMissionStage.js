@@ -110,7 +110,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         if (0 > d) new a.PopupClass(
         {
           title: "更换对手",
-          content: "因时间经过,对战对手已变更<br>返回活动首页",
+          content: "经过一定时间，对战对手发生了变化<br>即将回到活动首页",
           decideBtnText: "前往活动首页",
           canClose: !1,
           popupType: "typeC"
@@ -131,7 +131,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           this.reloadPop = new a.PopupClass(
           {
             title: "更换对手",
-            content: "要消耗1BP更换对战对手吗?<br>(距对手重新抽选还有" + c + ":" + d + ")",
+            content: "消耗1BP变更对战对手吗？<br>(离重选对战对手还有" + c + ":" + d + ")",
             closeBtnText: "关闭",
             decideBtnText: "变更",
             popupType: "typeC"
@@ -200,7 +200,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
       this.matchExpiredAt > c ? (this.accessServerTime = c | 0, this.accessClientTime = Date.parse(new Date) / 1E3 | 0) : new a.PopupClass(
       {
         title: "更换对手",
-        content: "因时间经过,对战对手已变更<br>返回活动首页",
+        content: "经过一定时间，对战对手发生了变化<br>即将回到活动首页",
         decideBtnText: "前往活动首页",
         canClose: !1,
         popupType: "typeC"

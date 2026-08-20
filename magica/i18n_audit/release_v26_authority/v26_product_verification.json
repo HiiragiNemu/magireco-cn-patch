@@ -2,14 +2,24 @@
   "schema": "magireco-cn-v26-product-verification/v1",
   "status": "PASS",
   "counts": {
-    "product_js": 198,
+    "product_js": 200,
     "js_syntax_failures": 0,
-    "product_html": 182,
-    "product_css": 19,
+    "product_html": 225,
+    "product_css": 44,
+    "html_structure_drift": 0,
+    "html_version_divergent_frozen": 12,
+    "product_json": 30,
+    "product_json_parse_failures": 0,
     "runtime_json_dictionaries": 23,
+    "auxiliary_product_json": 7,
+    "product_inventory_entries": 1670,
+    "package_entries": 1669,
+    "package_magica_entries": 1577,
+    "package_repair_entries": 91,
+    "package_repair_total_bytes": 9995167,
     "visible_untranslated_backlog": 0,
     "manual_review_rows": 1183,
-    "machine_translation_review_rows": 12930
+    "machine_translation_review_rows": 15675
   },
   "runtime_layer": {
     "status": "PASS",
@@ -17,16 +27,118 @@
     "record_count": 29008,
     "embedded_equals_standalone": true,
     "jquery": {
-      "bytes": 5064826,
-      "sha256": "1f1d74c0c949882ca609f27296a7b7f542316f84501e1d6b6556c4e0f67210c8"
+      "bytes": 5082836,
+      "sha256": "8e4efb872034fba53ad7d4193ab2927a29e64d56da57ac0e1b15140009022614"
     },
     "manifest": {
       "entries": 24,
-      "sha256": "5df35b2b4113b97d9c467be35f0a48db0170a17650016c19319254b9fe429c02",
-      "sums_sha256": "8701bc7e9d86832bef987cff033b93dc107ded61371d0e4d6b850e8b1769f4e3"
+      "sha256": "52ce00afb01abc2768c2901914d55543815eb9aa9271e7fff138f6e1e660a5f2",
+      "sums_sha256": "4e9946f0aaab0f62e1a08824059471efbb840515cf79a8a64bd5e51e063fbd91"
     },
     "line_endings": "LF",
     "node_check_exit_status": 0
+  },
+  "product_inventory": {
+    "inventory_entries": 1670,
+    "package_entries": 1669,
+    "magica_entries": 1577,
+    "engine_entries": 1,
+    "repair_manifest_entries": 1,
+    "repair_entries": 91,
+    "repair_total_bytes": 9995167,
+    "repair_validation": {
+      "status": "PASS",
+      "manifest": "madomagi/repair_manifest.json",
+      "manifest_entries": 91,
+      "actual_entries": 91,
+      "total_bytes": 9995167,
+      "path_set_exact": true,
+      "byte_counts_exact": true,
+      "errors": []
+    },
+    "scenario_entries": 0,
+    "audit_research_entries": 0,
+    "suffix_counts": {
+      ".css": 44,
+      ".html": 225,
+      ".js": 200,
+      ".json": 30,
+      ".png": 1077,
+      ".ttf": 1
+    },
+    "runtime_json_dictionaries": 23
+  },
+  "product_json": {
+    "status": "PASS",
+    "files": 30,
+    "runtime_dictionaries": 23,
+    "auxiliary_files": 7,
+    "parse_failures": 0,
+    "paths": [
+      "magica/js/event/EventWalpurgis/json/stamp/commentList.json",
+      "magica/js/event/raid/EventRaidMessage.json",
+      "magica/js/libs/arenaClassList.json",
+      "magica/js/libs/cardList.json",
+      "magica/js/libs/cardMagiaMap.json",
+      "magica/js/libs/cardSkillMap.json",
+      "magica/js/libs/chapterList.json",
+      "magica/js/libs/charaList.json",
+      "magica/js/libs/charaMessageList.json",
+      "magica/js/libs/doppelCardMagiaMap.json",
+      "magica/js/libs/doppelList.json",
+      "magica/js/libs/emotionSkillMap.json",
+      "magica/js/libs/enemyList.json",
+      "magica/js/libs/eventList.json",
+      "magica/js/libs/eventStoryList.json",
+      "magica/js/libs/formationSheetList.json",
+      "magica/js/libs/giftList.json",
+      "magica/js/libs/itemList.json",
+      "magica/js/libs/live2dList.json",
+      "magica/js/libs/patrolAreaList.json",
+      "magica/js/libs/pieceList.json",
+      "magica/js/libs/pieceSkillMap.json",
+      "magica/js/libs/placeSkillMap.json",
+      "magica/js/libs/sectionList.json",
+      "magica/js/libs/shopItemList.json",
+      "magica/json/announcements/announcements.json",
+      "magica/json/event_banner/event_banner.json",
+      "magica/resource/image_web/_json/SecondPartLastInfo.json",
+      "magica/resource/image_web/_json/help.json",
+      "magica/resource/image_web/_json/puellaHistoria/overview.json"
+    ]
+  },
+  "html_structure_contract": {
+    "schema": "magireco-cn-html-structure-verification/v1",
+    "status": "PASS",
+    "html_files": 225,
+    "source_path_missing": 0,
+    "strict_source_structure_matches": 213,
+    "version_divergent_frozen_product": 12,
+    "product_structure_drift": 0,
+    "source_structure_drift": 0,
+    "source_kind_counts": {
+      "git-head-baseline": 83,
+      "magicaOLD": 8,
+      "totentanz-current-us": 122,
+      "version-divergent-frozen-product": 12
+    },
+    "version_divergent_paths": [
+      "magica/template/arena/ArenaCurePop.html",
+      "magica/template/arena/ArenaTop.html",
+      "magica/template/collection/CharaCollectionDetail.html",
+      "magica/template/follow/FollowPopup.html",
+      "magica/template/follow/FollowTop.html",
+      "magica/template/item/ItemListTop.html",
+      "magica/template/memoria/MemoriaPopup.html",
+      "magica/template/mission/MissionTop.html",
+      "magica/template/present/PresentList.html",
+      "magica/template/quest/MainQuest.html",
+      "magica/template/quest/QuestResult.html",
+      "magica/template/quest/SubQuest.html"
+    ],
+    "translatable_data_attributes": [
+      "data-title"
+    ]
   },
   "authority_guard": {
     "ok": true,
@@ -54,23 +166,2466 @@
     "sensitive_attribute_drift": 0
   },
   "engine_i18n": {
-    "rows": 303,
+    "rows": 314,
     "empty_targets": 1,
-    "sha256": "9d14dc8c7c7a1dbfb381af86ebcfff17b2393b2cec5136ed1594f7ea87dbd4a4",
-    "bytes": 17371
+    "sha256": "645325c0b2368f6f0d11c2c4e03786c518a60a935f04d220562b24fda5db454a",
+    "bytes": 17957
+  },
+  "visible_connect_term": {
+    "file": "magica/resource/image_web/_json/help.json",
+    "old_visible_occurrences": 0,
+    "approved_visible_occurrences": 14,
+    "json_key_changes": 0
   },
   "pass18_authority": {
-    "schema": "magireco-cn-v26-pass18-authority-verification/v1",
+    "schema": "magireco-cn-v26-pass18-authority-verification/v2",
     "status": "PASS",
     "baseline_commit": "d5e8f75d93f6760a588e592c22a3754d19370c68",
     "manifest": {
       "path": "magica/i18n_audit/release_v26_authority/pass18_authority_corrections.tsv",
-      "sha256": "4d1821807ff2a1c90f026886cf6c1fe31041b687eb5270853a4d0549b39d2a30",
+      "sha256": "b7c634c079728721f238590106e00fae8b537214a6187d6347d376e26c005cdc",
       "recorded_sha256": "4d1821807ff2a1c90f026886cf6c1fe31041b687eb5270853a4d0549b39d2a30",
+      "digest_matches_original": false,
+      "lineage": {
+        "pinned_manifest_commit": "95e6284eb7a64f3f54309acbd614056f643f6ccd",
+        "recorded_digest": "4d1821807ff2a1c90f026886cf6c1fe31041b687eb5270853a4d0549b39d2a30",
+        "pinned_rows": 939,
+        "current_rows": 939,
+        "later_enriched_rows": 2,
+        "immutable_identity_failures": []
+      },
       "expected_rows": 939,
       "actual_rows": 939,
       "after_image_matches": 939,
+      "runtime_direct_matches": 536,
+      "runtime_exact_approved_supersessions": 402,
+      "static_direct_matches": 1,
+      "strict_json_pointer_resolutions": 938,
+      "partition_failures": {},
+      "supersessions": [
+        {
+          "change_id": "P18-00018",
+          "closure_id": "DICT-00252",
+          "file": "magica/js/libs/cardMagiaMap.json",
+          "json_pointer": "/26018/shortDescription"
+        },
+        {
+          "change_id": "P18-00019",
+          "closure_id": "DICT-00362",
+          "file": "magica/js/libs/cardMagiaMap.json",
+          "json_pointer": "/39028/shortDescription"
+        },
+        {
+          "change_id": "P18-00027",
+          "closure_id": "DICT-00795",
+          "file": "magica/js/libs/doppelCardMagiaMap.json",
+          "json_pointer": "/26018/shortDescription"
+        },
+        {
+          "change_id": "P18-00028",
+          "closure_id": "DICT-00835",
+          "file": "magica/js/libs/doppelCardMagiaMap.json",
+          "json_pointer": "/39028/shortDescription"
+        },
+        {
+          "change_id": "P18-00139",
+          "closure_id": "DICT-00860",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1006101/shortDescription"
+        },
+        {
+          "change_id": "P18-00140",
+          "closure_id": "DICT-00862",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1006104/shortDescription"
+        },
+        {
+          "change_id": "P18-00141",
+          "closure_id": "DICT-00869",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1007102/shortDescription"
+        },
+        {
+          "change_id": "P18-00142",
+          "closure_id": "DICT-00875",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1007108/shortDescription"
+        },
+        {
+          "change_id": "P18-00143",
+          "closure_id": "DICT-00879",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1014101/shortDescription"
+        },
+        {
+          "change_id": "P18-00144",
+          "closure_id": "DICT-00882",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1014104/shortDescription"
+        },
+        {
+          "change_id": "P18-00145",
+          "closure_id": "DICT-00890",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1015104/shortDescription"
+        },
+        {
+          "change_id": "P18-00146",
+          "closure_id": "DICT-00892",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1015106/shortDescription"
+        },
+        {
+          "change_id": "P18-00147",
+          "closure_id": "DICT-00898",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1020102/shortDescription"
+        },
+        {
+          "change_id": "P18-00148",
+          "closure_id": "DICT-00900",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1020104/shortDescription"
+        },
+        {
+          "change_id": "P18-00149",
+          "closure_id": "DICT-00904",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1021102/shortDescription"
+        },
+        {
+          "change_id": "P18-00150",
+          "closure_id": "DICT-00909",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1021108/shortDescription"
+        },
+        {
+          "change_id": "P18-00151",
+          "closure_id": "DICT-00913",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1022101/shortDescription"
+        },
+        {
+          "change_id": "P18-00152",
+          "closure_id": "DICT-00915",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1022103/shortDescription"
+        },
+        {
+          "change_id": "P18-00153",
+          "closure_id": "DICT-00923",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1023101/shortDescription"
+        },
+        {
+          "change_id": "P18-00154",
+          "closure_id": "DICT-00926",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1023104/shortDescription"
+        },
+        {
+          "change_id": "P18-00155",
+          "closure_id": "DICT-00928",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1023107/shortDescription"
+        },
+        {
+          "change_id": "P18-00156",
+          "closure_id": "DICT-00933",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1024101/shortDescription"
+        },
+        {
+          "change_id": "P18-00157",
+          "closure_id": "DICT-00935",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1024104/shortDescription"
+        },
+        {
+          "change_id": "P18-00158",
+          "closure_id": "DICT-00944",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1025104/shortDescription"
+        },
+        {
+          "change_id": "P18-00159",
+          "closure_id": "DICT-00945",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1025105/shortDescription"
+        },
+        {
+          "change_id": "P18-00160",
+          "closure_id": "DICT-00952",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1027101/shortDescription"
+        },
+        {
+          "change_id": "P18-00161",
+          "closure_id": "DICT-00953",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1027102/shortDescription"
+        },
+        {
+          "change_id": "P18-00162",
+          "closure_id": "DICT-00961",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1028102/shortDescription"
+        },
+        {
+          "change_id": "P18-00163",
+          "closure_id": "DICT-00963",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1028104/shortDescription"
+        },
+        {
+          "change_id": "P18-00164",
+          "closure_id": "DICT-00970",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1029103/shortDescription"
+        },
+        {
+          "change_id": "P18-00165",
+          "closure_id": "DICT-00972",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1029106/shortDescription"
+        },
+        {
+          "change_id": "P18-00166",
+          "closure_id": "DICT-00978",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1030103/shortDescription"
+        },
+        {
+          "change_id": "P18-00167",
+          "closure_id": "DICT-00979",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1030105/shortDescription"
+        },
+        {
+          "change_id": "P18-00168",
+          "closure_id": "DICT-00987",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1031103/shortDescription"
+        },
+        {
+          "change_id": "P18-00169",
+          "closure_id": "DICT-00988",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1031104/shortDescription"
+        },
+        {
+          "change_id": "P18-00170",
+          "closure_id": "DICT-00995",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1032103/shortDescription"
+        },
+        {
+          "change_id": "P18-00171",
+          "closure_id": "DICT-00996",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1032104/shortDescription"
+        },
+        {
+          "change_id": "P18-00172",
+          "closure_id": "DICT-01005",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1033102/shortDescription"
+        },
+        {
+          "change_id": "P18-00173",
+          "closure_id": "DICT-01007",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1033104/shortDescription"
+        },
+        {
+          "change_id": "P18-00174",
+          "closure_id": "DICT-01010",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1033107/shortDescription"
+        },
+        {
+          "change_id": "P18-00175",
+          "closure_id": "DICT-01012",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1033109/shortDescription"
+        },
+        {
+          "change_id": "P18-00176",
+          "closure_id": "DICT-01015",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1034102/shortDescription"
+        },
+        {
+          "change_id": "P18-00177",
+          "closure_id": "DICT-01016",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1034104/shortDescription"
+        },
+        {
+          "change_id": "P18-00178",
+          "closure_id": "DICT-01022",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1035102/shortDescription"
+        },
+        {
+          "change_id": "P18-00179",
+          "closure_id": "DICT-01024",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1035104/shortDescription"
+        },
+        {
+          "change_id": "P18-00180",
+          "closure_id": "DICT-01031",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1036102/shortDescription"
+        },
+        {
+          "change_id": "P18-00181",
+          "closure_id": "DICT-01032",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1036104/shortDescription"
+        },
+        {
+          "change_id": "P18-00182",
+          "closure_id": "DICT-01040",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1037103/shortDescription"
+        },
+        {
+          "change_id": "P18-00183",
+          "closure_id": "DICT-01042",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1037106/shortDescription"
+        },
+        {
+          "change_id": "P18-00184",
+          "closure_id": "DICT-01048",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1038102/shortDescription"
+        },
+        {
+          "change_id": "P18-00185",
+          "closure_id": "DICT-01050",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1038104/shortDescription"
+        },
+        {
+          "change_id": "P18-00186",
+          "closure_id": "DICT-01055",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1039102/shortDescription"
+        },
+        {
+          "change_id": "P18-00187",
+          "closure_id": "DICT-01057",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1039104/shortDescription"
+        },
+        {
+          "change_id": "P18-00188",
+          "closure_id": "DICT-01065",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1040101/shortDescription"
+        },
+        {
+          "change_id": "P18-00189",
+          "closure_id": "DICT-01067",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1040103/shortDescription"
+        },
+        {
+          "change_id": "P18-00190",
+          "closure_id": "DICT-01075",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1041103/shortDescription"
+        },
+        {
+          "change_id": "P18-00191",
+          "closure_id": "DICT-01076",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1041104/shortDescription"
+        },
+        {
+          "change_id": "P18-00192",
+          "closure_id": "DICT-01082",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1042103/shortDescription"
+        },
+        {
+          "change_id": "P18-00193",
+          "closure_id": "DICT-01084",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1042106/shortDescription"
+        },
+        {
+          "change_id": "P18-00194",
+          "closure_id": "DICT-01089",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1043102/shortDescription"
+        },
+        {
+          "change_id": "P18-00195",
+          "closure_id": "DICT-01091",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1043104/shortDescription"
+        },
+        {
+          "change_id": "P18-00196",
+          "closure_id": "DICT-01097",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1044102/shortDescription"
+        },
+        {
+          "change_id": "P18-00197",
+          "closure_id": "DICT-01098",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1044104/shortDescription"
+        },
+        {
+          "change_id": "P18-00198",
+          "closure_id": "DICT-01103",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1045102/shortDescription"
+        },
+        {
+          "change_id": "P18-00199",
+          "closure_id": "DICT-01105",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1045104/shortDescription"
+        },
+        {
+          "change_id": "P18-00200",
+          "closure_id": "DICT-01114",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1046102/shortDescription"
+        },
+        {
+          "change_id": "P18-00201",
+          "closure_id": "DICT-01116",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1046104/shortDescription"
+        },
+        {
+          "change_id": "P18-00202",
+          "closure_id": "DICT-01122",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1047102/shortDescription"
+        },
+        {
+          "change_id": "P18-00203",
+          "closure_id": "DICT-01124",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1047104/shortDescription"
+        },
+        {
+          "change_id": "P18-00204",
+          "closure_id": "DICT-01132",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1048102/shortDescription"
+        },
+        {
+          "change_id": "P18-00205",
+          "closure_id": "DICT-01134",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1048104/shortDescription"
+        },
+        {
+          "change_id": "P18-00206",
+          "closure_id": "DICT-01136",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1048107/shortDescription"
+        },
+        {
+          "change_id": "P18-00207",
+          "closure_id": "DICT-01137",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1048108/shortDescription"
+        },
+        {
+          "change_id": "P18-00208",
+          "closure_id": "DICT-01141",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1049102/shortDescription"
+        },
+        {
+          "change_id": "P18-00209",
+          "closure_id": "DICT-01142",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1049104/shortDescription"
+        },
+        {
+          "change_id": "P18-00210",
+          "closure_id": "DICT-01150",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1050102/shortDescription"
+        },
+        {
+          "change_id": "P18-00211",
+          "closure_id": "DICT-01152",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1050104/shortDescription"
+        },
+        {
+          "change_id": "P18-00212",
+          "closure_id": "DICT-01161",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1051102/shortDescription"
+        },
+        {
+          "change_id": "P18-00213",
+          "closure_id": "DICT-01162",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1051104/shortDescription"
+        },
+        {
+          "change_id": "P18-00214",
+          "closure_id": "DICT-01169",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1052102/shortDescription"
+        },
+        {
+          "change_id": "P18-00215",
+          "closure_id": "DICT-01170",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1052104/shortDescription"
+        },
+        {
+          "change_id": "P18-00216",
+          "closure_id": "DICT-01173",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1052108/shortDescription"
+        },
+        {
+          "change_id": "P18-00217",
+          "closure_id": "DICT-01174",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1052109/shortDescription"
+        },
+        {
+          "change_id": "P18-00218",
+          "closure_id": "DICT-01179",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1053102/shortDescription"
+        },
+        {
+          "change_id": "P18-00219",
+          "closure_id": "DICT-01180",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1053104/shortDescription"
+        },
+        {
+          "change_id": "P18-00220",
+          "closure_id": "DICT-01188",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1102103/shortDescription"
+        },
+        {
+          "change_id": "P18-00221",
+          "closure_id": "DICT-01189",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1102104/shortDescription"
+        },
+        {
+          "change_id": "P18-00222",
+          "closure_id": "DICT-01193",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1103101/shortDescription"
+        },
+        {
+          "change_id": "P18-00223",
+          "closure_id": "DICT-01195",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1103103/shortDescription"
+        },
+        {
+          "change_id": "P18-00224",
+          "closure_id": "DICT-01204",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1104104/shortDescription"
+        },
+        {
+          "change_id": "P18-00225",
+          "closure_id": "DICT-01205",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1104105/shortDescription"
+        },
+        {
+          "change_id": "P18-00226",
+          "closure_id": "DICT-01211",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1106102/shortDescription"
+        },
+        {
+          "change_id": "P18-00227",
+          "closure_id": "DICT-01213",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1106104/shortDescription"
+        },
+        {
+          "change_id": "P18-00228",
+          "closure_id": "DICT-01221",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1107104/shortDescription"
+        },
+        {
+          "change_id": "P18-00229",
+          "closure_id": "DICT-01223",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1107106/shortDescription"
+        },
+        {
+          "change_id": "P18-00230",
+          "closure_id": "DICT-01228",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1109102/shortDescription"
+        },
+        {
+          "change_id": "P18-00231",
+          "closure_id": "DICT-01229",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1109103/shortDescription"
+        },
+        {
+          "change_id": "P18-00232",
+          "closure_id": "DICT-01238",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1110101/shortDescription"
+        },
+        {
+          "change_id": "P18-00233",
+          "closure_id": "DICT-01239",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1110102/shortDescription"
+        },
+        {
+          "change_id": "P18-00234",
+          "closure_id": "DICT-01249",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1112103/shortDescription"
+        },
+        {
+          "change_id": "P18-00235",
+          "closure_id": "DICT-01250",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1112104/shortDescription"
+        },
+        {
+          "change_id": "P18-00236",
+          "closure_id": "DICT-01252",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1112108/shortDescription"
+        },
+        {
+          "change_id": "P18-00237",
+          "closure_id": "DICT-01256",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1113102/shortDescription"
+        },
+        {
+          "change_id": "P18-00238",
+          "closure_id": "DICT-01258",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1113104/shortDescription"
+        },
+        {
+          "change_id": "P18-00239",
+          "closure_id": "DICT-01266",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1116101/shortDescription"
+        },
+        {
+          "change_id": "P18-00240",
+          "closure_id": "DICT-01268",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1116103/shortDescription"
+        },
+        {
+          "change_id": "P18-00241",
+          "closure_id": "DICT-01273",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1120102/shortDescription"
+        },
+        {
+          "change_id": "P18-00242",
+          "closure_id": "DICT-01274",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1120103/shortDescription"
+        },
+        {
+          "change_id": "P18-00243",
+          "closure_id": "DICT-01275",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1120104/shortDescription"
+        },
+        {
+          "change_id": "P18-00244",
+          "closure_id": "DICT-01278",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1120110/shortDescription"
+        },
+        {
+          "change_id": "P18-00245",
+          "closure_id": "DICT-01282",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1121102/shortDescription"
+        },
+        {
+          "change_id": "P18-00246",
+          "closure_id": "DICT-01284",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1121104/shortDescription"
+        },
+        {
+          "change_id": "P18-00247",
+          "closure_id": "DICT-01287",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1121107/shortDescription"
+        },
+        {
+          "change_id": "P18-00248",
+          "closure_id": "DICT-01293",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1125102/shortDescription"
+        },
+        {
+          "change_id": "P18-00249",
+          "closure_id": "DICT-01295",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1125104/shortDescription"
+        },
+        {
+          "change_id": "P18-00250",
+          "closure_id": "DICT-01303",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1133102/shortDescription"
+        },
+        {
+          "change_id": "P18-00251",
+          "closure_id": "DICT-01304",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1133104/shortDescription"
+        },
+        {
+          "change_id": "P18-00252",
+          "closure_id": "DICT-01311",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1137102/shortDescription"
+        },
+        {
+          "change_id": "P18-00253",
+          "closure_id": "DICT-01313",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1137104/shortDescription"
+        },
+        {
+          "change_id": "P18-00254",
+          "closure_id": "DICT-01318",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1139102/shortDescription"
+        },
+        {
+          "change_id": "P18-00255",
+          "closure_id": "DICT-01320",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1139104/shortDescription"
+        },
+        {
+          "change_id": "P18-00256",
+          "closure_id": "DICT-01325",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1143102/shortDescription"
+        },
+        {
+          "change_id": "P18-00257",
+          "closure_id": "DICT-01327",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1143104/shortDescription"
+        },
+        {
+          "change_id": "P18-00258",
+          "closure_id": "DICT-01332",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1144102/shortDescription"
+        },
+        {
+          "change_id": "P18-00259",
+          "closure_id": "DICT-01333",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1144104/shortDescription"
+        },
+        {
+          "change_id": "P18-00260",
+          "closure_id": "DICT-01335",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1144108/shortDescription"
+        },
+        {
+          "change_id": "P18-00261",
+          "closure_id": "DICT-01338",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1202102/shortDescription"
+        },
+        {
+          "change_id": "P18-00262",
+          "closure_id": "DICT-01340",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1202104/shortDescription"
+        },
+        {
+          "change_id": "P18-00263",
+          "closure_id": "DICT-01345",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1203103/shortDescription"
+        },
+        {
+          "change_id": "P18-00264",
+          "closure_id": "DICT-01347",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1203106/shortDescription"
+        },
+        {
+          "change_id": "P18-00265",
+          "closure_id": "DICT-01348",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1203107/shortDescription"
+        },
+        {
+          "change_id": "P18-00266",
+          "closure_id": "DICT-01356",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1209104/shortDescription"
+        },
+        {
+          "change_id": "P18-00267",
+          "closure_id": "DICT-01358",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1209106/shortDescription"
+        },
+        {
+          "change_id": "P18-00268",
+          "closure_id": "DICT-01366",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1210103/shortDescription"
+        },
+        {
+          "change_id": "P18-00269",
+          "closure_id": "DICT-01367",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1210104/shortDescription"
+        },
+        {
+          "change_id": "P18-00270",
+          "closure_id": "DICT-01372",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1210110/shortDescription"
+        },
+        {
+          "change_id": "P18-00271",
+          "closure_id": "DICT-01375",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1216102/shortDescription"
+        },
+        {
+          "change_id": "P18-00272",
+          "closure_id": "DICT-01377",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1216104/shortDescription"
+        },
+        {
+          "change_id": "P18-00273",
+          "closure_id": "DICT-01393",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1301103/shortDescription"
+        },
+        {
+          "change_id": "P18-00274",
+          "closure_id": "DICT-01394",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1301104/shortDescription"
+        },
+        {
+          "change_id": "P18-00275",
+          "closure_id": "DICT-01400",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1302102/shortDescription"
+        },
+        {
+          "change_id": "P18-00276",
+          "closure_id": "DICT-01402",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1302104/shortDescription"
+        },
+        {
+          "change_id": "P18-00277",
+          "closure_id": "DICT-01409",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1303102/shortDescription"
+        },
+        {
+          "change_id": "P18-00278",
+          "closure_id": "DICT-01410",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1303104/shortDescription"
+        },
+        {
+          "change_id": "P18-00279",
+          "closure_id": "DICT-01417",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1309102/shortDescription"
+        },
+        {
+          "change_id": "P18-00280",
+          "closure_id": "DICT-01418",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1309104/shortDescription"
+        },
+        {
+          "change_id": "P18-00281",
+          "closure_id": "DICT-01421",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1309109/shortDescription"
+        },
+        {
+          "change_id": "P18-00282",
+          "closure_id": "DICT-01422",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1309111/shortDescription"
+        },
+        {
+          "change_id": "P18-00283",
+          "closure_id": "DICT-01426",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1401104/shortDescription"
+        },
+        {
+          "change_id": "P18-00284",
+          "closure_id": "DICT-01427",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1401105/shortDescription"
+        },
+        {
+          "change_id": "P18-00285",
+          "closure_id": "DICT-01434",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1402102/shortDescription"
+        },
+        {
+          "change_id": "P18-00286",
+          "closure_id": "DICT-01435",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1402104/shortDescription"
+        },
+        {
+          "change_id": "P18-00287",
+          "closure_id": "DICT-01439",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1402109/shortDescription"
+        },
+        {
+          "change_id": "P18-00288",
+          "closure_id": "DICT-01442",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1501102/shortDescription"
+        },
+        {
+          "change_id": "P18-00289",
+          "closure_id": "DICT-01444",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1501104/shortDescription"
+        },
+        {
+          "change_id": "P18-00290",
+          "closure_id": "DICT-01450",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1502102/shortDescription"
+        },
+        {
+          "change_id": "P18-00291",
+          "closure_id": "DICT-01452",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1502104/shortDescription"
+        },
+        {
+          "change_id": "P18-00292",
+          "closure_id": "DICT-01456",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1502110/shortDescription"
+        },
+        {
+          "change_id": "P18-00293",
+          "closure_id": "DICT-01459",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1601102/shortDescription"
+        },
+        {
+          "change_id": "P18-00294",
+          "closure_id": "DICT-01460",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1601104/shortDescription"
+        },
+        {
+          "change_id": "P18-00295",
+          "closure_id": "DICT-01467",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1701102/shortDescription"
+        },
+        {
+          "change_id": "P18-00296",
+          "closure_id": "DICT-01468",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1701104/shortDescription"
+        },
+        {
+          "change_id": "P18-00297",
+          "closure_id": "DICT-01474",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1801102/shortDescription"
+        },
+        {
+          "change_id": "P18-00298",
+          "closure_id": "DICT-01476",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/1801104/shortDescription"
+        },
+        {
+          "change_id": "P18-00299",
+          "closure_id": "DICT-01482",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2007102/shortDescription"
+        },
+        {
+          "change_id": "P18-00300",
+          "closure_id": "DICT-01484",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2007104/shortDescription"
+        },
+        {
+          "change_id": "P18-00301",
+          "closure_id": "DICT-01489",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2007110/shortDescription"
+        },
+        {
+          "change_id": "P18-00302",
+          "closure_id": "DICT-01492",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2009102/shortDescription"
+        },
+        {
+          "change_id": "P18-00303",
+          "closure_id": "DICT-01494",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2009104/shortDescription"
+        },
+        {
+          "change_id": "P18-00304",
+          "closure_id": "DICT-01497",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2009107/shortDescription"
+        },
+        {
+          "change_id": "P18-00305",
+          "closure_id": "DICT-01498",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2009108/shortDescription"
+        },
+        {
+          "change_id": "P18-00306",
+          "closure_id": "DICT-01502",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2101102/shortDescription"
+        },
+        {
+          "change_id": "P18-00307",
+          "closure_id": "DICT-01505",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2101105/shortDescription"
+        },
+        {
+          "change_id": "P18-00308",
+          "closure_id": "DICT-01513",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2103104/shortDescription"
+        },
+        {
+          "change_id": "P18-00309",
+          "closure_id": "DICT-01515",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2103106/shortDescription"
+        },
+        {
+          "change_id": "P18-00310",
+          "closure_id": "DICT-01523",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2104103/shortDescription"
+        },
+        {
+          "change_id": "P18-00311",
+          "closure_id": "DICT-01524",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2104104/shortDescription"
+        },
+        {
+          "change_id": "P18-00312",
+          "closure_id": "DICT-01531",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2105102/shortDescription"
+        },
+        {
+          "change_id": "P18-00313",
+          "closure_id": "DICT-01533",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2105104/shortDescription"
+        },
+        {
+          "change_id": "P18-00314",
+          "closure_id": "DICT-01540",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2106102/shortDescription"
+        },
+        {
+          "change_id": "P18-00315",
+          "closure_id": "DICT-01542",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2106104/shortDescription"
+        },
+        {
+          "change_id": "P18-00316",
+          "closure_id": "DICT-01546",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2107102/shortDescription"
+        },
+        {
+          "change_id": "P18-00317",
+          "closure_id": "DICT-01548",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2107104/shortDescription"
+        },
+        {
+          "change_id": "P18-00318",
+          "closure_id": "DICT-01554",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2201102/shortDescription"
+        },
+        {
+          "change_id": "P18-00319",
+          "closure_id": "DICT-01555",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2201104/shortDescription"
+        },
+        {
+          "change_id": "P18-00320",
+          "closure_id": "DICT-01562",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2202102/shortDescription"
+        },
+        {
+          "change_id": "P18-00321",
+          "closure_id": "DICT-01563",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2202104/shortDescription"
+        },
+        {
+          "change_id": "P18-00322",
+          "closure_id": "DICT-01571",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2203102/shortDescription"
+        },
+        {
+          "change_id": "P18-00323",
+          "closure_id": "DICT-01573",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2203104/shortDescription"
+        },
+        {
+          "change_id": "P18-00324",
+          "closure_id": "DICT-01578",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2301102/shortDescription"
+        },
+        {
+          "change_id": "P18-00325",
+          "closure_id": "DICT-01579",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2301104/shortDescription"
+        },
+        {
+          "change_id": "P18-00326",
+          "closure_id": "DICT-01584",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2301111/shortDescription"
+        },
+        {
+          "change_id": "P18-00327",
+          "closure_id": "DICT-01585",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2301112/shortDescription"
+        },
+        {
+          "change_id": "P18-00328",
+          "closure_id": "DICT-01587",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2400101/shortDescription"
+        },
+        {
+          "change_id": "P18-00329",
+          "closure_id": "DICT-01589",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2400105/shortDescription"
+        },
+        {
+          "change_id": "P18-00330",
+          "closure_id": "DICT-01593",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2400111/shortDescription"
+        },
+        {
+          "change_id": "P18-00331",
+          "closure_id": "DICT-01598",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2401104/shortDescription"
+        },
+        {
+          "change_id": "P18-00332",
+          "closure_id": "DICT-01599",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2401105/shortDescription"
+        },
+        {
+          "change_id": "P18-00333",
+          "closure_id": "DICT-01605",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2402102/shortDescription"
+        },
+        {
+          "change_id": "P18-00334",
+          "closure_id": "DICT-01606",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2402104/shortDescription"
+        },
+        {
+          "change_id": "P18-00335",
+          "closure_id": "DICT-01613",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2501102/shortDescription"
+        },
+        {
+          "change_id": "P18-00336",
+          "closure_id": "DICT-01616",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2501105/shortDescription"
+        },
+        {
+          "change_id": "P18-00337",
+          "closure_id": "DICT-01621",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2502102/shortDescription"
+        },
+        {
+          "change_id": "P18-00338",
+          "closure_id": "DICT-01622",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2502104/shortDescription"
+        },
+        {
+          "change_id": "P18-00339",
+          "closure_id": "DICT-01625",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2502110/shortDescription"
+        },
+        {
+          "change_id": "P18-00340",
+          "closure_id": "DICT-01628",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2503102/shortDescription"
+        },
+        {
+          "change_id": "P18-00341",
+          "closure_id": "DICT-01629",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2503103/shortDescription"
+        },
+        {
+          "change_id": "P18-00342",
+          "closure_id": "DICT-01630",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2503104/shortDescription"
+        },
+        {
+          "change_id": "P18-00343",
+          "closure_id": "DICT-01636",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2503112/shortDescription"
+        },
+        {
+          "change_id": "P18-00344",
+          "closure_id": "DICT-01638",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2601102/shortDescription"
+        },
+        {
+          "change_id": "P18-00345",
+          "closure_id": "DICT-01640",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2601104/shortDescription"
+        },
+        {
+          "change_id": "P18-00346",
+          "closure_id": "DICT-01643",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2601108/shortDescription"
+        },
+        {
+          "change_id": "P18-00347",
+          "closure_id": "DICT-01645",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2601112/shortDescription"
+        },
+        {
+          "change_id": "P18-00348",
+          "closure_id": "DICT-01648",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2602102/shortDescription"
+        },
+        {
+          "change_id": "P18-00349",
+          "closure_id": "DICT-01649",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2602104/shortDescription"
+        },
+        {
+          "change_id": "P18-00350",
+          "closure_id": "DICT-01654",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2700102/shortDescription"
+        },
+        {
+          "change_id": "P18-00351",
+          "closure_id": "DICT-01656",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2700104/shortDescription"
+        },
+        {
+          "change_id": "P18-00352",
+          "closure_id": "DICT-01661",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2701102/shortDescription"
+        },
+        {
+          "change_id": "P18-00353",
+          "closure_id": "DICT-01662",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/2701104/shortDescription"
+        },
+        {
+          "change_id": "P18-00354",
+          "closure_id": "DICT-01667",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3002101/shortDescription"
+        },
+        {
+          "change_id": "P18-00355",
+          "closure_id": "DICT-01668",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3002102/shortDescription"
+        },
+        {
+          "change_id": "P18-00356",
+          "closure_id": "DICT-01676",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3003101/shortDescription"
+        },
+        {
+          "change_id": "P18-00357",
+          "closure_id": "DICT-01677",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3003102/shortDescription"
+        },
+        {
+          "change_id": "P18-00358",
+          "closure_id": "DICT-01685",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3013102/shortDescription"
+        },
+        {
+          "change_id": "P18-00359",
+          "closure_id": "DICT-01687",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3013104/shortDescription"
+        },
+        {
+          "change_id": "P18-00360",
+          "closure_id": "DICT-01698",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3014103/shortDescription"
+        },
+        {
+          "change_id": "P18-00361",
+          "closure_id": "DICT-01700",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3014106/shortDescription"
+        },
+        {
+          "change_id": "P18-00362",
+          "closure_id": "DICT-01707",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3015104/shortDescription"
+        },
+        {
+          "change_id": "P18-00363",
+          "closure_id": "DICT-01709",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3015106/shortDescription"
+        },
+        {
+          "change_id": "P18-00364",
+          "closure_id": "DICT-01715",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3017103/shortDescription"
+        },
+        {
+          "change_id": "P18-00365",
+          "closure_id": "DICT-01717",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3017106/shortDescription"
+        },
+        {
+          "change_id": "P18-00366",
+          "closure_id": "DICT-01726",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3018103/shortDescription"
+        },
+        {
+          "change_id": "P18-00367",
+          "closure_id": "DICT-01727",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3018104/shortDescription"
+        },
+        {
+          "change_id": "P18-00368",
+          "closure_id": "DICT-01731",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3020101/shortDescription"
+        },
+        {
+          "change_id": "P18-00369",
+          "closure_id": "DICT-01732",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3020102/shortDescription"
+        },
+        {
+          "change_id": "P18-00370",
+          "closure_id": "DICT-01742",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3021102/shortDescription"
+        },
+        {
+          "change_id": "P18-00371",
+          "closure_id": "DICT-01744",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3021104/shortDescription"
+        },
+        {
+          "change_id": "P18-00372",
+          "closure_id": "DICT-01750",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3022102/shortDescription"
+        },
+        {
+          "change_id": "P18-00373",
+          "closure_id": "DICT-01752",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3022104/shortDescription"
+        },
+        {
+          "change_id": "P18-00374",
+          "closure_id": "DICT-01757",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3023102/shortDescription"
+        },
+        {
+          "change_id": "P18-00375",
+          "closure_id": "DICT-01760",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3023105/shortDescription"
+        },
+        {
+          "change_id": "P18-00376",
+          "closure_id": "DICT-01766",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3024102/shortDescription"
+        },
+        {
+          "change_id": "P18-00377",
+          "closure_id": "DICT-01768",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3024105/shortDescription"
+        },
+        {
+          "change_id": "P18-00378",
+          "closure_id": "DICT-01775",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3026105/shortDescription"
+        },
+        {
+          "change_id": "P18-00379",
+          "closure_id": "DICT-01776",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3026106/shortDescription"
+        },
+        {
+          "change_id": "P18-00380",
+          "closure_id": "DICT-01784",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3027102/shortDescription"
+        },
+        {
+          "change_id": "P18-00381",
+          "closure_id": "DICT-01786",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3027104/shortDescription"
+        },
+        {
+          "change_id": "P18-00382",
+          "closure_id": "DICT-01795",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3028104/shortDescription"
+        },
+        {
+          "change_id": "P18-00383",
+          "closure_id": "DICT-01796",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3028105/shortDescription"
+        },
+        {
+          "change_id": "P18-00384",
+          "closure_id": "DICT-01805",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3034103/shortDescription"
+        },
+        {
+          "change_id": "P18-00385",
+          "closure_id": "DICT-01806",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3034104/shortDescription"
+        },
+        {
+          "change_id": "P18-00386",
+          "closure_id": "DICT-01814",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3035102/shortDescription"
+        },
+        {
+          "change_id": "P18-00387",
+          "closure_id": "DICT-01816",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3035104/shortDescription"
+        },
+        {
+          "change_id": "P18-00388",
+          "closure_id": "DICT-01823",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3036101/shortDescription"
+        },
+        {
+          "change_id": "P18-00389",
+          "closure_id": "DICT-01824",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3036102/shortDescription"
+        },
+        {
+          "change_id": "P18-00390",
+          "closure_id": "DICT-01835",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3038103/shortDescription"
+        },
+        {
+          "change_id": "P18-00391",
+          "closure_id": "DICT-01836",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3038104/shortDescription"
+        },
+        {
+          "change_id": "P18-00392",
+          "closure_id": "DICT-01838",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3038106/shortDescription"
+        },
+        {
+          "change_id": "P18-00393",
+          "closure_id": "DICT-01843",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3039102/shortDescription"
+        },
+        {
+          "change_id": "P18-00394",
+          "closure_id": "DICT-01845",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3039104/shortDescription"
+        },
+        {
+          "change_id": "P18-00395",
+          "closure_id": "DICT-01853",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3040101/shortDescription"
+        },
+        {
+          "change_id": "P18-00396",
+          "closure_id": "DICT-01855",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3040103/shortDescription"
+        },
+        {
+          "change_id": "P18-00397",
+          "closure_id": "DICT-01863",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3041102/shortDescription"
+        },
+        {
+          "change_id": "P18-00398",
+          "closure_id": "DICT-01865",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3041104/shortDescription"
+        },
+        {
+          "change_id": "P18-00399",
+          "closure_id": "DICT-01870",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3042101/shortDescription"
+        },
+        {
+          "change_id": "P18-00400",
+          "closure_id": "DICT-01872",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3042103/shortDescription"
+        },
+        {
+          "change_id": "P18-00401",
+          "closure_id": "DICT-01883",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3044104/shortDescription"
+        },
+        {
+          "change_id": "P18-00402",
+          "closure_id": "DICT-01885",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3044106/shortDescription"
+        },
+        {
+          "change_id": "P18-00403",
+          "closure_id": "DICT-01890",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3045102/shortDescription"
+        },
+        {
+          "change_id": "P18-00404",
+          "closure_id": "DICT-01892",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3045104/shortDescription"
+        },
+        {
+          "change_id": "P18-00405",
+          "closure_id": "DICT-01899",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3046101/shortDescription"
+        },
+        {
+          "change_id": "P18-00406",
+          "closure_id": "DICT-01907",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3046111/shortDescription"
+        },
+        {
+          "change_id": "P18-00407",
+          "closure_id": "DICT-01908",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3047101/shortDescription"
+        },
+        {
+          "change_id": "P18-00408",
+          "closure_id": "DICT-01910",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3047103/shortDescription"
+        },
+        {
+          "change_id": "P18-00409",
+          "closure_id": "DICT-01921",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3048105/shortDescription"
+        },
+        {
+          "change_id": "P18-00410",
+          "closure_id": "DICT-01925",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3048111/shortDescription"
+        },
+        {
+          "change_id": "P18-00411",
+          "closure_id": "DICT-01929",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3050102/shortDescription"
+        },
+        {
+          "change_id": "P18-00412",
+          "closure_id": "DICT-01931",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3050104/shortDescription"
+        },
+        {
+          "change_id": "P18-00413",
+          "closure_id": "DICT-01934",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3050108/shortDescription"
+        },
+        {
+          "change_id": "P18-00414",
+          "closure_id": "DICT-01939",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3051102/shortDescription"
+        },
+        {
+          "change_id": "P18-00415",
+          "closure_id": "DICT-01941",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3051104/shortDescription"
+        },
+        {
+          "change_id": "P18-00416",
+          "closure_id": "DICT-01950",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3052103/shortDescription"
+        },
+        {
+          "change_id": "P18-00417",
+          "closure_id": "DICT-01951",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3052104/shortDescription"
+        },
+        {
+          "change_id": "P18-00418",
+          "closure_id": "DICT-01955",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3053105/shortDescription"
+        },
+        {
+          "change_id": "P18-00419",
+          "closure_id": "DICT-01958",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3053111/shortDescription"
+        },
+        {
+          "change_id": "P18-00420",
+          "closure_id": "DICT-01962",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3054103/shortDescription"
+        },
+        {
+          "change_id": "P18-00421",
+          "closure_id": "DICT-01963",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3054104/shortDescription"
+        },
+        {
+          "change_id": "P18-00422",
+          "closure_id": "DICT-01972",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3055102/shortDescription"
+        },
+        {
+          "change_id": "P18-00423",
+          "closure_id": "DICT-01974",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3055104/shortDescription"
+        },
+        {
+          "change_id": "P18-00424",
+          "closure_id": "DICT-01981",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3056101/shortDescription"
+        },
+        {
+          "change_id": "P18-00425",
+          "closure_id": "DICT-01982",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3056102/shortDescription"
+        },
+        {
+          "change_id": "P18-00426",
+          "closure_id": "DICT-01992",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3057102/shortDescription"
+        },
+        {
+          "change_id": "P18-00427",
+          "closure_id": "DICT-01994",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3057104/shortDescription"
+        },
+        {
+          "change_id": "P18-00428",
+          "closure_id": "DICT-02000",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3058101/shortDescription"
+        },
+        {
+          "change_id": "P18-00429",
+          "closure_id": "DICT-02003",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3058104/shortDescription"
+        },
+        {
+          "change_id": "P18-00430",
+          "closure_id": "DICT-02011",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3059102/shortDescription"
+        },
+        {
+          "change_id": "P18-00431",
+          "closure_id": "DICT-02015",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3059108/shortDescription"
+        },
+        {
+          "change_id": "P18-00432",
+          "closure_id": "DICT-02017",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3059112/shortDescription"
+        },
+        {
+          "change_id": "P18-00433",
+          "closure_id": "DICT-02018",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3501101/shortDescription"
+        },
+        {
+          "change_id": "P18-00434",
+          "closure_id": "DICT-02020",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3501103/shortDescription"
+        },
+        {
+          "change_id": "P18-00435",
+          "closure_id": "DICT-02022",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3501105/shortDescription"
+        },
+        {
+          "change_id": "P18-00436",
+          "closure_id": "DICT-02025",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3501109/shortDescription"
+        },
+        {
+          "change_id": "P18-00437",
+          "closure_id": "DICT-02030",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3502104/shortDescription"
+        },
+        {
+          "change_id": "P18-00438",
+          "closure_id": "DICT-02032",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3502106/shortDescription"
+        },
+        {
+          "change_id": "P18-00439",
+          "closure_id": "DICT-02038",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3503102/shortDescription"
+        },
+        {
+          "change_id": "P18-00440",
+          "closure_id": "DICT-02042",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3503108/shortDescription"
+        },
+        {
+          "change_id": "P18-00441",
+          "closure_id": "DICT-02046",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3504102/shortDescription"
+        },
+        {
+          "change_id": "P18-00442",
+          "closure_id": "DICT-02048",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3504104/shortDescription"
+        },
+        {
+          "change_id": "P18-00443",
+          "closure_id": "DICT-02054",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3505102/shortDescription"
+        },
+        {
+          "change_id": "P18-00444",
+          "closure_id": "DICT-02055",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3505104/shortDescription"
+        },
+        {
+          "change_id": "P18-00445",
+          "closure_id": "DICT-02062",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3900104/shortDescription"
+        },
+        {
+          "change_id": "P18-00446",
+          "closure_id": "DICT-02063",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3900105/shortDescription"
+        },
+        {
+          "change_id": "P18-00447",
+          "closure_id": "DICT-02070",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3901102/shortDescription"
+        },
+        {
+          "change_id": "P18-00448",
+          "closure_id": "DICT-02071",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3901104/shortDescription"
+        },
+        {
+          "change_id": "P18-00449",
+          "closure_id": "DICT-02078",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3902102/shortDescription"
+        },
+        {
+          "change_id": "P18-00450",
+          "closure_id": "DICT-02080",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3902104/shortDescription"
+        },
+        {
+          "change_id": "P18-00451",
+          "closure_id": "DICT-02082",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/3902109/shortDescription"
+        },
+        {
+          "change_id": "P18-00452",
+          "closure_id": "DICT-02088",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4004102/shortDescription"
+        },
+        {
+          "change_id": "P18-00453",
+          "closure_id": "DICT-02090",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4004104/shortDescription"
+        },
+        {
+          "change_id": "P18-00454",
+          "closure_id": "DICT-02098",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4011102/shortDescription"
+        },
+        {
+          "change_id": "P18-00455",
+          "closure_id": "DICT-02103",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4011108/shortDescription"
+        },
+        {
+          "change_id": "P18-00456",
+          "closure_id": "DICT-02108",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4012103/shortDescription"
+        },
+        {
+          "change_id": "P18-00457",
+          "closure_id": "DICT-02109",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4012104/shortDescription"
+        },
+        {
+          "change_id": "P18-00458",
+          "closure_id": "DICT-02115",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4013102/shortDescription"
+        },
+        {
+          "change_id": "P18-00459",
+          "closure_id": "DICT-02117",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4013104/shortDescription"
+        },
+        {
+          "change_id": "P18-00460",
+          "closure_id": "DICT-02127",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4014102/shortDescription"
+        },
+        {
+          "change_id": "P18-00461",
+          "closure_id": "DICT-02130",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4014105/shortDescription"
+        },
+        {
+          "change_id": "P18-00462",
+          "closure_id": "DICT-02133",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4021101/shortDescription"
+        },
+        {
+          "change_id": "P18-00463",
+          "closure_id": "DICT-02136",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4021104/shortDescription"
+        },
+        {
+          "change_id": "P18-00464",
+          "closure_id": "DICT-02141",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4022101/shortDescription"
+        },
+        {
+          "change_id": "P18-00465",
+          "closure_id": "DICT-02143",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4022103/shortDescription"
+        },
+        {
+          "change_id": "P18-00466",
+          "closure_id": "DICT-02151",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4023102/shortDescription"
+        },
+        {
+          "change_id": "P18-00467",
+          "closure_id": "DICT-02153",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4023104/shortDescription"
+        },
+        {
+          "change_id": "P18-00468",
+          "closure_id": "DICT-02154",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4023105/shortDescription"
+        },
+        {
+          "change_id": "P18-00469",
+          "closure_id": "DICT-02163",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4024102/shortDescription"
+        },
+        {
+          "change_id": "P18-00470",
+          "closure_id": "DICT-02164",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4024103/shortDescription"
+        },
+        {
+          "change_id": "P18-00471",
+          "closure_id": "DICT-02172",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4025102/shortDescription"
+        },
+        {
+          "change_id": "P18-00472",
+          "closure_id": "DICT-02173",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4025103/shortDescription"
+        },
+        {
+          "change_id": "P18-00473",
+          "closure_id": "DICT-02178",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4026101/shortDescription"
+        },
+        {
+          "change_id": "P18-00474",
+          "closure_id": "DICT-02181",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4026104/shortDescription"
+        },
+        {
+          "change_id": "P18-00475",
+          "closure_id": "DICT-02188",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4027102/shortDescription"
+        },
+        {
+          "change_id": "P18-00476",
+          "closure_id": "DICT-02190",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4027105/shortDescription"
+        },
+        {
+          "change_id": "P18-00477",
+          "closure_id": "DICT-02194",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4028101/shortDescription"
+        },
+        {
+          "change_id": "P18-00478",
+          "closure_id": "DICT-02196",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4028103/shortDescription"
+        },
+        {
+          "change_id": "P18-00479",
+          "closure_id": "DICT-02203",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4029102/shortDescription"
+        },
+        {
+          "change_id": "P18-00480",
+          "closure_id": "DICT-02204",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4029104/shortDescription"
+        },
+        {
+          "change_id": "P18-00481",
+          "closure_id": "DICT-02210",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4031102/shortDescription"
+        },
+        {
+          "change_id": "P18-00482",
+          "closure_id": "DICT-02212",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4031104/shortDescription"
+        },
+        {
+          "change_id": "P18-00483",
+          "closure_id": "DICT-02219",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4032101/shortDescription"
+        },
+        {
+          "change_id": "P18-00484",
+          "closure_id": "DICT-02223",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4032105/shortDescription"
+        },
+        {
+          "change_id": "P18-00485",
+          "closure_id": "DICT-02229",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4033102/shortDescription"
+        },
+        {
+          "change_id": "P18-00486",
+          "closure_id": "DICT-02231",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4033104/shortDescription"
+        },
+        {
+          "change_id": "P18-00487",
+          "closure_id": "DICT-02240",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4034102/shortDescription"
+        },
+        {
+          "change_id": "P18-00488",
+          "closure_id": "DICT-02242",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4034104/shortDescription"
+        },
+        {
+          "change_id": "P18-00489",
+          "closure_id": "DICT-02248",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4035101/shortDescription"
+        },
+        {
+          "change_id": "P18-00490",
+          "closure_id": "DICT-02250",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4035103/shortDescription"
+        },
+        {
+          "change_id": "P18-00491",
+          "closure_id": "DICT-02256",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4036104/shortDescription"
+        },
+        {
+          "change_id": "P18-00492",
+          "closure_id": "DICT-02258",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4036106/shortDescription"
+        },
+        {
+          "change_id": "P18-00493",
+          "closure_id": "DICT-02265",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4041103/shortDescription"
+        },
+        {
+          "change_id": "P18-00494",
+          "closure_id": "DICT-02266",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4041104/shortDescription"
+        },
+        {
+          "change_id": "P18-00495",
+          "closure_id": "DICT-02271",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4042102/shortDescription"
+        },
+        {
+          "change_id": "P18-00496",
+          "closure_id": "DICT-02273",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4042104/shortDescription"
+        },
+        {
+          "change_id": "P18-00497",
+          "closure_id": "DICT-02277",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4043101/shortDescription"
+        },
+        {
+          "change_id": "P18-00498",
+          "closure_id": "DICT-02278",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4043102/shortDescription"
+        },
+        {
+          "change_id": "P18-00499",
+          "closure_id": "DICT-02287",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4044103/shortDescription"
+        },
+        {
+          "change_id": "P18-00500",
+          "closure_id": "DICT-02288",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4044104/shortDescription"
+        },
+        {
+          "change_id": "P18-00501",
+          "closure_id": "DICT-02294",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4045101/shortDescription"
+        },
+        {
+          "change_id": "P18-00502",
+          "closure_id": "DICT-02297",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4045104/shortDescription"
+        },
+        {
+          "change_id": "P18-00503",
+          "closure_id": "DICT-02305",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4046102/shortDescription"
+        },
+        {
+          "change_id": "P18-00504",
+          "closure_id": "DICT-02310",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4046108/shortDescription"
+        },
+        {
+          "change_id": "P18-00505",
+          "closure_id": "DICT-02312",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4051101/shortDescription"
+        },
+        {
+          "change_id": "P18-00506",
+          "closure_id": "DICT-02313",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4051102/shortDescription"
+        },
+        {
+          "change_id": "P18-00507",
+          "closure_id": "DICT-02323",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4052102/shortDescription"
+        },
+        {
+          "change_id": "P18-00508",
+          "closure_id": "DICT-02325",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4052104/shortDescription"
+        },
+        {
+          "change_id": "P18-00509",
+          "closure_id": "DICT-02332",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4053102/shortDescription"
+        },
+        {
+          "change_id": "P18-00510",
+          "closure_id": "DICT-02335",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4053105/shortDescription"
+        },
+        {
+          "change_id": "P18-00511",
+          "closure_id": "DICT-02339",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4053109/shortDescription"
+        },
+        {
+          "change_id": "P18-00512",
+          "closure_id": "DICT-02343",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4061102/shortDescription"
+        },
+        {
+          "change_id": "P18-00513",
+          "closure_id": "DICT-02344",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4061104/shortDescription"
+        },
+        {
+          "change_id": "P18-00514",
+          "closure_id": "DICT-02351",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4062102/shortDescription"
+        },
+        {
+          "change_id": "P18-00515",
+          "closure_id": "DICT-02352",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4062104/shortDescription"
+        },
+        {
+          "change_id": "P18-00516",
+          "closure_id": "DICT-02359",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4121101/shortDescription"
+        },
+        {
+          "change_id": "P18-00517",
+          "closure_id": "DICT-02361",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4121103/shortDescription"
+        },
+        {
+          "change_id": "P18-00518",
+          "closure_id": "DICT-02367",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4122102/shortDescription"
+        },
+        {
+          "change_id": "P18-00519",
+          "closure_id": "DICT-02368",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4122103/shortDescription"
+        },
+        {
+          "change_id": "P18-00520",
+          "closure_id": "DICT-02372",
+          "file": "magica/js/libs/emotionSkillMap.json",
+          "json_pointer": "/4122109/shortDescription"
+        },
+        {
+          "change_id": "P18-00614",
+          "closure_id": "DICT-02689",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/167300/shortDescription"
+        },
+        {
+          "change_id": "P18-00616",
+          "closure_id": "DICT-02690",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/167301/shortDescription"
+        },
+        {
+          "change_id": "P18-00618",
+          "closure_id": "DICT-02724",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/170900/shortDescription"
+        },
+        {
+          "change_id": "P18-00620",
+          "closure_id": "DICT-02725",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/170901/shortDescription"
+        },
+        {
+          "change_id": "P18-00624",
+          "closure_id": "DICT-02875",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/183800/shortDescription"
+        },
+        {
+          "change_id": "P18-00626",
+          "closure_id": "DICT-02876",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/183801/shortDescription"
+        },
+        {
+          "change_id": "P18-00628",
+          "closure_id": "DICT-02880",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/184100/shortDescription"
+        },
+        {
+          "change_id": "P18-00630",
+          "closure_id": "DICT-02881",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/184101/shortDescription"
+        },
+        {
+          "change_id": "P18-00650",
+          "closure_id": "DICT-03050",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/198100/shortDescription"
+        },
+        {
+          "change_id": "P18-00652",
+          "closure_id": "DICT-03051",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/198101/shortDescription"
+        },
+        {
+          "change_id": "P18-00657",
+          "closure_id": "DICT-03106",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/203000/shortDescription"
+        },
+        {
+          "change_id": "P18-00658",
+          "closure_id": "DICT-03107",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/203001/shortDescription"
+        },
+        {
+          "change_id": "P18-00660",
+          "closure_id": "DICT-03108",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/203200/shortDescription"
+        },
+        {
+          "change_id": "P18-00662",
+          "closure_id": "DICT-03109",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/203201/shortDescription"
+        },
+        {
+          "change_id": "P18-00663",
+          "closure_id": "DICT-02386",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/21041/shortDescription"
+        },
+        {
+          "change_id": "P18-00664",
+          "closure_id": "DICT-02387",
+          "file": "magica/js/libs/pieceSkillMap.json",
+          "json_pointer": "/21042/shortDescription"
+        }
+      ],
       "failures": []
+    },
+    "visible_term_closure": {
+      "path": "magica/research/totentanz-full-localization-20260817/runtime-dictionary/visible-term-closure-3136.tsv",
+      "summary_path": "magica/research/totentanz-full-localization-20260817/runtime-dictionary/visible-term-closure-summary.json",
+      "rows": 3136,
+      "unique_targets": 3136,
+      "metadata_failures": [],
+      "product_failures": [],
+      "summary_failures": {}
     },
     "visible_regression_scan": {
       "expected_dictionaries": 23,
@@ -121,25 +2676,291 @@
     },
     "engine_i18n": {
       "path": "madomagi/engine_i18n.tsv",
-      "sha256": "9d14dc8c7c7a1dbfb381af86ebcfff17b2393b2cec5136ed1594f7ea87dbd4a4",
-      "bytes": 17371,
+      "sha256": "645325c0b2368f6f0d11c2c4e03786c518a60a935f04d220562b24fda5db454a",
+      "bytes": 17957,
       "encoding": "UTF-8",
       "line_endings": "LF",
-      "expected_data_rows": 303,
-      "actual_data_rows": 303,
+      "expected_data_rows": 314,
+      "actual_data_rows": 314,
+      "expected_physical_lines": 315,
+      "actual_physical_lines": 315,
       "malformed_lines": [],
       "duplicate_source_keys": {},
       "official_audit_rows": 5,
-      "official_mapping_failures": []
+      "official_mapping_failures": [],
+      "post_pass18_gap_rules": {
+        "evidence": "magica/research/totentanz-full-localization-20260817/engine-i18n/ap-recovery-gap-verification.json",
+        "result": {
+          "ok": true,
+          "mode": "current-main-compatible",
+          "operation": "verify",
+          "active_rules": 7,
+          "rules": 7,
+          "exact": 4,
+          "prefix": 3,
+          "substring": 0,
+          "unsupported_rules": 2,
+          "unsupported_present": 0,
+          "logical_rule_count": 314,
+          "final_engine_rule_count": 314,
+          "physical_line_count": 315,
+          "line_count": 315,
+          "unrelated_content_preserved": true,
+          "consumer_requirement": "current legacy-client main: exact and ^prefix only; ~substring unsupported",
+          "records": [
+            {
+              "rule_id": "ENGINE-AP-ITEM-001",
+              "kind": "exact",
+              "source": "50 AP Potion",
+              "target": "AP回复药50",
+              "source_tier": "official-cn",
+              "evidence": "A:/magicaOLD official item name",
+              "rendered": "50 AP Potion\tAP回复药50",
+              "matching_source_rules": [
+                "50 AP Potion\tAP回复药50"
+              ],
+              "exact_line_count": 1,
+              "runtime_contract": "supported-by-current-main-exact-or-prefix"
+            },
+            {
+              "rule_id": "ENGINE-AP-ITEM-002",
+              "kind": "exact",
+              "source": "AP Potion",
+              "target": "AP回复药",
+              "source_tier": "official-cn",
+              "evidence": "A:/magicaOLD official item name",
+              "rendered": "AP Potion\tAP回复药",
+              "matching_source_rules": [
+                "AP Potion\tAP回复药"
+              ],
+              "exact_line_count": 1,
+              "runtime_contract": "supported-by-current-main-exact-or-prefix"
+            },
+            {
+              "rule_id": "ENGINE-AP-ITEM-003",
+              "kind": "exact",
+              "source": "Magia Stones",
+              "target": "魔法石",
+              "source_tier": "official-cn",
+              "evidence": "A:/magicaOLD official item name",
+              "rendered": "Magia Stones\t魔法石",
+              "matching_source_rules": [
+                "Magia Stones\t魔法石"
+              ],
+              "exact_line_count": 1,
+              "runtime_contract": "supported-by-current-main-exact-or-prefix"
+            },
+            {
+              "rule_id": "ENGINE-AP-ACTION-001",
+              "kind": "prefix",
+              "source": "Use ",
+              "target": "消费 ",
+              "source_tier": "official-cn",
+              "evidence": "A:/magicaOLD/template/user/APPopup.html",
+              "rendered": "^Use \t消费 ",
+              "matching_source_rules": [
+                "^Use \t消费 "
+              ],
+              "exact_line_count": 1,
+              "runtime_contract": "supported-by-current-main-exact-or-prefix"
+            },
+            {
+              "rule_id": "ENGINE-AP-COUNT-001",
+              "kind": "prefix",
+              "source": "Stock: ",
+              "target": "持有数 ",
+              "source_tier": "official-cn",
+              "evidence": "A:/magicaOLD/template/user/APPopup.html",
+              "rendered": "^Stock: \t持有数 ",
+              "matching_source_rules": [
+                "^Stock: \t持有数 "
+              ],
+              "exact_line_count": 1,
+              "runtime_contract": "supported-by-current-main-exact-or-prefix"
+            },
+            {
+              "rule_id": "ENGINE-AP-COST-001",
+              "kind": "prefix",
+              "source": "Cost: ",
+              "target": "消费 ",
+              "source_tier": "official-cn",
+              "evidence": "A:/magicaOLD/template/user/APPopup.html",
+              "rendered": "^Cost: \t消费 ",
+              "matching_source_rules": [
+                "^Cost: \t消费 "
+              ],
+              "exact_line_count": 1,
+              "runtime_contract": "supported-by-current-main-exact-or-prefix"
+            },
+            {
+              "rule_id": "ENGINE-AP-ACTION-002",
+              "kind": "exact",
+              "source": "Restore",
+              "target": "回复",
+              "source_tier": "official-cn",
+              "evidence": "A:/magicaOLD/template/user/APPopup.html",
+              "rendered": "Restore\t回复",
+              "matching_source_rules": [
+                "Restore\t回复"
+              ],
+              "exact_line_count": 1,
+              "runtime_contract": "supported-by-current-main-exact-or-prefix"
+            }
+          ],
+          "unsupported_records": [
+            {
+              "rule_id": "ENGINE-AP-TIMER-001",
+              "kind": "substring",
+              "source": " AP will recover in ",
+              "target": " AP恢复倒计时：",
+              "source_tier": "removed-unsupported",
+              "evidence": "current legacy-client main consumer has no substring-rule support",
+              "rendered": "~ AP will recover in \t AP恢复倒计时：",
+              "matching_source_rules": [],
+              "exact_line_count": 0,
+              "runtime_contract": "unsupported-by-current-main-and-removed-from-runtime-table"
+            },
+            {
+              "rule_id": "ENGINE-AP-TIMER-002",
+              "kind": "substring",
+              "source": " / AP will be fully recovered in ",
+              "target": " / AP全满倒计时：",
+              "source_tier": "removed-unsupported",
+              "evidence": "current legacy-client main consumer has no substring-rule support",
+              "rendered": "~ / AP will be fully recovered in \t / AP全满倒计时：",
+              "matching_source_rules": [],
+              "exact_line_count": 0,
+              "runtime_contract": "unsupported-by-current-main-and-removed-from-runtime-table"
+            }
+          ],
+          "removed_unsupported_records": [
+            {
+              "rule_id": "ENGINE-AP-TIMER-001",
+              "kind": "substring",
+              "source": " AP will recover in ",
+              "target": " AP恢复倒计时：",
+              "source_tier": "removed-unsupported",
+              "evidence": "current legacy-client main consumer has no substring-rule support",
+              "rendered": "~ AP will recover in \t AP恢复倒计时：",
+              "matching_source_rules": [],
+              "exact_line_count": 0,
+              "runtime_contract": "unsupported-by-current-main-and-removed-from-runtime-table"
+            },
+            {
+              "rule_id": "ENGINE-AP-TIMER-002",
+              "kind": "substring",
+              "source": " / AP will be fully recovered in ",
+              "target": " / AP全满倒计时：",
+              "source_tier": "removed-unsupported",
+              "evidence": "current legacy-client main consumer has no substring-rule support",
+              "rendered": "~ / AP will be fully recovered in \t / AP全满倒计时：",
+              "matching_source_rules": [],
+              "exact_line_count": 0,
+              "runtime_contract": "unsupported-by-current-main-and-removed-from-runtime-table"
+            }
+          ]
+        },
+        "contract_failures": {},
+        "rule_failures": [],
+        "active_substring_sources": []
+      },
+      "connect_authority": {
+        "evidence": "magica/research/totentanz-full-localization-20260817/engine-i18n/connect-context-authority.json",
+        "sources": [
+          "コネクト",
+          "Connect"
+        ],
+        "target": "连携",
+        "failures": []
+      },
+      "authority_layers": {
+        "final_authority": {
+          "path": "magica/research/totentanz-full-localization-20260817/engine-i18n/engine-final-authority-corrections.json",
+          "records": 9,
+          "failures": []
+        },
+        "root_reviewed": {
+          "path": "magica/research/totentanz-full-localization-20260817/engine-i18n/root-reviewed-term-closure.json",
+          "records": 41,
+          "failures": []
+        }
+      },
+      "final_apply_verification": {
+        "path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\next_round_execution_20260819\\engine_final_authority_apply_20260819\\engine_final_authority_verification.json",
+        "result": {
+          "status": "PASS",
+          "rule_count": 314,
+          "replacement_count": 10,
+          "removed_unsupported_count": 2,
+          "added_exact_count": 1,
+          "duplicate_sources": 0,
+          "malformed_rows": 0,
+          "protected_unrelated_rows_changed": 0
+        },
+        "failures": {}
+      }
     },
     "css_unchanged": {
       "baseline_commit": "d5e8f75d93f6760a588e592c22a3754d19370c68",
-      "expected_files": 25,
-      "baseline_files": 25,
-      "current_files": 25,
+      "expected_files": 19,
+      "baseline_files": 19,
+      "current_files": 44,
       "missing": [],
       "extra": [],
-      "mismatched": []
+      "untouched_baseline_files": 15,
+      "untouched_mismatches": [],
+      "visible_round3": {
+        "items": 119,
+        "files": 26,
+        "literal_failures": [],
+        "content_report_ok": true,
+        "generated_label_failures": []
+      },
+      "manual_round3": {
+        "files": 3,
+        "paths": [
+          "magica/css/patrol/PatrolDeckView.css",
+          "magica/css/regularEvent/groupBattle/RegularEventGroupBattleRanking.css",
+          "magica/css/regularEvent/groupBattle/RegularEventGroupBattleUser.css"
+        ],
+        "errors": [],
+        "result": {
+          "manifest": "magica/research/totentanz-full-localization-20260817/manual-visible-round3/runtime/manual_round3_manifest.json",
+          "targets": 8,
+          "approved_followup_transforms": 4,
+          "failures": []
+        }
+      },
+      "connect_followup": {
+        "errors": [],
+        "result": {
+          "visible_patch": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\next_round_execution_20260819\\connect_visible_ui_apply_20260819\\connect_visible_ui_product_patch.json",
+          "visible_records": 7,
+          "visible_failures": [],
+          "html_ejs_structure_failures": [],
+          "visible_verification_failures": {},
+          "help_verification": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\next_round_execution_20260819\\connect_help_json_apply_20260819\\connect_help_json_verification.json",
+          "help_failures": []
+        }
+      },
+      "round4": {
+        "files": 2,
+        "paths": [
+          "magica/css/regularEvent/groupBattle/RegularEventGroupBattleRanking.css",
+          "magica/css/regularEvent/groupBattle/RegularEventGroupBattleUser.css"
+        ],
+        "execution_error": null,
+        "result": {
+          "status": "PASS",
+          "mode": "verify-after",
+          "changes": 39,
+          "targets": 6,
+          "generated_runtime": 1,
+          "protected_retained": 0,
+          "runtime_dictionary_matches": 4
+        }
+      },
+      "unbalanced_braces": []
     },
     "boss_page_static_label": {
       "path": "magica/js/regularEvent/groupBattle/view/BossPageView.js",
@@ -167,6 +2988,16 @@
         "files": 5
       }
     },
+    "post_pass19_product_terms": {
+      "心魔战": {
+        "occurrences": 10,
+        "files": 3
+      },
+      "属性克制": {
+        "occurrences": 1,
+        "files": 1
+      }
+    },
     "retired_terms": {
       "心情战": 0,
       "属性相性": 0
@@ -176,38 +3007,62 @@
   "machine_translation_review": {
     "schema": "magireco-cn-v26-machine-translation-review/v2",
     "counts": {
-      "master": 12930,
-      "runtime": 9665,
+      "master": 15675,
+      "runtime": 12399,
       "static": 303,
       "frontend": 1685,
       "frontend_empty": 53,
       "glossary": 955,
       "overrides_fragments": 16,
-      "engine": 303,
+      "engine": 314,
       "battle_miss_needs_review": 3,
       "battle_runtime_language_decisions": 8,
       "battle_runtime_unique_misses": 20,
       "pass18": 939,
+      "visible_term_closure": 3136,
       "explicit_llm_history": 264
     },
     "engine_partition": {
       "engine_runtime_i18n_intentional_fragment": 1,
-      "engine_runtime_i18n_official": 6,
-      "engine_runtime_i18n_unverified": 296
+      "engine_runtime_i18n_official": 23,
+      "engine_runtime_i18n_root_reviewed": 77,
+      "engine_runtime_i18n_unverified": 210,
+      "engine_runtime_i18n_wiki": 3
     },
     "source_buckets": {
-      "legacy-ai": 1700,
-      "new-root-human": 15,
-      "official": 1501,
-      "unknown": 8620,
-      "wiki": 1094
+      "legacy-ai": 1640,
+      "new-root-human": 2391,
+      "official": 1938,
+      "unknown": 8609,
+      "wiki": 1097
     },
     "machine_translation_flags": {
       "ai-assisted-unverified": 1632,
-      "false": 2658,
-      "unknown": 8640
+      "false": 5489,
+      "unknown": 8554
     },
     "pass18_root_personal_needs_review": 12,
+    "pass18_contract": {
+      "rows": 939,
+      "runtime_direct_current": 536,
+      "runtime_exact_visible_term_supersession": 402,
+      "static_direct_current": 1,
+      "strict_lookup_methods": {
+        "json-pointer": 26,
+        "stable-key": 912,
+        "static-literal": 1
+      }
+    },
+    "visible_term_closure": {
+      "rows": 3136,
+      "partition": {
+        "official-cn": 762,
+        "root-reviewed-official-cn-terminology": 2372,
+        "wiki-exact-stable-id-plus-official-cn-terminology": 2
+      },
+      "machine_translated": false,
+      "unique_targets": 3136
+    },
     "frontend_empty_closure": {
       "records": 53,
       "status_counts": {
@@ -216,11 +3071,12 @@
         "identity-punctuation": 1,
         "official-source-verified": 1
       },
-      "official_record": "MT-01965",
+      "official_record": "MT-01976",
+      "official_stable_key": "global:6ec4009aee4bddf7aa31",
       "official_source_sha256": "8a73978062da1662bb7405d93ca37ef4e924b8a0b14bd66a56237e6ea8480f8d",
       "product_node": "magica/template/formation/FormationQuest.html#div.deckDetailCongeniality>p"
     },
-    "checksummed_artifacts": 31,
-    "sha256": "8f6cf5e1c894488822e9db12c73d38f20ac1612aa4963bf3e57fd4ba3fc9f574"
+    "checksummed_artifacts": 32,
+    "sha256": "71ddddaff078141421b8672707e305c2e11cec8bd33c29c93a30254a80027720"
   }
 }

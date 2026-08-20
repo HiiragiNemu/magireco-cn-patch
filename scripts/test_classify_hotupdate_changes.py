@@ -49,6 +49,22 @@ class HotUpdateChangeClassificationTest(unittest.TestCase):
             self.run_cli(["madomagi/engine_i18n.tsv"]), js=1, scenario=0
         )
 
+    def test_madomagi_native_repair_is_js_only(self):
+        self.assert_flags(
+            self.run_cli([
+                "madomagi/resource/image_native/chara/chara_4051_h.png"
+            ]),
+            js=1,
+            scenario=0,
+        )
+
+    def test_madomagi_repair_manifest_is_js_only(self):
+        self.assert_flags(
+            self.run_cli(["madomagi/repair_manifest.json"]),
+            js=1,
+            scenario=0,
+        )
+
     def test_each_js_product_tree_is_js_only(self):
         for directory in ("css", "fonts", "js", "resource", "template"):
             with self.subTest(directory=directory):
@@ -84,7 +100,9 @@ class HotUpdateChangeClassificationTest(unittest.TestCase):
                     "README.md",
                     "i18n/frontend-strings.tsv",
                     "madomagi/engine_i18n.tsv.bak",
+                    "madomagi/repair_manifest.json.bak",
                     "madomagi/resource/scenario/jsonish/a.json",
+                    "madomagi/resource/image_nativeish/a.png",
                     "magica/javascript/app.js",
                     "magica/js",
                 ]

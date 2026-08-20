@@ -205,7 +205,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           if (a.eventAccomplishQuestMode && "challenge" == a.eventAccomplishQuestMode && 3 > b.length) k.startSe(1002), new a.PopupClass(
           {
             title: "编成错误",
-            content: "开始战斗需要队伍中<br>编有3个以上的魔法少女。",
+            content: "必须编成3名以上的魔法少女<br>才能开始战斗。",
             closeBtnText: "确定"
           }), a.androidKeyStop = !1;
           else if (b.length)

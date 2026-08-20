@@ -21,24 +21,24 @@
       "weight": 100
     }
   ],
-  "candidate_rows": 4283,
-  "effective_rows": 2583,
+  "candidate_rows": 4297,
+  "effective_rows": 2595,
   "fatal_equal_weight_conflicts": 0,
   "generated_outputs": {
     "conflicts.tsv": {
-      "data_rows": 48,
-      "normalized_lf_sha256": "831f4192917a3fff21bd70ad5aa03bd3b12a91f2e1d2993ad8dc177df6be712c"
+      "data_rows": 49,
+      "normalized_lf_sha256": "2c6e20d9c40949a4e21adc5b8a4980ca0d7a3e89fab42cbba63c9d189028f806"
     },
     "effective.tsv": {
-      "data_rows": 2583,
-      "normalized_lf_sha256": "f7c574e93a715af746f2c9304e9cb8d4b4f18874e7d5ada6df84ae8c75ccf79a"
+      "data_rows": 2595,
+      "normalized_lf_sha256": "47b50ef7da3c515b733dd1fba9c86c53dd2bc27b2b72711509a539ac5d7293fc"
     },
     "input-provenance.tsv": {
-      "data_rows": 4283,
-      "normalized_lf_sha256": "20d27f1157509a2040bcbb9047ad4ac6049bfe44ac7c6e5bed6e7b746e8a9139"
+      "data_rows": 4297,
+      "normalized_lf_sha256": "c38ec070da82e354d63275a7360549f31cae797b7c1c9d4d0ebc640a681f7144"
     }
   },
-  "human_reviewed_candidates": 0,
+  "human_reviewed_candidates": 3,
   "input_contracts": {
     "authority-policy.json": {
       "normalized_lf_sha256": "d1faf2e9d53e49f2c0215e9f4aa4e639b1edc9059afca740742a3c27bd4eae41"
@@ -102,37 +102,41 @@
     "reviewed-candidates.tsv": {
       "absent_candidates": 0,
       "authority_counts": {
-        "new_proposal": 1565,
-        "official_cn_dump": 62
+        "existing_human_reviewed": 3,
+        "new_proposal": 1564,
+        "official_cn_dump": 74
       },
-      "data_rows": 1627,
-      "normalized_lf_sha256": "a6cc1313d03f6af929f32cc315bd301adb81f22dd6420ba0dd62eb418b6de2c2",
-      "present_candidates": 1627,
+      "data_rows": 1641,
+      "normalized_lf_sha256": "39a966b7d95273015752c5c9b980a387a51f171d9d63b6b4417c006ef2d103e0",
+      "present_candidates": 1641,
       "source_batch_counts": {
+        "official-cn-branch-recovery-20260819": 12,
         "official-cn-static-exact-path-dom": 1,
         "official-cn-static-japanese-source-key-context-lock": 1,
         "official-cn-static-japanese-source-key-lock": 1,
         "official-cn-static-pass20-20260815": 58,
         "official-cn-static-term-plus-wiki-fallback": 1,
-        "pass20-rough-production-final-values-v1": 1565
+        "pass20-rough-production-final-values-v1": 1564,
+        "user-approved-branch-recovery-20260819": 3
       }
     }
   },
   "magica_consumed": false,
   "mode": "audit-only",
-  "present_candidates": 4230,
+  "present_candidates": 4244,
   "producer": {
     "normalized_lf_sha256": "3e8415a2596364c167762bdbfc06665968bae22c48565fe1eed13055694d5b43",
     "path": "tools/i18n-build-effective.py"
   },
   "product_tree_writes": 0,
-  "resolved_conflicts": 48,
+  "resolved_conflicts": 49,
   "result": "pass",
   "runtime_consumed": false,
   "schema_version": 1,
   "selected_authority_counts": {
-    "legacy_unverified_ai_assisted": 1566,
-    "official_cn_dump": 62,
-    "wiki": 955
+    "existing_human_reviewed": 2,
+    "legacy_unverified_ai_assisted": 1565,
+    "official_cn_dump": 74,
+    "wiki": 954
   }
 }

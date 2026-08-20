@@ -1,0 +1,45 @@
+{
+  "status": "prepared-not-applied",
+  "targets": [
+    {
+      "target": "magica/css/patrol/PatrolDeckView.css",
+      "before_exists": false,
+      "rollback_action": "remove-created"
+    },
+    {
+      "target": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleRanking.css",
+      "before_exists": false,
+      "rollback_action": "remove-created"
+    },
+    {
+      "target": "magica/css/regularEvent/groupBattle/RegularEventGroupBattleUser.css",
+      "before_exists": false,
+      "rollback_action": "remove-created"
+    },
+    {
+      "target": "magica/js/event/EventWalpurgis/json/stamp/commentList.json",
+      "before_exists": false,
+      "rollback_action": "remove-created"
+    },
+    {
+      "target": "magica/json/announcements/announcements.json",
+      "before_exists": false,
+      "rollback_action": "remove-created"
+    },
+    {
+      "target": "magica/json/event_banner/event_banner.json",
+      "before_exists": false,
+      "rollback_action": "remove-created"
+    },
+    {
+      "target": "magica/resource/image_web/_json/SecondPartLastInfo.json",
+      "before_exists": false,
+      "rollback_action": "remove-created"
+    },
+    {
+      "target": "magica/resource/image_web/_json/help.json",
+      "before_exists": true,
+      "rollback_action": "restore-base"
+    }
+  ]
+}

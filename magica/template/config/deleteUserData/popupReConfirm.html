@@ -1,0 +1,33 @@
+将从服务器删除以下玩家数据。<br>
+确定要删除吗？
+<br>
+<div class="statusSec">
+	<div class="statusMain">
+	<dl class="colWrap common_dl">
+		<dt class="colLeft">玩家名</dt>
+		<dd class="colRight">
+			<span class="black"><%= model.loginName %></span>
+		</dd>
+	</dl>
+	</div>
+	<div class="statusMain">
+		<dl class="colWrap common_dl">
+			<dt class="colLeft">玩家等级</dt>
+			<dd class="colRight">
+				<span class="black"><%= model.level %></span>
+			</dd>
+		</dl>
+	</div><br>
+	<div class="statusMain <%= model.isDispBirthDay %>">
+	<dl class="colWrap common_dl">
+		<dt class="colLeft">生日</dt>
+		<dd class="colRight">
+			<span class="black"><%= model.birthDay %></span>
+		</dd>
+	</dl>
+	</div>
+</div><!-- statusSec -->
+<br>
+<div class="c_red caution">
+	※如果不删除，请选择“取消”。
+</div>

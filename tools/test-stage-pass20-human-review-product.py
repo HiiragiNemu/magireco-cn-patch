@@ -41,7 +41,7 @@ class FinalValueStageTests(unittest.TestCase):
                     AUDIT / "pass20_authority_resolutions.tsv",
                     AUDIT / "pass20_product_targets.json",
                     root / "stage",
-                    AUDIT / "magireco_v26_translation_review_1565.xlsx",
+                    AUDIT / "magireco_v26_translation_review_1564.xlsx",
                 )
 
     def test_02_reviewed_candidate_provenance_is_derived_from_receipt(self):
@@ -103,12 +103,13 @@ class FinalValueStageTests(unittest.TestCase):
             result = STAGE.verify_pass21_runtime_baselines(root, targets, adoptions)
         self.assertEqual(result, {"items": 1, "paths": 1, "occurrences": 2})
 
-    def test_05_target_contract_remains_frozen_at_1565(self):
+    def test_05_target_contract_remains_frozen_at_1564(self):
         payload = json.loads((AUDIT / "pass20_product_targets.json").read_text(encoding="utf-8"))
         contract = STAGE.derive_target_contract(payload["items"], payload["summary"])
-        self.assertEqual(contract["materialization_items"], 1565)
-        self.assertEqual(contract["exact_runtime_items"], 1443)
-        self.assertEqual(contract["maintenance_only_items"], 122)
+        self.assertEqual(contract["materialization_items"], 1564)
+        self.assertEqual(contract["exact_runtime_items"], 1376)
+        self.assertEqual(contract["maintenance_only_items"], 188)
+        self.assertEqual(contract["runtime_occurrences"], 2260)
 
     def test_06_rough_production_candidate_stays_low_authority(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -171,6 +172,48 @@ class FinalValueStageTests(unittest.TestCase):
             {"rough-production:ITEM", "human-review:ITEM"},
         )
         self.assertEqual({row["authority"] for row in rows}, {"new_proposal", "existing_human_reviewed"})
+
+    def test_07b_rough_production_refresh_replaces_only_its_own_locator(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "reviewed.tsv"
+            path.write_text("# " + "\t".join(STAGE.REVIEWED_COLUMNS) + "\n", encoding="utf-8")
+            queue = {"ITEM": {"japanese_or_source_original": "源", "current_cn": "旧粗译"}}
+            targets = {
+                "ITEM": {
+                    "maintenance_scope": "global", "path_prefix": "", "match_status": "fixture",
+                }
+            }
+            first = [{
+                "item_id": "ITEM", "final_value": "旧粗译", "final_origin": "machine-current",
+                "machine_translated": "unknown",
+                "review_status": "rough-production-machine-current-retained",
+            }]
+            second = [{
+                "item_id": "ITEM", "final_value": "新建议", "final_origin": "machine-suggestion",
+                "machine_translated": "true",
+                "review_status": "rough-production-machine-suggestion-adopted",
+            }]
+            STAGE.append_reviewed_candidates(path, queue, first, targets, {"ITEM"})
+            sentinel = {field: "" for field in STAGE.REVIEWED_COLUMNS}
+            sentinel.update({
+                "scope": "global", "source_text": "权威源", "candidate_cn": "权威值",
+                "status": "present", "authority": "official_cn_dump",
+                "source_locator": "official:sentinel",
+            })
+            with path.open("a", encoding="utf-8", newline="") as stream:
+                csv.DictWriter(
+                    stream, fieldnames=STAGE.REVIEWED_COLUMNS, delimiter="\t", lineterminator="\n",
+                ).writerow(sentinel)
+            STAGE.append_reviewed_candidates(path, queue, second, targets, {"ITEM"})
+            lines = [
+                line for line in path.read_text(encoding="utf-8").splitlines()
+                if line and not line.startswith("#")
+            ]
+            rows = list(csv.DictReader(lines, fieldnames=STAGE.REVIEWED_COLUMNS, delimiter="\t"))
+        self.assertEqual(2, len(rows))
+        self.assertEqual("新建议", rows[0]["candidate_cn"])
+        self.assertEqual("rough-production-machine-suggestion-adopted", rows[0]["review_status"])
+        self.assertEqual("official:sentinel", rows[1]["source_locator"])
 
     def test_08_review_contract_is_rebound_to_staged_provenance(self):
         with tempfile.TemporaryDirectory() as temp:

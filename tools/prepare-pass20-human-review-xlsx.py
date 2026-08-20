@@ -6,10 +6,17 @@ import importlib.util
 import json
 from pathlib import Path
 
+from pass20_review_contract import (
+    AUTHORITY_EXCLUDED_ITEMS, AUTHORITY_RESOLUTIONS, DS_APPROVED_ITEMS,
+    HUMAN_REVIEW_ITEMS, MACHINE_SOURCE_ITEMS, PRIORITY_ITEMS, SHADOWED_ITEMS,
+    WORKBOOK_FILE_NAME, WORKBOOK_INPUT_NAME, WORKBOOK_INSPECT_NAME,
+    WORKBOOK_PREVIEW_NAME, WORKBOOK_SHEET_NAME,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
-OUT = ROOT / "_artifacts/spreadsheet_build/v26_translation_review_1565_input.json"
+OUT = ROOT / "_artifacts/spreadsheet_build" / WORKBOOK_INPUT_NAME
 SCHEMA = "magireco-cn-v26-translation-human-review-workbook/5"
 
 
@@ -78,8 +85,13 @@ sealed = unique(sealed_rows, "sealed review")
 adoptions = unique(adoption_rows, "user-directed suggested adoptions")
 
 expected = {
-    "inventory": 1589, "human": 1565, "priority": 199, "approved": 1366,
-    "excluded": 347, "authority": 323, "shadowed": 24,
+    "inventory": MACHINE_SOURCE_ITEMS,
+    "human": HUMAN_REVIEW_ITEMS,
+    "priority": PRIORITY_ITEMS,
+    "approved": DS_APPROVED_ITEMS,
+    "excluded": AUTHORITY_EXCLUDED_ITEMS,
+    "authority": AUTHORITY_RESOLUTIONS,
+    "shadowed": SHADOWED_ITEMS,
 }
 actual = {
     "inventory": len(inventory), "human": len(source), "priority": len(priority),
@@ -125,7 +137,9 @@ if not isinstance(target_rows, list):
     raise SystemExit("target manifest items missing")
 targets = unique(target_rows, "target manifest")
 if set(targets) != set(source):
-    raise SystemExit("target manifest does not match 1565 human queue")
+    raise SystemExit(
+        f"target manifest does not match {HUMAN_REVIEW_ITEMS} human queue"
+    )
 target_indices = {str(row["item_id"]): index for index, row in enumerate(target_rows)}
 if len(target_indices) != len(target_rows):
     raise SystemExit("target manifest external index is not unique")
@@ -186,6 +200,13 @@ if len(review_output) != expected["human"]:
 payload = {
     "schema": SCHEMA,
     "counts": expected,
+    "workbook": {
+        "file_name": WORKBOOK_FILE_NAME,
+        "sheet_name": WORKBOOK_SHEET_NAME,
+        "input_name": WORKBOOK_INPUT_NAME,
+        "preview_name": WORKBOOK_PREVIEW_NAME,
+        "inspect_name": WORKBOOK_INSPECT_NAME,
+    },
     "source_tsv": "magica/i18n_audit/release_v26_authority/pass20_remaining_manual_review.tsv",
     "priority_tsv": "magica/i18n_audit/release_v26_authority/pass20_priority_manual_review.tsv",
     "inventory_tsv": "magica/i18n_audit/release_v26_authority/pass20_machine_source_inventory.tsv",

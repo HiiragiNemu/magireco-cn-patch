@@ -68,10 +68,10 @@ class EffectiveAuthorityTests(unittest.TestCase):
         )
         self.assertEqual(tables["overrides.tsv"]["present_candidates"], 9)
         self.assertEqual(tables["fragments.tsv"]["present_candidates"], 7)
-        self.assertEqual(summary["human_reviewed_candidates"], 0)
+        self.assertEqual(summary["human_reviewed_candidates"], 3)
         self.assertEqual(
             tables["reviewed-candidates.tsv"]["authority_counts"],
-            {"new_proposal": 1565, "official_cn_dump": 62},
+            {"existing_human_reviewed": 3, "new_proposal": 1564, "official_cn_dump": 74},
         )
         self.assertEqual(
             tables["reviewed-candidates.tsv"]["source_batch_counts"]
@@ -81,10 +81,20 @@ class EffectiveAuthorityTests(unittest.TestCase):
         self.assertEqual(
             tables["reviewed-candidates.tsv"]["source_batch_counts"]
             ["pass20-rough-production-final-values-v1"],
-            1565,
+            1564,
+        )
+        self.assertEqual(
+            tables["reviewed-candidates.tsv"]["source_batch_counts"]
+            ["official-cn-branch-recovery-20260819"],
+            12,
+        )
+        self.assertEqual(
+            tables["reviewed-candidates.tsv"]["source_batch_counts"]
+            ["user-approved-branch-recovery-20260819"],
+            3,
         )
         self.assertEqual(summary["fatal_equal_weight_conflicts"], 0)
-        self.assertEqual(summary["resolved_conflicts"], 48)
+        self.assertEqual(summary["resolved_conflicts"], 49)
         self.assertEqual(summary["product_tree_writes"], 0)
         self.assertFalse(summary["magica_consumed"])
         self.assertFalse(summary["runtime_consumed"])
@@ -102,9 +112,9 @@ class EffectiveAuthorityTests(unittest.TestCase):
             MOD.normalized_sha256(ROOT / "i18n/migration-source-summary.json"),
         )
         for output_name, expected_rows in (
-            ("input-provenance.tsv", 4283),
-            ("effective.tsv", 2583),
-            ("conflicts.tsv", 48),
+            ("input-provenance.tsv", 4297),
+            ("effective.tsv", 2595),
+            ("conflicts.tsv", 49),
         ):
             record = summary["generated_outputs"][output_name]
             self.assertEqual(record["data_rows"], expected_rows)
@@ -114,7 +124,7 @@ class EffectiveAuthorityTests(unittest.TestCase):
             )
 
         provenance = read_tsv(ROOT / "i18n/generated/input-provenance.tsv")
-        self.assertEqual(len(provenance), 4283)
+        self.assertEqual(len(provenance), 4297)
         frontend_present = [
             row for row in provenance
             if row["source_file"] == "i18n/frontend-strings.tsv" and row["status"] == "present"
@@ -131,7 +141,7 @@ class EffectiveAuthorityTests(unittest.TestCase):
             and row["authority"] == "new_proposal"
             and row["status"] == "present"
         ]
-        self.assertEqual(len(rough_present), 1565)
+        self.assertEqual(len(rough_present), 1564)
         self.assertEqual(
             {row["source_batch"] for row in rough_present},
             {"pass20-rough-production-final-values-v1"},
