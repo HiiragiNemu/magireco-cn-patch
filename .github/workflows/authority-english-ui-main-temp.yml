@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - .github/workflows/authority-english-ui-main-temp.yml
+      - .github/authority-english-ui-trigger.txt
 
 permissions:
   contents: write
@@ -38,6 +39,7 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             .github/workflows/authority-english-ui-main-temp.yml
+            .github/authority-english-ui-trigger.txt
             magica/js/libs/**
             magica/i18n_audit/libs_json_completion_20260820/**
             magica/i18n_audit/release_v26_authority/machine_translation_review/**
@@ -61,7 +63,12 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git -C patch rev-parse HEAD)" = '${{ github.sha }}'
-          test "$(git -C patch rev-parse HEAD^)" = '0d68e93345355c2cbb8e9022f4256aaac3c19725'
+          git -C patch fetch origin 0d68e93345355c2cbb8e9022f4256aaac3c19725 --depth=1
+          git -C patch diff --quiet \
+            0d68e93345355c2cbb8e9022f4256aaac3c19725 \
+            HEAD -- \
+            magica/js/libs/cardList.json \
+            magica/js/libs/pieceList.json
           test "$(sha256sum publisher/tools/authority_inventory_temp.py.gz.b64 | cut -d' ' -f1)" = \
             '1a94ab46d2858e59d572ab17b063c0de8eb617075f29e464d50a2c3268c31483'
           base64 -d publisher/tools/authority_inventory_temp.py.gz.b64 | gzip -d > /tmp/authority_inventory.py
@@ -73,11 +80,12 @@ jobs:
         run: |
           python -X utf8 /tmp/authority_inventory.py patch wiki/data
 
-      - name: Remove temporary workflow and enforce exact write allowlist
+      - name: Remove temporary trigger/workflow and enforce exact write allowlist
         shell: bash
         run: |
           set -euo pipefail
           rm patch/.github/workflows/authority-english-ui-main-temp.yml
+          rm patch/.github/authority-english-ui-trigger.txt
           cd patch
           git diff --check
           mapfile -t changed < <(
@@ -86,6 +94,7 @@ jobs:
           printf 'Changed paths:\n'
           printf '  %s\n' "${changed[@]}"
           expected=(
+            '.github/authority-english-ui-trigger.txt'
             '.github/workflows/authority-english-ui-main-temp.yml'
             'magica/i18n_audit/english_ui_inventory_20260820/ASHLEY_RECORD_GAP.tsv'
             'magica/i18n_audit/english_ui_inventory_20260820/BATTLE_RUNTIME_ACTIONABLE_GAPS.tsv'
