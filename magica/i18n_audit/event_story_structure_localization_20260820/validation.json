@@ -1,0 +1,38 @@
+{
+  "schema": "magireco-cn-patch/event-story-structure-localization/v1",
+  "status": "PASS",
+  "source_main_commit": "1a79d74efdcd69d09b15358c67bc0467a3522c02",
+  "product_file": "magica/js/libs/eventStoryList.json",
+  "before_sha256": "df25d109772d2dfdd5480a48242cd32da11021647143c4eac4d52e6ba4218e05",
+  "after_sha256": "4d842c50ec7997a0c3e96a571d924e094ab1d8e9ad135d80456c8bc2f4ef3ff0",
+  "changes": {
+    "fields": 69,
+    "pointTitle": 18,
+    "storyTitle": 51,
+    "exact_structural_story_titles": 27,
+    "end_number_mixed_titles": 23,
+    "true_end_mixed_titles": 1
+  },
+  "semantic_scope": {
+    "included": [
+      "Story group labels",
+      "Prologue / Record / Intermission / Epilogue / TRUE END",
+      "End NoN and TRUE END suffixes inside numbered episode labels"
+    ],
+    "excluded": [
+      "scenario scripts",
+      "dialogue and character code-switching",
+      "ordinary event story titles not in the explicit map",
+      "Magia and other official game terms"
+    ]
+  },
+  "checks": {
+    "record_count_preserved": true,
+    "key_order_preserved": true,
+    "only_pointTitle_or_storyTitle_changed": true,
+    "storyIds_preserved": true,
+    "parsed_diff_equals_audit": true,
+    "targeted_english_residual_zero": true,
+    "json_round_trip": true
+  }
+}
