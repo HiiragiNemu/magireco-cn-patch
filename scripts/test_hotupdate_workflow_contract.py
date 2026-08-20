@@ -12,6 +12,8 @@ import unittest
 ROOT = Path(__file__).resolve().parent.parent
 WORKFLOW = ROOT / ".github" / "workflows" / "sync-and-upload.yml"
 PROMOTION = ROOT / "scripts" / "hotupdate_promotion.py"
+DOGE_SYNC = ROOT / "scripts" / "sync-dogecloud.py"
+PAN123_SYNC = ROOT / "scripts" / "sync-pan123-webdav.py"
 MIRROR_TRANSACTION = ROOT / "scripts" / "release_asset_transaction.py"
 RELEASE_BASELINE = ROOT / "scripts" / "hotupdate_release_baseline.py"
 
@@ -23,6 +25,8 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         cls.promotion_text = PROMOTION.read_text(encoding="utf-8")
         cls.mirror_transaction_text = MIRROR_TRANSACTION.read_text(encoding="utf-8")
         cls.release_baseline_text = RELEASE_BASELINE.read_text(encoding="utf-8")
+        cls.doge_text = DOGE_SYNC.read_text(encoding="utf-8")
+        cls.pan123_text = PAN123_SYNC.read_text(encoding="utf-8")
 
     @classmethod
     def workflow_jobs(cls) -> dict[str, str]:
@@ -236,7 +240,11 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("def rename_asset(asset_id, old_name, new_name):", self.text)
         self.assertIn("promote_available_assets(", self.text)
         self.assertIn('backup_name = f"{final_name}.rollback-{run_id}"', self.promotion_text)
-        self.assertIn('VERSION_LAST = {"version_js.json", "version_scenario.json", "manifest.json"}', self.text)
+        self.assertIn(
+            'VERSION_LAST = {"version_js.json", "version_scenario.json", "manifest.json",\n'
+            '                              APK_SIDECAR}',
+            self.text,
+        )
         self.assertIn("to_process.sort(key=lambda name:", self.text)
         js_zip = self.promotion_text.index('(\"js\", \"cn_js_update_new.zip\"')
         js_manifest = self.promotion_text.index('(\"js\", \"cn_js_update_manifest_new.json\"')
@@ -487,6 +495,59 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("head_object(", self.text)
         self.assertIn("首次镜像未完成", self.text)
         self.assertIn("变更快照有", self.text)
+
+    def test_apk_distribution_is_not_chained_to_hot_update_packaging(self):
+        """r2-sync 必须带 always()：APK 的分发不能被热更打包链连坐。
+
+        2026-08-20 的事故就是这条不成立：
+          · run #236 —— pack-js 红 → publish 的停链护栏红 → r2-sync 被跳过；
+          · run #239 —— 无内容变更 → pack-* 被 skip，skip 沿 needs 图向下
+            传递，publish 靠 always() 仍然绿，r2-sync 照样被跳过（整个 run
+            显示成功）。
+        而「构建完 APK 再 dispatch 过来」时上游 git 内容一个字节没变，走的
+        正是后一条。于是 APK 停在 Release 里上不了 CDN，闸门却由构建 CI 照抬
+        —— 玩家装完还低于闸门，无限更新。这条守卫钉住那次修复。
+        """
+        r2 = self.workflow_jobs()["r2-sync"]
+        self.assertIn("if: always() && needs.setup.result == 'success'", r2)
+        self.assertIn("apk_version: ${{ steps.sync_script.outputs.apk_version }}", r2)
+
+    def test_client_apk_is_owned_by_this_repository_everywhere(self):
+        """APK 与版本旁注的归属判据四处同源，漏改一处就会拿旧包盖新包。
+
+        构建 CI 直接把 APK 传进本仓库的 latest Release，上游那份是搬家前的
+        历史遗留。r2-sync / mirror-release / Doge / 123 云盘四条路各有一份
+        判据，任何一处退回「只认上游」，CDN 上就会被旧包盖回去。
+        """
+        pattern = re.compile(
+            r"LOCAL_OWNED_PREFIXES = \(['\"]magireco-latest['\"],\)")
+        self.assertEqual(len(pattern.findall(self.text)), 2)  # r2-sync + mirror
+        self.assertEqual(len(pattern.findall(self.doge_text)), 1)
+        self.assertEqual(len(pattern.findall(self.pan123_text)), 1)
+
+        jobs = self.workflow_jobs()
+        # r2-sync：上游全集去掉自有名，再并上本仓库自有名
+        self.assertIn("not is_local_owned(a['name'])", jobs["r2-sync"])
+        self.assertIn("assets_by_name.update(local_assets)", jobs["r2-sync"])
+        # mirror-release：既不从上游镜像下来，也不因为上游没有而被删掉
+        self.assertIn('if is_local_owned(a["name"]):', jobs["mirror-release"])
+        self.assertIn(
+            'actual_names = {n for n in final_assets if not is_local_owned(n)}',
+            jobs["mirror-release"],
+        )
+
+    def test_gate_version_is_reported_only_for_a_landed_apk(self):
+        """闸门的输入必须是「玩家真能装到的那一版」，否则宁可不报。"""
+        r2 = self.workflow_jobs()["r2-sync"]
+        # 旁注排在 APK 之后上传：中断时不会留下「版本已宣称、包还没上去」
+        self.assertIn('APK_SIDECAR}', r2)
+        # 三个前提缺一不报
+        self.assertIn("未处于已同步状态，本次不报告客户端版本", r2)
+        self.assertIn("与旁注 sha256 不符", r2)
+        # 无新增/更新时也报，让上一次失败的闸门提升能自愈
+        self.assertIn("emit_apk_version(assets_by_name, set(unchanged))", r2)
+        self.assertIn(
+            "emit_apk_version(assets_by_name, set(unchanged) | set(processed))", r2)
 
     def test_manual_default_is_js_only(self):
         block = re.search(

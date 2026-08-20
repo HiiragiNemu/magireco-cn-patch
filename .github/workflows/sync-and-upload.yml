@@ -1263,6 +1263,20 @@ jobs:
   r2-sync:
     runs-on: ubuntu-latest
     needs: [setup, publish]
+    # always()：APK 的分发不能被热更打包链连坐。没有它时有两条死法——
+    #   ① pack-js 红 → publish 的「打包失败即停链」护栏红 → 本 job 被跳过；
+    #   ② 没有内容变更 → pack-* 被 skip，而 **skip 会沿 needs 图向下传递**，
+    #      即使 publish 靠 always() 仍然成功，本 job 照样被跳过。
+    # ② 恰恰是「构建完 APK 再 dispatch 过来」这条路的常态：上游 git 内容一个
+    # 字节没变。于是 APK 每次都停在 Release 里上不了 CDN，闸门却照抬——
+    # 2026-08-20 玩家无限更新的根因（run #236 属 ①，run #239 属 ②，都实证）。
+    # publish 失败时本 job 同步的是 Release 上一份自洽的旧状态（热更转正是
+    # 事务式的，失败会回滚），不存在把半拉热更推上 CDN 的路径。
+    if: always() && needs.setup.result == 'success'
+    outputs:
+      apk_version: ${{ steps.sync_script.outputs.apk_version }}
+      apk_name:    ${{ steps.sync_script.outputs.apk_name }}
+      apk_size:    ${{ steps.sync_script.outputs.apk_size }}
     env:
       PYTHONUNBUFFERED: "1"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -1385,6 +1399,24 @@ jobs:
               # 非主线 APK（非 magireco-latest*）不上传，主线 APK 走 EdgeOne/R2
               if name.endswith('.apk') and not name.startswith('magireco-latest'): return True
               return False
+
+          # ══════════════════════════════════════════════════════════════
+          # 本仓库自有 asset（2026-08-21 起）
+          # ══════════════════════════════════════════════════════════════
+          # 客户端 APK 与它的版本旁注不再寄存到上游 Release 等镜像绕回来，
+          # 构建 CI 直接传进**本仓库**的 latest Release。所以这两个名字的权威
+          # 副本在本仓库：上游那份是搬家前的历史遗留、不再更新，必须让位，
+          # 否则每次同步都会拿一份越来越旧的包把 CDN 盖回去。
+          # 同一判据在 mirror-release、scripts/sync-dogecloud.py、
+          # scripts/sync-pan123-webdav.py 各有一份，四处必须一起改。
+          LOCAL_OWNED_PREFIXES = ('magireco-latest',)
+
+          def is_local_owned(name: str) -> bool:
+              return name.startswith(LOCAL_OWNED_PREFIXES)
+
+          # APK 的版本旁注：构建 CI 与 APK 一起上传，内容是本次构建的
+          # client.version / sha256 / size。闸门提升以它为准（见 bump-gate）。
+          APK_SIDECAR = 'magireco-latest-legacy-client.version.json'
 
           class R2Handler:
               def __init__(self, endpoint, access_key, secret_key,
@@ -1568,6 +1600,64 @@ jobs:
                    '--repo', os.environ.get("GITHUB_REPOSITORY", "")],
                   capture_output=True, text=True)
 
+          def gh_output(key, value):
+              path = os.environ.get('GITHUB_OUTPUT')
+              if not path:
+                  return
+              with open(path, 'a', encoding='utf-8') as f:
+                  f.write(f"{key}={value}\n")
+
+          def emit_apk_version(assets, synced):
+              """把「CDN 上现在是哪一版 APK」交给 bump-gate。
+
+              闸门只允许跟着**玩家真能装到的那个包**走，所以报告有三个前提，
+              少一条就不报。不报的代价是玩家少一次更新提示；报错的代价是
+              玩家陷入无限更新——两者不对称，所以这里一律宁可不报：
+                · APK 与旁注都处于已同步状态（本次刚传完，或指纹一致说明
+                  早就在桶里了）；
+                · 旁注里的 sha256 与 Release 上 APK asset 的 digest 一致；
+                · 旁注的 apk 字段确实指向这个 APK 名。
+              """
+              sidecar = assets.get(APK_SIDECAR)
+              if sidecar is None:
+                  skip(f"Release 上没有 {APK_SIDECAR}，本次不报告客户端版本")
+                  return
+              if APK_SIDECAR not in synced:
+                  skip(f"{APK_SIDECAR} 未处于已同步状态，本次不报告客户端版本")
+                  return
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(
+                          sidecar['browser_download_url'])) as resp:
+                      meta = json.loads(resp.read().decode())
+              except Exception as e:
+                  warn(f"读取 {APK_SIDECAR} 失败: {e}，本次不报告客户端版本")
+                  return
+              apk_name = meta.get('apk') or ''
+              apk = assets.get(apk_name)
+              if apk is None:
+                  warn(f"旁注指向的 {apk_name!r} 不在待同步集合里，不报告版本")
+                  return
+              if apk_name not in synced:
+                  skip(f"{apk_name} 未处于已同步状态，本次不报告客户端版本")
+                  return
+              want = str(meta.get('sha256') or '').lower()
+              got = str(apk.get('digest') or '').lower().replace('sha256:', '')
+              if not want or not got or want != got:
+                  err(f"{apk_name} 的 digest 与旁注 sha256 不符"
+                      f"（旁注 {want[:12] or '空'}… / asset {got[:12] or '空'}…），"
+                      "两者不是同一次构建的产物，不报告版本")
+                  return
+              version = str(meta.get('version') or '')
+              if not version:
+                  warn(f"{APK_SIDECAR} 里没有 version 字段，不报告版本")
+                  return
+              size = int(meta.get('size') or apk.get('size', 0))
+              ok(f"CDN 上的客户端版本: {c(C.BRIGHT_WHITE, version)}"
+                 f"（{apk_name}, {human_size(size)}）")
+              gh_output('apk_version', version)
+              gh_output('apk_name', apk_name)
+              gh_output('apk_size', str(size))
+
           def main():
               CONFIRM_CLEANUP = os.environ.get("CONFIRM_CLEANUP", "false") == "true"
 
@@ -1606,26 +1696,57 @@ jobs:
               if os.environ.get('GH_TOKEN'):
                   GH_HEADERS['Authorization'] = f"Bearer {os.environ['GH_TOKEN']}"
 
+              def fetch_latest_release(full_name):
+                  """取 <owner>/<repo> 的 latest Release；没有 Release 返回 None。"""
+                  try:
+                      req = urllib.request.Request(
+                          f"https://api.github.com/repos/{full_name}/releases/latest",
+                          headers=GH_HEADERS
+                      )
+                      with urllib.request.urlopen(req) as resp:
+                          return json.loads(resp.read().decode())
+                  except urllib.error.HTTPError as e:
+                      if e.code == 404:
+                          return None
+                      raise
+
               header(f"获取 {owner}/{repo} 最新 Release")
-              try:
-                  req = urllib.request.Request(
-                      f"https://api.github.com/repos/{owner}/{repo}/releases/latest",
-                      headers=GH_HEADERS
-                  )
-                  with urllib.request.urlopen(req) as resp:
-                      release = json.loads(resp.read().decode())
-              except urllib.error.HTTPError as e:
-                  if e.code == 404:
-                      warn("上游仓库无 Release，跳过")
-                      return
-                  raise
+              release = fetch_latest_release(f"{owner}/{repo}")
+              if release is None:
+                  warn("上游仓库无 Release，跳过")
+                  return
 
               info(f"Release: {c(C.BRIGHT_WHITE, release.get('name') or release.get('tag_name'))}")
-              current_map = {
-                  a['name']: a.get('digest', '')
+
+              # 待同步集合 = 上游全集（去掉本仓库自有名）∪ 本仓库自有名。
+              # 顺序不能反：同名时本仓库那份优先——它才是构建 CI 的落点。
+              assets_by_name = {
+                  a['name']: a
                   for a in release.get('assets', [])
-                  if not should_ignore_for_r2(a['name'])
+                  if not should_ignore_for_r2(a['name']) and not is_local_owned(a['name'])
               }
+              self_repo = os.environ.get('GITHUB_REPOSITORY', '')
+              local_release = fetch_latest_release(self_repo) if self_repo else None
+              local_assets = {
+                  a['name']: a
+                  for a in (local_release or {}).get('assets', [])
+                  if not should_ignore_for_r2(a['name']) and is_local_owned(a['name'])
+              }
+              # 过渡期兜底：本仓库还没有自有副本时仍用上游那份。少了这一段，
+              # 搬家当天 APK 会整个从待同步集合里消失，转头被当成「GitHub 上
+              # 已不存在」列进 PENDING_DELETIONS——那是要把玩家的下载链接删掉。
+              for a in release.get('assets', []):
+                  n = a['name']
+                  if (is_local_owned(n) and not should_ignore_for_r2(n)
+                          and n not in local_assets):
+                      warn(f"{n}：本仓库 Release 尚无自有副本，暂用上游那份")
+                      local_assets[n] = a
+              assets_by_name.update(local_assets)
+              if local_assets:
+                  info(f"本仓库自有 asset: {', '.join(sorted(local_assets))}")
+
+              current_map = {n: (a.get('digest') or '')
+                             for n, a in assets_by_name.items()}
               info(f"包含 {c(C.BOLD, str(len(current_map)))} 个待同步 asset")
 
               header("比对文件指纹")
@@ -1656,7 +1777,10 @@ jobs:
 
               # 内容包先上传，版本/配置文件最后上传，避免中断时出现
               # “新版本元数据已经可见、实际新内容尚未上传”的短暂错配。
-              VERSION_LAST = {"version_js.json", "version_scenario.json", "manifest.json"}
+              # 旁注也在此列：它是「这一版 APK 已经在 CDN 上」的凭据，
+              # 必须排在 APK 本体之后，否则中断时会留下「版本已宣称、包还没上去」。
+              VERSION_LAST = {"version_js.json", "version_scenario.json", "manifest.json",
+                              APK_SIDECAR}
               to_process.sort(key=lambda name: (1 if name in VERSION_LAST else 0, name))
 
               # ════════════════════════════════════════════════════════
@@ -1710,13 +1834,15 @@ jobs:
 
               if not to_process:
                   header("无新增/更新文件")
+                  # 没有新文件不等于不用报版本：闸门可能因为上一次 bump-gate
+                  # 失败（token 过期之类）还停在旧值，这里照报，让它自愈。
+                  emit_apk_version(assets_by_name, set(unchanged))
                   return
 
               header(f"上传 {len(to_process)} 个文件")
               processed = []
               for fname in to_process:
-                  source_asset = next(
-                      a for a in release['assets'] if a['name'] == fname)
+                  source_asset = assets_by_name[fname]
                   url = source_asset['browser_download_url']
                   if r2.upload_file_from_url(url, fname, source_asset['size']):
                       edgeone.purge_cache(edgeone_domain, fname)
@@ -1751,6 +1877,9 @@ jobs:
                   check=True
               )
               ok(f"指纹已保存（{c(C.BOLD, str(len(final_map)))} 个）")
+
+              header("报告 CDN 上的客户端版本（供 bump-gate 提升闸门）")
+              emit_apk_version(assets_by_name, set(unchanged) | set(processed))
 
           if __name__ == "__main__":
               try:
@@ -2014,6 +2143,15 @@ jobs:
           # GitHub 单个 Release asset 上限 2GiB
           MAX_ASSET = 2 * 1024**3
 
+          # 本仓库自有 asset：客户端 APK 与它的版本旁注由构建 CI 直接传进
+          # 本仓库，不从上游镜像。既不镜像下来（上游那份是搬家前的历史遗留，
+          # 镜像下来就是把新包盖回旧包），也不因为「上游没有」被当成移除项
+          # 删掉。判据与 r2-sync / doge / 123 三处同源，改一处要一起改。
+          LOCAL_OWNED_PREFIXES = ("magireco-latest",)
+
+          def is_local_owned(name):
+              return name.startswith(LOCAL_OWNED_PREFIXES)
+
           GH_HEADERS = {
               "Accept": "application/vnd.github+json",
               "X-GitHub-Api-Version": "2022-11-28",
@@ -2247,6 +2385,10 @@ jobs:
                       warn(f"{a['name']}（{human_size(a['size'])}）"
                            "超过 2GiB 上限，跳过", indent=1)
                       continue
+                  if is_local_owned(a["name"]):
+                      skip(f"{a['name']}：本仓库自有 asset，不从上游镜像",
+                           indent=1)
+                      continue
                   upstream_map[a["name"]] = (
                       a.get("digest") or "", a.get("size", 0),
                       a["browser_download_url"])
@@ -2255,7 +2397,8 @@ jobs:
               section("与下游 latest Release 比对（用于变更快照 / 是否跳过判定）")
               dn_rel = gh_api_json(
                   [f"repos/{MIRROR_REPO}/releases/tags/latest"])
-              dn_assets = ({a["name"]: a for a in dn_rel.get("assets", [])}
+              dn_assets = ({a["name"]: a for a in dn_rel.get("assets", [])
+                            if not is_local_owned(a["name"])}
                            if dn_rel else {})
               dn_map = {n: (a.get("digest") or "", a.get("size", 0))
                         for n, a in dn_assets.items()}
@@ -2383,7 +2526,8 @@ jobs:
                   err(f"上传后无法读取下游 latest Release: {exc}")
                   sys.exit(1)
               expected_names = set(upstream_map)
-              actual_names = set(final_assets)
+              # 自有 asset 不参与「与上游完全一致」的核验——它本来就只在这边有
+              actual_names = {n for n in final_assets if not is_local_owned(n)}
               if actual_names != expected_names:
                   err("下游 latest asset 集合与 upstream 不一致")
                   err(f"缺失: {sorted(expected_names - actual_names)}", indent=1)
