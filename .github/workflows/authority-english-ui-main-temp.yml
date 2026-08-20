@@ -70,10 +70,10 @@ jobs:
             magica/js/libs/cardList.json \
             magica/js/libs/pieceList.json
           test "$(sha256sum publisher/tools/authority_inventory_temp.py.gz.b64 | cut -d' ' -f1)" = \
-            '1a94ab46d2858e59d572ab17b063c0de8eb617075f29e464d50a2c3268c31483'
+            '168cf67806f5b5b07e8b952aec0e315dceaa5694fdb17422a75917522eb3b9a3'
           base64 -d publisher/tools/authority_inventory_temp.py.gz.b64 | gzip -d > /tmp/authority_inventory.py
           test "$(sha256sum /tmp/authority_inventory.py | cut -d' ' -f1)" = \
-            '68c329685bfa6363a5172721b70a07fedf0d632f8ea1a8d634a9f0da0d090063'
+            '4f729bbdfea0969a79d387d0cae1bcb86914f5b2133a0fc4f21bdd6c8bcd0722'
           python -m py_compile /tmp/authority_inventory.py
 
       - name: Apply exact authority matches and build inventories
