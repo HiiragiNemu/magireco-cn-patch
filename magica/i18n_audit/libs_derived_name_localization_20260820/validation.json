@@ -1,0 +1,42 @@
+{
+  "schema": "magireco-cn-patch/libs-derived-name-localization/v1",
+  "status": "PASS",
+  "source_main_commit": "d5fe4034092217b27cc76e9793dae089f401db02",
+  "changes": {
+    "fields": 16,
+    "files": [
+      "cardList.json",
+      "itemList.json",
+      "pieceSkillMap.json",
+      "sectionList.json",
+      "shopItemList.json"
+    ],
+    "by_source_tier": {
+      "current-charaList-name-in-existing-cn-title": 1,
+      "current-charaList-stable-character": 6,
+      "current-pieceList-item-name-authority": 4,
+      "current-pieceList-title-authority": 5
+    }
+  },
+  "checks": {
+    "only_display_name_or_title_fields_changed": true,
+    "record_counts_and_key_order_preserved": true,
+    "parsed_diff_equals_audit": true,
+    "all_changed_json_parse": true,
+    "scenario_description_message_untouched": true
+  },
+  "before_sha256": {
+    "cardList.json": "4379d1477cb0f7980198cec34b3b12111692bb2573ecb4f43b2fe40d64a13b6e",
+    "itemList.json": "261630763ada116fb4cb155af51cb01e8e1e69186b40abc0c8cb3d68c0c55c33",
+    "pieceSkillMap.json": "c2cb847702ec50bb673f39bf95cb304ffe69288dd88aebed7b748b3594eb26a3",
+    "sectionList.json": "1652d2070f30bb8d4500cc51433ed5439ee2048d9c6004ac0bf8fd70f956677a",
+    "shopItemList.json": "db028283ee141eea5279c81fe73d71323528e2ee12779073d6861e88b352dfd6"
+  },
+  "after_sha256": {
+    "cardList.json": "5101b3adf4472b3a4ad9058be18f159fd35a1aa653f277570ba900cafcd0c979",
+    "itemList.json": "298260d4bf66e9f7d87470601355ed566249c1df32cdd07808e9663592bf4814",
+    "pieceSkillMap.json": "73751262484acb9a1d85aca8e856e386a2aa6a048a26ad091d66c69520035675",
+    "sectionList.json": "08711e909d951cea5b67310e1157b9c76a3fba7a23b3f9a67a6aa08344e98955",
+    "shopItemList.json": "8245a5addddad7840b6afbec9738952c8c63734f10dd2be2cf6f739588e55771"
+  }
+}
