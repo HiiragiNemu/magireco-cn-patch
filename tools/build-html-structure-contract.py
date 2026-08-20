@@ -45,6 +45,20 @@ VERSION_DIVERGENT_PATHS = frozenset({
     "magica/template/quest/SubQuest.html",
 })
 
+# These strict matches entered the product from the old-CN tree before they
+# existed in the Git baseline.  Keep their external authority binding after
+# commit instead of silently changing the source to the committed product.
+OLD_CN_STRICT_PATHS = frozenset({
+    "magica/template/config/deleteUserData/popupComplete.html",
+    "magica/template/config/deleteUserData/popupConfirm.html",
+    "magica/template/config/deleteUserData/popupError.html",
+    "magica/template/config/deleteUserData/popupInputPlayerID.html",
+    "magica/template/config/deleteUserData/popupReConfirm.html",
+    "magica/template/event/EventWitch/parts/MemoriaDetailPopup.html",
+    "magica/template/item/ItemSalePopup.html",
+    "magica/template/quest/QuestDetailPopup.html",
+})
+
 EVIDENCE_FILES = (
     "tools/apply-missing-html-authority.py",
     "magica/research/totentanz-full-localization-20260817/"
@@ -305,6 +319,24 @@ def select_reference(
     raise AssertionError(f"no structure source for {product_path}")
 
 
+def select_pinned_old_cn_reference(
+    old_cn: Path,
+    product_path: str,
+) -> tuple[str, str, bytes]:
+    """Bind a product path to its old-CN authority reference.
+
+    These files intentionally retain a newer product structure while reusing
+    selected old-CN visible text.  Once the localized product is committed,
+    ``git HEAD`` also contains that newer structure, so the normal source
+    priority would select HEAD and make a fresh external-source rebuild
+    impossible.  The explicit old-CN binding keeps the contract reproducible.
+    """
+    relative = product_path.removeprefix("magica/")
+    old_path = old_cn / Path(relative)
+    assert old_path.is_file(), f"missing old-CN reference for {product_path}"
+    return "magicaOLD", str(old_path.resolve()), old_path.read_bytes()
+
+
 def build_contract(
     root: Path,
     totentanz: Path = DEFAULT_TOTENTANZ,
@@ -323,17 +355,19 @@ def build_contract(
     source_counts: Counter[str] = Counter()
     strict_matches = 0
     for product_path in paths:
-        kind, locator, reference_raw = select_reference(
-            root, product_path, head, head_paths, totentanz, old_cn
-        )
+        divergent = product_path in VERSION_DIVERGENT_PATHS
+        if divergent or product_path in OLD_CN_STRICT_PATHS:
+            kind, locator, reference_raw = select_pinned_old_cn_reference(
+                old_cn, product_path
+            )
+        else:
+            kind, locator, reference_raw = select_reference(
+                root, product_path, head, head_paths, totentanz, old_cn
+            )
         product_raw = (root / product_path).read_bytes()
         product_structure = structure_signature(product_raw)
         reference_structure = structure_signature(reference_raw)
-        divergent = product_path in VERSION_DIVERGENT_PATHS
         if divergent:
-            assert kind == "magicaOLD", (
-                f"version-divergent path unexpectedly has a newer source: {product_path}"
-            )
             assert product_structure != reference_structure, (
                 f"version-divergent path no longer differs: {product_path}"
             )
@@ -532,9 +566,14 @@ def main() -> int:
         contract,
         verify_external_sources=not args.verify,
     )
-    write_json(args.verification, verification)
-    args.report.parent.mkdir(parents=True, exist_ok=True)
-    args.report.write_text(render_report(verification), encoding="utf-8", newline="\n")
+    # Offline verification is a read-only release gate.  It must not replace
+    # the tracked external-source acquisition evidence with an offline result.
+    if not args.verify:
+        write_json(args.verification, verification)
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(
+            render_report(verification), encoding="utf-8", newline="\n"
+        )
     sys.stdout.buffer.write(
         (json.dumps(verification, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     )
