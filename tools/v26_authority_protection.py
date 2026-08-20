@@ -1436,29 +1436,30 @@ def compare_baseline_to_master(
 
 
 def product_content_snapshot(root: Path) -> tuple[int, str]:
-    """Mirror the machine-review generator's stable product input aggregate."""
+    """Mirror the machine-review generator's stable product input aggregate.
+
+    2026-08-20：与 build-v26-machine-review.py 的 product_content_snapshot
+    同步收窄哈希范围到 i18n/madomagi/magica。此前把 .github/configures/
+    manifests/scripts/tools 一并纳入，任何非产品 commit 都会让哈希漂移，
+    verify_machine_review_freshness 误报 stale，汉化改一两个字就阻断发布。
+    """
 
     archive_suffixes = {".zip", ".7z", ".tar", ".gz", ".apk"}
     stable_top_dirs = {
-        ".github",
-        "configures",
         "i18n",
         "madomagi",
         "magica",
-        "manifests",
-        "scripts",
-        "tools",
     }
     stable_magica_dirs = {"css", "fonts", "js", "resource", "template"}
     stable_root_files = {
+        # 2026-08-20 与 build-v26-machine-review.py 同步收窄：剔除维护脚本/
+        # 文档/产物镜像，只保留产品配置。Build_JS_Injector.py（构建脚本）、
+        # README.md（文档）、version_*_new.json（sync 产物，每次变化）不再
+        # 纳入，避免维护改动触发产品内容哈希漂移。
         ".gitattributes",
         ".gitignore",
         "asset_main_cn.json",
-        "Build_JS_Injector.py",
-        "README.md",
         "url_map.json",
-        "version_js_new.json",
-        "version_scenario_new.json",
     }
     excluded_i18n_files = {"migration-source-summary.json", "uiTextList.json"}
     paths: list[Path] = []

@@ -5,13 +5,13 @@
 
 ## 总览
 
-- 全量统一主表：**12,930** 行（`full_machine_translation_review.tsv`）
+- 全量统一主表：**12,933** 行（`full_machine_translation_review.tsv`）
 - runtime residual／非 residual：**9,665**
 - static JS／HTML：**303**
 - frontend：**1,685**（含 **53** 条空候选）
 - Wiki glossary 支撑层：**955**
 - overrides／fragments：**16**
-- engine runtime：**303**（官方 6：稳定 ID 4、art-ID 拼接 1、官方 UI 原样保留 1；结构性空项 1；来源未知 296）
+- engine runtime：**306**（官方 6：稳定 ID 4、art-ID 拼接 1、官方 UI 原样保留 1；结构性空项 1；来源未知 299）
 - battle miss 候选但未进入 runtime：**3**
 - battle runtime 全量采样：**20** 个唯一 miss，含 **8** 条语言决策；7 条 actionable、1 条国服原样保留、12 条中文／非语言项
 - Pass18：**939**，其中 **12** 条 root 亲译仍待人工复核
