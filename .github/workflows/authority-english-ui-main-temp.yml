@@ -69,7 +69,8 @@ jobs:
             0d68e93345355c2cbb8e9022f4256aaac3c19725 \
             HEAD -- \
             magica/js/libs/cardList.json \
-            magica/js/libs/pieceList.json
+            magica/js/libs/pieceList.json \
+            magica/js/libs/sectionList.json
           test "$(sha256sum publisher/tools/authority_inventory_temp.py.gz.b64 | cut -d' ' -f1)" = \
             '168cf67806f5b5b07e8b952aec0e315dceaa5694fdb17422a75917522eb3b9a3'
           base64 -d publisher/tools/authority_inventory_temp.py.gz.b64 | gzip -d > /tmp/authority_inventory.py
@@ -77,9 +78,122 @@ jobs:
             '4f729bbdfea0969a79d387d0cae1bcb86914f5b2133a0fc4f21bdd6c8bcd0722'
           python -m py_compile /tmp/authority_inventory.py
 
+      - name: Pre-apply every stable Kyubert section authority match
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          path = Path('patch/magica/js/libs/sectionList.json')
+          source_sha = hashlib.sha256(path.read_bytes()).hexdigest()
+          assert source_sha == '1652d2070f30bb8d4500cc51433ed5439ee2048d9c6004ac0bf8fd70f956677a', source_sha
+
+          characters = json.loads(Path('wiki/data/characters.json').read_text(encoding='utf-8-sig'))
+          record = next(v for v in characters.values() if str(v.get('charaId')) == '1042')
+          assert record.get('nameZh') == '小丘比'
+
+          data = json.loads(path.read_text(encoding='utf-8-sig'))
+          by_id = {row['sectionId']: row for row in data}
+          targets = {
+              310421: {'charaName': ('Kyubert', '小丘比')},
+              310422: {'charaName': ('Kyubert', '小丘比')},
+              310423: {'charaName': ('Kyubert', '小丘比')},
+              310424: {
+                  'title': ('Kyubert 的试炼', '小丘比的试炼'),
+                  'charaName': ('Kyubert', '小丘比'),
+              },
+          }
+          for section_id, fields in targets.items():
+              for field, (before, after) in fields.items():
+                  assert by_id[section_id].get(field) == before, (section_id, field, by_id[section_id].get(field))
+                  by_id[section_id][field] = after
+          path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          assert hashlib.sha256(path.read_bytes()).hexdigest() == '5c2b02945d2c4430d885f7232b60ced0e228c397deaa60dca1efc394c05cb8b1'
+          PY
+
       - name: Apply exact authority matches and build inventories
         run: |
           python -X utf8 /tmp/authority_inventory.py patch wiki/data
+
+      - name: Bind section corrections into provenance and validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv
+          import hashlib
+          import json
+          from pathlib import Path
+
+          repo = Path('patch')
+          audit = repo / 'magica/i18n_audit/libs_json_completion_20260820'
+          inventory = repo / 'magica/i18n_audit/english_ui_inventory_20260820'
+          section_path = repo / 'magica/js/libs/sectionList.json'
+          section_sha = hashlib.sha256(section_path.read_bytes()).hexdigest()
+          assert section_sha == '5c2b02945d2c4430d885f7232b60ced0e228c397deaa60dca1efc394c05cb8b1'
+
+          base = {
+              'application_stage': 'this-commit',
+              'file': 'magica/js/libs/sectionList.json',
+              'source_tier': '2_wiki_character+runtime_same_character+existing_cn_phrase',
+              'source_repository': 'HiiragiNemu/wiki-data',
+              'source_commit': '2a27d64e3c59c893c177c5349b3a6c8134117aea',
+              'source_record': 'data/characters.json::charaId=1042::nameZh; magica/js/libs/charaList.json::id=1042::name',
+              'match_method': 'sectionId 稳定记录 + 同角色权威名称；标题仅替换其中的角色名，保留现有中文语义',
+              'confidence': '高',
+          }
+          rows = [
+              {**base, 'review_id': 'LIBS-SECTION-310421-CHARANAME', 'stable_id': 'sectionId=310421', 'field': 'charaName', 'before': 'Kyubert', 'after': '小丘比'},
+              {**base, 'review_id': 'LIBS-SECTION-310422-CHARANAME', 'stable_id': 'sectionId=310422', 'field': 'charaName', 'before': 'Kyubert', 'after': '小丘比'},
+              {**base, 'review_id': 'LIBS-SECTION-310423-CHARANAME', 'stable_id': 'sectionId=310423', 'field': 'charaName', 'before': 'Kyubert', 'after': '小丘比'},
+              {**base, 'review_id': 'LIBS-SECTION-310424-TITLE', 'stable_id': 'sectionId=310424', 'field': 'title', 'before': 'Kyubert 的试炼', 'after': '小丘比的试炼'},
+              {**base, 'review_id': 'LIBS-SECTION-310424-CHARANAME', 'stable_id': 'sectionId=310424', 'field': 'charaName', 'before': 'Kyubert', 'after': '小丘比'},
+          ]
+
+          def append_rows(path: Path, additions, review: bool) -> None:
+              with path.open(encoding='utf-8-sig', newline='') as handle:
+                  reader = csv.DictReader(handle, delimiter='\t')
+                  existing = list(reader)
+                  fields = list(reader.fieldnames or [])
+              assert not ({r['review_id'] for r in existing} & {r['review_id'] for r in additions})
+              materialized = []
+              for row in additions:
+                  item = dict(row)
+                  if review:
+                      item['reviewer_decision'] = ''
+                      item['reviewer_notes'] = ''
+                  materialized.append(item)
+              with path.open('w', encoding='utf-8-sig', newline='') as handle:
+                  writer = csv.DictWriter(handle, fieldnames=fields, delimiter='\t', lineterminator='\n', extrasaction='ignore')
+                  writer.writeheader()
+                  writer.writerows(existing + materialized)
+
+          append_rows(audit / 'AUTHORITY_APPLIED.tsv', rows, False)
+          append_rows(audit / 'HUMAN_REVIEW_CHECKLIST.tsv', rows, True)
+
+          for path in (audit / 'validation.json', inventory / 'validation.json'):
+              value = json.loads(path.read_text(encoding='utf-8'))
+              files = value['product_changes']['files']
+              if 'magica/js/libs/sectionList.json' not in files:
+                  files.append('magica/js/libs/sectionList.json')
+              value['source']['sectionList_before_sha256'] = '1652d2070f30bb8d4500cc51433ed5439ee2048d9c6004ac0bf8fd70f956677a'
+              value['product_changes']['section_name_and_title_fields'] = 5
+              value['product_changes']['actual_diff_fields_this_commit'] = 16
+              value['product_changes']['sectionList_after_sha256'] = section_sha
+              value['checks']['kyubert_section_alignment'] = True
+              path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          readme = (audit / 'README.md').read_text(encoding='utf-8')
+          marker = '- 本提交将 `cardId=10424/10425` 的 `Kyubert` 统一为 `小丘比`；这一名称同时得到 Wiki `charaId=1042` 与当前 `charaList.json` 支持。\n'
+          addition = marker + '- 本提交同步修正 `sectionId=310421/310422/310423/310424` 的 4 个 `charaName`，以及 `sectionId=310424` 的标题 `Kyubert 的试炼` → `小丘比的试炼`。\n'
+          assert marker in readme
+          readme = readme.replace(marker, addition)
+          readme = readme.replace('- `cardList.json`：2 个 `cardName`\n', '- `cardList.json`：2 个 `cardName`\n- `sectionList.json`：4 个 `charaName`、1 个 `title`\n')
+          (audit / 'README.md').write_text(readme, encoding='utf-8')
+          PY
 
       - name: Remove temporary trigger/workflow and enforce exact write allowlist
         shell: bash
@@ -114,6 +228,7 @@ jobs:
             'magica/i18n_audit/libs_json_completion_20260820/validation.json'
             'magica/js/libs/cardList.json'
             'magica/js/libs/pieceList.json'
+            'magica/js/libs/sectionList.json'
           )
           mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | sort)
           test "${#changed[@]}" -eq "${#expected_sorted[@]}"
@@ -128,12 +243,17 @@ jobs:
           assert validation['status'] == 'PASS'
           assert validation['product_changes']['piece_title_fields'] == 9
           assert validation['product_changes']['card_name_fields'] == 2
+          assert validation['product_changes']['section_name_and_title_fields'] == 5
+          assert validation['product_changes']['actual_diff_fields_this_commit'] == 16
+          assert validation['inventory']['pure_latin_player_visible_occurrences_after'] == 423
+          assert validation['inventory']['pure_latin_unique_groups_after'] == 196
+          assert validation['inventory']['mixed_latin_player_visible_occurrences_after'] == 10869
           assert validation['inventory']['ashley_charaMessage_rows'] == 0
           assert validation['inventory']['battle_actionable_rows_from_recorded_audit'] == 7
           with (root / 'magica/i18n_audit/libs_json_completion_20260820/AUTHORITY_APPLIED.tsv').open(encoding='utf-8-sig', newline='') as handle:
               rows = list(csv.DictReader(handle, delimiter='\t'))
-          assert len(rows) == 14
-          assert sum(row['application_stage'] == 'this-commit' for row in rows) == 11
+          assert len(rows) == 19
+          assert sum(row['application_stage'] == 'this-commit' for row in rows) == 16
           assert not (root / 'magica/i18n_audit/libs_json_completion_20260820/RETAINED_BY_POLICY.tsv').exists()
           for path in sorted((root / 'magica/js/libs').glob('*.json')):
               json.loads(path.read_text(encoding='utf-8-sig'))
