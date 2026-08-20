@@ -110,7 +110,7 @@
 
 <!-- 対戦相手パーツ -->
 <script type="text/template" id="arenaParts">
-	<p class="enemyRank">Rank<%='<%= model.userRank%\>'%></p>
+	<p class="enemyRank">等级<%='<%= model.userRank%\>'%></p>
 	<p class="matchingUserName arenaColor"><%='<%= _.escape(model.userName) %\>'%></p>
 	<%="<% if(model.displayTitle) { %\>"%>
 		<div class="userTitle_s <%="<%= model.displayTitle.font %\>"%>">

@@ -18,7 +18,10 @@ from v26_authority_protection import (
     EXPECTED_MASTER_TOTAL,
     EXPECTED_OFFLINE_AUTHORITY_OVERLAYS,
     EXPECTED_PASS16_ADDITIONS,
+    EXPECTED_PASS16_APPLIED_FIELDS,
     EXPECTED_PASS16_PROTECTED_FIELDS,
+    EXPECTED_PASS16_SUPERSEDED_FIELDS,
+    EXPECTED_PASS16_SUPERSEDED_SOURCE_TIERS,
     EXPECTED_PASS19_APPLIED_CHANGES,
     EXPECTED_PASS19_CONTRACTS,
     EXPECTED_PASS19_FINAL_OCCURRENCES,
@@ -29,6 +32,7 @@ from v26_authority_protection import (
     MASTER_REL,
     PASS19_APPLIED_OCCURRENCE_ORDINALS,
     PROTECTED_TSV_REL,
+    VISIBLE_TERM_CLOSURE_REL,
     ProtectionError,
     aggregate_sha256,
     build_snapshot,
@@ -73,13 +77,40 @@ class AuthorityProtectionTests(unittest.TestCase):
         candidates = [row for row in self.master if candidate_only_metadata(row)]
         self.assertEqual(EXPECTED_CANDIDATE_ONLY_METADATA, len(candidates))
         self.assertNotIn(candidates[0], selected)
-        # 2026-08-20 同步 HiiragiNemu i18n 合并：MT-01965 来源改为 legacy-ai
-        # （不再满足 official source_bucket 候选条件），MT-01968（official
-        # 新增候选）成为唯一候选。
-        self.assertEqual("MT-01968", candidates[0]["record_id"])
+        self.assertEqual(
+            ("i18n/frontend-strings.tsv", "global:6ec4009aee4bddf7aa31", "candidate_cn"),
+            (candidates[0]["file"], candidates[0]["stable_key_or_line"], candidates[0]["field"]),
+        )
         overlays = [row for row in self.master if offline_authority_overlay_metadata(row)]
         self.assertEqual(EXPECTED_OFFLINE_AUTHORITY_OVERLAYS, len(overlays))
         self.assertTrue(all(row not in selected for row in overlays))
+        selected_root = [
+            row for row in selected if row["source_bucket"] == "new-root-human"
+        ]
+        self.assertEqual(304, len(selected_root))
+        self.assertEqual(
+            301,
+            sum(
+                row["source_batch"] == "confirmed-human-ap-timer"
+                for row in selected_root
+            ),
+        )
+        self.assertTrue(
+            all(
+                row["review_status"]
+                in {"authority-verified", "confirmed-human-verified"}
+                for row in selected_root
+            )
+        )
+        self.assertFalse(
+            any(
+                row["source_tier"] == "root-reviewed-official-cn-terminology"
+                or row["review_status"] == "root-reviewed-approved"
+                or "llm" in row["source_tier"].lower()
+                or "codex" in row["source_tier"].lower()
+                for row in selected
+            )
+        )
 
     def test_pass16_all_occurrences_are_merged_by_stable_identity(self) -> None:
         pass16 = protected_rows_from_pass16(ROOT)
@@ -88,6 +119,25 @@ class AuthorityProtectionTests(unittest.TestCase):
         self.assertEqual(EXPECTED_TOTAL_WITH_PASS19, len(combined))
         self.assertEqual(EXPECTED_BUCKETS_WITH_PASS19, counts_by(combined, "source_bucket"))
         self.assertEqual(EXPECTED_PASS16_ADDITIONS, merge["pass16_added"])
+        self.assertEqual(
+            EXPECTED_PASS16_SUPERSEDED_FIELDS,
+            merge["pass16_superseded_non_authority_fields"],
+        )
+        self.assertEqual(
+            EXPECTED_PASS16_SUPERSEDED_FIELDS,
+            EXPECTED_PASS16_APPLIED_FIELDS - 1 - len(pass16),
+        )
+        self.assertEqual(
+            {"2_wiki_component": 1, "2_wiki_explicit_pair": 26},
+            EXPECTED_PASS16_SUPERSEDED_SOURCE_TIERS,
+        )
+        self.assertFalse(
+            any(
+                row["source_tier"] == "root-reviewed-official-cn-terminology"
+                or row["review_status"] == "root-reviewed-approved"
+                for row in pass16
+            )
+        )
         self.assertEqual(
             EXPECTED_PASS16_PROTECTED_FIELDS - EXPECTED_PASS16_ADDITIONS,
             merge["pass16_overlap"],
@@ -106,6 +156,36 @@ class AuthorityProtectionTests(unittest.TestCase):
         self.assertEqual(EXPECTED_PASS19_CONTRACTS, merge["pass19_contracts"])
         self.assertEqual(EXPECTED_PASS19_APPLIED_CHANGES, merge["pass19_protected_occurrences"])
         self.assertEqual(EXPECTED_PASS19_FINAL_OCCURRENCES, merge["pass19_final_occurrences"])
+
+    def test_pass16_unexplained_root_reviewed_supersession_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            shutil.copytree(
+                ROOT / "magica/i18n_audit/manual_cn_pass16",
+                root / "magica/i18n_audit/manual_cn_pass16",
+            )
+            shutil.copytree(ROOT / "magica/js/libs", root / "magica/js/libs")
+            closure = root / VISIBLE_TERM_CLOSURE_REL
+            closure.parent.mkdir(parents=True, exist_ok=True)
+            lines = (ROOT / VISIBLE_TERM_CLOSURE_REL).read_text(
+                encoding="utf-8"
+            ).splitlines()
+            target = next(
+                index
+                for index, line in enumerate(lines)
+                if line.startswith("DICT-02408\t")
+            )
+            lines[target] = lines[target].replace(
+                "runtime_visible_term_closure_root_reviewed",
+                "unbound-test-value",
+            )
+            closure.write_text(
+                "\n".join(lines) + "\n", encoding="utf-8", newline="\n"
+            )
+            with self.assertRaisesRegex(
+                ProtectionError, "not an exact non-authority visible-term supersession"
+            ):
+                protected_rows_from_pass16(root)
 
     def test_pass19_applied_ordinals_and_external_evidence_contract_is_exact(self) -> None:
         source_rows = read_tsv(
@@ -210,13 +290,47 @@ class AuthorityProtectionTests(unittest.TestCase):
 
     def test_product_snapshot_excludes_self_referential_maintenance_files(self) -> None:
         before = product_content_snapshot(ROOT)
-        probe = ROOT / "tools" / ".authority-snapshot-probe.txt"
-        self.assertFalse(probe.exists())
+        probes = [
+            ROOT / "tools" / ".authority-snapshot-probe.txt",
+            ROOT / "scripts" / ".authority-snapshot-probe.txt",
+            ROOT / ".github" / ".authority-snapshot-probe.txt",
+        ]
+        self.assertTrue(all(not probe.exists() for probe in probes))
         try:
-            probe.write_text("maintenance-only\n", encoding="utf-8", newline="\n")
+            for probe in probes:
+                probe.parent.mkdir(parents=True, exist_ok=True)
+                probe.write_text("maintenance-only\n", encoding="utf-8", newline="\n")
             self.assertEqual(before, product_content_snapshot(ROOT))
         finally:
+            for probe in probes:
+                probe.unlink(missing_ok=True)
+
+    def test_product_snapshot_includes_runtime_product_file(self) -> None:
+        before = product_content_snapshot(ROOT)
+        probe = ROOT / "magica" / "js" / ".authority-product-probe.txt"
+        self.assertFalse(probe.exists())
+        try:
+            probe.write_text("runtime-product\n", encoding="utf-8", newline="\n")
+            self.assertNotEqual(before, product_content_snapshot(ROOT))
+        finally:
             probe.unlink(missing_ok=True)
+
+    def test_rebuilding_protected_authority_does_not_change_product_snapshot(self) -> None:
+        """Generated protection outputs must never invalidate their input guard."""
+
+        before = product_content_snapshot(ROOT)
+        protection_dir = ROOT / PROTECTED_TSV_REL.parent
+        with tempfile.TemporaryDirectory(
+            prefix=".snapshot-rebuild-", dir=protection_dir
+        ) as folder:
+            output_dir = Path(folder)
+            build_snapshot(
+                ROOT,
+                output_tsv=output_dir / "protected_translation_fields.tsv",
+                output_manifest=output_dir / "protection_manifest.json",
+            )
+            self.assertEqual(before, product_content_snapshot(ROOT))
+        self.assertEqual(before, product_content_snapshot(ROOT))
 
     def test_product_file_hash_normalizes_utf8_crlf_but_not_binary(self) -> None:
         with tempfile.TemporaryDirectory() as folder:

@@ -45,7 +45,7 @@
   </div>
   <div id="rankingListWrap">
     <div id="rankingTitle" class="gbFontWhite"></div>
-    <div id="topScrollBtn" class="sb_gold_01 se_decide TE">移至TOP</div>
+    <div id="topScrollBtn" class="sb_gold_01 se_decide TE">返回顶部</div>
     <ul id="dailyTabWrap" class="common_tab_s t_gold"> <% for (var i=0; i<Object.keys(dailyRankingList).length; ++i) { %> <li class="rankingTab se_tabs TE" data-type="daily" data-id="<%= i+1 %>"><%= i+1 %>天</li> <% } %> </ul>
     <ul id="groupTabWrap" class="common_tab_s t_gold">
       <li class="rankingTab se_tabs TE" data-type="group" data-id="S">S</li>
@@ -86,7 +86,7 @@
 	</div>
 
 	<div class="userName gbFontWhite"><%='<%= _.escape(model.loginName) %\>'%></div>
-	<div class="userRank gbFontWhite">RANK <%='<%= model.level %\>'%></div>
+	<div class="userRank gbFontWhite">等级 <%='<%= model.level %\>'%></div>
 	<%='<% if (model.type == "total") { %\>'%>
 	<div class="damageTitle gbFontWhite">总伤害</div>
 	<%='<% } else { %\>'%>
@@ -123,7 +123,7 @@
 
 	<div class="groupName gbFontWhite"><%='<%= model.name %\>'%></div>
 	<div class="userName gbFontWhite"><%='<%= _.escape(model.topUserName) %\>'%></div>
-	<div class="userRank gbFontWhite">RANK <%='<%= model.topUserRank %\>'%></div>
+	<div class="userRank gbFontWhite">等级 <%='<%= model.topUserRank %\>'%></div>
 	<div class="dailyDamageTitle gbFontWhite">单日最大伤害</div>
 	<div class="dailyDamageValue gbFontImgS">
 		<%='<% _.forEach(String(model.topUserMaxDailyDamage).split(""),function(txt){ %\>'%>

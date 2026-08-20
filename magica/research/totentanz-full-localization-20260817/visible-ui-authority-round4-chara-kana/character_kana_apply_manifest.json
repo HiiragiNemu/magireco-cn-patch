@@ -1,0 +1,2555 @@
+{
+  "schema_version": "chara-kana-visible-localization-v1",
+  "generated_at": "2026-08-18T19:02:40.949395+00:00",
+  "mode": "report-only-manifest-no-product-edits",
+  "repository": {
+    "root": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813",
+    "branch": "release/js-v26-authority-final-20260813",
+    "head": "d204454ea1fe74cfa984a7db1f68a0f5d70fc4b1"
+  },
+  "runtime_binding": {
+    "template_path": "magica/template/chara/CharaDetail.html",
+    "line": 13,
+    "literal": "<p class=\"charaKana\"><%= model.chara.kana %></p>",
+    "template_sha256": "5753a59866e1bdce29b3b16f8adb63f300125bf720e9ac40dbfd95539dc306bb"
+  },
+  "authority_evidence": {
+    "official_cn_structural_convention": {
+      "path": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Decoded_MyPage.json",
+      "sha256": "a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db",
+      "unique_chara_records": 65,
+      "kana_equals_name": 65,
+      "result": "65/65 official CN character records use Chinese name in kana"
+    },
+    "wiki_characters": {
+      "path": "D:\\magia\\MyProducts\\wiki-data\\data\\characters.json",
+      "sha256": "fb79761e4a1d05076f7f32c109a514229ee624523be22bf338d54b8a6fe8160f",
+      "literal_nameZh_exact_operations": 118
+    },
+    "stable_id_same_record_inheritance_operations": 21
+  },
+  "target_contract": {
+    "path": "magica/js/libs/charaList.json",
+    "absolute_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\js\\libs\\charaList.json",
+    "before_sha256": "f0721c3b52e1f22b4b321d70f8df6479e266fbd1e2e144f0a13134a8341e3e3d",
+    "before_canonical_semantic_sha256": "3e750446697a8879041c1b96cb00f0d6d4f4274b9ef1a210208815e2df7e3c0d",
+    "simulated_after_canonical_semantic_sha256": "db54f7b35e89b27756f8e4f32f3d584cebad0e2b592f2049b8b8ac0d91d24481",
+    "expected_record_count": 231,
+    "operation_count": 139,
+    "allowed_field": "kana",
+    "selector": "unique integer id",
+    "forbidden_other_field_changes": true
+  },
+  "apply_contract": [
+    "verify target byte SHA-256 equals before_sha256 before applying",
+    "parse JSON list and require exactly one record for every selector.id",
+    "require record.kana equals before and record.name equals guard.name_must_equal",
+    "replace only record.kana with after; reject any other semantic field change",
+    "recheck 231 records, 139 operations, unique IDs, and zero Latin letters in every kana field",
+    "serialize using the repository deterministic JSON builder; then rebuild the embedded jquery dictionary from the same 23 dictionaries"
+  ],
+  "operations": [
+    {
+      "item_id": "CHARA-KANA-CN-1020",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1020
+      },
+      "record_index_hint": 19,
+      "field": "kana",
+      "before": "Satori Kagome",
+      "after": "佐鸟笼目",
+      "guard": {
+        "name_must_equal": "佐鸟笼目"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#佐鸟笼目;charaId=1020;nameZh=佐鸟笼目",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1021",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1021
+      },
+      "record_index_hint": 20,
+      "field": "kana",
+      "before": "Kureha Yuna",
+      "after": "红晴结菜",
+      "guard": {
+        "name_must_equal": "红晴结菜"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#红晴结菜;charaId=1021;nameZh=红晴结菜",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1022",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1022
+      },
+      "record_index_hint": 21,
+      "field": "kana",
+      "before": "Kirari Hikaru",
+      "after": "煌里光",
+      "guard": {
+        "name_must_equal": "煌里光"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#煌里光;charaId=1022;nameZh=煌里光",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1023",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1023
+      },
+      "record_index_hint": 22,
+      "field": "kana",
+      "before": "Kasane Ao",
+      "after": "笠音青",
+      "guard": {
+        "name_must_equal": "笠音青"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#笠音青;charaId=1023;nameZh=笠音青",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1024",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1024
+      },
+      "record_index_hint": 23,
+      "field": "kana",
+      "before": "Oba Juri",
+      "after": "大庭树里",
+      "guard": {
+        "name_must_equal": "大庭树里"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#大庭树里;charaId=1024;nameZh=大庭树里",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1025",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1025
+      },
+      "record_index_hint": 24,
+      "field": "kana",
+      "before": "Tokime Shizuka",
+      "after": "时女静香",
+      "guard": {
+        "name_must_equal": "时女静香"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#时女静香;charaId=1025;nameZh=时女静香",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1027",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1027
+      },
+      "record_index_hint": 26,
+      "field": "kana",
+      "before": "Toki Sunao",
+      "after": "土岐沙绪",
+      "guard": {
+        "name_must_equal": "土岐沙绪"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#土岐沙绪;charaId=1027;nameZh=土岐沙绪",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1028",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1028
+      },
+      "record_index_hint": 27,
+      "field": "kana",
+      "before": "Aika Himena",
+      "after": "蓝家姬奈",
+      "guard": {
+        "name_must_equal": "蓝家姬奈"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#蓝家姬奈;charaId=1028;nameZh=蓝家姬奈",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1029",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1029
+      },
+      "record_index_hint": 28,
+      "field": "kana",
+      "before": "Miyabi Shigure",
+      "after": "宫尾时雨",
+      "guard": {
+        "name_must_equal": "宫尾时雨"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#宫尾时雨;charaId=1029;nameZh=宫尾时雨",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1030",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1030
+      },
+      "record_index_hint": 29,
+      "field": "kana",
+      "before": "Azumi Hagumu",
+      "after": "安积育梦",
+      "guard": {
+        "name_must_equal": "安积育梦"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#安积育梦;charaId=1030;nameZh=安积育梦",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1031",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1031
+      },
+      "record_index_hint": 30,
+      "field": "kana",
+      "before": "Kagura San",
+      "after": "神乐灿",
+      "guard": {
+        "name_must_equal": "神乐灿"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#神乐灿;charaId=1031;nameZh=神乐灿",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1032",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1032
+      },
+      "record_index_hint": 31,
+      "field": "kana",
+      "before": "Yukari Miyuri",
+      "after": "游狩美由利",
+      "guard": {
+        "name_must_equal": "游狩美由利"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#游狩美由利;charaId=1032;nameZh=游狩美由利",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1033",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1033
+      },
+      "record_index_hint": 32,
+      "field": "kana",
+      "before": "Himuro Lavi",
+      "after": "冰室拉比",
+      "guard": {
+        "name_must_equal": "冰室拉比"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#冰室拉比;charaId=1033;nameZh=冰室拉比",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1034",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1034
+      },
+      "record_index_hint": 33,
+      "field": "kana",
+      "before": "Miura Asahi",
+      "after": "三浦旭",
+      "guard": {
+        "name_must_equal": "三浦旭"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#三浦旭;charaId=1034;nameZh=三浦旭",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1035",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1035
+      },
+      "record_index_hint": 34,
+      "field": "kana",
+      "before": "Kurusu Alexandra",
+      "after": "栗栖亚历山德拉",
+      "guard": {
+        "name_must_equal": "栗栖亚历山德拉"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#栗栖亚历山德拉;charaId=1035;nameZh=栗栖亚历山德拉",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1036",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1036
+      },
+      "record_index_hint": 35,
+      "field": "kana",
+      "before": "Yume Urara",
+      "after": "有爱丽",
+      "guard": {
+        "name_must_equal": "有爱丽"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#有爱丽;charaId=1036;nameZh=有爱丽",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1037",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1037
+      },
+      "record_index_hint": 36,
+      "field": "kana",
+      "before": "Satomi Nayuta",
+      "after": "里见那由他",
+      "guard": {
+        "name_must_equal": "里见那由他"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#里见那由他;charaId=1037;nameZh=里见那由他",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1038",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1038
+      },
+      "record_index_hint": 37,
+      "field": "kana",
+      "before": "Yakumo Mikage",
+      "after": "八云御影",
+      "guard": {
+        "name_must_equal": "八云御影"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#八云御影;charaId=1038;nameZh=八云御影",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1039",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1039
+      },
+      "record_index_hint": 38,
+      "field": "kana",
+      "before": "Sawa Yozuru",
+      "after": "佐和月出里",
+      "guard": {
+        "name_must_equal": "佐和月出里"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#佐和月出里;charaId=1039;nameZh=佐和月出里",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1040",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1040
+      },
+      "record_index_hint": 39,
+      "field": "kana",
+      "before": "Sasame Yozuru",
+      "after": "篠目夜鹤",
+      "guard": {
+        "name_must_equal": "篠目夜鹤"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#篠目夜鹤;charaId=1040;nameZh=篠目夜鹤",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1041",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1041
+      },
+      "record_index_hint": 40,
+      "field": "kana",
+      "before": "Livia Medeiros",
+      "after": "莉薇娅·梅黛洛斯",
+      "guard": {
+        "name_must_equal": "莉薇娅·梅黛洛斯"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#莉薇娅_梅黛洛斯;charaId=1041;nameZh=莉薇娅·梅黛洛斯",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1042",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1042
+      },
+      "record_index_hint": 41,
+      "field": "kana",
+      "before": "Chiisana Kyūbē",
+      "after": "小丘比",
+      "guard": {
+        "name_must_equal": "小丘比"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#小丘比;charaId=1042;nameZh=小丘比",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1043",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1043
+      },
+      "record_index_hint": 42,
+      "field": "kana",
+      "before": "Kuroe",
+      "after": "黑江",
+      "guard": {
+        "name_must_equal": "黑江"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#黑江;charaId=1043;nameZh=黑江",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1044",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1044
+      },
+      "record_index_hint": 43,
+      "field": "kana",
+      "before": "Sena Mikoto",
+      "after": "濑奈命",
+      "guard": {
+        "name_must_equal": "濑奈命"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#濑奈命;charaId=1044;nameZh=濑奈命",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1045",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1045
+      },
+      "record_index_hint": 44,
+      "field": "kana",
+      "before": "Mizuna Tsuyu",
+      "after": "水名露",
+      "guard": {
+        "name_must_equal": "水名露"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#水名露;charaId=1045;nameZh=水名露",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1046",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1046
+      },
+      "record_index_hint": 45,
+      "field": "kana",
+      "before": "Chizuru",
+      "after": "千鹤",
+      "guard": {
+        "name_must_equal": "千鹤"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#千鹤;charaId=1046;nameZh=千鹤",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1047",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1047
+      },
+      "record_index_hint": 46,
+      "field": "kana",
+      "before": "Kuro",
+      "after": "小黑",
+      "guard": {
+        "name_must_equal": "小黑"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#小黑;charaId=1047;nameZh=小黑",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1048",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1048
+      },
+      "record_index_hint": 47,
+      "field": "kana",
+      "before": "Ebony",
+      "after": "埃博妮",
+      "guard": {
+        "name_must_equal": "埃博妮"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#埃博妮;charaId=1048;nameZh=埃博妮",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1049",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1049
+      },
+      "record_index_hint": 48,
+      "field": "kana",
+      "before": "Olga",
+      "after": "奥尔加",
+      "guard": {
+        "name_must_equal": "奥尔加"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#奥尔加;charaId=1049;nameZh=奥尔加",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1050",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1050
+      },
+      "record_index_hint": 49,
+      "field": "kana",
+      "before": "Gunhild",
+      "after": "冈希尔德",
+      "guard": {
+        "name_must_equal": "冈希尔德"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#冈希尔德;charaId=1050;nameZh=冈希尔德",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1051",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1051
+      },
+      "record_index_hint": 50,
+      "field": "kana",
+      "before": "Heruka",
+      "after": "赫露迦",
+      "guard": {
+        "name_must_equal": "赫露迦"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#赫露迦;charaId=1051;nameZh=赫露迦",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1052",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1052
+      },
+      "record_index_hint": 51,
+      "field": "kana",
+      "before": "Toyo",
+      "after": "台与",
+      "guard": {
+        "name_must_equal": "台与"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#台与;charaId=1052;nameZh=台与",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1053",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1053
+      },
+      "record_index_hint": 52,
+      "field": "kana",
+      "before": "Amaryllis",
+      "after": "阿玛琉莉丝",
+      "guard": {
+        "name_must_equal": "阿玛琉莉丝"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#阿玛琉莉丝;charaId=1053;nameZh=阿玛琉莉丝",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1102",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1102
+      },
+      "record_index_hint": 54,
+      "field": "kana",
+      "before": "Yachiyo·Mifuyu",
+      "after": "八千代·美冬",
+      "guard": {
+        "name_must_equal": "八千代·美冬"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1102;same-record-name=八千代·美冬;same-record-title=起始ver.;characters.json#八千代_美冬_起始ver;charaId=1102;nameZh=八千代·美冬（起始ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1104",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1104
+      },
+      "record_index_hint": 56,
+      "field": "kana",
+      "before": "Uwasa no Sana",
+      "after": "传闻莎奈",
+      "guard": {
+        "name_must_equal": "传闻莎奈"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1104;same-record-name=传闻莎奈;same-record-title=;characters.json#谣莎奈;charaId=1104;nameZh=谣莎奈",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1106",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1106
+      },
+      "record_index_hint": 58,
+      "field": "kana",
+      "before": "Azusa Mifuyu",
+      "after": "梓美冬",
+      "guard": {
+        "name_must_equal": "梓美冬"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#梓美冬;charaId=1006;nameZh=梓美冬",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1107",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1107
+      },
+      "record_index_hint": 59,
+      "field": "kana",
+      "before": "Touka·Nemu",
+      "after": "灯花·音梦",
+      "guard": {
+        "name_must_equal": "灯花·音梦"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1107;same-record-name=灯花·音梦;same-record-title=圣夜ver.;characters.json#灯花_音梦_圣夜ver;charaId=1107;nameZh=灯花·音梦（圣夜ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1109",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1109
+      },
+      "record_index_hint": 61,
+      "field": "kana",
+      "before": "Rena Chan",
+      "after": "小玲奈",
+      "guard": {
+        "name_must_equal": "小玲奈"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1109;same-record-name=小玲奈;same-record-title=偶像ver.;characters.json#小玲奈_偶像ver;charaId=1109;nameZh=小玲奈（偶像ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1110",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1110
+      },
+      "record_index_hint": 62,
+      "field": "kana",
+      "before": "Togame Momoko",
+      "after": "十咎桃子",
+      "guard": {
+        "name_must_equal": "十咎桃子"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#十咎桃子;charaId=1010;nameZh=十咎桃子",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1112",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1112
+      },
+      "record_index_hint": 63,
+      "field": "kana",
+      "before": "Karin・Alina",
+      "after": "花凛·阿莉娜",
+      "guard": {
+        "name_must_equal": "花凛·阿莉娜"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1112;same-record-name=花凛·阿莉娜;same-record-title=万圣节ver.;characters.json#花凛_阿莉娜_万圣ver;charaId=1112;nameZh=花凛·阿莉娜（万圣ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1113",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1113
+      },
+      "record_index_hint": 64,
+      "field": "kana",
+      "before": "Tatsuki Asuka",
+      "after": "龙城明日香",
+      "guard": {
+        "name_must_equal": "龙城明日香"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#龙城明日香;charaId=1013;nameZh=龙城明日香",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1116",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1116
+      },
+      "record_index_hint": 65,
+      "field": "kana",
+      "before": "Izumi Kanagi",
+      "after": "和泉十七夜",
+      "guard": {
+        "name_must_equal": "和泉十七夜"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#和泉十七夜;charaId=1016;nameZh=和泉十七夜",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1120",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1120
+      },
+      "record_index_hint": 68,
+      "field": "kana",
+      "before": "Satori Kagome",
+      "after": "佐鸟笼目",
+      "guard": {
+        "name_must_equal": "佐鸟笼目"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#佐鸟笼目;charaId=1020;nameZh=佐鸟笼目",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1121",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1121
+      },
+      "record_index_hint": 69,
+      "field": "kana",
+      "before": "Yuna・Juri",
+      "after": "结菜·树里",
+      "guard": {
+        "name_must_equal": "结菜·树里"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1121;same-record-name=结菜·树里;same-record-title=吸血鬼ver.;characters.json#结菜_树里_吸血鬼ver;charaId=1121;nameZh=结菜·树里（吸血鬼ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1125",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1125
+      },
+      "record_index_hint": 70,
+      "field": "kana",
+      "before": "Tokime Shizuka",
+      "after": "时女静香",
+      "guard": {
+        "name_must_equal": "时女静香"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#时女静香;charaId=1025;nameZh=时女静香",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1133",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1133
+      },
+      "record_index_hint": 71,
+      "field": "kana",
+      "before": "Himuro Lavi",
+      "after": "冰室拉比",
+      "guard": {
+        "name_must_equal": "冰室拉比"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#冰室拉比;charaId=1033;nameZh=冰室拉比",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1137",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1137
+      },
+      "record_index_hint": 72,
+      "field": "kana",
+      "before": "Nayuta·Mikage",
+      "after": "那由他·御影",
+      "guard": {
+        "name_must_equal": "那由他·御影"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1137;same-record-name=那由他·御影;same-record-title=圣诞ver.;characters.json#那由他_御影_圣诞ver;charaId=1137;nameZh=那由他·御影（圣诞ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1139",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1139
+      },
+      "record_index_hint": 73,
+      "field": "kana",
+      "before": "Sawa Yozuru",
+      "after": "佐和月出里",
+      "guard": {
+        "name_must_equal": "佐和月出里"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#佐和月出里;charaId=1039;nameZh=佐和月出里",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1143",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1143
+      },
+      "record_index_hint": 74,
+      "field": "kana",
+      "before": "Kuroe",
+      "after": "黑江",
+      "guard": {
+        "name_must_equal": "黑江"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#黑江;charaId=1043;nameZh=黑江",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1144",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1144
+      },
+      "record_index_hint": 75,
+      "field": "kana",
+      "before": "Uwasa no Mikoto",
+      "after": "谣命",
+      "guard": {
+        "name_must_equal": "谣命"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#谣命;charaId=1144;nameZh=谣命",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1202",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1202
+      },
+      "record_index_hint": 77,
+      "field": "kana",
+      "before": "Nanami Yachiyo",
+      "after": "七海八千代",
+      "guard": {
+        "name_must_equal": "七海八千代"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#七海八千代;charaId=1002;nameZh=七海八千代",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1203",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1203
+      },
+      "record_index_hint": 78,
+      "field": "kana",
+      "before": "Tsuruno・Felicia",
+      "after": "鹤乃·菲莉希亚",
+      "guard": {
+        "name_must_equal": "鹤乃·菲莉希亚"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1203;same-record-name=鹤乃·菲莉希亚;same-record-title=宅配ver.;characters.json#鹤乃_菲莉希亚_快递ver;charaId=1203;nameZh=鹤乃·菲莉希亚（快递ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1209",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1209
+      },
+      "record_index_hint": 79,
+      "field": "kana",
+      "before": "Rena·Kaede",
+      "after": "玲奈·枫",
+      "guard": {
+        "name_must_equal": "玲奈·枫"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1209;same-record-name=玲奈·枫;same-record-title=泳装ver.;characters.json#玲奈_枫_泳装ver;charaId=1209;nameZh=玲奈·枫（泳装ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1210",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1210
+      },
+      "record_index_hint": 80,
+      "field": "kana",
+      "before": "Momoko·Mitama",
+      "after": "桃子·御魂",
+      "guard": {
+        "name_must_equal": "桃子·御魂"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1210;same-record-name=桃子·御魂;same-record-title=人鱼ver.;characters.json#桃子_御魂_人鱼ver;charaId=1210;nameZh=桃子·御魂（人鱼ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1216",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1216
+      },
+      "record_index_hint": 81,
+      "field": "kana",
+      "before": "Izumi Kanagi",
+      "after": "和泉十七夜",
+      "guard": {
+        "name_must_equal": "和泉十七夜"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#和泉十七夜;charaId=1016;nameZh=和泉十七夜",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1217",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1217
+      },
+      "record_index_hint": 82,
+      "field": "kana",
+      "before": "Yakumo Mitama",
+      "after": "八云御魂",
+      "guard": {
+        "name_must_equal": "八云御魂"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#八云御魂;charaId=1017;nameZh=八云御魂",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1302",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1302
+      },
+      "record_index_hint": 84,
+      "field": "kana",
+      "before": "Nanami Yachiyo",
+      "after": "七海八千代",
+      "guard": {
+        "name_must_equal": "七海八千代"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#七海八千代;charaId=1002;nameZh=七海八千代",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1303",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1303
+      },
+      "record_index_hint": 85,
+      "field": "kana",
+      "before": "Uwasa no Tsuruno",
+      "after": "传闻鹤乃",
+      "guard": {
+        "name_must_equal": "传闻鹤乃"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1303;same-record-name=传闻鹤乃;same-record-title=动画ver.;characters.json#谣鹤乃_动画ver;charaId=1303;nameZh=谣鹤乃（动画ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1309",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1309
+      },
+      "record_index_hint": 86,
+      "field": "kana",
+      "before": "Minami Rena",
+      "after": "水波玲奈",
+      "guard": {
+        "name_must_equal": "水波玲奈"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#水波玲奈;charaId=1009;nameZh=水波玲奈",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1401",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1401
+      },
+      "record_index_hint": 87,
+      "field": "kana",
+      "before": "Iroha·Ui",
+      "after": "彩羽·忧",
+      "guard": {
+        "name_must_equal": "彩羽·忧"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1401;same-record-name=彩羽·忧;same-record-title=巫女ver.;characters.json#伊吕波_忧_巫女ver;charaId=1401;nameZh=伊吕波·忧（巫女ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1402",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1402
+      },
+      "record_index_hint": 88,
+      "field": "kana",
+      "before": "Nanami Yachiyo",
+      "after": "七海八千代",
+      "guard": {
+        "name_must_equal": "七海八千代"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#七海八千代;charaId=1002;nameZh=七海八千代",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1501",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1501
+      },
+      "record_index_hint": 89,
+      "field": "kana",
+      "before": "Tamaki Iroha",
+      "after": "环彩羽",
+      "guard": {
+        "name_must_equal": "环彩羽"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1501;same-record-name=环彩羽;same-record-title=动画ver.;characters.json#环伊吕波_动画ver;charaId=1501;nameZh=环伊吕波（动画ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1502",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1502
+      },
+      "record_index_hint": 90,
+      "field": "kana",
+      "before": "Nanami Yachiyo",
+      "after": "七海八千代",
+      "guard": {
+        "name_must_equal": "七海八千代"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#七海八千代;charaId=1002;nameZh=七海八千代",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1601",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1601
+      },
+      "record_index_hint": 91,
+      "field": "kana",
+      "before": "Infinity Iroha",
+      "after": "∞彩羽",
+      "guard": {
+        "name_must_equal": "∞彩羽"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1601;same-record-name=∞彩羽;same-record-title=;characters.json#伊吕波;charaId=1601;nameZh=∞伊吕波",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1701",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1701
+      },
+      "record_index_hint": 92,
+      "field": "kana",
+      "before": "Mugendai Iroha",
+      "after": "无限大小彩羽",
+      "guard": {
+        "name_must_equal": "无限大小彩羽"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1701;same-record-name=无限大小彩羽;same-record-title=;characters.json#无限大小伊吕波;charaId=1701;nameZh=无限大小伊吕波",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-1801",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 1801
+      },
+      "record_index_hint": 93,
+      "field": "kana",
+      "before": "Iroha・Kuroe",
+      "after": "彩羽·黑江",
+      "guard": {
+        "name_must_equal": "彩羽·黑江"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=1801;same-record-name=彩羽·黑江;same-record-title=;characters.json#伊吕波_黑江;charaId=1801;nameZh=伊吕波·黑江",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2009",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2009
+      },
+      "record_index_hint": 101,
+      "field": "kana",
+      "before": "Aki Mabayu",
+      "after": "爱生眩",
+      "guard": {
+        "name_must_equal": "爱生眩"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#爱生眩;charaId=2009;nameZh=爱生眩",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2103",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2103
+      },
+      "record_index_hint": 105,
+      "field": "kana",
+      "before": "Ultimate Madoka Senpai",
+      "after": "究极小圆前辈",
+      "guard": {
+        "name_must_equal": "究极小圆前辈"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#究极小圆前辈;charaId=2103;nameZh=究极小圆前辈",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2104",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2104
+      },
+      "record_index_hint": 106,
+      "field": "kana",
+      "before": "Madoka・Iroha",
+      "after": "圆·彩羽",
+      "guard": {
+        "name_must_equal": "圆·彩羽"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=2104;same-record-name=圆·彩羽;same-record-title=;characters.json#圆_伊吕波;charaId=2104;nameZh=圆·伊吕波",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2105",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2105
+      },
+      "record_index_hint": 107,
+      "field": "kana",
+      "before": "Kaname Madoka",
+      "after": "鹿目圆",
+      "guard": {
+        "name_must_equal": "鹿目圆"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#鹿目圆;charaId=2001;nameZh=鹿目圆",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2106",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2106
+      },
+      "record_index_hint": 108,
+      "field": "kana",
+      "before": "Kaname Madoka",
+      "after": "鹿目圆",
+      "guard": {
+        "name_must_equal": "鹿目圆"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#鹿目圆;charaId=2001;nameZh=鹿目圆",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2107",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2107
+      },
+      "record_index_hint": 109,
+      "field": "kana",
+      "before": "Madoka Senpai·Iroha Chan",
+      "after": "小圆前辈·小彩羽",
+      "guard": {
+        "name_must_equal": "小圆前辈·小彩羽"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=2107;same-record-name=小圆前辈·小彩羽;same-record-title=;characters.json#小圆前辈_小伊吕波;charaId=2107;nameZh=小圆前辈·小伊吕波",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2201",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2201
+      },
+      "record_index_hint": 110,
+      "field": "kana",
+      "before": "Akuma Homura Chan",
+      "after": "恶魔小焰",
+      "guard": {
+        "name_must_equal": "恶魔小焰"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#恶魔小焰;charaId=2201;nameZh=恶魔小焰",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2202",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2202
+      },
+      "record_index_hint": 111,
+      "field": "kana",
+      "before": "Akuma Homura",
+      "after": "恶魔焰",
+      "guard": {
+        "name_must_equal": "恶魔焰"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#恶魔焰;charaId=2202;nameZh=恶魔焰",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2203",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2203
+      },
+      "record_index_hint": 112,
+      "field": "kana",
+      "before": "Akemi Homura",
+      "after": "晓美焰",
+      "guard": {
+        "name_must_equal": "晓美焰"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#晓美焰;charaId=2002;nameZh=晓美焰",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2301",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2301
+      },
+      "record_index_hint": 114,
+      "field": "kana",
+      "before": "Akemi Homura",
+      "after": "晓美焰",
+      "guard": {
+        "name_must_equal": "晓美焰"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#晓美焰;charaId=2002;nameZh=晓美焰",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2400",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2400
+      },
+      "record_index_hint": 115,
+      "field": "kana",
+      "before": "Miki Sayaka",
+      "after": "美树沙耶香",
+      "guard": {
+        "name_must_equal": "美树沙耶香"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#美树沙耶香;charaId=2004;nameZh=美树沙耶香",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2401",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2401
+      },
+      "record_index_hint": 116,
+      "field": "kana",
+      "before": "Miki Sayaka",
+      "after": "美树沙耶香",
+      "guard": {
+        "name_must_equal": "美树沙耶香"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#美树沙耶香;charaId=2004;nameZh=美树沙耶香",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2402",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2402
+      },
+      "record_index_hint": 117,
+      "field": "kana",
+      "before": "Miki Sayaka",
+      "after": "美树沙耶香",
+      "guard": {
+        "name_must_equal": "美树沙耶香"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#美树沙耶香;charaId=2004;nameZh=美树沙耶香",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2501",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2501
+      },
+      "record_index_hint": 119,
+      "field": "kana",
+      "before": "Tomoe Mami",
+      "after": "巴麻美",
+      "guard": {
+        "name_must_equal": "巴麻美"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#巴麻美;charaId=2005;nameZh=巴麻美",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2502",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2502
+      },
+      "record_index_hint": 120,
+      "field": "kana",
+      "before": "Holy Mami",
+      "after": "圣麻美",
+      "guard": {
+        "name_must_equal": "圣麻美"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#圣麻美;charaId=2500;nameZh=圣麻美",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2503",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2503
+      },
+      "record_index_hint": 121,
+      "field": "kana",
+      "before": "Tomoe Mami",
+      "after": "巴麻美",
+      "guard": {
+        "name_must_equal": "巴麻美"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#巴麻美;charaId=2005;nameZh=巴麻美",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2601",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2601
+      },
+      "record_index_hint": 123,
+      "field": "kana",
+      "before": "Sakura Kyoko",
+      "after": "佐仓杏子",
+      "guard": {
+        "name_must_equal": "佐仓杏子"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#佐仓杏子;charaId=2006;nameZh=佐仓杏子",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2602",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2602
+      },
+      "record_index_hint": 124,
+      "field": "kana",
+      "before": "Sakura Kyoko",
+      "after": "佐仓杏子",
+      "guard": {
+        "name_must_equal": "佐仓杏子"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#佐仓杏子;charaId=2006;nameZh=佐仓杏子",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2700",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2700
+      },
+      "record_index_hint": 125,
+      "field": "kana",
+      "before": "Momoe Nagisa",
+      "after": "百江渚",
+      "guard": {
+        "name_must_equal": "百江渚"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#百江渚;charaId=2007;nameZh=百江渚",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-2701",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 2701
+      },
+      "record_index_hint": 126,
+      "field": "kana",
+      "before": "Momoe Nagisa",
+      "after": "百江渚",
+      "guard": {
+        "name_must_equal": "百江渚"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#百江渚;charaId=2007;nameZh=百江渚",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3017",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3017
+      },
+      "record_index_hint": 143,
+      "field": "kana",
+      "before": "Nanase Yukika",
+      "after": "七濑幸佳",
+      "guard": {
+        "name_must_equal": "七濑幸佳"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#七濑幸佳;charaId=3017;nameZh=七濑幸佳",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3021",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3021
+      },
+      "record_index_hint": 147,
+      "field": "kana",
+      "before": "Suzuka Sakuya",
+      "after": "铃鹿朔夜",
+      "guard": {
+        "name_must_equal": "铃鹿朔夜"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#铃鹿朔夜;charaId=3021;nameZh=铃鹿朔夜",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3022",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3022
+      },
+      "record_index_hint": 148,
+      "field": "kana",
+      "before": "Inami Man",
+      "after": "伊并满",
+      "guard": {
+        "name_must_equal": "伊并满"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#伊并满;charaId=3022;nameZh=伊并满",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3024",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3024
+      },
+      "record_index_hint": 150,
+      "field": "kana",
+      "before": "Wakana Tsumugi",
+      "after": "若菜纺",
+      "guard": {
+        "name_must_equal": "若菜纺"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#若菜纺;charaId=3024;nameZh=若菜纺",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3034",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3034
+      },
+      "record_index_hint": 160,
+      "field": "kana",
+      "before": "Megumi Moka",
+      "after": "惠萌花",
+      "guard": {
+        "name_must_equal": "惠萌花"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#惠萌花;charaId=3034;nameZh=惠萌花",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3036",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3036
+      },
+      "record_index_hint": 162,
+      "field": "kana",
+      "before": "Yuki Maria",
+      "after": "由贵真里爱",
+      "guard": {
+        "name_must_equal": "由贵真里爱"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#由贵真里爱;charaId=3036;nameZh=由贵真里爱",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3038",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3038
+      },
+      "record_index_hint": 164,
+      "field": "kana",
+      "before": "Komachi Mikura",
+      "after": "古町美仓",
+      "guard": {
+        "name_must_equal": "古町美仓"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#古町美仓;charaId=3038;nameZh=古町美仓",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3039",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3039
+      },
+      "record_index_hint": 165,
+      "field": "kana",
+      "before": "Mihono Seira",
+      "after": "三穗野星罗",
+      "guard": {
+        "name_must_equal": "三穗野星罗"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#三穗野星罗;charaId=3039;nameZh=三穗野星罗",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3040",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3040
+      },
+      "record_index_hint": 166,
+      "field": "kana",
+      "before": "Kira Temari",
+      "after": "吉良手鞠",
+      "guard": {
+        "name_must_equal": "吉良手鞠"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#吉良手鞠;charaId=3040;nameZh=吉良手鞠",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3041",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3041
+      },
+      "record_index_hint": 167,
+      "field": "kana",
+      "before": "Yuzuki Hotori",
+      "after": "柚希步鸟",
+      "guard": {
+        "name_must_equal": "柚希步鸟"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#柚希步鸟;charaId=3041;nameZh=柚希步鸟",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3042",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3042
+      },
+      "record_index_hint": 168,
+      "field": "kana",
+      "before": "Hibiki Meguru",
+      "after": "枇枇木巡",
+      "guard": {
+        "name_must_equal": "枇枇木巡"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#枇枇木巡;charaId=3042;nameZh=枇枇木巡",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3044",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3044
+      },
+      "record_index_hint": 170,
+      "field": "kana",
+      "before": "Chizu Ranka",
+      "after": "智珠兰华",
+      "guard": {
+        "name_must_equal": "智珠兰华"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#智珠兰华;charaId=3044;nameZh=智珠兰华",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3045",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3045
+      },
+      "record_index_hint": 171,
+      "field": "kana",
+      "before": "Yuzuki Rion",
+      "after": "柚希理音",
+      "guard": {
+        "name_must_equal": "柚希理音"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#柚希理音;charaId=3045;nameZh=柚希理音",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3047",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3047
+      },
+      "record_index_hint": 173,
+      "field": "kana",
+      "before": "Aoba Chika",
+      "after": "青叶知花",
+      "guard": {
+        "name_must_equal": "青叶知花"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#青叶知花;charaId=3047;nameZh=青叶知花",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3048",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3048
+      },
+      "record_index_hint": 174,
+      "field": "kana",
+      "before": "Yura Hotaru",
+      "after": "由良萤",
+      "guard": {
+        "name_must_equal": "由良萤"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#由良萤;charaId=3048;nameZh=由良萤",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3050",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3050
+      },
+      "record_index_hint": 176,
+      "field": "kana",
+      "before": "Kaharu Yuuna",
+      "after": "香春优奈",
+      "guard": {
+        "name_must_equal": "香春优奈"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#香春优奈;charaId=3050;nameZh=香春优奈",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3051",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3051
+      },
+      "record_index_hint": 177,
+      "field": "kana",
+      "before": "Kazari Jun",
+      "after": "饰利润",
+      "guard": {
+        "name_must_equal": "饰利润"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#饰利润;charaId=3051;nameZh=饰利润",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3052",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3052
+      },
+      "record_index_hint": 178,
+      "field": "kana",
+      "before": "Ashley Taylor",
+      "after": "阿什莉·泰勒",
+      "guard": {
+        "name_must_equal": "阿什莉·泰勒"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#阿什莉_泰勒;charaId=3052;nameZh=阿什莉·泰勒",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3054",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3054
+      },
+      "record_index_hint": 180,
+      "field": "kana",
+      "before": "Miwa Mitsune",
+      "after": "三轮光音",
+      "guard": {
+        "name_must_equal": "三轮光音"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#三轮光音;charaId=3054;nameZh=三轮光音",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3055",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3055
+      },
+      "record_index_hint": 181,
+      "field": "kana",
+      "before": "Kirino Sae",
+      "after": "桐野纱枝",
+      "guard": {
+        "name_must_equal": "桐野纱枝"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#桐野纱枝;charaId=3055;nameZh=桐野纱枝",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3056",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3056
+      },
+      "record_index_hint": 182,
+      "field": "kana",
+      "before": "Mizuki Rui",
+      "after": "水树垒",
+      "guard": {
+        "name_must_equal": "水树垒"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#水树垒;charaId=3056;nameZh=水树垒",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3057",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3057
+      },
+      "record_index_hint": 183,
+      "field": "kana",
+      "before": "Mai Aakari",
+      "after": "真井灯",
+      "guard": {
+        "name_must_equal": "真井灯"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#真井灯;charaId=3057;nameZh=真井灯",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3058",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3058
+      },
+      "record_index_hint": 184,
+      "field": "kana",
+      "before": "Natsu Ryoko",
+      "after": "南津凉子",
+      "guard": {
+        "name_must_equal": "南津凉子"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#南津凉子;charaId=3058;nameZh=南津凉子",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3059",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3059
+      },
+      "record_index_hint": 185,
+      "field": "kana",
+      "before": "Irina Kush",
+      "after": "入名库什",
+      "guard": {
+        "name_must_equal": "入名库什"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#入名库什;charaId=3059;nameZh=入名库什",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3501",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3501
+      },
+      "record_index_hint": 186,
+      "field": "kana",
+      "before": "Rika·Ren",
+      "after": "梨花·怜",
+      "guard": {
+        "name_must_equal": "梨花·怜"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=3501;same-record-name=梨花·怜;same-record-title=圣诞ver.;characters.json#梨花_怜_圣诞ver;charaId=3501;nameZh=梨花·怜（圣诞ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3502",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3502
+      },
+      "record_index_hint": 187,
+      "field": "kana",
+      "before": "Mannenzakura no Uwasa",
+      "after": "万年樱的传闻",
+      "guard": {
+        "name_must_equal": "万年樱的传闻"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=3502;same-record-name=万年樱的传闻;same-record-title=泳装ver.;characters.json#万年樱之谣_泳装ver;charaId=3502;nameZh=万年樱之谣（泳装ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3503",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3503
+      },
+      "record_index_hint": 188,
+      "field": "kana",
+      "before": "Konoha・Hazuki",
+      "after": "木叶·叶月",
+      "guard": {
+        "name_must_equal": "木叶·叶月"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#木叶_叶月;charaId=3503;nameZh=木叶·叶月",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3504",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3504
+      },
+      "record_index_hint": 189,
+      "field": "kana",
+      "before": "Masara・Kokoro",
+      "after": "真良·心",
+      "guard": {
+        "name_must_equal": "真良·心"
+      },
+      "source_class": "stable-id-same-record-name-inheritance",
+      "source_tier": "current-stable-id-name+wiki-component-evidence",
+      "evidence": "charaList.json#id=3504;same-record-name=真良·心;same-record-title=花嫁ver.;characters.json#真良_心_花嫁ver;charaId=3504;nameZh=真良·心（花嫁ver.）",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3505",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3505
+      },
+      "record_index_hint": 190,
+      "field": "kana",
+      "before": "Reira・Seika",
+      "after": "丽良·清佳",
+      "guard": {
+        "name_must_equal": "丽良·清佳"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#丽良_清佳;charaId=3505;nameZh=丽良·清佳",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3901",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3901
+      },
+      "record_index_hint": 192,
+      "field": "kana",
+      "before": "Yu",
+      "after": "夕",
+      "guard": {
+        "name_must_equal": "夕"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#夕;charaId=3901;nameZh=夕",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-3902",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 3902
+      },
+      "record_index_hint": 193,
+      "field": "kana",
+      "before": "Shi",
+      "after": "椎",
+      "guard": {
+        "name_must_equal": "椎"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#椎;charaId=3902;nameZh=椎",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4004",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4004
+      },
+      "record_index_hint": 197,
+      "field": "kana",
+      "before": "Mikuni Oriko",
+      "after": "美国织莉子",
+      "guard": {
+        "name_must_equal": "美国织莉子"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#美国织莉子;charaId=4001;nameZh=美国织莉子",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4014",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4014
+      },
+      "record_index_hint": 201,
+      "field": "kana",
+      "before": "Subaru Kazumi",
+      "after": "昴和美",
+      "guard": {
+        "name_must_equal": "昴和美"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#昴和美;charaId=4014;nameZh=昴和美",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4024",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4024
+      },
+      "record_index_hint": 205,
+      "field": "kana",
+      "before": "Minou",
+      "after": "米诺",
+      "guard": {
+        "name_must_equal": "米诺"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#米诺;charaId=4024;nameZh=米诺",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4027",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4027
+      },
+      "record_index_hint": 208,
+      "field": "kana",
+      "before": "Lapine",
+      "after": "拉皮努",
+      "guard": {
+        "name_must_equal": "拉皮努"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#拉皮努;charaId=4027;nameZh=拉皮努",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4028",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4028
+      },
+      "record_index_hint": 209,
+      "field": "kana",
+      "before": "Tart",
+      "after": "塔鲁特",
+      "guard": {
+        "name_must_equal": "塔鲁特"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#塔鲁特;charaId=4021;nameZh=塔鲁特",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4029",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4029
+      },
+      "record_index_hint": 210,
+      "field": "kana",
+      "before": "Pernelle",
+      "after": "佩尔内勒",
+      "guard": {
+        "name_must_equal": "佩尔内勒"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#佩尔内勒;charaId=4029;nameZh=佩尔内勒",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4032",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4032
+      },
+      "record_index_hint": 212,
+      "field": "kana",
+      "before": "Hinata Matsuri",
+      "after": "日向茉莉",
+      "guard": {
+        "name_must_equal": "日向茉莉"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#日向茉莉;charaId=4032;nameZh=日向茉莉",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4035",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4035
+      },
+      "record_index_hint": 215,
+      "field": "kana",
+      "before": "Kanade Haruka",
+      "after": "奏遥香",
+      "guard": {
+        "name_must_equal": "奏遥香"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#奏遥香;charaId=4035;nameZh=奏遥香",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4036",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4036
+      },
+      "record_index_hint": 216,
+      "field": "kana",
+      "before": "Mikoto Tsubaki",
+      "after": "美琴椿",
+      "guard": {
+        "name_must_equal": "美琴椿"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#美琴椿;charaId=4036;nameZh=美琴椿",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4041",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4041
+      },
+      "record_index_hint": 217,
+      "field": "kana",
+      "before": "Senjyougahara Hitagi",
+      "after": "战场原黑仪",
+      "guard": {
+        "name_must_equal": "战场原黑仪"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#战场原黑仪;charaId=4041;nameZh=战场原黑仪",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4042",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4042
+      },
+      "record_index_hint": 218,
+      "field": "kana",
+      "before": "Hachikuji Mayoi",
+      "after": "八九寺真宵",
+      "guard": {
+        "name_must_equal": "八九寺真宵"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#八九寺真宵;charaId=4042;nameZh=八九寺真宵",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4043",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4043
+      },
+      "record_index_hint": 219,
+      "field": "kana",
+      "before": "Kanba Suruga",
+      "after": "神原骏河",
+      "guard": {
+        "name_must_equal": "神原骏河"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#神原骏河;charaId=4043;nameZh=神原骏河",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4044",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4044
+      },
+      "record_index_hint": 220,
+      "field": "kana",
+      "before": "Sengoku Nadeko",
+      "after": "千石抚子",
+      "guard": {
+        "name_must_equal": "千石抚子"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#千石抚子;charaId=4044;nameZh=千石抚子",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4045",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4045
+      },
+      "record_index_hint": 221,
+      "field": "kana",
+      "before": "Hanekawa Tsubasa",
+      "after": "羽川翼",
+      "guard": {
+        "name_must_equal": "羽川翼"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#羽川翼;charaId=4045;nameZh=羽川翼",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4046",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4046
+      },
+      "record_index_hint": 222,
+      "field": "kana",
+      "before": "Oshino Shinobu",
+      "after": "忍野忍",
+      "guard": {
+        "name_must_equal": "忍野忍"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#忍野忍;charaId=4046;nameZh=忍野忍",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4051",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4051
+      },
+      "record_index_hint": 223,
+      "field": "kana",
+      "before": "Takamachi Nanoka",
+      "after": "高町奈叶",
+      "guard": {
+        "name_must_equal": "高町奈叶"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#高町奈叶;charaId=4051;nameZh=高町奈叶",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4052",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4052
+      },
+      "record_index_hint": 224,
+      "field": "kana",
+      "before": "Fate",
+      "after": "菲特",
+      "guard": {
+        "name_must_equal": "菲特"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#菲特;charaId=4052;nameZh=菲特",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4053",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4053
+      },
+      "record_index_hint": 225,
+      "field": "kana",
+      "before": "Yagami Hayate",
+      "after": "八神疾风",
+      "guard": {
+        "name_must_equal": "八神疾风"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#八神疾风;charaId=4053;nameZh=八神疾风",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4061",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4061
+      },
+      "record_index_hint": 226,
+      "field": "kana",
+      "before": "Nishikigi Chisato",
+      "after": "锦木千束",
+      "guard": {
+        "name_must_equal": "锦木千束"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#锦木千束;charaId=4061;nameZh=锦木千束",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4062",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4062
+      },
+      "record_index_hint": 227,
+      "field": "kana",
+      "before": "Inoue Takina",
+      "after": "井之上泷奈",
+      "guard": {
+        "name_must_equal": "井之上泷奈"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#井之上泷奈;charaId=4062;nameZh=井之上泷奈",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4121",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4121
+      },
+      "record_index_hint": 228,
+      "field": "kana",
+      "before": "Isabeau",
+      "after": "伊莎贝拉",
+      "guard": {
+        "name_must_equal": "伊莎贝拉"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#伊莎贝拉;charaId=4122;nameZh=伊莎贝拉",
+      "product_write_allowed": true
+    },
+    {
+      "item_id": "CHARA-KANA-CN-4122",
+      "target_path": "magica/js/libs/charaList.json",
+      "selector": {
+        "id": 4122
+      },
+      "record_index_hint": 229,
+      "field": "kana",
+      "before": "Isabeau",
+      "after": "伊莎贝拉",
+      "guard": {
+        "name_must_equal": "伊莎贝拉"
+      },
+      "source_class": "wiki-nameZh-literal-exact",
+      "source_tier": "wiki",
+      "evidence": "characters.json#伊莎贝拉;charaId=4122;nameZh=伊莎贝拉",
+      "product_write_allowed": true
+    }
+  ]
+}

@@ -169,7 +169,7 @@ class Pass20PromotionTests(unittest.TestCase):
             "magica/i18n_audit/release_v26_authority/pass20_review_contract.json": (
                 b"old-review-contract\n", materialized_contract_after, "review-contract-audit",
             ),
-            "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx": (
+            "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1564.xlsx": (
                 b"blank-workbook", b"completed-workbook", "human-review-workbook-receipt",
             ),
         }
@@ -270,7 +270,7 @@ class Pass20PromotionTests(unittest.TestCase):
                 rel for rel, (_before, _after, role) in files.items()
                 if role != "runtime-product"
             ),
-            "human_review_workbook_receipt": "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
+            "human_review_workbook_receipt": "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1564.xlsx",
         }
         (stage / "staging_verification.json").write_text(
             json.dumps(report), encoding="utf-8"
@@ -403,7 +403,7 @@ class Pass20PromotionTests(unittest.TestCase):
             "i18n/reviewed-candidates.tsv",
             "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
             "magica/i18n_audit/release_v26_authority/pass20_review_contract.json",
-            "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
+            "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1564.xlsx",
         ])
         report["changed_files"] = [malicious]
         report_path.write_text(json.dumps(report), encoding="utf-8")
@@ -491,7 +491,7 @@ class Pass20PromotionTests(unittest.TestCase):
         self.addCleanup(temp.cleanup)
         workbook = (
             "magica/i18n_audit/release_v26_authority/"
-            "magireco_v26_translation_review_1565.xlsx"
+            "magireco_v26_translation_review_1564.xlsx"
         )
         _before, workbook_after, _role = files[workbook]
         (repo / workbook).write_bytes(workbook_after)

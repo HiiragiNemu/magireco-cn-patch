@@ -27,7 +27,7 @@ SHADOWED_REL = AUDIT_REL / "pass20_authority_shadowed_machine_items.json"
 RESOLUTIONS_REL = AUDIT_REL / "pass20_authority_resolutions.tsv"
 FINAL_VALUES_RECEIPT = "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv"
 WORKBOOK_RECEIPT = (
-    "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"
+    "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1564.xlsx"
 )
 REVIEW_CONTRACT_RECEIPT = (
     "magica/i18n_audit/release_v26_authority/pass20_review_contract.json"

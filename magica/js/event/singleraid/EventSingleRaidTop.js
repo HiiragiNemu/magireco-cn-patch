@@ -658,7 +658,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         }
         f.each(c, function(c)
         {
-          e == c.questBattle.sectionId && ("BOSS" == b.pointModel.point.pointType || "EXTRA_BOSS" == b.pointModel.point.pointType ? (c.fontColor = "colorB", c.title = "BATTLE") : (c.fontColor = "CHALLENGE" == b.pointModel.point.pointType ? "colorD" : "colorA", c.title = 1 == c.questBattle.sectionIndex ? "BATTLE◆初级" : 2 == c.questBattle.sectionIndex ? "BATTLE◆中级" : "BATTLE◆上级"), c.missionRewardObj = a.itemSet(c.questBattle.missionRewardCode), b.section.questBattleList.push(c))
+          e == c.questBattle.sectionId && ("BOSS" == b.pointModel.point.pointType || "EXTRA_BOSS" == b.pointModel.point.pointType ? (c.fontColor = "colorB", c.title = "战斗") : (c.fontColor = "CHALLENGE" == b.pointModel.point.pointType ? "colorD" : "colorA", c.title = 1 == c.questBattle.sectionIndex ? "战斗◆初级" : 2 == c.questBattle.sectionIndex ? "战斗◆中级" : "战斗◆上级"), c.missionRewardObj = a.itemSet(c.questBattle.missionRewardCode), b.section.questBattleList.push(c))
         });
         b.section.questBattleList.sort(function(a, b)
         {

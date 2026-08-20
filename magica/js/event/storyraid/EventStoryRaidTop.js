@@ -891,7 +891,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         c.section.questBattleList = [];
         g.each(a, function(a, f)
         {
-          d == a.questBattle.sectionId && (a.title = "BATTLE " + e, a.missionRewardObj = b.itemSet(a.questBattle.missionRewardCode), c.section.questBattleList.push(a), e++)
+          d == a.questBattle.sectionId && (a.title = "战斗 " + e, a.missionRewardObj = b.itemSet(a.questBattle.missionRewardCode), c.section.questBattleList.push(a), e++)
         });
         c.section.questBattleList.sort(function(a, b)
         {

@@ -1,0 +1,27 @@
+{
+  "schema": "pass18-official-term-reconciliation/v1",
+  "status": "PASS",
+  "changes": [
+    {
+      "change_id": "P18-00019",
+      "file": "magica/js/libs/cardMagiaMap.json",
+      "stable_key": "39028",
+      "field": "shortDescription",
+      "before_pass18_after": "对敌方全体属性强化伤害[XI] & 暗属性耐性DOWN(敌全/2T) & Buff解除(敌全) & 暗属性攻击力UP & 伤害UP & 魔女化身伤害UP(自/2T) & Survive(自/1T)",
+      "after_official_term_normalization": "对敌方全体属性强化伤害[XI] & 暗属性耐性DOWN(敌全/2T) & 解除增益(敌全) & 暗属性攻击力UP & 伤害UP & 魔女化身伤害UP(自/2T) & 幸存(自/1T)",
+      "evidence": "D:/magia/MyProducts/MAGIA RECORD CN/Full_Raw_Dump_V2/magica/api/page/MyPage_001.json; SHA256 a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db; stable mechanics examples: cardMagia art 200300700=解除增益, cardMagia/cardSkill art 200200800=解除减益, doppelCardMagia id 30208=幸存"
+    },
+    {
+      "change_id": "P18-00028",
+      "file": "magica/js/libs/doppelCardMagiaMap.json",
+      "stable_key": "39028",
+      "field": "shortDescription",
+      "before_pass18_after": "对敌方全体属性强化伤害[XI] & 暗属性耐性DOWN(敌全/2T) & Buff解除(敌全) & 暗属性攻击力UP & 伤害UP & 魔女化身伤害UP(自/2T) & Survive(自/1T)",
+      "after_official_term_normalization": "对敌方全体属性强化伤害[XI] & 暗属性耐性DOWN(敌全/2T) & 解除增益(敌全) & 暗属性攻击力UP & 伤害UP & 魔女化身伤害UP(自/2T) & 幸存(自/1T)",
+      "evidence": "D:/magia/MyProducts/MAGIA RECORD CN/Full_Raw_Dump_V2/magica/api/page/MyPage_001.json; SHA256 a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db; stable mechanics examples: cardMagia art 200300700=解除增益, cardMagia/cardSkill art 200200800=解除减益, doppelCardMagia id 30208=幸存"
+    }
+  ],
+  "count": 2,
+  "product_tree_writes": 0,
+  "audit_manifest_writes": 2
+}

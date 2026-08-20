@@ -1,0 +1,23 @@
+<div id="popupBp">
+	<% var nowBp = _.findWhere(model,{statusId:"BTP"}); %>
+	<% var maxBp = _.findWhere(model,{statusId:"MAX_BTP"}); %>
+	<ul class="bpPointWrap">
+		<% for(var i=0;i<5;i++){ %>
+		<li<% if(nowBp.point>i){ %> class="on"<% } %>></li>
+		<% } %>
+	</ul>
+</div>
+<p id="bpTextWrap" class="c_red">
+	<% if(nowBp.point === maxBp.point){ %>
+		BP已达到最大值。
+	<% }else if(quantity < 1){ %>
+		无BP回复药。
+	<% }else{ %>
+		<span class="cureCheck">要使用BP回复药回复全部BP吗？</span>
+	<% } %>
+</p>
+<div id="bpImageWrap" class="commonFrame4">
+	<span class="nameWrap">BP回复药</span>
+	<p class="itemRemain"><span class="pointFrame">持有数</span><br><%= quantity %></p>
+	<span id="decideUse" class="mb_pink cureBtn se_decide TE popupCloseBtn<% if(quantity < 1 || nowBp.point === maxBp.point){ %> off<% } %>"><span class="b_screen"></span>回复</span>
+</div>

@@ -66,11 +66,11 @@ class Pass20ProductTargetTests(unittest.TestCase):
                 "occurrence_collisions", "unclassified_items",
             )},
             {
-                "items": 1565,
-                "maintenance_rows_bound": 1565,
-                "exact_runtime_items": 1443,
-                "maintenance_only_items": 122,
-                "runtime_occurrences": 2439,
+                "items": 1564,
+                "maintenance_rows_bound": 1564,
+                "exact_runtime_items": 1376,
+                "maintenance_only_items": 188,
+                "runtime_occurrences": 2260,
                 "occurrence_collisions": 0,
                 "unclassified_items": 0,
             },
@@ -78,19 +78,19 @@ class Pass20ProductTargetTests(unittest.TestCase):
         self.assertEqual(
             summary["status_counts"],
             {
-                "exact-current-runtime-literal": 1443,
+                "exact-current-runtime-literal": 1376,
                 "maintenance-only-count-or-path-drift": 21,
-                "maintenance-only-current-literal-absent": 59,
+                "maintenance-only-current-literal-absent": 114,
                 "maintenance-only-declared-path-absent": 3,
                 "maintenance-only-deletion-already-applied": 1,
-                "maintenance-only-truncated-target-ambiguous": 38,
+                "maintenance-only-truncated-target-ambiguous": 49,
             },
         )
         self.assertTrue(all(not item["shadowed_by_higher_authority"] for item in self.result["items"]))
         self.assertTrue(all(item["canonical_write_allowed_after_human_gate"] for item in self.result["items"]))
         self.assertEqual(
             sum(item["runtime_write_allowed_after_human_gate"] for item in self.result["items"]),
-            1443,
+            1376,
         )
         self.assertTrue(all(
             item["runtime_write_allowed_after_human_gate"] == item["application_allowed"]
@@ -113,7 +113,7 @@ class Pass20ProductTargetTests(unittest.TestCase):
         shadow = json.loads(
             (AUDIT / "pass20_authority_shadowed_machine_items.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(shadow["summary"]["items"], 24)
+        self.assertEqual(shadow["summary"]["items"], 25)
         shadow_ids = {row["item_id"] for row in shadow["items"]}
         self.assertFalse(shadow_ids & set(self.items))
         self.assertTrue(all(row["product_write_forbidden"] for row in shadow["items"]))
@@ -122,6 +122,10 @@ class Pass20ProductTargetTests(unittest.TestCase):
         self.assertEqual(shadow["summary"]["authority_materialized_occurrences"], 9)
         self.assertEqual(shadow["summary"]["authority_verified_occurrences"], 10)
         by_id = {row["item_id"]: row for row in shadow["items"]}
+        self.assertEqual(by_id["LOW-MT-00395"]["effective_cn"], "圆环助战")
+        self.assertEqual(by_id["LOW-MT-00395"]["effective_tier"], "official_cn_dump")
+        self.assertEqual(by_id["LOW-MT-00681"]["effective_cn"], "最终连携")
+        self.assertEqual(by_id["LOW-MT-00681"]["effective_tier"], "existing_human_reviewed")
         self.assertEqual(by_id["LOW-MT-01134"]["runtime_machine_count"], 0)
         self.assertEqual(by_id["LOW-MT-01134"]["runtime_effective_count"], 5)
         self.assertEqual(by_id["LOW-MT-01450"]["runtime_machine_count"], 0)

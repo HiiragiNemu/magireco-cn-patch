@@ -1,0 +1,664 @@
+{
+  "schema_version": "source-text-exhaustion-v1",
+  "generated_at": "2026-08-17T13:12:56.571025+00:00",
+  "mode": "report-only-no-product-edits",
+  "repository": {
+    "root": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813",
+    "branch": "release/js-v26-authority-final-20260813",
+    "head": "d204454ea1fe74cfa984a7db1f68a0f5d70fc4b1"
+  },
+  "sources": {
+    "official_cn_old_web": "A:\\magicaOLD",
+    "upstream_latest_web": "A:\\totentanz-frontend",
+    "current_product": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica",
+    "authority_order": [
+      "official-cn-old-client",
+      "wiki",
+      "confirmed-human",
+      "new-human-or-llm"
+    ]
+  },
+  "scope": {
+    "included_extensions": [
+      ".js",
+      ".html",
+      ".css",
+      ".json"
+    ],
+    "primary_comparison": "same-relative-path visible-text/content only",
+    "excluded": [
+      "pure code and server key predicates",
+      "user/generated data",
+      "obsolete/test-only routes",
+      "structure-drift false alignments",
+      "equivalent or protected formal terminology"
+    ],
+    "limitation": "Old-only paths (928) and differently packaged JSON are not declared globally valueless; this report closes the same-path visible-text reuse question only."
+  },
+  "inventory_snapshot_before_report_write": {
+    "official_cn_old": {
+      "count": 1310,
+      "by_extension": {
+        ".css": 164,
+        ".html": 309,
+        ".js": 381,
+        ".json": 456
+      }
+    },
+    "upstream_latest": {
+      "count": 525,
+      "by_extension": {
+        ".css": 144,
+        ".html": 167,
+        ".js": 207,
+        ".json": 7
+      }
+    },
+    "current_all_including_research": {
+      "count": 627,
+      "by_extension": {
+        ".css": 47,
+        ".html": 205,
+        ".js": 203,
+        ".json": 172
+      }
+    },
+    "current_runtime_excluding_research_and_i18n_audit": {
+      "count": 457,
+      "by_extension": {
+        ".css": 41,
+        ".html": 195,
+        ".js": 198,
+        ".json": 23
+      }
+    },
+    "official_current_same_path": {
+      "count": 382,
+      "by_extension": {
+        ".css": 31,
+        ".html": 173,
+        ".js": 178,
+        ".json": 0
+      }
+    },
+    "upstream_current_same_path": {
+      "count": 237,
+      "by_extension": {
+        ".css": 37,
+        ".html": 112,
+        ".js": 88,
+        ".json": 0
+      }
+    },
+    "triple_same_path": {
+      "count": 214,
+      "by_extension": {
+        ".css": 28,
+        ".html": 103,
+        ".js": 83,
+        ".json": 0
+      }
+    },
+    "official_only_vs_current_runtime": 928,
+    "current_runtime_only_vs_official": 75
+  },
+  "methodology": [
+    "Enumerated same-relative-path JS/HTML/CSS/JSON files.",
+    "Aligned visible HTML/template nodes by stable template/id/selector context and reviewed structure drift.",
+    "Compared JS literal contexts against upstream and old official files; reviewed dynamic variable order.",
+    "Ran terminology-level consistency checks for official terms, including 行动盘/圆盘 and 支援/辅助.",
+    "Reused the existing selector-level CSS closure audit; no new CSS product edits were made."
+  ],
+  "summary": {
+    "unresolved_actionable_records": 11,
+    "unresolved_actionable_literal_occurrences": 49,
+    "exhausted_no_value_records": 26,
+    "source_insufficient_visible_records": 18,
+    "css_files_scanned_existing_audit": 41,
+    "css_content_declarations_existing_audit": 540,
+    "css_localized_declarations_existing_audit": 110,
+    "css_unwanted_residual_existing_audit": 0,
+    "product_files_modified_by_this_audit": 0
+  },
+  "actionable_items": [
+    {
+      "id": "TXT-A001",
+      "status": "unresolved-actionable",
+      "path": "magica/template/formation/DeckFormation.html",
+      "locator": "script#DeckNameChangeTemp #commentDecide; line 679",
+      "current_text": "OK",
+      "official_cn_text": "确定",
+      "upstream_text": "OK",
+      "occurrence_count": 1,
+      "classification": "official-cn-exact-same-selector",
+      "source_tier": "official-cn",
+      "reason": "旧国服同一模板、同一 ID 提供确定按钮译文。",
+      "recommended_change": "OK → 确定",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\template\\formation\\DeckFormation.html",
+        "current_sha256": "759ad6af2c2b3cd41b03e4f6b81f79af3ff7e362bed79cc584d0f15904c18997",
+        "official_cn_path": "A:\\magicaOLD\\template\\formation\\DeckFormation.html",
+        "official_cn_sha256": "f4d10e094650f0990acc6de564f413bee076ec54f4dce09f8fc3eab5781c3e1a",
+        "upstream_path": "A:\\totentanz-frontend\\template\\formation\\DeckFormation.html",
+        "upstream_sha256": "dfceb367d4f5ab1ec305ed4147655b3be5b8ff0afc7c2ffa5141908f23948e4c"
+      }
+    },
+    {
+      "id": "TXT-A002",
+      "status": "unresolved-actionable",
+      "path": "magica/template/formation/DeckFormation.html",
+      "locator": "script#TeamRemovePop .decideBtn; line 697",
+      "current_text": "OK",
+      "official_cn_text": "确定",
+      "upstream_text": "OK",
+      "occurrence_count": 1,
+      "classification": "official-cn-exact-same-template",
+      "source_tier": "official-cn",
+      "reason": "旧国服同一弹窗模板同一确认按钮为“确定”。",
+      "recommended_change": "OK → 确定",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\template\\formation\\DeckFormation.html",
+        "current_sha256": "759ad6af2c2b3cd41b03e4f6b81f79af3ff7e362bed79cc584d0f15904c18997",
+        "official_cn_path": "A:\\magicaOLD\\template\\formation\\DeckFormation.html",
+        "official_cn_sha256": "f4d10e094650f0990acc6de564f413bee076ec54f4dce09f8fc3eab5781c3e1a",
+        "upstream_path": "A:\\totentanz-frontend\\template\\formation\\DeckFormation.html",
+        "upstream_sha256": "dfceb367d4f5ab1ec305ed4147655b3be5b8ff0afc7c2ffa5141908f23948e4c"
+      }
+    },
+    {
+      "id": "TXT-A003",
+      "status": "unresolved-actionable",
+      "path": "magica/template/formation/FormationQuest.html",
+      "locator": "script#DeckNameChangeTemp #commentDecide; line 90",
+      "current_text": "OK",
+      "official_cn_text": "确定",
+      "upstream_text": "OK",
+      "occurrence_count": 1,
+      "classification": "official-cn-exact-same-selector",
+      "source_tier": "official-cn",
+      "reason": "旧国服同一模板、同一 ID 提供确定按钮译文。",
+      "recommended_change": "OK → 确定",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\template\\formation\\FormationQuest.html",
+        "current_sha256": "c0a1efe88e8e730de7e77fac482e5d80a110e60cc3a0ab89f3bae8af1b3ac763",
+        "official_cn_path": "A:\\magicaOLD\\template\\formation\\FormationQuest.html",
+        "official_cn_sha256": "8a73978062da1662bb7405d93ca37ef4e924b8a0b14bd66a56237e6ea8480f8d",
+        "upstream_path": "A:\\totentanz-frontend\\template\\formation\\FormationQuest.html",
+        "upstream_sha256": "807bebe619d216f2366a5bf9c9675581d656152570a5ce35b42c4b0ea7837d54"
+      }
+    },
+    {
+      "id": "TXT-A004",
+      "status": "unresolved-actionable",
+      "path": "magica/template/formation/DeckFormation.html",
+      "locator": "#nextPageBtnLoop; line 66",
+      "current_text": "自动<br>播放",
+      "official_cn_text": "自动<br>续战",
+      "upstream_text": "AUTO<br>PLAY",
+      "occurrence_count": 1,
+      "classification": "official-cn-exact-same-id",
+      "source_tier": "official-cn",
+      "reason": "该按钮控制 quest loop/继续战斗；“播放”把循环战斗误译成媒体播放。",
+      "recommended_change": "自动<br>播放 → 自动<br>续战",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\template\\formation\\DeckFormation.html",
+        "current_sha256": "759ad6af2c2b3cd41b03e4f6b81f79af3ff7e362bed79cc584d0f15904c18997",
+        "official_cn_path": "A:\\magicaOLD\\template\\formation\\DeckFormation.html",
+        "official_cn_sha256": "f4d10e094650f0990acc6de564f413bee076ec54f4dce09f8fc3eab5781c3e1a",
+        "upstream_path": "A:\\totentanz-frontend\\template\\formation\\DeckFormation.html",
+        "upstream_sha256": "dfceb367d4f5ab1ec305ed4147655b3be5b8ff0afc7c2ffa5141908f23948e4c"
+      }
+    },
+    {
+      "id": "TXT-A005",
+      "status": "unresolved-actionable",
+      "path": "magica/template/mission/PanelMissionTop.html",
+      "locator": "script#missionParts .missionBtn when model.isLast; line 100",
+      "current_text": "领取全部收集奖励",
+      "official_cn_text": "获得任务完成报酬",
+      "upstream_text": "コンプリート報酬GET",
+      "occurrence_count": 1,
+      "classification": "official-cn-exact-same-selector",
+      "source_tier": "official-cn",
+      "reason": "コンプリート指任务完成而非收集；旧国服同一结构已有准确译文。",
+      "recommended_change": "领取全部收集奖励 → 获得任务完成报酬",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\template\\mission\\PanelMissionTop.html",
+        "current_sha256": "edf68bc7fe402c1487cc8c3773babc5c1a0215d444d0d9d816c123fea68b513e",
+        "official_cn_path": "A:\\magicaOLD\\template\\mission\\PanelMissionTop.html",
+        "official_cn_sha256": "a40e26ce0320f553756583bd0bb858e59a4930518731de52f7d6c5e282fcb3ac",
+        "upstream_path": "A:\\totentanz-frontend\\template\\mission\\PanelMissionTop.html",
+        "upstream_sha256": "a9db369c5395e077b6bc41f76e6cb8f1706c91c1a68b7d5451aa23a1dceaf5da"
+      }
+    },
+    {
+      "id": "TXT-A006",
+      "status": "unresolved-actionable",
+      "path": "magica/js/formation/DeckFormation.js",
+      "locator": "deckCopyRun PopupClass; lines 47-48",
+      "current_text": "<source><destination>已复制到。",
+      "official_cn_text": "<source>已被复制到 <destination>。",
+      "upstream_text": "<source>を<destination>へコピーしました。",
+      "occurrence_count": 1,
+      "classification": "official-cn-exact-feature-and-structure",
+      "source_tier": "official-cn",
+      "reason": "当前译文把“已复制到”错误黏在目标队名后，源/目标语序失真。旧国服提供相同功能的正确动态结构。",
+      "recommended_change": "保持变量 e.name=源队伍、u.name=目标队伍，改为‘<source>已被复制到 <destination>。’并保留确认提示",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\js\\formation\\DeckFormation.js",
+        "current_sha256": "34c4251d4366e099818ed8012c1f86b01927a385d649132f13aaa88487140d5e",
+        "official_cn_path": "A:\\magicaOLD\\js\\formation\\DeckFormation.js",
+        "official_cn_sha256": "5d8f1941aa3bec626309b8f6f44f60f5770b1341499d0f0b26a84845307e0b6d",
+        "upstream_path": "A:\\totentanz-frontend\\js\\formation\\DeckFormation.js",
+        "upstream_sha256": "a3e1cbb6dc5f99c734cdfd9c132f8a52e1e3c2fc8c583e9000adefaf472e0672"
+      }
+    },
+    {
+      "id": "TXT-A007",
+      "status": "unresolved-actionable",
+      "path": "magica/template/chara/CharaDetail.html",
+      "locator": "#charaSetting .discSetting .common_title_frame; line 644",
+      "current_text": "圆盘",
+      "official_cn_text": "行动盘",
+      "upstream_text": "ディスク",
+      "occurrence_count": 1,
+      "classification": "official-cn-terminology-same-context",
+      "source_tier": "official-cn",
+      "reason": "旧国服同一字段为“行动盘”；当前文件 line 281 也已使用“行动盘”，现状文件内不一致。",
+      "recommended_change": "圆盘 → 行动盘",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\template\\chara\\CharaDetail.html",
+        "current_sha256": "898510bcb04e668cc8d59b86f3fe18666f1df2a0aefc2b7c97bf0a0cf0b3fd48",
+        "official_cn_path": "A:\\magicaOLD\\template\\chara\\CharaDetail.html",
+        "official_cn_sha256": "0fd5da29d604338025bcedca49ae340e5caad90ec7d205db751194a9bfb8f565",
+        "upstream_path": "A:\\totentanz-frontend\\template\\chara\\CharaDetail.html",
+        "upstream_sha256": null
+      }
+    },
+    {
+      "id": "TXT-A008",
+      "status": "unresolved-actionable",
+      "path": "magica/template/formation/FormationQuest.html",
+      "locator": "script#DeckDetailPartsTemp p (disc); line 214",
+      "current_text": "圆盘",
+      "official_cn_text": "行动盘",
+      "upstream_text": "ディスク",
+      "occurrence_count": 1,
+      "classification": "official-cn-terminology-same-template",
+      "source_tier": "official-cn",
+      "reason": "旧国服同一详情字段为“行动盘”。",
+      "recommended_change": "圆盘 → 行动盘",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\template\\formation\\FormationQuest.html",
+        "current_sha256": "c0a1efe88e8e730de7e77fac482e5d80a110e60cc3a0ab89f3bae8af1b3ac763",
+        "official_cn_path": "A:\\magicaOLD\\template\\formation\\FormationQuest.html",
+        "official_cn_sha256": "8a73978062da1662bb7405d93ca37ef4e924b8a0b14bd66a56237e6ea8480f8d",
+        "upstream_path": "A:\\totentanz-frontend\\template\\formation\\FormationQuest.html",
+        "upstream_sha256": "807bebe619d216f2366a5bf9c9675581d656152570a5ce35b42c4b0ea7837d54"
+      }
+    },
+    {
+      "id": "TXT-A009",
+      "status": "unresolved-actionable",
+      "path": "magica/template/formation/FormationSupport.html",
+      "locator": "script#DeckDetailPartsTemp p (disc); line 140",
+      "current_text": "圆盘",
+      "official_cn_text": "行动盘",
+      "upstream_text": "ディスク",
+      "occurrence_count": 1,
+      "classification": "official-cn-terminology-same-template",
+      "source_tier": "official-cn",
+      "reason": "旧国服同一详情字段为“行动盘”。",
+      "recommended_change": "圆盘 → 行动盘",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\template\\formation\\FormationSupport.html",
+        "current_sha256": "cd553178f432cc754331fdd6f06c00b7a4f5b6c577c32dffea333e460d783478",
+        "official_cn_path": "A:\\magicaOLD\\template\\formation\\FormationSupport.html",
+        "official_cn_sha256": "74f63acf95c2b6ac8885e36b7ec134ca607416fcba4e48a3abed660b0613bbb1",
+        "upstream_path": "A:\\totentanz-frontend\\template\\formation\\FormationSupport.html",
+        "upstream_sha256": "b39e6386d88f8109d5ba8cf8b8f874640bf050923470b92068b7ba8495d8692e"
+      }
+    },
+    {
+      "id": "TXT-A010",
+      "status": "unresolved-actionable",
+      "path": "magica/js/_common/nativeCommand.js",
+      "locator": "battle tutorial tips; lines 14-17",
+      "current_text": "圆盘（20处）",
+      "official_cn_text": "行动盘（旧国服同文件22处，当前另有3处已正确使用）",
+      "upstream_text": "ディスク / Disc tutorial terminology",
+      "occurrence_count": 20,
+      "classification": "official-cn-terminology-bulk-same-file",
+      "source_tier": "official-cn",
+      "reason": "可见战斗提示内同一概念混用；旧国服及当前文件自身均确立“行动盘”。这是术语级替换，不声称新增句子整句来自旧国服。",
+      "recommended_change": "仅在该文件20个“圆盘”字面位置改为“行动盘”，保留其余句子与代码结构",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\js\\_common\\nativeCommand.js",
+        "current_sha256": "1e8f5f8723dc15cb2d556f063cb9e59b7907dc2b0c4c47a85886b53fe7c78163",
+        "official_cn_path": "A:\\magicaOLD\\js\\_common\\nativeCommand.js",
+        "official_cn_sha256": "b4fcf7e4d0eff5c8d729371750875fce6b49c8c91fd0cb290eabebe1b3be0474",
+        "upstream_path": "A:\\totentanz-frontend\\js\\_common\\nativeCommand.js",
+        "upstream_sha256": "c5775fe40e8c8ca520d470ae90d3399c6b3d960aa591dec141d9594bae9ad245"
+      }
+    },
+    {
+      "id": "TXT-A011",
+      "status": "unresolved-actionable",
+      "path": "magica/js/_common/nativeCommand2.js",
+      "locator": "battle tutorial tips; lines 268-394",
+      "current_text": "圆盘（20处）",
+      "official_cn_text": "行动盘（旧国服同文件23处，当前另有3处已正确使用）",
+      "upstream_text": "ディスク / Disc tutorial terminology",
+      "occurrence_count": 20,
+      "classification": "official-cn-terminology-bulk-same-file",
+      "source_tier": "official-cn",
+      "reason": "未压缩版战斗提示与 nativeCommand.js 同样混用；旧国服同文件和当前既有用词均支持“行动盘”。",
+      "recommended_change": "仅在该文件20个“圆盘”字面位置改为“行动盘”，保留其余句子与代码结构",
+      "evidence": {
+        "current_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\js\\_common\\nativeCommand2.js",
+        "current_sha256": "3bc44a42c9fc2b2db106039b3a7b30e0926167c1a1df06c1527648e387749349",
+        "official_cn_path": "A:\\magicaOLD\\js\\_common\\nativeCommand2.js",
+        "official_cn_sha256": "bad03594357af978780e4ee558ce7c24796ff1f8866e4a227df04244fd2aa08e",
+        "upstream_path": "A:\\totentanz-frontend\\js\\_common\\nativeCommand2.js",
+        "upstream_sha256": null
+      }
+    }
+  ],
+  "exhausted_no_value_items": [
+    {
+      "id": "TXT-E001",
+      "status": "exhausted-no-value",
+      "path": "magica/template/chara/CharaDetail.html",
+      "locator": "visible Magia labels (e.g. lines 128,274,334)",
+      "current_text": "Magia",
+      "official_cn_text": "魔法",
+      "occurrence_count": 3,
+      "category": "formal-term-retained",
+      "reason": "项目既定正式术语保留 Magia；旧国服“魔法”不作为回退覆盖。"
+    },
+    {
+      "id": "TXT-E002",
+      "status": "exhausted-no-value",
+      "path": "magica/template/formation/FormationQuest.html",
+      "locator": "script#DeckDetailPartsTemp .pointFrame; line 234",
+      "current_text": "Magia",
+      "official_cn_text": "魔法",
+      "occurrence_count": 1,
+      "category": "formal-term-retained",
+      "reason": "项目既定正式术语保留 Magia；语义已中文环境可理解。"
+    },
+    {
+      "id": "TXT-E003",
+      "status": "exhausted-no-value",
+      "path": "magica/template/formation/FormationSupport.html",
+      "locator": "script#DeckDetailPartsTemp .pointFrame; line 160",
+      "current_text": "Magia",
+      "official_cn_text": "魔法",
+      "occurrence_count": 1,
+      "category": "formal-term-retained",
+      "reason": "项目既定正式术语保留 Magia；语义已中文环境可理解。"
+    },
+    {
+      "id": "TXT-E004",
+      "status": "exhausted-no-value",
+      "path": "magica/template/user/APPopup2.html",
+      "locator": "item.itemName equality predicate; line 14",
+      "current_text": "マギアストーン",
+      "official_cn_text": "魔法石",
+      "occurrence_count": 1,
+      "category": "code-key-not-visible",
+      "reason": "这是判断服务器 itemName 的程序键，不是直接显示文案；用旧国服“魔法石”替换会改变分支逻辑。"
+    },
+    {
+      "id": "TXT-E005",
+      "status": "exhausted-no-value",
+      "path": "magica/template/user/APPopup2.html",
+      "locator": "item.itemName inequality predicate; line 16",
+      "current_text": "マギアストーン",
+      "official_cn_text": "魔法石",
+      "occurrence_count": 1,
+      "category": "code-key-not-visible",
+      "reason": "这是判断服务器 itemName 的程序键，不是直接显示文案；用旧国服“魔法石”替换会改变分支逻辑。"
+    },
+    {
+      "id": "TXT-E006",
+      "status": "exhausted-no-value",
+      "path": "magica/template/collection/MagiRepo.html",
+      "locator": "btnText array; line 5",
+      "current_text": "[\"1\",...,\"9\"]",
+      "official_cn_text": "[\"一\",...,\"九\"]",
+      "occurrence_count": 9,
+      "category": "numeric-equivalent-generated",
+      "reason": "最终显示为“第1部”等，和旧国服中文数字仅风格差异，无未汉化语义。"
+    },
+    {
+      "id": "TXT-E007",
+      "status": "exhausted-no-value",
+      "path": "magica/template/test/backdoorList.html",
+      "locator": "NativeSandBox test link; line 24",
+      "current_text": "NativeSandBox",
+      "official_cn_text": "迷你角色确认测试",
+      "occurrence_count": 1,
+      "category": "test-debug-only",
+      "reason": "仅开发后门测试页，且新旧条目结构/用途已经漂移；不纳入游戏玩家可见汉化回收。"
+    },
+    {
+      "id": "TXT-E008",
+      "status": "exhausted-no-value",
+      "path": "magica/template/collection/StoryCollection.html",
+      "locator": "commented popup button; line 162",
+      "current_text": "OK",
+      "official_cn_text": "OK",
+      "occurrence_count": 1,
+      "category": "dormant-comment",
+      "reason": "位于 HTML 注释内，不会显示；旧国服同功能也保留 OK，缺少可回收中文。"
+    },
+    {
+      "id": "TXT-E009",
+      "status": "exhausted-no-value",
+      "path": "magica/template/arena/ArenaSimulate.html",
+      "locator": "script#codeMachingPopParts #codeBattleStartBtn; line 115",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E010",
+      "status": "exhausted-no-value",
+      "path": "magica/template/config/ConfigTop.html",
+      "locator": "script#dataPopInner .dataDecide; line 228",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E011",
+      "status": "exhausted-no-value",
+      "path": "magica/template/formation/DeckFormation.html",
+      "locator": "script#autoFormationTemp #autoFormationBtn; line 820",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E012",
+      "status": "exhausted-no-value",
+      "path": "magica/template/formation/DeckFormation.html",
+      "locator": "script#autoFormationSupportTemp #autoFormationBtn; line 854",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E013",
+      "status": "exhausted-no-value",
+      "path": "magica/template/formation/DeckFormation.html",
+      "locator": "script#autoFormationGroupTemp #autoFormationBtn; line 888",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E014",
+      "status": "exhausted-no-value",
+      "path": "magica/template/memoria/MemoriaComposeTop.html",
+      "locator": "script#formationEquipCautionPop .decideBtn; line 253",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E015",
+      "status": "exhausted-no-value",
+      "path": "magica/template/memoria/MemoriaSetList.html",
+      "locator": "script#SetNameChangeTemp #commentDecide; line 79",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E016",
+      "status": "exhausted-no-value",
+      "path": "magica/template/memoria/PieceArchive.html",
+      "locator": "script#formationEquipCautionPop .decideBtn; line 123",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E017",
+      "status": "exhausted-no-value",
+      "path": "magica/template/memoria/PieceArchive.html",
+      "locator": "script#SetNameChangeTemp #commentDecide; line 256",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E018",
+      "status": "exhausted-no-value",
+      "path": "magica/template/memoria/UserMemoriaList.html",
+      "locator": "script#formationEquipCautionPop .decideBtn; line 117",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E019",
+      "status": "exhausted-no-value",
+      "path": "magica/template/memoria/UserMemoriaList.html",
+      "locator": "script#SetNameChangeTemp #commentDecide; line 197",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E020",
+      "status": "exhausted-no-value",
+      "path": "magica/template/user/MyProfilePopup.html",
+      "locator": "script#emblemSettingTemp #settingDecideBtn; line 208",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E021",
+      "status": "exhausted-no-value",
+      "path": "magica/template/user/MyProfilePopup.html",
+      "locator": "script#arenaDecideTemp #arenaDecideBtn; lines 216-218",
+      "current_text": "OK",
+      "official_cn_text": "OK / no same field",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "仍是可汉化的活动按钮，但旧国服同字段保留 OK 或不存在同一新字段，无法由本次“旧国服权威回收”直接解决；应进入后续新人工译文层。"
+    },
+    {
+      "id": "TXT-E022",
+      "status": "exhausted-no-value",
+      "path": "magica/js/view/memoria/PieceArchiveView.js",
+      "locator": "PopupClass decideBtnText; line 23",
+      "current_text": "OK",
+      "official_cn_text": "OK",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "运行时可见按钮，旧国服同文件也保留 OK；无旧国服中文可回收，应由后续新人工译文层处理。"
+    },
+    {
+      "id": "TXT-E023",
+      "status": "exhausted-no-value",
+      "path": "magica/js/view/memoria/PieceArchiveView.js",
+      "locator": "PopupClass decideBtnText; line 24",
+      "current_text": "OK",
+      "official_cn_text": "OK",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "运行时可见按钮，旧国服同文件也保留 OK；无旧国服中文可回收，应由后续新人工译文层处理。"
+    },
+    {
+      "id": "TXT-E024",
+      "status": "exhausted-no-value",
+      "path": "magica/js/view/memoria/PieceArchiveView.js",
+      "locator": "PopupClass closeBtnText; line 26",
+      "current_text": "OK",
+      "official_cn_text": "OK",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "运行时可见按钮，旧国服同文件也保留 OK；无旧国服中文可回收，应由后续新人工译文层处理。"
+    },
+    {
+      "id": "TXT-E025",
+      "status": "exhausted-no-value",
+      "path": "magica/js/view/memoria/PieceArchiveView.js",
+      "locator": "PopupClass closeBtnText; line 28",
+      "current_text": "OK",
+      "official_cn_text": "OK",
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "运行时可见按钮，旧国服同文件也保留 OK；无旧国服中文可回收，应由后续新人工译文层处理。"
+    },
+    {
+      "id": "TXT-E026",
+      "status": "exhausted-no-value",
+      "path": "magica/template/collection/StoryCollection.html",
+      "locator": "tab .puellaHistoria; line 10",
+      "current_text": "Puella Historia",
+      "official_cn_text": null,
+      "occurrence_count": 1,
+      "category": "source-insufficient-visible",
+      "reason": "这是旧国服文件不存在的新标签；旧文件的“魔法少女剧情”属于另一个 data-wrap=chara 标签，不能错位复用。需 Wiki/新人工来源。"
+    }
+  ],
+  "notes": [
+    "支援/辅助定向复核未发现需要从旧国服回收的新同路径问题：FormationSupport 当前关键可见项已使用“支援”。",
+    "No same-relative JSON paths exist between old official and current runtime tree; JSON authority is handled by the project dictionary/provenance pipeline, not by path-copy matching.",
+    "The 18 source-insufficient-visible records are not “finished translations”; they are exhausted only with respect to direct old-official same-path reuse."
+  ],
+  "existing_css_audit": {
+    "path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\magica\\research\\totentanz-full-localization-20260817\\visible-ui\\css_visible_content_audit.json",
+    "sha256": "9b8fe02f7f56c1f5c54f5293b39c9d1cd252d3fd3394132c7feb77dde0773bff"
+  }
+}

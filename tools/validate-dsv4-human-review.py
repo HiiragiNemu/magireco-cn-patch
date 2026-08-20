@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the 1,565-item Pass20 final-value return contract.
+"""Validate the Pass20 final-value return contract.
 
 hash=allow consumer=Pass20 final-value binding; replaces unbound workbook rows;
 decision=fail-closed release eligibility.
@@ -22,6 +22,7 @@ from pass20_final_values_contract import (
 from pass20_review_contract import (
     AUTHORITY_RESOLUTIONS, CONTRACT_JSON, EFFECTIVE, HUMAN_REVIEW_ITEMS,
     OFFICIAL_REVIEW, PROVENANCE, SHADOWED_ITEMS, SHADOW_JSON, TOTAL_ROWS,
+    RESOLUTIONS as DEFAULT_AUTHORITY_RESOLUTIONS_PATH,
     is_shadowed, load_tsv as load_contract_tsv, read_contract,
     validate_authority_resolutions,
 )
@@ -370,7 +371,10 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--final-values", type=Path, default=FINAL_VALUES)
-    parser.add_argument("--authority-resolutions", type=Path)
+    parser.add_argument(
+        "--authority-resolutions", type=Path,
+        default=DEFAULT_AUTHORITY_RESOLUTIONS_PATH,
+    )
     parser.add_argument("--authority-shadows", type=Path, default=SHADOW_JSON)
     parser.add_argument("--targets", type=Path, default=TARGETS)
     parser.add_argument("--adoptions", type=Path, default=ADOPTIONS)

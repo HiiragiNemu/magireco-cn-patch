@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "steps": [
+    {
+      "step": "apply",
+      "result": {
+        "schema": 1,
+        "state": "applied",
+        "engine_rules": 314,
+        "review_rows": 212,
+        "correction_rows": 40,
+        "exact_bindings": 212,
+        "errors": [],
+        "status": "pass",
+        "official_exact_corrections_applied": 35,
+        "manual_semantic_corrections_applied": 5
+      }
+    },
+    {
+      "step": "verify-applied",
+      "result": {
+        "schema": 1,
+        "state": "applied",
+        "engine_rules": 314,
+        "review_rows": 212,
+        "correction_rows": 40,
+        "exact_bindings": 212,
+        "errors": [],
+        "status": "pass"
+      }
+    },
+    {
+      "step": "rollback",
+      "result": {
+        "schema": 1,
+        "state": "rolled-back",
+        "engine_rules": 314,
+        "review_rows": 212,
+        "correction_rows": 40,
+        "exact_bindings": 212,
+        "errors": [],
+        "status": "pass"
+      }
+    },
+    {
+      "step": "verify-rolled-back",
+      "result": {
+        "schema": 1,
+        "state": "rolled-back",
+        "engine_rules": 314,
+        "review_rows": 212,
+        "correction_rows": 40,
+        "exact_bindings": 212,
+        "errors": [],
+        "status": "pass"
+      }
+    },
+    {
+      "step": "reapply",
+      "result": {
+        "schema": 1,
+        "state": "applied",
+        "engine_rules": 314,
+        "review_rows": 212,
+        "correction_rows": 40,
+        "exact_bindings": 212,
+        "errors": [],
+        "status": "pass",
+        "official_exact_corrections_applied": 35,
+        "manual_semantic_corrections_applied": 5
+      }
+    }
+  ],
+  "final": {
+    "schema": 1,
+    "state": "applied",
+    "engine_rules": 314,
+    "review_rows": 212,
+    "correction_rows": 40,
+    "exact_bindings": 212,
+    "errors": [],
+    "status": "pass"
+  },
+  "status": "pass"
+}

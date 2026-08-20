@@ -1,0 +1,102 @@
+<div id="FriendList">
+	<div id="tabBtn" class="commonFrame2">
+		<ul class="common_tab t_gold">
+			<li class="btn se_tabs TE follow" data-wrap="follow">关注</li>
+			<li class="btn se_tabs TE follower" data-wrap="follower">关注者</li>
+			<li class="btn se_tabs TE find" data-wrap="find"><span>玩家搜索</span></li>
+		</ul>
+	</div>
+	<div id="countFollowWrap" class="pointFrame"></div>
+	<div id="countFollowerWrap" class="pointFrame"><%= followers %></div>
+	<div id="countBlockWrap" class="pointFrame"><%= blocked %></div>
+	<ul id="followSearchTab" class="common_tab t_gold">
+		<li class="searchTabBtn se_tabs TE recommend current" data-wrap="recommend"><span>推荐</span></li>
+		<li class="searchTabBtn se_tabs TE playerName" data-wrap="playerName"><span>玩家名</span></li>
+		<li class="searchTabBtn se_tabs TE playerId" data-wrap="playerId"><span>玩家ID</span></li>
+	</ul>
+	<input type="text" id="searchInput" readonly="readonly" placeholder="">
+	<div id="followSortWrap">
+		<select id="followSort">
+			<option value="rank-asc">等级:升序</option>
+			<option value="rank-desc">等级:降序</option>
+			<option value="login-asc">登录时间:升序</option>
+			<option value="login-desc">登录时间:降序</option>
+			<option value="followdate-asc">关注的顺序:升序</option>
+			<option value="followdate-desc">关注的顺序:降序</option>
+		</select>
+		<div class="triangleArrow"></div>
+	</div>
+	<div id="followRefresh" class="sb_gold_01 se_decide">更新</div>
+	<div id="rankSearchWrap">
+		<select id="rankSelect">
+			<option selected="selected" value="0">无指定</option>
+			<option value="1">等级1～</option>
+			<option value="10">等级10～</option>
+			<option value="20">等级20～</option>
+			<option value="40">等级40～</option>
+			<option value="60">等级60～</option>
+			<option value="80">等级80～</option>
+			<option value="100">等级100～</option>
+		</select>
+		<div class="triangleArrow"></div>
+	</div>
+	<div id="searchRefresh" class="sb_gold_01 se_decide">更新</div>
+	<div id="listWrap" class="commonFrame1">
+		<h2 id="listTitle"></h2>
+		<div class="hiddenWrap" id="scrollOuter">
+			<div id="followListWrap" class="followInner"></div>
+			<div id="followerListWrap" class="followerInner"></div>
+			<div id="blockListWrap" class="blockInner"></div>
+			<div id="findListWrap" class="searchInner"></div>
+		</div>
+
+		<div id="pagingWrap">
+		</div>
+		<div id="anotherPagingWrap">
+		</div>
+	</div>
+</div>
+
+<script type="text/template" id="userParts">
+	<div class="wrap infoWrap se_decide">
+		<%="<% if(model.visibleRankingClassType !== false){ %\>"%>
+		<%="<% if(model.emblemSettingClassType && model.emblemSettingClassType == 'RANK_MATCH' && model.currentRankMatchDefiniteClassRank){ %\>"%>
+			<div class="rankMatchEmblem rank<%='<%= model.currentRankMatchDefiniteClassRank %\>'%>"></div>
+		<%="<% } else if(model.definiteClassRank) { %\>"%>
+			<div class="rankingEmblem rank<%='<%= model.definiteClassRank %\>'%>"></div>
+		<%="<% } %\>"%>
+		<%="<% } %\>"%>
+		<div class="userCharaIcon <%="<%= model.cardRank %\>"%> <%="<%= model.attributeId %\>"%>">
+			<%="<% att = 'att_' + model.attributeId.toLowerCase(); %\>"%>
+			<%="<% star = 'star_' + model.cardRank.toLowerCase(); %\>"%>
+			<%="<% frame = 'frame_' + model.cardRank.toLowerCase(); %\>"%>
+			<%="<% bg = 'bg_' + model.attributeId.toLowerCase(); %\>"%>
+			<span class="att" data-nativebgkey='<%="<%= att %\>"%>' data-src='resource/image_native/card/frame/<%="<%= att %\>"%>.png'></span>
+			<span class="star" data-nativebgkey='<%="<%= star %\>"%>' data-src='resource/image_native/card/frame/<%="<%= star %\>"%>.png'></span>
+			<span class="rank" data-nativebgkey='<%="<%= frame %\>"%>' data-src='resource/image_native/card/frame/<%="<%= frame %\>"%>.png'></span>
+			<img data-nativeimgkey='card_<%="<%= model.displayCardId %\>"%>_f' data-src='resource/image_native/card/image/card_<%="<%= model.displayCardId %\>"%>_f.png'>
+			<span class="lv"><span><%="<%= model.level %\>"%></span></span>
+			<span class="bg" data-nativebgkey='<%="<%= bg %\>"%>' data-src='resource/image_native/card/frame/<%="<%= bg %\>"%>.png'></span>
+		</div>
+		<div class="infoWrap">
+			<%="<% if(model.displayTitle) { %\>"%>
+				<div class="userTitle_s frame <%="<%= model.displayTitle.font %\>"%>">
+					<div id="targetTitleText" class="userTitleText"><%="<%= model.displayTitle.name %\>"%></div>
+					<img id="targetTitleBg" class="userTitleBg" src="/magica/resource/image_web/common/grade/<%="<%= model.displayTitle.baseImage %\>"%>.png">
+				</div>
+			<%="<% } %\>"%>
+			<span class="userLevel">Rank<%="<%=model.userRank%\>"%></span>
+			<span class="userName"><%="<%=_.escape(model.userName)%\>"%></span><br>
+
+			<span class="leaderName c_purple"><%="<%= _.escape(model.charaName) %\>"%></span>
+			<span class="loginTime c_gold">最后登录：&nbsp;<%= "<%= model.loginTimeLag %\>" %></span>
+			<div class="iconWrap">
+				<span class="followIcon<%="<% if(model.follow){ %\> on<% } %\>"%>"></span>
+				<span class="followerIcon<%="<% if(model.follower){ %\> on<% } %\>"%>"></span>
+			</div>
+			<p class="supportCheckBtn sb_gold_02 se_tabs"><span class="c_gold">协助确认</span></p>
+			<div class="messageWrap"></div>
+			<div class="se_decide followBtn mb_pink<%="<% if(model.follow){ %\>"%> already<%="<% } %\>"%>">关注</div>
+		</div>
+	</div>
+</script>

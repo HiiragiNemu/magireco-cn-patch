@@ -88,6 +88,65 @@ PRODUCT_RUNTIME = {
     "magica/template/regularEvent/groupBattle/RegularEventGroupCommon.html",
 }
 
+# Selective Totentanz recovery: only files with verified localization value are
+# eligible.  This deliberately is not a suffix/prefix wildcard; an unrelated
+# future JS/HTML/CSS/JSON file must remain unclassified until explicitly chosen.
+# Paths already present in PRODUCT_RUNTIME are omitted to keep the sets disjoint.
+TOTENTANZ_SELECTIVE_RUNTIME = {
+    "magica/css/_common/common.css",
+    "magica/css/arena/ArenaResult.css",
+    "magica/css/chara/CharaCommon.css",
+    "magica/css/chara/CharaEnhancementTree.css",
+    "magica/css/collection/MemoriaCollection.css",
+    "magica/css/event/EventWitch/ExchangeTop.css",
+    "magica/css/event/dailytower/EventDailyTower.css",
+    "magica/css/event/raid/EventRaidTop.css",
+    "magica/css/event/tower/EventTower.css",
+    "magica/css/formation/DeckFormation.css",
+    "magica/css/memoria/MemoriaComposeTop.css",
+    "magica/css/memoria/UserMemoriaList.css",
+    "magica/css/mission/MissionTop.css",
+    "magica/css/patrol/PatrolLumpFormation.css",
+    "magica/css/quest/MainQuest.css",
+    "magica/css/quest/SecondPartLastBattleConfirm.css",
+    "magica/css/quest/SecondPartLastFormation.css",
+    "magica/css/regularEvent/extermination/RegularEventExterminationBattleConfirm.css",
+    "magica/css/regularEvent/extermination/RegularEventExterminationFormation.css",
+    "magica/css/regularEvent/groupBattle/RegularEventGroupBattleBoss.css",
+    "magica/css/regularEvent/groupBattle/RegularEventGroupBattleResult.css",
+    "magica/css/regularEvent/groupBattle/RegularEventGroupBattleTop.css",
+    "magica/css/shop/ShopTop.css",
+    "magica/css/user/EventRecord.css",
+    "magica/resource/image_web/regularEvent/groupBattle/common/result/result_title_header.png",
+    "magica/template/card/CardSort.html",
+    "magica/template/chara/CharaCustomizePopup.html",
+    "magica/template/collection/MagiRepo.html",
+    "magica/template/collection/StoryCollection.html",
+    "magica/template/config/ConfigTop.html",
+    "magica/template/etc/GameStartPopup.html",
+    "magica/template/formation/DeckFormation.html",
+    "magica/template/formation/FormationSupport.html",
+    "magica/template/memoria/MemoriaSetEquip.html",
+    "magica/template/quest/QuestBattleSelect.html",
+    "magica/template/quest/SupportSelect.html",
+    "magica/template/quest/scene0/SideStorySelect.html",
+    "magica/template/quest/scene0/Top.html",
+    "magica/template/regularEvent/groupBattle/RegularEventGroupBattleBoss.html",
+    "magica/template/user/APPopup.html",
+    "magica/template/user/BackgroundSet.html",
+    "magica/template/user/MyProfilePopup.html",
+    "magica/template/user/MyProfilePopup2.html",
+    "magica/template/util/SearchQuest.html",
+}
+
+TOTENTANZ_SELECTIVE_AUDIT = {
+    "magica/research/totentanz-selective-localization-20260817/README.md",
+    "magica/research/totentanz-selective-localization-20260817/engine_i18n_authority_summary.json",
+    "magica/research/totentanz-selective-localization-20260817/engine_i18n_selected_additions.tsv",
+    "magica/research/totentanz-selective-localization-20260817/native_battle_popup_audit.md",
+    "magica/research/totentanz-selective-localization-20260817/selected_files.tsv",
+}
+
 # Files imported byte-for-byte from the live main branch while this release branch
 # was being integrated.  They are eligible only when a second gate proves that
 # their current bytes still exactly match the requested main commit.
@@ -142,6 +201,7 @@ RELEASE_WORKFLOW = {
 }
 
 RELEASE_TOOLING = {
+    "tools/apply-missing-html-authority.py",
     "tools/apply-pass20-suggested-adoptions.py",
     "tools/apply-v26-authority-corrections.py",
     "tools/apply-v26-official-static-corrections.py",
@@ -181,6 +241,7 @@ RELEASE_TOOLING = {
     "tools/test-validate-dsv4-human-review.py",
     "tools/test-i18n-apply-effective.py",
     "tools/test-i18n-build-effective.py",
+    "tools/test-apply-missing-html-authority.py",
     "tools/test-v26-audit-byte-clean.py",
     "tools/test-v26-authority-protection.py",
     "tools/test-v26-final-delivery.py",
@@ -199,6 +260,7 @@ RELEASE_TOOLING = {
     "tools/verify-v26-authority-protection.py",
     "tools/verify-v26-final-delivery.py",
     "tools/verify-dsv4-terminal-handoff.py",
+    "tools/v26-final-extra-allow-20260819.txt",
 }
 
 LEGACY_DSV4_TOOLING = {
@@ -231,7 +293,7 @@ AUDIT_PROVENANCE_EXACT = {
     "magica/i18n_audit/manual_cn_pass16/source_evidence/post_runtime_raw_summary.json",
     "magica/i18n_audit/release_v26_authority/README.md",
     "magica/i18n_audit/release_v26_authority/FINAL_AUDIT_GUIDE.md",
-    "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx",
+    "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1564.xlsx",
     "magica/i18n_audit/release_v26_authority/pass20_ds_correction_status.json",
     "magica/i18n_audit/release_v26_authority/pass20_ds_correction_status.tsv",
     "magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
@@ -270,6 +332,12 @@ BINARY_SUFFIXES = {
     ".7z", ".apk", ".bin", ".gif", ".gz", ".ico", ".jpeg", ".jpg",
     ".png", ".so", ".ttf", ".webp", ".zip",
 }
+REPAIR_MANIFEST_PATH = "madomagi/repair_manifest.json"
+REPAIR_RESOURCE_PREFIX = "madomagi/resource/image_native/"
+CORRUPT_UNREFERENCED_PREVIEW = (
+    "magica/research/totentanz-full-localization-20260817/"
+    "runtime_mapper_changes_preview.tsv"
+)
 
 
 class AuditError(RuntimeError):
@@ -400,13 +468,135 @@ def line_kind(path: str, data: bytes) -> str:
     return "lf" if has_lf else "none"
 
 
-def classify_known(path: str, *, eol_only: bool, extra_repo: set[str]) -> tuple[str, str, str]:
+def verify_repair_manifest(repo: Path) -> dict[str, Any]:
+    """Bind the exact repo-local native repair payload without rewriting bytes."""
+
+    manifest_path = repo / PurePosixPath(REPAIR_MANIFEST_PATH)
+    if manifest_path.is_symlink() or not manifest_path.is_file():
+        raise AuditError(f"missing or non-regular repair manifest: {REPAIR_MANIFEST_PATH}")
+    raw = manifest_path.read_bytes()
+    if raw.startswith(UTF_BOMS) or b"\r" in raw:
+        raise AuditError("repair manifest must be UTF-8 LF without BOM")
+    try:
+        manifest = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise AuditError(f"invalid repair manifest JSON: {exc}") from exc
+    if not isinstance(manifest, dict):
+        raise AuditError("repair manifest root must be an object")
+    if manifest.get("schema") != "magireco-cn-madomagi-repair/v1":
+        raise AuditError("unexpected repair manifest schema")
+    if manifest.get("package_prefix") != REPAIR_RESOURCE_PREFIX:
+        raise AuditError("unexpected repair manifest package_prefix")
+    source_rows = manifest.get("entries")
+    if not isinstance(source_rows, list):
+        raise AuditError("repair manifest entries must be a list")
+
+    rows: list[dict[str, Any]] = []
+    declared_paths: list[str] = []
+    for index, source in enumerate(source_rows, 1):
+        if not isinstance(source, dict):
+            raise AuditError(f"repair manifest entry {index} must be an object")
+        path = safe_rel(str(source.get("path", "")))
+        if not path.startswith(REPAIR_RESOURCE_PREFIX):
+            raise AuditError(f"repair manifest entry escapes package prefix: {path}")
+        declared_bytes = source.get("bytes")
+        if isinstance(declared_bytes, bool) or not isinstance(declared_bytes, int) or declared_bytes < 0:
+            raise AuditError(f"invalid repair byte count for {path}")
+        target = repo / PurePosixPath(path)
+        if target.is_symlink() or not target.is_file():
+            raise AuditError(f"missing or non-regular manifest-bound repair file: {path}")
+        data = target.read_bytes()
+        if len(data) != declared_bytes:
+            raise AuditError(
+                f"repair byte count mismatch for {path}: {len(data)} != {declared_bytes}"
+            )
+        declared_paths.append(path)
+        rows.append({
+            "path": path,
+            "bytes": len(data),
+            "sha256": sha256_bytes(data),
+            "bom": data.startswith(UTF_BOMS),
+            "line_endings": line_kind(path, data),
+        })
+    if declared_paths != sorted(set(declared_paths)):
+        raise AuditError("repair manifest paths must be sorted and unique")
+    if manifest.get("file_count") != len(rows):
+        raise AuditError("repair manifest file_count mismatch")
+    total_bytes = sum(row["bytes"] for row in rows)
+    if manifest.get("total_bytes") != total_bytes:
+        raise AuditError("repair manifest total_bytes mismatch")
+
+    resource_root = repo / PurePosixPath(REPAIR_RESOURCE_PREFIX.rstrip("/"))
+    if resource_root.is_symlink() or not resource_root.is_dir():
+        raise AuditError(f"missing or non-regular repair resource root: {REPAIR_RESOURCE_PREFIX}")
+    actual_paths: list[str] = []
+    for target in resource_root.rglob("*"):
+        if target.is_symlink():
+            raise AuditError(f"symlink is forbidden in repair resources: {target}")
+        if target.is_file():
+            actual_paths.append(target.relative_to(repo).as_posix())
+    actual_paths.sort()
+    if actual_paths != declared_paths:
+        missing = sorted(set(declared_paths) - set(actual_paths))
+        unknown = sorted(set(actual_paths) - set(declared_paths))
+        raise AuditError(
+            f"repair manifest path-set mismatch; missing={missing}, unknown={unknown}"
+        )
+    bom_paths = [row["path"] for row in rows if row["bom"]]
+    return {
+        "schema": "magireco-v26-madomagi-repair-binding/v1",
+        "status": "PASS",
+        "manifest": {
+            "path": REPAIR_MANIFEST_PATH,
+            "bytes": len(raw),
+            "sha256": sha256_bytes(raw),
+        },
+        "package_prefix": REPAIR_RESOURCE_PREFIX,
+        "file_count": len(rows),
+        "total_bytes": total_bytes,
+        "bom_file_count": len(bom_paths),
+        "bom_paths": bom_paths,
+        "entries": rows,
+    }
+
+
+def classify_known(
+    path: str,
+    *,
+    eol_only: bool,
+    extra_repo: set[str],
+    repair_repo: set[str] | frozenset[str] = frozenset(),
+) -> tuple[str, str, str]:
+    if path == CORRUPT_UNREFERENCED_PREVIEW:
+        return (
+            "exclude",
+            "corrupt_unreferenced_preview",
+            "exact damaged untracked preview; excluded from every release input",
+        )
+    if path == REPAIR_MANIFEST_PATH:
+        return "allow", "madomagi_repair_manifest", "validated native repair manifest"
+    if path in repair_repo:
+        return (
+            "allow",
+            "madomagi_repair_resource",
+            "exact native repair resource bound by repair_manifest.json",
+        )
     if eol_only:
         return "exclude", "eol_only_tracked", "tracked bytes differ from HEAD only by line endings"
-    if path in extra_repo:
-        return "allow", "explicit_extra", "explicit caller allow path"
     if path in PRODUCT_RUNTIME:
         return "allow", "product_runtime", "v26 JS or engine runtime product path"
+    if path in TOTENTANZ_SELECTIVE_RUNTIME:
+        return (
+            "allow",
+            "totentanz_selective_runtime",
+            "exact Totentanz path selected for verified localization value",
+        )
+    if path in TOTENTANZ_SELECTIVE_AUDIT:
+        return (
+            "allow",
+            "totentanz_selective_audit",
+            "exact provenance/control-source evidence for the selective Totentanz runtime set",
+        )
     if path in LIVE_MAIN_IMPORT:
         return "allow", "live_main_import", "byte-exact live-main import; separately commit-bound"
     if path in I18N_EFFECTIVE_LAYER:
@@ -430,6 +620,8 @@ def classify_known(path: str, *, eol_only: bool, extra_repo: set[str]) -> tuple[
         return "allow", "audit_pass18_v26", "Pass18 baseline, patch, verification, or product report"
     if path in AUDIT_PROVENANCE_EXACT:
         return "allow", "audit_provenance", "Pass15/16/17/v26 authority provenance or research status"
+    if path in extra_repo:
+        return "allow", "explicit_extra", "reviewed path still unclassified after every strong rule"
     name = PurePosixPath(path).name
     if path.startswith("outputs/"):
         return "exclude", "repo_local_temp_output", "repo-local generated output is not a release source"
@@ -504,6 +696,7 @@ def capture_entries(
     repo: Path,
     rows: list[dict[str, str]],
     extra_repo: set[str],
+    repair_repo: set[str],
 ) -> list[dict[str, Any]]:
     status_paths = {x["path"] for x in rows}
     missing_extra = sorted(extra_repo - status_paths)
@@ -518,7 +711,12 @@ def capture_entries(
         # `git diff --ignore-cr-at-eol` is the deterministic whole-tree EOL
         # classifier.  Untracked files are always content changes.
         eol_only = tracked and path not in real_paths
-        decision, category, reason = classify_known(path, eol_only=eol_only, extra_repo=extra_repo)
+        decision, category, reason = classify_known(
+            path,
+            eol_only=eol_only,
+            extra_repo=extra_repo,
+            repair_repo=repair_repo,
+        )
         exists = target.is_file()
         # Repo-local outputs are excluded before content capture.  In
         # particular, an Excel-owned `~$` lock file may reject byte reads even
@@ -1302,13 +1500,49 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, bytes]]:
 
     extra_repo = {safe_rel(x) for x in args.extra_allow}
     if args.extra_allow_file:
-        for line in args.extra_allow_file.read_text(encoding="utf-8").splitlines():
+        extra_bytes = args.extra_allow_file.read_bytes()
+        if extra_bytes.startswith(UTF_BOMS) or b"\r" in extra_bytes:
+            raise AuditError("extra allow file must be UTF-8 LF without BOM")
+        seen_extra_file: set[str] = set()
+        for line in extra_bytes.decode("utf-8").splitlines():
             line = line.strip()
             if line and not line.startswith("#"):
-                extra_repo.add(safe_rel(line))
+                path = safe_rel(line)
+                if path in seen_extra_file:
+                    raise AuditError(f"duplicate path in extra allow file: {path}")
+                seen_extra_file.add(path)
+                extra_repo.add(path)
 
     raw_start, status_rows = status_snapshot(repo)
-    entries = capture_entries(repo, status_rows, extra_repo)
+    repair = verify_repair_manifest(repo)
+    repair_repo = {row["path"] for row in repair["entries"]}
+
+    # An explicit extra path is a narrow review result, never an override for a
+    # product, repair, audit, live-main, exclusion, or EOL-only strong rule.
+    status_by_path = {row["path"]: row for row in status_rows}
+    missing_extra = sorted(extra_repo - set(status_by_path))
+    if missing_extra:
+        raise AuditError(f"explicit repo allow paths are not in Git status: {missing_extra}")
+    real_paths = real_tracked_paths(repo)
+    overlap: list[dict[str, str]] = []
+    for path in sorted(extra_repo):
+        tracked = status_by_path[path]["status"] != "??"
+        eol_only = tracked and path not in real_paths
+        decision, category, reason = classify_known(
+            path,
+            eol_only=eol_only,
+            extra_repo=set(),
+            repair_repo=repair_repo,
+        )
+        if (decision, category) != ("exclude", "unclassified_change"):
+            overlap.append({"path": path, "decision": decision, "category": category, "reason": reason})
+    if overlap:
+        raise AuditError(
+            "extra allow overlaps strong classification: "
+            + json.dumps(overlap, ensure_ascii=False, sort_keys=True)
+        )
+
+    entries = capture_entries(repo, status_rows, extra_repo, repair_repo)
     allow = [x for x in entries if x["decision"] == "allow"]
     exclude = [x for x in entries if x["decision"] == "exclude"]
     all_paths = [x["path"] for x in entries]
@@ -1342,9 +1576,23 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, bytes]]:
         "partition_exact": set(allow_paths) | set(exclude_paths) == set(all_paths),
     }
     byte_checks = {
-        "allow_git_clean_equivalent": all(x.get("git_clean_unchanged") for x in allow),
-        "allow_lf_or_binary": all(x.get("line_endings") in {"lf", "none", "binary", "deleted"} for x in allow),
-        "allow_no_bom": all(not x.get("bom") for x in allow),
+        "allow_git_clean_equivalent": all(
+            x["category"] == "madomagi_repair_resource" or x.get("git_clean_unchanged")
+            for x in allow
+        ),
+        "allow_lf_or_binary": all(
+            x["category"] == "madomagi_repair_resource"
+            or x.get("line_endings") in {"lf", "none", "binary", "deleted"}
+            for x in allow
+        ),
+        "allow_no_bom": all(
+            x["category"] == "madomagi_repair_resource" or not x.get("bom")
+            for x in allow
+        ),
+        "repair_bom_only_manifest_bound": all(
+            not x.get("bom") or x["category"] == "madomagi_repair_resource"
+            for x in allow
+        ),
         "external_lf_or_binary": all(x["line_endings"] in {"lf", "none", "binary"} for x in external),
         "external_no_bom": all(not x["bom"] for x in external),
     }
@@ -1354,6 +1602,7 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, bytes]]:
         **byte_checks,
         "repo_snapshot_stable": repo_stable,
         "machine_sha_bindings": machine["status"] == "PASS",
+        "madomagi_repair_manifest_bound": repair["status"] == "PASS",
         "authority_protection": authority["status"] == "PASS",
         "git_identity": identity["status"] == "PASS",
         "live_main_imports_exact": live_main["status"] == "PASS",
@@ -1377,6 +1626,8 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, bytes]]:
         "exclude_paths": len(exclude),
         "external_dsv4_paths": len(external),
         "unclassified_changes": len(unclassified),
+        "madomagi_repair_files": repair["file_count"],
+        "madomagi_repair_bom_files": repair["bom_file_count"],
     }
     category_counts: dict[str, int] = {}
     for entry in entries:
@@ -1426,6 +1677,7 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, bytes]]:
         "eol_only_tracked_paths.txt": "".join(f"{x['path']}\n" for x in entries if x["eol_only"]).encode("utf-8"),
         "external_dsv4_allowlist.json": json_bytes(external),
         "machine_sha_binding_verification.json": json_bytes(machine),
+        "madomagi_repair_manifest_verification.json": json_bytes(repair),
         "authority_protection_live_verification.json": json_bytes(authority),
         "git_identity_verification.json": json_bytes(identity),
         "live_main_import_verification.json": json_bytes(live_main),

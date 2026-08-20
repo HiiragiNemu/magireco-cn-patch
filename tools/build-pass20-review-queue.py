@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the 1,589-item machine inventory and 1,565-item human queue."""
+"""Build the Pass20 machine inventory, human queue, and authority shadows."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from pathlib import Path
 import sys
 
 from pass20_review_contract import (
-    CLASSIFICATION_FIELDS, CONTRACT_JSON, DECISION_FIELDS, DECISIONS, EFFECTIVE,
+    ADOPTIONS, CLASSIFICATION_FIELDS, CONTRACT_JSON, DECISION_FIELDS, DECISIONS, EFFECTIVE,
     FULL_REVIEW, HUMAN_DECISIONS, HUMAN_QUEUE, MACHINE_INVENTORY, OFFICIAL_REVIEW, PRIORITY_QUEUE,
     PRIORITY_VERDICTS, PROVENANCE, RESOLUTIONS, SHADOW_TSV,
     ContractError, contract_payload, human_review_status, is_shadowed, load_tsv,
@@ -28,6 +28,7 @@ def build(
     official_review_path: Path,
     provenance_path: Path,
     effective_path: Path,
+    adoptions_path: Path = ADOPTIONS,
 ) -> tuple[
     list[str], list[dict[str, str]], list[dict[str, str]],
     list[dict[str, str]], list[dict[str, str]],
@@ -38,6 +39,17 @@ def build(
     _, official_review = load_tsv(official_review_path)
     _, provenance_rows = load_tsv(provenance_path)
     _, effective_rows = load_tsv(effective_path)
+    adoption_header, adoption_rows = load_tsv(adoptions_path)
+    if not {"item_id", "adopted_cn", "machine_origin"}.issubset(adoption_header):
+        raise QueueError("suggestion adoption table lacks required columns")
+    adoptions = {row["item_id"]: row["adopted_cn"] for row in adoption_rows}
+    if (
+        len(adoptions) != len(adoption_rows)
+        or len(adoptions) != 29
+        or any(not value for value in adoptions.values())
+        or any(row["machine_origin"] != "true" for row in adoption_rows)
+    ):
+        raise QueueError("suggestion adoption table has an invalid row or count")
     immutable_schema = [field for field in decision_header if field not in DECISION_FIELDS]
     if not set(immutable_schema).issubset(source_header):
         missing = sorted(set(immutable_schema).difference(source_header))
@@ -70,9 +82,22 @@ def build(
         ):
             continue
         row = {field: source_row.get(field, "") for field in decision_header}
-        source = provenance.get(row["source_key"])
-        if source is None or source["source_file"] != row["source_path"]:
-            raise QueueError(f"candidate provenance is missing or drifted: {item_id}")
+        if item_id in adoptions:
+            candidates = [
+                entry for entry in provenance_rows
+                if entry.get("source_file") == row["source_path"]
+                and entry.get("source_text") == row["japanese_or_source_original"]
+                and entry.get("candidate_cn") == adoptions[item_id]
+                and entry.get("authority") == "legacy_unverified_ai_assisted"
+                and entry.get("selected") == "true"
+            ]
+            if len(candidates) != 1:
+                raise QueueError(f"adopted candidate provenance drifted: {item_id}")
+            source = candidates[0]
+        else:
+            source = provenance.get(row["source_key"])
+            if source is None or source["source_file"] != row["source_path"]:
+                raise QueueError(f"candidate provenance is missing or drifted: {item_id}")
         winner = effective.get(source["key"])
         if winner is None:
             raise QueueError(f"effective semantic key is missing: {item_id}")
@@ -127,6 +152,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--official-review", type=Path, default=OFFICIAL_REVIEW)
     parser.add_argument("--provenance", type=Path, default=PROVENANCE)
     parser.add_argument("--effective", type=Path, default=EFFECTIVE)
+    parser.add_argument("--adoptions", type=Path, default=ADOPTIONS)
     parser.add_argument("--out", type=Path, default=HUMAN_QUEUE)
     parser.add_argument("--priority-out", type=Path, default=PRIORITY_QUEUE)
     parser.add_argument("--inventory-out", type=Path, default=MACHINE_INVENTORY)
@@ -136,7 +162,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         header, inventory, human, priority, shadowed = build(
             args.source, args.decisions_schema, args.resolutions, args.official_review,
-            args.provenance, args.effective,
+            args.provenance, args.effective, args.adoptions,
         )
         write_tsv(args.inventory_out, header, inventory)
         write_tsv(args.out, header, human)

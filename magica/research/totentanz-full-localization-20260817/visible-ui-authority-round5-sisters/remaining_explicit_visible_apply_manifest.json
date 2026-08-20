@@ -1,0 +1,62 @@
+{
+  "schema_version": "remaining-explicit-visible-localization-v1",
+  "generated_at": "2026-08-18T19:06:09.731518+00:00",
+  "mode": "report-only-no-product-edits",
+  "summary": {
+    "new_definite_actionable_items": 1,
+    "independent_dictionary_occurrences": 1,
+    "embedded_dictionary_occurrences": 1
+  },
+  "target_contract": {
+    "path": "magica/js/libs/pieceList.json",
+    "before_sha256": "e3bbad282824c93967b07629c7bbc6a097be78c7e401f0a06d82a760b08642ea",
+    "before_canonical_semantic_sha256": "4cd4a857d246fb4144b76b406fabdec2cac690f0f7ebaa076ca9536c87b13feb",
+    "simulated_after_canonical_semantic_sha256": "00bcafabe1076a88f40f3368e0927f07b57d68cdfd836cf524a5a1635a2cedb0",
+    "record_count": 1042
+  },
+  "operations": [
+    {
+      "item_id": "VISIBLE-R3-PIECE-1731-NAME",
+      "target_path": "magica/js/libs/pieceList.json",
+      "selector": {
+        "pieceId": 1731
+      },
+      "field": "pieceName",
+      "before": "Sisters",
+      "after": "姐妹",
+      "source_tier": "wiki",
+      "source_key": "memoria.number=1731",
+      "source_literal": {
+        "name_ja": "Sisters",
+        "name_zh": "姐妹"
+      },
+      "official_cn_status": "absent-pieceId-1731-in-157-file-226800790-byte-Full_Raw_Dump_V2",
+      "runtime_bindings": [
+        "magica/template/memoria/MemoriaEquipInfo.html:2",
+        "magica/template/chara/CharaDetail.html:432,484,536,588",
+        "magica/template/gacha/GachaTop.html:324",
+        "magica/template/gacha/SelectableGachaPieceSelect.html:58"
+      ],
+      "guard": {
+        "current_pieceName": "Sisters"
+      },
+      "product_write_allowed": true
+    }
+  ],
+  "source_evidence": {
+    "wiki_path": "D:\\magia\\MyProducts\\wiki-data\\data\\memoria.json",
+    "wiki_sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+    "wiki_page": "sisters",
+    "official_cn_root": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2",
+    "official_cn_json_files_scanned": 157,
+    "official_cn_json_bytes_scanned": 226800790,
+    "official_pieceId_1731_hits": 0
+  },
+  "apply_contract": [
+    "verify target before SHA",
+    "require exactly one pieceId=1731 and pieceName=Sisters",
+    "replace only pieceName",
+    "rebuild embedded jquery from all 23 dictionaries",
+    "verify independent and embedded dictionaries both contain pieceId 1731 pieceName 姐妹 and Sisters=0"
+  ]
+}

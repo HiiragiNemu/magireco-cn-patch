@@ -82,7 +82,8 @@ class Pass20WorkbookBuildTests(unittest.TestCase):
     def test_01_tracked_builder_uses_artifact_tool_and_new_filename(self):
         source = (ROOT / "tools/build-pass20-human-review-xlsx.mjs").read_text(encoding="utf-8")
         self.assertIn("@oai/artifact-tool", source)
-        self.assertIn("magireco_v26_translation_review_1565.xlsx", source)
+        self.assertIn("const reviewCount = 1564;", source)
+        self.assertIn("magireco_v26_translation_review_${reviewCount}.xlsx", source)
         self.assertNotIn("pass20_human_review.xlsx", source)
         self.assertNotIn("__target_row_json", source)
         self.assertIn("__target_manifest_index", source)
@@ -90,17 +91,17 @@ class Pass20WorkbookBuildTests(unittest.TestCase):
 
     def test_02_existing_workbook_has_one_human_sheet_and_three_visible_columns(self):
         result = BUILDER.verify_outputs(BUILDER.CANONICAL, BUILDER.CANONICAL)
-        self.assertEqual(result["counts"]["workbook_rows"], 1565)
+        self.assertEqual(result["counts"]["workbook_rows"], 1564)
         with zipfile.ZipFile(BUILDER.CANONICAL) as package:
             paths = IMPORTER._sheet_paths(package)
             self.assertEqual(tuple(paths), IMPORTER.SHEETS)
-            self.assertEqual(tuple(paths), ("人工审核1565",))
+            self.assertEqual(tuple(paths), ("人工审核1564",))
             shared = IMPORTER._shared_strings(package)
             parsed = {
                 name: IMPORTER._parse_sheet(package, member, shared)
                 for name, member in paths.items()
             }
-            review = parsed["人工审核1565"]
+            review = parsed["人工审核1564"]
         self.assertEqual(
             tuple(review["cells"][f"{column}1"] for column in "ABC"),
             ("日文原文", "旧中文", "最终中文"),
@@ -108,9 +109,9 @@ class Pass20WorkbookBuildTests(unittest.TestCase):
         self.assertEqual(review["cells"]["D1"], "__item_id")
         self.assertEqual(review["cells"]["L1"], "__target_manifest_index")
         self.assertEqual(review["cells"]["N1"], "__partition")
-        origins = [review["cells"][f"E{row}"] for row in range(2, 1567)]
+        origins = [review["cells"][f"E{row}"] for row in range(2, 1566)]
         self.assertEqual(origins.count("adopted_suggestion"), 29)
-        self.assertEqual(origins.count("current"), 1536)
+        self.assertEqual(origins.count("current"), 1535)
         max_cell_chars = max(
             len(value)
             for sheet in parsed.values()
@@ -194,7 +195,7 @@ try {
     $book = $workbooks.Open($env:PASS20_XLSX_INPUT, 0, $true)
     [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($workbooks)
     $worksheets = $book.Worksheets
-    foreach ($name in @('人工审核1565')) {
+    foreach ($name in @('人工审核1564')) {
         $sheet = $worksheets.Item($name)
         $listObjects = $sheet.ListObjects
         $table = $listObjects.Item(1)
@@ -276,7 +277,7 @@ finally {
                 saved_paths = IMPORTER._sheet_paths(saved_package)
                 original_shared = IMPORTER._shared_strings(original_package)
                 saved_shared = IMPORTER._shared_strings(saved_package)
-                sheet_name = "人工审核1565"
+                sheet_name = "人工审核1564"
                 original_sheet = IMPORTER._parse_sheet(
                     original_package, original_paths[sheet_name], original_shared,
                 )

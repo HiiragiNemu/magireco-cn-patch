@@ -110,14 +110,14 @@ class Pass20CorrectionDispositionTests(unittest.TestCase):
             encoding="utf-8", newline=""
         ) as stream:
             adopted = {row["item_id"]: row["adopted_cn"] for row in csv.DictReader(stream, delimiter="\t")}
-        workbook = ROOT / "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1565.xlsx"
+        workbook = ROOT / "magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1564.xlsx"
         with zipfile.ZipFile(workbook) as package:
             shared = IMPORTER._shared_strings(package)
             paths = IMPORTER._sheet_paths(package)
-            review = IMPORTER._parse_sheet(package, paths["人工审核1565"], shared)["cells"]
+            review = IMPORTER._parse_sheet(package, paths["人工审核1564"], shared)["cells"]
         visible = {}
         all_ids = set()
-        for row_number in range(2, 1567):
+        for row_number in range(2, IMPORTER.EXPECTED_COUNTS["human"] + 2):
             item_id = review[f"D{row_number}"]
             all_ids.add(item_id)
             if review[f"E{row_number}"] == "adopted_suggestion":

@@ -1,0 +1,142 @@
+{
+  "schema": "engine-final-authority-corrections/v1",
+  "record_count": 9,
+  "product_path": "madomagi/engine_i18n.tsv",
+  "authority_policy": [
+    "official-cn",
+    "wiki",
+    "confirmed-human",
+    "low-tier"
+  ],
+  "records": [
+    {
+      "review_id": "ENGINE-FINAL-006",
+      "source": "環 いろは",
+      "target": "环彩羽",
+      "source_tier": "official-cn-native-exact",
+      "authority_status": "official-source-verified",
+      "machine_translated": false,
+      "confidence": "dual-abi-exact-technical-context",
+      "evidence": [
+        "current arm64 source 0x168b8b2; official arm64 target 0x14dee00/0x14dee38",
+        "current armv7 source 0x13b4378; official armv7 target 0x1184670/0x11846a4",
+        "shared anchor resource/image_native/scene/download/char_list.json"
+      ],
+      "notes": "Old CN native loading-resource character block, both ABIs."
+    },
+    {
+      "review_id": "ENGINE-FINAL-007",
+      "source": "不思議な夢の真相を探るべく、神浜市にやってきた魔法少女。お人好しな性格で、気遣いが行き過ぎてしまうことも多々ある。最新の流行には疎く、スマホの扱いもぎこちない。日頃は控えめだが、ここ一番では芯の強さを見せる。",
+      "target": "为探寻奇怪梦境的真相而来到神滨市的魔法少女。喜欢去帮助他人，经常过于热心反而帮倒忙。@对时下流行不太敏感，也不擅长使用智能手机。平时性格内向，但在紧要关头会表现出坚强的一面。",
+      "source_tier": "official-cn-native-exact",
+      "authority_status": "official-source-verified",
+      "machine_translated": false,
+      "confidence": "dual-abi-exact-technical-context",
+      "evidence": [
+        "official arm64 0x14dee48",
+        "official armv7 0x11846b0",
+        "shared loading-resource char_list.json block"
+      ],
+      "notes": "The @ byte is the official CN layout marker and is retained literally."
+    },
+    {
+      "review_id": "ENGINE-FINAL-008",
+      "source": "(CV:麻倉もも)",
+      "target": "(CV：麻仓桃)",
+      "source_tier": "official-cn-native-exact",
+      "authority_status": "official-source-verified",
+      "machine_translated": false,
+      "confidence": "dual-abi-exact-technical-context",
+      "evidence": [
+        "official arm64 0x14def50",
+        "official armv7 0x11847b4",
+        "adjacent to official char_list Iroha name/description"
+      ],
+      "notes": "Official CN fullwidth colon retained."
+    },
+    {
+      "review_id": "ENGINE-FINAL-012",
+      "source": "魔法少女の画像や音声、ムービー等、ゲームに必要なデータをダウンロードします。",
+      "target": "下载魔法少女的图像，声音和动画等，游戏中必要的数据。",
+      "source_tier": "official-cn-native-exact",
+      "authority_status": "official-source-verified",
+      "machine_translated": false,
+      "confidence": "dual-abi-exact-download-context",
+      "evidence": [
+        "official CN arm64 and armeabi-v7a download-description block",
+        "work/next_round_execution_20260819/native_engine_i18n_authority_audit_315_20260819"
+      ],
+      "notes": "Whole-string official CN replacement."
+    },
+    {
+      "review_id": "ENGINE-FINAL-014",
+      "source": "※ゲーム開始後に変更、再ダウンロードすることも可能です。",
+      "target": "※游戏开始后可以进行更改和再次下载。",
+      "source_tier": "official-cn-native-exact",
+      "authority_status": "official-source-verified",
+      "machine_translated": false,
+      "confidence": "dual-abi-exact-download-context",
+      "evidence": [
+        "official CN arm64 and armeabi-v7a download-description block",
+        "work/next_round_execution_20260819/native_engine_i18n_authority_audit_315_20260819"
+      ],
+      "notes": "Whole-string official CN replacement."
+    },
+    {
+      "review_id": "ENGINE-FINAL-037",
+      "source": "敵からのダメージを ",
+      "target": "使来自敌方的伤害无效化",
+      "source_tier": "manual-semantic-reviewed",
+      "authority_status": "root-reviewed-approved",
+      "machine_translated": false,
+      "confidence": "native-disassembly-verified-fragment",
+      "evidence": [
+        "current arm64 source 0x169f8c1",
+        "QbArtBehaviorBarrier::getStatusChangeBarMessage 0xa18344 concatenates prefix + integer + suffix"
+      ],
+      "notes": "Visible barrier amount prefix; target deliberately ends immediately before the runtime integer."
+    },
+    {
+      "review_id": "ENGINE-FINAL-038",
+      "source": "だけ無効化する",
+      "target": "点",
+      "source_tier": "manual-semantic-reviewed",
+      "authority_status": "root-reviewed-approved",
+      "machine_translated": false,
+      "confidence": "native-disassembly-verified-fragment",
+      "evidence": [
+        "current arm64 source 0x169f8de",
+        "QbArtBehaviorBarrier::getStatusChangeBarMessage 0xa18344 concatenates prefix + integer + suffix"
+      ],
+      "notes": "The inserted integer is a barrier damage amount, not a count. Final form: 使来自敌方的伤害无效化10000点."
+    },
+    {
+      "review_id": "ENGINE-FINAL-276",
+      "source": "HP自動回復",
+      "target": "自动回复HP",
+      "source_tier": "official-cn-native-exact",
+      "authority_status": "official-source-verified",
+      "machine_translated": false,
+      "confidence": "dual-abi-stable-battle-description-order",
+      "evidence": [
+        "official CN battle-description block arm64 0x14d0558",
+        "same source key and target are consistent with the Wiki terminology layer"
+      ],
+      "notes": "Official CN preferred over prior word order."
+    },
+    {
+      "review_id": "ENGINE-FINAL-278",
+      "source": "MP自動回復",
+      "target": "自动回复MP",
+      "source_tier": "official-cn-native-exact",
+      "authority_status": "official-source-verified",
+      "machine_translated": false,
+      "confidence": "dual-abi-stable-battle-description-order",
+      "evidence": [
+        "official CN battle-description block arm64 0x14d0848",
+        "same source key and target are consistent with the Wiki terminology layer"
+      ],
+      "notes": "Official CN preferred over prior word order."
+    }
+  ]
+}

@@ -85,7 +85,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         new b.PopupClass(
         {
           title: "区域攻略失败",
-          content: "队伍全员失去战斗能力,<br>已从区域撤退",
+          content: "由于所有队员都进入无法战斗状态，<br>已从区域退出",
           popupType: "typeA",
           popupId: "areaFailed",
           closeBtnText: "确定"

@@ -103,6 +103,29 @@
           "timeout_seconds": 900
         },
         {
+          "id": "test-css-visible-content-audit",
+          "argv": ["${PYTHON}", "tools/test-css-visible-content-audit.py"],
+          "inputs": [
+            "tools/test-css-visible-content-audit.py",
+            "magica/css",
+            "magica/research/totentanz-full-localization-20260817/visible-ui/visible_ui_manifest.json",
+            "magica/research/totentanz-full-localization-20260817/visible-ui/css_visible_content_audit.json",
+            "magica/research/totentanz-full-localization-20260817/visible-ui/connect_supersession_ui075.json"
+          ],
+          "timeout_seconds": 600
+        },
+        {
+          "id": "test-html-structure-contract",
+          "argv": ["${PYTHON}", "tools/test-build-html-structure-contract.py"],
+          "inputs": [
+            "tools/test-build-html-structure-contract.py",
+            "tools/build-html-structure-contract.py",
+            "magica/template",
+            "magica/research/totentanz-full-localization-20260817/html-structure-contract-20260819/html_structure_contract.json"
+          ],
+          "timeout_seconds": 900
+        },
+        {
           "id": "test-dsv4-terminal-assembler",
           "argv": ["${PYTHON}", "tools/test-assemble-dsv4-v3-terminal.py"],
           "inputs": ["tools/test-assemble-dsv4-v3-terminal.py", "tools/assemble-dsv4-v3-terminal.py", "tools/dsv4-v3-staging-patch.py"],

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bind all 1,565 human-review items to maintenance and runtime targets."""
+"""Bind all Pass20 human-review items to maintenance and runtime targets."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ import sys
 from typing import Any
 
 from pass20_review_contract import (
-    EXACT_RUNTIME_ITEMS, HUMAN_REVIEW_ITEMS, MAINTENANCE_ONLY_ITEMS,
+    ADOPTIONS, EXACT_RUNTIME_ITEMS, HUMAN_REVIEW_ITEMS, MAINTENANCE_ONLY_ITEMS,
     RUNTIME_OCCURRENCES, SHADOWED_ITEMS, SHADOW_JSON, SHADOW_TSV,
     SHADOW_RUNTIME_MATERIALIZATIONS,
 )
@@ -128,10 +128,22 @@ def build(
     *,
     expected_items: int = HUMAN_REVIEW_ITEMS,
     allow_shadowed: bool = False,
+    adoptions_path: Path = ADOPTIONS,
 ) -> dict[str, Any]:
     _, queue = load_tsv(queue_path)
     _, provenance_rows = load_tsv(provenance_path)
     _, effective_rows = load_tsv(effective_path)
+    adoption_header, adoption_rows = load_tsv(adoptions_path)
+    if not {"item_id", "adopted_cn", "machine_origin"}.issubset(adoption_header):
+        raise TargetError("suggestion adoption table lacks required columns")
+    adoptions = {row["item_id"]: row["adopted_cn"] for row in adoption_rows}
+    if (
+        len(adoptions) != len(adoption_rows)
+        or len(adoptions) != 29
+        or any(not value for value in adoptions.values())
+        or any(row["machine_origin"] != "true" for row in adoption_rows)
+    ):
+        raise TargetError("suggestion adoption table has an invalid row or count")
     if len(queue) != expected_items or len({row["item_id"] for row in queue}) != expected_items:
         raise TargetError(f"Pass20 queue must contain {expected_items} unique items")
     provenance: dict[str, dict[str, str]] = {}
@@ -175,16 +187,32 @@ def build(
     for queue_row in queue:
         item_id = queue_row["item_id"]
         source_key = queue_row["source_key"]
-        source = provenance.get(source_key)
-        if source is None:
-            raise TargetError(f"candidate absent from effective provenance: {item_id}")
+        if item_id in adoptions:
+            candidates = [
+                entry for entry in provenance_rows
+                if entry.get("source_file") == queue_row["source_path"]
+                and entry.get("source_text") == queue_row["japanese_or_source_original"]
+                and entry.get("candidate_cn") == adoptions[item_id]
+                and entry.get("authority") == "legacy_unverified_ai_assisted"
+                and entry.get("selected") == "true"
+            ]
+            if len(candidates) != 1:
+                raise TargetError(f"adopted candidate absent from effective provenance: {item_id}")
+            source = candidates[0]
+        else:
+            source = provenance.get(source_key)
+            if source is None:
+                raise TargetError(f"candidate absent from effective provenance: {item_id}")
         if source["source_file"] != queue_row["source_path"]:
             raise TargetError(f"maintenance table drift: {item_id}")
         source_text = decode_cell(source["source_text"])
         current_cn = decode_cell(source["candidate_cn"])
         if source_text != decode_cell(queue_row["japanese_or_source_original"]):
             raise TargetError(f"source text drift: {item_id}")
-        if current_cn != decode_cell(queue_row["current_cn"]):
+        expected_current = (
+            adoptions[item_id] if item_id in adoptions else queue_row["current_cn"]
+        )
+        if current_cn != decode_cell(expected_current):
             raise TargetError(f"current translation drift: {item_id}")
         scope = source["scope"]
         if scope not in LAYER_LABELS:
@@ -413,6 +441,7 @@ def build(
             "input_provenance": sha256_file(provenance_path),
             "effective": sha256_file(effective_path),
             "ui_text": sha256_file(ui_text_path),
+            "suggestion_adoptions": sha256_file(adoptions_path),
         },
     }
     if not allow_shadowed:
@@ -437,6 +466,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--queue", type=Path, default=QUEUE)
     parser.add_argument("--provenance", type=Path, default=PROVENANCE)
     parser.add_argument("--effective", type=Path, default=EFFECTIVE)
+    parser.add_argument("--adoptions", type=Path, default=ADOPTIONS)
     parser.add_argument("--ui-text", type=Path, default=UI_TEXT)
     parser.add_argument("--product-root", type=Path, default=PRODUCT)
     parser.add_argument("--out-json", type=Path, default=OUT_JSON)
@@ -445,7 +475,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--shadow-json", type=Path, default=SHADOW_JSON)
     args = parser.parse_args(argv)
     try:
-        result = build(args.queue, args.provenance, args.effective, args.ui_text, args.product_root)
+        result = build(
+            args.queue, args.provenance, args.effective, args.ui_text, args.product_root,
+            adoptions_path=args.adoptions,
+        )
         args.out_json.parent.mkdir(parents=True, exist_ok=True)
         args.out_json.write_text(
             json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
@@ -473,6 +506,7 @@ def main(argv: list[str] | None = None) -> int:
         shadow_result = build(
             args.shadow_queue, args.provenance, args.effective, args.ui_text, args.product_root,
             expected_items=SHADOWED_ITEMS, allow_shadowed=True,
+            adoptions_path=args.adoptions,
         )
         shadow_items = []
         for item in shadow_result["items"]:

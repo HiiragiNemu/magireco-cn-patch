@@ -73,7 +73,7 @@ class FinalValueValidationTests(unittest.TestCase):
             result = self.validate(path)
             header, rows = read_tsv(path)
         self.assertFalse(result["release_gate_open"])
-        self.assertEqual(result["states"]["pending"], 1565)
+        self.assertEqual(result["states"]["pending"], 1564)
         self.assertEqual(result["final_values_received"], 0)
         self.assertEqual(tuple(header), CONTRACT.FINAL_VALUE_FIELDS)
         self.assertEqual(rows, [])
@@ -88,7 +88,7 @@ class FinalValueValidationTests(unittest.TestCase):
         self.assertTrue(result["release_gate_open"])
         self.assertEqual(result["states"]["pending"], 0)
         self.assertEqual(result["states"]["machine_suggestion_adopted"], 29)
-        self.assertEqual(result["states"]["machine_current_retained"], 1536)
+        self.assertEqual(result["states"]["machine_current_retained"], 1535)
         self.assertEqual(result["states"]["human_revised"], 0)
         self.assertEqual(result["provenance_mode"], "human-review")
 
@@ -140,12 +140,16 @@ class FinalValueValidationTests(unittest.TestCase):
                 code = MODULE.main([
                     "--source", str(HANDOFF / "full_review.tsv"),
                     "--final-values", str(path),
-                    "--authority-resolutions", str(RESOLUTIONS),
                     "--require-release-open",
                 ])
         self.assertEqual(code, 3)
-        self.assertFalse(json.loads(out.getvalue())["release_gate_open"])
-        self.assertIn("1565 final values", err.getvalue())
+        payload = json.loads(out.getvalue())
+        self.assertFalse(payload["release_gate_open"])
+        self.assertEqual(payload["authority_resolved"], 323)
+        self.assertEqual(
+            payload["authority_resolutions_sha256"], MODULE.sha256(RESOLUTIONS),
+        )
+        self.assertIn("1564 final values", err.getvalue())
 
     def test_08_rough_production_opens_gate_without_human_review_claim(self):
         rows = completed_rows(CONTRACT.ROUGH_PRODUCTION_MODE)
@@ -156,10 +160,10 @@ class FinalValueValidationTests(unittest.TestCase):
         self.assertTrue(result["release_gate_open"])
         self.assertEqual(result["provenance_mode"], "rough-production")
         self.assertTrue(result["machine_provenance_retained"])
-        self.assertEqual(result["states"]["rough_production_rows"], 1565)
+        self.assertEqual(result["states"]["rough_production_rows"], 1564)
         self.assertEqual(result["states"]["human_review_mode_rows"], 0)
         self.assertEqual(result["states"]["machine_suggestion_adopted"], 29)
-        self.assertEqual(result["states"]["machine_current_retained"], 1536)
+        self.assertEqual(result["states"]["machine_current_retained"], 1535)
 
     def test_09_rough_production_cannot_disguise_an_edit(self):
         rows = completed_rows(CONTRACT.ROUGH_PRODUCTION_MODE)

@@ -213,7 +213,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
             var k = h.section.parameter.split("=")[1].toLowerCase(),
               f = k == m ? !0 : !1,
               l = "normal" == k ? d : d - x;
-            a.questTitle = "BATTLE " + l;
+            a.questTitle = "战斗 " + l;
             a.accomplishType = k;
             null == p && (p = l - 1);
             a.questType = h.section.questType

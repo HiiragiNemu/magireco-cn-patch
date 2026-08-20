@@ -83,11 +83,22 @@ class FinalDeliveryTests(unittest.TestCase):
             ],
             self.repo,
         )
+        self.repair_member = MODULE.REPAIR_PREFIX + "chara/sample.png"
+        self.repair_bytes = b"repair-png"
         self.artifact_members = {
             MODULE.ENGINE_MEMBER: "戻る\t返回\n".encode("utf-8"),
+            self.repair_member: self.repair_bytes,
             "magica/css/a.css": b"body{}\n",
             "magica/js/a.js": b"define(function(){return true;});\n",
             "magica/template/a.html": b"<p>ok</p>\n",
+        }
+        self.repair_manifest = {
+            "schema": "magireco-cn-madomagi-repair/v1",
+            "file_count": 1,
+            "total_bytes": len(self.repair_bytes),
+            "entries": [
+                {"path": self.repair_member, "bytes": len(self.repair_bytes)}
+            ],
         }
         (self.repo / "mod.txt").write_bytes(b"before\n")
         (self.repo / "binary.dat").write_bytes(bytes(range(256)) * 8)
@@ -97,6 +108,14 @@ class FinalDeliveryTests(unittest.TestCase):
             product_path = self.repo / rel
             product_path.parent.mkdir(parents=True, exist_ok=True)
             product_path.write_bytes(data)
+        repair_manifest_path = self.repo / MODULE.REPAIR_MANIFEST
+        repair_manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        repair_manifest_path.write_text(
+            json.dumps(self.repair_manifest, ensure_ascii=False, indent=2, sort_keys=True)
+            + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
         run(["git", "add", "."], self.repo)
         run(["git", "commit", "-m", "baseline"], self.repo)
         self.baseline = run(["git", "rev-parse", "HEAD"], self.repo).stdout.strip()
@@ -116,9 +135,10 @@ class FinalDeliveryTests(unittest.TestCase):
         self.artifact = self.root / MODULE.ARTIFACT_NAME
         write_product_zip(self.artifact, self.artifact_members)
         self.artifact_contract = {
-            "file_entries": 4,
+            "file_entries": 5,
             "magica_entries": 3,
             "engine_entries": 1,
+            "repair_entries": 1,
             "scenario_entries": 0,
             "audit_research_entries": 0,
         }
@@ -170,9 +190,10 @@ class FinalDeliveryTests(unittest.TestCase):
         self.assertEqual({"A": 1, "M": 2, "D": 1}, manifest["change_counts"])
         self.assertEqual(self.artifact_contract, manifest["modified_artifact"]["expected"])
         zip_actual = manifest["modified_artifact"]["actual"]
-        self.assertEqual(4, zip_actual["file_entries"])
+        self.assertEqual(5, zip_actual["file_entries"])
         self.assertEqual(3, zip_actual["magica_entries"])
         self.assertEqual(1, zip_actual["engine_entries"])
+        self.assertEqual(1, zip_actual["repair_entries"])
         self.assertEqual(0, zip_actual["scenario_entries"])
         self.assertEqual(0, zip_actual["audit_research_entries"])
         self.assertEqual(0, zip_actual["duplicate_paths"])
@@ -180,8 +201,28 @@ class FinalDeliveryTests(unittest.TestCase):
         tree_binding = manifest["modified_artifact"]["final_tree_binding"]
         self.assertEqual("PASS", tree_binding["status"])
         self.assertEqual(manifest["final"]["tree"], tree_binding["final_tree"])
-        self.assertEqual(4, tree_binding["matched_entry_count"])
+        self.assertEqual(5, tree_binding["matched_entry_count"])
         self.assertEqual(0, tree_binding["byte_mismatch_count"])
+        self.assertEqual(
+            {
+                "status": "PASS",
+                "path": MODULE.REPAIR_MANIFEST,
+                "schema": "magireco-cn-madomagi-repair/v1",
+                "declared_entries": 1,
+                "tree_entries": 1,
+                "total_bytes": len(self.repair_bytes),
+                "path_set_exact": True,
+                "byte_counts_exact": True,
+            },
+            {
+                key: tree_binding["repair_manifest_binding"][key]
+                for key in (
+                    "status", "path", "schema", "declared_entries",
+                    "tree_entries", "total_bytes", "path_set_exact",
+                    "byte_counts_exact",
+                )
+            },
+        )
         self.assertEqual(
             self.artifact.read_bytes(),
             (self.bundle / MODULE.ARTIFACT_NAME).read_bytes(),
@@ -202,6 +243,90 @@ class FinalDeliveryTests(unittest.TestCase):
             manifest["baseline"]["tree"],
             verified["cached_patch_roundtrip"]["reverse"]["actual_tree"],
         )
+
+    def test_default_artifact_contract_derives_variable_product_counts(self) -> None:
+        _data, report = MODULE.inspect_product_artifact(self.artifact)
+        self.assertEqual(
+            {
+                "file_entries": 5,
+                "magica_entries": 3,
+                "engine_entries": 1,
+                "repair_entries": 1,
+                "scenario_entries": 0,
+                "audit_research_entries": 0,
+            },
+            report["expected"],
+        )
+
+        expanded = self.root / "expanded.zip"
+        members = dict(self.artifact_members)
+        members["magica/template/reviewed-new.html"] = b"<p>new</p>\n"
+        write_product_zip(expanded, members)
+        _data, expanded_report = MODULE.inspect_product_artifact(expanded)
+        self.assertEqual(expanded_report["expected"]["file_entries"], 6)
+        self.assertEqual(expanded_report["expected"]["magica_entries"], 4)
+
+    def test_repair_manifest_path_drift_is_rejected(self) -> None:
+        changed = json.loads(json.dumps(self.repair_manifest))
+        changed["entries"][0]["path"] = MODULE.REPAIR_PREFIX + "chara/missing.png"
+        path = self.repo / MODULE.REPAIR_MANIFEST
+        path.write_text(
+            json.dumps(changed, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+        run(["git", "add", MODULE.REPAIR_MANIFEST], self.repo)
+        tree = run(["git", "write-tree"], self.repo).stdout.strip()
+        with self.assertRaisesRegex(MODULE.DeliveryError, "path set mismatch"):
+            MODULE.verify_product_artifact_against_tree(
+                self.repo, tree, self.artifact.read_bytes()
+            )
+
+    def test_repair_manifest_byte_drift_is_rejected(self) -> None:
+        changed = json.loads(json.dumps(self.repair_manifest))
+        changed["entries"][0]["bytes"] += 1
+        changed["total_bytes"] += 1
+        path = self.repo / MODULE.REPAIR_MANIFEST
+        path.write_text(
+            json.dumps(changed, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+        run(["git", "add", MODULE.REPAIR_MANIFEST], self.repo)
+        tree = run(["git", "write-tree"], self.repo).stdout.strip()
+        with self.assertRaisesRegex(MODULE.DeliveryError, "byte count differs"):
+            MODULE.verify_product_artifact_against_tree(
+                self.repo, tree, self.artifact.read_bytes()
+            )
+
+    def test_repair_file_content_drift_is_rejected(self) -> None:
+        changed = b"tamper-png"
+        self.assertEqual(len(changed), len(self.repair_bytes))
+        (self.repo / self.repair_member).write_bytes(changed)
+        run(["git", "add", self.repair_member], self.repo)
+        tree = run(["git", "write-tree"], self.repo).stdout.strip()
+        with self.assertRaisesRegex(
+            MODULE.DeliveryError, "product ZIP does not match final tree"
+        ):
+            MODULE.verify_product_artifact_against_tree(
+                self.repo, tree, self.artifact.read_bytes()
+            )
+
+    def test_default_artifact_contract_still_rejects_audit_or_scenario(self) -> None:
+        for name in (
+            "magica/i18n_audit/leak.txt",
+            "madomagi/resource/scenario/leak.txt",
+        ):
+            with self.subTest(name=name):
+                path = self.root / ("forbidden-" + name.replace("/", "-") + ".zip")
+                members = dict(self.artifact_members)
+                members[name] = b"forbidden\n"
+                write_product_zip(path, members)
+                with self.assertRaisesRegex(
+                    MODULE.DeliveryError,
+                    "(?:product ZIP contract mismatch|artifact contract file_entries)",
+                ):
+                    MODULE.inspect_product_artifact(path)
 
     def test_shared_clone_can_verify_cached_roundtrip(self) -> None:
         shared = self.root / "shared-clone"
@@ -247,7 +372,7 @@ class FinalDeliveryTests(unittest.TestCase):
 
     def test_wrong_product_zip_contract_fails_before_output(self) -> None:
         wrong_contract = dict(self.artifact_contract)
-        wrong_contract["file_entries"] = 3
+        wrong_contract["file_entries"] = 4
         wrong_contract["magica_entries"] = 2
         target = self.root / "wrong-contract"
         with self.assertRaisesRegex(MODULE.DeliveryError, "product ZIP contract mismatch"):
@@ -290,6 +415,7 @@ class FinalDeliveryTests(unittest.TestCase):
                     "file_entries": 4,
                     "magica_entries": 3,
                     "engine_entries": 1,
+                    "repair_entries": 0,
                     "scenario_entries": 0,
                     "audit_research_entries": 0,
                 },

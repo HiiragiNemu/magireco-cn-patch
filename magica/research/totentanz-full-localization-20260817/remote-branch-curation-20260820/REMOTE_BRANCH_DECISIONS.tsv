@@ -1,0 +1,6 @@
+branch	sha	exclusive_product_files	decision	evidence
+origin/audit/english-ui-inventory-20260820	76ec8703b85494688544173a3ad05545f53e0a23	0	不移植临时工作流；产品结论已被 main 及当前本地覆盖	相对 main 仅临时 trigger/workflow/generator
+origin/audit/full-current-localization-20260820	5e719e34eba6cf0a362483c4a90cf47123aee803	0	不采用不完整审计分块	相对 main 仅临时工作流和 00/01/02/04 分块，03 缺失
+origin/audit/libs-display-names-20260820	cbbe9f34673d385ff350fa25cab2ed53f3267804	0	吸收扫描证据；不复制临时工作流	268 条候选已逐条对照：106 已中文化，162 权威/正式保留
+origin/release/js-v26-authority-final-20260813	d204454ea1fe74cfa984a7db1f68a0f5d70fc4b1	现有本地未提交成果的历史基线	提交 main 前保留，不覆盖当前本地	当前工作树 HEAD 同该远端分支，279 项既有改动未重置
+origin/temp/scenario-sync-20260731-2345	177acfcc1fd526b1420da7e906b85bf1b3983379	scenario 范围	不纳入 JS/HTML/CSS/JSON/engine 本轮	剧情同步分支，职责不同

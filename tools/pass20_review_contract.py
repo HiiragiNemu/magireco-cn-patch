@@ -16,6 +16,7 @@ FULL_REVIEW = AUDIT / "dsv4_terminal_handoff/full_review.tsv"
 DECISIONS = AUDIT / "dsv4_human_decisions.tsv"
 RESOLUTIONS = AUDIT / "pass20_authority_resolutions.tsv"
 OFFICIAL_REVIEW = AUDIT / "pass20_official_static_review.tsv"
+ADOPTIONS = AUDIT / "pass21_user_directed_suggested_adoptions.tsv"
 PROVENANCE = ROOT / "i18n/generated/input-provenance.tsv"
 EFFECTIVE = ROOT / "i18n/generated/effective.tsv"
 MACHINE_INVENTORY = AUDIT / "pass20_machine_source_inventory.tsv"
@@ -28,14 +29,20 @@ CONTRACT_JSON = AUDIT / "pass20_review_contract.json"
 TOTAL_ROWS = 1912
 AUTHORITY_RESOLUTIONS = 323
 MACHINE_SOURCE_ITEMS = 1589
-HUMAN_REVIEW_ITEMS = 1565
+HUMAN_REVIEW_ITEMS = 1564
 PRIORITY_ITEMS = 199
-DS_APPROVED_ITEMS = 1366
-SHADOWED_ITEMS = 24
+DS_APPROVED_ITEMS = 1365
+SHADOWED_ITEMS = 25
 AUTHORITY_EXCLUDED_ITEMS = AUTHORITY_RESOLUTIONS + SHADOWED_ITEMS
-EXACT_RUNTIME_ITEMS = 1443
-MAINTENANCE_ONLY_ITEMS = 122
-RUNTIME_OCCURRENCES = 2439
+EXACT_RUNTIME_ITEMS = 1376
+MAINTENANCE_ONLY_ITEMS = 188
+RUNTIME_OCCURRENCES = 2260
+
+WORKBOOK_FILE_NAME = f"magireco_v26_translation_review_{HUMAN_REVIEW_ITEMS}.xlsx"
+WORKBOOK_SHEET_NAME = f"人工审核{HUMAN_REVIEW_ITEMS}"
+WORKBOOK_INPUT_NAME = f"v26_translation_review_{HUMAN_REVIEW_ITEMS}_input.json"
+WORKBOOK_PREVIEW_NAME = f"v26_translation_review_{HUMAN_REVIEW_ITEMS}_review.png"
+WORKBOOK_INSPECT_NAME = f"v26_translation_review_{HUMAN_REVIEW_ITEMS}.inspect.ndjson"
 
 # These two non-equivalent Wiki winners were selected by the authority table
 # after the product tree had already been translated with the older machine
@@ -199,9 +206,14 @@ def validate_contract_counts(
     priority_ids = {row["item_id"] for row in priority}
     shadow_ids = {row["item_id"] for row in shadowed}
     if human_ids & shadow_ids or machine_ids != human_ids | shadow_ids:
-        raise ContractError("1589 machine inventory does not partition into 1565 human + 24 shadow")
+        raise ContractError(
+            f"{MACHINE_SOURCE_ITEMS} machine inventory does not partition into "
+            f"{HUMAN_REVIEW_ITEMS} human + {SHADOWED_ITEMS} shadow"
+        )
     if not priority_ids.issubset(human_ids):
-        raise ContractError("199 priority items are not a subset of the human queue")
+        raise ContractError(
+            f"{PRIORITY_ITEMS} priority items are not a subset of the human queue"
+        )
     approved = sum(row["parent_verdict"] == "approved" for row in human)
     if approved != DS_APPROVED_ITEMS:
         raise ContractError(f"expected {DS_APPROVED_ITEMS} DS-approved human rows, found {approved}")
@@ -209,7 +221,7 @@ def validate_contract_counts(
     for row in human:
         scopes[row["source_path"]] = scopes.get(row["source_path"], 0) + 1
     expected_scopes = {
-        "i18n/frontend-strings.tsv": 1549,
+        "i18n/frontend-strings.tsv": 1548,
         "i18n/overrides.tsv": 9,
         "i18n/fragments.tsv": 7,
     }

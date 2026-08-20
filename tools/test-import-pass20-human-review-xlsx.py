@@ -15,7 +15,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
-WORKBOOK = AUDIT / "magireco_v26_translation_review_1565.xlsx"
+WORKBOOK = AUDIT / "magireco_v26_translation_review_1564.xlsx"
 SOURCE = AUDIT / "pass20_remaining_manual_review.tsv"
 PRIORITY = AUDIT / "pass20_priority_manual_review.tsv"
 INVENTORY = AUDIT / "pass20_machine_source_inventory.tsv"
@@ -133,11 +133,11 @@ class Pass20WorkbookImportTests(unittest.TestCase):
             output = Path(temp) / "decisions.tsv"
             result = self.invoke(WORKBOOK, output)
             self.assertEqual(result["schema"], "magireco-cn-v26-translation-xlsx-import/5")
-            self.assertEqual(result["workbook_rows"], 1565)
+            self.assertEqual(result["workbook_rows"], 1564)
             self.assertEqual(result["prefilled_from_suggestion"], 29)
-            self.assertEqual(result["prefilled_from_current"], 1536)
+            self.assertEqual(result["prefilled_from_current"], 1535)
             self.assertEqual(result["receipt_rows_written"], 0)
-            self.assertEqual(result["pending_in_workbook"], 1565)
+            self.assertEqual(result["pending_in_workbook"], 1564)
             self.assertFalse(result["returned_workbook_accepted"])
             self.assertEqual(result["provenance_mode"], "template")
             self.assertFalse(output.exists())
@@ -147,18 +147,18 @@ class Pass20WorkbookImportTests(unittest.TestCase):
             output = Path(temp) / "decisions.tsv"
             result = self.invoke(WORKBOOK, output, accept=True)
             self.assertEqual(result["provenance_mode"], "human-review")
-            self.assertEqual(result["receipt_rows_written"], 1565)
+            self.assertEqual(result["receipt_rows_written"], 1564)
             self.assertEqual(result["pending_in_workbook"], 0)
             with output.open(encoding="utf-8", newline="") as stream:
                 reader = csv.DictReader(stream, delimiter="\t")
                 self.assertEqual(tuple(reader.fieldnames or ()), TOOL.RECEIPT_FIELDS)
                 rows = {row["item_id"]: row for row in reader}
             suggestion_id = next(
-                self.cells[f"D{row}"] for row in range(2, 1567)
+                self.cells[f"D{row}"] for row in range(2, 1566)
                 if self.cells[f"E{row}"] == "adopted_suggestion"
             )
             current_id = next(
-                self.cells[f"D{row}"] for row in range(2, 1567)
+                self.cells[f"D{row}"] for row in range(2, 1566)
                 if self.cells[f"E{row}"] == "current"
             )
             self.assertEqual(rows[suggestion_id]["seed_origin"], "adopted_suggestion")
@@ -176,14 +176,14 @@ class Pass20WorkbookImportTests(unittest.TestCase):
             self.assertNotIn("human_decision", rows[current_id])
 
     def test_03_manual_final_value_is_accepted_without_decision_or_notes_columns(self):
-        row = next(row for row in range(2, 1567) if self.cells[f"E{row}"] == "current")
+        row = next(row for row in range(2, 1566) if self.cells[f"E{row}"] == "current")
         item_id = self.cells[f"D{row}"]
         with tempfile.TemporaryDirectory() as temp:
             fixture = Path(temp) / "edited.xlsx"
             output = Path(temp) / "decisions.tsv"
             rewrite_workbook(WORKBOOK, fixture, lambda sheets: set_text(sheets[TOOL.REVIEW_SHEET], f"C{row}", "人工最终译文"))
             result = self.invoke(fixture, output, accept=True)
-            self.assertEqual(result["receipt_rows_written"], 1565)
+            self.assertEqual(result["receipt_rows_written"], 1564)
             with output.open(encoding="utf-8", newline="") as stream:
                 decisions = {entry["item_id"]: entry for entry in csv.DictReader(stream, delimiter="\t")}
             self.assertEqual(decisions[item_id]["final_value"], "人工最终译文")
@@ -195,13 +195,13 @@ class Pass20WorkbookImportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             fixture = Path(temp) / "sorted.xlsx"
             output = Path(temp) / "decisions.tsv"
-            rewrite_workbook(WORKBOOK, fixture, lambda sheets: swap_rows(sheets[TOOL.REVIEW_SHEET], 2, 1566))
+            rewrite_workbook(WORKBOOK, fixture, lambda sheets: swap_rows(sheets[TOOL.REVIEW_SHEET], 2, 1565))
             result = self.invoke(fixture, output)
             self.assertEqual(result["receipt_rows_written"], 0)
             self.assertFalse(output.exists())
 
     def test_05_template_mode_rejects_an_edit_and_writes_nothing(self):
-        row = next(row for row in range(2, 1567) if self.cells[f"E{row}"] == "current")
+        row = next(row for row in range(2, 1566) if self.cells[f"E{row}"] == "current")
         with tempfile.TemporaryDirectory() as temp:
             fixture = Path(temp) / "edited.xlsx"
             output = Path(temp) / "out.tsv"
@@ -235,7 +235,7 @@ class Pass20WorkbookImportTests(unittest.TestCase):
         )
 
     def test_09_authority_resolved_ids_are_absent_from_every_sheet(self):
-        visible = {self.cells[f"D{row}"] for row in range(2, 1567)}
+        visible = {self.cells[f"D{row}"] for row in range(2, 1566)}
         for path in (SHADOW, RESOLUTIONS):
             with path.open(encoding="utf-8", newline="") as stream:
                 external = {row["item_id"] for row in csv.DictReader(stream, delimiter="\t")}
@@ -246,23 +246,23 @@ class Pass20WorkbookImportTests(unittest.TestCase):
             output = Path(temp) / "rough.tsv"
             result = self.invoke(WORKBOOK, output, rough=True)
             self.assertEqual(result["provenance_mode"], "rough-production")
-            self.assertEqual(result["receipt_rows_written"], 1565)
+            self.assertEqual(result["receipt_rows_written"], 1564)
             with output.open(encoding="utf-8", newline="") as stream:
                 rows = list(csv.DictReader(stream, delimiter="\t"))
-        self.assertEqual(len(rows), 1565)
+        self.assertEqual(len(rows), 1564)
         self.assertEqual(
             sum(row["review_status"] == "rough-production-machine-suggestion-adopted" for row in rows),
             29,
         )
         self.assertEqual(
             sum(row["review_status"] == "rough-production-machine-current-retained" for row in rows),
-            1536,
+            1535,
         )
         self.assertTrue(all("human" not in row["review_status"] for row in rows))
         self.assertTrue(all(row["final_origin"].startswith("machine-") for row in rows))
 
     def test_11_rough_production_rejects_edited_text_without_output(self):
-        row = next(row for row in range(2, 1567) if self.cells[f"E{row}"] == "current")
+        row = next(row for row in range(2, 1566) if self.cells[f"E{row}"] == "current")
         with tempfile.TemporaryDirectory() as temp:
             fixture = Path(temp) / "edited.xlsx"
             output = Path(temp) / "rough.tsv"

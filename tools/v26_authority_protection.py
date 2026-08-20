@@ -31,22 +31,29 @@ PASS16_REL = Path("magica/i18n_audit/manual_cn_pass16")
 PASS16_CHANGE_LOG_REL = PASS16_REL / "runtime_change_log.tsv"
 PASS16_TRANSLATION_MAP_REL = PASS16_REL / "runtime_translation_map.tsv"
 PASS19_REL = AUDIT_REL / "pass19_official_static_corrections.tsv"
+VISIBLE_TERM_CLOSURE_REL = REVIEW_REL / "visible_term_closure_3136.tsv"
 
-SCHEMA = "magireco-cn-v26-authority-protection/v2"
-EXPECTED_MASTER_TOTAL = 2594
-EXPECTED_MASTER_BUCKETS = {"official": 1500, "wiki": 1091, "new-root-human": 3}
+SCHEMA = "magireco-cn-v26-authority-protection/v4"
+EXPECTED_MASTER_TOTAL = 3310
+EXPECTED_MASTER_BUCKETS = {"official": 1912, "wiki": 1094, "new-root-human": 304}
 EXPECTED_PASS16_APPLIED_FIELDS = 855
-EXPECTED_PASS16_PROTECTED_FIELDS = 854
-EXPECTED_PASS16_ADDITIONS = 172
-EXPECTED_TOTAL = 2766
-EXPECTED_BUCKETS = {"official": 1547, "wiki": 1205, "new-root-human": 14}
+EXPECTED_PASS16_PROTECTED_FIELDS = 827
+EXPECTED_PASS16_SUPERSEDED_FIELDS = 27
+EXPECTED_PASS16_SUPERSEDED_SOURCE_TIERS = {
+    "2_wiki_component": 1,
+    "2_wiki_explicit_pair": 26,
+}
+EXPECTED_PASS16_ADDITIONS = 145
+EXPECTED_TOTAL = 3455
+EXPECTED_BUCKETS = {"official": 1959, "wiki": 1181, "new-root-human": 315}
 EXPECTED_PASS19_CONTRACTS = 6
 EXPECTED_PASS19_APPLIED_CHANGES = 11
 EXPECTED_PASS19_FINAL_OCCURRENCES = 15
-EXPECTED_TOTAL_WITH_PASS19 = 2777
-EXPECTED_BUCKETS_WITH_PASS19 = {"official": 1553, "wiki": 1210, "new-root-human": 14}
+EXPECTED_TOTAL_WITH_PASS19 = 3466
+EXPECTED_BUCKETS_WITH_PASS19 = {"official": 1965, "wiki": 1186, "new-root-human": 315}
 EXPECTED_CANDIDATE_ONLY_METADATA = 1
-EXPECTED_OFFLINE_AUTHORITY_OVERLAYS = 59
+EXPECTED_OFFLINE_AUTHORITY_OVERLAYS = 61
+EXPECTED_VISIBLE_TERM_CLOSURE_ROWS = 3136
 
 # Pass19 was applied while its preimage was still available.  These ordinals
 # record which final ``after`` occurrences are the eleven actual replacements,
@@ -279,7 +286,10 @@ def select_protected_master_rows(
             selected.append(row)
         elif bucket == "wiki" and identity not in HELD_WIKI_IDENTITIES:
             selected.append(row)
-        elif bucket == "new-root-human" and row.get("review_status") == "authority-verified":
+        elif bucket == "new-root-human" and row.get("review_status") in {
+            "authority-verified",
+            "confirmed-human-verified",
+        }:
             selected.append(row)
 
     identities = [row_identity(row) for row in selected]
@@ -480,7 +490,7 @@ def pass16_source_bucket(source_tier: str) -> str:
 
 
 def pass16_runtime_location(
-    root: Path, row: dict[str, str]
+    root: Path, row: dict[str, str], *, allow_superseded: bool = False
 ) -> tuple[str, str, str, str]:
     """Resolve a Pass16 JSON pointer to a stable product business key."""
 
@@ -525,20 +535,65 @@ def pass16_runtime_location(
         raise ProtectionError(
             f"Pass16 runtime field is missing or non-text: {dictionary}#{row['pointer']}"
         )
-    if obj[field] != row["final_cn"]:
+    if obj[field] != row["final_cn"] and not allow_superseded:
         raise ProtectionError(
             f"Pass16 protected product value drift: {dictionary}#{key}/{field}"
         )
     return relative.as_posix(), key, field, obj[field]
 
 
+def visible_term_closure_index(root: Path) -> dict[tuple[str, str, str], dict[str, str]]:
+    """Load the exact product-addressed visible-term closure contract.
+
+    The closure includes official, Wiki, and root-reviewed terminology rows.
+    This helper does not promote the latter to authority.  It only gives the
+    Pass16 merge an exact, fail-closed explanation for historical Wiki values
+    that are no longer the current product bytes.
+    """
+
+    path = root / VISIBLE_TERM_CLOSURE_REL
+    rows = read_tsv(path)
+    required = {
+        "closure_id",
+        "path",
+        "stable_key",
+        "field",
+        "before",
+        "after",
+        "source_tier",
+        "review_status",
+        "machine_translated",
+        "current_product_cn",
+        "inventory_component",
+    }
+    if len(rows) != EXPECTED_VISIBLE_TERM_CLOSURE_ROWS:
+        raise ProtectionError(
+            "visible-term closure row-count drift: "
+            f"{len(rows)} != {EXPECTED_VISIBLE_TERM_CLOSURE_ROWS}"
+        )
+    if not rows or not required.issubset(rows[0]):
+        raise ProtectionError("visible-term closure has missing required columns")
+    result: dict[tuple[str, str, str], dict[str, str]] = {}
+    for row in rows:
+        identity = (row["path"], row["stable_key"], row["field"])
+        if identity in result:
+            raise ProtectionError(
+                f"duplicate visible-term closure identity: {identity}"
+            )
+        result[identity] = row
+    return result
+
+
 def protected_rows_from_pass16(root: Path) -> list[dict[str, str]]:
-    """Build the 854 protected fields from 855 applied Pass16 records.
+    """Build the 827 still-current protected fields from Pass16.
 
     The translation map proves the 137 authority + 2 equivalence + 9 confirmed
     human type contract.  The change log expands those types to every concrete
     product occurrence and includes the separately recorded official-CN
-    punctuation harmonization.
+    punctuation harmonization.  Twenty-seven historical Wiki-valued fields
+    were later changed by the root-reviewed terminology closure.  Those exact
+    supersessions are verified here, but are excluded rather than mislabeled
+    as confirmed-human or frozen as high authority.
     """
 
     change_log = read_tsv(root / PASS16_CHANGE_LOG_REL)
@@ -589,14 +644,39 @@ def protected_rows_from_pass16(root: Path) -> list[dict[str, str]]:
             f"punctuation_fields={punctuation_fields}"
         )
 
+    closure = visible_term_closure_index(root)
     result: list[dict[str, str]] = []
+    superseded: list[dict[str, str]] = []
     for index, source in enumerate(change_log, 1):
         # `3_manual_translation` is a low-confidence candidate, not confirmed
         # human work.  In particular 永遠的刻 -> 永远之刻 remains reviewable
         # and must not be frozen as high-authority product text.
         if source["source_tier"] == "3_manual_translation":
             continue
-        relative, key, field, value = pass16_runtime_location(root, source)
+        relative, key, field, value = pass16_runtime_location(
+            root, source, allow_superseded=True
+        )
+        if value != source["final_cn"]:
+            closure_row = closure.get((relative, key, field))
+            if (
+                closure_row is None
+                or closure_row["before"] != source["final_cn"]
+                or closure_row["after"] != value
+                or closure_row["current_product_cn"] != value
+                or closure_row["source_tier"]
+                != "root-reviewed-official-cn-terminology"
+                or closure_row["review_status"] != "root-reviewed-approved"
+                or closure_row["machine_translated"] != "false"
+                or closure_row["inventory_component"]
+                != "runtime_visible_term_closure_root_reviewed"
+            ):
+                raise ProtectionError(
+                    "Pass16 value drift is not an exact non-authority "
+                    "visible-term supersession: "
+                    f"{relative}#{key}/{field}"
+                )
+            superseded.append(source)
+            continue
         bucket = pass16_source_bucket(source["source_tier"])
         rank = (
             "1-official-cn"
@@ -646,6 +726,19 @@ def protected_rows_from_pass16(root: Path) -> list[dict[str, str]]:
     duplicates = [key for key, count in Counter(identities).items() if count != 1]
     if duplicates:
         raise ProtectionError(f"duplicate Pass16 protected identities: {duplicates[:10]}")
+    superseded_tiers = counts_by(superseded, "source_tier")
+    if (
+        len(superseded) != EXPECTED_PASS16_SUPERSEDED_FIELDS
+        or superseded_tiers != EXPECTED_PASS16_SUPERSEDED_SOURCE_TIERS
+        or len(result) != EXPECTED_PASS16_PROTECTED_FIELDS
+        or len(result) + len(superseded) + excluded_unreviewed_types
+        != EXPECTED_PASS16_APPLIED_FIELDS
+    ):
+        raise ProtectionError(
+            "Pass16 current/superseded protection contract drift: "
+            f"protected={len(result)} superseded={len(superseded)} "
+            f"superseded_tiers={superseded_tiers}"
+        )
     return result
 
 
@@ -973,6 +1066,15 @@ def combined_protected_rows(
             f"expected overlap={EXPECTED_PASS16_PROTECTED_FIELDS - EXPECTED_PASS16_ADDITIONS} "
             f"added={EXPECTED_PASS16_ADDITIONS}"
         )
+    if len(combined) != EXPECTED_TOTAL or counts_by(
+        combined.values(), "source_bucket"
+    ) != EXPECTED_BUCKETS:
+        raise ProtectionError(
+            "master/Pass16 protected selection count drift: "
+            f"total={len(combined)} "
+            f"buckets={counts_by(combined.values(), 'source_bucket')}; "
+            f"expected total={EXPECTED_TOTAL} buckets={EXPECTED_BUCKETS}"
+        )
 
     for row in pass19_rows:
         identity = row["identity_sha256"]
@@ -1007,6 +1109,7 @@ def combined_protected_rows(
     return result, {
         "master_fields": len(master_rows),
         "pass16_fields": len(pass16_rows),
+        "pass16_superseded_non_authority_fields": EXPECTED_PASS16_SUPERSEDED_FIELDS,
         "pass16_overlap": overlap,
         "pass16_added": added,
         "pass19_contracts": EXPECTED_PASS19_CONTRACTS,
@@ -1068,10 +1171,11 @@ def build_snapshot(
         "selection_policy": {
             "official": "protect every source_bucket=official row",
             "wiki": "protect every source_bucket=wiki row except the three explicitly held review-only candidates",
-            "confirmed_human": "protect source_bucket=new-root-human with review_status=authority-verified plus Pass16 3_manual_verified occurrences, including the separately logged official-CN punctuation field",
-            "pass16": "merge 854 protected runtime_change_log fields by stable business key; retain 682 identical machine-review overlaps, add 172 omitted fields, and exclude the single unreviewed 3_manual_translation candidate",
+            "confirmed_human": "protect only source_bucket=new-root-human rows with review_status=authority-verified or confirmed-human-verified, plus exact Pass16 3_manual_verified occurrences; root-reviewed terminology and root-translated review candidates are not confirmed-human",
+            "pass16": "from 855 runtime_change_log fields, exclude the one unreviewed 3_manual_translation candidate and 27 exact root-reviewed terminology supersessions; merge the remaining 827 high-authority/current fields by stable business key, retaining 682 identical machine-review overlaps and adding 145 omitted fields",
             "pass19": "protect all eleven applied authority replacements as independent local-context occurrences; the six source contracts also validate the rejected/final literal counts without freezing whole JS/HTML files",
             "candidate_only_metadata": "exclude high-authority frontend candidate metadata with blank current_cn; its applied product value must be protected through an explicit product authority contract",
+            "root_reviewed_terminology": "never classify source_tier=root-reviewed-official-cn-terminology, review_status=root-reviewed-approved, or any Codex/LLM coarse translation as confirmed-human authority",
             "llm": "never protected as authority and never allowed to replace a protected field",
         },
         "held_wiki_review_only": [
@@ -1093,12 +1197,15 @@ def build_snapshot(
             "confirmed_human_punctuation_types": 1,
             "applied_product_fields": EXPECTED_PASS16_APPLIED_FIELDS,
             "protected_product_fields": EXPECTED_PASS16_PROTECTED_FIELDS,
+            "superseded_non_authority_product_fields": EXPECTED_PASS16_SUPERSEDED_FIELDS,
+            "superseded_source_tiers": EXPECTED_PASS16_SUPERSEDED_SOURCE_TIERS,
+            "supersession_evidence": VISIBLE_TERM_CLOSURE_REL.as_posix(),
             "confirmed_human_product_fields": 11,
             "official_cn_punctuation_product_fields_included_above": 1,
             "excluded_unreviewed_manual_translation_types": 1,
             "excluded_unreviewed_product_fields": 1,
             "excluded_unreviewed_business_key": "magica/js/libs/emotionSkillMap.json#2203113/name",
-            "note": "The nine confirmed-human types are eight 3_manual_verified map types plus the official-CN punctuation field. The high-risk 3_manual_translation candidate is not protected.",
+            "note": "The nine confirmed-human types are eight 3_manual_verified map types plus the official-CN punctuation field. The high-risk 3_manual_translation candidate is not protected. Twenty-seven later root-reviewed terminology values are verified as exact supersessions but remain outside the authority snapshot.",
         },
         "pass19_applied_authority_contract": {
             "manifest": PASS19_REL.as_posix(),
@@ -1146,6 +1253,8 @@ def build_snapshot(
             "pass16_runtime_translation_map_sha256": sha256_file(root / PASS16_TRANSLATION_MAP_REL),
             "pass19_applied_authority_manifest": PASS19_REL.as_posix(),
             "pass19_applied_authority_manifest_sha256": sha256_file(root / PASS19_REL),
+            "visible_term_closure": VISIBLE_TERM_CLOSURE_REL.as_posix(),
+            "visible_term_closure_sha256": sha256_file(root / VISIBLE_TERM_CLOSURE_REL),
             "protected_fields_tsv": output_tsv.relative_to(root).as_posix()
             if output_tsv.is_relative_to(root)
             else str(output_tsv),
@@ -1436,13 +1545,7 @@ def compare_baseline_to_master(
 
 
 def product_content_snapshot(root: Path) -> tuple[int, str]:
-    """Mirror the machine-review generator's stable product input aggregate.
-
-    2026-08-20：与 build-v26-machine-review.py 的 product_content_snapshot
-    同步收窄哈希范围到 i18n/madomagi/magica。此前把 .github/configures/
-    manifests/scripts/tools 一并纳入，任何非产品 commit 都会让哈希漂移，
-    verify_machine_review_freshness 误报 stale，汉化改一两个字就阻断发布。
-    """
+    """Mirror the machine-review generator's stable product input aggregate."""
 
     archive_suffixes = {".zip", ".7z", ".tar", ".gz", ".apk"}
     stable_top_dirs = {
@@ -1452,10 +1555,6 @@ def product_content_snapshot(root: Path) -> tuple[int, str]:
     }
     stable_magica_dirs = {"css", "fonts", "js", "resource", "template"}
     stable_root_files = {
-        # 2026-08-20 与 build-v26-machine-review.py 同步收窄：剔除维护脚本/
-        # 文档/产物镜像，只保留产品配置。Build_JS_Injector.py（构建脚本）、
-        # README.md（文档）、version_*_new.json（sync 产物，每次变化）不再
-        # 纳入，避免维护改动触发产品内容哈希漂移。
         ".gitattributes",
         ".gitignore",
         "asset_main_cn.json",
@@ -1537,6 +1636,7 @@ def verify_snapshot(root: Path, *, require_freshness: bool = True) -> dict[str, 
         root / PASS16_CHANGE_LOG_REL,
         root / PASS16_TRANSLATION_MAP_REL,
         root / PASS19_REL,
+        root / VISIBLE_TERM_CLOSURE_REL,
     ):
         if not path.is_file():
             raise ProtectionError(f"required authority-protection input is missing: {path}")
@@ -1557,6 +1657,8 @@ def verify_snapshot(root: Path, *, require_freshness: bool = True) -> dict[str, 
         raise ProtectionError("Pass16 runtime translation-map digest does not match protection baseline")
     if sha256_file(root / PASS19_REL) != baseline["pass19_applied_authority_manifest_sha256"]:
         raise ProtectionError("Pass19 applied authority manifest digest does not match protection baseline")
+    if sha256_file(root / VISIBLE_TERM_CLOSURE_REL) != baseline["visible_term_closure_sha256"]:
+        raise ProtectionError("visible-term closure digest does not match protection baseline")
 
     rows = read_tsv(tsv_path)
     if len(rows) != EXPECTED_TOTAL_WITH_PASS19:
@@ -1586,6 +1688,7 @@ def verify_snapshot(root: Path, *, require_freshness: bool = True) -> dict[str, 
     expected_merge = {
         "master_fields": EXPECTED_MASTER_TOTAL,
         "pass16_fields": EXPECTED_PASS16_PROTECTED_FIELDS,
+        "pass16_superseded_non_authority_fields": EXPECTED_PASS16_SUPERSEDED_FIELDS,
         "pass16_overlap": EXPECTED_PASS16_PROTECTED_FIELDS - EXPECTED_PASS16_ADDITIONS,
         "pass16_added": EXPECTED_PASS16_ADDITIONS,
         "pass19_contracts": EXPECTED_PASS19_CONTRACTS,
@@ -1612,7 +1715,7 @@ def verify_snapshot(root: Path, *, require_freshness: bool = True) -> dict[str, 
     pass19_evidence = verify_pass19_authority_evidence(read_pass19_manifest(root))
 
     return {
-        "schema": "magireco-cn-v26-authority-protection-verification/v2",
+        "schema": "magireco-cn-v26-authority-protection-verification/v3",
         "status": "PASS",
         "protected_fields": len(rows),
         "protected_files": checked["protected_files"],

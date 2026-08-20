@@ -1,0 +1,97 @@
+<div class="debug"></div>
+
+<div id="userItemList" class="item">
+	<div class='searchQuestBtn linkBtn TE se_decide' data-href='#/SearchQuest'></div>
+	<div id="tabBtn" class="commonFrame2">
+		<ul class="common_tab t_gold ml_tab"><!-- MN -->
+			<li class="TE btn se_tabs item current" data-wrap="item">素材</li>
+			<li class="TE btn se_tabs gem destiny_li" data-wrap="gem"><span>命运宝石</span></li>
+			<li class="TE btn se_tabs sticker none" data-wrap="sticker"><span>魔法少女<br>贴纸</span></li><!-- MN -->
+		</ul>
+	</div>
+	<div id="listWrap" class="commonFrame1">
+		<h2 id="listTitle">素材</h2>
+		<div class="gemShortInfo c_gold">用于魔力解放。多余的命运宝石可转换为Magia晶片。</div>
+		<div class="stickerCount"><span class="countTitle">持有数量</span><span id="stickerCountNum" class="c_pink">0</span></div>
+		<div class="hiddenWrap" id="scrollMainWrap">
+			<div id="item" class="itemInner"></div>
+			<div id="gem" class="gemInner"></div>
+			<div id="sticker" class="stickerInner"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/template" id="itemPartTemp">
+	<%='<% if(type !== "sticker") { %\>'%>
+		<div class="itemImg<%='<% if(type === "lbItem") { %\>'%> se_decide<%='<% } %\>'%>">
+			<%='<% if(model.imagePath.indexOf("chara_") !== -1) { %\>'%>
+				<img data-nativeimgkey="<%='<%= model.imagePath %\>'%>" data-src="resource/image_native/chara/<%='<%= model.imagePath %\>'%>.png">
+			<%='<% } else if(model.imagePath.indexOf("gift_") !== -1) { %\>'%>
+				<img data-nativeimgkey="<%='<%= model.imagePath %\>'%>" data-src="resource/image_native/gift/<%='<%= model.imagePath %\>'%>.png">
+			<%='<% } else { %\>'%>
+				<img src="/magica/resource/image_web/item/main/<%='<%= model.imagePath %\>'%>.png">
+			<%='<% } %\>'%>
+		</div>
+		<span class="itemName"><%='<%= model.dispName %\>'%></span>
+
+		<%='<% if(type === "lbItem") { %\>'%>
+			<%='<% if(model.dispTitle) { %\>'%>
+				<span class="title"><%='<%= model.dispTitle %\>'%></span>
+			<%='<% } %\>'%>
+
+			<div class="revisionWrap">
+				<span class="revTitle c_gold">魔力解放</span>
+				<ul class="revIcon">
+					<%='<% for(var i=0;i<3;i++){ %\>'%>
+						<%='<% if(model.revision >= (i+1) ){ %\>'%>
+							<li class="on"></li>
+						<%='<% } else { %\>'%>
+							<li></li>
+						<%='<% } %\>'%>
+					<%='<% } %\>'%>
+				</ul>
+			</div>
+
+		<%='<% } %\>'%>
+		<dl class="common_dl itemQuantity">
+			<dt>持有数</dt>
+			<dd class="itemQuantityNum"><%='<%= model.quantity %\>'%></dd>
+		</dl>
+	<%='<% }else{ %\>'%>
+		<div class="itemImg se_decide">
+			<img src="/magica/resource/image_web/page/collection/sticker/<%='<%= model.imagePath %\>_s'%>.png">
+		</div>
+	<%='<% } %\>'%>
+</script>
+
+<script type="text/template" id="saleCaution">
+	所选择魔法少女，尚未达到魔力解放的最高等级<br>
+	因此，命运宝石不会转换为命运水晶（仅能获得Magia晶片）。
+	<div class="c_red caution">
+		※将魔法少女的魔力解放至最高等级后，兑换命运宝石时即可在获得Magia晶片的同时获得命运水晶。<br>
+		　仅适用于通过扭蛋获得的初始★4魔法少女。<br>
+		※命运水晶收集到一定数量可在商店兑换★4魔法少女。
+	</div>
+</script>
+
+<script type="text/template" id="stickerPopTemp">
+	<div id="collectionClose" class="popupCloseBtn se_cancel"></div>
+	<div class="collectionFrame"></div>
+	<div class="stickerFrame">
+		<img src="/magica/resource/image_web/page/collection/sticker/<%='<%= model.item.itemCode.toLowerCase() %\>'%>_l.png">
+	</div>
+	<div class="textFrame">
+		<div class="name"><%='<%= model.item.name %\>'%></div>
+
+		<%='<% var descript = model.item.description.replace(/＠/g, "<br>"); %\>'%>
+		<div class="description"><%='<%= descript %\>'%></div>
+		<div class="where"><span class="whereTitle">发现地点 </span><br><%='<%= model.item.shortDescription %\>'%></div>
+
+		<%='<% var prm = model.item.parameter.split(","); %\>'%>
+		<div class="live2D">Live2D<span class="spaceStar"></span><%='<%= prm[1] %\>'%></div>
+		<div class="number">#<%='<%= prm[0] %\>'%></div>
+		<%='<% if(prm[1] !== "なし") { %\>'%>
+			<div class="cameraLink linkBtn TE se_decide" data-href="#/CameraTop"><span class="b_screen"></span></div>
+		<%='<% } %\>'%>
+	</div>
+</script>

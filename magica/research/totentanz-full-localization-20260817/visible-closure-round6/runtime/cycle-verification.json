@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "result": "passed",
+  "sequence": [
+    {
+      "command": "python tools/apply-visible-closure-round6.py --prepare",
+      "exit_status": 0,
+      "literal_output": "target_count=6; literal_count=15"
+    },
+    {
+      "command": "python tools/apply-visible-closure-round6.py --apply",
+      "exit_status": 0,
+      "literal_output": "changed_files=6; literal_changes=15; result=passed"
+    },
+    {
+      "command": "python tools/apply-visible-closure-round6.py --verify",
+      "exit_status": 0,
+      "literal_output": "checked_files=6; literal_changes=15; node --check exit_status=0"
+    },
+    {
+      "command": "python tools/apply-visible-closure-round6.py --rollback",
+      "exit_status": 0,
+      "literal_output": "restored_existing=5; removed_created=1; result=passed"
+    },
+    {
+      "command": "python tools/apply-visible-closure-round6.py --apply",
+      "exit_status": 0,
+      "literal_output": "changed_files=6; literal_changes=15; result=passed"
+    },
+    {
+      "command": "python tools/apply-visible-closure-round6.py --verify",
+      "exit_status": 0,
+      "literal_output": "checked_files=6; literal_changes=15; node --check exit_status=0"
+    }
+  ],
+  "final_state": "modified-and-verified",
+  "initial_non_product_failure": "first prepare print reached Windows GBK encoding error after state generation; stdout encoding fixed and prepare rerun exit 0 before product apply"
+}

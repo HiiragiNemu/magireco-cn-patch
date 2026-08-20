@@ -37,16 +37,6 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             jobs[match.group(1)] = jobs_text[match.end() : end]
         return jobs
 
-    def test_stale_promotion_recovery_and_r2_ordering(self):
-        # F-R7（取消/杀死自愈）：转正被中途取消会留下 *.rollback-* 残留，
-        # 下一次运行必须能把它恢复回转正前状态；object-storage 上传版本/配置类文件
-        # 排最后，把「新版本指向未上传内容」的错配窗口缩到最小。
-        self.assertIn("恢复上次未完成的转正", self.text)
-        self.assertIn("还原正式", self.text)
-        r2 = self.workflow_jobs()["r2-sync"]
-        self.assertIn("VERSION_LAST", r2)
-        self.assertIn("to_process.sort", r2)
-
     def test_change_detection_uses_the_tested_classifier(self):
         self.assertIn("scripts/classify_hotupdate_changes.py", self.text)
         self.assertIn('CHANGED=$(git diff --name-only', self.text)
@@ -140,41 +130,23 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             "python3 tools/pass20_official_static.py verify --state applied"
         )
         rebuild = self.text.index("python3 tools/build-v26-machine-review.py")
+        freshness = self.text.index("git diff --exit-code --", rebuild)
+        review_path = self.text.index(
+            "magica/i18n_audit/release_v26_authority/machine_translation_review",
+            freshness,
+        )
         unit_tests = self.text.index("python3 tools/test-v26-authority-protection.py -v")
         verify = self.text.index("python3 tools/verify-v26-authority-protection.py --json")
         package = self.text.index(
             "python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip"
         )
         self.assertLess(pass20, rebuild)
-        self.assertLess(rebuild, unit_tests)
+        self.assertLess(rebuild, freshness)
+        self.assertLess(freshness, review_path)
+        self.assertLess(review_path, unit_tests)
         self.assertLess(unit_tests, verify)
         self.assertLess(verify, package)
         self.assertNotIn("tools/build-v26-authority-protection.py", self.text)
-
-    def test_no_content_drift_guard_for_patch_repo(self):
-        """汉化 patch 仓库禁止内容漂移护栏，避免改一两个字就阻断发布。
-
-        2026-08-19：product_content_sha256 覆盖 .github/scripts/tools 等维护
-        文件，任何非产品 commit 都会让重建哈希漂移，触发 git diff --exit-code
-        硬失败，连带 APK/热更发布全部停摆，下游玩家更新不了客户端。已移除
-        i18n/generated 与 machine_translation_review 两处内容漂移护栏。
-        这里显式拒绝加回——谁加回来，本契约测试就红。
-        """
-        self.assertNotIn(
-            "git diff --exit-code -- i18n/generated",
-            self.text,
-        )
-        self.assertNotIn(
-            "git diff --exit-code -- \\\n"
-            "            magica/i18n_audit/release_v26_authority/machine_translation_review",
-            self.text,
-        )
-        # 双构建一致性护栏（Build_JS_Injector 防构建不确定性）与此无关，
-        # 必须保留——它校验的是构建是否可复现，而非内容是否漂移。
-        self.assertIn(
-            "test \"$FIRST_RUNTIME_SHA\" = \"$SECOND_RUNTIME_SHA\"",
-            self.text,
-        )
 
     def test_stable_publish_requires_closed_full_human_final_value_gate(self):
         validator = "python3 tools/validate-dsv4-human-review.py"
@@ -215,10 +187,10 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             self.assertIn(test, self.text)
             self.assertLess(self.text.index(test), self.text.index(verifier))
 
-    def test_pass20_review_asset_uses_only_the_full_1565_workbook(self):
+    def test_pass20_review_asset_uses_only_the_full_1564_workbook(self):
         current = (
             "test -f magica/i18n_audit/release_v26_authority/"
-            "magireco_v26_translation_review_1565.xlsx"
+            "magireco_v26_translation_review_1564.xlsx"
         )
         retired = (
             "test ! -e magica/i18n_audit/release_v26_authority/"
@@ -257,9 +229,15 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
 
     def test_promotion_is_queued_rollback_capable_and_version_last(self):
         self.assertIn("cancel-in-progress: false", self.text)
+        self.assertIn(
+            "group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}",
+            self.text,
+        )
         self.assertIn("def rename_asset(asset_id, old_name, new_name):", self.text)
         self.assertIn("promote_available_assets(", self.text)
         self.assertIn('backup_name = f"{final_name}.rollback-{run_id}"', self.promotion_text)
+        self.assertIn('VERSION_LAST = {"version_js.json", "version_scenario.json", "manifest.json"}', self.text)
+        self.assertIn("to_process.sort(key=lambda name:", self.text)
         js_zip = self.promotion_text.index('(\"js\", \"cn_js_update_new.zip\"')
         js_manifest = self.promotion_text.index('(\"js\", \"cn_js_update_manifest_new.json\"')
         shared_manifest = self.promotion_text.index(
@@ -342,13 +320,13 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             "needs: [setup, commit-configs, r2-sync, doge-sync, pan123-upload, mirror-release]",
             cursor,
         )
-        # 必须 success 的分发 job：object-storage 系与 Release 镜像（无变量停用开关）。
         for job in ("r2-sync", "mirror-release"):
             self.assertIn(f"needs.{job}.result == 'success'", cursor)
-        # 可被 ENABLE_*_SYNC 仓库变量停用的分发 job：停用是主动选择
-        # （result=skipped），不算失败，游标照常推进——契约里它们是 != 'failure'。
         for job in ("doge-sync", "pan123-upload"):
             self.assertIn(f"needs.{job}.result != 'failure'", cursor)
+
+        self.assertIn("fromJSON(vars.ENABLE_DOGE_SYNC || 'true')", jobs["doge-sync"])
+        self.assertIn("fromJSON(vars.ENABLE_PAN123_SYNC || 'true')", jobs["pan123-upload"])
 
         self.assertIn(
             "needs: [setup, pack-js, pack-scenario, publish, r2-sync, doge-sync, "
@@ -357,6 +335,23 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         )
         self.assertIn("needs.pan123-upload.result", summary)
         self.assertIn("123云盘同步", summary)
+        self.assertIn("🚫 已停用", summary)
+
+    def test_publish_self_heals_interrupted_release_promotion(self):
+        publish = self.workflow_jobs()["publish"]
+        heal = publish.index("恢复上次未完成的转正")
+        guard = publish.index("兜底护栏（打包失败即停链）")
+        self.assertLess(heal, guard)
+        self.assertIn(r'\.rollback-\d+$', publish)
+        self.assertIn('rename(promoted["id"], final_name, preview_name)', publish)
+        self.assertIn('rename(backup_asset["id"], backup_name, final_name)', publish)
+        block = re.search(
+            r"恢复上次未完成的转正.*?python3 <<'SCRIPT_END'\n(.*?)\n\s+SCRIPT_END",
+            publish,
+            flags=re.S,
+        )
+        self.assertIsNotNone(block)
+        compile(textwrap.dedent(block.group(1)), "release_promotion_recovery.py", "exec")
 
     def test_two_stage_build_reuses_candidate_version(self):
         self.assertEqual(
@@ -493,15 +488,19 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("首次镜像未完成", self.text)
         self.assertIn("变更快照有", self.text)
 
-    def test_packaging_is_unconditional_both_scopes(self):
-        # F-R7（回退 package_scope 门控）：打包恢复无条件双打。流水线同时负责
-        # APK 上传，打包范围一旦可跳过，object-storage 不刷新、其后的上传步骤全部空转浪费
-        # 流量。classify --scope all 恒产出 has_js=has_scenario=1，pack-js /
-        # pack-scenario 的 if 门控恒真，两个包每次运行都重打。
-        self.assertNotIn("package_scope:", self.text)
-        self.assertNotIn("inputs.package_scope", self.text)
-        self.assertIn("SCOPE=all", self.text)
-        self.assertIn('--scope "$SCOPE"', self.text)
+    def test_manual_default_is_js_only(self):
+        block = re.search(
+            r"package_scope:.*?options:\s*\n\s*- js\s*\n\s*- scenario\s*\n\s*- all",
+            self.text,
+            flags=re.S,
+        )
+        self.assertIsNotNone(block)
+        self.assertIn("default: 'js'", block.group(0))
+        self.assertIn(
+            "github.event_name == 'workflow_dispatch' && inputs.package_scope "
+            "|| '按变更自动判断'",
+            self.text,
+        )
 
 
 if __name__ == "__main__":

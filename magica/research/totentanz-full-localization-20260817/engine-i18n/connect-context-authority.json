@@ -1,0 +1,29 @@
+{
+  "schema": "engine-connect-context-authority-v2",
+  "sources": [
+    "コネクト",
+    "Connect"
+  ],
+  "target": "连携",
+  "source_tier": "official-cn-terminology",
+  "authority_status": "official-cn-terminology-verified",
+  "machine_translated": false,
+  "confidence": "exact-official-ui-term-plus-user-confirmed-context",
+  "rule": "仅对稳定、完整的可见机制标签应用‘连携’；不替换代码标识、Connection、noConnect 或字典中受更高权威保护的整句。",
+  "evidence": [
+    "madomagi/engine_i18n.tsv exact source keys: コネクト and Connect",
+    "A:/magicaOLD/template/chara/CharaDetail.html: common_title_frame 连携",
+    "A:/magicaOLD/template/formation/FormationQuest.html: pointFrame 连携",
+    "A:/magicaOLD/template/formation/FormationSupport.html: pointFrame 连携",
+    "magica/resource/image_web/_json/help.json: 14 visible Connect tokens materialized as 连携; JSON keys unchanged",
+    "work/next_round_execution_20260819/connect_help_json_apply_20260819/connect_help_json_verification.json",
+    "current armv7 native independent NUL C-string Connect at 0x13ef6d5 adjacent to Magia/Doppel/(no disc)",
+    "D:/magia/MyProducts/magiWiki/dump_merged.xml:15253-15254,25806-25814",
+    "user-confirmed:2026-08-19"
+  ],
+  "prohibitions": [
+    "no-code-identifier-replacement",
+    "no-substring-Connect-replacement",
+    "no-cross-dictionary-fuzzy-match"
+  ]
+}

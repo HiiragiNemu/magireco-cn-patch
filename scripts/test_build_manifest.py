@@ -15,6 +15,23 @@ from pathlib import Path
 
 SCRIPT = Path(__file__).with_name("build_manifest.py")
 ENGINE = "madomagi/engine_i18n.tsv"
+REPAIR = "madomagi/resource/image_native/chara/sample.png"
+REPAIR_MANIFEST = "madomagi/repair_manifest.json"
+REPAIR_BYTES = b"repair"
+
+
+def repair_manifest_bytes(entries: list[tuple[str, bytes]]) -> bytes:
+    payload = {
+        "schema": "magireco-cn-madomagi-repair/v1",
+        "package_prefix": "madomagi/resource/image_native/",
+        "entries": [
+            {"path": path, "bytes": len(data)}
+            for path, data in entries
+        ],
+        "file_count": len(entries),
+        "total_bytes": sum(len(data) for _, data in entries),
+    }
+    return (json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
 
 class BuildManifestOwnershipTest(unittest.TestCase):
@@ -26,12 +43,19 @@ class BuildManifestOwnershipTest(unittest.TestCase):
         ledger_mode: str = "update",
         seed_ledger: dict | None = None,
         version: int = 1,
+        include_repair_bundle: bool = True,
     ):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
             archive = root / "package.zip"
             with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zf:
-                source_entries = entries.items() if isinstance(entries, dict) else entries
+                source_entries = list(entries.items()) if isinstance(entries, dict) else list(entries)
+                if package == "cn_js_update" and include_repair_bundle:
+                    repairs = [(REPAIR, REPAIR_BYTES)]
+                    source_entries.extend(repairs)
+                    source_entries.append(
+                        (REPAIR_MANIFEST, repair_manifest_bytes(repairs))
+                    )
                 for name, data in source_entries:
                     zf.writestr(name, data)
             ledger_dir = root / "ledger"
@@ -92,6 +116,84 @@ class BuildManifestOwnershipTest(unittest.TestCase):
         self.assertIn("缺少必需文件", proc.stderr)
         self.assertIsNone(manifest)
 
+    def test_js_without_native_repair_prefix_is_rejected(self):
+        proc, manifest, _, _ = self.run_manifest(
+            "cn_js_update",
+            {"magica/js/app.js": b"ok", ENGINE: b"source\ttarget\n"},
+            include_repair_bundle=False,
+        )
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertIn("缺少必需路径前缀", proc.stderr)
+        self.assertIsNone(manifest)
+
+    def test_js_without_repair_manifest_is_rejected(self):
+        proc, manifest, _, _ = self.run_manifest(
+            "cn_js_update",
+            {
+                "magica/js/app.js": b"ok",
+                ENGINE: b"source\ttarget\n",
+                REPAIR: REPAIR_BYTES,
+            },
+            include_repair_bundle=False,
+        )
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertIn("缺少必需文件", proc.stderr)
+        self.assertIn(REPAIR_MANIFEST, proc.stderr)
+        self.assertIsNone(manifest)
+
+    def test_js_repair_members_must_exactly_match_embedded_manifest(self):
+        declared = "madomagi/resource/image_native/chara/declared.png"
+        undeclared = "madomagi/resource/image_native/chara/undeclared.png"
+        repairs = [(declared, b"abc")]
+        proc, manifest, _, _ = self.run_manifest(
+            "cn_js_update",
+            {
+                "magica/js/app.js": b"ok",
+                ENGINE: b"source\ttarget\n",
+                REPAIR_MANIFEST: repair_manifest_bytes(repairs),
+                undeclared: b"xyz",
+            },
+            include_repair_bundle=False,
+        )
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertIn("声明文件缺失", proc.stderr)
+        self.assertIn("未在 repair_manifest.json 声明", proc.stderr)
+        self.assertIsNone(manifest)
+
+    def test_js_repair_member_size_must_match_embedded_manifest(self):
+        proc, manifest, _, _ = self.run_manifest(
+            "cn_js_update",
+            {
+                "magica/js/app.js": b"ok",
+                ENGINE: b"source\ttarget\n",
+                REPAIR_MANIFEST: repair_manifest_bytes([(REPAIR, b"short")]),
+                REPAIR: b"different-size",
+            },
+            include_repair_bundle=False,
+        )
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertIn("字节数不匹配", proc.stderr)
+        self.assertIsNone(manifest)
+
+    def test_js_pollution_paths_are_rejected_before_manifest_write(self):
+        for polluted in (
+            "madomagi/resource/scenario/json/a.json",
+            "madomagi/asset_main.json",
+            "unknown-root/file.txt",
+        ):
+            with self.subTest(polluted=polluted):
+                proc, manifest, _, _ = self.run_manifest(
+                    "cn_js_update",
+                    {
+                        "magica/js/app.js": b"ok",
+                        ENGINE: b"source\ttarget\n",
+                        polluted: b"pollution",
+                    },
+                )
+                self.assertNotEqual(proc.returncode, 0)
+                self.assertIn("cn_js_update 含越界路径", proc.stderr)
+                self.assertIsNone(manifest)
+
     def test_scenario_must_not_retain_migrated_engine_table(self):
         proc, manifest, _, _ = self.run_manifest(
             "cn_scenario_update",
@@ -111,6 +213,25 @@ class BuildManifestOwnershipTest(unittest.TestCase):
         )
         self.assertEqual(proc.returncode, 0, proc.stderr)
         self.assertNotIn(ENGINE, manifest["files"])
+
+    def test_scenario_pollution_paths_are_rejected_before_manifest_write(self):
+        for polluted in (
+            REPAIR_MANIFEST,
+            REPAIR,
+            "magica/js/app.js",
+            "unknown-root/file.txt",
+        ):
+            with self.subTest(polluted=polluted):
+                proc, manifest, _, _ = self.run_manifest(
+                    "cn_scenario_update",
+                    {
+                        "madomagi/resource/scenario/json/a.json": b"{}",
+                        polluted: b"pollution",
+                    },
+                )
+                self.assertNotEqual(proc.returncode, 0)
+                self.assertIn("越界路径", proc.stderr)
+                self.assertIsNone(manifest)
 
     def test_preview_manifest_uses_new_name_without_formal_name(self):
         preview_name = "cn_js_update_manifest_new.json"

@@ -1,0 +1,72 @@
+{
+  "schema": 2,
+  "scope": {
+    "declared_source_tier": "unknown",
+    "rows": 212
+  },
+  "verdict_counts": {
+    "acceptable-no-change": 172,
+    "correction-required": 40
+  },
+  "correction_severity_counts": {
+    "low": 7,
+    "medium": 25,
+    "high": 8
+  },
+  "correction_source_counts": {
+    "official-cn-native-sequence-exact-both-abis": 35,
+    "manual-semantic-reviewed": 5
+  },
+  "mechanical_checks": {
+    "placeholder_drift": 0,
+    "escaped_newline_drift": 0,
+    "japanese_kana_in_proposed_cn": 0
+  },
+  "authority_warning": "172 accepted rows become manual semantic review only; historical origin stays unknown.",
+  "application_state": "audit-only; product_write_allowed=false for every row",
+  "formal_terms_preserved": [
+    "Accele",
+    "Blast",
+    "Charge",
+    "Magia",
+    "Puella Historia",
+    "Survive",
+    "Variable",
+    "Navi",
+    "JC"
+  ],
+  "current_engine_binding": {
+    "engine_path": "C:\\Users\\proje\\Documents\\Codex\\2026-08-06\\https-github-com-hiiraginemu-magireco-wiki-3\\work\\js_v26_release_final_20260813\\madomagi\\engine_i18n.tsv",
+    "engine_physical_lines": 315,
+    "engine_rules": 314,
+    "review_rows": 212,
+    "correction_rows": 40,
+    "binding": "physical_line + exact source_key + exact before_cn",
+    "status": "verified-by-independent-verifier"
+  },
+  "application": {
+    "current_state": "applied",
+    "corrections_applied": 40,
+    "official_exact_corrections": 35,
+    "manual_semantic_corrections": 5,
+    "roundtrip_steps": [
+      "apply",
+      "verify-applied",
+      "rollback",
+      "verify-rolled-back",
+      "reapply"
+    ],
+    "roundtrip_status": "pass",
+    "final_exact_bindings": 212,
+    "product_write_scope": "madomagi/engine_i18n.tsv only"
+  },
+  "machine_review_integration": {
+    "sidecar_rows": 212,
+    "higher_authority_shadowed": 2,
+    "actual_takeover": 210,
+    "official_exact": 35,
+    "manual_semantic_reviewed": 175,
+    "unverified": 0,
+    "origin_machine_translated_note": "unknown preserved in evidence and notes"
+  }
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reproducibly build and verify the 1,565-row human review workbook.
+"""Reproducibly build and verify the Pass20 human review workbook.
 
 The workbook itself is authored by @oai/artifact-tool.  This wrapper prepares
 the bound source/target records, discovers the bundled Node runtime without
@@ -20,13 +20,18 @@ import sys
 import tempfile
 import zipfile
 
+from pass20_review_contract import (
+    AUTHORITY_EXCLUDED_ITEMS, DS_APPROVED_ITEMS, HUMAN_REVIEW_ITEMS,
+    PRIORITY_ITEMS, SHADOWED_ITEMS, WORKBOOK_FILE_NAME, WORKBOOK_INPUT_NAME,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / "tools"
 AUDIT = ROOT / "magica/i18n_audit/release_v26_authority"
-CANONICAL = AUDIT / "magireco_v26_translation_review_1565.xlsx"
-DELIVERY = ROOT / "outputs/019fd6ce-093f-7d63-ac45-ca01a7008cf8/magireco_v26_translation_review_1565.xlsx"
-INPUT_JSON = ROOT / "_artifacts/spreadsheet_build/v26_translation_review_1565_input.json"
+CANONICAL = AUDIT / WORKBOOK_FILE_NAME
+DELIVERY = ROOT / "outputs/019fd6ce-093f-7d63-ac45-ca01a7008cf8" / WORKBOOK_FILE_NAME
+INPUT_JSON = ROOT / "_artifacts/spreadsheet_build" / WORKBOOK_INPUT_NAME
 PREPARE = TOOLS / "prepare-pass20-human-review-xlsx.py"
 AUTHOR = TOOLS / "build-pass20-human-review-xlsx.mjs"
 FINALIZE = TOOLS / "finalize-pass20-human-review-xlsx.py"
@@ -118,17 +123,17 @@ def verify_outputs(canonical: Path | None = None, delivery: Path | None = None) 
         if output.exists():
             raise BuildError("template workbook verification unexpectedly wrote a final-values receipt")
     expected = {
-        "workbook_rows": 1565,
-        "priority_rows": 199,
-        "approved_machine_rows": 1366,
+        "workbook_rows": HUMAN_REVIEW_ITEMS,
+        "priority_rows": PRIORITY_ITEMS,
+        "approved_machine_rows": DS_APPROVED_ITEMS,
         "workbook_excluded_rows": 0,
-        "external_authority_audit_rows": 347,
-        "higher_authority_shadowed_rows": 24,
+        "external_authority_audit_rows": AUTHORITY_EXCLUDED_ITEMS,
+        "higher_authority_shadowed_rows": SHADOWED_ITEMS,
         "prefilled_from_suggestion": 29,
-        "prefilled_from_current": 1536,
+        "prefilled_from_current": HUMAN_REVIEW_ITEMS - 29,
         "returned_workbook_accepted": False,
         "receipt_rows_written": 0,
-        "pending_in_workbook": 1565,
+        "pending_in_workbook": HUMAN_REVIEW_ITEMS,
         "protected_text_changes": 0,
     }
     if any(result.get(key) != value for key, value in expected.items()):

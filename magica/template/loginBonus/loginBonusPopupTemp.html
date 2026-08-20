@@ -3,7 +3,7 @@
 		if(index < 1){ %>
 	<div class="loginBonusFrame">
 		<div class="dailyFrameTitle">登录奖励</div>
-		<p class="dailyListDays">Day<%= gameUser.loginBonusCount %></span></p>
+		<p class="dailyListDays">第<%= gameUser.loginBonusCount %>天</span></p>
 		<% if(period){ %>
 			<p class="dailyLimitDays"><%= period %></p>
 		<% } %>
@@ -79,5 +79,5 @@
 		</li>
 	<% }); %>
 </ul>
-<p class="loginBonusDescription c_gold">Day1起经过7天后,将切换为下一种登录奖励</p>
+<p class="loginBonusDescription c_gold">7天后将切换下一登录奖励</p>
 <div class="loginMessageWrap">登录奖励获得的道具将直接发放</div>

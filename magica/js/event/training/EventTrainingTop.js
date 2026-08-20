@@ -188,7 +188,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
               a.questClass = "中级";
               break;
             case 3:
-              a.questTitle = "BATTLE ◆ 上级";
+              a.questTitle = "战斗 ◆ 上级";
               a.questClass = "上级";
               break;
             case 4:
@@ -241,7 +241,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
           {
             a.maxLevel == a.level && a.maxRare == Number(a.card.rank.split("_")[1]) && 5 == a.episodeLevel ? d = "allMaxFlag" : a.maxLevel == a.level && a.maxRare == Number(a.card.rank.split("_")[1]) ? d = "lvMaxFlag" : 5 == a.episodeLevel && (d = "epMaxFlag")
           });
-          var e = "通关任一特训关卡后,<br>将无法更改特训对象的魔法少女。<br>确定吗?";
+          var e = "通关任一特训副本后，<br>便无法变更作为特训对象的魔法少女。<br>确定吗？";
           switch (d)
           {
             case "allMaxFlag":

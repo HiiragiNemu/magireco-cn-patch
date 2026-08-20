@@ -373,7 +373,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
             {
               popupType: "typeC",
               title: l + "到手！",
-              content: l + "每种各1个已发放。<br>使用它们,让战斗更顺利吧!",
+              content: l + "已各发送一个。<br>使用道具，让战斗进行得更加顺利吧！",
               closeBtnText: "关闭"
             }, null, null, function()
             {
@@ -392,7 +392,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
             {
               popupType: "typeC",
               title: l + "到手！",
-              content: l + "每种各1个已发放。<br>使用它们,让战斗更顺利吧!",
+              content: l + "已各发送一个。<br>使用道具，让战斗进行得更加顺利吧！",
               closeBtnText: "关闭"
             }, null, null, function()
             {

@@ -1,0 +1,66 @@
+{
+  "schema": "totentanz-visible-ui-localization-manifest-v1",
+  "authority_order": [
+    "official-cn-old-client",
+    "wiki",
+    "confirmed-human",
+    "new-human"
+  ],
+  "items": [
+    {
+      "item_id": "VISIBLE-object-storage-0001",
+      "operation": "replace",
+      "path": "magica/template/collection/StoryCollection.html",
+      "before": "<p class=\"sb_gold_01 se_decide TE storyStart\"><span class=\"b_screen\"></span><span class=\"buttonUpper c_gold\">CLEAR</span><br>播放</p>",
+      "after": "<p class=\"sb_gold_01 se_decide TE storyStart\"><span class=\"b_screen\"></span><span class=\"buttonUpper c_gold\">已通关</span><br>播放</p>",
+      "count": 1,
+      "baseline_after_count": 0,
+      "source_tier": "confirmed-human-context-equivalent",
+      "evidence": "same file prologue uses 已通关 for the same storyStart state"
+    },
+    {
+      "item_id": "VISIBLE-object-storage-0002",
+      "operation": "replace",
+      "path": "magica/template/collection/StoryCollection.html",
+      "before": "<span class=\"buttonUpper c_gold\">LOCK</span>",
+      "after": "<span class=\"buttonUpper c_gold\">未解锁</span>",
+      "count": 1,
+      "baseline_after_count": 0,
+      "source_tier": "new-human",
+      "evidence": "lockQuest visible state label; code token/class is not changed"
+    },
+    {
+      "item_id": "VISIBLE-object-storage-0003",
+      "operation": "replace",
+      "path": "magica/template/regularEvent/accomplish/RegularEventAccomplishTop.html",
+      "before": "<div id=\"stageArea\">Stage <span id=\"nowStageText\"></span></div>",
+      "after": "<div id=\"stageArea\">关卡 <span id=\"nowStageText\"></span></div>",
+      "count": 1,
+      "baseline_after_count": 0,
+      "source_tier": "confirmed-human-project-term",
+      "evidence": "same page already uses 已解放关卡 and project UI consistently translates stage as 关卡"
+    },
+    {
+      "item_id": "VISIBLE-object-storage-0004",
+      "operation": "replace",
+      "path": "magica/template/event/raid/EventRaidTop.html",
+      "before": "COMBO！",
+      "after": "连击！",
+      "count": 1,
+      "baseline_after_count": 0,
+      "source_tier": "new-human",
+      "evidence": "visible combo-count label; EJS expression and class contract preserved"
+    },
+    {
+      "item_id": "VISIBLE-object-storage-0005",
+      "operation": "replace",
+      "path": "magica/template/memoria/MemoriaComposeTop.html",
+      "before": ">NEXT</span>",
+      "after": ">距升级</span>",
+      "count": 1,
+      "baseline_after_count": 0,
+      "source_tier": "new-human",
+      "evidence": "nextLvWrap displays experience remaining until the next level"
+    }
+  ]
+}
