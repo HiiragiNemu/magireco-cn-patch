@@ -61,6 +61,7 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
                 "pan123-upload",
                 "mirror-release",
                 "commit-configs",
+                "bump-gate",
                 "update-cursor",
                 "summary",
             ],
@@ -337,8 +338,8 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("fromJSON(vars.ENABLE_PAN123_SYNC || 'true')", jobs["pan123-upload"])
 
         self.assertIn(
-            "needs: [setup, pack-js, pack-scenario, publish, r2-sync, doge-sync, "
-            "pan123-upload, mirror-release, commit-configs, update-cursor]",
+            "needs: [setup, pack-js, pack-scenario, publish, r2-sync, bump-gate, "
+            "doge-sync, pan123-upload, mirror-release, commit-configs, update-cursor]",
             summary,
         )
         self.assertIn("needs.pan123-upload.result", summary)
@@ -548,6 +549,30 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("emit_apk_version(assets_by_name, set(unchanged))", r2)
         self.assertIn(
             "emit_apk_version(assets_by_name, set(unchanged) | set(processed))", r2)
+
+    def test_gate_is_bumped_only_after_the_apk_is_on_the_cdn(self):
+        """闸门只能由同步链在 APK 真的落到 CDN 之后抬。
+
+        搬家之前它长在构建 APK 的 CI 里，打完包当场抬到本次构建号——只证明
+        「构建成功」，与玩家能不能下到毫无因果关系。2026-08-20 就是这么把
+        闸门抬到了一个 CDN 上根本没有的版本。
+        """
+        gate = self.workflow_jobs()["bump-gate"]
+        self.assertIn("needs: [r2-sync]", gate)
+        self.assertIn("if: needs.r2-sync.outputs.apk_version != \'\'", gate)
+        # 落地前核对 CDN 边缘真正吐出来的大小
+        self.assertIn('tolower($1)=="content-length:"', gate)
+        self.assertIn("拒绝提升闸门", gate)
+        # 够不着 CDN（不抬、不红）与 CDN 上是旧包（红），处理方式相反
+        self.assertIn("本次不提升闸门", gate)
+        # 非递增一律不写，且绝不自动回落
+        self.assertIn("本步骤不会自动回落闸门", gate)
+        self.assertIn("闸门已经是", gate)
+        # 写配置仓库要过白名单
+        self.assertIn(
+            'ALLOW_CONFIG = {"MagirecoCN-Revival-Project/magirecocn-online-configs"}',
+            gate,
+        )
 
     def test_manual_default_is_js_only(self):
         block = re.search(
