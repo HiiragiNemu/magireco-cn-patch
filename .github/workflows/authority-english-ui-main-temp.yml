@@ -1,0 +1,152 @@
+name: Temporary authority and English UI audit publisher
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/authority-english-ui-main-temp.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: authority-english-ui-main-temp-20260820
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout audited generator
+        uses: actions/checkout@v4
+        with:
+          ref: audit/english-ui-inventory-20260820
+          path: publisher
+          fetch-depth: 1
+          sparse-checkout: tools/authority_inventory_temp.py.gz.b64
+          sparse-checkout-cone-mode: false
+
+      - name: Checkout exact triggering main commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: patch
+          fetch-depth: 2
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            .github/workflows/authority-english-ui-main-temp.yml
+            magica/js/libs/**
+            magica/i18n_audit/libs_json_completion_20260820/**
+            magica/i18n_audit/release_v26_authority/machine_translation_review/**
+            magica/resource/image_web/**
+
+      - name: Checkout pinned Wiki authority
+        uses: actions/checkout@v4
+        with:
+          repository: HiiragiNemu/wiki-data
+          ref: 2a27d64e3c59c893c177c5349b3a6c8134117aea
+          path: wiki
+          token: ${{ secrets. }}
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            data/memoria.json
+            data/characters.json
+
+      - name: Verify locked inputs and decode generator
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C patch rev-parse HEAD)" = '${{ github.sha }}'
+          test "$(git -C patch rev-parse HEAD^)" = '0d68e93345355c2cbb8e9022f4256aaac3c19725'
+          test "$(sha256sum publisher/tools/authority_inventory_temp.py.gz.b64 | cut -d' ' -f1)" = \
+            '1a94ab46d2858e59d572ab17b063c0de8eb617075f29e464d50a2c3268c31483'
+          base64 -d publisher/tools/authority_inventory_temp.py.gz.b64 | gzip -d > /tmp/authority_inventory.py
+          test "$(sha256sum /tmp/authority_inventory.py | cut -d' ' -f1)" = \
+            '68c329685bfa6363a5172721b70a07fedf0d632f8ea1a8d634a9f0da0d090063'
+          python -m py_compile /tmp/authority_inventory.py
+
+      - name: Apply exact authority matches and build inventories
+        run: |
+          python -X utf8 /tmp/authority_inventory.py patch wiki/data
+
+      - name: Remove temporary workflow and enforce exact write allowlist
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm patch/.github/workflows/authority-english-ui-main-temp.yml
+          cd patch
+          git diff --check
+          mapfile -t changed < <(
+            { git diff --name-only; git ls-files --others --exclude-standard; } | sort -u
+          )
+          printf 'Changed paths:\n'
+          printf '  %s\n' "${changed[@]}"
+          expected=(
+            '.github/workflows/authority-english-ui-main-temp.yml'
+            'magica/i18n_audit/english_ui_inventory_20260820/ASHLEY_RECORD_GAP.tsv'
+            'magica/i18n_audit/english_ui_inventory_20260820/BATTLE_RUNTIME_ACTIONABLE_GAPS.tsv'
+            'magica/i18n_audit/english_ui_inventory_20260820/FRONTEND_LATIN_EMPTY_COHORT.tsv'
+            'magica/i18n_audit/english_ui_inventory_20260820/IMAGE_TEXT_ASSET_CANDIDATES.tsv'
+            'magica/i18n_audit/english_ui_inventory_20260820/MIXED_LATIN_SUMMARY.tsv'
+            'magica/i18n_audit/english_ui_inventory_20260820/NATIVE_ENGINE_EXAMPLES.tsv'
+            'magica/i18n_audit/english_ui_inventory_20260820/PLAYER_VISIBLE_ENGLISH.tsv'
+            'magica/i18n_audit/english_ui_inventory_20260820/PLAYER_VISIBLE_ENGLISH_UNIQUE.tsv'
+            'magica/i18n_audit/english_ui_inventory_20260820/README.md'
+            'magica/i18n_audit/english_ui_inventory_20260820/validation.json'
+            'magica/i18n_audit/libs_json_completion_20260820/AUTHORITY_APPLIED.tsv'
+            'magica/i18n_audit/libs_json_completion_20260820/HUMAN_REVIEW_CHECKLIST.tsv'
+            'magica/i18n_audit/libs_json_completion_20260820/README.md'
+            'magica/i18n_audit/libs_json_completion_20260820/RETAINED_BY_POLICY.tsv'
+            'magica/i18n_audit/libs_json_completion_20260820/validation.json'
+            'magica/js/libs/cardList.json'
+            'magica/js/libs/pieceList.json'
+          )
+          mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | sort)
+          test "${#changed[@]}" -eq "${#expected_sorted[@]}"
+          for i in "${!expected_sorted[@]}"; do
+            test "${changed[$i]}" = "${expected_sorted[$i]}"
+          done
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root = Path('.')
+          validation = json.loads((root / 'magica/i18n_audit/english_ui_inventory_20260820/validation.json').read_text(encoding='utf-8'))
+          assert validation['status'] == 'PASS'
+          assert validation['product_changes']['piece_title_fields'] == 9
+          assert validation['product_changes']['card_name_fields'] == 2
+          assert validation['inventory']['ashley_charaMessage_rows'] == 0
+          assert validation['inventory']['battle_actionable_rows_from_recorded_audit'] == 7
+          with (root / 'magica/i18n_audit/libs_json_completion_20260820/AUTHORITY_APPLIED.tsv').open(encoding='utf-8-sig', newline='') as handle:
+              rows = list(csv.DictReader(handle, delimiter='\t'))
+          assert len(rows) == 14
+          assert sum(row['application_stage'] == 'this-commit' for row in rows) == 11
+          assert not (root / 'magica/i18n_audit/libs_json_completion_20260820/RETAINED_BY_POLICY.tsv').exists()
+          for path in sorted((root / 'magica/js/libs').glob('*.json')):
+              json.loads(path.read_text(encoding='utf-8-sig'))
+          PY
+
+      - name: Commit directly to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd patch
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'fix(i18n): adopt authority titles and inventory remaining English UI'
+          git push origin HEAD:main
+          new_sha="$(git rev-parse HEAD)"
+          remote_sha="$(git ls-remote origin refs/heads/main | cut -f1)"
+          test "$new_sha" = "$remote_sha"
+          echo "Published main commit: $new_sha"
+
+      - name: Delete temporary audit branch after success
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C publisher push origin --delete audit/english-ui-inventory-20260820
