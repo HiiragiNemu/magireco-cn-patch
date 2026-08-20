@@ -1,56 +1,60 @@
 {
-  "schema": "magireco-libs-json-completion/v1",
+  "schema": "magireco-libs-json-completion/v2",
   "status": "PASS",
   "source": {
     "patch_repository": "HiiragiNemu/magireco-cn-patch",
-    "patch_commit": "cf5965a3916924299c13634b4e849fee1eb2f6f7",
     "wiki_repository": "HiiragiNemu/magireco-wiki-data",
-    "wiki_commit": "2a27d64e3c59c893c177c5349b3a6c8134117aea",
-    "pieceList_sha256": "b51addf6e800235df5af37007f5a5546bd5a3d4c35408753b73ded66f4bed69d"
+    "wiki_commit": "2a27d64e3c59c893c177c5349b3a6c8134117aea"
   },
-  "target": {
-    "pieceList_sha256": "d65b662fb8d740a30a985ee507227eb4b1372d05542d96a1261c4279ab20e5ed",
-    "json_file_count": 23
-  },
-  "changes": {
-    "product_files": 1,
+  "original_description_pass": {
+    "baseline_commit": "cf5965a3916924299c13634b4e849fee1eb2f6f7",
+    "product_file": "magica/js/libs/pieceList.json",
     "records": 3,
-    "fields": 3,
+    "description_fields_changed": 3,
     "stable_ids": [
       "pieceId=1603",
       "pieceId=1604",
       "pieceId=1605"
     ],
-    "titles_changed": 0,
-    "descriptions_changed": 3
+    "translation_source": "Wiki 同记录非生成 desc_zh",
+    "checks": {
+      "source_title_exact_match": true,
+      "source_description_normalized_exact_match": true,
+      "wiki_records_non_generated": true,
+      "wiki_target_values_exact": true
+    }
+  },
+  "standalone_title_followup": {
+    "commits": [
+      "66da7cbac7f5db215a17077bcb85b081ccf1d2c2",
+      "41966e9f5c9fe03c7ce490a40718c958577857c3"
+    ],
+    "audit_directory": "magica/i18n_audit/piece_title_localization_20260820",
+    "product_file": "magica/js/libs/pieceList.json",
+    "pieceList_final_sha256": "dc1c40d9111716c6ced7a5d3de15a40a61562b5cb25a332dcac07ebca3baf6fd",
+    "pieceName_fields_changed": 30,
+    "description_fields_changed": 0,
+    "non_pieceName_fields_changed": 0,
+    "pure_latin_standalone_pieceName_after": 0,
+    "ashley_titles": {
+      "pieceId=1603": "熊乃介的卡哇伊视频",
+      "pieceId=1604": "我的胜利姿势也很卡哇伊唷",
+      "pieceId=1605": "卡哇伊收藏"
+    }
+  },
+  "semantic_policy": {
+    "standalone_titles": "存在权威中文时采用权威中文；无权威中文时结合记录语境逐条人工翻译，不因标题使用英文而自动保留。",
+    "dialogue_code_switching": "角色台词中的刻意英语夹杂按人物表达与上下文判断；阿莉娜的 body/show/fool girl 等不按残留英文处理。",
+    "scenario": "标题专项未修改 scenario 剧情脚本。",
+    "voice_and_dialogue": "标题专项未修改角色语音或对白。",
+    "deprecated_policy": "旧版‘三个 Ashley 英文标题属于游戏内英文专名，应保留’已废止；RETAINED_BY_POLICY.tsv 已删除。"
   },
   "checks": {
-    "all_23_json_parse": true,
-    "record_count_preserved": true,
-    "key_order_preserved": true,
-    "only_allowlisted_fields_changed": true,
-    "source_title_exact_match": true,
-    "source_description_normalized_exact_match": true,
-    "wiki_records_non_generated": true,
-    "wiki_target_values_exact": true,
-    "pure_english_prose_before": 3,
-    "pure_english_prose_after": 0,
-    "true_kana_all_after": 401,
-    "true_kana_fields_after": {
-      "cardList.json:illustrator": 213,
-      "charaList.json:designer": 53,
-      "doppelList.json:designer": 95,
-      "pieceList.json:illustrator": 40
-    },
-    "true_kana_outside_credit_after": 0,
-    "placeholder_inventory_unchanged": true,
-    "control_character_count_after": 0,
-    "replacement_character_count_after": 0
-  },
-  "retention_policy": {
-    "pure_latin_visible_occurrences_after": 438,
-    "pure_latin_visible_unique_values_after": 207,
-    "placeholder_occurrences_after": 337,
-    "reason": "游戏特定英文/拉丁文专名、技能名、标题、角色口癖和源数据占位不强制汉化。"
+    "description_pass_preserved": true,
+    "all_30_title_adoptions_materialized": true,
+    "piece_title_residual_zero": true,
+    "title_followup_only_changed_pieceName": true,
+    "dialogue_and_descriptions_untouched_by_title_followup": true,
+    "stale_retention_policy_removed": true
   }
 }
