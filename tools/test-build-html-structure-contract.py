@@ -36,6 +36,8 @@ class HtmlStructureContractTests(unittest.TestCase):
         self.assertFalse(report["external_sources_verified"])
 
     def test_verify_cli_reopens_committed_contract_offline(self) -> None:
+        verification_before = MOD.DEFAULT_VERIFICATION.read_bytes()
+        report_before = MOD.DEFAULT_REPORT.read_bytes()
         completed = subprocess.run(
             [sys.executable, str(TOOL), "--verify"],
             cwd=ROOT,
@@ -50,6 +52,8 @@ class HtmlStructureContractTests(unittest.TestCase):
         self.assertEqual(report["status"], "PASS")
         self.assertEqual(report["html_files"], 225)
         self.assertFalse(report["external_sources_verified"])
+        self.assertEqual(MOD.DEFAULT_VERIFICATION.read_bytes(), verification_before)
+        self.assertEqual(MOD.DEFAULT_REPORT.read_bytes(), report_before)
 
     def test_visible_text_and_approved_attribute_values_are_translatable(self) -> None:
         source = b'''<div id="fixed" class="box" data-mode="strict"
@@ -74,6 +78,20 @@ class HtmlStructureContractTests(unittest.TestCase):
         for changed in changes:
             with self.subTest(changed=changed):
                 self.assertNotEqual(frozen, MOD.structure_signature(changed))
+
+    def test_pinned_old_cn_reference_ignores_committed_product_head(self) -> None:
+        product_path = "magica/template/arena/ArenaCurePop.html"
+        with tempfile.TemporaryDirectory() as temp:
+            old_root = Path(temp)
+            old_reference = old_root / "template/arena/ArenaCurePop.html"
+            old_reference.parent.mkdir(parents=True)
+            old_reference.write_text("<div>official CN text</div>\n", encoding="utf-8")
+            kind, locator, payload = MOD.select_pinned_old_cn_reference(
+                old_root, product_path
+            )
+            self.assertEqual(kind, "magicaOLD")
+            self.assertEqual(Path(locator), old_reference.resolve())
+            self.assertEqual(payload, old_reference.read_bytes())
 
     def test_version_divergent_frozen_product_rejects_each_structure_kind(self) -> None:
         product_path = "magica/template/versioned.html"
