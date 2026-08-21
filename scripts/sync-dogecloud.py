@@ -432,6 +432,11 @@ def fetch_release_assets():
     repo  = os.environ.get('UPSTREAM_REPO', 'patch-front')
     headers = {'Accept': 'application/vnd.github+json',
                'X-GitHub-Api-Version': '2022-11-28'}
+    # 仓库转私有后匿名读 Release 一律 404，而这里只是列个清单、失败得很安静
+    # （集合变空 = 什么都不用同步）。有凭据就带上。
+    gh = os.environ.get('', '')
+    if gh:
+        headers['Authorization'] = f'Bearer {gh}'
 
     def latest(full_name):
         req = urllib.request.Request(
