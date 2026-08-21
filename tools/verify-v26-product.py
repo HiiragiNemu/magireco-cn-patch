@@ -334,7 +334,8 @@ def verify_product_inventory(root: Path = ROOT) -> dict[str, object]:
     The deterministic package builder owns the membership contract: every file
     below ``magica/`` except research/audit evidence, exactly one engine table,
     and the native repair files selected by ``madomagi/repair_manifest.json``.
-    The manifest is a required control input but is not itself a ZIP payload.
+    The manifest is both the required control input and a ZIP payload so the
+    extracted native repair layer remains self-describing.
     """
 
     root = root.resolve()
@@ -416,8 +417,8 @@ def verify_product_inventory(root: Path = ROOT) -> dict[str, object]:
         f"repair manifest byte count mismatch: {repair_byte_errors[:10]}"
     )
 
-    package_members = [ENGINE, *sorted(declared_repairs)]
-    inventory_members = [REPAIR_MANIFEST, *package_members]
+    package_members = [ENGINE, REPAIR_MANIFEST, *sorted(declared_repairs)]
+    inventory_members = list(package_members)
     for path in sorted(magica.rglob("*")):
         assert not path.is_symlink(), f"product tree contains symlink: {path}"
         if not path.is_file():
@@ -1142,6 +1143,7 @@ def verify_zip(path: Path):
             continue
         expected[name] = file.read_bytes()
     expected[ENGINE] = (ROOT / ENGINE).read_bytes()
+    expected[REPAIR_MANIFEST] = (ROOT / REPAIR_MANIFEST).read_bytes()
     for file in (ROOT / REPAIR_PREFIX).rglob("*"):
         if file.is_file():
             expected[file.relative_to(ROOT).as_posix()] = file.read_bytes()
@@ -1164,6 +1166,7 @@ def verify_zip(path: Path):
         "duplicate_paths": 0, "crc_errors": 0, "byte_mismatches": 0,
         "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest(),
         "engine_entries": names.count(ENGINE),
+        "repair_manifest_entries": names.count(REPAIR_MANIFEST),
         "repair_entries": sum(name.startswith(REPAIR_PREFIX) for name in names),
         "scenario_entries": sum(name.startswith("madomagi/resource/scenario/") for name in names),
         "audit_entries": sum(name.startswith(EXCLUDED) for name in names),

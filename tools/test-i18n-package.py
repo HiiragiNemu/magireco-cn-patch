@@ -12,8 +12,10 @@ import zipfile
 
 SCRIPT = Path(__file__).with_name('i18n-package.py')
 ENGINE_MEMBER = 'madomagi/engine_i18n.tsv'
+REPAIR_MANIFEST = 'madomagi/repair_manifest.json'
 REPAIR_PREFIX = 'madomagi/resource/image_native/'
 REPO_ENGINE = SCRIPT.parent.parent / ENGINE_MEMBER
+REPO_REPAIR_MANIFEST = SCRIPT.parent.parent / REPAIR_MANIFEST
 
 
 class I18nPackageTest(unittest.TestCase):
@@ -67,11 +69,16 @@ class I18nPackageTest(unittest.TestCase):
                 self.assertNotIn('magica/i18n_audit/report.json', names)
                 self.assertTrue(all(
                     name.startswith('magica/') or name == ENGINE_MEMBER
+                    or name == REPAIR_MANIFEST
                     or name.startswith(REPAIR_PREFIX)
                     for name in names
                 ))
                 self.assertEqual(
                     91, sum(name.startswith(REPAIR_PREFIX) for name in names)
+                )
+                self.assertEqual(names.count(REPAIR_MANIFEST), 1)
+                self.assertEqual(
+                    archive.read(REPAIR_MANIFEST), REPO_REPAIR_MANIFEST.read_bytes()
                 )
 
     def test_default_engine_is_repository_authority_file(self):
@@ -86,6 +93,9 @@ class I18nPackageTest(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             with zipfile.ZipFile(output) as archive:
                 self.assertEqual(archive.read(ENGINE_MEMBER), REPO_ENGINE.read_bytes())
+                self.assertEqual(
+                    archive.read(REPAIR_MANIFEST), REPO_REPAIR_MANIFEST.read_bytes()
+                )
 
     def test_frontend_overlay_and_add_keep_parallel_root_layout(self):
         with tempfile.TemporaryDirectory() as temp:

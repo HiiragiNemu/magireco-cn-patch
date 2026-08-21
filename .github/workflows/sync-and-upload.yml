@@ -567,8 +567,12 @@ jobs:
           with zipfile.ZipFile(ZIP_NEW) as zf:
               names = zf.namelist()
           engine = "madomagi/engine_i18n.tsv"
+          repair_contract = "madomagi/repair_manifest.json"
           repair_prefix = "madomagi/resource/image_native/"
           assert names.count(engine) == 1, f"{engine} count={names.count(engine)}"
+          assert names.count(repair_contract) == 1, (
+              f"{repair_contract} count={names.count(repair_contract)}"
+          )
           repair_manifest = json.load(open("madomagi/repair_manifest.json", encoding="utf-8"))
           expected_repairs = sorted(row["path"] for row in repair_manifest["entries"])
           actual_repairs = sorted(name for name in names if name.startswith(repair_prefix))
@@ -580,6 +584,7 @@ jobs:
           assert not any(
               n.startswith("madomagi/")
               and n != engine
+              and n != repair_contract
               and not n.startswith(repair_prefix)
               for n in names
           )
@@ -654,6 +659,7 @@ jobs:
       # ───────────────────────────────────────────────────────────────
       - name: "[JS] 生成文件清单与账本"
         run: |
+          set -o pipefail
           VER=$(python3 -c "import json;print(json.load(open('version_js_new.json'))['version'])")
           LEDGER_MODE=check
           if [ "${{ needs.setup.outputs.publish_hotfix }}" = "true" ]; then
