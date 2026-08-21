@@ -543,7 +543,7 @@ def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
     require_timeout = "window.requirejs.config({waitSeconds:60});"
     top_page_timeout = (
         "if(/\\/magica\\/api\\/page\\/TopPage(?:\\?|$)/.test(url)) "
-        "options.timeout=18E4;"
+        "options.timeout=6E4;"
     )
     timeout_visibility = '"timeout"==m?(d.setWebView(),c.tapBlock(!1)'
     zero_status_visibility = (
@@ -554,7 +554,7 @@ def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
     non_2xx_visibility = "window.isBrowser&&404==b.status||(d.setWebView(),C=function(){"
 
     assert jquery.count(require_timeout) == 1, "RequireJS 60-second gate drift"
-    assert jquery.count(top_page_timeout) == 1, "TopPage 180-second gate drift"
+    assert jquery.count(top_page_timeout) == 1, "TopPage 60-second gate drift"
     assert jquery.count("jq.ajaxPrefilter(function(options)") == 1
     assert jquery.count("jq.__MAGIACN_NETWORK_RELIABILITY__=true") == 1
     assert ajax.count(timeout_visibility) == 1, "timeout WebView recovery drift"
@@ -585,7 +585,7 @@ def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
     return {
         "status": "PASS",
         "requirejs_wait_seconds": 60,
-        "top_page_timeout_ms": 180000,
+        "top_page_timeout_ms": 60000,
         "unrelated_ajax_default_ms": 20000,
         "timeout_error_forces_webview_visible": True,
         "status_zero_error_forces_webview_visible": True,

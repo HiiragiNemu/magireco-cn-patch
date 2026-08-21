@@ -22,7 +22,7 @@ RUNTIME_SUMS = RUNTIME_AUDIT / "RUNTIME_LAYER_SHA256SUMS.txt"
 
 ORIGINAL_SHA256 = "fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a"
 AUDITED_PREFIX_SHA256 = "0243774265dc954e6f9d129d63776c0446097030bebeffaa81798477de3892a1"
-AUDITED_SUFFIX_SHA256 = "160a3bf39de546366396855d3f1c8dd9b04ca0da6bdffaa9215e58ce9aa79dae"
+AUDITED_SUFFIX_SHA256 = "495f6bd8d63d33a29e46cd582d1afd441c654543bd0de52bbe595c737e66f1b4"
 DICT_NAMES = (
     "arenaClassList", "cardList", "cardMagiaMap", "cardSkillMap", "chapterList",
     "charaList", "charaMessageList", "doppelCardMagiaMap", "doppelList",

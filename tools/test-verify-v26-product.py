@@ -223,7 +223,7 @@ class V26ProductAuthorityTests(unittest.TestCase):
     def test_runtime_network_resilience_is_product_bound_and_fail_closed(self) -> None:
         report = MOD.verify_runtime_network_resilience()
         self.assertEqual(report["requirejs_wait_seconds"], 60)
-        self.assertEqual(report["top_page_timeout_ms"], 180000)
+        self.assertEqual(report["top_page_timeout_ms"], 60000)
         self.assertTrue(report["timeout_error_forces_webview_visible"])
         self.assertTrue(report["status_zero_error_forces_webview_visible"])
         self.assertTrue(report["non_2xx_error_forces_webview_visible"])
