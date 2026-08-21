@@ -64,18 +64,18 @@ ENGINE_CONNECT_EVIDENCE = ENGINE_EVIDENCE / "connect-context-authority.json"
 ENGINE_FINAL_EVIDENCE = ENGINE_EVIDENCE / "engine-final-authority-corrections.json"
 ENGINE_ROOT_EVIDENCE = ENGINE_EVIDENCE / "root-reviewed-term-closure.json"
 
-NEXT_ROUND_EVIDENCE = ROOT.parent / "next_round_execution_20260819"
-CONNECT_VISIBLE_EVIDENCE = NEXT_ROUND_EVIDENCE / "connect_visible_ui_apply_20260819"
+PORTABLE_FOLLOWUP_EVIDENCE = (
+    ROUND3_ROOT / "portable-followup-evidence-20260819"
+)
+CONNECT_VISIBLE_EVIDENCE = PORTABLE_FOLLOWUP_EVIDENCE / "connect-visible"
 CONNECT_VISIBLE_PATCH = CONNECT_VISIBLE_EVIDENCE / "connect_visible_ui_product_patch.json"
 CONNECT_VISIBLE_VERIFICATION = (
     CONNECT_VISIBLE_EVIDENCE / "connect_visible_ui_verification.json"
 )
-CONNECT_HELP_EVIDENCE = NEXT_ROUND_EVIDENCE / "connect_help_json_apply_20260819"
+CONNECT_HELP_EVIDENCE = PORTABLE_FOLLOWUP_EVIDENCE / "connect-help"
 CONNECT_HELP_VERIFICATION = CONNECT_HELP_EVIDENCE / "connect_help_json_verification.json"
 ENGINE_FINAL_VERIFICATION = (
-    NEXT_ROUND_EVIDENCE
-    / "engine_final_authority_apply_20260819"
-    / "engine_final_authority_verification.json"
+    PORTABLE_FOLLOWUP_EVIDENCE / "engine_final_authority_verification.json"
 )
 
 SELECTIVE_CSS_ADDITIONS = frozenset(
@@ -1056,7 +1056,7 @@ def verify_engine() -> tuple[dict[str, Any], list[str]]:
         },
         "authority_layers": authority_layers,
         "final_apply_verification": {
-            "path": str(ENGINE_FINAL_VERIFICATION),
+            "path": ENGINE_FINAL_VERIFICATION.relative_to(ROOT).as_posix(),
             "result": final_verification,
             "failures": final_verification_failures,
         },
@@ -1256,12 +1256,12 @@ def verify_connect_followup_layers() -> tuple[dict[str, Any], list[str]]:
         errors.append(f"Connect help follow-up layer differs: {help_failures}")
 
     return {
-        "visible_patch": str(CONNECT_VISIBLE_PATCH),
+        "visible_patch": CONNECT_VISIBLE_PATCH.relative_to(ROOT).as_posix(),
         "visible_records": len(records),
         "visible_failures": failures,
         "html_ejs_structure_failures": html_structure_failures,
         "visible_verification_failures": verification_failures,
-        "help_verification": str(CONNECT_HELP_VERIFICATION),
+        "help_verification": CONNECT_HELP_VERIFICATION.relative_to(ROOT).as_posix(),
         "help_failures": help_failures,
     }, errors
 

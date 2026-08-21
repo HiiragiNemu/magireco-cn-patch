@@ -1,0 +1,34 @@
+{
+  "schema": "connect-help-json-verification-v1",
+  "file": "magica/resource/image_web/_json/help.json",
+  "authority": "user-confirmed-stable-visible-mechanic-term",
+  "source": "Connect",
+  "target": "连携",
+  "apply": {
+    "command": "python -X utf8 apply_connect_help_json.py",
+    "output": "{\"status\":\"PASS\",\"file\":\"magica/resource/image_web/_json/help.json\",\"replacements\":14}",
+    "exit_status": 0
+  },
+  "baseline_verification": {
+    "command": "python -X utf8 verify_connect_help_json.py",
+    "output": "{\"status\":\"PASS\",\"file\":\"magica/resource/image_web/_json/help.json\",\"old_visible\":0,\"new_visible\":14,\"json_parse\":true}",
+    "exit_status": 0
+  },
+  "rollback": {
+    "command": "python -X utf8 rollback_connect_help_json.py",
+    "output": "{\"status\":\"PASS\",\"restored\":\"magica/resource/image_web/_json/help.json\"}",
+    "exit_status": 0,
+    "exact_original_restored": true
+  },
+  "modified_verification": {
+    "command": "python -X utf8 apply_connect_help_json.py && python -X utf8 verify_connect_help_json.py",
+    "outputs": [
+      "{\"status\":\"PASS\",\"file\":\"magica/resource/image_web/_json/help.json\",\"replacements\":14}",
+      "{\"status\":\"PASS\",\"file\":\"magica/resource/image_web/_json/help.json\",\"old_visible\":0,\"new_visible\":14,\"json_parse\":true}"
+    ],
+    "exit_status": [
+      0,
+      0
+    ]
+  }
+}
