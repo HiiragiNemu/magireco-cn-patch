@@ -9,7 +9,7 @@
 runner 不再自己下载再上传（省流量、省跨网带宽），而是提交一个国内 CDN URL，
 让多吉云的服务器从 CDN 抓文件落桶。runner 只做控制面（换 token、提交任务、
 轮询、列桶校验）。源 URL 用 race_source_cdn() 竞速选出最快的国内 CDN
-（edgeone/esa/hkcdn/r2，吞吐会变，运行时就地测）；多吉云/123云盘都排在
+（edgeone/esa/r2，吞吐会变，运行时就地测）；多吉云/123云盘都排在
 R2 系之后跑，等 CDN 清缓存+拉到新内容。
 
 设计：
@@ -392,7 +392,6 @@ def race_source_cdn():
     candidates = [
         ("edgeone", "https://edgeone.assets.magireco.top/"),
         ("esa", "https://esa.assets.magireco.top/"),
-        ("hkcdn", "https://hkcdn.assets.magireco.top/g/m/releases/download/latest/"),
         ("r2", "https://r2.assets.magireco.top/"),
     ]
     probe = "cn_base_00_db.zip"
