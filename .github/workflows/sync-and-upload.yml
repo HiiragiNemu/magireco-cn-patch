@@ -8,6 +8,7 @@ name: 🔄 同步上游并上传到 object-storage
 # ║       └─ [publish] 热更发布(gate)                                    ║
 # ║            ├─ [r2-sync] object-storage系同步  ║ [doge-sync] Doge系(hk runner)     ║
 # ║            ├─ [mirror-release] 镜像Release                           ║
+# ║            ├─ [bump-gate] APK 落地 CDN 后按实况抬版本闸门            ║
 # ║            └─ [commit-configs] 提交版本json推上下游                    ║
 # ║                 └─ [update-cursor] 推进游标 → [summary] 报告         ║
 # ║   object-storage 系：单 object-storage 桶 + edge/ESA/CDN 三 CDN 刷新               ║
@@ -137,6 +138,8 @@ jobs:
       UPSTREAM_REPO: "patch-front"
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
       DOWNSTREAM_REPO: "patch-front"
+      CONFIG_OWNER: "MagirecoCN-Revival-Project"
+      CONFIG_REPO: "runtime-config"
     steps:
       - name: 🛡 安全护栏（校验所有可写仓库都在白名单中）
         # 这是本 workflow 的"硬刹车"。下面列出的三组 owner/repo 是
@@ -148,9 +151,13 @@ jobs:
           import os, sys
           ALLOW_UPSTREAM   = {"HiiragiNemu/patch-front"}
           ALLOW_DOWNSTREAM = {"MagirecoCN-Revival-Project/patch-front"}
+          # 2026-08-21 起本 workflow 还会写在线配置仓库的 client.version
+          # （bump-gate job），所以它也必须列在这张白名单里。
+          ALLOW_CONFIG     = {"MagirecoCN-Revival-Project/runtime-config"}
 
           upstream   = f"{os.environ['UPSTREAM_OWNER']}/{os.environ['UPSTREAM_REPO']}"
           downstream = f"{os.environ['DOWNSTREAM_OWNER']}/{os.environ['DOWNSTREAM_REPO']}"
+          config     = f"{os.environ['CONFIG_OWNER']}/{os.environ['CONFIG_REPO']}"
 
           failed = False
           if upstream not in ALLOW_UPSTREAM:
@@ -161,6 +168,10 @@ jobs:
               print(f"::error::下游仓库 {downstream} 不在白名单中")
               print(f"::error::允许: {sorted(ALLOW_DOWNSTREAM)}")
               failed = True
+          if config not in ALLOW_CONFIG:
+              print(f"::error::在线配置仓库 {config} 不在白名单中")
+              print(f"::error::允许: {sorted(ALLOW_CONFIG)}")
+              failed = True
           if failed:
               print("::error::出于安全考虑，本 workflow 只允许操作上述指定仓库；")
               print("::error::请检查 env / secrets / .github/workflows/syncandupload.yml")
@@ -168,6 +179,7 @@ jobs:
 
           print(f"✔ 上游 OK:   {upstream}")
           print(f"✔ 下游 OK:   {downstream}")
+          print(f"✔ 配置 OK:   {config}")
           SCRIPT_END
 
       - name: 📦 检出下游仓库
@@ -1263,6 +1275,20 @@ jobs:
   r2-sync:
     runs-on: ubuntu-latest
     needs: [setup, publish]
+    # always()：APK 的分发不能被热更打包链连坐。没有它时有两条死法——
+    #   ① pack-js 红 → publish 的「打包失败即停链」护栏红 → 本 job 被跳过；
+    #   ② 没有内容变更 → pack-* 被 skip，而 **skip 会沿 needs 图向下传递**，
+    #      即使 publish 靠 always() 仍然成功，本 job 照样被跳过。
+    # ② 恰恰是「构建完 APK 再 dispatch 过来」这条路的常态：上游 git 内容一个
+    # 字节没变。于是 APK 每次都停在 Release 里上不了 CDN，闸门却照抬——
+    # 2026-08-20 玩家无限更新的根因（run #236 属 ①，run #239 属 ②，都实证）。
+    # publish 失败时本 job 同步的是 Release 上一份自洽的旧状态（热更转正是
+    # 事务式的，失败会回滚），不存在把半拉热更推上 CDN 的路径。
+    if: always() && needs.setup.result == 'success'
+    outputs:
+      apk_version: ${{ steps.sync_script.outputs.apk_version }}
+      apk_name:    ${{ steps.sync_script.outputs.apk_name }}
+      apk_size:    ${{ steps.sync_script.outputs.apk_size }}
     env:
       PYTHONUNBUFFERED: "1"
       : ${{ secrets. }}
@@ -1385,6 +1411,24 @@ jobs:
               # 非主线 APK（非 magireco-latest*）不上传，主线 APK 走 edge/object-storage
               if name.endswith('.apk') and not name.startswith('magireco-latest'): return True
               return False
+
+          # ══════════════════════════════════════════════════════════════
+          # 本仓库自有 asset（2026-08-21 起）
+          # ══════════════════════════════════════════════════════════════
+          # 客户端 APK 与它的版本旁注不再寄存到上游 Release 等镜像绕回来，
+          # 构建 CI 直接传进**本仓库**的 latest Release。所以这两个名字的权威
+          # 副本在本仓库：上游那份是搬家前的历史遗留、不再更新，必须让位，
+          # 否则每次同步都会拿一份越来越旧的包把 CDN 盖回去。
+          # 同一判据在 mirror-release、scripts/sync-dogecloud.py、
+          # scripts/sync-pan123-webdav.py 各有一份，四处必须一起改。
+          LOCAL_OWNED_PREFIXES = ('magireco-latest',)
+
+          def is_local_owned(name: str) -> bool:
+              return name.startswith(LOCAL_OWNED_PREFIXES)
+
+          # APK 的版本旁注：构建 CI 与 APK 一起上传，内容是本次构建的
+          # client.version / sha256 / size。闸门提升以它为准（见 bump-gate）。
+          APK_SIDECAR = 'magireco-latest-legacy-client.version.json'
 
           class R2Handler:
               def __init__(self, endpoint, access_key, secret_key,
@@ -1568,6 +1612,64 @@ jobs:
                    '--repo', os.environ.get("GITHUB_REPOSITORY", "")],
                   capture_output=True, text=True)
 
+          def gh_output(key, value):
+              path = os.environ.get('GITHUB_OUTPUT')
+              if not path:
+                  return
+              with open(path, 'a', encoding='utf-8') as f:
+                  f.write(f"{key}={value}\n")
+
+          def emit_apk_version(assets, synced):
+              """把「CDN 上现在是哪一版 APK」交给 bump-gate。
+
+              闸门只允许跟着**玩家真能装到的那个包**走，所以报告有三个前提，
+              少一条就不报。不报的代价是玩家少一次更新提示；报错的代价是
+              玩家陷入无限更新——两者不对称，所以这里一律宁可不报：
+                · APK 与旁注都处于已同步状态（本次刚传完，或指纹一致说明
+                  早就在桶里了）；
+                · 旁注里的 sha256 与 Release 上 APK asset 的 digest 一致；
+                · 旁注的 apk 字段确实指向这个 APK 名。
+              """
+              sidecar = assets.get(APK_SIDECAR)
+              if sidecar is None:
+                  skip(f"Release 上没有 {APK_SIDECAR}，本次不报告客户端版本")
+                  return
+              if APK_SIDECAR not in synced:
+                  skip(f"{APK_SIDECAR} 未处于已同步状态，本次不报告客户端版本")
+                  return
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(
+                          sidecar['browser_download_url'])) as resp:
+                      meta = json.loads(resp.read().decode())
+              except Exception as e:
+                  warn(f"读取 {APK_SIDECAR} 失败: {e}，本次不报告客户端版本")
+                  return
+              apk_name = meta.get('apk') or ''
+              apk = assets.get(apk_name)
+              if apk is None:
+                  warn(f"旁注指向的 {apk_name!r} 不在待同步集合里，不报告版本")
+                  return
+              if apk_name not in synced:
+                  skip(f"{apk_name} 未处于已同步状态，本次不报告客户端版本")
+                  return
+              want = str(meta.get('sha256') or '').lower()
+              got = str(apk.get('digest') or '').lower().replace('sha256:', '')
+              if not want or not got or want != got:
+                  err(f"{apk_name} 的 digest 与旁注 sha256 不符"
+                      f"（旁注 {want[:12] or '空'}… / asset {got[:12] or '空'}…），"
+                      "两者不是同一次构建的产物，不报告版本")
+                  return
+              version = str(meta.get('version') or '')
+              if not version:
+                  warn(f"{APK_SIDECAR} 里没有 version 字段，不报告版本")
+                  return
+              size = int(meta.get('size') or apk.get('size', 0))
+              ok(f"CDN 上的客户端版本: {c(C.BRIGHT_WHITE, version)}"
+                 f"（{apk_name}, {human_size(size)}）")
+              gh_output('apk_version', version)
+              gh_output('apk_name', apk_name)
+              gh_output('apk_size', str(size))
+
           def main():
               CONFIRM_CLEANUP = os.environ.get("CONFIRM_CLEANUP", "false") == "true"
 
@@ -1606,26 +1708,57 @@ jobs:
               if os.environ.get(''):
                   GH_HEADERS['Authorization'] = f"Bearer {os.environ['']}"
 
+              def fetch_latest_release(full_name):
+                  """取 <owner>/<repo> 的 latest Release；没有 Release 返回 None。"""
+                  try:
+                      req = urllib.request.Request(
+                          f"https://api.github.com/repos/{full_name}/releases/latest",
+                          headers=GH_HEADERS
+                      )
+                      with urllib.request.urlopen(req) as resp:
+                          return json.loads(resp.read().decode())
+                  except urllib.error.HTTPError as e:
+                      if e.code == 404:
+                          return None
+                      raise
+
               header(f"获取 {owner}/{repo} 最新 Release")
-              try:
-                  req = urllib.request.Request(
-                      f"https://api.github.com/repos/{owner}/{repo}/releases/latest",
-                      headers=GH_HEADERS
-                  )
-                  with urllib.request.urlopen(req) as resp:
-                      release = json.loads(resp.read().decode())
-              except urllib.error.HTTPError as e:
-                  if e.code == 404:
-                      warn("上游仓库无 Release，跳过")
-                      return
-                  raise
+              release = fetch_latest_release(f"{owner}/{repo}")
+              if release is None:
+                  warn("上游仓库无 Release，跳过")
+                  return
 
               info(f"Release: {c(C.BRIGHT_WHITE, release.get('name') or release.get('tag_name'))}")
-              current_map = {
-                  a['name']: a.get('digest', '')
+
+              # 待同步集合 = 上游全集（去掉本仓库自有名）∪ 本仓库自有名。
+              # 顺序不能反：同名时本仓库那份优先——它才是构建 CI 的落点。
+              assets_by_name = {
+                  a['name']: a
                   for a in release.get('assets', [])
-                  if not should_ignore_for_r2(a['name'])
+                  if not should_ignore_for_r2(a['name']) and not is_local_owned(a['name'])
               }
+              self_repo = os.environ.get('GITHUB_REPOSITORY', '')
+              local_release = fetch_latest_release(self_repo) if self_repo else None
+              local_assets = {
+                  a['name']: a
+                  for a in (local_release or {}).get('assets', [])
+                  if not should_ignore_for_r2(a['name']) and is_local_owned(a['name'])
+              }
+              # 过渡期兜底：本仓库还没有自有副本时仍用上游那份。少了这一段，
+              # 搬家当天 APK 会整个从待同步集合里消失，转头被当成「GitHub 上
+              # 已不存在」列进 PENDING_DELETIONS——那是要把玩家的下载链接删掉。
+              for a in release.get('assets', []):
+                  n = a['name']
+                  if (is_local_owned(n) and not should_ignore_for_r2(n)
+                          and n not in local_assets):
+                      warn(f"{n}：本仓库 Release 尚无自有副本，暂用上游那份")
+                      local_assets[n] = a
+              assets_by_name.update(local_assets)
+              if local_assets:
+                  info(f"本仓库自有 asset: {', '.join(sorted(local_assets))}")
+
+              current_map = {n: (a.get('digest') or '')
+                             for n, a in assets_by_name.items()}
               info(f"包含 {c(C.BOLD, str(len(current_map)))} 个待同步 asset")
 
               header("比对文件指纹")
@@ -1656,7 +1789,10 @@ jobs:
 
               # 内容包先上传，版本/配置文件最后上传，避免中断时出现
               # “新版本元数据已经可见、实际新内容尚未上传”的短暂错配。
-              VERSION_LAST = {"version_js.json", "version_scenario.json", "manifest.json"}
+              # 旁注也在此列：它是「这一版 APK 已经在 CDN 上」的凭据，
+              # 必须排在 APK 本体之后，否则中断时会留下「版本已宣称、包还没上去」。
+              VERSION_LAST = {"version_js.json", "version_scenario.json", "manifest.json",
+                              APK_SIDECAR}
               to_process.sort(key=lambda name: (1 if name in VERSION_LAST else 0, name))
 
               # ════════════════════════════════════════════════════════
@@ -1710,13 +1846,15 @@ jobs:
 
               if not to_process:
                   header("无新增/更新文件")
+                  # 没有新文件不等于不用报版本：闸门可能因为上一次 bump-gate
+                  # 失败（token 过期之类）还停在旧值，这里照报，让它自愈。
+                  emit_apk_version(assets_by_name, set(unchanged))
                   return
 
               header(f"上传 {len(to_process)} 个文件")
               processed = []
               for fname in to_process:
-                  source_asset = next(
-                      a for a in release['assets'] if a['name'] == fname)
+                  source_asset = assets_by_name[fname]
                   url = source_asset['browser_download_url']
                   if r2.upload_file_from_url(url, fname, source_asset['size']):
                       edge.purge_cache(edgeone_domain, fname)
@@ -1751,6 +1889,9 @@ jobs:
                   check=True
               )
               ok(f"指纹已保存（{c(C.BOLD, str(len(final_map)))} 个）")
+
+              header("报告 CDN 上的客户端版本（供 bump-gate 提升闸门）")
+              emit_apk_version(assets_by_name, set(unchanged) | set(processed))
 
           if __name__ == "__main__":
               try:
@@ -2014,6 +2155,15 @@ jobs:
           # GitHub 单个 Release asset 上限 2GiB
           MAX_ASSET = 2 * 1024**3
 
+          # 本仓库自有 asset：客户端 APK 与它的版本旁注由构建 CI 直接传进
+          # 本仓库，不从上游镜像。既不镜像下来（上游那份是搬家前的历史遗留，
+          # 镜像下来就是把新包盖回旧包），也不因为「上游没有」被当成移除项
+          # 删掉。判据与 r2-sync / doge / 123 三处同源，改一处要一起改。
+          LOCAL_OWNED_PREFIXES = ("magireco-latest",)
+
+          def is_local_owned(name):
+              return name.startswith(LOCAL_OWNED_PREFIXES)
+
           GH_HEADERS = {
               "Accept": "application/vnd.github+json",
               "X-GitHub-Api-Version": "2022-11-28",
@@ -2247,6 +2397,10 @@ jobs:
                       warn(f"{a['name']}（{human_size(a['size'])}）"
                            "超过 2GiB 上限，跳过", indent=1)
                       continue
+                  if is_local_owned(a["name"]):
+                      skip(f"{a['name']}：本仓库自有 asset，不从上游镜像",
+                           indent=1)
+                      continue
                   upstream_map[a["name"]] = (
                       a.get("digest") or "", a.get("size", 0),
                       a["browser_download_url"])
@@ -2255,7 +2409,8 @@ jobs:
               section("与下游 latest Release 比对（用于变更快照 / 是否跳过判定）")
               dn_rel = gh_api_json(
                   [f"repos/{MIRROR_REPO}/releases/tags/latest"])
-              dn_assets = ({a["name"]: a for a in dn_rel.get("assets", [])}
+              dn_assets = ({a["name"]: a for a in dn_rel.get("assets", [])
+                            if not is_local_owned(a["name"])}
                            if dn_rel else {})
               dn_map = {n: (a.get("digest") or "", a.get("size", 0))
                         for n, a in dn_assets.items()}
@@ -2383,7 +2538,8 @@ jobs:
                   err(f"上传后无法读取下游 latest Release: {exc}")
                   sys.exit(1)
               expected_names = set(upstream_map)
-              actual_names = set(final_assets)
+              # 自有 asset 不参与「与上游完全一致」的核验——它本来就只在这边有
+              actual_names = {n for n in final_assets if not is_local_owned(n)}
               if actual_names != expected_names:
                   err("下游 latest asset 集合与 upstream 不一致")
                   err(f"缺失: {sorted(expected_names - actual_names)}", indent=1)
@@ -2606,6 +2762,172 @@ jobs:
       #   游标保持旧值，下次运行才能再次检测到 SHA 差异并重试，
       #   避免"失败却先把游标更新了"导致改动永久丢失。
       # ───────────────────────────────────────────────────────────────
+  # ───────────────────────────────────────────────────────────────
+  # 🆙 提升版本闸门（runtime-config 的 client.version）
+  #   闸门必须跟着**玩家真能装到的那个包**走，所以它排在 r2-sync 之后、
+  #   以 r2-sync 报出的「CDN 上现在是哪一版」为输入。
+  #
+  #   2026-08-20 之前这一步长在构建 APK 的 CI 里：打完包当场把闸门抬到本次
+  #   构建号，与「APK 有没有真的上 CDN」没有任何因果关系。那天 APK 卡在
+  #   Release 里没上 CDN（见 r2-sync 的 always() 注释），闸门照抬，全体旧版
+  #   客户端装完还是低于闸门 —— 无限更新。搬到这里之后，闸门在因果上不可能
+  #   跑到 CDN 前面。
+  #
+  #   落地前再 HEAD 一次 config.json 里的 apk_url，核对 CDN 边缘真正吐出来的
+  #   大小：对不上就不抬。闸门高于玩家能下到的版本，代价是所有人无限更新，
+  #   比多红一次贵得多。
+  # ───────────────────────────────────────────────────────────────
+  bump-gate:
+    runs-on: ubuntu-latest
+    needs: [r2-sync]
+    # apk_version 只在「APK 与旁注都确实处于已同步状态、且旁注 sha256 与
+    # asset digest 对得上」时才有值（见 r2-sync 的 emit_apk_version）。
+    # 空值 = 这次没有可确认的 APK，本 job 整个跳过，闸门不动。
+    if: needs.r2-sync.outputs.apk_version != ''
+    env:
+      : ${{ secrets. }}
+      CONFIG_OWNER: "MagirecoCN-Revival-Project"
+      CONFIG_REPO: "runtime-config"
+      CONFIG_PATH: "legacy/config.json"
+      APK_VERSION: ${{ needs.r2-sync.outputs.apk_version }}
+      APK_NAME: ${{ needs.r2-sync.outputs.apk_name }}
+      APK_SIZE: ${{ needs.r2-sync.outputs.apk_size }}
+    steps:
+      - name: 🛡 安全护栏（校验配置仓库在白名单中）
+        # 与 setup 那道同源：即便 env 被误改成别的 owner/repo，真正动手写
+        # 的这一步也会 fail-fast，绝不往陌生仓库推 commit。
+        run: |
+          python3 <<'SCRIPT_END'
+          import os, sys
+          ALLOW_CONFIG = {"MagirecoCN-Revival-Project/runtime-config"}
+          target = f"{os.environ['CONFIG_OWNER']}/{os.environ['CONFIG_REPO']}"
+          if target not in ALLOW_CONFIG:
+              print(f"::error::在线配置仓库 {target} 不在白名单中")
+              print(f"::error::允许: {sorted(ALLOW_CONFIG)}")
+              sys.exit(1)
+          print(f"✔ 配置仓库 OK: {target}")
+          SCRIPT_END
+
+      - name: 🔑 预检  够得着配置仓库
+        # 三种死法处理办法完全不同，分开报：secret 没配 / token 失效 /
+        # token 有效但够不着目标。挤成一句「缺失或无权限」会把人送去查权限
+        # 设置，而过期的其实是 token（2026-08-13 就这么浪费过一次）。
+        run: |
+          set -euo pipefail
+          if [ -z "${:-}" ]; then
+            echo "::error:: secret 未配置或为空（Settings → Secrets and variables → Actions）"
+            exit 1
+          fi
+          CODE=$(curl -sS -o /dev/null -w '%{http_code}' \
+                 -H "Authorization: Bearer ${}" \
+                 -H "Accept: application/vnd.github+json" \
+                 "https://api.github.com/repos/${CONFIG_OWNER}/${CONFIG_REPO}" || echo 000)
+          case "$CODE" in
+            200) echo "✔ 够得着 ${CONFIG_OWNER}/${CONFIG_REPO}" ;;
+            401) echo "::error:: 无效（HTTP 401 Bad credentials）。这不是权限问题——token 已过期、被撤销，或写进 secret 时混入了换行/空格。请重新签发一枚并更新 secret。"; exit 1 ;;
+            403|404) echo "::error::token 有效但够不着 ${CONFIG_OWNER}/${CONFIG_REPO}（HTTP $CODE）。无权限时 GitHub 同样返回 404，所以这既可能是权限不够，也可能是仓库名写错了。闸门写在该仓库的 ${CONFIG_PATH}，token 需要对它有 contents:write。"; exit 1 ;;
+            *) echo "::error::读取 ${CONFIG_OWNER}/${CONFIG_REPO} 返回 HTTP $CODE，无法确认凭据"; exit 1 ;;
+          esac
+
+      - name: 🆙 按 CDN 实况提升闸门
+        run: |
+          set -euo pipefail
+          echo "r2-sync 报告：CDN 上现在是 ${APK_VERSION}（${APK_NAME}，${APK_SIZE} 字节）"
+
+          rm -rf cfg
+          git clone --depth 1 \
+            "https://x-access-token:${}@github.com/${CONFIG_OWNER}/${CONFIG_REPO}.git" cfg
+          APK_URL=$(python3 -c "import json, os; print(json.load(open(os.path.join('cfg', os.environ['CONFIG_PATH']), encoding='utf-8'))['client']['apk_url'])")
+          echo "config.json 里给玩家的下载地址: ${APK_URL}"
+
+          # ── 核对 CDN 边缘真正吐出来的东西 ──
+          # r2-sync 已经在 object-storage 侧核过大小并刷了三个 CDN；这里核的是刷新在边缘
+          # 生效之后的结果，秒级到分钟级延迟都正常，所以重试几次再判死。
+          SEEN=""
+          for i in 1 2 3 4 5; do
+            LEN=$(curl -sS -I --max-time 60 "$APK_URL" | tr -d '\r' \
+                  | awk 'tolower($1)=="content-length:"{print $2}' | tail -1 || true)
+            # 写成 if 而不是 `[ ... ] && break`：后者判否时整条返回 1，
+            # 一旦哪天它成了循环体最后一句，set -e 会把整步搞成 exit 1。
+            if [ -n "$LEN" ]; then
+              SEEN="$LEN"
+              if [ "$LEN" = "$APK_SIZE" ]; then break; fi
+              echo "::notice::第 $i 次：CDN 上是 $LEN 字节，期望 $APK_SIZE，等边缘生效"
+            else
+              echo "::notice::第 $i 次：HEAD 没拿到 Content-Length"
+            fi
+            sleep 15
+          done
+
+          # 「够不着 CDN」与「CDN 上是旧包」是两回事，处理方式相反
+          if [ -z "$SEEN" ]; then
+            echo "::warning::够不着 ${APK_URL}（网络 / DNS / 边缘故障），本次不提升闸门。"
+            echo "::warning::闸门停在旧值是安全方向：玩家最多少一次更新提示，不会无限更新。"
+            {
+              echo "### 版本闸门"
+              echo
+              echo "⚠️ 够不着 \`${APK_URL}\`，本次未提升（闸门停在旧值是安全方向）。"
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ "$SEEN" != "$APK_SIZE" ]; then
+            echo "::error::CDN 上那份是 ${SEEN} 字节，本次 APK 是 ${APK_SIZE} 字节，拒绝提升闸门。"
+            echo "::error::闸门一旦高于玩家能下到的那一版，全体旧版客户端都会陷入无限更新。"
+            echo "::error::先看 r2-sync 的上传与刷新记录确认 object-storage 上那份对不对，再重跑本 workflow。"
+            exit 1
+          fi
+          echo "✔ CDN 上那份与本次 APK 一致（${APK_SIZE} 字节）"
+
+          cd cfg
+          python3 - "$APK_VERSION" <<'PY'
+          import json, os, re, sys
+
+          def parse_version(value):
+              if not isinstance(value, str) or not re.fullmatch(r'[0-9]+(?:\.[0-9]+)*', value):
+                  raise SystemExit(f'非法的纯数字点分版本: {value!r}')
+              parts = [int(x) for x in value.split('.')]
+              while len(parts) > 1 and parts[-1] == 0:
+                  parts.pop()
+              return tuple(parts)
+
+          ver = sys.argv[1]
+          p = os.environ['CONFIG_PATH']
+          d = json.load(open(p, encoding='utf-8'))
+          old = d.get('client', {}).get('version')
+          new_t, old_t = parse_version(ver), parse_version(old)
+          if new_t == old_t:
+              print(f'闸门已经是 {old}，无需提升')
+              raise SystemExit(0)
+          if new_t < old_t:
+              print(f'::error::CDN 上的 APK 是 {ver}，闸门却已经在 {old}——'
+                    '拿到闸门的旧版客户端会装到一个仍然低于闸门的包，无限更新。')
+              print('::error::要么把闸门回落到 CDN 实况，要么把真正的新包推上 CDN。'
+                    '本步骤不会自动回落闸门：那可能撤销一次人为的强制更新。')
+              raise SystemExit(1)
+          d.setdefault('client', {})['version'] = ver
+          # 与原格式一致（json.dumps indent=2 ensure_ascii=False，无尾换行）
+          open(p, 'w', encoding='utf-8').write(json.dumps(d, ensure_ascii=False, indent=2))
+          print(f'client.version: {old} -> {ver}')
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${CONFIG_PATH}"
+          if git diff --cached --quiet; then
+            echo "闸门未变化，跳过提交"
+            exit 0
+          fi
+          git diff --cached --stat
+          git commit -m "chore: 提升版本闸门 client.version -> ${APK_VERSION} [skip ci]"
+          git push origin HEAD:main
+          echo "✅ 闸门已提升到 ${APK_VERSION}"
+          {
+            echo "### 版本闸门"
+            echo
+            echo "✅ \`client.version\` 已按 CDN 实况提升到 \`${APK_VERSION}\`"
+            echo "（${APK_NAME}，${APK_SIZE} 字节，已核对 ${APK_URL} 的 Content-Length）。"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   update-cursor:
     runs-on: ubuntu-latest
     needs: [setup, commit-configs, r2-sync, doge-sync, pan123-upload, mirror-release]
@@ -2631,7 +2953,7 @@ jobs:
           echo "游标已推进到 $SHA"
   summary:
     runs-on: ubuntu-latest
-    needs: [setup, pack-js, pack-scenario, publish, r2-sync, doge-sync, pan123-upload, mirror-release, commit-configs, update-cursor]
+    needs: [setup, pack-js, pack-scenario, publish, r2-sync, bump-gate, doge-sync, pan123-upload, mirror-release, commit-configs, update-cursor]
     if: always()
     env:
       : ${{ secrets. }}
@@ -2665,5 +2987,6 @@ jobs:
           echo "| object-storage 系 CDN 刷新 | edge（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ CDN（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
           echo "| Doge 系同步 | 多吉云（\`${{ env.DOGE_DOMAIN }}\`）：${{ needs.doge-sync.result == 'success' && '✅ 已同步' || (fromJSON(vars.ENABLE_DOGE_SYNC || 'true') && format('⚠️ {0}', needs.doge-sync.result)) || '🚫 已停用' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 123云盘同步 | ${{ needs.pan123-upload.result == 'success' && '✅ 已同步' || (fromJSON(vars.ENABLE_PAN123_SYNC || 'true') && format('⚠️ {0}', needs.pan123-upload.result)) || '🚫 已停用' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 版本闸门 | ${{ needs.bump-gate.result == 'success' && format('✅ 已按 CDN 实况跟进（{0}）', needs.r2-sync.outputs.apk_version) || needs.bump-gate.result == 'skipped' && '⏭️ 本次没有可确认的 APK 版本，闸门不动' || format('⚠️ {0}', needs.bump-gate.result) }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY

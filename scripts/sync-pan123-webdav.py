@@ -84,6 +84,18 @@ def should_ignore(name):
     return name.endswith('.apk') and not name.startswith('magireco-latest')
 
 
+# 本仓库自有 asset：客户端 APK 与它的版本旁注由构建 CI 直接传进 workflow 所在
+# 仓库（GITHUB_REPOSITORY）的 latest Release，不再寄存到上游。上游那份是搬家前
+# 的历史遗留、不再更新，所以同名时一律本仓库优先，否则每次同步都会拿旧包盖新包。
+# 同一判据在 sync-and-upload.yml 的 r2-sync / mirror-release 与另一个同步脚本里
+# 各有一份，四处必须一起改。
+LOCAL_OWNED_PREFIXES = ('magireco-latest',)
+
+
+def is_local_owned(name):
+    return name.startswith(LOCAL_OWNED_PREFIXES)
+
+
 def race_source_cdn():
     """竞速各国内 CDN 下载吞吐，选最快的作为拉取源。吞吐会变，运行时就地测。
 
@@ -243,24 +255,45 @@ def main():
     dav = WebDav(base, user, pwd)
 
     header("获取上游 Release")
-    req = urllib.request.Request(
-        f"https://api.github.com/repos/{owner}/{repo}/releases/latest",
-        headers={'Accept': 'application/vnd.github+json',
-                 'X-GitHub-Api-Version': '2022-11-28'})
-    if gh:
-        req.add_header('Authorization', f'Bearer {gh}')
-    try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            release = json.loads(resp.read().decode())
-    except urllib.error.HTTPError as e:
-        if e.code == 404:
-            warn("上游仓库无 Release，跳过")
-            return
-        raise
+
+    def latest(full_name):
+        req = urllib.request.Request(
+            f"https://api.github.com/repos/{full_name}/releases/latest",
+            headers={'Accept': 'application/vnd.github+json',
+                     'X-GitHub-Api-Version': '2022-11-28'})
+        if gh:
+            req.add_header('Authorization', f'Bearer {gh}')
+        try:
+            with urllib.request.urlopen(req, timeout=120) as resp:
+                return json.loads(resp.read().decode())
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                return None
+            raise
+
+    release = latest(f"{owner}/{repo}")
+    if release is None:
+        warn("上游仓库无 Release，跳过")
+        return
+    self_repo = os.environ.get('GITHUB_REPOSITORY', '')
+    local = (latest(self_repo) if self_repo else None) or {}
+
+    # 集合 = 上游全集（去掉本仓库自有名）∪ 本仓库自有名；同名本仓库优先
     current_map = {a['name']: a.get('size', 0)
                    for a in release.get('assets', [])
-                   if not should_ignore(a['name'])}
-    info(f"待同步 asset：{len(current_map)} 个")
+                   if not should_ignore(a['name'])
+                   and not is_local_owned(a['name'])}
+    owned = {a['name']: a.get('size', 0)
+             for a in local.get('assets', [])
+             if not should_ignore(a['name']) and is_local_owned(a['name'])}
+    # 过渡期兜底：本仓库还没有自有副本时仍认上游那份
+    for a in release.get('assets', []):
+        n = a['name']
+        if is_local_owned(n) and not should_ignore(n) and n not in owned:
+            owned[n] = a.get('size', 0)
+    current_map.update(owned)
+    info(f"待同步 asset：{len(current_map)} 个"
+         + (f"（本仓库自有 {len(owned)} 个）" if owned else ""))
 
     header("确保远端目录存在")
     if sub:
