@@ -33,6 +33,16 @@ FIELDS = (
     "match_method",
 )
 
+# The official CN client retained the English UI label ``BATTLE`` for this
+# one training title.  A later explicit product decision translated visible
+# system UI English to Chinese, so the runtime intentionally keeps the
+# pre-Pass20 literal while the official source evidence remains unchanged.
+# Treat that one historical official replacement as superseded rather than
+# rewriting the evidence manifest to falsely claim ``战斗`` came from CN.
+SUPERSEDED_PRODUCT_ROWS = {
+    "LOW-MT-01864": ("战斗 ◆ 上级", "BATTLE ◆ 上级"),
+}
+
 
 def load_rows(path: Path) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
@@ -67,6 +77,12 @@ def write_text(path: Path, text: str) -> None:
 def expected(row: dict[str, str], state: str) -> tuple[int, int]:
     changed = int(row["before_count"])
     existing = int(row["baseline_after_count"])
+    superseded = SUPERSEDED_PRODUCT_ROWS.get(row["item_id"])
+    if superseded is not None:
+        if (row["before"], row["after"]) != superseded:
+            raise ValueError(f"superseded product contract drifted: {row['item_id']}")
+        if state == "applied":
+            return changed, existing
     if state == "baseline":
         return changed, existing
     return 0, existing + changed
@@ -97,6 +113,8 @@ def mutate(rows: list[dict[str, str]], direction: str) -> None:
     verify(rows, source_state)
     grouped: dict[Path, list[dict[str, str]]] = {}
     for row in rows:
+        if row["item_id"] in SUPERSEDED_PRODUCT_ROWS:
+            continue
         grouped.setdefault(target_path(row["target_path"]), []).append(row)
     for path, file_rows in grouped.items():
         text = read_text(path)
