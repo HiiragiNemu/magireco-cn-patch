@@ -30,18 +30,29 @@ HELPER = TOOL.load_module(
 
 class Pass21SuggestedAdoptionTests(unittest.TestCase):
     def test_real_manifest_is_exact_low_authority_29_item_subset(self):
-        selected = TOOL.build_selection(
-            ROOT / TOOL.QUEUE_REL,
-            ROOT / TOOL.TARGETS_REL,
-            ROOT / TOOL.ADOPTION_REL,
-            HELPER,
-        )
-        self.assertEqual(len(selected), 29)
-        self.assertEqual(sum(row["strategy"] == "target-manifest-exact" for row in selected), 22)
-        self.assertEqual(sum(row["strategy"] == "explicit-safe-paths" for row in selected), 2)
-        self.assertEqual(sum(row["strategy"] == "canonical-only" for row in selected), 5)
-        self.assertTrue(all(row["source"]["highest_authority_tier"] == "legacy_unverified_ai_assisted" for row in selected))
-        self.assertTrue(all(row["source"]["product_write_forbidden"] == "false" for row in selected))
+        # Pass21 is already promoted in the product tree.  The frozen queue keeps
+        # the pre-adoption Chinese for provenance, while the target manifest now
+        # correctly records the promoted value.  Verify that sealed state instead
+        # of trying to rebuild a pre-promotion selection from post-promotion data.
+        _, queue_rows = TOOL.read_tsv(ROOT / TOOL.QUEUE_REL)
+        queue = TOOL.unique(queue_rows, "Pass20 queue")
+        adoptions = TOOL.read_adoption_manifest(ROOT / TOOL.ADOPTION_REL)
+        target_payload = json.loads((ROOT / TOOL.TARGETS_REL).read_text(encoding="utf-8"))
+        targets = TOOL.unique(target_payload["items"], "Pass20 target manifest")
+
+        self.assertEqual(len(adoptions), 29)
+        self.assertEqual(sum(row["runtime_strategy"] == "target-manifest-exact" for row in adoptions.values()), 22)
+        self.assertEqual(sum(row["runtime_strategy"] == "explicit-safe-paths" for row in adoptions.values()), 2)
+        self.assertEqual(sum(row["runtime_strategy"] == "canonical-only" for row in adoptions.values()), 5)
+        self.assertEqual(set(adoptions), {row["item_id"] for row in queue_rows if row.get("suggested_cn", "")})
+        for item_id, adoption in adoptions.items():
+            source = queue[item_id]
+            target = targets[item_id]
+            self.assertEqual(source["highest_authority_tier"], "legacy_unverified_ai_assisted")
+            self.assertEqual(source["product_write_forbidden"], "false")
+            self.assertEqual(adoption["current_cn"], source["current_cn"])
+            self.assertEqual(adoption["ds_suggested_cn"], source["suggested_cn"])
+            self.assertEqual(target["current_cn"], HELPER.decode_cell(adoption["adopted_cn"]))
 
     def test_frontend_update_preserves_machine_authority_and_adds_lineage(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -95,16 +106,17 @@ class Pass21SuggestedAdoptionTests(unittest.TestCase):
             self.assertEqual(adoption["preserved_existing_lineage_fingerprints"], 2)
 
     def test_real_two_unchanged_adoptions_preserve_historical_lineage(self):
-        selected = TOOL.build_selection(
-            ROOT / TOOL.QUEUE_REL, ROOT / TOOL.TARGETS_REL, ROOT / TOOL.ADOPTION_REL, HELPER,
-        )
-        unchanged = [row for row in selected if row["final_cn"] == row["source"]["current_cn"]]
+        adoptions = TOOL.read_adoption_manifest(ROOT / TOOL.ADOPTION_REL)
+        unchanged = [
+            row for row in adoptions.values()
+            if row["adopted_cn"] == row["current_cn"]
+        ]
         self.assertEqual({row["item_id"] for row in unchanged}, {"LOW-MT-00852", "LOW-MT-01200"})
         current = json.loads((ROOT / TOOL.MIGRATION_REL).read_text(encoding="utf-8"))
         lineage = current["source_tables"]["frontend-strings.tsv"]["translated_candidate_lineage"]
         for row in unchanged:
             fp = TOOL.digest(
-                (row["source"]["japanese_or_source_original"] + "\0" + row["final_cn"]).encode("utf-8")
+                (row["source_text"] + "\0" + row["adopted_cn"]).encode("utf-8")
             )
             self.assertIn(fp, lineage)
             self.assertNotEqual(lineage[fp]["batch"], "pass21-user-directed-machine-suggestion")
