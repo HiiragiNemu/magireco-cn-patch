@@ -104,7 +104,7 @@
   },
   "excluded_candidate_only_metadata": [
     {
-      "master_record_id": "MT-02277",
+      "master_record_id": "MT-02283",
       "file": "i18n/frontend-strings.tsv",
       "stable_key": "global:6ec4009aee4bddf7aa31",
       "field": "candidate_cn",
@@ -112,10 +112,10 @@
     }
   ],
   "counts": {
-    "protected_fields": 3466,
+    "protected_fields": 3614,
     "protected_files": 23,
     "merge": {
-      "master_fields": 3310,
+      "master_fields": 3458,
       "pass16_fields": 827,
       "pass16_superseded_non_authority_fields": 27,
       "pass16_overlap": 682,
@@ -127,29 +127,29 @@
     },
     "by_source_bucket": {
       "new-root-human": 315,
-      "official": 1965,
-      "wiki": 1186
+      "official": 2114,
+      "wiki": 1185
     },
     "by_authority_rank": {
-      "1-official-cn": 1965,
-      "2-wiki": 1186,
+      "1-official-cn": 2114,
+      "2-wiki": 1185,
       "3-confirmed-human": 315
     },
     "by_scope": {
-      "native_engine_i18n": 362,
+      "native_engine_i18n": 510,
       "offline_authority_support": 955,
       "pass19_static_literal": 11,
       "runtime_dictionary": 2137,
       "static_js_html": 1
     },
     "by_protection_origin": {
-      "machine-review-master": 3310,
+      "machine-review-master": 3458,
       "pass16-runtime-change-log": 145,
       "pass19-applied-authority-manifest": 11
     },
     "by_file": {
       "i18n/glossary.tsv": 955,
-      "madomagi/engine_i18n.tsv": 362,
+      "madomagi/engine_i18n.tsv": 510,
       "magica/js/libs/cardList.json": 16,
       "magica/js/libs/cardMagiaMap.json": 2,
       "magica/js/libs/cardSkillMap.json": 5,
@@ -175,9 +175,9 @@
   },
   "baseline": {
     "machine_review_master": "magica/i18n_audit/release_v26_authority/machine_translation_review/full_machine_translation_review.tsv",
-    "machine_review_master_sha256": "08910a4bdd70cb822da16bf1d472af57bb265d1c49113a7fc2b4fe1f0a78f84b",
+    "machine_review_master_sha256": "809549641b4762a621c04ca9ff4a67a65c166a212addd44fadd945a2f44bde70",
     "machine_review_summary": "magica/i18n_audit/release_v26_authority/machine_translation_review/summary.json",
-    "machine_review_summary_sha256": "72160abc230c6de9466dfe554792fbbc736dbb92891160424b2be3154eb42247",
+    "machine_review_summary_sha256": "9a1c76550cf0de55d2f840f9b8f7789e6c2b67f858885b38f6c1f98e42cbb54f",
     "pass16_runtime_change_log": "magica/i18n_audit/manual_cn_pass16/runtime_change_log.tsv",
     "pass16_runtime_change_log_sha256": "4ad80d87acc5537d0cc2fd0a7ed5fe5eae7f3a418189534d343377d9ae526d00",
     "pass16_runtime_translation_map": "magica/i18n_audit/manual_cn_pass16/runtime_translation_map.tsv",
@@ -187,8 +187,8 @@
     "visible_term_closure": "magica/i18n_audit/release_v26_authority/machine_translation_review/visible_term_closure_3136.tsv",
     "visible_term_closure_sha256": "eca4c2a169383dd218672adedd97ef3c58f5b493b7b71c78dc392b02bfc5ed38",
     "protected_fields_tsv": "magica/i18n_audit/release_v26_authority/protected_authority/protected_translation_fields.tsv",
-    "protected_fields_tsv_sha256": "8f376e666d5d232be88d02e3aae59143a53da21f8e3817bb139ee50778087ff3",
-    "protected_fields_aggregate_sha256": "fbc40995614d21608137c79cbe35f5e13aa299b66469c965bf0ad88eceef3b7e"
+    "protected_fields_tsv_sha256": "53da593224e948024f429d7b7ff3079ba8a87eb1b91627d06f1eb667b1b5ebbf",
+    "protected_fields_aggregate_sha256": "c8d2fa6352d6563dd1d02b9718fa25fd821d08ba73edee736d013d018457d88c"
   },
   "whole_file_protections": {
     "i18n/glossary.tsv": {
@@ -229,7 +229,7 @@
       "git diff --exit-code -- magica/i18n_audit/release_v26_authority/machine_translation_review",
       "python tools/verify-v26-authority-protection.py --json"
     ],
-    "summary_product_content_sha256": "58f4a123397d2e41dbc4b112262049edba411698c69b38a6fdadef5f9d4a482f",
+    "summary_product_content_sha256": "cb3edaf07f04ca8e88df27a2646de03d4bba968d3f87fa47db4b136afee6176a",
     "summary_product_content_file_count": 1588
   }
 }
