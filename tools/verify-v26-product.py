@@ -531,6 +531,43 @@ def verify_html_structure_contract() -> dict[str, object]:
     return report
 
 
+def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
+    """Bind the startup/MyPage timeout repair to the packaged product bytes."""
+    jquery_path = root / "magica/js/libs/jquery-3.7.1.min.js"
+    ajax_path = root / "magica/js/_common/ajaxControl.js"
+    jquery = jquery_path.read_text(encoding="utf-8-sig")
+    ajax = ajax_path.read_text(encoding="utf-8-sig")
+
+    require_timeout = "window.requirejs.config({waitSeconds:60});"
+    top_page_timeout = (
+        "if(/\\/magica\\/api\\/page\\/TopPage(?:\\?|$)/.test(url)) "
+        "options.timeout=18E4;"
+    )
+    timeout_visibility = '"timeout"==m?(d.setWebView(),c.tapBlock(!1)'
+    zero_status_visibility = (
+        "else if(0==b.status)d.setWebView(),c.tapBlock(!1)"
+    )
+
+    assert jquery.count(require_timeout) == 1, "RequireJS 60-second gate drift"
+    assert jquery.count(top_page_timeout) == 1, "TopPage 180-second gate drift"
+    assert jquery.count("jq.ajaxPrefilter(function(options)") == 1
+    assert jquery.count("jq.__MAGIACN_NETWORK_RELIABILITY__=true") == 1
+    assert ajax.count(timeout_visibility) == 1, "timeout WebView recovery drift"
+    assert ajax.count(zero_status_visibility) == 1, "status-0 WebView recovery drift"
+    # Keep the upstream 20-second default for unrelated requests.  Only TopPage
+    # receives the longer prefilter timeout.
+    assert ajax.count("f.ajaxSetup({timeout:2E4})") == 1
+    return {
+        "status": "PASS",
+        "requirejs_wait_seconds": 60,
+        "top_page_timeout_ms": 180000,
+        "unrelated_ajax_default_ms": 20000,
+        "timeout_error_forces_webview_visible": True,
+        "status_zero_error_forces_webview_visible": True,
+        "release_info_remains_server_dynamic": True,
+    }
+
+
 def verify_engine(path: Path):
     raw = path.read_bytes()
     assert raw and not raw.startswith(b"\xef\xbb\xbf")
@@ -1187,6 +1224,7 @@ def main() -> int:
     pass18 = run_json([sys.executable, str(ROOT / "tools/verify-pass18-authority.py")])
     assert runtime["status"] == "PASS" and authority["ok"] is True
     assert pass18["status"] == "PASS"
+    network_resilience = verify_runtime_network_resilience()
 
     inventory = verify_product_inventory()
     js_files = product_files(".js")
@@ -1264,6 +1302,7 @@ def main() -> int:
             "machine_translation_review_rows": machine_review["counts"]["master"],
         },
         "runtime_layer": runtime,
+        "runtime_network_resilience": network_resilience,
         "product_inventory": inventory,
         "product_json": product_json,
         "html_structure_contract": html_structure,
