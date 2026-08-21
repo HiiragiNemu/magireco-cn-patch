@@ -100,6 +100,11 @@ class FinalDeliveryTests(unittest.TestCase):
                 {"path": self.repair_member, "bytes": len(self.repair_bytes)}
             ],
         }
+        self.repair_manifest_bytes = (
+            json.dumps(self.repair_manifest, ensure_ascii=False, indent=2, sort_keys=True)
+            + "\n"
+        ).encode("utf-8")
+        self.artifact_members[MODULE.REPAIR_MANIFEST] = self.repair_manifest_bytes
         (self.repo / "mod.txt").write_bytes(b"before\n")
         (self.repo / "binary.dat").write_bytes(bytes(range(256)) * 8)
         (self.repo / "delete.txt").write_bytes(b"delete me\n")
@@ -110,12 +115,7 @@ class FinalDeliveryTests(unittest.TestCase):
             product_path.write_bytes(data)
         repair_manifest_path = self.repo / MODULE.REPAIR_MANIFEST
         repair_manifest_path.parent.mkdir(parents=True, exist_ok=True)
-        repair_manifest_path.write_text(
-            json.dumps(self.repair_manifest, ensure_ascii=False, indent=2, sort_keys=True)
-            + "\n",
-            encoding="utf-8",
-            newline="\n",
-        )
+        repair_manifest_path.write_bytes(self.repair_manifest_bytes)
         run(["git", "add", "."], self.repo)
         run(["git", "commit", "-m", "baseline"], self.repo)
         self.baseline = run(["git", "rev-parse", "HEAD"], self.repo).stdout.strip()
@@ -135,9 +135,10 @@ class FinalDeliveryTests(unittest.TestCase):
         self.artifact = self.root / MODULE.ARTIFACT_NAME
         write_product_zip(self.artifact, self.artifact_members)
         self.artifact_contract = {
-            "file_entries": 5,
+            "file_entries": 6,
             "magica_entries": 3,
             "engine_entries": 1,
+            "repair_manifest_entries": 1,
             "repair_entries": 1,
             "scenario_entries": 0,
             "audit_research_entries": 0,
@@ -190,9 +191,10 @@ class FinalDeliveryTests(unittest.TestCase):
         self.assertEqual({"A": 1, "M": 2, "D": 1}, manifest["change_counts"])
         self.assertEqual(self.artifact_contract, manifest["modified_artifact"]["expected"])
         zip_actual = manifest["modified_artifact"]["actual"]
-        self.assertEqual(5, zip_actual["file_entries"])
+        self.assertEqual(6, zip_actual["file_entries"])
         self.assertEqual(3, zip_actual["magica_entries"])
         self.assertEqual(1, zip_actual["engine_entries"])
+        self.assertEqual(1, zip_actual["repair_manifest_entries"])
         self.assertEqual(1, zip_actual["repair_entries"])
         self.assertEqual(0, zip_actual["scenario_entries"])
         self.assertEqual(0, zip_actual["audit_research_entries"])
@@ -201,7 +203,7 @@ class FinalDeliveryTests(unittest.TestCase):
         tree_binding = manifest["modified_artifact"]["final_tree_binding"]
         self.assertEqual("PASS", tree_binding["status"])
         self.assertEqual(manifest["final"]["tree"], tree_binding["final_tree"])
-        self.assertEqual(5, tree_binding["matched_entry_count"])
+        self.assertEqual(6, tree_binding["matched_entry_count"])
         self.assertEqual(0, tree_binding["byte_mismatch_count"])
         self.assertEqual(
             {
@@ -248,9 +250,10 @@ class FinalDeliveryTests(unittest.TestCase):
         _data, report = MODULE.inspect_product_artifact(self.artifact)
         self.assertEqual(
             {
-                "file_entries": 5,
+                "file_entries": 6,
                 "magica_entries": 3,
                 "engine_entries": 1,
+                "repair_manifest_entries": 1,
                 "repair_entries": 1,
                 "scenario_entries": 0,
                 "audit_research_entries": 0,
@@ -263,7 +266,7 @@ class FinalDeliveryTests(unittest.TestCase):
         members["magica/template/reviewed-new.html"] = b"<p>new</p>\n"
         write_product_zip(expanded, members)
         _data, expanded_report = MODULE.inspect_product_artifact(expanded)
-        self.assertEqual(expanded_report["expected"]["file_entries"], 6)
+        self.assertEqual(expanded_report["expected"]["file_entries"], 7)
         self.assertEqual(expanded_report["expected"]["magica_entries"], 4)
 
     def test_repair_manifest_path_drift_is_rejected(self) -> None:
@@ -372,7 +375,7 @@ class FinalDeliveryTests(unittest.TestCase):
 
     def test_wrong_product_zip_contract_fails_before_output(self) -> None:
         wrong_contract = dict(self.artifact_contract)
-        wrong_contract["file_entries"] = 4
+        wrong_contract["file_entries"] = 5
         wrong_contract["magica_entries"] = 2
         target = self.root / "wrong-contract"
         with self.assertRaisesRegex(MODULE.DeliveryError, "product ZIP contract mismatch"):
@@ -415,6 +418,7 @@ class FinalDeliveryTests(unittest.TestCase):
                     "file_entries": 4,
                     "magica_entries": 3,
                     "engine_entries": 1,
+                    "repair_manifest_entries": 0,
                     "repair_entries": 0,
                     "scenario_entries": 0,
                     "audit_research_entries": 0,

@@ -91,9 +91,11 @@ class DeterministicV26PackageTest(unittest.TestCase):
                 names = [info.filename for info in infos]
                 self.assertEqual(names, sorted(names))
                 self.assertEqual(names.count(MODULE.ENGINE_MEMBER), 1)
+                self.assertEqual(names.count(MODULE.REPAIR_MANIFEST), 1)
                 self.assertTrue(all(
                     name.startswith("magica/")
                     or name == MODULE.ENGINE_MEMBER
+                    or name == MODULE.REPAIR_MANIFEST
                     or name.startswith(MODULE.REPAIR_PREFIX)
                     for name in names
                 ))
@@ -106,6 +108,10 @@ class DeterministicV26PackageTest(unittest.TestCase):
                 self.assertEqual(
                     archive.read(MODULE.ENGINE_MEMBER),
                     (root / MODULE.ENGINE_MEMBER).read_bytes(),
+                )
+                self.assertEqual(
+                    archive.read(MODULE.REPAIR_MANIFEST),
+                    (root / MODULE.REPAIR_MANIFEST).read_bytes(),
                 )
                 for info in infos:
                     self.assertEqual(info.date_time, MODULE.FIXED_DOS_TIME)

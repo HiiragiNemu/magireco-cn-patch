@@ -4,7 +4,8 @@
 The runtime package has exactly two roots:
 
 * every product file below ``magica/`` except research/audit evidence; and
-* ``madomagi/engine_i18n.tsv``; and
+* ``madomagi/engine_i18n.tsv``;
+* ``madomagi/repair_manifest.json``; and
 * the manifest-bound native repair overlay below
   ``madomagi/resource/image_native/``.
 
@@ -107,7 +108,7 @@ def _repair_inputs(root: Path) -> list[tuple[str, Path]]:
     entries = manifest.get("entries")
     if not isinstance(entries, list) or not entries:
         raise PackageError("native 修复清单为空")
-    inputs: list[tuple[str, Path]] = []
+    inputs: list[tuple[str, Path]] = [(REPAIR_MANIFEST, manifest_path)]
     declared: set[str] = set()
     total_bytes = 0
     for entry in entries:
@@ -138,7 +139,7 @@ def _repair_inputs(root: Path) -> list[tuple[str, Path]]:
             "native 修复目录与清单路径集合不一致: "
             f"missing={sorted(declared - actual)[:5]} extra={sorted(actual - declared)[:5]}"
         )
-    if manifest.get("file_count") != len(inputs) or manifest.get("total_bytes") != total_bytes:
+    if manifest.get("file_count") != len(declared) or manifest.get("total_bytes") != total_bytes:
         raise PackageError("native 修复清单计数或总字节不一致")
     return inputs
 
@@ -192,6 +193,8 @@ def discover_inputs(root: Path) -> list[tuple[str, Path]]:
             raise PackageError(f"产品输入存在大小写碰撞: {previous!r} / {name!r}")
     if names.count(ENGINE_MEMBER) != 1:
         raise PackageError(f"{ENGINE_MEMBER} 必须且只能出现一次")
+    if names.count(REPAIR_MANIFEST) != 1:
+        raise PackageError(f"{REPAIR_MANIFEST} 必须且只能出现一次")
     if any(name.startswith(FORBIDDEN_PREFIXES) for name in names):
         raise PackageError("scenario/research/i18n_audit 不得进入 JS 包")
     if not any(name.startswith("magica/") for name in names):
@@ -226,11 +229,14 @@ def verify_archive(
             raise PackageError("成品 ZIP 路径集合或排序与产品输入不一致")
         if names.count(ENGINE_MEMBER) != 1:
             raise PackageError(f"成品 ZIP 中 {ENGINE_MEMBER} 数量不是 1")
+        if names.count(REPAIR_MANIFEST) != 1:
+            raise PackageError(f"成品 ZIP 中 {REPAIR_MANIFEST} 数量不是 1")
         if any(name.startswith(FORBIDDEN_PREFIXES) for name in names):
             raise PackageError("成品 ZIP 混入 scenario/research/i18n_audit")
         if any(not (
             name.startswith("magica/")
             or name == ENGINE_MEMBER
+            or name == REPAIR_MANIFEST
             or name.startswith(REPAIR_PREFIX)
         ) for name in names):
             raise PackageError("成品 ZIP 含不受支持的根路径")
@@ -264,6 +270,7 @@ def verify_archive(
         "engine_member": ENGINE_MEMBER,
         "engine_sha256": sha256(expected_bytes[ENGINE_MEMBER]),
         "engine_entries": expected_names.count(ENGINE_MEMBER),
+        "repair_manifest_entries": expected_names.count(REPAIR_MANIFEST),
         "repair_entries": sum(name.startswith(REPAIR_PREFIX) for name in expected_names),
         "image_web_entries": sum(name.startswith(IMAGE_WEB_PREFIX) for name in expected_names),
         "scenario_entries": 0,

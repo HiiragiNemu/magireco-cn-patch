@@ -60,6 +60,7 @@ DEFAULT_ARTIFACT_CONTRACT: dict[str, int | None] = {
     "file_entries": None,
     "magica_entries": None,
     "engine_entries": 1,
+    "repair_manifest_entries": 1,
     "repair_entries": None,
     "scenario_entries": 0,
     "audit_research_entries": 0,
@@ -124,11 +125,12 @@ def normalize_artifact_contract(
     if contract["file_entries"] != (
         contract["magica_entries"]
         + contract["engine_entries"]
+        + contract["repair_manifest_entries"]
         + contract["repair_entries"]
         + contract["scenario_entries"]
     ):
         raise DeliveryError(
-            "artifact contract file_entries must equal magica + engine + repair + scenario"
+            "artifact contract file_entries must equal magica + engine + repair manifest + repair + scenario"
         )
     return contract
 
@@ -168,6 +170,7 @@ def inspect_product_artifact(
             directory_entries = sum(info.is_dir() for info in infos)
             magica_entries = sum(name.startswith("magica/") for name in names)
             engine_entries = names.count(ENGINE_MEMBER)
+            repair_manifest_entries = names.count(REPAIR_MANIFEST)
             repair_entries = sum(name.startswith(REPAIR_PREFIX) for name in names)
             scenario_entries = sum(name.startswith(SCENARIO_PREFIX) for name in names)
             research_entries = sum(name.startswith(RESEARCH_PREFIX) for name in names)
@@ -176,6 +179,7 @@ def inspect_product_artifact(
                 not (
                     name.startswith("magica/")
                     or name == ENGINE_MEMBER
+                    or name == REPAIR_MANIFEST
                     or name.startswith(REPAIR_PREFIX)
                 )
                 for name in names
@@ -199,6 +203,8 @@ def inspect_product_artifact(
                 "magica_entries": magica_entries,
                 "engine_member": ENGINE_MEMBER,
                 "engine_entries": engine_entries,
+                "repair_manifest_member": REPAIR_MANIFEST,
+                "repair_manifest_entries": repair_manifest_entries,
                 "repair_entries": repair_entries,
                 "engine_sha256": engine_sha256,
                 "scenario_entries": scenario_entries,
@@ -496,7 +502,7 @@ def _product_tree_blobs(repo: Path, tree: str) -> dict[str, dict[str, Any]]:
         repo,
         [
             "ls-tree", "-r", "-z", tree, "--",
-            "magica", ENGINE_MEMBER, REPAIR_PREFIX.rstrip("/"),
+            "magica", ENGINE_MEMBER, REPAIR_MANIFEST, REPAIR_PREFIX.rstrip("/"),
         ],
     )
     metadata: list[tuple[str, str, str]] = []
@@ -511,6 +517,7 @@ def _product_tree_blobs(repo: Path, tree: str) -> dict[str, dict[str, Any]]:
             raise DeliveryError("malformed recursive ls-tree product record") from exc
         if not (
             rel == ENGINE_MEMBER
+            or rel == REPAIR_MANIFEST
             or rel.startswith("magica/")
             or rel.startswith(REPAIR_PREFIX)
         ):

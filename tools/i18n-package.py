@@ -5,6 +5,7 @@ ZIP 根布局只有两棵并行路径：
 
     magica/**                    WebView 前端产品树
     madomagi/engine_i18n.tsv     native/cocos2d 翻译表（必含）
+    madomagi/repair_manifest.json native 修复层声明（必含）
     madomagi/resource/image_native/**  固定 native 修复层（必含）
 
 scenario 资源不属于 JS 包。以旧 JS 包为底时，本工具保留完整 ``magica/``，用
@@ -24,6 +25,7 @@ scenario 资源不属于 JS 包。以旧 JS 包为底时，本工具保留完整
 """
 
 import argparse
+import json
 import os
 from pathlib import Path, PurePosixPath
 import sys
@@ -31,9 +33,11 @@ import zipfile
 
 
 ENGINE_MEMBER = 'madomagi/engine_i18n.tsv'
+REPAIR_MANIFEST = 'madomagi/repair_manifest.json'
 REPAIR_PREFIX = 'madomagi/resource/image_native/'
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_ENGINE = REPO_ROOT / ENGINE_MEMBER
+DEFAULT_REPAIR_MANIFEST = REPO_ROOT / REPAIR_MANIFEST
 DEFAULT_REPAIR_ROOT = REPO_ROOT / REPAIR_PREFIX
 RUNTIME_EXCLUDED_PREFIXES = ('magica/research/', 'magica/i18n_audit/')
 
@@ -85,6 +89,7 @@ def allowed_base_member(name):
         or normalized.startswith('magica/')
         or normalized == 'madomagi/'
         or normalized == ENGINE_MEMBER
+        or normalized == REPAIR_MANIFEST
         or normalized.startswith(REPAIR_PREFIX)
     )
 
@@ -120,6 +125,24 @@ def main():
     }
     if not repair_files:
         print('native 修复目录为空', file=sys.stderr)
+        return 1
+    try:
+        repair_manifest_bytes = DEFAULT_REPAIR_MANIFEST.read_bytes()
+        repair_manifest = json.loads(repair_manifest_bytes.decode('utf-8'))
+        declared = {
+            row['path']: row['bytes'] for row in repair_manifest['entries']
+        }
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError, KeyError, TypeError) as exc:
+        print('native 修复清单不可读：%s' % exc, file=sys.stderr)
+        return 1
+    actual = {name: path.stat().st_size for name, path in repair_files.items()}
+    if (
+        repair_manifest.get('schema') != 'magireco-cn-madomagi-repair/v1'
+        or repair_manifest.get('file_count') != len(declared)
+        or repair_manifest.get('total_bytes') != sum(declared.values())
+        or declared != actual
+    ):
+        print('native 修复清单与 image_native 产品树不一致', file=sys.stderr)
         return 1
 
     extras = {}
@@ -171,7 +194,12 @@ def main():
     n_rejected = 0
     with zipfile.ZipFile(args.out, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
         # 先铺底包；新文件同名时跳过旧项，稍后写入新内容。
-        new_names = set(file_members.values()) | set(extras) | set(repair_files) | {ENGINE_MEMBER}
+        new_names = (
+            set(file_members.values())
+            | set(extras)
+            | set(repair_files)
+            | {ENGINE_MEMBER, REPAIR_MANIFEST}
+        )
         if args.base:
             try:
                 base = zipfile.ZipFile(args.base)
@@ -219,6 +247,9 @@ def main():
             z.write(src, name)
             seen.add(name)
 
+        z.writestr(REPAIR_MANIFEST, repair_manifest_bytes)
+        seen.add(REPAIR_MANIFEST)
+
         # 必含且永远以当前权威源覆盖旧表。
         z.writestr(ENGINE_MEMBER, engine_bytes)
         seen.add(ENGINE_MEMBER)
@@ -228,7 +259,7 @@ def main():
         print('额外追加 %d 项' % n_extra)
     if n_rejected:
         print('已剔除 %d 个越界/重复底包项' % n_rejected)
-    print('底包沿用 %d 项，新增/覆盖 %d 项，native 修复 %d 项，引擎表 1 项，共 %d 项'
+    print('底包沿用 %d 项，新增/覆盖 %d 项，native 修复 %d 项、声明 1 项，引擎表 1 项，共 %d 项'
           % (n_base, n_new, len(repair_files), len(seen)))
     print('→ %s（%.1f MB）' % (args.out, size / 1024.0 / 1024.0))
     print('\n发布前还要做两件事：')

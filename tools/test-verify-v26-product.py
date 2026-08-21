@@ -138,7 +138,7 @@ class V26ProductAuthorityTests(unittest.TestCase):
 
             first = MOD.verify_product_inventory(root)
             self.assertEqual(first["inventory_entries"], 7)
-            self.assertEqual(first["package_entries"], 6)
+            self.assertEqual(first["package_entries"], 7)
             self.assertEqual(first["magica_entries"], 4)
             self.assertEqual(first["engine_entries"], 1)
             self.assertEqual(first["repair_manifest_entries"], 1)
@@ -155,7 +155,7 @@ class V26ProductAuthorityTests(unittest.TestCase):
             added.write_text("<p>new</p>\n", encoding="utf-8", newline="\n")
             second = MOD.verify_product_inventory(root)
             self.assertEqual(second["inventory_entries"], 8)
-            self.assertEqual(second["package_entries"], 7)
+            self.assertEqual(second["package_entries"], 8)
             self.assertEqual(second["suffix_counts"][".html"], 2)
 
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -269,6 +269,7 @@ class V26ProductAuthorityTests(unittest.TestCase):
             PACKAGE.build_package(ROOT, archive)
             report = MOD.verify_zip(archive)
             self.assertEqual(report["engine_entries"], 1)
+            self.assertEqual(report["repair_manifest_entries"], 1)
             self.assertEqual(report["repair_entries"], 91)
             self.assertEqual(report["file_entries"], inventory["package_entries"])
             self.assertEqual(report["scenario_entries"], 0)
