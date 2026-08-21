@@ -25,9 +25,9 @@
 
 > **怎么触发**（2026-08-21 起）：上游那份 `call-downstream-action.yml`
 > 联动 workflow 已删除，所以本 workflow 只剩两个入口——手动
-> `workflow_dispatch`，以及客户端构建 CI（`legacy-client` 的
-> `build-apk.yml`）在传完 APK 后直接发来的 `repository_dispatch`
-> （`upstream-update`）。上游只有内容更新、没人构建 APK 时，需要手动跑一次。
+> `workflow_dispatch`，以及客户端构建流水线在产物就绪后发来的
+> `repository_dispatch`（`upstream-update`）。上游只有内容更新、没有新产物
+> 时，需要手动跑一次。
 
 ### 清除CDN缓存（手动）：
 [![🧹 清空CDN缓存](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml)
