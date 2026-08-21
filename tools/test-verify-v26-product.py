@@ -220,6 +220,51 @@ class V26ProductAuthorityTests(unittest.TestCase):
         self.assertEqual(report["product_structure_drift"], 0)
         self.assertEqual(report["source_structure_drift"], 0)
 
+    def test_runtime_network_resilience_is_product_bound_and_fail_closed(self) -> None:
+        report = MOD.verify_runtime_network_resilience()
+        self.assertEqual(report["requirejs_wait_seconds"], 60)
+        self.assertEqual(report["top_page_timeout_ms"], 180000)
+        self.assertTrue(report["timeout_error_forces_webview_visible"])
+        self.assertTrue(report["status_zero_error_forces_webview_visible"])
+
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            jquery = root / "magica/js/libs/jquery-3.7.1.min.js"
+            ajax = root / "magica/js/_common/ajaxControl.js"
+            jquery.parent.mkdir(parents=True)
+            ajax.parent.mkdir(parents=True)
+            jquery.write_bytes(
+                (ROOT / "magica/js/libs/jquery-3.7.1.min.js").read_bytes()
+            )
+            ajax.write_bytes(
+                (ROOT / "magica/js/_common/ajaxControl.js").read_bytes()
+            )
+
+            jquery.write_text(
+                jquery.read_text(encoding="utf-8").replace(
+                    "waitSeconds:60", "waitSeconds:10", 1
+                ),
+                encoding="utf-8",
+                newline="\n",
+            )
+            with self.assertRaisesRegex(AssertionError, "RequireJS"):
+                MOD.verify_runtime_network_resilience(root)
+
+            jquery.write_bytes(
+                (ROOT / "magica/js/libs/jquery-3.7.1.min.js").read_bytes()
+            )
+            ajax.write_text(
+                ajax.read_text(encoding="utf-8").replace(
+                    '"timeout"==m?(d.setWebView(),c.tapBlock(!1)',
+                    '"timeout"==m?(c.tapBlock(!1)',
+                    1,
+                ),
+                encoding="utf-8",
+                newline="\n",
+            )
+            with self.assertRaisesRegex(AssertionError, "timeout WebView"):
+                MOD.verify_runtime_network_resilience(root)
+
     def test_auxiliary_product_json_parse_and_path_drift_are_rejected(self) -> None:
         expected = (
             "magica/js/libs/runtime.json",
