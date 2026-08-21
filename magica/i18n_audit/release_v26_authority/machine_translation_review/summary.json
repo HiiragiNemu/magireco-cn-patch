@@ -13,7 +13,7 @@
     "baseline_head": "d5e8f75d93f6760a588e592c22a3754d19370c68",
     "baseline_commit_epoch": "2026-08-09T22:46:21+08:00",
     "product_content_file_count": 1588,
-    "product_content_sha256": "58f4a123397d2e41dbc4b112262049edba411698c69b38a6fdadef5f9d4a482f",
+    "product_content_sha256": "cb3edaf07f04ca8e88df27a2646de03d4bba968d3f87fa47db4b136afee6176a",
     "wiki_head": "42641f87818b37262032fd4dc5d5c756a48fed7a",
     "runtime_dictionary_count": 23,
     "runtime_dictionary_sha256": {
@@ -41,33 +41,33 @@
       "sectionList.json": "d972a7bdd5e373515b6697dcfdbed35db3d0695cb70b9e286907baa7382c4239",
       "shopItemList.json": "8245a5addddad7840b6afbec9738952c8c63734f10dd2be2cf6f739588e55771"
     },
-    "engine_i18n_sha256": "bd09318e3cdd25ab84bde8f2a4e5e3cc22fb6f26a2a25b943026b82976f6293c"
+    "engine_i18n_sha256": "054a726ade2241900a3b0b89ff2cf671162131ec9ff73939f6efe5108211a384"
   },
   "counts": {
-    "master": 15976,
+    "master": 15982,
     "runtime": 12399,
     "static": 303,
     "frontend": 1685,
     "frontend_empty": 53,
     "glossary": 955,
     "overrides_fragments": 16,
-    "engine": 615,
+    "engine": 621,
     "battle_miss_needs_review": 3,
     "battle_runtime_language_decisions": 8,
     "battle_runtime_unique_misses": 20,
     "pass18": 939,
     "visible_term_closure": 3136,
     "explicit_llm_history": 264,
-    "unique_text_pairs": 10286,
+    "unique_text_pairs": 10292,
     "proper_name_priority_rows": 4708,
     "authority_name_candidates": 3,
     "by_component": {
       "battle_miss_needs_review": 3,
       "engine_runtime_i18n_confirmed_human": 301,
       "engine_runtime_i18n_intentional_fragment": 1,
-      "engine_runtime_i18n_official": 58,
-      "engine_runtime_i18n_root_reviewed": 252,
-      "engine_runtime_i18n_wiki": 3,
+      "engine_runtime_i18n_official": 207,
+      "engine_runtime_i18n_root_reviewed": 110,
+      "engine_runtime_i18n_wiki": 2,
       "fragments_unverified_mixed": 7,
       "frontend_ai_assisted_translated": 1632,
       "frontend_untranslated": 53,
@@ -88,7 +88,7 @@
       "frontend_i18n_fragment": 7,
       "frontend_i18n_input": 1685,
       "frontend_i18n_override": 9,
-      "native_engine_i18n": 615,
+      "native_engine_i18n": 621,
       "offline_authority_support": 955,
       "runtime_dictionary": 12399,
       "static_js_html": 303
@@ -96,9 +96,9 @@
     "by_source_bucket": {
       "legacy-ai": 1640,
       "new-root-human": 2692,
-      "official": 1973,
-      "unknown": 8574,
-      "wiki": 1097
+      "official": 2122,
+      "unknown": 8432,
+      "wiki": 1096
     },
     "by_source_tier": {
       "1_official_cn_dump_component": 32,
@@ -113,16 +113,17 @@
       "existing_human_reviewed": 1,
       "intentional-structural-rule": 1,
       "legacy_unverified_ai_assisted": 1587,
-      "manual-semantic-reviewed": 250,
+      "manual-semantic-reviewed": 108,
       "none_exact_found": 8323,
       "official+wiki": 7,
-      "official-cn": 780,
+      "official-cn": 776,
       "official-cn-component": 10,
       "official-cn-component;official_component+wiki_component+new_human": 12,
       "official-cn-exact-art-id-join": 1,
       "official-cn-exact-path-dom-match": 1,
-      "official-cn-native-exact": 1,
-      "official-cn-native-sequence-exact-both-abis": 35,
+      "official-cn-native-exact": 160,
+      "official-cn-native-normalized": 23,
+      "official-cn-native-sequence-exact-both-abis": 6,
       "official-cn-terminology": 2,
       "official-cn-ui-exact-retained": 1,
       "official-same-character-or-wiki": 13,
@@ -135,7 +136,7 @@
       "official_cn_term_component": 6,
       "official_or_wiki+root_context": 2,
       "root-reviewed-official-cn-terminology": 2372,
-      "wiki": 972,
+      "wiki": 971,
       "wiki-exact-piece-id-name_sc-empty": 2,
       "wiki-exact-piece-id;official-parallel-timed-art-only": 1,
       "wiki-exact-stable-id-plus-official-cn-terminology": 2,
@@ -146,13 +147,13 @@
     },
     "by_machine_translation": {
       "ai-assisted-unverified": 1632,
-      "false": 6000,
+      "false": 6006,
       "unknown": 8344
     },
     "by_review_status": {
       "authority-applied-pending-human-check": 704,
       "authority-resolved": 61,
-      "authority-retained-formal-mechanic": 2,
+      "authority-retained-formal-mechanic": 1,
       "authority-support-available": 955,
       "authority-verified": 525,
       "confirmed-human-verified": 301,
@@ -160,10 +161,11 @@
       "identity-punctuation": 1,
       "needs-review/root-translation-required": 3,
       "official-cn-terminology-verified": 2,
-      "official-source-verified": 818,
+      "official-source-normalized": 23,
+      "official-source-verified": 944,
       "pending": 9912,
       "resolved": 1,
-      "root-reviewed-approved": 2625,
+      "root-reviewed-approved": 2483,
       "root-translated-needs-human-review": 12,
       "runtime-absent/not-backlog": 18,
       "verify-join": 1,
@@ -173,7 +175,7 @@
     "by_risk": {
       "high": 8103,
       "low": 1051,
-      "medium": 6804,
+      "medium": 6810,
       "none": 18
     },
     "frontend_empty_53_partition": {
@@ -185,14 +187,14 @@
     "engine_partition": {
       "engine_runtime_i18n_confirmed_human": 301,
       "engine_runtime_i18n_intentional_fragment": 1,
-      "engine_runtime_i18n_official": 58,
-      "engine_runtime_i18n_root_reviewed": 252,
-      "engine_runtime_i18n_wiki": 3
+      "engine_runtime_i18n_official": 207,
+      "engine_runtime_i18n_root_reviewed": 110,
+      "engine_runtime_i18n_wiki": 2
     },
     "engine_unverified": 0,
     "engine_final_root_review_total": 212,
-    "engine_final_root_review_takeover": 210,
-    "engine_final_root_review_higher_authority_shadowed": 2,
+    "engine_final_root_review_takeover": 88,
+    "engine_final_root_review_higher_authority_shadowed": 124,
     "engine_final_root_review_official_exact": 35,
     "engine_final_root_review_manual_semantic": 175,
     "runtime_changed_after_pass15": 1100,
@@ -225,7 +227,7 @@
     "frontend_all_including_empty": 1685,
     "glossary_wiki_support": 955,
     "overrides_and_fragments": 16,
-    "engine_runtime": 615,
+    "engine_runtime": 621,
     "battle_miss_candidate_only": 3,
     "battle_runtime_language_decisions": 8,
     "battle_runtime_unique_misses": 20,
@@ -245,7 +247,7 @@
     "pass18_policy": "Pass18 contains 938 runtime and one static row. The current product retains 536 runtime after-images directly; 402 are accepted only through an exact before=Pass18-after and after=current visible-term-closure chain. The one static row remains direct. All 26 targets whose historical stable_key was an array index are read through their exact json_pointer with no fallback.",
     "visible_term_closure_policy": "All 3,136 current runtime-dictionary fields are read from the exact stable key and field, verified against visible-term-closure-3136.tsv, and promoted with official/Wiki/root-reviewed provenance while prior Pass18 lineage remains embedded in evidence.",
     "explicit_llm_doppel": "Wiki-equivalent text further normalized by the stronger official-cn term Doppel->魔女化身 is recorded as resolved, not drift.",
-    "engine_policy": "The original official/Wiki/confirmed-human mappings remain protected. The schema-2 final root review binds 212 historical unknown-origin rows by row ID, physical line, exact source, and exact before value. Existing higher authority shadows two formal mechanism rows; the remaining 210 are closed as 35 dual-ABI official-CN exact rows and 175 root-reviewed rows. Historical origin_machine_translated=unknown remains explicit in evidence and notes. No engine row remains unverified.",
+    "engine_policy": "Official CN native alloc-section strings were closed across both ABIs by stable object slots and common named functions. The 182 accepted source keys supersede lower provenance without admitting developer/debug rows; 23 historical official defects are explicitly normalized. The schema-2 final root review remains bound to its 212 original physical rows, with 124 now shadowed by higher authority and 88 retained. Historical origin_machine_translated=unknown remains explicit in evidence and notes. No engine row remains unverified.",
     "battle_runtime_policy": "The complete observed set is preserved as 20 unique misses: seven actionable rows, one official retained term, and twelve already-CN or nonlinguistic rows. Four captured current candidates have unknown provenance; after the official exact-art join is applied, three Wiki/parallel-art candidates remain machineTranslated=unknown and review-only.",
     "offline_tables": "frontend/glossary/overrides/fragments are maintenance inputs; only engine_i18n.tsv is directly consumed by the native client."
   },
@@ -268,9 +270,9 @@
     "component_counts": {
       "engine_runtime_i18n_confirmed_human": 301,
       "engine_runtime_i18n_intentional_fragment": 1,
-      "engine_runtime_i18n_official": 58,
-      "engine_runtime_i18n_root_reviewed": 252,
-      "engine_runtime_i18n_wiki": 3,
+      "engine_runtime_i18n_official": 207,
+      "engine_runtime_i18n_root_reviewed": 110,
+      "engine_runtime_i18n_wiki": 2,
       "fragments_unverified_mixed": 7,
       "frontend_ai_assisted_translated": 1632,
       "overrides_unverified_mixed": 9,
@@ -285,15 +287,15 @@
       "explicit_authority_overlay_resolved": 61,
       "frontend_empty_53_audited_cohort": 53,
       "overrides_unverified_mixed": 9,
-      "engine_runtime_i18n_root_reviewed": 252,
-      "engine_runtime_i18n_official": 58,
+      "engine_runtime_i18n_root_reviewed": 110,
+      "engine_runtime_i18n_official": 207,
       "engine_runtime_i18n_intentional_fragment": 1,
-      "engine_runtime_i18n_wiki": 3,
+      "engine_runtime_i18n_wiki": 2,
       "engine_runtime_i18n_confirmed_human": 301,
-      "engine_total": 615,
+      "engine_total": 621,
       "engine_final_root_review_total": 212,
-      "engine_final_root_review_takeover": 210,
-      "engine_final_root_review_higher_authority_shadowed": 2
+      "engine_final_root_review_takeover": 88,
+      "engine_final_root_review_higher_authority_shadowed": 124
     }
   },
   "inputs": {
@@ -309,7 +311,7 @@
     "magica/research/totentanz-full-localization-20260817/runtime-dictionary/visible-term-closure-summary.json": "c9d09965605dd0e94ceab13dc8fdbaa8970c280d30dfae055e21bfe466a17795",
     "magica/i18n_audit/release_v26_authority/pass18_engine_official_additions.tsv": "545934bc88e7377c3a0213abe836abf534cf967ca7ce13b2bb9d78c0999043e5",
     "magica/research/totentanz-selective-localization-20260817/engine_i18n_selected_additions.tsv": "9a20baccda2386f76a30ba05604c985b79f19cebf74a2afcf7422ecb0059d612",
-    "magica/research/totentanz-full-localization-20260817/engine-i18n/ap-recovery-gap-verification.json": "9349273292d1445c05501b86c76e5fd5b49913e83a8c21c8d802f47393b3941c",
+    "magica/research/totentanz-full-localization-20260817/engine-i18n/ap-recovery-gap-verification.json": "b69d6718f18a48fbb7bdc6104b400922c1cf52e1748b13463f24bd0b0452f4c6",
     "magica/research/totentanz-full-localization-20260817/engine-i18n/connect-context-authority.json": "668ee71e0aa0a1b4c46718c8f6ca29f2a843d75a126c9c044f8a06f43754c383",
     "magica/research/totentanz-full-localization-20260817/engine-i18n/root-reviewed-term-closure.json": "a56785162305fbefcbb0c530fe63a8341447bb6731e213e756611d1a1d29fa2d",
     "magica/research/totentanz-full-localization-20260817/engine-i18n/root-reviewed-semantic-corrections.json": "0145f83af3141ab1c2973f19b08cb1e2b4887f11179ef0aae73db1857db0add9",
@@ -327,6 +329,6 @@
     "i18n/glossary.tsv": "f4e5679b9b32dac910d0326558986d22cb56bae8a14baf15e18e0a103f3cfba9",
     "i18n/overrides.tsv": "bb3fde799cb80f4b0cfb3aa7d1f9cef26a7e6d321a5b76b0a62b694047ad4265",
     "i18n/fragments.tsv": "304ff1f741ae2887db70267e89222b9f2578f2e1e6523954e5f548fe322694f7",
-    "madomagi/engine_i18n.tsv": "bd09318e3cdd25ab84bde8f2a4e5e3cc22fb6f26a2a25b943026b82976f6293c"
+    "madomagi/engine_i18n.tsv": "054a726ade2241900a3b0b89ff2cf671162131ec9ff73939f6efe5108211a384"
   }
 }

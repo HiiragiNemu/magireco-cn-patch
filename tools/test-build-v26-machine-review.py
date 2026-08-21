@@ -87,40 +87,35 @@ class FrontendEmptyClassificationTests(unittest.TestCase):
         finally:
             probe.unlink(missing_ok=True)
 
-    def test_engine_615_provenance_partition(self) -> None:
+    def test_engine_621_provenance_partition(self) -> None:
         master: list[dict[str, str]] = []
         MODULE.append_migrated_i18n_and_engine(master)
         engine = [row for row in master if row["scope"] == "native_engine_i18n"]
-        self.assertEqual(len(engine), 615)
+        native_expected = MODULE.read_json(MODULE.ENGINE_OFFICIAL_CN_NATIVE)["expected_post_application"]
+        self.assertEqual(len(engine), 621)
         self.assertEqual(
             Counter(row["component"] for row in engine),
-            Counter({
-                "engine_runtime_i18n_official": 58,
-                "engine_runtime_i18n_confirmed_human": 301,
-                "engine_runtime_i18n_intentional_fragment": 1,
-                "engine_runtime_i18n_root_reviewed": 252,
-                "engine_runtime_i18n_wiki": 3,
-            }),
+            Counter(native_expected["engine_component_partition"]),
         )
         self.assertFalse(any(row["component"] == "engine_runtime_i18n_unverified" for row in engine))
         final_root_rows = [row for row in engine if row["source_stage"] == "final-root-review-20260819"]
-        self.assertEqual(len(final_root_rows), 210)
+        self.assertEqual(len(final_root_rows), 88)
         sidecar_by_id = {
             row["row_id"]: row
             for row in MODULE.read_json(MODULE.ENGINE_FINAL_ROOT_REVIEW)["rows"]
         }
         self.assertEqual(
             Counter(sidecar_by_id[row["source_batch"]]["semantic_verdict"] for row in final_root_rows),
-            Counter({"approved-current": 170, "correction-proposed": 40}),
+            Counter({"approved-current": 78, "correction-proposed": 10}),
         )
         self.assertEqual(
             Counter(row["highest_authority_tier"] for row in final_root_rows),
             Counter({
-                "official-cn-native-sequence-exact-both-abis": 35,
-                "manual-semantic-reviewed": 175,
+                "official-cn-native-sequence-exact-both-abis": 6,
+                "manual-semantic-reviewed": 82,
             }),
         )
-        self.assertEqual(Counter(row["is_machine_translation"] for row in final_root_rows), Counter({"false": 210}))
+        self.assertEqual(Counter(row["is_machine_translation"] for row in final_root_rows), Counter({"false": 88}))
         self.assertTrue(all("origin_machine_translated=unknown" in row["evidence"] for row in final_root_rows))
         no = next(row for row in engine if row["japanese_or_source_original"] == "いいえ")
         self.assertEqual(no["current_cn"], "否")
@@ -129,7 +124,7 @@ class FrontendEmptyClassificationTests(unittest.TestCase):
         single_rare = next(row for row in engine if row["japanese_or_source_original"] == "単発 - レアカード")
         self.assertEqual(single_rare["current_cn"], "单抽 - 稀有卡牌")
         self.assertEqual(single_rare["component"], "engine_runtime_i18n_official")
-        self.assertEqual(single_rare["highest_authority_tier"], "official-cn-native-sequence-exact-both-abis")
+        self.assertEqual(single_rare["highest_authority_tier"], "official-cn-native-exact")
         ap_rows = {
             row["japanese_or_source_original"]: row
             for row in engine
@@ -171,15 +166,15 @@ class FrontendEmptyClassificationTests(unittest.TestCase):
         )
         self.assertEqual(magia_effect["component"], "engine_runtime_i18n_wiki")
         mp_boost = next(row for row in engine if row["japanese_or_source_original"] == "MPブーストUp")
-        self.assertEqual(mp_boost["current_cn"], "MP增幅")
-        self.assertEqual(mp_boost["component"], "engine_runtime_i18n_root_reviewed")
+        self.assertEqual(mp_boost["current_cn"], "MP获取量提升")
+        self.assertEqual(mp_boost["component"], "engine_runtime_i18n_official")
         burn = next(row for row in engine if row["japanese_or_source_original"] == "やけど")
         self.assertEqual(burn["current_cn"], "灼伤")
-        self.assertEqual(burn["component"], "engine_runtime_i18n_root_reviewed")
+        self.assertEqual(burn["component"], "engine_runtime_i18n_official")
         survive = next(row for row in engine if row["japanese_or_source_original"] == "サヴァイヴ")
-        self.assertEqual(survive["current_cn"], "Survive")
-        self.assertEqual(survive["component"], "engine_runtime_i18n_wiki")
-        self.assertEqual(survive["review_status"], "authority-retained-formal-mechanic")
+        self.assertEqual(survive["current_cn"], "幸存")
+        self.assertEqual(survive["component"], "engine_runtime_i18n_official")
+        self.assertEqual(survive["review_status"], "official-source-verified")
         variable = next(row for row in engine if row["japanese_or_source_original"] == "ヴァリアブル")
         self.assertEqual(variable["current_cn"], "Variable")
         self.assertEqual(variable["component"], "engine_runtime_i18n_wiki")
@@ -208,9 +203,18 @@ class FrontendEmptyClassificationTests(unittest.TestCase):
         )
         engine_lines = MODULE.PRODUCT / "madomagi" / "engine_i18n.tsv"
         current = engine_lines.read_text(encoding="utf-8-sig").splitlines()
+        native = {
+            row["source"]: row
+            for row in MODULE.read_json(MODULE.ENGINE_OFFICIAL_CN_NATIVE)["records"]
+            if row.get("product_write_allowed")
+        }
         for row in rows:
             source, target = current[row["physical_line"] - 1].split("\t")
-            expected = row["proposed_cn"] if row["semantic_verdict"] == "correction-proposed" else row["before_cn"]
+            expected = (
+                native[source]["selected_cn"]
+                if source in native
+                else row["proposed_cn"] if row["semantic_verdict"] == "correction-proposed" else row["before_cn"]
+            )
             self.assertEqual(source, row["source_key"])
             self.assertEqual(target, expected)
 
@@ -222,10 +226,10 @@ class FrontendEmptyClassificationTests(unittest.TestCase):
             "wrong-line": lambda data: data["rows"][0].__setitem__("physical_line", 9999),
             "wrong-source": lambda data: data["rows"][0].__setitem__("source_key", data["rows"][0]["source_key"] + "X"),
             "wrong-current": lambda data: next(
-                row for row in data["rows"] if row["semantic_verdict"] == "correction-proposed"
+                row for row in data["rows"] if row["source_key"] == "【データサイズ："
             ).__setitem__(
                 "proposed_cn",
-                next(row for row in data["rows"] if row["semantic_verdict"] == "correction-proposed")["proposed_cn"] + "X",
+                next(row for row in data["rows"] if row["source_key"] == "【データサイズ：")["proposed_cn"] + "X",
             ),
         }
         with tempfile.TemporaryDirectory() as folder:

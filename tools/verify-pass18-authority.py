@@ -41,8 +41,8 @@ EXPECTED_PASS18_RUNTIME_SUPERSEDED = 402
 EXPECTED_PASS18_STATIC_DIRECT = 1
 EXPECTED_VISIBLE_TERM_CLOSURE_ROWS = 3136
 BASE_ENGINE_ROWS = 314
-EXPECTED_ENGINE_ROWS = 615
-EXPECTED_ENGINE_PHYSICAL_LINES = 616
+EXPECTED_ENGINE_ROWS = 621
+EXPECTED_ENGINE_PHYSICAL_LINES = 622
 EXPECTED_ENGINE_OFFICIAL_ROWS = 5
 EXPECTED_DICTIONARIES = 23
 EXPECTED_CSS_FILES = 19
@@ -63,6 +63,11 @@ ENGINE_AP_EVIDENCE = ENGINE_EVIDENCE / "ap-recovery-gap-verification.json"
 ENGINE_CONNECT_EVIDENCE = ENGINE_EVIDENCE / "connect-context-authority.json"
 ENGINE_FINAL_EVIDENCE = ENGINE_EVIDENCE / "engine-final-authority-corrections.json"
 ENGINE_ROOT_EVIDENCE = ENGINE_EVIDENCE / "root-reviewed-term-closure.json"
+ENGINE_NATIVE_EVIDENCE = (
+    ENGINE_EVIDENCE
+    / "official-cn-native-exhaustion-20260821"
+    / "official-cn-native-localization-exhaustion.json"
+)
 
 PORTABLE_FOLLOWUP_EVIDENCE = (
     ROUND3_ROOT / "portable-followup-evidence-20260819"
@@ -791,6 +796,30 @@ def verify_engine() -> tuple[dict[str, Any], list[str]]:
         )
 
     mapping = {source: target for _, source, target in entries}
+    try:
+        native_evidence = load_json(ENGINE_NATIVE_EVIDENCE)
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        native_evidence = {}
+        errors.append(f"cannot read official CN native engine evidence: {exc}")
+    native_records = [
+        record
+        for record in native_evidence.get("records", [])
+        if record.get("product_write_allowed")
+    ]
+    native_by_source = {record.get("source", ""): record for record in native_records}
+    native_failures: list[str] = []
+    if (
+        native_evidence.get("schema") != "official-cn-native-localization-exhaustion/v1"
+        or len(native_evidence.get("records", [])) != 189
+        or len(native_evidence.get("dispositions", [])) != 349
+        or len(native_by_source) != 182
+    ):
+        native_failures.append("closure counts/schema differ")
+    for source, record in native_by_source.items():
+        if mapping.get(source) != record.get("selected_cn"):
+            native_failures.append(f"runtime mapping differs for {source}")
+    if native_failures:
+        errors.append(f"official CN native engine layer differs: {native_failures[:10]}")
     with ENGINE_AUDIT.open(encoding="utf-8", newline="") as handle:
         official = list(csv.DictReader(handle, delimiter="\t"))
     if len(official) != EXPECTED_ENGINE_OFFICIAL_ROWS:
@@ -983,7 +1012,8 @@ def verify_engine() -> tuple[dict[str, Any], list[str]]:
             if not source or source in seen_sources:
                 reasons.append("blank/duplicate source")
             seen_sources.add(source)
-            if mapping.get(source) != record.get("target"):
+            selected_target = native_by_source.get(source, {}).get("selected_cn", record.get("target"))
+            if mapping.get(source) != selected_target:
                 reasons.append("runtime mapping differs")
             if record.get("machine_translated") is not False:
                 reasons.append("machine-translated flag differs")
@@ -1041,6 +1071,11 @@ def verify_engine() -> tuple[dict[str, Any], list[str]]:
         "duplicate_source_keys": duplicates,
         "official_audit_rows": len(official),
         "official_mapping_failures": official_failures,
+        "official_cn_native": {
+            "path": ENGINE_NATIVE_EVIDENCE.relative_to(ROOT).as_posix(),
+            "accepted_sources": len(native_by_source),
+            "failures": native_failures,
+        },
         "post_pass18_gap_rules": {
             "evidence": ENGINE_AP_EVIDENCE.relative_to(ROOT).as_posix(),
             "result": ap_evidence,

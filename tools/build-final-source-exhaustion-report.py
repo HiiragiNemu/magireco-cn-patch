@@ -11,7 +11,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-SCHEMA = "magireco-final-source-exhaustion-20260820/v2"
+SCHEMA = "magireco-final-source-exhaustion-20260821/v3"
 RESEARCH = Path("magica/research/totentanz-full-localization-20260817")
 OUTPUT = RESEARCH / "final-source-exhaustion-20260819"
 
@@ -29,7 +29,8 @@ REPO_INPUTS = {
     "engine_final_sidecar": RESEARCH / "engine-i18n/final-root-review-20260819/engine_unknown_212_root_review_sidecar.json",
     "engine_final_application": RESEARCH / "engine-i18n/final-root-review-20260819/engine_unknown_212_application_verification.json",
     "engine_final_roundtrip": RESEARCH / "engine-i18n/final-root-review-20260819/engine_unknown_212_roundtrip_verification.json",
-    "engine_machine_review": Path("magica/i18n_audit/release_v26_authority/machine_translation_review/engine_i18n_review_615.tsv"),
+    "engine_native_closure": RESEARCH / "engine-i18n/official-cn-native-exhaustion-20260821/official-cn-native-localization-exhaustion.json",
+    "engine_machine_review": Path("magica/i18n_audit/release_v26_authority/machine_translation_review/engine_i18n_review_621.tsv"),
     "machine_review_summary": Path("magica/i18n_audit/release_v26_authority/machine_translation_review/summary.json"),
     "engine_table": Path("madomagi/engine_i18n.tsv"),
 }
@@ -166,16 +167,35 @@ def build_summary(repo_root: Path, evidence_root: Path) -> dict[str, object]:
     engine_gap = load_json(rp["engine_gap"])
     engine_lines = raw(rp["engine_table"]).decode("utf-8-sig").splitlines()
     require(engine_gap.get("ok") is True, "engine evidence failed")
-    require((engine_gap.get("logical_rule_count"), engine_gap.get("physical_line_count")) == (615, 616), "engine evidence is not 615/616")
+    require((engine_gap.get("logical_rule_count"), engine_gap.get("physical_line_count")) == (621, 622), "engine evidence is not 621/622")
     require(engine_gap.get("generated_timer_rules") == 301, "dynamic AP timer expansion is not 301 rules")
     require(engine_gap.get("timer_coverage", {}).get("all_values_present") is True, "dynamic AP timer coverage is incomplete")
     require(engine_gap.get("unsupported_rules") == 2 and engine_gap.get("unsupported_present") == 0, "AP consumer boundary drift")
-    require(len(engine_lines) == 616 and sum("\t" in line for line in engine_lines) == 615, "current engine table is not 615/616")
+    require(len(engine_lines) == 622 and sum("\t" in line for line in engine_lines) == 621, "current engine table is not 621/622")
     require(not any(line.startswith("~") for line in engine_lines), "unsupported substring rule leaked into engine table")
     native_engine = load_json(ep["native_engine"])
     require(native_engine.get("passed") is True and native_engine.get("tsv_rows") == native_engine.get("json_rows") == 314, "native engine baseline evidence failed")
     require(native_engine.get("checks", {}).get("summary_physical_lines_315") is True, "native engine is not the 315-line terminal state")
     require(native_engine.get("checks", {}).get("unsupported_ap_substring_rules_absent") is True, "native engine contains unsupported AP rules")
+
+    native_closure = load_json(rp["engine_native_closure"])
+    native_records_all = native_closure.get("records", [])
+    native_records = [row for row in native_records_all if row.get("product_write_allowed") is True]
+    native_expected = native_closure.get("expected_post_application", {})
+    require(
+        native_closure.get("schema") == "official-cn-native-localization-exhaustion/v1"
+        and len(native_records_all) == 189
+        and len(native_records) == 182
+        and len(native_closure.get("dispositions", [])) == 349,
+        "official CN native localization closure drifted",
+    )
+    require(
+        native_expected.get("engine_logical_rules") == 621
+        and native_expected.get("engine_physical_lines") == 622,
+        "official CN native post-application contract drifted",
+    )
+    native_by_source = {row["source"]: row for row in native_records}
+    require(len(native_by_source) == 182, "official CN native accepted source keys are not unique")
 
     engine_quality = load_json(rp["engine_final_quality"])
     require(engine_quality.get("schema") == 2, "engine final-review schema drift")
@@ -218,28 +238,40 @@ def build_summary(repo_root: Path, evidence_root: Path) -> dict[str, object]:
     verdicts = Counter(row.get("semantic_verdict") for row in sidecar_rows)
     require(verdicts == Counter({"approved-current": 172, "correction-proposed": 40}), "engine sidecar verdict drift")
     current_engine_bindings = 0
+    native_shadowed_bindings = 0
     for row in sidecar_rows:
         physical_line = row.get("physical_line")
         require(isinstance(physical_line, int) and 1 <= physical_line <= len(engine_lines), "engine physical-line binding escaped the table")
         parts = engine_lines[physical_line - 1].split("\t", 1)
         require(len(parts) == 2 and parts[0] == row.get("source_key"), f"engine source binding drift: {row.get('row_id')}")
-        expected_cn = row.get("proposed_cn") if row.get("semantic_verdict") == "correction-proposed" else row.get("before_cn")
+        native = native_by_source.get(row["source_key"])
+        expected_cn = (
+            native["selected_cn"]
+            if native is not None
+            else row.get("proposed_cn") if row.get("semantic_verdict") == "correction-proposed" else row.get("before_cn")
+        )
         require(parts[1] == expected_cn, f"engine current Chinese binding drift: {row.get('row_id')}")
+        native_shadowed_bindings += int(native is not None)
         current_engine_bindings += 1
 
     engine_review_rows = load_tsv(rp["engine_machine_review"])
-    require(len(engine_review_rows) == 615, "engine machine-review inventory is not 615")
+    require(len(engine_review_rows) == 621, "engine machine-review inventory is not 621")
     engine_partition = Counter(row.get("component") for row in engine_review_rows)
-    expected_engine_partition = Counter(
-        {
-            "engine_runtime_i18n_official": 58,
-            "engine_runtime_i18n_confirmed_human": 301,
-            "engine_runtime_i18n_root_reviewed": 252,
-            "engine_runtime_i18n_wiki": 3,
-            "engine_runtime_i18n_intentional_fragment": 1,
-        }
-    )
+    expected_engine_partition = Counter(native_expected["engine_component_partition"])
     require(engine_partition == expected_engine_partition, f"engine authority partition drift: {dict(engine_partition)}")
+    engine_review_by_source = {row["japanese_or_source_original"]: row for row in engine_review_rows}
+    require(len(engine_review_by_source) == 621, "engine machine-review source keys are not unique")
+    final_root_takeover = sum(
+        engine_review_by_source[row["source_key"]].get("source_stage") == "final-root-review-20260819"
+        for row in sidecar_rows
+    )
+    final_root_shadowed = len(sidecar_rows) - final_root_takeover
+    require(
+        native_shadowed_bindings == 123
+        and final_root_takeover == native_expected["final_root_review_takeover"]
+        and final_root_shadowed == native_expected["final_root_review_higher_authority_shadowed"],
+        "engine final-root higher-authority partition drifted",
+    )
     machine_summary = load_json(rp["machine_review_summary"])
     machine_counts = machine_summary.get("counts", {})
     require(machine_counts.get("engine_unverified") == 0, "engine unverified rows remain")
@@ -255,13 +287,13 @@ def build_summary(repo_root: Path, evidence_root: Path) -> dict[str, object]:
     return {
         "schema": SCHEMA,
         "status": "PASS",
-        "as_of": "2026-08-20",
+        "as_of": "2026-08-21",
         "scope": {
             "repo_root": str(repo_root),
             "official_cn_text_root": "A:\\magicaOLD",
             "current_us_text_root": "A:\\totentanz-frontend",
-            "mode": "terminal-evidence-compose-only-no-rescan",
-            "product_writes": 0,
+            "mode": "terminal-evidence-compose-after-official-cn-native-application",
+            "product_writes": 85,
             "git_writes": 0,
             "network_writes": 0,
         },
@@ -288,11 +320,22 @@ def build_summary(repo_root: Path, evidence_root: Path) -> dict[str, object]:
             "native_quest_atlas": {"verified_frames": 9, "remaining_declared_frames": 0, "non_target_changed_pixels": 0, "artifact": atlas_manifest.get("artifact")},
         },
         "engine_i18n": {
-            "logical_rules": 615,
-            "physical_lines": 616,
+            "logical_rules": 621,
+            "physical_lines": 622,
+            "official_cn_native_exhaustion": {
+                "unique_runtime_han_strings": 349,
+                "classified": 349,
+                "stable_mapping_records": 189,
+                "accepted_source_keys": 182,
+                "actual_table_changes": 85,
+                "new_source_keys": 6,
+                "debug_or_unstable_injections": 0,
+            },
             "final_semantic_review": {
                 "reviewed": current_engine_bindings,
                 "total": 212,
+                "higher_authority_shadowed": final_root_shadowed,
+                "retained_final_root_takeover": final_root_takeover,
                 "acceptable_no_change": 172,
                 "corrections_required": 40,
                 "corrections_applied": 40,
@@ -310,10 +353,10 @@ def build_summary(repo_root: Path, evidence_root: Path) -> dict[str, object]:
                 "status": "closed",
             },
             "authority_partition": {
-                "official": 58,
+                "official": 207,
                 "confirmed_human_dynamic_timer": 301,
-                "root_reviewed": 252,
-                "wiki": 3,
+                "root_reviewed": 110,
+                "wiki": 2,
                 "intentional": 1,
             },
             "unverified": 0,
@@ -346,13 +389,13 @@ def render_report(summary: dict[str, object]) -> str:
     html = summary["text"]["missing_dependencies"]["html"]
     resolved_boundary = summary["engine_i18n"]["resolved_consumer_boundaries"]
     lines = [
-        "# 最终来源耗尽聚合报告（2026-08-20）",
+        "# 最终来源耗尽聚合报告（2026-08-21）",
         "",
         "## 终态",
         "",
         "**PASS：在封存的 A:\\magicaOLD、A:\\totentanz-frontend、权威层、图像与 native/engine 证据范围内，仍可安全物化的权威中文或已审核新译增量为 0。**",
         "",
-        "本报告只组合已完成证据；没有重扫大树、修改产品、执行 Git 或网络写入。",
+        "本报告组合已完成证据，并记录本轮从国服双 ABI native 稳定源键物化到 engine 表的 85 项变更；没有重新扫描 A 盘大树。",
         "",
         "## 文本",
         "",
@@ -383,9 +426,10 @@ def render_report(summary: dict[str, object]) -> str:
         "",
         "## engine_i18n 消费者边界",
         "",
-        "- 当前表：**615 条逻辑规则 / 616 物理行**；无 `~` 伪规则。",
-        "- 最终语义复审：**212/212** 已绑定当前表；**40/40** 项修正已应用（双 ABI 旧国服 native 精确证据 **35**，根任务语义审核 **5**）。",
-        "- 终态分区：官方 **58** / 已确认人工动态 AP 规则 **301** / 根任务复审 **252** / Wiki **3** / 刻意结构规则 **1**；未验证 **0**。",
+        "- 当前表：**621 条逻辑规则 / 622 物理行**；无 `~` 伪规则。",
+        "- 国服 native：运行时可分配区含中文的 **349/349** 项已分类；得到 **189** 条稳定映射记录，接受 **182** 个源键，实际表变更 **85** 项（含新增源键 **6**），调试/不稳定源注入 **0**。",
+        "- 历史最终语义复审：原 **212/212** 绑定仍可追溯；其中 **124** 项现由更高权威覆盖，保留原最终复审接管 **88** 项。历史 **40/40** 项修正的应用及回撤证据仍保留。",
+        "- 终态分区：官方 **207** / 已确认人工动态 AP 规则 **301** / 根任务复审 **110** / Wiki **2** / 刻意结构规则 **1**；未验证 **0**。",
         "- 当前消费者只支持 exact 与 `^prefix`。两段 AP 动态文本已通过 **301 条有限前缀**覆盖首段倒计时 `0:00..5:00`，并保留末段完整回复时间后缀：",
         "",
     ]
@@ -394,7 +438,7 @@ def render_report(summary: dict[str, object]) -> str:
         "",
         "## 证据纪律",
         "",
-        "没有采用旧 316 行 engine 快照、闭合前错误 24 项清单或闭合前 RulePopup 拒绝结论。`summary.json` 只记录小型证据文件路径与字节数；没有重新处理产品或 A 盘大树。",
+        "没有采用旧 316 行 engine 快照、闭合前错误 24 项清单或闭合前 RulePopup 拒绝结论。`summary.json` 记录当前产品、国服 native 闭合证据及外部只读证据的路径与字节数。",
         "",
     ]
     return "\n".join(lines)
@@ -438,7 +482,7 @@ def main() -> int:
     except EvidenceError as exc:
         print(f"FAIL: {exc}", file=sys.stderr)
         return 2
-    print("PASS: final source exhaustion 928/928; HTML 11+37; images 8868+681; atlas 9; engine 615/616, AP timer 301/301, semantic 212/212, corrections 40/40, unverified 0")
+    print("PASS: final source exhaustion 928/928; HTML 11+37; images 8868+681; atlas 9; native Han 349/349; engine 621/622, AP timer 301/301, final-root 124 shadowed + 88 retained, unverified 0")
     return 0
 
 

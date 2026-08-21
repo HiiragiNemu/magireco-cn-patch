@@ -65,11 +65,22 @@ def main() -> int:
     assert result["images"]["same_path"]["actionable_closed"] == 160
     assert result["images"]["dynamic_official_cn"]["product_present"] == 681
     assert result["images"]["native_quest_atlas"]["verified_frames"] == 9
-    assert result["engine_i18n"]["logical_rules"] == 615
-    assert result["engine_i18n"]["physical_lines"] == 616
+    assert result["engine_i18n"]["logical_rules"] == 621
+    assert result["engine_i18n"]["physical_lines"] == 622
+    assert result["engine_i18n"]["official_cn_native_exhaustion"] == {
+        "unique_runtime_han_strings": 349,
+        "classified": 349,
+        "stable_mapping_records": 189,
+        "accepted_source_keys": 182,
+        "actual_table_changes": 85,
+        "new_source_keys": 6,
+        "debug_or_unstable_injections": 0,
+    }
     assert result["engine_i18n"]["final_semantic_review"] == {
         "reviewed": 212,
         "total": 212,
+        "higher_authority_shadowed": 124,
+        "retained_final_root_takeover": 88,
         "acceptable_no_change": 172,
         "corrections_required": 40,
         "corrections_applied": 40,
@@ -79,10 +90,10 @@ def main() -> int:
         "rollback_reapply_roundtrip": "pass",
     }
     assert result["engine_i18n"]["authority_partition"] == {
-        "official": 58,
+        "official": 207,
         "confirmed_human_dynamic_timer": 301,
-        "root_reviewed": 252,
-        "wiki": 3,
+        "root_reviewed": 110,
+        "wiki": 2,
         "intentional": 1,
     }
     assert result["engine_i18n"]["unverified"] == 0
@@ -105,7 +116,7 @@ def main() -> int:
         engine = repo / mod.REPO_INPUTS["engine_table"]
         engine_bytes = engine.read_bytes()
         engine.write_bytes(engine_bytes + b"EXTRA\tEXTRA\n")
-        fails(mod, repo, evidence, "615/616")
+        fails(mod, repo, evidence, "621/622")
         engine.write_bytes(engine_bytes)
 
         application_path = repo / mod.REPO_INPUTS["engine_final_application"]
