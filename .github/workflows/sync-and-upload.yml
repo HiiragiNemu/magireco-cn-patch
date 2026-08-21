@@ -432,6 +432,7 @@ jobs:
           python3 scripts/test_hotupdate_promotion.py -v
           python3 scripts/test_release_asset_transaction.py -v
           python3 scripts/test_build_manifest.py -v
+          python3 scripts/test_private_asset_fetch.py -v
 
       - name: "[JS] CSS 冻结检查"
         continue-on-error: true
@@ -1466,12 +1467,15 @@ jobs:
                   except Exception as e:
                       err(f"[{self.name}] 删除异常: {e}", indent=1)
                       return False
-              def upload_file_from_url(self, url, filename, expected_size):
+              def upload_file_from_url(self, url, filename, expected_size,
+                                       headers):
                   try:
                       info(f"[{c(C.BRIGHT_WHITE, self.name)}] 流式上传: "
                            f"{c(C.BRIGHT_CYAN, filename)}", indent=1)
-                      req = urllib.request.Request(url)
-                      with urllib.request.urlopen(req) as response:
+                      # 带凭据取（见 open_asset_stream）：仓库转私有后匿名取
+                      # 一律 404，而这里失败只会记一行红字、指纹不保存，
+                      # 下次再来——不会有人立刻意识到是权限问题。
+                      with open_asset_stream(url, headers) as response:
                           file_size = int(
                               response.headers.get('Content-Length') or 0)
                           # 真正的流式：upload_fileobj 分块边下边传
@@ -1619,19 +1623,25 @@ jobs:
               with open(path, 'a', encoding='utf-8') as f:
                   f.write(f"{key}={value}\n")
 
-          def download_asset_bytes(asset, headers):
-              """取一个 Release asset 的内容——按**私有仓库**的取法。
+          def asset_source_url(asset):
+              """取 asset 的下载地址——优先 API 的 asset 端点。
 
-              私有仓库上 browser_download_url 匿名取是 404，所以走 API 的 asset
-              端点 + Accept: application/octet-stream 并带凭据。它会 302 到对象
-              存储的签名地址，那一跳**必须把 Authorization 摘掉**——签名地址自带
-              鉴权，再带一个 Authorization 过去会被拒。默认 opener 会把请求头
-              原样带过去，所以这里自己接管重定向。
-
-              取不到只会「不报版本」→ 闸门不动，安全但极其安静，等发现时已经
-              过了好几个版本。所以宁可一开始就按私有仓库写，别等转私有那天再踩。
+              私有仓库上 browser_download_url 匿名取是 404；API 端点配
+              Accept: application/octet-stream 才是有凭据时的正路。
               """
-              url = asset.get('url') or asset['browser_download_url']
+              return asset.get('url') or asset['browser_download_url']
+
+          def open_asset_stream(url, headers):
+              """打开一个 Release asset 的内容流——按**私有仓库**的取法。
+
+              走 API 的 asset 端点 + Accept: application/octet-stream 并带凭据。
+              它会 302 到对象存储的签名地址，那一跳**必须把 Authorization
+              摘掉**——签名地址自带鉴权，再带一个 Authorization 过去会被拒。
+              默认 opener 会把请求头原样带过重定向，所以这里自己接管。
+
+              返回的是 file-like 的响应对象：既能整份 read()，也能直接交给
+              boto3 的 upload_fileobj / http.client 当请求体边下边传。
+              """
               h = dict(headers)
               h['Accept'] = 'application/octet-stream'
 
@@ -1644,8 +1654,16 @@ jobs:
                                          if k.lower() != 'authorization'}
                       return new
 
-              opener = urllib.request.build_opener(_DropAuthOnRedirect)
-              with opener.open(urllib.request.Request(url, headers=h)) as resp:
+              return urllib.request.build_opener(_DropAuthOnRedirect).open(
+                  urllib.request.Request(url, headers=h))
+
+          def download_asset_bytes(asset, headers):
+              """整份取一个 Release asset 的内容（旁注这类小文件用）。
+
+              取不到只会「不报版本」→ 闸门不动，安全但极其安静，等发现时已经
+              过了好几个版本。所以宁可一开始就按私有仓库写，别等转私有那天再踩。
+              """
+              with open_asset_stream(asset_source_url(asset), headers) as resp:
                   return resp.read()
 
           def emit_apk_version(assets, synced, headers):
@@ -1882,8 +1900,9 @@ jobs:
               processed = []
               for fname in to_process:
                   source_asset = assets_by_name[fname]
-                  url = source_asset['browser_download_url']
-                  if r2.upload_file_from_url(url, fname, source_asset['size']):
+                  url = asset_source_url(source_asset)
+                  if r2.upload_file_from_url(url, fname, source_asset['size'],
+                                             GH_HEADERS):
                       edge.purge_cache(edgeone_domain, fname)
                       esa.purge_cache(fname)
                       cloudflare.purge_cache(cf_domain, fname)
@@ -1969,14 +1988,21 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p scripts
-          # 大陆直连 codeload 慢、raw.githubusercontent.com 被墙，用 gh-proxy.org
-          # 加速拉单文件；失败则回退 api.github.com contents API（双保险）
-          curl -fsSL \
-            "https://gh-proxy.org/https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/scripts/sync-dogecloud.py" \
-            -o scripts/sync-dogecloud.py \
-            || curl -fsSL -H "Authorization: Bearer $" \
-                 -H "Accept: application/vnd.github.raw+json" \
-                 "https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/scripts/sync-dogecloud.py?ref=main" \
+          # 顺序是有讲究的，别再调回去：
+          #   ① 带凭据的 contents API 打头。仓库转私有后 raw.githubusercontent
+          #      与任何第三方代理都一律 404，只有这条走得通；api.github.com 在
+          #      mainland 可达（本 job 的脚本自己也在调它）。
+          #   ② gh-proxy 只作公开期的加速回退。从第三方代理拉**要执行的代码**
+          #      本身就意味着它能换掉这份代码，不该是常规路径。
+          # token 用 ： 不会自动注入到环境变量，本 job 的
+          # env 里也没有它——原先那条回退写的是 $，实际发的是空
+          # 凭据（401）。也就是说「双保险」一直只有一保，转私有当天两条一起死。
+          curl -fsSL -H "Authorization: Bearer $" \
+               -H "Accept: application/vnd.github.raw+json" \
+               "https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/scripts/sync-dogecloud.py?ref=main" \
+               -o scripts/sync-dogecloud.py \
+            || curl -fsSL \
+                 "https://gh-proxy.org/https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/scripts/sync-dogecloud.py" \
                  -o scripts/sync-dogecloud.py
           test -s scripts/sync-dogecloud.py && echo "脚本就绪: $(wc -c < scripts/sync-dogecloud.py) bytes"
       - name: 🐍 确保 boto3 可用
@@ -2040,14 +2066,21 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p scripts
-          # 大陆直连 codeload 慢、raw.githubusercontent.com 被墙，用 gh-proxy.org
-          # 加速拉单文件；失败则回退 api.github.com contents API（双保险）
-          curl -fsSL \
-            "https://gh-proxy.org/https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/scripts/sync-pan123-webdav.py" \
-            -o scripts/sync-pan123-webdav.py \
-            || curl -fsSL -H "Authorization: Bearer $" \
-                 -H "Accept: application/vnd.github.raw+json" \
-                 "https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/scripts/sync-pan123-webdav.py?ref=main" \
+          # 顺序是有讲究的，别再调回去：
+          #   ① 带凭据的 contents API 打头。仓库转私有后 raw.githubusercontent
+          #      与任何第三方代理都一律 404，只有这条走得通；api.github.com 在
+          #      mainland 可达（本 job 的脚本自己也在调它）。
+          #   ② gh-proxy 只作公开期的加速回退。从第三方代理拉**要执行的代码**
+          #      本身就意味着它能换掉这份代码，不该是常规路径。
+          # token 用 ： 不会自动注入到环境变量，本 job 的
+          # env 里也没有它——原先那条回退写的是 $，实际发的是空
+          # 凭据（401）。也就是说「双保险」一直只有一保，转私有当天两条一起死。
+          curl -fsSL -H "Authorization: Bearer $" \
+               -H "Accept: application/vnd.github.raw+json" \
+               "https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/scripts/sync-pan123-webdav.py?ref=main" \
+               -o scripts/sync-pan123-webdav.py \
+            || curl -fsSL \
+                 "https://gh-proxy.org/https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/scripts/sync-pan123-webdav.py" \
                  -o scripts/sync-pan123-webdav.py
           test -s scripts/sync-pan123-webdav.py && echo "脚本就绪: $(wc -c < scripts/sync-pan123-webdav.py) bytes"
       - name: 🐍 确保 requests 可用
@@ -2291,6 +2324,31 @@ jobs:
                    f"{r.stderr.strip()}", indent=2)
               return False
 
+          def open_asset_stream(url):
+              """打开上游 asset 的内容流——按**私有仓库**的取法。
+
+              走 API 的 asset 端点 + Accept: application/octet-stream 并带凭据
+              （upstream_map 存的就是 API 端点地址）。它会 302 到对象存储的签名
+              地址，那一跳**必须把 Authorization 摘掉**——签名地址自带鉴权，
+              再带一个过去会被拒；默认 opener 会把请求头原样带过重定向。
+
+              与 r2-sync 里那份同源，两处必须一起改。
+              """
+              h = dict(GH_HEADERS)
+              h["Accept"] = "application/octet-stream"
+
+              class _DropAuthOnRedirect(urllib.request.HTTPRedirectHandler):
+                  def redirect_request(self, req, fp, code, msg, hdrs, newurl):
+                      new = super().redirect_request(req, fp, code, msg, hdrs,
+                                                     newurl)
+                      if new is not None:
+                          new.headers = {k: v for k, v in new.headers.items()
+                                         if k.lower() != "authorization"}
+                      return new
+
+              return urllib.request.build_opener(_DropAuthOnRedirect).open(
+                  urllib.request.Request(url, headers=h))
+
           def stream_upload_asset(upload_url_tpl, tag, fname, size, src_url):
               """上游下载 URL → uploads.github.com 直连流式上传（不落盘）。
 
@@ -2301,8 +2359,7 @@ jobs:
               upload_url = (upload_url_tpl.split("{?")[0]
                             + "?name=" + urllib.parse.quote(fname))
               try:
-                  dl_req = urllib.request.Request(src_url, headers=GH_HEADERS)
-                  src = urllib.request.urlopen(dl_req)
+                  src = open_asset_stream(src_url)
                   try:
                       up_req = urllib.request.Request(
                           upload_url,
@@ -2326,8 +2383,7 @@ jobs:
                   work_dir = "/tmp/release_mirror"
                   os.makedirs(work_dir, exist_ok=True)
                   dst = os.path.join(work_dir, fname)
-                  dl_req = urllib.request.Request(src_url, headers=GH_HEADERS)
-                  with urllib.request.urlopen(dl_req) as resp, \
+                  with open_asset_stream(src_url) as resp, \
                        open(dst, "wb") as f:
                       shutil.copyfileobj(resp, f, 1024 * 1024)
                   up = run(["gh", "release", "upload", tag, dst,
@@ -2431,7 +2487,9 @@ jobs:
                       continue
                   upstream_map[a["name"]] = (
                       a.get("digest") or "", a.get("size", 0),
-                      a["browser_download_url"])
+                      # API 的 asset 端点，不是 browser_download_url：
+                      # 后者在私有仓库上取不到（见 open_asset_stream）
+                      a.get("url") or a["browser_download_url"])
 
               # ── 与下游 latest 比对，仅用于生成"变更快照"和判断本次是否需要动作 ──
               section("与下游 latest Release 比对（用于变更快照 / 是否跳过判定）")
