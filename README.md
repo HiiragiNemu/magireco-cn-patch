@@ -16,7 +16,7 @@
 >   `scripts/sync-dogecloud.py`，改用**多吉云服务端拉取**（`/oss/fetch.json`
 >   提交 URL + `query.json` 轮询），runner 只做控制面（换临时密钥、提交任务、
 >   轮询、列桶校验），不再下载+上传大文件。源 URL 用脚本内 `race_source_cdn()`
->   竞速国内 CDN（edge/esa/hkcdn/r2 测吞吐选最快，运行时就地测）。
+>   竞速国内 CDN（edge/esa/r2 测吞吐选最快，运行时就地测）。
 >   排在 `r2-sync` 之后等 CDN 清缓存。同步指纹存 GitHub variable
 >   `LAST_DOGE_FINGERPRINTS`，`confirm_cleanup=true` 才删过时文件
 >

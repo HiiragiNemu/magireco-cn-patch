@@ -1957,7 +1957,7 @@ jobs:
       #     2026-08-13 起改用多吉云**服务端 fetch 拉取**（/oss/fetch.json +
       #     query.json 轮询），runner 只做控制面，不再下载+上传大文件
       #   ▸ 源 URL 用脚本内 race_source_cdn() 竞速国内 CDN 选最快
-      #     （edge/esa/hkcdn/r2，吞吐会变，运行时就地测）
+      #     （edge/esa/r2，吞吐会变，运行时就地测）
       #   ▸ 排在 r2-sync 之后：CDN 要等 object-storage 系完活才能清缓存+拉到新内容
       #   ▸ 实时日志/成败原生反馈；脚本失败即本 job 红（不静默失效）
       #   ▸ Doge 具体逻辑全在 scripts/sync-dogecloud.py，与 object-storage 系互不干涉；
