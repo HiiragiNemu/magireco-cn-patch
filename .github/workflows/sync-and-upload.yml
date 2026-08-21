@@ -1619,7 +1619,36 @@ jobs:
               with open(path, 'a', encoding='utf-8') as f:
                   f.write(f"{key}={value}\n")
 
-          def emit_apk_version(assets, synced):
+          def download_asset_bytes(asset, headers):
+              """取一个 Release asset 的内容——按**私有仓库**的取法。
+
+              私有仓库上 browser_download_url 匿名取是 404，所以走 API 的 asset
+              端点 + Accept: application/octet-stream 并带凭据。它会 302 到对象
+              存储的签名地址，那一跳**必须把 Authorization 摘掉**——签名地址自带
+              鉴权，再带一个 Authorization 过去会被拒。默认 opener 会把请求头
+              原样带过去，所以这里自己接管重定向。
+
+              取不到只会「不报版本」→ 闸门不动，安全但极其安静，等发现时已经
+              过了好几个版本。所以宁可一开始就按私有仓库写，别等转私有那天再踩。
+              """
+              url = asset.get('url') or asset['browser_download_url']
+              h = dict(headers)
+              h['Accept'] = 'application/octet-stream'
+
+              class _DropAuthOnRedirect(urllib.request.HTTPRedirectHandler):
+                  def redirect_request(self, req, fp, code, msg, hdrs, newurl):
+                      new = super().redirect_request(req, fp, code, msg, hdrs,
+                                                     newurl)
+                      if new is not None:
+                          new.headers = {k: v for k, v in new.headers.items()
+                                         if k.lower() != 'authorization'}
+                      return new
+
+              opener = urllib.request.build_opener(_DropAuthOnRedirect)
+              with opener.open(urllib.request.Request(url, headers=h)) as resp:
+                  return resp.read()
+
+          def emit_apk_version(assets, synced, headers):
               """把「CDN 上现在是哪一版 APK」交给 bump-gate。
 
               闸门只允许跟着**玩家真能装到的那个包**走，所以报告有三个前提，
@@ -1638,9 +1667,7 @@ jobs:
                   skip(f"{APK_SIDECAR} 未处于已同步状态，本次不报告客户端版本")
                   return
               try:
-                  with urllib.request.urlopen(urllib.request.Request(
-                          sidecar['browser_download_url'])) as resp:
-                      meta = json.loads(resp.read().decode())
+                  meta = json.loads(download_asset_bytes(sidecar, headers).decode())
               except Exception as e:
                   warn(f"读取 {APK_SIDECAR} 失败: {e}，本次不报告客户端版本")
                   return
@@ -1848,7 +1875,7 @@ jobs:
                   header("无新增/更新文件")
                   # 没有新文件不等于不用报版本：闸门可能因为上一次 bump-gate
                   # 失败（token 过期之类）还停在旧值，这里照报，让它自愈。
-                  emit_apk_version(assets_by_name, set(unchanged))
+                  emit_apk_version(assets_by_name, set(unchanged), GH_HEADERS)
                   return
 
               header(f"上传 {len(to_process)} 个文件")
@@ -1891,7 +1918,8 @@ jobs:
               ok(f"指纹已保存（{c(C.BOLD, str(len(final_map)))} 个）")
 
               header("报告 CDN 上的客户端版本（供 bump-gate 提升闸门）")
-              emit_apk_version(assets_by_name, set(unchanged) | set(processed))
+              emit_apk_version(assets_by_name, set(unchanged) | set(processed),
+                               GH_HEADERS)
 
           if __name__ == "__main__":
               try:
