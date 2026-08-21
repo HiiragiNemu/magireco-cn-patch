@@ -381,6 +381,13 @@ jobs:
     needs: [setup]
     if: needs.setup.outputs.has_js == '1'
     # 只打 JS/WebView 和引擎表；完整产品双构建并验证。
+    #
+    # artifact 输出：上传步用的是 if-no-files-found: warn——一个文件都没匹配到时
+    # upload-artifact **不会创建 artifact**，只打一条警告，步骤仍然绿。下游若按
+    # 「这个 job 成功没有」去 download，就会撞上 Artifact not found 硬失败。
+    # 把 artifact-id 透出来，让下游按「到底传上去没有」判。
+    outputs:
+      artifact: ${{ steps.upload_pack_js.outputs.artifact-id }}
     env:
       PYTHONUNBUFFERED: "1"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -684,6 +691,7 @@ jobs:
       # [SCENARIO] 同上
       # ───────────────────────────────────────────────────────────────
       - name: 📤 上传 pack-js 产物
+        id: upload_pack_js
         uses: actions/upload-artifact@v4
         with:
           name: pack-js
@@ -703,6 +711,9 @@ jobs:
     needs: [setup]
     if: needs.setup.outputs.has_scenario == '1'
     # 仅剧情 JSON；engine_i18n.tsv 明确排除。
+    # artifact 输出的理由同 pack-js。
+    outputs:
+      artifact: ${{ steps.upload_pack_scenario.outputs.artifact-id }}
     env:
       PYTHONUNBUFFERED: "1"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -854,6 +865,7 @@ jobs:
       #     rollback，整批验证后才删除；失败则倒序恢复。
       # ───────────────────────────────────────────────────────────────
       - name: 📤 上传 pack-scenario 产物
+        id: upload_pack_scenario
         uses: actions/upload-artifact@v4
         with:
           name: pack-scenario
@@ -872,6 +884,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [setup, pack-js, pack-scenario]
     if: always() && needs.setup.result == 'success'
+    # publish-config 只在「热更真的转正了、且 official json 真的写出来了」时才
+    # 存在。commit-configs 原先按 setup 的 publish_hotfix **意图**去下它——
+    # 意图为真、产物不存在，就是本次 CI 崩掉的直接原因。
+    outputs:
+      config_artifact: ${{ steps.upload_publish_config.outputs.artifact-id }}
     env:
       PYTHONUNBUFFERED: "1"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -963,14 +980,16 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           fetch-depth: 1
+      # 判据是「产物在不在」而不是「上游 job 成功没有」：上传用的是
+      # if-no-files-found: warn，job 绿了也可能一个文件都没传上去。
       - name: 📥 下载 pack-js
-        if: needs.pack-js.result == 'success'
+        if: needs.pack-js.result == 'success' && needs.pack-js.outputs.artifact != ''
         uses: actions/download-artifact@v4
         with:
           name: pack-js
           path: .
       - name: 📥 下载 pack-scenario
-        if: needs.pack-scenario.result == 'success'
+        if: needs.pack-scenario.result == 'success' && needs.pack-scenario.outputs.artifact != ''
         uses: actions/download-artifact@v4
         with:
           name: pack-scenario
@@ -1270,6 +1289,7 @@ jobs:
           PUBLISH_HOTFIX: ${{ needs.setup.outputs.publish_hotfix }}
 
       - name: 📤 上传 publish-config（热更转正后的 official 版本 json）
+        id: upload_publish_config
         if: needs.setup.outputs.publish_hotfix == 'true'
         uses: actions/upload-artifact@v4
         with:
@@ -2735,24 +2755,40 @@ jobs:
           git config user.name "Hiiragi Nemu"
           git config user.email "128921071+HiiragiNemu@users.noreply.github.com"
           git config rebase.autoStash true
+      # 判据是「产物在不在」而不是「上游 job 成功没有」：上传用的是
+      # if-no-files-found: warn，job 绿了也可能一个文件都没传上去。
       - name: 📥 下载 pack-js
-        if: needs.pack-js.result == 'success'
+        if: needs.pack-js.result == 'success' && needs.pack-js.outputs.artifact != ''
         uses: actions/download-artifact@v4
         with:
           name: pack-js
           path: .
       - name: 📥 下载 pack-scenario
-        if: needs.pack-scenario.result == 'success'
+        if: needs.pack-scenario.result == 'success' && needs.pack-scenario.outputs.artifact != ''
         uses: actions/download-artifact@v4
         with:
           name: pack-scenario
           path: .
       - name: 📥 下载 publish-config（热更转正 official json）
-        if: needs.setup.outputs.publish_hotfix == 'true'
+        if: needs.publish.result == 'success' && needs.publish.outputs.config_artifact != ''
         uses: actions/download-artifact@v4
         with:
           name: publish-config
           path: .
+      # 「本该有却没有」必须说出来，不能静默跳过：那意味着这一轮的 official
+      # version json 没跟着提交，客户端会继续读到上一版的版本号。
+      - name: ⚠ publish-config 缺失提醒
+        if: needs.setup.outputs.publish_hotfix == 'true' && needs.publish.outputs.config_artifact == ''
+        run: |
+          echo "::warning::setup 判定要转正热更（publish_hotfix=true），但 publish 没有产出 publish-config。"
+          echo "::warning::本轮不会提交 configures/version_*.json 与 manifest.json 的 official 版本；请查 publish job 的日志。"
+          {
+            echo "### ⚠ publish-config 缺失"
+            echo ""
+            echo "- \`publish_hotfix\` = true，但 publish job 没上传 publish-config"
+            echo "- publish job 结果：\`${{ needs.publish.result }}\`"
+            echo "- 结果：本轮 official \`version_*.json\` / \`manifest.json\` 未提交，客户端仍读上一版"
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: 💾 提交配置变更并同步推送上下游
         id: commit_configs
         # 分发或镜像失败时不固化 official 版本；重试仍复用同一候选版本。
