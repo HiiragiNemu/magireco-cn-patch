@@ -16,7 +16,7 @@
 >   `scripts/sync-dogecloud.py`，改用**多吉云服务端拉取**（`/oss/fetch.json`
 >   提交 URL + `query.json` 轮询），runner 只做控制面（换临时密钥、提交任务、
 >   轮询、列桶校验），不再下载+上传大文件。源 URL 用脚本内 `race_source_cdn()`
->   竞速国内 CDN（edge/esa/hkcdn/r2 测吞吐选最快，运行时就地测）。
+>   竞速国内 CDN（edge/esa/r2 测吞吐选最快，运行时就地测）。
 >   排在 `r2-sync` 之后等 CDN 清缓存。同步指纹存 GitHub variable
 >   `LAST_DOGE_FINGERPRINTS`，`confirm_cleanup=true` 才删过时文件
 >
@@ -25,9 +25,9 @@
 
 > **怎么触发**（2026-08-21 起）：上游那份 `call-downstream-action.yml`
 > 联动 workflow 已删除，所以本 workflow 只剩两个入口——手动
-> `workflow_dispatch`，以及客户端构建 CI（`legacy-client` 的
-> `build-apk.yml`）在传完 APK 后直接发来的 `repository_dispatch`
-> （`upstream-update`）。上游只有内容更新、没人构建 APK 时，需要手动跑一次。
+> `workflow_dispatch`，以及客户端构建流水线在产物就绪后发来的
+> `repository_dispatch`（`upstream-update`）。上游只有内容更新、没有新产物
+> 时，需要手动跑一次。
 
 ### 清除CDN缓存（手动）：
 [![🧹 清空CDN缓存](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml)
