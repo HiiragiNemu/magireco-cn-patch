@@ -546,9 +546,13 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("未处于已同步状态，本次不报告客户端版本", r2)
         self.assertIn("与旁注 sha256 不符", r2)
         # 无新增/更新时也报，让上一次失败的闸门提升能自愈
-        self.assertIn("emit_apk_version(assets_by_name, set(unchanged))", r2)
         self.assertIn(
-            "emit_apk_version(assets_by_name, set(unchanged) | set(processed))", r2)
+            "emit_apk_version(assets_by_name, set(unchanged), GH_HEADERS)", r2)
+        self.assertIn(
+            "emit_apk_version(assets_by_name, set(unchanged) | set(processed),", r2)
+        # 取旁注要按私有仓库的取法：API asset 端点 + 凭据，重定向摘掉 Authorization
+        self.assertIn("download_asset_bytes(sidecar, headers)", r2)
+        self.assertIn("if k.lower() != 'authorization'", r2)
 
     def test_gate_is_bumped_only_after_the_apk_is_on_the_cdn(self):
         """闸门只能由同步链在 APK 真的落到 CDN 之后抬。

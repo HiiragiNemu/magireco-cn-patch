@@ -9,7 +9,7 @@
   - 在 mainland 自托管 runner 上跑：国内机 → 国内 CDN / 123云盘（境内）都直连快；
     GitHub 官方 runner 跨太平洋 PUT 大文件会极慢
   - 密钥由 GitHub Secrets 注入（PAN123_*，不落盘）
-  - 源站用国内 CDN 竞速：edgeone/esa/hkcdn/r2 测吞吐选最快（2026-08-13）。
+  - 源站用国内 CDN 竞速：edgeone/esa/r2 测吞吐选最快（2026-08-13）。
     源 URL 不再走 GitHub（objects.githubusercontent.com 从 mainland 被墙）；
     竞速逻辑写在脚本里，吞吐会变，运行时就地测
   - 增量：PROPFIND 列远端目录，拿 getcontentlength 与 Release asset size 比对，
@@ -105,7 +105,6 @@ def race_source_cdn():
     candidates = [
         ("edgeone", "https://edgeone.assets.magireco.top/"),
         ("esa", "https://esa.assets.magireco.top/"),
-        ("hkcdn", "https://hkcdn.assets.magireco.top/g/m/releases/download/latest/"),
         ("r2", "https://r2.assets.magireco.top/"),
     ]
     probe = "cn_base_00_db.zip"
