@@ -6,9 +6,6 @@
 
 # Actions 运行状态
 
-### 自动触发下游仓库们更新：
-[![⚙️ 触发下游更新](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/call-downstream-action.yml/badge.svg)](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/call-downstream-action.yml)
-
 ### 自动更新组织下游并上传R2：
 [![🔄 同步上游并上传到 R2](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml)
 
@@ -25,6 +22,12 @@
 >
 > 多吉云相关密钥见 GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` /
 > `DOGE_BUCKET` / `DOGE_DOMAIN`）。
+
+> **怎么触发**（2026-08-21 起）：上游那份 `call-downstream-action.yml`
+> 联动 workflow 已删除，所以本 workflow 只剩两个入口——手动
+> `workflow_dispatch`，以及客户端构建 CI（`magirecocn-legacy-client` 的
+> `build-apk.yml`）在传完 APK 后直接发来的 `repository_dispatch`
+> （`upstream-update`）。上游只有内容更新、没人构建 APK 时，需要手动跑一次。
 
 ### 清除CDN缓存（手动）：
 [![🧹 清空CDN缓存](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/purge-all-cache.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/purge-all-cache.yml)
