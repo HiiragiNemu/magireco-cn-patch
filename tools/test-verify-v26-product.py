@@ -226,6 +226,7 @@ class V26ProductAuthorityTests(unittest.TestCase):
         self.assertEqual(report["top_page_timeout_ms"], 180000)
         self.assertTrue(report["timeout_error_forces_webview_visible"])
         self.assertTrue(report["status_zero_error_forces_webview_visible"])
+        self.assertTrue(report["non_2xx_error_forces_webview_visible"])
         self.assertTrue(report["first_js_error_reloads_current_route"])
         self.assertTrue(report["repeated_same_js_error_falls_back_to_top_page"])
 
@@ -269,6 +270,23 @@ class V26ProductAuthorityTests(unittest.TestCase):
                 newline="\n",
             )
             with self.assertRaisesRegex(AssertionError, "timeout WebView"):
+                MOD.verify_runtime_network_resilience(root)
+
+            base.write_bytes(
+                (ROOT / "magica/js/_common/base.js").read_bytes()
+            )
+            ajax.write_text(
+                (ROOT / "magica/js/_common/ajaxControl.js")
+                .read_text(encoding="utf-8")
+                .replace(
+                    "window.isBrowser&&404==b.status||(d.setWebView(),C=function(){",
+                    "window.isBrowser&&404==b.status||(C=function(){",
+                    1,
+                ),
+                encoding="utf-8",
+                newline="\n",
+            )
+            with self.assertRaisesRegex(AssertionError, "non-2xx WebView"):
                 MOD.verify_runtime_network_resilience(root)
 
             ajax.write_bytes(

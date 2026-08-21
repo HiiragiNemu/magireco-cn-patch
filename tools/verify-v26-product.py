@@ -549,6 +549,9 @@ def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
     zero_status_visibility = (
         "else if(0==b.status)d.setWebView(),c.tapBlock(!1)"
     )
+    # ajaxComplete 的非 2xx 兜底：弹的是「通信错误」/「意外错误」，和上面两条
+    # 一样可能在 WebView 从没显示过的开机阶段触发，同样必须先亮出 WebView。
+    non_2xx_visibility = "window.isBrowser&&404==b.status||(d.setWebView(),C=function(){"
 
     assert jquery.count(require_timeout) == 1, "RequireJS 60-second gate drift"
     assert jquery.count(top_page_timeout) == 1, "TopPage 180-second gate drift"
@@ -575,6 +578,7 @@ def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
     assert 'nativeReload("#/TopPage")' not in base, (
         "legacy unconditional TopPage reload returned"
     )
+    assert ajax.count(non_2xx_visibility) == 1, "non-2xx WebView recovery drift"
     # Keep the upstream 20-second default for unrelated requests.  Only TopPage
     # receives the longer prefilter timeout.
     assert ajax.count("f.ajaxSetup({timeout:2E4})") == 1
@@ -585,6 +589,7 @@ def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
         "unrelated_ajax_default_ms": 20000,
         "timeout_error_forces_webview_visible": True,
         "status_zero_error_forces_webview_visible": True,
+        "non_2xx_error_forces_webview_visible": True,
         "release_info_remains_server_dynamic": True,
         "first_js_error_reloads_current_route": True,
         "repeated_same_js_error_falls_back_to_top_page": True,
