@@ -87,6 +87,15 @@ ENGINE_FINAL_AUTHORITY = (
     / "engine-i18n"
     / "engine-final-authority-corrections.json"
 )
+ENGINE_OFFICIAL_CN_NATIVE = (
+    PRODUCT
+    / "magica"
+    / "research"
+    / "totentanz-full-localization-20260817"
+    / "engine-i18n"
+    / "official-cn-native-exhaustion-20260821"
+    / "official-cn-native-localization-exhaustion.json"
+)
 ENGINE_FINAL_ROOT_REVIEW = (
     PRODUCT
     / "magica"
@@ -809,6 +818,22 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
         raise AssertionError("duplicate source key in final engine authority evidence")
     if set(final_authority_by_source) & set(root_reviewed_by_source):
         raise AssertionError("final engine authority evidence overlaps root-reviewed evidence")
+    native_closure = read_json(ENGINE_OFFICIAL_CN_NATIVE)
+    native_records_all = native_closure.get("records", [])
+    native_records = [record for record in native_records_all if record.get("product_write_allowed")]
+    native_expected = native_closure.get("expected_post_application", {})
+    if (
+        native_closure.get("schema") != "official-cn-native-localization-exhaustion/v1"
+        or len(native_records_all) != 189
+        or len(native_records) != 182
+        or len(native_closure.get("dispositions", [])) != 349
+        or native_expected.get("engine_logical_rules") != 621
+        or native_expected.get("engine_physical_lines") != 622
+    ):
+        raise AssertionError("official CN native localization closure drifted")
+    native_official_by_source = {record["source"]: record for record in native_records}
+    if len(native_official_by_source) != 182:
+        raise AssertionError("duplicate source key in official CN native localization closure")
     final_root_review = read_json(ENGINE_FINAL_ROOT_REVIEW)
     final_root_records = final_root_review.get("rows", [])
     if (
@@ -891,7 +916,7 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
                 if final_root["semantic_verdict"] == "correction-proposed"
                 else final_root["before_cn"]
             )
-            if cn != expected_root_cn:
+            if ja not in native_official_by_source and cn != expected_root_cn:
                 raise AssertionError(
                     f"final root review target drift at line {physical_line}: "
                     f"{cn!r} != {expected_root_cn!r}"
@@ -921,6 +946,40 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
                 f"{official['evidence_path_or_key']};sha256={official['source_sha256']}"
             )
             notes = official["notes"]
+        elif ja in native_official_by_source:
+            reviewed = native_official_by_source[ja]
+            if cn != reviewed["selected_cn"]:
+                raise AssertionError(
+                    f"official CN native engine entry drift: {ja!r}: "
+                    f"{cn!r} != {reviewed['selected_cn']!r}"
+                )
+            component = "engine_runtime_i18n_official"
+            provenance_class = reviewed["source_tier"]
+            source_stage = "official-cn-native-exhaustion-20260821"
+            source_batch = reviewed["record_id"]
+            source_author = "official CN native game data; normalization decisions recorded by HiiragiNemu"
+            machine = "false"
+            confidence = (
+                "exact-stable-object-slot-both-abis"
+                if reviewed["evidence_kind"] == "stable-object-slot"
+                else "exact-common-named-function-both-abis"
+            )
+            authority_tier = reviewed["source_tier"]
+            authority_match = cn
+            authority_status = (
+                "official-source-normalized"
+                if reviewed["decision"] == "apply-official-normalized"
+                else "official-source-verified"
+            )
+            issue_type = "official_cn_native_engine_translation"
+            suggestion = cn
+            manual_status = authority_status
+            evidence = (
+                f"{relative_display(ENGINE_OFFICIAL_CN_NATIVE)}#{reviewed['record_id']};"
+                f"{reviewed['evidence_kind']}={reviewed['supporting_symbols']};"
+                "arm64-v8a+armeabi-v7a"
+            )
+            notes = f"decision={reviewed['decision']}; {reviewed['rationale']}"
         elif ja in final_authority_by_source:
             reviewed = final_authority_by_source[ja]
             if cn != reviewed["target"]:
@@ -1222,23 +1281,21 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
     counts["engine_total"] = data_line
     if seen_final_root_lines != set(final_root_by_line):
         raise AssertionError("final root engine review does not cover its exact physical-line set")
-    if len(final_root_takeover_lines) != 210:
+    expected_final_takeover = native_expected["final_root_review_takeover"]
+    expected_final_shadowed = native_expected["final_root_review_higher_authority_shadowed"]
+    if len(final_root_takeover_lines) != expected_final_takeover:
         raise AssertionError(
-            f"final root engine review must take over exactly 210 rows after higher authority; "
+            f"final root engine review must take over exactly {expected_final_takeover} rows after higher authority; "
             f"got {len(final_root_takeover_lines)}"
         )
-    if final_root_takeover_tiers != Counter(
-        {
-            "official-cn-native-sequence-exact-both-abis": 35,
-            "manual-semantic-reviewed": 175,
-        }
-    ):
+    expected_final_tiers = Counter(native_expected["final_root_takeover_tiers"])
+    if final_root_takeover_tiers != expected_final_tiers:
         raise AssertionError(
             f"final root engine takeover partition drifted: {final_root_takeover_tiers}"
         )
     counts["engine_final_root_review_total"] = 212
-    counts["engine_final_root_review_takeover"] = 210
-    counts["engine_final_root_review_higher_authority_shadowed"] = 2
+    counts["engine_final_root_review_takeover"] = expected_final_takeover
+    counts["engine_final_root_review_higher_authority_shadowed"] = expected_final_shadowed
     if set(official_additions) - seen_engine_sources:
         raise AssertionError(
             f"official engine additions missing from runtime table: {sorted(set(official_additions) - seen_engine_sources)}"
@@ -1267,6 +1324,11 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
         raise AssertionError(
             "Connect exact engine entries missing from runtime table: "
             f"{sorted(set(connect_context['sources']) - seen_engine_sources)}"
+        )
+    if set(native_official_by_source) - seen_engine_sources:
+        raise AssertionError(
+            "official CN native engine sources missing from runtime table: "
+            f"{sorted(set(native_official_by_source) - seen_engine_sources)}"
         )
     if set(formal_engine_by_source) - seen_engine_sources:
         raise AssertionError(
@@ -2513,6 +2575,11 @@ def main() -> None:
     pass18_baseline = read_json(PASS18_BASELINE)
     if pass18_baseline["baseline_head"] != "d5e8f75d93f6760a588e592c22a3754d19370c68":
         raise AssertionError("unexpected Pass18 baseline commit")
+    native_expected = read_json(ENGINE_OFFICIAL_CN_NATIVE).get("expected_post_application", {})
+    expected_final_takeover = native_expected.get("final_root_review_takeover")
+    expected_final_shadowed = native_expected.get("final_root_review_higher_authority_shadowed")
+    if (expected_final_takeover, expected_final_shadowed) != (88, 124):
+        raise AssertionError("official CN native final-root partition drifted")
     dicts = Dictionaries(LIBS)
 
     legacy_battle_decisions = read_tsv(LEGACY_BATTLE_DECISIONS)
@@ -2606,14 +2673,14 @@ def main() -> None:
     frontend_empty_partition = Counter(r["manual_review_status"] for r in frontend_untranslated)
 
     expected = {
-        "master": 15976,
+        "master": 15982,
         "runtime": 12399,
         "static": 303,
         "frontend": 1685,
         "frontend_empty": 53,
         "glossary": 955,
         "overrides_fragments": 16,
-        "engine": 615,
+        "engine": 621,
         "battle_miss_needs_review": 3,
         "battle_runtime_language_decisions": 8,
         "battle_runtime_unique_misses": 20,
@@ -2652,15 +2719,8 @@ def main() -> None:
             "frontend empty-53 classification drifted: "
             f"{dict(frontend_empty_partition)}"
         )
-    if engine_component_counts != Counter(
-        {
-            "engine_runtime_i18n_official": 58,
-            "engine_runtime_i18n_confirmed_human": 301,
-            "engine_runtime_i18n_intentional_fragment": 1,
-            "engine_runtime_i18n_root_reviewed": 252,
-            "engine_runtime_i18n_wiki": 3,
-        }
-    ):
+    expected_engine_components = Counter(native_expected["engine_component_partition"])
+    if engine_component_counts != expected_engine_components:
         raise AssertionError(f"engine provenance partition drifted: {engine_component_counts}")
     if any("drift" in status for status in llm_status):
         raise AssertionError(f"explicit pass8 LLM history drift remains: {dict(llm_status)}")
@@ -2749,7 +2809,7 @@ def main() -> None:
     emit_tsv("frontend_untranslated_53.tsv", [r for r in frontend_rows if r["component"] == "frontend_untranslated"], MASTER_FIELDS)
     emit_tsv("glossary_wiki_955.tsv", glossary_master, MASTER_FIELDS)
     emit_tsv("overrides_fragments_16.tsv", override_fragment_rows, MASTER_FIELDS)
-    emit_tsv("engine_i18n_review_615.tsv", engine_rows, MASTER_FIELDS)
+    emit_tsv("engine_i18n_review_621.tsv", engine_rows, MASTER_FIELDS)
     emit_tsv("battle_miss_needs_review.tsv", battle_miss_rows, list(battle_miss_rows[0].keys()))
     emit_tsv(
         "battle_runtime_language_decisions_8.tsv",
@@ -2846,8 +2906,8 @@ def main() -> None:
             "engine_partition": dict(sorted(engine_component_counts.items())),
             "engine_unverified": engine_component_counts.get("engine_runtime_i18n_unverified", 0),
             "engine_final_root_review_total": 212,
-            "engine_final_root_review_takeover": 210,
-            "engine_final_root_review_higher_authority_shadowed": 2,
+            "engine_final_root_review_takeover": expected_final_takeover,
+            "engine_final_root_review_higher_authority_shadowed": expected_final_shadowed,
             "engine_final_root_review_official_exact": 35,
             "engine_final_root_review_manual_semantic": 175,
             "runtime_changed_after_pass15": len(changed_rows),
@@ -2881,7 +2941,7 @@ def main() -> None:
             "pass18_policy": "Pass18 contains 938 runtime and one static row. The current product retains 536 runtime after-images directly; 402 are accepted only through an exact before=Pass18-after and after=current visible-term-closure chain. The one static row remains direct. All 26 targets whose historical stable_key was an array index are read through their exact json_pointer with no fallback.",
             "visible_term_closure_policy": "All 3,136 current runtime-dictionary fields are read from the exact stable key and field, verified against visible-term-closure-3136.tsv, and promoted with official/Wiki/root-reviewed provenance while prior Pass18 lineage remains embedded in evidence.",
             "explicit_llm_doppel": "Wiki-equivalent text further normalized by the stronger official-cn term Doppel->魔女化身 is recorded as resolved, not drift.",
-            "engine_policy": "The original official/Wiki/confirmed-human mappings remain protected. The schema-2 final root review binds 212 historical unknown-origin rows by row ID, physical line, exact source, and exact before value. Existing higher authority shadows two formal mechanism rows; the remaining 210 are closed as 35 dual-ABI official-CN exact rows and 175 root-reviewed rows. Historical origin_machine_translated=unknown remains explicit in evidence and notes. No engine row remains unverified.",
+            "engine_policy": "Official CN native alloc-section strings were closed across both ABIs by stable object slots and common named functions. The 182 accepted source keys supersede lower provenance without admitting developer/debug rows; 23 historical official defects are explicitly normalized. The schema-2 final root review remains bound to its 212 original physical rows, with 124 now shadowed by higher authority and 88 retained. Historical origin_machine_translated=unknown remains explicit in evidence and notes. No engine row remains unverified.",
             "battle_runtime_policy": "The complete observed set is preserved as 20 unique misses: seven actionable rows, one official retained term, and twelve already-CN or nonlinguistic rows. Four captured current candidates have unknown provenance; after the official exact-art join is applied, three Wiki/parallel-art candidates remain machineTranslated=unknown and review-only.",
             "offline_tables": "frontend/glossary/overrides/fragments are maintenance inputs; only engine_i18n.tsv is directly consumed by the native client.",
         },
@@ -2903,7 +2963,7 @@ def main() -> None:
 - frontend：**{len(frontend_rows):,}**（含 **{len(frontend_untranslated)}** 条空候选）
 - Wiki glossary 支撑层：**{len(glossary_master):,}**
 - overrides／fragments：**{len(override_fragment_rows):,}**
-- engine runtime：**{len(engine_rows):,}**（58 条国服权威／权威术语、252 条 root 语义审查定稿、3 条 Wiki、1 条结构片段、未核验 0 条）；schema-2 最终审查覆盖历史未知来源 212 条，其中 2 条由既有更高权威继续接管，实际接管 210 条（35 条双 ABI 官中精确文本、175 条 root-reviewed）
+- engine runtime：**{len(engine_rows):,}**（207 条国服权威／国服语义规范化、301 条确认人工动态规则、110 条 root 语义审查定稿、2 条 Wiki、1 条结构片段、未核验 0 条）；schema-2 最终审查仍绑定历史未知来源 212 条，其中 124 条现由更高权威接管，保留 88 条（6 条旧双 ABI 官中精确文本、82 条 root-reviewed）
 - battle miss 候选但未进入 runtime：**{len(battle_miss_master):,}**
 - battle runtime 全量采样：**{len(legacy_battle_inventory):,}** 个唯一 miss，含 **{len(legacy_battle_decisions):,}** 条语言决策；7 条 actionable、1 条国服原样保留、12 条中文／非语言项
 - Pass18：**{len(pass18_applied):,}**（938 条 runtime + 1 条 static）；runtime 中 **536** 条仍直接等于 Pass18 after，**402** 条由 `Pass18 after -> visible-term closure -> current` 精确链解释；其中 **12** 条 root 亲译仍待人工复核
@@ -2923,7 +2983,7 @@ frontend 历史空候选 53 条按精确证据闭合：18 条 `runtime-absent/no
 - `frontend_all_1685.tsv`：四表中的 frontend 全量，含空候选。
 - `glossary_wiki_955.tsv`：Wiki 第二权威支撑层。
 - `overrides_fragments_16.tsv`：路径／跨节点混合来源补丁。
-- `engine_i18n_review_615.tsv`：native 直接读取的 engine 表（含 301 条动态 AP 倒计时前缀闭合规则）。
+- `engine_i18n_review_621.tsv`：native 直接读取的 engine 表（含 301 条动态 AP 倒计时前缀闭合规则，以及 182 个国服 native 稳定源键裁决）。
 - `battle_miss_needs_review.tsv`：仅供根任务复核、未进入 runtime 的候选。
 - `battle_runtime_language_decisions_8.tsv`：实战 8 条语言决策的来源／机翻状态。
 - `battle_runtime_unique_misses_20.tsv`：持久日志 20 个唯一 miss 的无遗漏分类。

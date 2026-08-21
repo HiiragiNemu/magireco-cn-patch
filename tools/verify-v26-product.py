@@ -22,7 +22,7 @@ EXCLUDED = ("magica/research/", "magica/i18n_audit/")
 ENGINE = "madomagi/engine_i18n.tsv"
 REPAIR_PREFIX = "madomagi/resource/image_native/"
 REPAIR_MANIFEST = "madomagi/repair_manifest.json"
-EXPECTED_ENGINE_ROWS = 615
+EXPECTED_ENGINE_ROWS = 621
 MACHINE_REVIEW = AUDIT / "machine_translation_review"
 PASS19_CORRECTIONS = AUDIT / "pass19_official_static_corrections.tsv"
 ROUND3_ROOT = ROOT / "magica" / "research" / "totentanz-full-localization-20260817"
@@ -197,14 +197,14 @@ EXPECTED_POST_PASS19_TERM_FILES = {
 }
 
 EXPECTED_MACHINE_REVIEW_COUNTS = {
-    "master": 15976,
+    "master": 15982,
     "runtime": 12399,
     "static": 303,
     "frontend": 1685,
     "frontend_empty": 53,
     "glossary": 955,
     "overrides_fragments": 16,
-    "engine": 615,
+    "engine": 621,
     "battle_miss_needs_review": 3,
     "battle_runtime_language_decisions": 8,
     "battle_runtime_unique_misses": 20,
@@ -215,9 +215,9 @@ EXPECTED_MACHINE_REVIEW_COUNTS = {
 EXPECTED_ENGINE_PARTITION = {
     "engine_runtime_i18n_confirmed_human": 301,
     "engine_runtime_i18n_intentional_fragment": 1,
-    "engine_runtime_i18n_official": 58,
-    "engine_runtime_i18n_root_reviewed": 252,
-    "engine_runtime_i18n_wiki": 3,
+    "engine_runtime_i18n_official": 207,
+    "engine_runtime_i18n_root_reviewed": 110,
+    "engine_runtime_i18n_wiki": 2,
 }
 EXPECTED_VISIBLE_TERM_CLOSURE_PARTITION = {
     "official-cn": 762,
@@ -937,7 +937,7 @@ def verify_machine_review():
         "frontend_untranslated_53.tsv": counts["frontend_empty"],
         "glossary_wiki_955.tsv": counts["glossary"],
         "overrides_fragments_16.tsv": counts["overrides_fragments"],
-        "engine_i18n_review_615.tsv": counts["engine"],
+        "engine_i18n_review_621.tsv": counts["engine"],
         "battle_miss_needs_review.tsv": counts["battle_miss_needs_review"],
         "battle_runtime_language_decisions_8.tsv": counts["battle_runtime_language_decisions"],
         "battle_runtime_unique_misses_20.tsv": counts["battle_runtime_unique_misses"],
@@ -1038,7 +1038,7 @@ def verify_machine_review():
         if not line or line.startswith("#"):
             continue
         engine_product.append(tuple(line.split("\t", 1)))
-    engine_review = parsed["engine_i18n_review_615.tsv"]
+    engine_review = parsed["engine_i18n_review_621.tsv"]
     review_pairs = [(row["original_text"], row["current_cn"]) for row in engine_review]
     assert sorted(engine_product) == sorted(review_pairs), "engine review/product mismatch"
 
