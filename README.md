@@ -1,4 +1,4 @@
-# 上游服务器运行状态
+# 游戏服务端运行状态
 
 [![API server status](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-api.yml/badge.svg)](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-api.yml)
 [![Downloadable assets server status](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-downloadable.yml/badge.svg)](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-downloadable.yml)
@@ -6,8 +6,23 @@
 
 # Actions 运行状态
 
-### 自动更新组织下游并上传object-storage：
-[![🔄 同步上游并上传到 object-storage](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/sync-and-upload.yml)
+> **本仓库已于 2026-08-22 与上游（`HiiragiNemu/patch-front`）断开 fork
+> 关系，转为组织下的独立私有仓。** 影响：
+>
+> - 不再有「同步上游 fork」这一步，也不再把版本 json 双写到两个仓库；
+> - 热更包的 GitHub Release **读写都在本仓库**（它只是 CDN 的上游中转站，
+>   玩家从 object-storage / 多吉云 / 123 云盘的 CDN 下载，不直连 GitHub，所以转私有
+>   不影响玩家）；
+> - 原先负责把上游 Release 镜像进本仓库的 `mirror-release` job 已删除
+>   （没有上游可镜像了），随之取消的还有日期快照 Release；
+> - ⚠ **仍有一处外部依赖没清干净**：`url_map.json` 里
+>   `cn_base_01_json.zip` 与 `cn_base_00_db.zip` 两项仍指向
+>   `github.com/HiiragiNemu/patch-front/releases/download/latest/`。
+>   其余九项都走 Worker 域名。这两个该换成什么地址需要人来定，没有替代地址
+>   之前不能瞎改——改错就是玩家装不上基础包。
+
+### 打包热更并上传 object-storage：
+[![🔄 打包热更并上传到 object-storage](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/sync-and-upload.yml)
 
 > 同步分「object-storage 系」与「Doge 系」两条独立流水线：
 > - **object-storage 系**：上传到 object-storage 桶，刷新 edge / 阿里云 ESA / CDN 三 CDN
@@ -23,11 +38,16 @@
 > 多吉云相关密钥见 GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` /
 > `DOGE_BUCKET` / `DOGE_DOMAIN`）。
 
-> **怎么触发**（2026-08-21 起）：上游那份 `call-downstream-action.yml`
-> 联动 workflow 已删除，所以本 workflow 只剩两个入口——手动
-> `workflow_dispatch`，以及客户端构建流水线在产物就绪后发来的
-> `repository_dispatch`（`upstream-update`）。上游只有内容更新、没有新产物
-> 时，需要手动跑一次。
+> **怎么触发**（2026-08-22 起）三个入口：
+> 1. **push 到 `main`** —— 本仓库转为独立私有仓后自己就是事实来源，改了内容
+>    就重新打包。在此之前本仓库的内容变化**没有任何自动触发**，全靠人记得手动跑。
+>    （`commit-configs` 回写版本 json 的提交带 `[skip ci]`，不会自激循环。）
+> 2. **`repository_dispatch`（`upstream-update`）** —— ⚠ 名字是历史遗留，
+>    别按字面理解：唯一发送方是**客户端构建流水线**
+>    （`legacy-client` 的 `build-apk.yml`，APK 传进 Release 之后打过来），
+>    真实语义是「客户端产物就绪」。名字保留是因为它是跨仓库标识符，两边不同步
+>    改会静默失联。
+> 3. 手动 `workflow_dispatch`。
 
 ### 清除CDN缓存（手动）：
 [![🧹 清空CDN缓存](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/patch-front/actions/workflows/purge-all-cache.yml)
