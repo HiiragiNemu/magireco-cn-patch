@@ -226,11 +226,14 @@ class V26ProductAuthorityTests(unittest.TestCase):
         self.assertEqual(report["top_page_timeout_ms"], 180000)
         self.assertTrue(report["timeout_error_forces_webview_visible"])
         self.assertTrue(report["status_zero_error_forces_webview_visible"])
+        self.assertTrue(report["first_js_error_reloads_current_route"])
+        self.assertTrue(report["repeated_same_js_error_falls_back_to_top_page"])
 
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             jquery = root / "magica/js/libs/jquery-3.7.1.min.js"
             ajax = root / "magica/js/_common/ajaxControl.js"
+            base = root / "magica/js/_common/base.js"
             jquery.parent.mkdir(parents=True)
             ajax.parent.mkdir(parents=True)
             jquery.write_bytes(
@@ -238,6 +241,9 @@ class V26ProductAuthorityTests(unittest.TestCase):
             )
             ajax.write_bytes(
                 (ROOT / "magica/js/_common/ajaxControl.js").read_bytes()
+            )
+            base.write_bytes(
+                (ROOT / "magica/js/_common/base.js").read_bytes()
             )
 
             jquery.write_text(
@@ -264,6 +270,27 @@ class V26ProductAuthorityTests(unittest.TestCase):
             )
             with self.assertRaisesRegex(AssertionError, "timeout WebView"):
                 MOD.verify_runtime_network_resilience(root)
+
+            ajax.write_bytes(
+                (ROOT / "magica/js/_common/ajaxControl.js").read_bytes()
+            )
+            base.write_text(
+                base.read_text(encoding="utf-8").replace(
+                    'var target=repeated?"#/TopPage":route;',
+                    'var target="#/TopPage";',
+                    1,
+                ),
+                encoding="utf-8",
+                newline="\n",
+            )
+            with self.assertRaisesRegex(AssertionError, "first-error"):
+                MOD.verify_runtime_network_resilience(root)
+
+    def test_base_error_recovery_behavior_probe(self) -> None:
+        report = MOD.verify_base_error_recovery_probe()
+        self.assertEqual(report["status"], "PASS")
+        self.assertEqual(report["exit_status"], 0)
+        self.assertEqual(len(report["checks"]), 6)
 
     def test_auxiliary_product_json_parse_and_path_drift_are_rejected(self) -> None:
         expected = (
