@@ -329,7 +329,7 @@ jobs:
           # 虚设，等于每次运行都在强制全量同步
           LAST_SYNC_COMMIT_SHA: ${{ vars.LAST_SYNC_COMMIT_SHA }}
 
-      # 2026-08-22：这里原先有一步「🔄 同步上游 Fork」（gh repo sync 下游
+      # 2026-08-22：这里原先有一步「🔄 同步上游 Fork」（`repo sync` 下游
       # --source 上游）。断开上游之后它会变成把仓库同步到它自己，是个既没有
       # 意义、又会掩盖真实状态的动作，所以整步删除。
       #
@@ -1443,25 +1443,15 @@ jobs:
               if name.endswith('.apk') and not name.startswith('magireco-latest'): return True
               return False
 
-          # ══════════════════════════════════════════════════════════════
-          # 本仓库自有 asset（2026-08-21 起）
-          # ══════════════════════════════════════════════════════════════
-          # 客户端 APK 与它的版本旁注由构建 CI 直接传进**本仓库**的 latest
-          # Release，权威副本在这里。
+          # 2026-08-22：本仓库与上游断开、转独立私有仓之后，这里原有的
+          # LOCAL_OWNED_PREFIXES / is_local_owned 已删除。
           #
-          # 2026-08-22 起本仓库与上游断开、转独立私有仓，下面这套「全集去掉
-          # 自有名 ∪ 本仓库自有名」的合并**在语义上已经退化成恒等式**：
-          # release 与 local_release 现在取的是同一个仓库的同一个 Release，
-          # 两个集合并回去正好还是全集，过渡期兜底那段也永远不会命中。
-          #
-          # 保留不删是有意的：它是纯冗余、不是错误（合并结果一字不差），而同一
-          # 套判据在 scripts/sync-dogecloud.py 与 scripts/sync-pan123-webdav.py
-          # 里还各有一份，三处得一起动；这三条链路又都没法在本地跑一遍验证。
-          # 拆它属于「看得见的化简」，不该和搬家混在同一个提交里。要拆三处一起。
-          LOCAL_OWNED_PREFIXES = ('magireco-latest',)
-
-          def is_local_owned(name: str) -> bool:
-              return name.startswith(LOCAL_OWNED_PREFIXES)
+          # 它当初区分的是「APK 与版本旁注由构建 CI 传进本仓库 Release，其余
+          # asset 来自上游 Release，同名时本仓库优先」——不这么做每次同步都会
+          # 拿上游那份旧包盖掉新包。断开之后两个来源合成同一个 Release，
+          # "谁优先"没有了对象，那套「全集去掉自有名 ∪ 自有名」的合并在数学上
+          # 就是取全集本身。三处（本文件 + sync-dogecloud.py +
+          # sync-pan123-webdav.py）已一起拆掉。
 
           # APK 的版本旁注：构建 CI 与 APK 一起上传，内容是本次构建的
           # client.version / sha256 / size。闸门提升以它为准（见 bump-gate）。
@@ -1820,27 +1810,8 @@ jobs:
               assets_by_name = {
                   a['name']: a
                   for a in release.get('assets', [])
-                  if not should_ignore_for_r2(a['name']) and not is_local_owned(a['name'])
+                  if not should_ignore_for_r2(a['name'])
               }
-              self_repo = os.environ.get('GITHUB_REPOSITORY', '')
-              local_release = fetch_latest_release(self_repo) if self_repo else None
-              local_assets = {
-                  a['name']: a
-                  for a in (local_release or {}).get('assets', [])
-                  if not should_ignore_for_r2(a['name']) and is_local_owned(a['name'])
-              }
-              # 过渡期兜底：本仓库还没有自有副本时仍用 Release 里那份。少了这一段，
-              # 搬家当天 APK 会整个从待同步集合里消失，转头被当成「GitHub 上
-              # 已不存在」列进 PENDING_DELETIONS——那是要把玩家的下载链接删掉。
-              for a in release.get('assets', []):
-                  n = a['name']
-                  if (is_local_owned(n) and not should_ignore_for_r2(n)
-                          and n not in local_assets):
-                      warn(f"{n}：Release 里没有自有副本，暂用同名那份")
-                      local_assets[n] = a
-              assets_by_name.update(local_assets)
-              if local_assets:
-                  info(f"本仓库自有 asset: {', '.join(sorted(local_assets))}")
 
               current_map = {n: (a.get('digest') or '')
                              for n, a in assets_by_name.items()}

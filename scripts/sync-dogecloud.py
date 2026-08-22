@@ -371,17 +371,13 @@ def should_ignore(name):
     return name.endswith('.apk') and not name.startswith('magireco-latest')
 
 
-# 本仓库自有 asset：客户端 APK 与它的版本旁注由构建 CI 直接传进 workflow 所在
-# 仓库（GITHUB_REPOSITORY）的 latest Release，不再寄存到上游。上游那份是搬家前
-# 的历史遗留、不再更新，所以同名时一律本仓库优先，否则每次同步都会拿旧包盖新包。
-# 同一判据在 sync-and-upload.yml 的 r2-sync / mirror-release 与另一个同步脚本里
-# 各有一份，四处必须一起改。
-LOCAL_OWNED_PREFIXES = ('magireco-latest',)
-
-
-def is_local_owned(name):
-    return name.startswith(LOCAL_OWNED_PREFIXES)
-
+# 2026-08-22：本仓库与上游断开、转独立私有仓之后，这里原有的
+# LOCAL_OWNED_PREFIXES / is_local_owned 已删除。
+#
+# 它当初的用途是：APK 与版本旁注由构建 CI 传进 GITHUB_REPOSITORY 的 Release，
+# 而其余 asset 来自上游 Release，同名时必须本仓库优先，否则每次同步都会拿上游
+# 那份旧包盖掉新包。断开之后两个来源合成同一个 Release，"谁优先"没有了对象，
+# 那套「全集去掉自有名 ∪ 自有名」的合并在数学上就是取全集本身。
 
 def race_source_cdn():
     """竞速各国内 CDN 下载吞吐，选最快的作为拉取源。吞吐会变，运行时就地测。
@@ -427,8 +423,11 @@ def fetch_release_assets():
 
     集合 = 上游全集（去掉本仓库自有名）∪ 本仓库自有名。
     """
-    owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
-    repo  = os.environ.get('UPSTREAM_REPO', 'patch-front')
+    # 不给默认值：变量已由 workflow 的白名单护栏校验过，缺了就该当场炸。
+    # 原先的默认值是断开前的上游 owner——真落到它上面，这条同步会安静地
+    # 去读一个我们已不再同步的仓库，把它的 Release 当权威内容推上 CDN。
+    owner = os.environ['REPO_OWNER']
+    repo  = os.environ['REPO_NAME']
     headers = {'Accept': 'application/vnd.github+json',
                'X-GitHub-Api-Version': '2022-11-28'}
     # 仓库转私有后匿名读 Release 一律 404，而这里只是列个清单、失败得很安静
@@ -450,29 +449,14 @@ def fetch_release_assets():
             raise
 
     release = latest(f"{owner}/{repo}") or {}
-    self_repo = os.environ.get('GITHUB_REPOSITORY', '')
-    local = (latest(self_repo) if self_repo else None) or {}
 
     # 只留 digest 做指纹比对；上传源不再用 GitHub browser_download_url，
     # 而是 race_source_cdn() 竞速出的国内 CDN（mainland 上 objects.githubusercontent.com 被墙）
-    out = {
+    return {
         a['name']: {'digest': a.get('digest') or ''}
         for a in release.get('assets', [])
-        if not should_ignore(a['name']) and not is_local_owned(a['name'])
+        if not should_ignore(a['name'])
     }
-    owned = {
-        a['name']: {'digest': a.get('digest') or ''}
-        for a in local.get('assets', [])
-        if not should_ignore(a['name']) and is_local_owned(a['name'])
-    }
-    # 过渡期兜底：本仓库还没有自有副本时仍认上游那份，别让 APK 从集合里
-    # 凭空消失——消失即被当成「GitHub 上已不存在」列进待清理。
-    for a in release.get('assets', []):
-        n = a['name']
-        if is_local_owned(n) and not should_ignore(n) and n not in owned:
-            owned[n] = {'digest': a.get('digest') or ''}
-    out.update(owned)
-    return out
 
 
 # ══════════════════════════════════════════════════════════════════

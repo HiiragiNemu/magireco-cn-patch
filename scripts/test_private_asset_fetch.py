@@ -121,39 +121,29 @@ class PrivateAssetFetchTest(unittest.TestCase):
         # 传进来的 headers 是调用方的，不能被就地改掉
         self.assertEqual(headers["Accept"], "application/vnd.github+json")
 
-    def test_mirror_release_drops_credentials_on_the_signed_hop(self):
-        ns = self._load_opener(
-            "def open_asset_stream(url):",
-            {"GH_HEADERS": {"Authorization": "Bearer s3cr3t",
-                            "Accept": "application/vnd.github+json"}},
-        )
-        def call(url):
-            with ns["open_asset_stream"](url) as resp:
-                return resp.read()
+    def test_the_single_copy_still_drops_credentials(self):
+        """取件实现只剩 r2-sync 一处（mirror-release 已随断开上游删除）。
 
-        first, second = self._run_roundtrip(call)
-        self.assertEqual(first.get("authorization"), "Bearer s3cr3t")
-        self.assertEqual(first.get("accept"), "application/octet-stream")
-        self.assertIsNone(second.get("authorization"))
-        self.assertEqual(ns["GH_HEADERS"]["Accept"], "application/vnd.github+json")
-
-    def test_both_copies_stay_in_sync(self):
-        """四处判据同源那一条的同款：这里是两处取件实现。"""
+        原本这条钉的是「两处实现必须同源」。被测对象少了一个之后，判据从
+        「两份一致」退化成「仅有的那一份还在」——数字必须跟着改，否则它会
+        因为「只剩一份」而红，把人引向错误的方向。
+        """
         drops = re.findall(r"if k\.lower\(\) != ['\"]authorization['\"]", self.text)
-        self.assertEqual(len(drops), 2, "r2-sync 与 mirror-release 各一份")
+        self.assertEqual(len(drops), 1, "r2-sync 那一份")
         self.assertEqual(
             len(re.findall(r'\["Accept"\] = "application/octet-stream"'
                            r"|\['Accept'\] = 'application/octet-stream'",
                            self.text)),
-            2,
+            1,
         )
 
     def test_no_anonymous_release_download_remains(self):
         """browser_download_url 只许以「兜底」的形状出现。
 
         私有仓库上它取不到内容，所以它唯一合法的用法是 asset 字典里没有 API
-        地址时的回退（asset_source_url 与 upstream_map 各一处）。绝不能再有
-        「直接拿它去发请求」的写法——那正是转私有当天会静默失效的形状。
+        地址时的回退（asset_source_url 一处；原先 upstream_map 还有一处，
+        已随 mirror-release job 删除）。绝不能再有「直接拿它去发请求」的
+        写法——那正是转私有当天会静默失效的形状，而本仓库现在就是私有仓。
         """
         fallbacks, direct = [], []
         for line in self.text.splitlines():
@@ -166,8 +156,8 @@ class PrivateAssetFetchTest(unittest.TestCase):
             elif "Request(" in line or "urlopen(" in line or "get(" not in line:
                 direct.append(line.strip())
 
-        self.assertEqual(len(fallbacks), 2,
-                         f"兜底写法应恰好两处，实得 {len(fallbacks)}: {fallbacks}")
+        self.assertEqual(len(fallbacks), 1,
+                         f"兜底写法应恰好一处，实得 {len(fallbacks)}: {fallbacks}")
         self.assertEqual(
             [l for l in direct if "Request(" in l or "urlopen(" in l], [],
             "有人又拿 browser_download_url 直接发请求了")

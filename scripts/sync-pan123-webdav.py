@@ -25,7 +25,7 @@
 
 环境变量：
   PAN123_WEBDAV_URL / PAN123_USER / PAN123_PASS / PAN123_DIR（可选目标子目录）
-  UPSTREAM_OWNER / UPSTREAM_REPO /  / CONFIRM_CLEANUP
+  REPO_OWNER / REPO_NAME /  / CONFIRM_CLEANUP
 """
 import base64
 import http.client
@@ -84,16 +84,10 @@ def should_ignore(name):
     return name.endswith('.apk') and not name.startswith('magireco-latest')
 
 
-# 本仓库自有 asset：客户端 APK 与它的版本旁注由构建 CI 直接传进 workflow 所在
-# 仓库（GITHUB_REPOSITORY）的 latest Release，不再寄存到上游。上游那份是搬家前
-# 的历史遗留、不再更新，所以同名时一律本仓库优先，否则每次同步都会拿旧包盖新包。
-# 同一判据在 sync-and-upload.yml 的 r2-sync / mirror-release 与另一个同步脚本里
-# 各有一份，四处必须一起改。
-LOCAL_OWNED_PREFIXES = ('magireco-latest',)
-
-
-def is_local_owned(name):
-    return name.startswith(LOCAL_OWNED_PREFIXES)
+# 2026-08-22：本仓库与上游断开、转独立私有仓之后，这里原有的
+# LOCAL_OWNED_PREFIXES / is_local_owned 已删除。它当初区分的是「APK 来自本仓库
+# Release、其余 asset 来自上游 Release，同名本仓库优先」；断开之后两个来源合成
+# 同一个 Release，那套合并在数学上就是取全集本身。
 
 
 def race_source_cdn():
@@ -244,8 +238,8 @@ def main():
     user = env('PAN123_USER')
     pwd = env('PAN123_PASS')
     sub = os.environ.get('PAN123_DIR', '').strip().strip('/')
-    owner = env('UPSTREAM_OWNER')
-    repo = env('UPSTREAM_REPO')
+    owner = env('REPO_OWNER')
+    repo = env('REPO_NAME')
     gh = os.environ.get('', '')
     confirm = os.environ.get('CONFIRM_CLEANUP', 'false') == 'true'
 
@@ -274,25 +268,11 @@ def main():
     if release is None:
         warn("上游仓库无 Release，跳过")
         return
-    self_repo = os.environ.get('GITHUB_REPOSITORY', '')
-    local = (latest(self_repo) if self_repo else None) or {}
 
-    # 集合 = 上游全集（去掉本仓库自有名）∪ 本仓库自有名；同名本仓库优先
     current_map = {a['name']: a.get('size', 0)
                    for a in release.get('assets', [])
-                   if not should_ignore(a['name'])
-                   and not is_local_owned(a['name'])}
-    owned = {a['name']: a.get('size', 0)
-             for a in local.get('assets', [])
-             if not should_ignore(a['name']) and is_local_owned(a['name'])}
-    # 过渡期兜底：本仓库还没有自有副本时仍认上游那份
-    for a in release.get('assets', []):
-        n = a['name']
-        if is_local_owned(n) and not should_ignore(n) and n not in owned:
-            owned[n] = a.get('size', 0)
-    current_map.update(owned)
-    info(f"待同步 asset：{len(current_map)} 个"
-         + (f"（本仓库自有 {len(owned)} 个）" if owned else ""))
+                   if not should_ignore(a['name'])}
+    info(f"待同步 asset：{len(current_map)} 个")
 
     header("确保远端目录存在")
     if sub:

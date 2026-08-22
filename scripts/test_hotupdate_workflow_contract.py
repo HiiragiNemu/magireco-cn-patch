@@ -59,7 +59,6 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
                 "r2-sync",
                 "doge-sync",
                 "pan123-upload",
-                "mirror-release",
                 "commit-configs",
                 "bump-gate",
                 "update-cursor",
@@ -100,7 +99,11 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn(
             "has_scenario:    ${{ steps.detect.outputs.has_scenario }}", setup
         )
-        self.assertIn("if: steps.check_upstream.outputs.should_sync == 'true'", setup)
+        # 2026-08-22：「同步上游 fork」步骤已随断开上游删除，它是 setup 里唯一
+        # 带 should_sync 条件的步骤，所以这里不再断言那个 if。should_sync 本身
+        # 仍然产出（pack/publish 与 update-cursor 都还在用）。
+        self.assertIn("should_sync:    ${{ steps.check_repo.outputs.should_sync }}", setup)
+        self.assertNotIn("gh repo sync", setup)
         self.assertNotIn("needs.setup", setup)
 
         pack_js = self.workflow_jobs()["pack-js"]
@@ -108,8 +111,8 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("if: needs.setup.outputs.has_js == '1'", pack_js)
         self.assertIn("if: needs.setup.outputs.has_scenario == '1'", pack_scenario)
         self.assertNotIn("steps.detect", pack_js)
-        self.assertNotIn("steps.check_upstream", pack_js)
-        self.assertNotIn("steps.check_upstream", pack_scenario)
+        self.assertNotIn("steps.check_repo", pack_js)
+        self.assertNotIn("steps.check_repo", pack_scenario)
 
     def test_js_uses_deterministic_builder_and_final_product_verifier(self):
         self.assertIn(
@@ -220,7 +223,7 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
     def test_upstream_publish_targets_exact_latest_tag(self):
         self.assertIn("/releases/tags/latest", self.text)
         self.assertNotIn(
-            'f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/releases/latest"',
+            'f"repos/{REPO_OWNER}/{REPO_NAME}/releases/latest"',
             self.text,
         )
         self.assertIn('if rel.get("tag_name") != "latest"', self.text)
@@ -326,10 +329,10 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         summary = jobs["summary"]
 
         self.assertIn(
-            "needs: [setup, commit-configs, r2-sync, doge-sync, pan123-upload, mirror-release]",
+            "needs: [setup, commit-configs, r2-sync, doge-sync, pan123-upload]",
             cursor,
         )
-        for job in ("r2-sync", "mirror-release"):
+        for job in ("r2-sync",):
             self.assertIn(f"needs.{job}.result == 'success'", cursor)
         for job in ("doge-sync", "pan123-upload"):
             self.assertIn(f"needs.{job}.result != 'failure'", cursor)
@@ -339,7 +342,7 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
 
         self.assertIn(
             "needs: [setup, pack-js, pack-scenario, publish, r2-sync, bump-gate, "
-            "doge-sync, pan123-upload, mirror-release, commit-configs, update-cursor]",
+            "doge-sync, pan123-upload, commit-configs, update-cursor]",
             summary,
         )
         self.assertIn("needs.pan123-upload.result", summary)
@@ -377,7 +380,7 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("if: success()", self.text)
         self.assertIn("只有产品字节真正变化时才递增", self.text)
 
-    def test_pack_jobs_use_verified_upstream_latest_release_baselines(self):
+    def test_pack_jobs_use_verified_own_latest_release_baselines(self):
         jobs = self.workflow_jobs()
         cases = (
             (
@@ -396,10 +399,10 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         for job_name, scope, version_name, zip_name in cases:
             with self.subTest(job=job_name):
                 block = jobs[job_name]
-                self.assertIn('UPSTREAM_OWNER: "HiiragiNemu"', block)
-                self.assertIn('UPSTREAM_REPO: "patch-front"', block)
+                self.assertIn('REPO_OWNER: "MagirecoCN-Revival-Project"', block)
+                self.assertIn('REPO_NAME: "patch-front"', block)
                 self.assertIn(
-                    'gh api "repos/${UPSTREAM_OWNER}/${UPSTREAM_REPO}/releases/tags/latest"',
+                    'gh api "repos/${REPO_OWNER}/${REPO_NAME}/releases/tags/latest"',
                     block,
                 )
                 self.assertIn("gh release download latest", block)
@@ -450,52 +453,15 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertNotIn("MagiaCN AutoBot", self.text)
         self.assertNotIn("bot@magiacn.com", self.text)
 
-    def test_downstream_latest_mirror_is_incremental_then_complete_verified(self):
-        mirror = self.workflow_jobs()["mirror-release"]
-        checkout = mirror.index("name: 📦 检出镜像事务工具")
-        transaction_import = mirror.index("from scripts.release_asset_transaction import")
-        self.assertLess(checkout, transaction_import)
-        self.assertIn("scripts/release_asset_transaction.py", mirror)
-        self.assertIn("sparse-checkout-cone-mode: false", mirror)
-        self.assertIn("replace_release_asset_set(", self.text)
-        self.assertIn("class TransactionalMirrorBackend:", self.text)
-        self.assertNotIn("def upload_to_release(", self.text)
-        self.assertNotIn("for n in all_names:", self.text)
-        self.assertIn("if actual_names != expected_names:", self.text)
-        self.assertIn("latest 全集合核验通过", self.text)
-        self.assertIn("if up_digest and up_digest != down_digest:", self.text)
-        self.assertIn("if u_digest:\n                  return u_digest != d_digest", self.text)
+    def test_r2_upload_failure_does_not_advance_state(self):
+        """object-storage 上传/核验失败时指纹不许前进，否则失败内容会被当成已同步。
 
-    def test_downstream_latest_never_deletes_stable_before_replacement_upload(self):
-        self.assertIn("python3 scripts/test_release_asset_transaction.py -v", self.text)
-        self.assertIn("All changed bytes are uploaded and verified", self.mirror_transaction_text)
-        stage = self.mirror_transaction_text.index(
-            "# Stage and verify all replacement bytes before touching stable names."
-        )
-        backup = self.mirror_transaction_text.index(
-            'f"stable asset cannot be backed up: {stable_name}"'
-        )
-        cleanup = self.mirror_transaction_text.index("# Commit point:")
-        self.assertLess(stage, backup)
-        self.assertLess(backup, cleanup)
-        self.assertIn("rollback also failed", self.mirror_transaction_text)
-        self.assertIn('"--method", "PATCH", "-f", f"name={new_name}"', self.text)
-
-    def test_downstream_mirror_embedded_python_compiles(self):
-        block = re.search(
-            r"id: mirror_release.*?python3 <<'SCRIPT_END'\n(.*?)\n\s+SCRIPT_END",
-            self.text,
-            flags=re.S,
-        )
-        self.assertIsNotNone(block)
-        compile(textwrap.dedent(block.group(1)), "mirror_release_inline.py", "exec")
-
-    def test_r2_and_first_mirror_fail_without_advancing_state(self):
+        （原名 ..._and_first_mirror_...：最后那条断言查的是 mirror-release job
+        的日志文案，该 job 已随断开上游删除，断言一并去掉。）
+        """
         self.assertIn("上传/核验失败，不保存指纹", self.text)
         self.assertIn("for fname in processed: final_map[fname] = current_map[fname]", self.text)
         self.assertIn("head_object(", self.text)
-        self.assertIn("首次镜像未完成", self.text)
-        self.assertIn("变更快照有", self.text)
 
     def test_apk_distribution_is_not_chained_to_hot_update_packaging(self):
         """r2-sync 必须带 always()：APK 的分发不能被热更打包链连坐。
@@ -513,29 +479,32 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("if: always() && needs.setup.result == 'success'", r2)
         self.assertIn("apk_version: ${{ steps.sync_script.outputs.apk_version }}", r2)
 
-    def test_client_apk_is_owned_by_this_repository_everywhere(self):
-        """APK 与版本旁注的归属判据四处同源，漏改一处就会拿旧包盖新包。
+    def test_no_local_owned_split_survives_anywhere(self):
+        """断开上游之后，「本仓库自有 asset」这套拆分必须三处一起消失。
 
-        构建 CI 直接把 APK 传进本仓库的 latest Release，上游那份是搬家前的
-        历史遗留。r2-sync / mirror-release / Doge / 123 云盘四条路各有一份
-        判据，任何一处退回「只认上游」，CDN 上就会被旧包盖回去。
+        它当初存在的理由是：APK 来自本仓库 Release、其余 asset 来自上游
+        Release，同名时本仓库优先，否则每次同步都会拿上游那份旧包盖掉新包。
+        断开之后两个来源合成同一个 Release，那套「全集去掉自有名 ∪ 自有名」
+        在数学上就是取全集本身。留着一份就会让后来的人以为还有两个来源。
+
+        同时钉住三处都改用 REPO_OWNER/REPO_NAME：两个同步脚本原先读的是
+        UPSTREAM_OWNER，其中 sync-dogecloud.py 还带着上游 owner 作默认值——
+        真落到默认值上，同步会安静地去读一个已不再同步的仓库，把它的
+        Release 当权威内容推上 CDN。
         """
-        pattern = re.compile(
-            r"LOCAL_OWNED_PREFIXES = \(['\"]magireco-latest['\"],\)")
-        self.assertEqual(len(pattern.findall(self.text)), 2)  # r2-sync + mirror
-        self.assertEqual(len(pattern.findall(self.doge_text)), 1)
-        self.assertEqual(len(pattern.findall(self.pan123_text)), 1)
+        for text, where in ((self.text, "workflow"),
+                            (self.doge_text, "sync-dogecloud.py"),
+                            (self.pan123_text, "sync-pan123-webdav.py")):
+            self.assertNotIn("LOCAL_OWNED_PREFIXES = (", text, where)
+            self.assertNotIn("is_local_owned(", text, where)
+            self.assertNotIn("UPSTREAM_OWNER", text, where)
+            self.assertNotIn("UPSTREAM_REPO", text, where)
+            self.assertNotIn("HiiragiNemu/patch-front", text, where)
 
-        jobs = self.workflow_jobs()
-        # r2-sync：上游全集去掉自有名，再并上本仓库自有名
-        self.assertIn("not is_local_owned(a['name'])", jobs["r2-sync"])
-        self.assertIn("assets_by_name.update(local_assets)", jobs["r2-sync"])
-        # mirror-release：既不从上游镜像下来，也不因为上游没有而被删掉
-        self.assertIn('if is_local_owned(a["name"]):', jobs["mirror-release"])
-        self.assertIn(
-            'actual_names = {n for n in final_assets if not is_local_owned(n)}',
-            jobs["mirror-release"],
-        )
+        for text, where in ((self.doge_text, "sync-dogecloud.py"),
+                            (self.pan123_text, "sync-pan123-webdav.py")):
+            self.assertIn("REPO_OWNER", text, where)
+            self.assertIn("REPO_NAME", text, where)
 
     def test_gate_version_is_reported_only_for_a_landed_apk(self):
         """闸门的输入必须是「玩家真能装到的那一版」，否则宁可不报。"""
