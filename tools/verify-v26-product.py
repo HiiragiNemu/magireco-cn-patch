@@ -532,11 +532,13 @@ def verify_html_structure_contract() -> dict[str, object]:
 
 
 def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
-    """Bind the startup/MyPage timeout repair to the packaged product bytes."""
+    """Bind startup, timeout, and JS-error recovery to product bytes."""
     jquery_path = root / "magica/js/libs/jquery-3.7.1.min.js"
     ajax_path = root / "magica/js/_common/ajaxControl.js"
+    base_path = root / "magica/js/_common/base.js"
     jquery = jquery_path.read_text(encoding="utf-8-sig")
     ajax = ajax_path.read_text(encoding="utf-8-sig")
+    base = base_path.read_text(encoding="utf-8-sig")
 
     require_timeout = "window.requirejs.config({waitSeconds:60});"
     top_page_timeout = (
@@ -554,6 +556,25 @@ def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
     assert jquery.count("jq.__MAGIACN_NETWORK_RELIABILITY__=true") == 1
     assert ajax.count(timeout_visibility) == 1, "timeout WebView recovery drift"
     assert ajax.count(zero_status_visibility) == 1, "status-0 WebView recovery drift"
+    assert base.count('__MAGIACN_JS_ERROR_RETRY_V2__') == 1, (
+        "JS error retry gate drift"
+    )
+    assert base.count('__MAGIACN_LAST_JS_ERROR_V2__') == 1, (
+        "structured JS error record drift"
+    )
+    assert base.count('schema:"MagiaCNClientError/v2"') == 1
+    assert base.count('var target=repeated?"#/TopPage":route;') == 1, (
+        "first-error current-route recovery drift"
+    )
+    assert base.count(
+        'if(command&&typeof command.setWebView==="function")command.setWebView(true);'
+    ) == 1, "JS error WebView visibility recovery drift"
+    assert 'content:"发生错误。即将前往首页。",decideBtnText:"返回首页"' not in base, (
+        "legacy forced-TopPage JS error handler returned"
+    )
+    assert 'nativeReload("#/TopPage")' not in base, (
+        "legacy unconditional TopPage reload returned"
+    )
     # Keep the upstream 20-second default for unrelated requests.  Only TopPage
     # receives the longer prefilter timeout.
     assert ajax.count("f.ajaxSetup({timeout:2E4})") == 1
@@ -565,7 +586,28 @@ def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
         "timeout_error_forces_webview_visible": True,
         "status_zero_error_forces_webview_visible": True,
         "release_info_remains_server_dynamic": True,
+        "first_js_error_reloads_current_route": True,
+        "repeated_same_js_error_falls_back_to_top_page": True,
+        "structured_js_error_record": "MagiaCNClientError/v2",
     }
+
+
+def verify_base_error_recovery_probe(root: Path = ROOT) -> dict[str, object]:
+    """Execute the isolated first-error/repeated-error behavior probe."""
+    test_path = root / "tools/test-base-js-error-recovery.mjs"
+    result = subprocess.run(
+        ["node", str(test_path)], cwd=root, capture_output=True, text=True,
+        env={**os.environ, "GIT_OPTIONAL_LOCKS": "0"},
+        encoding="utf-8", errors="replace", check=False,
+    )
+    if result.returncode:
+        raise AssertionError(
+            f"base.js error recovery probe failed ({result.returncode})\n"
+            f"{result.stdout}\n{result.stderr}"
+        )
+    lines = [line for line in result.stdout.splitlines() if line]
+    assert len(lines) == 6 and all(line.startswith("PASS ") for line in lines)
+    return {"status": "PASS", "checks": lines, "exit_status": result.returncode}
 
 
 def verify_engine(path: Path):
@@ -1225,6 +1267,7 @@ def main() -> int:
     assert runtime["status"] == "PASS" and authority["ok"] is True
     assert pass18["status"] == "PASS"
     network_resilience = verify_runtime_network_resilience()
+    error_recovery_probe = verify_base_error_recovery_probe()
 
     inventory = verify_product_inventory()
     js_files = product_files(".js")
@@ -1303,6 +1346,7 @@ def main() -> int:
         },
         "runtime_layer": runtime,
         "runtime_network_resilience": network_resilience,
+        "runtime_error_recovery_probe": error_recovery_probe,
         "product_inventory": inventory,
         "product_json": product_json,
         "html_structure_contract": html_structure,
