@@ -2946,7 +2946,14 @@ def main() -> None:
             "offline_tables": "frontend/glossary/overrides/fragments are maintenance inputs; only engine_i18n.tsv is directly consumed by the native client.",
         },
         "legacy_build_meta": legacy_meta,
-        "inputs": {relative_display(path): sha256(path) for path in input_paths},
+        # Evidence text may be checked out as CRLF on Windows even when Git and
+        # the Linux release runner store it as LF.  Bind semantic text bytes so
+        # the committed review snapshot is reproducible on both platforms;
+        # binary inputs remain byte-exact in canonical_product_file_sha256().
+        "inputs": {
+            relative_display(path): canonical_product_file_sha256(path)
+            for path in input_paths
+        },
     }
     emit_json("summary.json", summary)
 
