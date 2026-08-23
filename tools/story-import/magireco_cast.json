@@ -1,0 +1,1940 @@
+{
+ "_note": "魔纪 ADV 里可用的立绘（live2d_v4）。models 按本仓库 madomagi/resource/scenario/json 全量剧情里的实际使用次数降序；faces/motions 是从 asset_main_cn.json 抽的**该模型真实存在的**表情/动作文件——转换器必须只从这里取值，写一个不存在的 exp3 会让原生播放器加载失败。",
+ "_generated": "由 asset_main_cn.json + 全量 adv/general/oneShot/charaOneShot 统计生成，见 README「立绘映射」一节",
+ "_costume": "6 位 id = 角色 id ×100 + 服装序号。服装序号的语义（魔法少女 / 制服 / 私服）没有权威表，这里不猜：默认取 models[0]（游戏自己用得最多的那个），要换服装请人工挑一个并写进 --cast-override。",
+ "cast": {
+  "madoka": {
+   "nameZh": "鹿目圆",
+   "nameJa": "鹿目まどか",
+   "magirecoChara": 2001,
+   "models": [
+    {
+     "id": 200101,
+     "usage": 4862,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json",
+      "mtn_ex_064.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_141.exp3.json",
+      "mtn_ex_151.exp3.json",
+      "mtn_ex_160.exp3.json",
+      "mtn_ex_163.exp3.json",
+      "mtn_ex_164.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_102.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200100,
+     "usage": 2220,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json",
+      "mtn_ex_064.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_141.exp3.json",
+      "mtn_ex_151.exp3.json",
+      "mtn_ex_160.exp3.json",
+      "mtn_ex_163.exp3.json",
+      "mtn_ex_164.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_102.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200150,
+     "usage": 607,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_141.exp3.json",
+      "mtn_ex_151.exp3.json",
+      "mtn_ex_160.exp3.json",
+      "mtn_ex_163.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_103.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200152,
+     "usage": 575,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json",
+      "mtn_ex_064.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_141.exp3.json",
+      "mtn_ex_151.exp3.json",
+      "mtn_ex_160.exp3.json",
+      "mtn_ex_163.exp3.json",
+      "mtn_ex_164.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200151,
+     "usage": 509,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_141.exp3.json",
+      "mtn_ex_151.exp3.json",
+      "mtn_ex_160.exp3.json",
+      "mtn_ex_163.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200102,
+     "usage": 20,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json",
+      "mtn_ex_064.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_141.exp3.json",
+      "mtn_ex_151.exp3.json",
+      "mtn_ex_160.exp3.json",
+      "mtn_ex_163.exp3.json",
+      "mtn_ex_164.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_102.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200181,
+     "usage": 14,
+     "faces": [
+      "mtn_ex_000.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json"
+     ]
+    },
+    {
+     "id": 200180,
+     "usage": 12,
+     "faces": [
+      "mtn_ex_000.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": [
+    {
+     "id": 210500,
+     "usage": 123,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json",
+      "mtn_ex_064.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_141.exp3.json",
+      "mtn_ex_151.exp3.json",
+      "mtn_ex_160.exp3.json",
+      "mtn_ex_163.exp3.json",
+      "mtn_ex_164.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_102.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 210502,
+     "usage": 112,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json",
+      "mtn_ex_064.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_141.exp3.json",
+      "mtn_ex_151.exp3.json",
+      "mtn_ex_160.exp3.json",
+      "mtn_ex_163.exp3.json",
+      "mtn_ex_164.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 210501,
+     "usage": 73,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json",
+      "mtn_ex_064.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_141.exp3.json",
+      "mtn_ex_151.exp3.json",
+      "mtn_ex_160.exp3.json",
+      "mtn_ex_163.exp3.json",
+      "mtn_ex_164.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ]
+  },
+  "sayaka": {
+   "nameZh": "美树沙耶香",
+   "nameJa": "美樹さやか",
+   "magirecoChara": 2004,
+   "models": [
+    {
+     "id": 200401,
+     "usage": 4289,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200400,
+     "usage": 1355,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200451,
+     "usage": 799,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200450,
+     "usage": 571,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_103.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200452,
+     "usage": 404,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200453,
+     "usage": 70,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": [
+    {
+     "id": 240202,
+     "usage": 431,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 240200,
+     "usage": 134,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 240201,
+     "usage": 92,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_041.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_201.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ]
+  },
+  "mami": {
+   "nameZh": "巴麻美",
+   "nameJa": "巴マミ",
+   "magirecoChara": 2005,
+   "models": [
+    {
+     "id": 200501,
+     "usage": 3102,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_052.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_152.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200500,
+     "usage": 2958,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_052.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_152.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200552,
+     "usage": 1200,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_103.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200550,
+     "usage": 759,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200551,
+     "usage": 287,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_052.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_152.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200553,
+     "usage": 183,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": [
+    {
+     "id": 250301,
+     "usage": 164,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_052.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_152.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 250300,
+     "usage": 120,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_052.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_152.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 250313,
+     "usage": 52,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_052.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_152.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 250302,
+     "usage": 28,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_052.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_152.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 250311,
+     "usage": 16,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_052.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_152.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 250310,
+     "usage": 5,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_052.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_101.exp3.json",
+      "mtn_ex_110.exp3.json",
+      "mtn_ex_111.exp3.json",
+      "mtn_ex_120.exp3.json",
+      "mtn_ex_121.exp3.json",
+      "mtn_ex_130.exp3.json",
+      "mtn_ex_131.exp3.json",
+      "mtn_ex_140.exp3.json",
+      "mtn_ex_150.exp3.json",
+      "mtn_ex_152.exp3.json",
+      "mtn_ex_160.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ]
+  },
+  "kyoko": {
+   "nameZh": "佐仓杏子",
+   "nameJa": "佐倉杏子",
+   "magirecoChara": 2006,
+   "models": [
+    {
+     "id": 200601,
+     "usage": 2664,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200600,
+     "usage": 2205,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200652,
+     "usage": 1190,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_103.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200650,
+     "usage": 577,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200651,
+     "usage": 257,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200653,
+     "usage": 132,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200603,
+     "usage": 45,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200604,
+     "usage": 38,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200602,
+     "usage": 36,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200654,
+     "usage": 0,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200655,
+     "usage": 0,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": [
+    {
+     "id": 260100,
+     "usage": 107,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 260102,
+     "usage": 85,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 260101,
+     "usage": 5,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_021.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_053.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_064.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ]
+  },
+  "homura": {
+   "nameZh": "晓美焰",
+   "nameJa": "暁美ほむら",
+   "magirecoChara": 2002,
+   "models": [
+    {
+     "id": 200200,
+     "usage": 1985,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200201,
+     "usage": 1600,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200253,
+     "usage": 32,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": [
+    {
+     "id": 230101,
+     "usage": 164,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 230103,
+     "usage": 156,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 230100,
+     "usage": 111,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_051.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 230102,
+     "usage": 101,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_051.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_101.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 230105,
+     "usage": 83,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 230104,
+     "usage": 80,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ]
+  },
+  "homura_glasses": {
+   "nameZh": "晓美焰",
+   "nameJa": "暁美ほむら（眼鏡）",
+   "magirecoChara": 2003,
+   "models": [
+    {
+     "id": 200301,
+     "usage": 2642,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200300,
+     "usage": 2222,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200351,
+     "usage": 530,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_103.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200350,
+     "usage": 466,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200352,
+     "usage": 446,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json",
+      "mtn_ex_063.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200380,
+     "usage": 69,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_040.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json"
+     ]
+    },
+    {
+     "id": 200302,
+     "usage": 63,
+     "faces": [
+      "mtn_ex_010.exp.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp.json",
+      "mtn_ex_060.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_000.mtn",
+      "motion_001.motion3.json",
+      "motion_001.mtn",
+      "motion_100.motion3.json",
+      "motion_100.mtn",
+      "motion_200.motion3.json",
+      "motion_200.mtn",
+      "motion_300.motion3.json",
+      "motion_300.mtn",
+      "motion_400.motion3.json",
+      "motion_400.mtn"
+     ]
+    },
+    {
+     "id": 200353,
+     "usage": 11,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_031.exp3.json",
+      "mtn_ex_040.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    },
+    {
+     "id": 200382,
+     "usage": 10,
+     "faces": [
+      "mtn_ex_000.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json"
+     ]
+    },
+    {
+     "id": 200381,
+     "usage": 8,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_040.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": []
+  },
+  "kyubey": {
+   "nameZh": "丘比",
+   "nameJa": "キュゥべえ",
+   "magirecoChara": 8100,
+   "models": [
+    {
+     "id": 810000,
+     "usage": 6164,
+     "faces": [],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": []
+  },
+  "hitomi": {
+   "nameZh": "仁美",
+   "nameJa": "志筑仁美",
+   "magirecoChara": 8106,
+   "models": [
+    {
+     "id": 810600,
+     "usage": 340,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_050.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": []
+  },
+  "kyousuke": {
+   "nameZh": "恭介",
+   "nameJa": "上条恭介",
+   "magirecoChara": 8105,
+   "models": [
+    {
+     "id": 810500,
+     "usage": 90,
+     "faces": [
+      "mtn_ex_000.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_050.exp3.json",
+      "mtn_ex_060.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": []
+  },
+  "saotome": {
+   "nameZh": "早乙女老师",
+   "nameJa": "早乙女和子",
+   "magirecoChara": 8102,
+   "models": [
+    {
+     "id": 810200,
+     "usage": 210,
+     "faces": [
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_050.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": []
+  },
+  "junko": {
+   "nameZh": "圆的母亲",
+   "nameJa": "鹿目詢子",
+   "magirecoChara": 8345,
+   "models": [
+    {
+     "id": 834500,
+     "usage": 19,
+     "faces": [
+      "mtn_ex_001.exp3.json",
+      "mtn_ex_010.exp3.json",
+      "mtn_ex_011.exp3.json",
+      "mtn_ex_020.exp3.json",
+      "mtn_ex_030.exp3.json",
+      "mtn_ex_050.exp3.json"
+     ],
+     "motions": [
+      "motion_000.motion3.json",
+      "motion_001.motion3.json",
+      "motion_100.motion3.json",
+      "motion_200.motion3.json",
+      "motion_300.motion3.json",
+      "motion_400.motion3.json"
+     ]
+    }
+   ],
+   "sceneZeroModels": []
+  }
+ }
+}
