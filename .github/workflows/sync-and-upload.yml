@@ -1507,8 +1507,14 @@ jobs:
                           # 真正的流式：upload_fileobj 分块边下边传
                           # （超过 8MiB 自动走 multipart），不再先把整个
                           # 文件读进内存再一次性 put——大文件耗时近减半
+                          #
+                          # ExtraArgs 必须给：不给的话 object-storage 里存成默认的
+                          # binary/octet-stream。对 .zip 无所谓，对 .wasm 是
+                          # 致命的——WebAssembly.instantiateStreaming() 会直接
+                          # 抛，只能退回 arrayBuffer() 多拷一遍。
                           self.s3_client.upload_fileobj(
-                              response, self.bucket, filename)
+                              response, self.bucket, filename,
+                              ExtraArgs={'ContentType': content_type_for(filename)})
                       head = self.s3_client.head_object(
                           Bucket=self.bucket, Key=filename)
                       actual_size = int(head.get("ContentLength", -1))
@@ -1523,6 +1529,29 @@ jobs:
                   except Exception as e:
                       err(f"[{self.name}] 上传失败: {e}", indent=1)
                       return False
+
+          # 按扩展名给 Content-Type。object-storage 不会自己猜，上传时不给就是
+          # binary/octet-stream，而浏览器对 .wasm / .js 的类型是较真的。
+          #
+          # 只列真会经过这条流水线的扩展名，剩下的落回 octet-stream——
+          # 一份猜得太宽的表比没有表更糟：把某个二进制包标成 text/plain，
+          # 浏览器会按文本解码，坏得很隐蔽。
+          CONTENT_TYPES = {
+              '.zip':  'application/zip',
+              '.apk':  'application/vnd.android.package-archive',
+              '.json': 'application/json; charset=utf-8',
+              '.wasm': 'application/wasm',
+              '.js':   'text/javascript; charset=utf-8',
+              '.css':  'text/css; charset=utf-8',
+              '.html': 'text/html; charset=utf-8',
+              '.iso':  'application/octet-stream',
+          }
+
+          def content_type_for(name: str) -> str:
+              import posixpath
+              _, ext = posixpath.splitext(name.lower())
+              return CONTENT_TYPES.get(ext, 'application/octet-stream')
+
 
           class EdgeOneHandler:
               def __init__(self, secret_id, secret_key, zone_id):
