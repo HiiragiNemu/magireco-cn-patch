@@ -37,9 +37,38 @@ POS = {0: ('textLeft', 'nameLeft'), 1: ('textCenter', 'nameCenter'),
 SINGLE_POS = 1
 PAIR_POS = (0, 2)
 
-# 优先挑这些当中性表情，都没有就用该模型的第一个
-NEUTRAL_FACES = ('mtn_ex_010.exp3.json', 'mtn_ex_000.exp3.json',
-                 'mtn_ex_001.exp3.json', 'mtn_ex_020.exp3.json')
+# ── 表情阶梯 ────────────────────────────────────────────────────────
+#
+# 键是 story IR 的表情类别（两个解包仓库产出，语义由文本特征统计得到）；
+# 值是魔纪表情编号的**优先顺序**，取该立绘第一个真实存在的。
+#
+# 魔纪这边每个编号是什么意思，同样是量出来的不是猜的：adv json 里
+# tear / cheek / eyeClose / mouthOpen 是独立字段，拿它们与 face 的共现率
+# 反推语义（全库 10469 个剧情文件）：
+#
+#   000/001 各项最低 → 无表情      010 笑 1.7×      → 普通/淡笑
+#   011 笑 4.8×      → 笑          013/014 脸红+笑  → 害羞的笑
+#   020/021/022 ！35~54% 无笑无泪  → 强调/喊
+#   030 …… 37.3% 泪 2.3× 闭眼 1.9× → 困扰/落寞
+#   031 泪 21× 脸红 38.5%          → 哭
+#   040/042 ？+…… 高、！低         → 疑惑/沉思
+#   050/051 ？2.5× 惊 3.8×         → 惊讶
+#   060 泪·脸红·闭眼·张嘴·！·悲 六项全显著 → 痛苦
+#
+# ⚠ 「怒」未解：全库七项特征里怒的信号最高只有 1.2%，找不到对应编号。
+#   源侧也没有单独的怒档，所以暂时不需要——真需要时别硬凑一个。
+#
+# **阶梯必须以 000/001 之类的保底收尾**：写一个该模型没有的 exp3 文件名，
+# 原生 ADV 播放器会加载失败，而这种错在 json 里看不出来。
+EXPRESSION_LADDER = {
+    'neutral':  ('010', '000', '001', '020', '030'),
+    'smile':    ('011', '014', '013', '012', '010', '001', '000'),
+    'excited':  ('020', '050', '021', '022', '051', '010', '000'),
+    'pensive':  ('030', '042', '040', '032', '001', '000'),
+    'puzzled':  ('040', '042', '050', '030', '010', '000'),
+    'emphasis': ('020', '021', '022', '011', '010', '000'),
+}
+NEUTRAL_LADDER = EXPRESSION_LADDER['neutral']
 
 MAX_LINES_PER_BOX = 3
 
@@ -47,6 +76,18 @@ MAX_LINES_PER_BOX = 3
 def load_cast(path=CAST_TABLE):
     with open(path, encoding='utf-8') as f:
         return json.load(f)['cast']
+
+
+def pick_face(faces, expression):
+    """按阶梯挑一个该立绘**确实存在**的表情文件名；挑不到返回 None。"""
+    if not faces:
+        return None
+    ladder = EXPRESSION_LADDER.get(expression) or NEUTRAL_LADDER
+    for code in ladder:
+        for f in faces:
+            if f.startswith('mtn_ex_%s.' % code):
+                return f
+    return faces[0]
 
 
 def pick_model(entry, override=None):
@@ -62,9 +103,7 @@ def pick_model(entry, override=None):
     if not models:
         return None, None
     m = models[0]
-    faces = m.get('faces') or []
-    face = next((f for f in NEUTRAL_FACES if f in faces), faces[0] if faces else None)
-    return m['id'], face
+    return m['id'], (m.get('faces') or [])
 
 
 class Stage:
@@ -129,7 +168,8 @@ def convert(doc, cast_table, bg=None, bgm=None, overrides=None):
     steps = []
     stage = Stage()
     ids = {}          # cast -> live2d id
-    faces = {}        # cast -> 中性表情
+    faces = {}        # cast -> 该立绘真实存在的表情清单
+    cur_face = {}     # cast -> 当前挂着的表情文件名
     in_narration = False
 
     for ln in doc['lines']:
@@ -168,6 +208,7 @@ def convert(doc, cast_table, bg=None, bgm=None, overrides=None):
                 steps.append(step)
                 continue
 
+        want = pick_face(faces[cast], ln.get('expression'))
         pos, entering, moved = stage.place(cast)
         chara = []
         for other, newpos in moved:
@@ -178,8 +219,10 @@ def convert(doc, cast_table, bg=None, bgm=None, overrides=None):
         me = {'id': ids[cast]}
         if entering:
             me.update({'cheek': 0, 'motion': 0, 'pos': pos})
-            if faces[cast]:
-                me['face'] = faces[cast]
+        # 表情只在**变化时**写，跟真实剧情文件的写法一致（没变就只留 id）
+        if want and (entering or cur_face.get(cast) != want):
+            me['face'] = want
+            cur_face[cast] = want
         chara.append(me)
 
         tkey, nkey = POS[pos]

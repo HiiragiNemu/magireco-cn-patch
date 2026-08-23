@@ -14,8 +14,9 @@ import ir_to_adv                              # noqa: E402
 from story_ir import IRError, validate        # noqa: E402
 
 
-def line(i, cast, name, text, kind='dialogue'):
+def line(i, cast, name, text, kind='dialogue', expression=None):
     return {'id': str(i), 'kind': kind, 'text': text, 'voice': '', 'cues': [],
+            'expression': expression,
             'speaker': {'cast': cast, 'name': name, 'sourceId': 0, 'code': ''}}
 
 
@@ -129,9 +130,55 @@ class TestConvert(unittest.TestCase):
         self.assertNotIn('voiceFull', step)
 
 
+class TestExpression(unittest.TestCase):
+    def _faces(self, cast):
+        return CAST[cast]['models'][0]['faces']
+
+    def test_ladder_picks_first_available(self):
+        f = self._faces('madoka')
+        self.assertEqual(ir_to_adv.pick_face(f, 'smile'), 'mtn_ex_011.exp3.json')
+        self.assertEqual(ir_to_adv.pick_face(f, 'puzzled'), 'mtn_ex_040.exp3.json')
+
+    def test_ladder_falls_back_when_preferred_absent(self):
+        """晓美焰 200200 没有 mtn_ex_010，neutral 必须退到梯子里下一个。"""
+        f = self._faces('homura')
+        self.assertNotIn('mtn_ex_010.exp3.json', f)
+        self.assertEqual(ir_to_adv.pick_face(f, 'neutral'), 'mtn_ex_000.exp3.json')
+
+    def test_unknown_expression_falls_back_to_neutral_ladder(self):
+        f = self._faces('madoka')
+        self.assertEqual(ir_to_adv.pick_face(f, None),
+                         ir_to_adv.pick_face(f, 'neutral'))
+        self.assertEqual(ir_to_adv.pick_face(f, '没这个类别'),
+                         ir_to_adv.pick_face(f, 'neutral'))
+
+    def test_faceless_model_returns_none(self):
+        """丘比 810000 一个 exp3 都没有——必须返回 None 而不是编一个。"""
+        self.assertIsNone(ir_to_adv.pick_face(self._faces('kyubey'), 'smile'))
+
+    def test_every_ladder_resolves_for_every_cast(self):
+        """阶梯必须对每个角色的每个类别都能落到一个真实存在的文件。"""
+        for key, entry in CAST.items():
+            faces = (entry['models'][0].get('faces') or [])
+            if not faces:
+                continue
+            for cls in ir_to_adv.EXPRESSION_LADDER:
+                got = ir_to_adv.pick_face(faces, cls)
+                self.assertIn(got, faces, '%s / %s' % (key, cls))
+
+    def test_face_written_only_on_change(self):
+        d = doc([line(1, 'madoka', '圆', 'a', expression='smile'),
+                 line(2, 'madoka', '圆', 'b', expression='smile'),
+                 line(3, 'madoka', '圆', 'c', expression='puzzled')])
+        steps = ir_to_adv.convert(d, CAST)[0]['story']['group_1']
+        self.assertEqual(steps[0]['chara'][0]['face'], 'mtn_ex_011.exp3.json')
+        self.assertNotIn('face', steps[1]['chara'][0])      # 没变就不写
+        self.assertEqual(steps[2]['chara'][0]['face'], 'mtn_ex_040.exp3.json')
+
+
 class TestAssetGuard(unittest.TestCase):
     def test_generated_faces_all_exist(self):
-        d = doc([line(i, c, 'x', 'y') for i, c in
+        d = doc([line(i, c, 'x', 'y', expression='smile') for i, c in
                  enumerate(['madoka', 'sayaka', 'mami', 'kyoko', 'homura',
                             'kyubey', 'hitomi', 'kyousuke', 'saotome', 'junko'])])
         adv, _ = ir_to_adv.convert(d, CAST)
