@@ -1,0 +1,180 @@
+name: Publish authoritative shop background repair prerelease
+
+on:
+  push:
+    branches:
+      - tmp/shop-background-audit-20260824
+    paths:
+      - .github/workflows/publish-shop-background-repair-release.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      TAG: diagnostic-shop-background-20260824-v2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tmp/shop-background-audit-20260824
+          fetch-depth: 0
+
+      - name: Configure private authoritative resource access
+        env:
+          PRIVATE_REPO_TOKEN: ${{ secrets.GH_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${PRIVATE_REPO_TOKEN}"
+          git config --global credential.helper store
+          umask 077
+          printf 'https://x-access-token:%s@github.com\n' "${PRIVATE_REPO_TOKEN}" > "${HOME}/.git-credentials"
+
+      - name: Fetch exact official shop background and gem resources
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/shop-bg-official /tmp/shop-bg-release
+          git clone --depth 1 --filter=blob:none --sparse \
+            https://github.com/HiiragiNemu/io.kamihama.totentanz.git \
+            /tmp/shop-bg-official
+          git -C /tmp/shop-bg-official sparse-checkout set \
+            files/madomagi/resource/image_native/bg/web \
+            files/madomagi/resource/image_native/item
+
+      - name: Build exact repair ZIPs rooted at madomagi
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          import hashlib, json, shutil, zipfile
+
+          source = Path('/tmp/shop-bg-official/files/madomagi/resource/image_native')
+          out = Path('/tmp/shop-bg-release')
+          out.mkdir(parents=True, exist_ok=True)
+          bg = source / 'bg/web'
+          expected = [
+              'web_0011.ExportJson.gz',
+              'web_00110.plist', 'web_00110.png',
+              'web_00111.plist', 'web_00111.png',
+          ]
+          missing = [name for name in expected if not (bg / name).is_file()]
+          if missing:
+              raise SystemExit(f'missing official web_0011 files: {missing}')
+          gem = source / 'item/compose_item_xxx_b.png'
+          if not gem.is_file():
+              raise SystemExit('missing official compose_item_xxx_b.png')
+
+          def digest(path):
+              h = hashlib.sha256()
+              with path.open('rb') as f:
+                  for chunk in iter(lambda: f.read(1024*1024), b''):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          def build(filename, with_gem):
+              root = out / ('tree-' + filename.removesuffix('.zip'))
+              shutil.rmtree(root, ignore_errors=True)
+              target = root / 'madomagi/resource/image_native/bg/web'
+              target.mkdir(parents=True, exist_ok=True)
+              selected = []
+              for name in expected:
+                  dst = target / name
+                  shutil.copy2(bg / name, dst)
+                  selected.append(dst)
+              if with_gem:
+                  dst = root / 'madomagi/resource/image_native/item/compose_item_xxx_b.png'
+                  dst.parent.mkdir(parents=True, exist_ok=True)
+                  shutil.copy2(gem, dst)
+                  selected.append(dst)
+              zpath = out / filename
+              with zipfile.ZipFile(zpath, 'w', zipfile.ZIP_DEFLATED,
+                                   compresslevel=9, allowZip64=True) as zf:
+                  for p in sorted(selected):
+                      arc = p.relative_to(root).as_posix()
+                      if not arc.startswith('madomagi/'):
+                          raise SystemExit(f'bad archive root: {arc}')
+                      zf.write(p, arc)
+              with zipfile.ZipFile(zpath) as zf:
+                  bad = zf.testzip()
+                  if bad:
+                      raise SystemExit(f'CRC failure: {bad}')
+              records = [{
+                  'path': p.relative_to(root).as_posix(),
+                  'size': p.stat().st_size,
+                  'sha256': digest(p),
+              } for p in selected]
+              return {
+                  'name': zpath.name,
+                  'size': zpath.stat().st_size,
+                  'sha256': digest(zpath),
+                  'files': records,
+              }
+
+          background = build('Magireco_Shop_Background_web_0011_Official.zip', False)
+          combined = build('Magireco_Shop_Background_and_Gem_Official.zip', True)
+          manifest = {
+              'schema': 'magireco-shop-background-repair/v2',
+              'authoritative_repository': 'HiiragiNemu/io.kamihama.totentanz',
+              'install_destination': 'game files directory',
+              'background_family': 'web_0011',
+              'background_only': background,
+              'background_and_gem': combined,
+          }
+          (out / 'manifest.json').write_text(
+              json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8'
+          )
+          (out / 'SHA256SUMS.txt').write_text(
+              f"{background['sha256']}  {background['name']}\n"
+              f"{combined['sha256']}  {combined['name']}\n",
+              encoding='utf-8'
+          )
+          lines = [
+              '# 魔法纪录商店背景修复', '',
+              '背景族：`madomagi/resource/image_native/bg/web/web_0011*`。',
+              'ZIP 第一层目录为 `madomagi/`，直接解压到游戏的 `files/`。', '',
+              f"- `{background['name']}` — `{background['sha256']}`", 
+              f"- `{combined['name']}` — `{combined['sha256']}`", '',
+          ]
+          (out / 'README.md').write_text('\n'.join(lines), encoding='utf-8')
+          print(json.dumps(manifest, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Replace isolated diagnostic prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release delete "$TAG" --cleanup-tag -y 2>/dev/null || true
+          gh release create "$TAG" \
+            --target tmp/shop-background-audit-20260824 \
+            --title 'Diagnostic: authoritative Magireco shop background repair' \
+            --notes-file /tmp/shop-bg-release/README.md \
+            --prerelease \
+            /tmp/shop-bg-release/Magireco_Shop_Background_web_0011_Official.zip \
+            /tmp/shop-bg-release/Magireco_Shop_Background_and_Gem_Official.zip \
+            /tmp/shop-bg-release/manifest.json \
+            /tmp/shop-bg-release/SHA256SUMS.txt
+
+      - name: Publish release marker to diagnostic branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin tmp/shop-background-audit-20260824
+          git reset --hard origin/tmp/shop-background-audit-20260824
+          rm -rf diagnostic-output/shop-background-release-v2
+          mkdir -p diagnostic-output/shop-background-release-v2
+          cp /tmp/shop-bg-release/manifest.json diagnostic-output/shop-background-release-v2/
+          cp /tmp/shop-bg-release/SHA256SUMS.txt diagnostic-output/shop-background-release-v2/
+          printf 'run_id=%s\ntag=%s\nstatus=success\n' "$GITHUB_RUN_ID" "$TAG" \
+            > diagnostic-output/shop-background-release-v2/result-marker.txt
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add diagnostic-output/shop-background-release-v2
+          git commit -m 'test(diagnostic): publish shop background repair release v2 marker'
+          git push origin HEAD:tmp/shop-background-audit-20260824
