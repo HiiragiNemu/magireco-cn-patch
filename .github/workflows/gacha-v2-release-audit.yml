@@ -1,0 +1,279 @@
+name: Temporary gacha-v2 release audit
+
+on:
+  push:
+    branches:
+      - tmp/gacha-v2-release-audit-20260823
+    paths:
+      - .github/workflows/gacha-v2-release-audit.yml
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Show runner storage
+        run: df -h
+
+      - name: Download release archives 02-06
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p releases
+          for n in 02 03 04 05 06; do
+            echo "Downloading cn_base_${n}.zip"
+            gh release download latest \
+              --repo HiiragiNemu/magireco-cn-patch \
+              --pattern "cn_base_${n}.zip" \
+              --dir releases \
+              --clobber
+          done
+          ls -lh releases
+          sha256sum releases/*.zip | tee release-sha256.txt
+
+      - name: Compare gacha_v2 against authoritative device snapshot
+        env:
+          PRIVATE_TOKEN: ${{ secrets.GH_TOKEN }}
+          FALLBACK_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/audit.py <<'PY'
+          import base64
+          import hashlib
+          import json
+          import os
+          import pathlib
+          import urllib.parse
+          import urllib.request
+          import zipfile
+
+          RELEASE_DIR = pathlib.Path('releases')
+          PREFIX = 'madomagi/resource/image_native/scene/gacha_v2/'
+          OFFICIAL_REPO = 'HiiragiNemu/io.kamihama.totentanz'
+          OFFICIAL_DIR = 'files/' + PREFIX.rstrip('/')
+          TOKEN = os.environ.get('PRIVATE_TOKEN') or os.environ.get('FALLBACK_TOKEN') or ''
+
+          def api_json(url):
+              req = urllib.request.Request(url)
+              req.add_header('Accept', 'application/vnd.github+json')
+              req.add_header('X-GitHub-Api-Version', '2022-11-28')
+              req.add_header('User-Agent', 'gacha-v2-release-audit')
+              if TOKEN:
+                  req.add_header('Authorization', 'Bearer ' + TOKEN)
+              with urllib.request.urlopen(req, timeout=120) as r:
+                  return json.load(r)
+
+          def sha256(data):
+              return hashlib.sha256(data).hexdigest()
+
+          release_files = {}
+          source_map = {}
+          overlaps = {}
+          archive_inventory = {}
+
+          for zp in sorted(RELEASE_DIR.glob('cn_base_*.zip')):
+              matched = []
+              with zipfile.ZipFile(zp) as zf:
+                  for info in zf.infolist():
+                      name = info.filename.replace('\\', '/').lstrip('/')
+                      if info.is_dir() or not name.startswith(PREFIX):
+                          continue
+                      data = zf.read(info)
+                      matched.append({
+                          'path': name,
+                          'bytes': len(data),
+                          'crc32': f'{info.CRC:08x}',
+                          'sha256': sha256(data),
+                      })
+                      if name in release_files:
+                          overlaps.setdefault(name, [source_map[name]]).append(zp.name)
+                      release_files[name] = data
+                      source_map[name] = zp.name
+              archive_inventory[zp.name] = matched
+              print(f'{zp.name}: {len(matched)} gacha_v2 files')
+
+          if not TOKEN:
+              raise SystemExit('No GitHub token is available for the private authoritative repository')
+
+          contents_url = (
+              'https://api.github.com/repos/' + OFFICIAL_REPO + '/contents/'
+              + urllib.parse.quote(OFFICIAL_DIR, safe='/') + '?ref=main'
+          )
+          root = api_json(contents_url)
+          if not isinstance(root, list) or not root:
+              raise SystemExit('Authoritative gacha_v2 directory could not be read')
+          # All entries share the directory through the contents response; query the directory SHA directly.
+          # GitHub does not return the directory object in this list, so resolve it from its parent.
+          parent = OFFICIAL_DIR.rsplit('/', 1)[0]
+          parent_url = (
+              'https://api.github.com/repos/' + OFFICIAL_REPO + '/contents/'
+              + urllib.parse.quote(parent, safe='/') + '?ref=main'
+          )
+          parent_entries = api_json(parent_url)
+          directory_obj = next((x for x in parent_entries if x.get('name') == 'gacha_v2' and x.get('type') == 'dir'), None)
+          if not directory_obj:
+              raise SystemExit('Could not resolve authoritative gacha_v2 tree SHA')
+          tree_sha = directory_obj['sha']
+          tree_url = f'https://api.github.com/repos/{OFFICIAL_REPO}/git/trees/{tree_sha}?recursive=1'
+          tree = api_json(tree_url)
+
+          official_files = {}
+          official_git_sha = {}
+          for ent in tree.get('tree', []):
+              if ent.get('type') != 'blob':
+                  continue
+              rel = ent['path']
+              blob = api_json(ent['url'])
+              content = blob.get('content', '').replace('\n', '')
+              data = base64.b64decode(content)
+              key = PREFIX + rel
+              official_files[key] = data
+              official_git_sha[key] = ent['sha']
+
+          print(f'authoritative snapshot: {len(official_files)} files')
+
+          missing = []
+          changed = []
+          identical = []
+          for path in sorted(official_files):
+              off = official_files[path]
+              got = release_files.get(path)
+              row = {
+                  'path': path,
+                  'source_archive': source_map.get(path),
+                  'official_bytes': len(off),
+                  'official_sha256': sha256(off),
+                  'official_git_blob_sha1': official_git_sha[path],
+              }
+              if got is None:
+                  missing.append(row)
+              else:
+                  row['release_bytes'] = len(got)
+                  row['release_sha256'] = sha256(got)
+                  if got == off:
+                      identical.append(row)
+                  else:
+                      changed.append(row)
+
+          extra = []
+          for path in sorted(set(release_files) - set(official_files)):
+              data = release_files[path]
+              extra.append({
+                  'path': path,
+                  'source_archive': source_map[path],
+                  'release_bytes': len(data),
+                  'release_sha256': sha256(data),
+              })
+
+          repair_paths = [x['path'] for x in missing + changed]
+          repair_dir = pathlib.Path('repair-tree')
+          repair_dir.mkdir(exist_ok=True)
+          for path in repair_paths:
+              out = repair_dir / path
+              out.parent.mkdir(parents=True, exist_ok=True)
+              out.write_bytes(official_files[path])
+
+          repair_zip = pathlib.Path('magireco-gacha-v2-repair.zip')
+          if repair_paths:
+              with zipfile.ZipFile(repair_zip, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
+                  for path in sorted(repair_paths):
+                      zf.write(repair_dir / path, path)
+          elif repair_zip.exists():
+              repair_zip.unlink()
+
+          report = {
+              'schema': 'magireco-gacha-v2-release-audit/v1',
+              'release_archives': archive_inventory,
+              'source_map': source_map,
+              'overlaps': overlaps,
+              'authoritative_repository': OFFICIAL_REPO,
+              'authoritative_tree_sha': tree_sha,
+              'prefix': PREFIX,
+              'counts': {
+                  'official': len(official_files),
+                  'release_union': len(release_files),
+                  'identical': len(identical),
+                  'missing': len(missing),
+                  'changed': len(changed),
+                  'extra': len(extra),
+                  'overlap_paths': len(overlaps),
+                  'repair_files': len(repair_paths),
+              },
+              'missing': missing,
+              'changed': changed,
+              'extra': extra,
+              'identical': identical,
+              'repair_paths': repair_paths,
+          }
+          pathlib.Path('gacha-v2-audit-report.json').write_text(
+              json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8'
+          )
+
+          lines = [
+              'Magia Record gacha_v2 release audit',
+              '====================================',
+              f'Authoritative repository: {OFFICIAL_REPO}',
+              f'Authoritative tree SHA: {tree_sha}',
+              '',
+              'Archive ownership:',
+          ]
+          for name, entries in archive_inventory.items():
+              lines.append(f'  {name}: {len(entries)} file(s)')
+          lines += [
+              '',
+              f'Official files: {len(official_files)}',
+              f'Release union: {len(release_files)}',
+              f'Identical: {len(identical)}',
+              f'Missing: {len(missing)}',
+              f'Changed: {len(changed)}',
+              f'Extra: {len(extra)}',
+              f'Overlaps: {len(overlaps)}',
+              f'Repair files: {len(repair_paths)}',
+              '',
+          ]
+          for label, rows in [('MISSING', missing), ('CHANGED', changed), ('EXTRA', extra)]:
+              lines.append(label + ':')
+              if not rows:
+                  lines.append('  (none)')
+              for row in rows:
+                  lines.append(f"  {row['path']}  source={row.get('source_archive')}")
+                  if label == 'CHANGED':
+                      lines.append(f"    release={row['release_sha256']} ({row['release_bytes']} bytes)")
+                      lines.append(f"    official={row['official_sha256']} ({row['official_bytes']} bytes)")
+              lines.append('')
+          if overlaps:
+              lines.append('OVERLAPS:')
+              for path, owners in sorted(overlaps.items()):
+                  lines.append(f'  {path}: {owners}')
+              lines.append('')
+          pathlib.Path('gacha-v2-audit-report.txt').write_text('\n'.join(lines), encoding='utf-8')
+
+          print('\n'.join(lines))
+          if repair_paths:
+              print(f'Created {repair_zip} with {len(repair_paths)} file(s)')
+          else:
+              print('No repair ZIP created because release files exactly match the authoritative snapshot')
+          PY
+          python /tmp/audit.py
+          ls -lh *.zip *.json *.txt 2>/dev/null || true
+
+      - name: Upload audit result
+        uses: actions/upload-artifact@v4
+        with:
+          name: gacha-v2-release-audit
+          path: |
+            magireco-gacha-v2-repair.zip
+            gacha-v2-audit-report.json
+            gacha-v2-audit-report.txt
+            release-sha256.txt
+          if-no-files-found: warn
+          retention-days: 1
