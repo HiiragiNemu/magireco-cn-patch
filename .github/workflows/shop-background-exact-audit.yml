@@ -1,0 +1,408 @@
+name: Exact shop background audit and repair
+
+on:
+  push:
+    branches:
+      - tmp/shop-background-audit-20260824
+    paths:
+      - .github/workflows/shop-background-exact-audit.yml
+
+permissions:
+  contents: write
+
+env:
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - name: Checkout diagnostic branch
+        uses: actions/checkout@v4
+        with:
+          ref: tmp/shop-background-audit-20260824
+          fetch-depth: 0
+
+      - name: Configure private authoritative-repository access
+        env:
+          PRIVATE_REPO_TOKEN: ${{ secrets.GH_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${PRIVATE_REPO_TOKEN}"
+          git config --global credential.helper store
+          umask 077
+          printf 'https://x-access-token:%s@github.com\n' "${PRIVATE_REPO_TOKEN}" > "${HOME}/.git-credentials"
+
+      - name: Install image comparison dependency
+        run: python3 -m pip install --disable-pip-version-check pillow==11.3.0
+
+      - name: Download all relevant base archives one at a time and audit bg/web
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/shop-bg-audit
+          mkdir -p /tmp/shop-bg-audit/releases /tmp/shop-bg-audit/current /tmp/shop-bg-audit/out
+
+          for n in 02 03 04 05 06; do
+            file="cn_base_${n}.zip"
+            echo "::group::Download and inspect ${file}"
+            gh release download latest \
+              --repo HiiragiNemu/magireco-cn-patch \
+              --pattern "${file}" \
+              --dir /tmp/shop-bg-audit/releases \
+              --clobber
+            PACKAGE="$file" python3 <<'PY'
+          from pathlib import Path
+          import hashlib, json, os, zipfile
+
+          root = Path('/tmp/shop-bg-audit')
+          package = os.environ['PACKAGE']
+          archive = root / 'releases' / package
+          anchor = 'madomagi/resource/image_native/bg/web/'
+          records = []
+          web11 = []
+          with zipfile.ZipFile(archive, 'r', allowZip64=True) as zf:
+              for info in zf.infolist():
+                  if info.is_dir():
+                      continue
+                  raw = info.filename.replace('\\', '/').lstrip('./')
+                  pos = raw.find(anchor)
+                  if pos < 0:
+                      continue
+                  rel = raw[pos:]
+                  data = zf.read(info)
+                  digest = hashlib.sha256(data).hexdigest()
+                  records.append({'path': rel, 'size': len(data), 'sha256': digest})
+                  if Path(rel).name.startswith('web_0011'):
+                      web11.append(rel)
+                  out = root / 'current' / rel
+                  out.parent.mkdir(parents=True, exist_ok=True)
+                  if out.exists():
+                      old = hashlib.sha256(out.read_bytes()).hexdigest()
+                      if old != digest:
+                          raise SystemExit(f'conflicting overlap for {rel}: {old} != {digest}')
+                  else:
+                      out.write_bytes(data)
+          report = {
+              'package': package,
+              'archive_size': archive.stat().st_size,
+              'archive_sha256': hashlib.sha256(archive.read_bytes()).hexdigest(),
+              'bg_web_file_count': len(records),
+              'web_0011_file_count': len(web11),
+              'web_0011_paths': sorted(web11),
+              'bg_web_files': sorted(records, key=lambda x: x['path']),
+          }
+          (root / 'out' / f'{package}.json').write_text(
+              json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8'
+          )
+          print(json.dumps({
+              'package': package,
+              'bg_web': len(records),
+              'web_0011': sorted(web11),
+          }, ensure_ascii=False, indent=2))
+          PY
+            rm -f "/tmp/shop-bg-audit/releases/${file}"
+            echo "::endgroup::"
+          done
+
+      - name: Sparse-clone authoritative original bg/web and item resources
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --filter=blob:none --sparse \
+            https://github.com/HiiragiNemu/io.kamihama.totentanz.git \
+            /tmp/shop-bg-audit/official
+          git -C /tmp/shop-bg-audit/official sparse-checkout set \
+            files/madomagi/resource/image_native/bg/web \
+            files/madomagi/resource/image_native/item
+
+      - name: Trace ShopTop background call and compare the exact web_0011 family
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          import gzip, hashlib, json, plistlib, re, shutil, zipfile
+          from PIL import Image
+
+          root = Path('/tmp/shop-bg-audit')
+          current = root / 'current/madomagi/resource/image_native/bg/web'
+          official = root / 'official/files/madomagi/resource/image_native/bg/web'
+          item = root / 'official/files/madomagi/resource/image_native/item/compose_item_xxx_b.png'
+          out = root / 'out'
+          out.mkdir(parents=True, exist_ok=True)
+
+          expected = {
+              'web_0011.ExportJson.gz',
+              'web_00110.plist', 'web_00110.png',
+              'web_00111.plist', 'web_00111.png',
+          }
+          official_family = {p.name: p for p in official.iterdir()
+                             if p.is_file() and p.name.startswith('web_0011')}
+          if set(official_family) != expected:
+              raise SystemExit(
+                  f'authoritative web_0011 family mismatch: expected={sorted(expected)} '
+                  f'got={sorted(official_family)}'
+              )
+
+          def sha_bytes(data: bytes) -> str:
+              return hashlib.sha256(data).hexdigest()
+
+          def canonical(value) -> bytes:
+              def norm(v):
+                  if isinstance(v, dict):
+                      return {str(k): norm(x) for k, x in sorted(v.items(), key=lambda kv: str(kv[0]))}
+                  if isinstance(v, (list, tuple)):
+                      return [norm(x) for x in v]
+                  if isinstance(v, bytes):
+                      return {'$bytes_sha256': sha_bytes(v), '$bytes_size': len(v)}
+                  return v
+              return json.dumps(norm(value), ensure_ascii=False, sort_keys=True,
+                                separators=(',', ':')).encode('utf-8')
+
+          def semantic(path: Path):
+              data = path.read_bytes()
+              result = {
+                  'size': len(data),
+                  'byte_sha256': sha_bytes(data),
+              }
+              if path.name.endswith('.ExportJson.gz'):
+                  expanded = gzip.decompress(data)
+                  result['expanded_size'] = len(expanded)
+                  result['expanded_sha256'] = sha_bytes(expanded)
+                  try:
+                      parsed = json.loads(expanded.decode('utf-8'))
+                      result['semantic_sha256'] = sha_bytes(canonical(parsed))
+                      result['kind'] = 'gzip-json'
+                  except Exception:
+                      result['semantic_sha256'] = result['expanded_sha256']
+                      result['kind'] = 'gzip-raw'
+                  return result
+              if path.suffix.lower() == '.plist':
+                  parsed = plistlib.loads(data)
+                  result['semantic_sha256'] = sha_bytes(canonical(parsed))
+                  result['kind'] = 'plist'
+                  frames = parsed.get('frames') if isinstance(parsed, dict) else None
+                  if isinstance(frames, dict):
+                      result['frame_count'] = len(frames)
+                      result['frame_names'] = sorted(map(str, frames))
+                  return result
+              if path.suffix.lower() == '.png':
+                  with Image.open(path) as im:
+                      rgba = im.convert('RGBA')
+                      result['dimensions'] = [rgba.width, rgba.height]
+                      result['semantic_sha256'] = sha_bytes(
+                          f'{rgba.width}x{rgba.height}|'.encode('ascii') + rgba.tobytes()
+                      )
+                      result['kind'] = 'png-pixels'
+                  return result
+              result['semantic_sha256'] = result['byte_sha256']
+              result['kind'] = 'raw'
+              return result
+
+          comparison = []
+          broken = []
+          for name in sorted(expected):
+              off = official_family[name]
+              cur = current / name
+              rec = {'name': name, 'official': semantic(off)}
+              if not cur.is_file():
+                  rec['status'] = 'MISSING'
+                  broken.append(name)
+              else:
+                  rec['current'] = semantic(cur)
+                  if rec['current']['byte_sha256'] == rec['official']['byte_sha256']:
+                      rec['status'] = 'MATCH'
+                  elif rec['current']['semantic_sha256'] == rec['official']['semantic_sha256']:
+                      rec['status'] = 'ENCODING_ONLY'
+                  else:
+                      rec['status'] = 'CHANGED'
+                      broken.append(name)
+              comparison.append(rec)
+
+          # Static source trace. The exact page itself may set a native-image key dynamically,
+          # so record all relevant ShopTop/changeBg/getNativeObj contexts instead of assuming.
+          trace = []
+          roots = [Path('magica/js'), Path('magica/template'), Path('magica/css')]
+          terms = ('ShopTop', 'changeBg', 'getNativeObj', 'getBaseData',
+                   'web_0011', 'web_common', 'imageNative')
+          for srcroot in roots:
+              if not srcroot.exists():
+                  continue
+              for p in sorted(srcroot.rglob('*')):
+                  if not p.is_file() or p.suffix.lower() not in {'.js','.html','.css','.json'}:
+                      continue
+                  text = p.read_text('utf-8', errors='replace')
+                  lines = text.splitlines()
+                  for i, line in enumerate(lines, 1):
+                      if not any(t.lower() in line.lower() for t in terms):
+                          continue
+                      if 'shop' not in p.as_posix().lower() and not any(
+                              t.lower() in line.lower() for t in ('changeBg','getNativeObj','web_0011')):
+                          continue
+                      a, b = max(1, i-2), min(len(lines), i+2)
+                      trace.append({
+                          'file': p.as_posix(), 'line': i,
+                          'context': '\n'.join(f'{n}: {lines[n-1]}' for n in range(a,b+1)),
+                      })
+          trace = trace[:500]
+
+          def make_zip(filename: str, include_gem: bool):
+              tree = root / ('tree-' + filename.replace('.zip',''))
+              shutil.rmtree(tree, ignore_errors=True)
+              target = tree / 'madomagi/resource/image_native/bg/web'
+              target.mkdir(parents=True, exist_ok=True)
+              records = []
+              for name, src in sorted(official_family.items()):
+                  dst = target / name
+                  shutil.copy2(src, dst)
+                  records.append({'path': dst.relative_to(tree).as_posix(), **semantic(dst)})
+              if include_gem:
+                  if not item.is_file():
+                      raise SystemExit('official compose_item_xxx_b.png missing')
+                  dst = tree / 'madomagi/resource/image_native/item/compose_item_xxx_b.png'
+                  dst.parent.mkdir(parents=True, exist_ok=True)
+                  shutil.copy2(item, dst)
+                  records.append({'path': dst.relative_to(tree).as_posix(), **semantic(dst)})
+              zpath = out / filename
+              with zipfile.ZipFile(zpath, 'w', zipfile.ZIP_DEFLATED,
+                                   compresslevel=9, allowZip64=True) as zf:
+                  for p in sorted(tree.rglob('*')):
+                      if p.is_file():
+                          arc = p.relative_to(tree).as_posix()
+                          if not arc.startswith('madomagi/'):
+                              raise SystemExit(f'bad ZIP root {arc}')
+                          zf.write(p, arc)
+              with zipfile.ZipFile(zpath) as zf:
+                  if zf.testzip() is not None:
+                      raise SystemExit(f'ZIP CRC failure: {zpath.name}')
+              return {
+                  'name': zpath.name,
+                  'size': zpath.stat().st_size,
+                  'sha256': sha_bytes(zpath.read_bytes()),
+                  'files': records,
+              }
+
+          background = make_zip('Magireco_Shop_Background_web_0011_Official.zip', False)
+          combined = make_zip('Magireco_Shop_Background_and_Gem_Official.zip', True)
+
+          package_reports = {}
+          for p in sorted(out.glob('cn_base_*.zip.json')):
+              package_reports[p.name.removesuffix('.json')] = json.loads(p.read_text('utf-8'))
+
+          report = {
+              'schema': 'magireco-shop-background-exact-audit/v1',
+              'authoritative_repo': 'HiiragiNemu/io.kamihama.totentanz',
+              'release_repo': 'HiiragiNemu/magireco-cn-patch',
+              'family': 'web_0011',
+              'package_reports': package_reports,
+              'comparison': comparison,
+              'broken_files': broken,
+              'source_trace': trace,
+              'background_repair': background,
+              'background_and_gem_repair': combined,
+          }
+          (out / 'shop-background-exact-audit.json').write_text(
+              json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8'
+          )
+          (out / 'SHA256SUMS.txt').write_text(
+              f"{background['sha256']}  {background['name']}\n"
+              f"{combined['sha256']}  {combined['name']}\n",
+              encoding='utf-8'
+          )
+          (out / 'background-repair.filelist.txt').write_text(
+              '\n'.join(x['path'] for x in background['files']) + '\n', encoding='utf-8'
+          )
+
+          lines = [
+              '# 商店原生背景 web_0011 精确审计', '',
+              '## Release 包归属', '',
+          ]
+          for name, rec in package_reports.items():
+              lines.append(
+                  f"- `{name}`：`bg/web` {rec['bg_web_file_count']} 个；"
+                  f"`web_0011*` {rec['web_0011_file_count']} 个。"
+              )
+          lines += ['', '## web_0011 五件套比对', '']
+          for rec in comparison:
+              lines.append(f"- `{rec['name']}`：**{rec['status']}**")
+          lines += [
+              '',
+              f"确定缺失或语义不同：**{len(broken)}** 个。",
+              '', '## 修复包', '',
+              f"- `{background['name']}` — {len(background['files'])} 个文件 — "
+              f"SHA-256 `{background['sha256']}`",
+              f"- `{combined['name']}` — {len(combined['files'])} 个文件 — "
+              f"SHA-256 `{combined['sha256']}`",
+              '',
+              '两个 ZIP 的第一层目录严格为 `madomagi/`，直接解压到游戏 `files/`。',
+          ]
+          (out / 'SHOP_BACKGROUND_EXACT_AUDIT.md').write_text(
+              '\n'.join(lines), encoding='utf-8'
+          )
+          print(json.dumps({
+              'packages': {k: {
+                  'bg_web': v['bg_web_file_count'],
+                  'web_0011': v['web_0011_file_count'],
+              } for k,v in package_reports.items()},
+              'comparison': {r['name']: r['status'] for r in comparison},
+              'broken': broken,
+              'background_zip': background,
+              'combined_zip': combined,
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload exact repair artifact
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: shop-background-exact-audit-and-repair
+          path: |
+            /tmp/shop-bg-audit/out/Magireco_Shop_Background_web_0011_Official.zip
+            /tmp/shop-bg-audit/out/Magireco_Shop_Background_and_Gem_Official.zip
+            /tmp/shop-bg-audit/out/shop-background-exact-audit.json
+            /tmp/shop-bg-audit/out/SHOP_BACKGROUND_EXACT_AUDIT.md
+            /tmp/shop-bg-audit/out/SHA256SUMS.txt
+            /tmp/shop-bg-audit/out/background-repair.filelist.txt
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+
+      - name: Publish ZIPs, reports, and artifact ID to diagnostic branch
+        shell: bash
+        env:
+          ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+          ARTIFACT_URL: ${{ steps.upload.outputs.artifact-url }}
+          ARTIFACT_DIGEST: ${{ steps.upload.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/publish-shop-bg
+          cp /tmp/shop-bg-audit/out/Magireco_Shop_Background_web_0011_Official.zip /tmp/publish-shop-bg/
+          cp /tmp/shop-bg-audit/out/Magireco_Shop_Background_and_Gem_Official.zip /tmp/publish-shop-bg/
+          cp /tmp/shop-bg-audit/out/shop-background-exact-audit.json /tmp/publish-shop-bg/
+          cp /tmp/shop-bg-audit/out/SHOP_BACKGROUND_EXACT_AUDIT.md /tmp/publish-shop-bg/
+          cp /tmp/shop-bg-audit/out/SHA256SUMS.txt /tmp/publish-shop-bg/
+          cp /tmp/shop-bg-audit/out/background-repair.filelist.txt /tmp/publish-shop-bg/
+
+          git fetch origin tmp/shop-background-audit-20260824
+          git reset --hard origin/tmp/shop-background-audit-20260824
+          rm -rf diagnostic-output/shop-background-exact
+          mkdir -p diagnostic-output/shop-background-exact
+          cp -a /tmp/publish-shop-bg/. diagnostic-output/shop-background-exact/
+          cat > diagnostic-output/shop-background-exact/result-marker.txt <<EOF
+          run_id=${GITHUB_RUN_ID}
+          run_attempt=${GITHUB_RUN_ATTEMPT}
+          artifact_id=${ARTIFACT_ID}
+          artifact_url=${ARTIFACT_URL}
+          artifact_digest=${ARTIFACT_DIGEST}
+          status=success
+          EOF
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -f diagnostic-output/shop-background-exact
+          git commit -m 'test(diagnostic): publish exact shop background repair result'
+          git push origin HEAD:tmp/shop-background-audit-20260824
