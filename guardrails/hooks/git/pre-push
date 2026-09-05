@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# git pre-push — 分支 + 新提交(签名/消息/私有仓名/作者) 复查(引擎)。
+# rev4: 把 remote 名($1)传给引擎，只审远端没有的提交；旧版新分支会重审全历史(遇到历史上任何未签名提交即永久卡死)。
+set -uo pipefail
+remote="${1:-}"
+tmp=$(mktemp); resf=$(mktemp); trap 'rm -f "$tmp" "$resf"' EXIT
+python3 /root/.claude/policy/check.py push "$remote" --net <&0 >"$resf" 2>"$tmp" || true
+[ "$(cat "$resf")" = "pass" ] && exit 0
+echo "✋ 推送被阻止："; cat "$tmp"; exit 1

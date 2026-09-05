@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# git pre-merge-commit — `git merge` 产生的提交不会触发 pre-commit，这里转交同一套检查。
+exec "$(dirname "$0")/pre-commit" "$@"

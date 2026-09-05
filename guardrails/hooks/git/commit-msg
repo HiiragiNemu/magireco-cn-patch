@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# git commit-msg — 消息策略(引擎)：命中禁止词/私有仓名/作者为Agent/缺Co-authored 即拒。ERROR 亦拒(fail closed)。
+set -uo pipefail
+msgfile="$1"
+tmp=$(mktemp); resf=$(mktemp); trap 'rm -f "$tmp" "$resf"' EXIT
+python3 /root/.claude/policy/check.py commit "$msgfile" --net >"$resf" 2>"$tmp" || true
+[ "$(cat "$resf")" = "pass" ] && exit 0
+echo "✋ 提交信息不合规："; cat "$tmp"; exit 1

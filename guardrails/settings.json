@@ -1,0 +1,58 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "<REDACTED>",
+    "ANTHROPIC_AUTH_TOKEN": "<REDACTED>",
+    "ANTHROPIC_MODEL": "<REDACTED>",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "<REDACTED>",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "<REDACTED>",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "<REDACTED>",
+    "ANTHROPIC_DEFAULT_FABLE_MODEL": "<REDACTED>",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "<REDACTED>",
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "<REDACTED>"
+  },
+  "model": "sonnet",
+  "attribution": {
+    "sessionUrl": false
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit",
+        "hooks": [
+          { "type": "command", "command": "bash /root/.claude/hooks/forbid-content.sh", "timeout": 120 }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "if": "Bash(git *)", "command": "bash /root/.claude/hooks/forbid-commit.sh", "timeout": 120 }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "if": "Bash(git *)", "command": "bash /root/.claude/hooks/forbid-push.sh", "timeout": 120 }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "bash /root/.claude/hooks/forbid-read-secret.sh", "timeout": 30 }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "bash /root/.claude/hooks/forbid-tamper.sh", "timeout": 30 }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "python3 /root/.claude/hooks/refresh-private.py", "timeout": 120, "statusMessage": "刷新全所有者私有仓并集" }
+        ]
+      }
+    ]
+  }
+}
