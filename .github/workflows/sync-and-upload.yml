@@ -136,10 +136,10 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "magireco-cn-patch"
-      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_OWNER: "HiiragiNemu"
       DOWNSTREAM_REPO: "magireco-cn-patch"
-      CONFIG_OWNER: "MagirecoCN-Revival-Project"
-      CONFIG_REPO: "magirecocn-online-configs"
+      CONFIG_OWNER: "HiiragiNemu"
+      CONFIG_REPO: "magireco-cn-patch"
     steps:
       - name: 🛡 安全护栏（校验所有可写仓库都在白名单中）
         # 这是本 workflow 的"硬刹车"。下面列出的三组 owner/repo 是
@@ -150,10 +150,10 @@ jobs:
           python3 <<'SCRIPT_END'
           import os, sys
           ALLOW_UPSTREAM   = {"HiiragiNemu/magireco-cn-patch"}
-          ALLOW_DOWNSTREAM = {"MagirecoCN-Revival-Project/magireco-cn-patch"}
+          ALLOW_DOWNSTREAM = {"HiiragiNemu/magireco-cn-patch"}
           # 2026-08-21 起本 workflow 还会写在线配置仓库的 client.version
           # （bump-gate job），所以它也必须列在这张白名单里。
-          ALLOW_CONFIG     = {"MagirecoCN-Revival-Project/magirecocn-online-configs"}
+          ALLOW_CONFIG     = {"HiiragiNemu/magireco-cn-patch"}
 
           upstream   = f"{os.environ['UPSTREAM_OWNER']}/{os.environ['UPSTREAM_REPO']}"
           downstream = f"{os.environ['DOWNSTREAM_OWNER']}/{os.environ['DOWNSTREAM_REPO']}"
@@ -393,7 +393,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "magireco-cn-patch"
-      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_OWNER: "HiiragiNemu"
       DOWNSTREAM_REPO: "magireco-cn-patch"
       CONFIG_DIR: "configures"
     steps:
@@ -719,7 +719,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "magireco-cn-patch"
-      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_OWNER: "HiiragiNemu"
       DOWNSTREAM_REPO: "magireco-cn-patch"
       CONFIG_DIR: "configures"
     steps:
@@ -894,7 +894,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "magireco-cn-patch"
-      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_OWNER: "HiiragiNemu"
       DOWNSTREAM_REPO: "magireco-cn-patch"
       PUBLISH_HOTFIX: ${{ needs.setup.outputs.publish_hotfix }}
       CONFIG_DIR: "configures"
@@ -1311,7 +1311,7 @@ jobs:
     # 2026-08-20 玩家无限更新的根因（run #236 属 ①，run #239 属 ②，都实证）。
     # publish 失败时本 job 同步的是 Release 上一份自洽的旧状态（热更转正是
     # 事务式的，失败会回滚），不存在把半拉热更推上 CDN 的路径。
-    if: always() && needs.setup.result == 'success'
+    if: ${{ false }}
     outputs:
       apk_version: ${{ steps.sync_script.outputs.apk_version }}
       apk_name:    ${{ steps.sync_script.outputs.apk_name }}
@@ -1324,18 +1324,12 @@ jobs:
       R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
       R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
       R2_REGION: ${{ secrets.R2_REGION }}
-      R2_BUCKET: ${{ secrets.R2_BUCKET }}
       QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
       QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
       EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
-      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
       ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
       ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
       ESA_SITE_ID: ${{ secrets.ESA_SITE_ID }}
-      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-      CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "magireco-cn-patch"
     steps:
@@ -1762,12 +1756,10 @@ jobs:
                   os.environ['ESA_SITE_ID'],
                   os.environ['ESA_DOMAIN']
               )
-              cloudflare = CloudflareHandler(
-                  os.environ.get('CLOUDFLARE_API_TOKEN', ''),
-                  os.environ.get('CLOUDFLARE_ZONE_ID', '')
-              )
-              cf_domain = os.environ.get('CLOUDFLARE_DOMAIN', '').strip()
-              ok("R2 + EdgeOne + 阿里云 ESA + Cloudflare 已初始化")
+              # GitHub-only candidate: Cloudflare removed by user; handler is not instantiated.
+              cloudflare = None
+              cf_domain = ''
+              ok("R2 + EdgeOne + 阿里云 ESA 已初始化；Cloudflare 已移出范围")
 
               owner = os.environ.get('UPSTREAM_OWNER', 'HiiragiNemu')
               repo  = os.environ.get('UPSTREAM_REPO',  'magireco-cn-patch')
@@ -1911,7 +1903,6 @@ jobs:
                           # 删完顺手刷掉三个 CDN 上的残留缓存
                           edgeone.purge_cache(edgeone_domain, fname)
                           esa.purge_cache(fname)
-                          cloudflare.purge_cache(cf_domain, fname)
                   set_variable('PENDING_DELETIONS', '[]')
                   ok("PENDING_DELETIONS 已清空")
 
@@ -1931,7 +1922,6 @@ jobs:
                                              GH_HEADERS):
                       edgeone.purge_cache(edgeone_domain, fname)
                       esa.purge_cache(fname)
-                      cloudflare.purge_cache(cf_domain, fname)
                       processed.append(fname)
                   else:
                       err(f"上传失败: {fname}")
@@ -1947,8 +1937,6 @@ jobs:
                   header("刷新根目录 CDN 缓存")
                   edgeone.purge_cache(edgeone_domain, "")
                   esa.purge_cache("")
-                  cloudflare.purge_cache(cf_domain, "")
-
               header("保存指纹")
               final_map = old_map.copy()
               for fname in unchanged: final_map[fname] = old_map[fname]
@@ -1997,14 +1985,13 @@ jobs:
     # 清缓存+拉到新内容（2026-08-13）
     needs: [setup, publish, r2-sync]
     # 可由仓库变量显式停用；缺省开启。停用属于主动选择，不应阻塞游标。
-    if: always() && needs.setup.result == 'success' && fromJSON(vars.ENABLE_DOGE_SYNC || 'true')
+    if: ${{ false }}
     env:
       PYTHONUNBUFFERED: "1"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       DOGE_ACCESS_KEY: ${{ secrets.DOGE_ACCESS_KEY }}
       DOGE_SECRET_KEY: ${{ secrets.DOGE_SECRET_KEY }}
       DOGE_BUCKET:     ${{ secrets.DOGE_BUCKET }}
-      DOGE_DOMAIN:     ${{ secrets.DOGE_DOMAIN }}
       DOGE_API_BASE:   "https://api.dogecloud.com"
       UPSTREAM_OWNER:  "HiiragiNemu"
       UPSTREAM_REPO:   "magireco-cn-patch"
@@ -2076,7 +2063,7 @@ jobs:
     # 清缓存+拉到新内容（2026-08-13）
     needs: [setup, publish, r2-sync]
     # 可由仓库变量显式停用；缺省开启。停用属于主动选择，不应阻塞游标。
-    if: always() && needs.setup.result == 'success' && fromJSON(vars.ENABLE_PAN123_SYNC || 'true')
+    if: ${{ false }}
     env:
       PYTHONUNBUFFERED: "1"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -2149,7 +2136,7 @@ jobs:
   mirror-release:
     runs-on: ubuntu-latest
     needs: [setup, publish]
-    if: always() && needs.setup.result == 'success'
+    if: ${{ false }}
     outputs:
       snapshot_tag: ${{ steps.mirror_release.outputs.snapshot_tag }}
       mirrored:     ${{ steps.mirror_release.outputs.mirrored }}
@@ -2158,7 +2145,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "magireco-cn-patch"
-      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_OWNER: "HiiragiNemu"
       DOWNSTREAM_REPO: "magireco-cn-patch"
     steps:
       - name: 📦 检出镜像事务工具
@@ -2736,7 +2723,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "magireco-cn-patch"
-      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_OWNER: "HiiragiNemu"
       DOWNSTREAM_REPO: "magireco-cn-patch"
       CONFIG_DIR: "configures"
     steps:
@@ -2744,7 +2731,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TOKEN }}
-          repository: MagirecoCN-Revival-Project/magireco-cn-patch
+          repository: HiiragiNemu/magireco-cn-patch
           # 浅克隆即可：本 job 只 add+commit+push，不需要 diff 完整历史区间
           # （那是 setup/detect 的职责）。fetch-depth: 0 会把数 GB 的 blob
           # 历史全拉下来，实跑卡在 checkout 十几分钟。并发 push 冲突的罕见
@@ -2891,7 +2878,7 @@ jobs:
       #   避免"失败却先把游标更新了"导致改动永久丢失。
       # ───────────────────────────────────────────────────────────────
   # ───────────────────────────────────────────────────────────────
-  # 🆙 提升版本闸门（magirecocn-online-configs 的 client.version）
+  # 🆙 提升版本闸门（magireco-cn-patch 的 client.version）
   #   闸门必须跟着**玩家真能装到的那个包**走，所以它排在 r2-sync 之后、
   #   以 r2-sync 报出的「CDN 上现在是哪一版」为输入。
   #
@@ -2911,11 +2898,11 @@ jobs:
     # apk_version 只在「APK 与旁注都确实处于已同步状态、且旁注 sha256 与
     # asset digest 对得上」时才有值（见 r2-sync 的 emit_apk_version）。
     # 空值 = 这次没有可确认的 APK，本 job 整个跳过，闸门不动。
-    if: needs.r2-sync.outputs.apk_version != ''
+    if: ${{ false }}
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      CONFIG_OWNER: "MagirecoCN-Revival-Project"
-      CONFIG_REPO: "magirecocn-online-configs"
+      CONFIG_OWNER: "HiiragiNemu"
+      CONFIG_REPO: "magireco-cn-patch"
       CONFIG_PATH: "legacy/config.json"
       APK_VERSION: ${{ needs.r2-sync.outputs.apk_version }}
       APK_NAME: ${{ needs.r2-sync.outputs.apk_name }}
@@ -2927,7 +2914,7 @@ jobs:
         run: |
           python3 <<'SCRIPT_END'
           import os, sys
-          ALLOW_CONFIG = {"MagirecoCN-Revival-Project/magirecocn-online-configs"}
+          ALLOW_CONFIG = {"HiiragiNemu/magireco-cn-patch"}
           target = f"{os.environ['CONFIG_OWNER']}/{os.environ['CONFIG_REPO']}"
           if target not in ALLOW_CONFIG:
               print(f"::error::在线配置仓库 {target} 不在白名单中")
@@ -3058,10 +3045,9 @@ jobs:
 
   update-cursor:
     runs-on: ubuntu-latest
-    needs: [setup, commit-configs, r2-sync, doge-sync, pan123-upload, mirror-release]
-    # R2、镜像和提交必须成功；Doge/123 可被仓库变量主动停用（skipped），
-    # 但真实 failure 仍会阻止游标推进。
-    if: needs.r2-sync.result == 'success' && needs.doge-sync.result != 'failure' && needs.pan123-upload.result != 'failure' && needs.mirror-release.result == 'success' && needs.commit-configs.result == 'success' && (needs.setup.outputs.should_sync == 'true' || needs.commit-configs.outputs.committed == 'true')
+    needs: [setup, commit-configs]
+    # GitHub-only candidate: external distribution jobs are intentionally skipped.
+    if: needs.commit-configs.result == 'success' && (needs.setup.outputs.should_sync == 'true' || needs.commit-configs.outputs.committed == 'true')
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       FINAL_SYNC_SHA: ${{ needs.commit-configs.outputs.final_sync_sha }}
@@ -3087,13 +3073,8 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "magireco-cn-patch"
-      DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
+      DOWNSTREAM_OWNER: "HiiragiNemu"
       DOWNSTREAM_REPO: "magireco-cn-patch"
-      R2_BUCKET: ${{ secrets.R2_BUCKET }}
-      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
-      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
-      CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
-      DOGE_DOMAIN: ${{ secrets.DOGE_DOMAIN }}
     steps:
       - name: 📊 生成运行摘要
         if: always()
@@ -3111,10 +3092,10 @@ jobs:
           echo "| 热更新发布 | ${{ needs.setup.outputs.publish_hotfix == 'true' && '✅ _new → official（已清理 _new 预览 asset）' || '⏭️ 仅更新 _new 预览' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 版本 json 同步 | ${{ needs.commit-configs.outputs.committed == 'true' && format('✅ 同一 commit {0} 已推送并对齐上下游（fork 不分叉）', needs.commit-configs.outputs.short_sha) || '⏭️ 无配置变更' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| R2 过时文件清理 | ${{ needs.setup.outputs.confirm_cleanup == 'true' && '✅ 已确认清理' || '⏭️ 仅记录待清理列表（见 PENDING_DELETIONS 变量）' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 快照 Release | ${{ needs.mirror-release.outputs.mirrored == 'true' && format('✅ {0} + latest（全量，已校准 Latest 徽标）', needs.mirror-release.outputs.snapshot_tag) || '⏭️ 未镜像' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| R2 系 CDN 刷新 | EdgeOne（\`${{ env.EDGEONE_DOMAIN }}\`）+ 阿里云 ESA（\`${{ env.ESA_DOMAIN }}\`）+ Cloudflare（\`${{ env.CLOUDFLARE_DOMAIN }}\`） |" >> $GITHUB_STEP_SUMMARY
-          echo "| Doge 系同步 | 多吉云（\`${{ env.DOGE_DOMAIN }}\`）：${{ needs.doge-sync.result == 'success' && '✅ 已同步' || (fromJSON(vars.ENABLE_DOGE_SYNC || 'true') && format('⚠️ {0}', needs.doge-sync.result)) || '🚫 已停用' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 123云盘同步 | ${{ needs.pan123-upload.result == 'success' && '✅ 已同步' || (fromJSON(vars.ENABLE_PAN123_SYNC || 'true') && format('⚠️ {0}', needs.pan123-upload.result)) || '🚫 已停用' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 快照 Release | 已显式跳过（GitHub-only main；report-only） |" >> $GITHUB_STEP_SUMMARY
+          echo "| R2 系 CDN/EdgeOne/ESA | 已移出范围（GitHub-only；report-only） |" >> $GITHUB_STEP_SUMMARY
+          echo "| Doge 系同步 | 已显式跳过（GitHub-only；report-only） |" >> $GITHUB_STEP_SUMMARY
+          echo "| 123云盘同步 | 已显式跳过（GitHub-only；report-only） |" >> $GITHUB_STEP_SUMMARY
           echo "| 版本闸门 | ${{ needs.bump-gate.result == 'success' && format('✅ 已按 CDN 实况跟进（{0}）', needs.r2-sync.outputs.apk_version) || needs.bump-gate.result == 'skipped' && '⏭️ 本次没有可确认的 APK 版本，闸门不动' || format('⚠️ {0}', needs.bump-gate.result) }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发事件 | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 时间 | $(date -u +'%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
