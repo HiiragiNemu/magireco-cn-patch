@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministically rebuild the 23-dictionary MagiaCN jQuery payload.
+"""Deterministically rebuild the 32-dictionary MagiaCN jQuery payload.
 
 The committed jQuery is the audited runtime-code template.  This script extracts only its
 code outside ``var cn = {...}``, verifies that code against pass8/pass9 audit hashes, and
@@ -19,16 +19,21 @@ TARGET = LIBS / "jquery-3.7.1.min.js"
 RUNTIME_AUDIT = ROOT / "magica" / "i18n_audit" / "release_v26_authority"
 RUNTIME_MANIFEST = RUNTIME_AUDIT / "runtime_layer_manifest.json"
 RUNTIME_SUMS = RUNTIME_AUDIT / "RUNTIME_LAYER_SHA256SUMS.txt"
+AUDITED_RUNTIME27_SUFFIX = ROOT / "original_source" / "jquery-runtime27-suffix.bin"
 
 ORIGINAL_SHA256 = "fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a"
 AUDITED_PREFIX_SHA256 = "0243774265dc954e6f9d129d63776c0446097030bebeffaa81798477de3892a1"
-AUDITED_SUFFIX_SHA256 = "160a3bf39de546366396855d3f1c8dd9b04ca0da6bdffaa9215e58ce9aa79dae"
+BOOTSTRAP_SUFFIX_SHA256 = "eb84112df5b0ad55357143862e3b9eb7227345f8d4a083d587bfaa84b467f805"
 DICT_NAMES = (
     "arenaClassList", "cardList", "cardMagiaMap", "cardSkillMap", "chapterList",
     "charaList", "charaMessageList", "doppelCardMagiaMap", "doppelList",
     "emotionSkillMap", "enemyList", "eventList", "eventStoryList",
     "formationSheetList", "giftList", "itemList", "live2dList", "patrolAreaList",
     "pieceList", "pieceSkillMap", "placeSkillMap", "sectionList", "shopItemList",
+    "missionChallengeMap", "gachaLive2dMessageMap",
+    "missionPageTextMap", "gachaBusinessTextMap",
+    "questMissionDescriptionMap", "rewardDisplayNameMap", "runtimeNameMap",
+    "runtimeTypedFieldMap", "runtimeEntityFieldMap",
 )
 LIST_KEYS = {
     "arenaClassList": ("arenaBattleFreeRankClass",),
@@ -73,16 +78,19 @@ def split_audited_runtime() -> tuple[bytes, bytes]:
     payload_end = payload_start + consumed
     prefix = text[:payload_start].encode("utf-8")
     suffix = text[payload_end:].encode("utf-8")
-    if sha(prefix) != AUDITED_PREFIX_SHA256 or sha(suffix) != AUDITED_SUFFIX_SHA256:
+    audited_suffix = AUDITED_RUNTIME27_SUFFIX.read_bytes()
+    if sha(prefix) != AUDITED_PREFIX_SHA256 or (
+        suffix != audited_suffix and sha(suffix) != BOOTSTRAP_SUFFIX_SHA256
+    ):
         raise RuntimeError(
-            "runtime code outside the dictionary payload differs from the audited pass8/pass9 template"
+            "runtime code outside the dictionary payload differs from the audited runtime27 candidate template"
         )
     original = lf_bytes(ORIGINAL)
     if sha(original) != ORIGINAL_SHA256:
         raise RuntimeError(f"original jQuery hash mismatch: {sha(original)}")
     if not prefix.startswith(original):
         raise RuntimeError("audited jQuery prefix is not based on the pinned original jQuery")
-    return prefix, suffix
+    return prefix, audited_suffix
 
 
 def map_dictionary(name: str, data):
@@ -115,7 +123,7 @@ def map_dictionary(name: str, data):
 
 
 def write_runtime_manifest() -> None:
-    """Freeze the exact 23 dictionaries and generated jQuery for clean-checkout CI."""
+    """Freeze the exact 32 dictionaries and generated jQuery for clean-checkout CI."""
     paths = [LIBS / f"{name}.json" for name in DICT_NAMES] + [TARGET]
     rows = []
     for path in paths:

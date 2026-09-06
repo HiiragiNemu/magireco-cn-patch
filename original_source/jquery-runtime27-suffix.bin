@@ -1,0 +1,485 @@
+;
+    function put(o,k,v){
+        if(v!==undefined && v!==null && Object.prototype.hasOwnProperty.call(o,k)) o[k]=v;
+    }
+    function applyRuntimeSkill(o,m){
+        if(!m) return;
+        put(o,'name',m.name);
+        put(o,'shortDescription',m.shortDescription);
+        if(Object.prototype.hasOwnProperty.call(o,'description')){
+            if(m.description!==undefined) o.description=m.description;
+            else if(m.shortDescription!==undefined && o.id!==undefined && o.groupId!==undefined) o.description=m.shortDescription;
+        }
+        put(o,'eventDescription',m.eventDescription);
+    }
+    function runtimeSkillGroupAllowed(category,id,o){
+        if(!category || id===undefined || id===null || !o || o.groupId===undefined || o.groupId===null) return true;
+        var guardKey=JSON.stringify(['SKILL_GROUP_GUARD',String(category)+'|'+String(id)]);
+        var bucket=cn.runtimeEntityFieldMap[guardKey];
+        if(!bucket || !bucket.groupId) return true;
+        var group=String(o.groupId),rule=bucket.groupId[group];
+        return !!(rule && String(rule.source)===group);
+    }
+    function uniqueSkill(id){
+        var hit=null,count=0,candidate;
+        var maps=[cn.cardSkillMap,cn.emotionSkillMap,cn.pieceSkillMap,cn.placeSkillMap];
+        for(var i=0;i<maps.length;i++){
+            candidate=maps[i]&&maps[i][id];
+            if(candidate){hit=candidate;count++;}
+        }
+        return count===1?hit:null;
+    }
+    function applyStableNameRule(o,p,pk){
+        if(!Object.prototype.hasOwnProperty.call(o,'name') || typeof o.name!=='string') return;
+        var category=null,key=null,parent=String(p||''),idText;
+        if(pk.indexOf('gift')>=0 && o.id!==undefined && o.rank!==undefined && o.typeCode!==undefined){category='GIFT';key=String(o.id);}
+        else if(o.itemCode!==undefined){category='ITEM';key=String(o.itemCode);}
+        else if(o.bossId!==undefined){category='RAID_BOSS';key=String(o.eventId!==undefined?o.eventId:'')+'|'+String(o.bossId);}
+        else if((o.shopItemType!==undefined || (o.shopId!==undefined && o.genericId!==undefined)) && o.id!==undefined){category='SHOP_ITEM';key=String(o.id);}
+        else if(o.regularEventId!==undefined){category='REGULAR_EVENT';key=String(o.regularEventId);}
+        else if(o.eventId!==undefined && (o.eventType!==undefined || o.startAt!==undefined)){category='EVENT';key=String(o.eventId);}
+        else if(o.gachaKindId!==undefined){category='GACHA_KIND';key=String(o.gachaKindId);}
+        else if(o.beanKind!==undefined){category='GACHA_BEAN';key=String(o.beanKind);}
+        else if(o.shopItemList!==undefined && o.shopId!==undefined){category='SHOP';key=String(o.shopId);}
+        else if(o.archive!==undefined && o.designer!==undefined && o.id!==undefined){category='DOPPEL';key=String(o.id);}
+        else if(o.art4!==undefined && o.id!==undefined){category='DOPPEL_CARD_MAGIA';key=String(o.id);}
+        else if(pk.indexOf('cardmagia')>=0 && o.id!==undefined){category='CARD_MAGIA';key=String(o.id);}
+        else if(pk.indexOf('cardskill')>=0 && o.id!==undefined){category='CARD_SKILL';key=String(o.id);}
+        else if((pk.indexOf('pieceskill')>=0 || (o.type!==undefined && o.shortDescription!==undefined && o.art1!==undefined)) && o.id!==undefined){category='PIECE_SKILL';key=String(o.id);}
+        else if(o.num!==undefined && o.type!==undefined){category='POINT_ICON';key=String(o.type)+'|'+String(o.num);}
+        if(category===null) return;
+        idText=JSON.stringify([category,String(key),String(o.name)]);
+        var rule=cn.runtimeNameMap[idText];
+        if(rule && o.name===rule.source) o.name=rule.target;
+    }
+    function applyTypedFieldRule(o){
+        var category=null,key=null,field=null,idText,rule,typ;
+        if(Object.prototype.hasOwnProperty.call(o,'shortDescription') && typeof o.shortDescription==='string' && (o.itemCode!==undefined || o.itemId!==undefined)){
+            category='ITEM';key=String(o.itemCode!==undefined?o.itemCode:o.itemId);field='shortDescription';
+        }else if(Object.prototype.hasOwnProperty.call(o,'displayName') && typeof o.displayName==='string' && o.presentType!==undefined){
+            typ=String(o.presentType).toUpperCase();
+            if((typ==='CARD' || typ==='CHARA') && o.card && o.card.cardId!==undefined){category='REWARD_CARD';key=String(o.card.cardId);field='displayName';}
+        }
+        if(category===null) return;
+        idText=JSON.stringify([category,String(key),field,String(o[field])]);
+        rule=cn.runtimeTypedFieldMap[idText];
+        if(rule && o[field]===rule.source) o[field]=rule.target;
+    }
+    function getEntityFieldSlot(o,path){
+        var parts=String(path).split('/'),parent=o;
+        for(var i=0;i<parts.length-1;i++){
+            if(!parent || typeof parent!=='object' || !Object.prototype.hasOwnProperty.call(parent,parts[i])) return null;
+            parent=parent[parts[i]];
+        }
+        var field=parts[parts.length-1];
+        if(!parent || typeof parent!=='object' || !Object.prototype.hasOwnProperty.call(parent,field)) return null;
+        return {parent:parent,field:field,value:parent[field]};
+    }
+    function applyEntityBucket(o,category,key,rawValues,captureOnly,rawOnly){
+        var idText=JSON.stringify([category,String(key)]),bucket=cn.runtimeEntityFieldMap[idText],path,slot,rule,rawKey,rawValue;
+        if(!bucket) return;
+        for(path in bucket){
+            if(!Object.prototype.hasOwnProperty.call(bucket,path)) continue;
+            slot=getEntityFieldSlot(o,path);
+            if(!slot || typeof slot.value!=='string') continue;
+            rawKey=JSON.stringify([category,String(key),path]);
+            if(captureOnly){ rawValues[rawKey]=slot.value; continue; }
+            if(!rawOnly){
+                rule=bucket[path][slot.value];
+                if(rule && rule.rawSourceExact!==true && slot.value===rule.source) slot.parent[slot.field]=rule.target;
+            }
+            if(rawOnly && rawValues && Object.prototype.hasOwnProperty.call(rawValues,rawKey)){
+                rawValue=rawValues[rawKey];rule=bucket[path][rawValue];
+                if(rule && rule.rawSourceExact===true && rawValue===rule.source) slot.parent[slot.field]=rule.target;
+            }
+        }
+    }
+    function applyEntityFieldRules(o,p,rawValues,captureOnly,rawOnly){
+        var parentKey=String(p||''),lowerParent=parentKey.toLowerCase(),identities=[],seen={},reward='';
+        function add(category,key){
+            if(key===undefined || key===null) return;
+            var normalized=String(key),token=JSON.stringify([category,normalized]);
+            if(seen[token]) return;
+            seen[token]=true;identities.push([category,normalized]);
+        }
+
+        if(o.challenge && o.challengeId!==undefined &&
+           /^(userDailyChallengeList|userLimitedChallengeList|userTotalChallengeList|userGrowthChallengeList)$/.test(parentKey)) add('MISSION_CHALLENGE',parentKey+'|'+String(o.challengeId));
+        if(o.dailyChallenge!==undefined && Object.prototype.hasOwnProperty.call(o,'displayName')) add('DAILY_CHALLENGE',o.dailyChallenge);
+        if(o.totalChallenge!==undefined && Object.prototype.hasOwnProperty.call(o,'displayName')) add('TOTAL_CHALLENGE',o.totalChallenge);
+        if(o.presentType==='ITEM' && o.itemId!==undefined) add('PRESENT_ITEM',o.itemId);
+        if(o.presentType==='DOPPEL' && o.genericId!==undefined) add('PRESENT_DOPPEL',o.genericId);
+        if(o.presentType==='LIVE2D' && o.genericId!==undefined && o.genericCode!==undefined) add('PRESENT_LIVE2D',String(o.genericId)+'|'+String(o.genericCode));
+        if(parentKey==='eventRaidChallenge' && o.eventId!==undefined && o.challengeId!==undefined) add('EVENT_RAID_CHALLENGE',String(o.eventId)+'|'+String(o.challengeId));
+        if(o.live2dDetail!==undefined && o.messageId!==undefined && Object.prototype.hasOwnProperty.call(o,'message')) add('GACHA_MESSAGE',String(o.live2dDetail)+'|'+String(o.messageId));
+        if(o.charaNo!==undefined && o.messageId!==undefined && Object.prototype.hasOwnProperty.call(o,'message')) add('CHARA_MESSAGE',String(o.charaNo)+'|'+String(o.messageId));
+        if(o.sectionId!==undefined && Object.prototype.hasOwnProperty.call(o,'message')) add('SECTION_MESSAGE',o.sectionId);
+        if(o.eventId!==undefined && o.charaCount!==undefined && Object.prototype.hasOwnProperty.call(o,'message')) add('EVENT_TRAINING_MESSAGE',o.eventId);
+        if(o.itemCode!==undefined) add('ITEM',o.itemCode);
+        if((o.shopItemType!==undefined || (o.shopId!==undefined && o.genericId!==undefined)) && o.id!==undefined) add('SHOP_ITEM',o.id);
+        if(o.rewardCode!==undefined && o.gachaResultType!==undefined) add('REWARD',o.rewardCode);
+        if(o.questBattleId!==undefined) add('QUEST_BATTLE',o.questBattleId);
+        if(o.eventId!==undefined && (o.eventType!==undefined || o.startAt!==undefined)) add('EVENT',o.eventId);
+        if(o.cardId!==undefined && (Object.prototype.hasOwnProperty.call(o,'charaName') || Object.prototype.hasOwnProperty.call(o,'cardName'))) add('CARD',o.cardId);
+
+        if(o.campaignType!==undefined && o.id!==undefined) add('CAMPAIGN',o.id);
+        if(o.sectionId!==undefined) add('SECTION',o.sectionId);
+        if(o.arenaBattleFreeRankClass!==undefined) add('ARENA_FREE_RANK_CLASS',o.arenaBattleFreeRankClass);
+        if(o.gachaKindId!==undefined) add('GACHA_KIND',o.gachaKindId);
+        if(o.gachaType!==undefined && o.id!==undefined) add('GACHA_SCHEDULE',o.id);
+        if(o.boxId!==undefined && o.itemId!==undefined) add('GACHA_BOX_ENTRY',String(o.boxId)+'|'+String(o.itemId)+'|'+String(o.rewardCode===undefined?'':o.rewardCode));
+        if(lowerParent.indexOf('pieceskill')>=0 && o.id!==undefined) add('PIECE_SKILL',o.id);
+        if(/^emotionskill\d*$/.test(lowerParent) && o.id!==undefined) add('EMOTION_SKILL',o.id);
+        if(lowerParent==='emotionskilllist' && o.id!==undefined && o.groupId===1217 && o.art1 && o.art1.effectCode==='C_COMBO_PLUS') add('EMOTION_SKILL',o.id);
+        if(/^cardskill\d*$/.test(lowerParent) && o.id!==undefined) add('CARD_SKILL',o.id);
+        if(/^cardmagia\d*$/.test(lowerParent) && o.id!==undefined) add('CARD_MAGIA',o.id);
+        if(o.regularEventId!==undefined) add('REGULAR_EVENT',o.regularEventId);
+        if(o.id!==undefined && Object.prototype.hasOwnProperty.call(o,'archive') &&
+           (lowerParent.indexOf('doppel')>=0 || (Object.prototype.hasOwnProperty.call(o,'title') && Object.prototype.hasOwnProperty.call(o,'description')))) add('DOPPEL',o.id);
+        if(o.id!==undefined && (lowerParent.indexOf('doppelcardmagia')>=0 ||
+           (o.groupId!==undefined && Object.prototype.hasOwnProperty.call(o,'name') && Object.prototype.hasOwnProperty.call(o,'shortDescription') && o.artId1!==undefined && o.type===undefined))) add('DOPPEL_CARD_MAGIA',o.id);
+        if(o.orderNum!==undefined && o.startAt!==undefined && o.endAt!==undefined &&
+           (Object.prototype.hasOwnProperty.call(o,'title') || Object.prototype.hasOwnProperty.call(o,'detail'))) add('CONFIG_REWARD',String(o.orderNum)+'|'+String(o.startAt)+'|'+String(o.endAt));
+        if(o.eventId!==undefined && o.eventPartNo!==undefined) add('EVENT_BRANCH_PART',String(o.eventId)+'|'+String(o.eventPartNo));
+        if(o.eventId!==undefined && o.areaId!==undefined) add('EVENT_DUNGEON_AREA',String(o.eventId)+'|'+String(o.areaId));
+        if(o.eventId!==undefined && o.sequenceId!==undefined) add('EVENT_RAID_STORY',String(o.eventId)+'|'+String(o.sequenceId));
+        if(o.eventId!==undefined && o.pointId!==undefined && o.raidQuestBattleId!==undefined) add('EVENT_STORY_RAID_POINT',String(o.eventId)+'|'+String(o.pointId));
+        if(o.eventId!==undefined && o.pointId!==undefined && o.raidQuestBattleId===undefined && Object.prototype.hasOwnProperty.call(o,'displayCharaMessage')) add('EVENT_SINGLE_RAID_POINT',String(o.eventId)+'|'+String(o.pointId));
+        if(Object.prototype.hasOwnProperty.call(o,'presentComment') && o.presentType!==undefined){
+            reward=o.itemId!==undefined?o.itemId:(o.genericId!==undefined?o.genericId:(o.rewardCode!==undefined?o.rewardCode:''));
+            add('PRESENT_COMMENT',String(o.originType===undefined?'':o.originType)+'|'+String(o.presentType)+'|'+String(reward));
+        }
+        if(o.unionId!==undefined && Object.prototype.hasOwnProperty.call(o,'charaNameList')) add('REGULAR_EVENT_UNION',o.unionId);
+        if(Object.prototype.hasOwnProperty.call(o,'conditionDescript')) add('PAGE_CONDITION','ROOT');
+        for(var i=0;i<identities.length;i++) applyEntityBucket(o,identities[i][0],identities[i][1],rawValues,captureOnly,rawOnly);
+        return rawValues;
+    }
+    function applyRegularEventAccomplishEnemyRules(root){
+        var preview=root&&root.questBattlePreviewJsonMap,eventId=null,waves,enemies,enemy,key;
+        if(!preview || typeof preview!=='object') return;
+        if(root.userRegularEventAccomplish && root.userRegularEventAccomplish.regularEventId!==undefined){
+            eventId=String(root.userRegularEventAccomplish.regularEventId);
+        }else if(Array.isArray(root.regularEventList)){
+            for(var ri=0;ri<root.regularEventList.length;ri++){
+                var regularEvent=root.regularEventList[ri];
+                if(regularEvent && String(regularEvent.regularEventType||'').toUpperCase()==='ACCOMPLISH' && regularEvent.regularEventId!==undefined){eventId=String(regularEvent.regularEventId);break;}
+            }
+        }
+        if(eventId===null) return;
+        for(var questBattleId in preview){
+            if(!Object.prototype.hasOwnProperty.call(preview,questBattleId)) continue;
+            waves=preview[questBattleId];if(!Array.isArray(waves)) continue;
+            for(var waveIndex=0;waveIndex<waves.length;waveIndex++){
+                enemies=waves[waveIndex]&&waves[waveIndex].enemyList;if(!Array.isArray(enemies)) continue;
+                for(var enemyIndex=0;enemyIndex<enemies.length;enemyIndex++){
+                    enemy=enemies[enemyIndex];if(!enemy || typeof enemy!=='object') continue;
+                    key=eventId+'|'+String(questBattleId)+'|'+String(waveIndex)+'|'+String(enemyIndex)+'|'+String(enemy.miniCharId===undefined?'':enemy.miniCharId)+'|'+String(enemy.pos===undefined?'':enemy.pos);
+                    applyEntityBucket(enemy,'REGULAR_EVENT_ACCOMPLISH_ENEMY',key,{},false,false);
+                }
+            }
+        }
+    }
+    function tr(o,p){
+        if(Array.isArray(o)){
+            for(var i=0;i<o.length;i++) tr(o[i],p);
+            return;
+        }
+        if(!o || typeof o!=='object') return;
+
+        applyRegularEventAccomplishEnemyRules(o);
+
+        var entityRawValues=applyEntityFieldRules(o,p,{},true,false);
+        var pk=String(p||'').toLowerCase();
+        var t=null,m=null,id=null;
+        var live2dHit=false,doppelSkillHit=false;
+
+        if(o.charaId!==undefined && o.live2dId!==undefined){
+            id=String(o.charaId)+'_'+String(o.live2dId);
+            t=cn.live2dList[id];
+            if(t){put(o,'description',t.description);live2dHit=true;}
+        }
+
+        id=o.charaNo!==undefined?o.charaNo:
+           (o.charaId!==undefined?o.charaId:
+           ((pk.indexOf('chara')>=0 && o.id!==undefined)?o.id:null));
+        if(id!==null && id!==undefined && cn.charaList[id]){
+            t=cn.charaList[id];
+            put(o,'name',t.name);
+            put(o,'charaName',t.name);
+            put(o,'kana',t.kana);
+            put(o,'title',t.title);
+            put(o,'school',t.school);
+            put(o,'voiceActor',t.voiceActor);
+            if(!live2dHit && o.live2dId===undefined) put(o,'description',t.description);
+        }
+
+        if(o.doppelId!==undefined && o.description!==undefined && o.id===undefined &&
+           (pk.indexOf('doppel')>=0 || o.doppelMagiaId!==undefined)){
+            id=Math.floor(Number(o.doppelId)/100)*10+8;
+            m=cn.doppelCardMagiaMap[id];
+            if(m){applyRuntimeSkill(o,m);doppelSkillHit=true;}
+        }
+
+        id=o.doppelId!==undefined?o.doppelId:
+           ((o.id!==undefined && (pk.indexOf('doppel')>=0 ||
+             (o.title!==undefined && o.description!==undefined)))?o.id:null);
+        if(!doppelSkillHit && id!==null && id!==undefined && cn.doppelList[id]){
+            t=cn.doppelList[id];
+            put(o,'name',t.name);
+            put(o,'title',t.title);
+            put(o,'description',t.description);
+        }
+
+        if(o.sectionId!==undefined && cn.sectionList[o.sectionId]){
+            t=cn.sectionList[o.sectionId];
+            put(o,'areaDetailName',t.areaDetailName);
+            put(o,'title',t.title);
+            put(o,'charaName',t.charaName);
+            put(o,'message',t.message);
+            put(o,'outline',t.outline);
+        }
+        if(o.cardId!==undefined && cn.cardList[o.cardId]){
+            t=cn.cardList[o.cardId];
+            put(o,'cardName',t.cardName);
+        }
+
+        id=o.enemyId!==undefined?o.enemyId:
+           ((pk.indexOf('enemy')>=0 && o.id!==undefined)?o.id:null);
+        if(id!==null && id!==undefined && cn.enemyList[id]){
+            t=cn.enemyList[id];
+            put(o,'name',t.name);
+            put(o,'title',t.title);
+            put(o,'description',t.description);
+        }
+
+        id=o.pieceId!==undefined?o.pieceId:
+           ((pk.indexOf('piece')>=0 && o.pieceName!==undefined && o.id!==undefined)?o.id:null);
+        if(id!==null && id!==undefined && cn.pieceList[id]){
+            t=cn.pieceList[id];
+            put(o,'pieceName',t.pieceName);
+            if(Object.prototype.hasOwnProperty.call(o,'name') && t.pieceName!==undefined)o.name=t.pieceName;
+            put(o,'description',t.description);
+        }
+
+        id=o.itemCode!==undefined?o.itemCode:
+           (o.itemId!==undefined?o.itemId:
+           ((pk.indexOf('itemlist')>=0 && o.id!==undefined)?o.id:null));
+        if(id!==null && id!==undefined && cn.itemList[id]){
+            t=cn.itemList[id];
+            put(o,'name',t.name);
+            put(o,'shortDescription',t.shortDescription);
+            put(o,'description',t.description);
+            put(o,'unit',t.unit);
+            put(o,'parameter',t.parameter);
+        }
+
+        id=o.shopItemId!==undefined?o.shopItemId:
+           ((((pk.indexOf('shopitem')>=0)||o.shopId!==undefined||o.shopItemType!==undefined) &&
+              o.id!==undefined)?o.id:null);
+        if(id!==null && id!==undefined && cn.shopItemList[id]){
+            t=cn.shopItemList[id];
+            put(o,'name',t.name);
+            put(o,'description',t.description);
+        }
+
+        m=null;
+        var skillCategory=null,skillId=null;
+        if(o.doppelMagiaId!==undefined)m=cn.doppelCardMagiaMap[o.doppelMagiaId];
+        else if(o.magiaId!==undefined){m=cn.cardMagiaMap[o.magiaId];skillCategory='CARD_MAGIA';skillId=o.magiaId;}
+        else if(o.connectId!==undefined){m=cn.cardSkillMap[o.connectId];skillCategory='CARD_SKILL';skillId=o.connectId;}
+        else if(o.memoriaId!==undefined)m=cn.pieceSkillMap[o.memoriaId];
+        else if(o.skillId!==undefined){
+            if(pk.indexOf('emotion')>=0)m=cn.emotionSkillMap[o.skillId];
+            else if(pk.indexOf('piece')>=0 || pk.indexOf('memoria')>=0)m=cn.pieceSkillMap[o.skillId];
+            else if(pk.indexOf('place')>=0)m=cn.placeSkillMap[o.skillId];
+            else if(pk.indexOf('connect')>=0 || pk.indexOf('cardskill')>=0){m=cn.cardSkillMap[o.skillId];skillCategory='CARD_SKILL';skillId=o.skillId;}
+            else m=uniqueSkill(o.skillId);
+        }else if(o.id!==undefined && (o.shortDescription!==undefined||o.name!==undefined)){
+            if(pk.indexOf('doppel')>=0)m=cn.doppelCardMagiaMap[o.id];
+            else if(pk.indexOf('magia')>=0){m=cn.cardMagiaMap[o.id];skillCategory='CARD_MAGIA';skillId=o.id;}
+            else if(pk.indexOf('emotion')>=0)m=cn.emotionSkillMap[o.id];
+            else if(pk.indexOf('piece')>=0 || pk.indexOf('memoria')>=0)m=cn.pieceSkillMap[o.id];
+            else if(pk.indexOf('place')>=0)m=cn.placeSkillMap[o.id];
+            else if(pk.indexOf('skill')>=0 || pk.indexOf('connect')>=0){m=cn.cardSkillMap[o.id];skillCategory='CARD_SKILL';skillId=o.id;}
+        }
+        if(m && !runtimeSkillGroupAllowed(skillCategory,skillId,o)) m=null;
+        applyRuntimeSkill(o,m);
+
+        id=o.formationSheetId!==undefined?o.formationSheetId:
+           (((o.sheetType!==undefined || pk.indexOf('formationsheet')>=0) && o.id!==undefined)?o.id:null);
+        if(id!==null && id!==undefined && cn.formationSheetList[id]){
+            t=cn.formationSheetList[id];
+            put(o,'name',t.name);
+            put(o,'description',t.description);
+        }
+
+        id=o.giftId!==undefined?o.giftId:
+           ((pk.indexOf('gift')>=0 && o.id!==undefined &&
+             o.rank!==undefined && o.name!==undefined)?o.id:null);
+        if(id!==null && id!==undefined && cn.giftList[id]) put(o,'name',cn.giftList[id].name);
+
+        if(Object.prototype.hasOwnProperty.call(o,'displayName') && o.presentType!==undefined){
+            var presentType=String(o.presentType).toUpperCase(),rewardText=null,rewardId=null,rewardKey=null,rewardRule=null;
+            if(presentType==='ITEM'){
+                rewardId=o.itemId!==undefined?o.itemId:(o.item&&typeof o.item==='object'?(o.item.itemCode!==undefined?o.item.itemCode:(o.item.itemId!==undefined?o.item.itemId:o.item.id)):null);
+                if(rewardId!==null&&rewardId!==undefined) rewardKey='ITEM|'+String(rewardId);
+            }else if(presentType==='GEM'&&o.genericId!==undefined) rewardKey='GEM|'+String(o.genericId);
+            else if(presentType==='DOPPEL'&&o.genericId!==undefined) rewardKey='DOPPEL|'+String(o.genericId);
+            else if(presentType==='LIVE2D'&&o.genericId!==undefined&&o.genericCode!==undefined) rewardKey='LIVE2D|'+String(o.genericId)+'|'+String(o.genericCode);
+            else if(presentType==='CARD'){
+                rewardId=o.cardId!==undefined?o.cardId:(o.card&&typeof o.card==='object'?(o.card.cardId!==undefined?o.card.cardId:(o.card.id!==undefined?o.card.id:o.genericId)):o.genericId);
+                if(rewardId!==null&&rewardId!==undefined) rewardKey='CARD|'+String(rewardId);
+            }else if(presentType==='RICHE') rewardKey='RICHE';
+            if(rewardKey!==null){
+                rewardRule=cn.rewardDisplayNameMap[rewardKey];
+                if(rewardRule&&o.displayName===rewardRule.source) o.displayName=rewardRule.target;
+            }
+            if((presentType==='PIECE'||presentType==='MAXPIECE') && o.piece && typeof o.piece==='object'){
+                rewardId=o.piece.pieceId!==undefined?o.piece.pieceId:o.genericId;
+                if(rewardId!==undefined && cn.pieceList[rewardId]) rewardText=cn.pieceList[rewardId].pieceName;
+            }else if(presentType==='GIFT' && o.gift && typeof o.gift==='object'){
+                rewardId=o.gift.giftId!==undefined?o.gift.giftId:(o.gift.id!==undefined?o.gift.id:o.genericId);
+                if(rewardId!==undefined && cn.giftList[rewardId]) rewardText=cn.giftList[rewardId].name;
+            }
+            if(rewardText!==null && rewardText!==undefined) o.displayName=rewardText;
+        }
+
+        if(o.patrolAreaId!==undefined && cn.patrolAreaList[o.patrolAreaId]){
+            t=cn.patrolAreaList[o.patrolAreaId];
+            put(o,'areaName',t.areaName);
+            put(o,'conditionDescription',t.conditionDescription);
+        }
+
+        if(o.chapterId!==undefined && cn.chapterList[o.chapterId]){
+            t=cn.chapterList[o.chapterId];
+            put(o,'title',t.title);
+            put(o,'chapterNoForView',t.chapterNoForView);
+        }
+        if(o.eventId!==undefined && cn.eventList[o.eventId]) put(o,'eventName',cn.eventList[o.eventId].eventName);
+        if(o.storyIds!==undefined && cn.eventStoryList[o.storyIds]){
+            t=cn.eventStoryList[o.storyIds];
+            put(o,'storyTitle',t.storyTitle);
+            put(o,'pointTitle',t.pointTitle);
+        }
+        id=null;
+        if((p==='eventList'||p==='beforeCloseEventList') && o.eventId!==undefined) id=String(p)+'_'+String(o.eventId);
+        else if(p==='regularEventList' && o.regularEventId!==undefined) id=String(p)+'_'+String(o.regularEventId);
+        else if(p==='campaignList' && o.id!==undefined) id=String(p)+'_'+String(o.id);
+        else if(p==='limitedChallengeGroupList' && o.id!==undefined) id=String(p)+'_'+String(o.id);
+        if(id!==null && cn.missionPageTextMap[id]){
+            var pageRule=cn.missionPageTextMap[id];
+            for(var pageField in pageRule){
+                if(!Object.prototype.hasOwnProperty.call(pageRule,pageField)) continue;
+                var pagePair=pageRule[pageField];
+                if(pageField==='regularEventCondition.description'){
+                    if(o.regularEventCondition && typeof o.regularEventCondition==='object' &&
+                       Object.prototype.hasOwnProperty.call(o.regularEventCondition,'description') &&
+                       o.regularEventCondition.description===pagePair.source) o.regularEventCondition.description=pagePair.target;
+                }else if(Object.prototype.hasOwnProperty.call(o,pageField) && o[pageField]===pagePair.source){
+                    o[pageField]=pagePair.target;
+                }
+            }
+        }
+        for(var missionSlot=1;missionSlot<=3;missionSlot++){
+            var missionCode=o['mission'+missionSlot];
+            var missionMaster=o['missionMaster'+missionSlot];
+            if(missionCode!==undefined && missionMaster && typeof missionMaster==='object' &&
+               Object.prototype.hasOwnProperty.call(missionMaster,'description')){
+                var missionRule=cn.questMissionDescriptionMap[String(missionCode)];
+                if(missionRule){
+                    var missionSourceMatch=missionMaster.description===missionRule.source;
+                    if(!missionSourceMatch && Array.isArray(missionRule.sourceAliases)){
+                        for(var missionAliasIndex=0;missionAliasIndex<missionRule.sourceAliases.length;missionAliasIndex++){
+                            if(missionMaster.description===missionRule.sourceAliases[missionAliasIndex]){
+                                missionSourceMatch=true;
+                                break;
+                            }
+                        }
+                    }
+                    if(missionSourceMatch) missionMaster.description=missionRule.target;
+                }
+            }
+        }
+        if(o.beanKind!==undefined){
+            var gachaFields=['name','displayTitle'];
+            for(var gf=0;gf<gachaFields.length;gf++){
+                var gachaField=gachaFields[gf];
+                if(!Object.prototype.hasOwnProperty.call(o,gachaField)) continue;
+                id='beanKind|'+String(o.beanKind)+'|'+gachaField+'|'+String(o[gachaField]);
+                if(cn.gachaBusinessTextMap[id]) o[gachaField]=cn.gachaBusinessTextMap[id];
+            }
+        }
+        if(p==='gachaKindList' && Object.prototype.hasOwnProperty.call(o,'name')){
+            id='parent|gachaKindList|name|'+String(o.name);
+            if(cn.gachaBusinessTextMap[id]) o.name=cn.gachaBusinessTextMap[id];
+        }
+        if(o.challengeId!==undefined && o.challenge && typeof o.challenge==='object' &&
+           (p==='userDailyChallengeList'||p==='userLimitedChallengeList'||
+            p==='userDoppelChallengeList'||p==='userTotalChallengeList') &&
+           (o.challenge.id===undefined || String(o.challenge.id)===String(o.challengeId))){
+            id=String(p)+'_'+String(o.challengeId);
+            if(cn.missionChallengeMap[id]) put(o.challenge,'displayName',cn.missionChallengeMap[id]);
+        }
+        if(o.live2dDetail!==undefined && o.messageId!==undefined){
+            id=String(o.live2dDetail)+'_'+String(o.messageId);
+            if(cn.gachaLive2dMessageMap[id]) put(o,'message',cn.gachaLive2dMessageMap[id]);
+        }
+        if(o.charaNo!==undefined && o.messageId!==undefined){
+            id=String(o.charaNo)+'_'+String(o.messageId);
+            if(cn.charaMessageList[id]) put(o,'message',cn.charaMessageList[id].message);
+        }
+        if(o.endMessageId!==undefined && o.endMessage!==undefined){
+            id=o.charId!==undefined?o.charId:
+               (o.miniCharId!==undefined?String(o.miniCharId).substring(0,4):null);
+            if(id!==null){
+                var endKey=String(id)+'_'+String(o.endMessageId);
+                if(cn.charaMessageList[endKey]) put(o,'endMessage',cn.charaMessageList[endKey].message);
+            }
+        }
+        if(o.arenaBattleFreeRankClass!==undefined && cn.arenaClassList[o.arenaBattleFreeRankClass]){
+            t=cn.arenaClassList[o.arenaBattleFreeRankClass];
+            put(o,'className',t.className);
+            put(o,'nextClassName',t.nextClassName);
+            put(o,'storyTitle',t.storyTitle);
+        }
+
+        applyStableNameRule(o,p,pk);
+        applyTypedFieldRule(o);
+        applyEntityFieldRules(o,p,entityRawValues,false,false);
+
+        for(var key in o){
+            if(Object.prototype.hasOwnProperty.call(o,key) && o[key]!==null) tr(o[key],key);
+        }
+        applyEntityFieldRules(o,p,entityRawValues,false,true);
+    }
+    var _op = JSON.parse; JSON.parse = function(text, r){ var j = _op(text, r); if(j && typeof j === 'object'){ try { tr(j, null); } catch(e){} } return j; };
+    var _ox = XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open = function(method,url){ this.__magiaCnUrl=String(url||''); this.addEventListener('readystatechange', function(){ if(this.readyState!==4)return; try { if(this.responseType==='json' && this.response && typeof this.response==='object'){ tr(this.response,this.__magiaCnUrl||null); return; } if((this.responseType==='' || this.responseType==='text') && this.responseText){ var fc=this.responseText.trim().charAt(0); if(fc==='{' || fc==='['){ var jo=_op(this.responseText); if(jo&&typeof jo==='object')tr(jo,this.__magiaCnUrl||null); var ts=JSON.stringify(jo); Object.defineProperty(this,'responseText',{value:ts,configurable:true}); if(this.response!==undefined)Object.defineProperty(this,'response',{value:ts,configurable:true}); } } } catch(e){} }); return _ox.apply(this,arguments); };
+    function installNetworkReliability(){
+        if(window.requirejs && typeof window.requirejs.config==='function'){
+            window.requirejs.config({waitSeconds:60});
+        }
+        var jq=window.jQuery;
+        if(jq && typeof jq.ajaxPrefilter==='function' && !jq.__MAGIACN_NETWORK_RELIABILITY__){
+            jq.ajaxPrefilter(function(options){
+                var url=options&&typeof options.url==='string'?options.url:'';
+                if(/\/magica\/api\/page\/TopPage(?:\?|$)/.test(url)) options.timeout=18E4;
+            });
+            jq.__MAGIACN_NETWORK_RELIABILITY__=true;
+        }
+    }
+    installNetworkReliability();
+    if(!window.__MAGIACN_REQUIRE_TIMEOUT_WATCH__){
+        var networkAttempts=0;
+        window.__MAGIACN_REQUIRE_TIMEOUT_WATCH__=setInterval(function (){
+            installNetworkReliability();
+            networkAttempts++;
+            if((window.requirejs&&typeof window.requirejs.config==='function')||networkAttempts>=100){
+                clearInterval(window.__MAGIACN_REQUIRE_TIMEOUT_WATCH__);
+                window.__MAGIACN_REQUIRE_TIMEOUT_WATCH__=null;
+            }
+        },100);
+    }
+    console.warn("MagiaCN JS v26 权威中文：官方国服 > Wiki > 已验证既有人工 > 新人工/LLM；32字典类型安全；Mission/Gacha复合键与页面字段；CV稳定角色ID");
+
+    window.__MAGIACN_TRANSLATE__=tr; window.__MAGIACN_RUNTIME_I18N__ = {packageId:"cn-js-v26-authority-pass17",schema:7,authority:"OFFICIAL-CN-DUMP>WIKI>EXISTING-VERIFIED-HUMAN>NEW-HUMAN-OR-LLM",machineTranslation:false,llmResidualReviewed:true,ambiguousSkillFallback:"reject",schemaPreserving:true,creatorFields:"voiceActor-stable-id-only;illustrator-designer-preserve",xhrJsonResponse:true,missionCompositeKey:"listName_challengeId",missionPageKey:"listName_stableId+exact-before",gachaCompositeKey:"live2dDetail_messageId",gachaBusinessKey:"beanKind-or-typed-parent+field+exact-source",questMissionKey:"mission1-3-code+exact-before",rewardDisplayNameKey:"presentType+stable-id+exact-before",stableNameKey:"typed-category+stable-id+exact-source",typedFieldKey:"typed-category+stable-id+field+exact-source",entityFieldKey:"typed-category+stable-id+relative-field-path+exact-full-source"};
+})();
