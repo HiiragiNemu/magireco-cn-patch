@@ -32,17 +32,17 @@ jobs:
     if: github.event.inputs.confirm == 'PURGE_ALL'
     env:
       PYTHONUNBUFFERED: "1"
-      QCLOUD_SECRET_ID:  ${{ secrets.QCLOUD_SECRET_ID }}
-      QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
-      EDGEONE_ZONE_ID:   ${{ secrets.EDGEONE_ZONE_ID }}
-      EDGEONE_DOMAIN:    ${{ secrets.EDGEONE_DOMAIN }}
-      ALIBABA_CLOUD_ACCESS_KEY_ID:     ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
-      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
-      ESA_SITE_ID:       ${{ secrets.ESA_SITE_ID }}
-      ESA_DOMAIN:        ${{ secrets.ESA_DOMAIN }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ZONE_ID:   ${{ secrets.CLOUDFLARE_ZONE_ID }}
-      CLOUDFLARE_DOMAIN:    ${{ secrets.CLOUDFLARE_DOMAIN }}
+      QCLOUD_SECRET_ID: ${{ secrets.GH_TOKEN }}
+      QCLOUD_SECRET_KEY: ${{ secrets.GH_TOKEN }}
+      EDGEONE_ZONE_ID: ${{ secrets.GH_TOKEN }}
+      EDGEONE_DOMAIN: ${{ secrets.GH_TOKEN }}
+      ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.GH_TOKEN }}
+      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.GH_TOKEN }}
+      ESA_SITE_ID: ${{ secrets.GH_TOKEN }}
+      ESA_DOMAIN: ${{ secrets.GH_TOKEN }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.GH_TOKEN }}
+      CLOUDFLARE_ZONE_ID: ${{ secrets.GH_TOKEN }}
+      CLOUDFLARE_DOMAIN: ${{ secrets.GH_TOKEN }}
       DOMAIN_CHOICE:     ${{ github.event.inputs.domain_choice }}
 
     steps:

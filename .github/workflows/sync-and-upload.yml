@@ -79,23 +79,23 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHONUNBUFFERED: "1"
-      : ${{ secrets. }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
       R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
       R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
       R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
       R2_REGION: ${{ secrets.R2_REGION }}
       R2_BUCKET: ${{ secrets.R2_BUCKET }}
-      QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
-      QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
-      EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
-      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
-      ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
-      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
-      ESA_SITE_ID: ${{ secrets.ESA_SITE_ID }}
-      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-      CLOUDFLARE_DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
+      QCLOUD_SECRET_ID: ${{ secrets.GH_TOKEN }}
+      QCLOUD_SECRET_KEY: ${{ secrets.GH_TOKEN }}
+      EDGEONE_ZONE_ID: ${{ secrets.GH_TOKEN }}
+      EDGEONE_DOMAIN: ${{ secrets.GH_TOKEN }}
+      ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.GH_TOKEN }}
+      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.GH_TOKEN }}
+      ESA_SITE_ID: ${{ secrets.GH_TOKEN }}
+      ESA_DOMAIN: ${{ secrets.GH_TOKEN }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.GH_TOKEN }}
+      CLOUDFLARE_ZONE_ID: ${{ secrets.GH_TOKEN }}
+      CLOUDFLARE_DOMAIN: ${{ secrets.GH_TOKEN }}
       UPSTREAM_OWNER: "HiiragiNemu"
       UPSTREAM_REPO: "patch-front"
       DOWNSTREAM_OWNER: "MagirecoCN-Revival-Project"
