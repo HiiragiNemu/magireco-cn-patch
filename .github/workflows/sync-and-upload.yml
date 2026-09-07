@@ -138,7 +138,7 @@ jobs:
       - name: 📦 检出下游仓库
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets. }}
+          token: ${{ secrets.GH_TOKEN }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           # 需要完整历史：detect 步骤要 diff「上次同步点 → 最新」的整个
           # 区间，浅克隆拿不到旧提交
