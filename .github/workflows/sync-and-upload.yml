@@ -1,83 +1,7 @@
-name: 🔄 同步上游并上传到 R2
+name: 个人仓库游戏更新发布
 
-# ╔════════════════════════════════════════════════════════════════════╗
-# ║   v4.0 —— 单 job 21 步 → 10-job 并行 DAG；                          ║
-# ║   DAG 拓扑：                                                        ║
-# ║     [setup] 护栏/检出/同步下游/detect                                ║
-# ║       ├─ [pack-js] CSS冻结+打包JS  ║ [pack-scenario] 打包SCENARIO    ║
-# ║       └─ [publish] 热更发布(gate)                                    ║
-# ║            ├─ [r2-sync] R2系同步  ║ [doge-sync] Doge系(hk runner)     ║
-# ║            ├─ [mirror-release] 镜像Release                           ║
-# ║            ├─ [bump-gate] APK 落地 CDN 后按实况抬版本闸门            ║
-# ║            └─ [commit-configs] 提交版本json推上下游                    ║
-# ║                 └─ [update-cursor] 推进游标 → [summary] 报告         ║
-# ║   R2 系：单 R2 桶 + EdgeOne/ESA/Cloudflare 三 CDN 刷新               ║
-# ║   Doge 系：多吉云 S3 兼容镜像（临时密钥）+ 多吉云 CDN 刷新，          ║
-# ║     2026-08-13 起在 mainland runner 上跑：多吉云服务端 fetch 拉取     ║
-# ║     （/oss/fetch.json 轮询），源用国内 CDN 竞速，不再 runner 上传     ║
-# ║     指纹存 GitHub variable LAST_DOGE_FINGERPRINTS                    ║
-# ║   R2 过时文件需手动确认清理；                                       ║
-# ║   版本 json 以【同一个 commit】推送上下游（fork 页不分叉）；      ║
-# ║   每次新建/同步 Release 后强制校准 Latest 徽标到 tag=latest         ║
-# ╠════════════════════════════════════════════════════════════════════╣
-# ║                                                                    ║
-# ║ 热更新流程                                                          ║
-# ║ ───────                                                            ║
-# ║   1. 每次 sync：                                                   ║
-# ║        ▸ 重新生成 cn_*_update_new.zip                              ║
-# ║        ▸ 按包指纹写 version_*_new.json；同预览复用版本，             ║
-# ║          不同字节严格越过已观察到的最高版本                         ║
-# ║        ▸ 同步到 /、/configures/、Release 三处                      ║
-# ║        ▸ 提交 _new 文件到 git（同一 commit 推送并对齐上下游），     ║
-# ║          official 文件不动                                         ║
-# ║                                                                    ║
-# ║   2. 手动勾选 publish_hotfix=true 时：                              ║
-# ║        ▸ 把 *_new 文件去掉 _new 后缀覆盖正式文件                     ║
-# ║          （Release + /configures/；根目录不放 official version）    ║
-# ║        ▸ 转正方式：旧正式 asset 先 PATCH 改为 rollback 名，再把     ║
-# ║          已核验的 _new asset PATCH 为正式名；整批失败倒序恢复。      ║
-# ║          不要用 `gh release upload <tag> <file>#<name>` —— `#`     ║
-# ║          后面只是"显示标签（label）"，asset 真实 name 仍是本地      ║
-# ║          文件名，下载 URL 也按 name 走，于是出现"网页端显示正式     ║
-# ║          名、点击却下载 _new 文件"的虚空链接 bug                    ║
-# ║        ▸ 转正后 _new asset 已改为正式名，不再留下第二个预览条目，    ║
-# ║          避免网页端同时显示带 _new 和不带 _new 两个条目             ║
-# ║                                                                    ║
-# ║ R2 同步                                                            ║
-# ║ ───────                                                            ║
-# ║   ▸ 黑名单：puella-historia*（前缀）不同步                          ║
-# ║   ▸ GitHub 上已不存在的文件【不主动删除】，先记入                   ║
-# ║       PENDING_DELETIONS 仓库变量并打印警告；手动以                  ║
-# ║       confirm_cleanup=true 运行时才真正删除                         ║
-# ║                                                                    ║
-# ║ R2 系 CDN 刷新                                                      ║
-# ║ ───────────                                                         ║
-# ║   ▸ 每上传一个文件，刷新 EdgeOne（EDGEONE_DOMAIN，腾讯云 TEO）、    ║
-# ║     阿里云 ESA（ESA_DOMAIN，PurgeCaches Type=file）与               ║
-# ║     Cloudflare（CLOUDFLARE_DOMAIN，Purge Cache by URL）             ║
-# ║                                                                    ║
-# ║ DogeCloud 系（独立流水线）                                          ║
-# ║ ───────────────────                                                 ║
-# ║   ▸ scripts/sync-dogecloud.py：tmp_token 换 STS → 上传/删除 →       ║
-# ║     POST /cdn/refresh/add.json 刷新（rtype=url，同一 TOKEN 鉴权）   ║
-# ║   ▸ 独立指纹 LAST_DOGE_FINGERPRINTS；过滤规则与 R2 系一致；          ║
-# ║     confirm_cleanup=true 才删 Doge 桶过时文件                        ║
-# ║                                                                    ║
-# ║ 本仓库快照 Release                                                  ║
-# ║ ───────                                                            ║
-# ║   ▸ 每次运行把上游最新 Release 的【全部】asset 镜像到本仓库：       ║
-# ║       1. YYYYmmdd-HHMMSS（UTC）命名的 Release —— 历史快照          ║
-# ║          （只放本次变化的文件，作为变更记录；显式 --latest=false，  ║
-# ║          绝不抢占仓库的 "Latest" 徽标）                             ║
-# ║       2. 名为 latest 的 Release —— 【增量镜像】：只传新增／变化      ║
-# ║          asset，并删除 upstream 已移除的文件；完成后逐项核对         ║
-# ║          name、size、digest 与完整集合，既保持完整镜像，也避免       ║
-# ║          每次重复传输十余 GiB 未变化资产；每次运行结束都             ║
-# ║          显式 `gh release edit latest --latest` 校准，确保          ║
-# ║          "Latest" 徽标 / `/releases/latest` API 永远指向它，        ║
-# ║          不会被更晚创建的日期快照 Release 抢走                      ║
-# ║                                                                    ║
-# ╚════════════════════════════════════════════════════════════════════╝
+# Personal main is the sole build, configuration and release authority.
+# Organization mirroring runs independently and never gates publication.
 
 on:
   workflow_dispatch:
@@ -123,6 +47,7 @@ permissions:
 
 jobs:
   setup:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch'
     runs-on: ubuntu-24.04
     outputs:
       should_sync:    ${{ steps.check_upstream.outputs.should_sync }}
@@ -323,18 +248,18 @@ jobs:
           # 虚设，等于每次运行都在强制全量同步
           LAST_SYNC_COMMIT_SHA: ${{ vars.LAST_SYNC_COMMIT_SHA }}
 
-      - name: 🔄 同步上游 Fork
+      - name: Pin personal main change range
         if: steps.check_upstream.outputs.should_sync == 'true'
+        env:
+          LAST_SYNC_COMMIT_SHA: ${{ vars.LAST_SYNC_COMMIT_SHA }}
         run: |
-          gh repo sync "${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}" \
-              --source "${UPSTREAM_OWNER}/${UPSTREAM_REPO}" \
-              --branch main --force
-          # 记录同步前的下游 HEAD——detect 步骤以它为起点 diff，
-          # 这样上游一次推多个 commit 也能全部纳入变动范围
-          echo "PRE_SYNC_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-          # 重新拉取，让本地 workspace 含上游最新内容
-          git fetch origin main
-          git reset --hard origin/main
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'HiiragiNemu/magireco-cn-patch'
+          if [ -n "$LAST_SYNC_COMMIT_SHA" ] && git cat-file -e "$LAST_SYNC_COMMIT_SHA^{commit}" 2>/dev/null; then
+            echo "PRE_SYNC_SHA=$LAST_SYNC_COMMIT_SHA" >> "$GITHUB_ENV"
+          else
+            echo "PRE_SYNC_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+          fi
 
       - name: 🔍 记录变动范围
         id: detect
@@ -2699,7 +2624,7 @@ jobs:
       # 💾 提交配置变更，并以【同一个 commit】同步上下游
       #   设计要点（专治 GitHub fork 页 "N ahead / M behind" 分叉显示）：
       #   ▸ 版本 json 只在本地 commit 一次，然后把这个 commit 的
-      #     【同一个 SHA】直接 push 到上游 main，再用 gh repo sync
+      #     配置只推送个人 main；组织镜像由独立工作流跟进
       #     把下游 main 对齐到上游——任何时刻上下游都指向完全相同
       #     的 commit 对象，fork 页永远显示 up to date。
       #   ▸ 不能用 Contents API 分别往两个仓库提交：即使文件内容
@@ -2854,15 +2779,8 @@ jobs:
           fi
           echo "✔ 已推送上游 main: $(git rev-parse --short HEAD)"
 
-          # 2) 下游 main 对齐到上游 main（= 刚推上去的同一个 commit SHA），
-          #    fork 页面保持 up to date，不出现 ahead/behind 分叉；
-          #    失败则整步失败、游标不动，下次运行 force-sync 自动修复
-          if ! gh repo sync "${DOWNSTREAM_OWNER}/${DOWNSTREAM_REPO}" \
-              --source "${UPSTREAM_OWNER}/${UPSTREAM_REPO}" \
-              --branch main --force; then
-            echo "::error::下游对齐失败；下次运行 force-sync 会自动修复，本次游标不更新"
-            exit 1
-          fi
+          # The independent personal-to-organization workflow follows this commit.
+          # Mirror availability must not gate personal releases or version updates.
 
           FINAL_SHA=$(git rev-parse HEAD)
           echo "FINAL_SYNC_SHA=$FINAL_SHA" >> "$GITHUB_ENV"

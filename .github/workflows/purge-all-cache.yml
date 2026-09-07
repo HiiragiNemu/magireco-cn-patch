@@ -31,7 +31,7 @@ on:
 jobs:
   purge-cache:
     runs-on: ubuntu-latest
-    if: github.event.inputs.confirm == 'PURGE_ALL'
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch' && github.event.inputs.confirm == 'PURGE_ALL'
     env:
       PYTHONUNBUFFERED: "1"
       QCLOUD_SECRET_ID:  ${{ secrets.QCLOUD_SECRET_ID }}

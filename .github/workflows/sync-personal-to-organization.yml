@@ -1,0 +1,33 @@
+name: Personal main to organization mirror
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['个人仓库游戏更新发布']
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: personal-main-organization-mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch' && (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: HiiragiNemu/magireco-cn-patch
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+          token: ${{ secrets.GH_TOKEN }}
+      - name: Mirror only after personal publication or main update
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python3 scripts/mirror_personal_main.py --execute
