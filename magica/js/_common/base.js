@@ -6,11 +6,25 @@ function storageGet(key){try{return window.localStorage?window.localStorage.getI
 function storageSet(key,value){try{window.localStorage&&window.localStorage.setItem(key,value)}catch(ignore){}}
 function storageRemove(key){try{window.localStorage&&window.localStorage.removeItem(key)}catch(ignore){}}
 function saveRecord(record){try{storageSet(lastKey,JSON.stringify(record))}catch(ignore){}}
+function reportRecord(common,record){
+try{
+var url=common&&common.linkList?common.linkList.jsErrorSend:"";
+if(!url||typeof window.XMLHttpRequest!=="function")return;
+var xhr=new window.XMLHttpRequest();
+xhr.open("POST",url,true);
+xhr.setRequestHeader("Content-Type","text/plain; charset=UTF-8");
+xhr.send(JSON.stringify(record))
+}catch(reportError){
+record.reportError=asText(reportError&&reportError.stack||reportError);
+saveRecord(record)
+}
+}
 if(window.setTimeout)window.setTimeout(function(){storageRemove(retryKey)},30000);
 window.onerror=function(message,source,line,column,error){
 if(window.isBrowser)return false;
-if(window.__MAGIACN_JS_ERROR_ACTIVE__)return true;
+if(window.__MAGIACN_JS_ERROR_ACTIVE__)return false;
 window.__MAGIACN_JS_ERROR_ACTIVE__=true;
+if(window.setTimeout)window.setTimeout(function(){window.__MAGIACN_JS_ERROR_ACTIVE__=false},2000);
 var now=Date.now?Date.now():(new Date).getTime();
 var route=window.location&&window.location.hash?asText(window.location.hash):"#/TopPage";
 var stack=error&&(error.stack||error.message)?asText(error.stack||error.message):"";
@@ -19,7 +33,8 @@ var previous=null;
 try{previous=JSON.parse(storageGet(retryKey)||"null")}catch(ignore){}
 var repeated=!!(previous&&previous.signature===signature&&now-Number(previous.time)>=0&&now-Number(previous.time)<=retryWindow);
 storageSet(retryKey,JSON.stringify({signature:signature,time:now}));
-var target=repeated?"#/TopPage":route;
+var transientResultRoute=/^#\/GachaResult(?:[/?]|$)/.test(route);
+var target=repeated?"#/TopPage":(transientResultRoute?"#/GachaTop":route);
 var record={schema:"MagiaCNClientError/v2",time:now,message:asText(message),file:asText(source),line:Number(line)||0,column:Number(column)||0,error:asText(error),stack:stack,route:route,page:route,repeated:repeated,recoveryTarget:target};
 saveRecord(record);
 function directReload(){
@@ -33,7 +48,7 @@ else window.location.href=target
 }catch(ignore){}
 }
 try{
-require(["underscore","backbone","backboneCommon","ajaxControl","command"],function(underscore,backbone,common,ajax,command){
+require(["underscore","backbone","backboneCommon","command"],function(underscore,backbone,common,command){
 function reload(){
 window.__MAGIACN_JS_ERROR_ACTIVE__=false;
 try{
@@ -53,12 +68,10 @@ var base=common&&common.doc&&typeof common.doc.querySelector==="function"?common
 if(base&&base.style)base.style.display="none";
 if(common)common.androidKeyStop=true
 }catch(ignore){}
-try{
-if(ajax&&typeof ajax.ajaxPlainPost==="function"&&common&&common.linkList&&common.linkList.jsErrorSend)ajax.ajaxPlainPost(common.linkList.jsErrorSend,JSON.stringify(record),null)
-}catch(ignore){}
+reportRecord(common,record);
 try{
 if(common&&typeof common.PopupClass==="function"){
-new common.PopupClass({title:"错误",popupId:"resultCodeError",content:repeated?"发生错误。即将前往首页。":"发生错误。将重新载入当前页面。",decideBtnText:repeated?"返回首页":"重新载入",canClose:false},null,function(){
+new common.PopupClass({title:"错误",popupId:"resultCodeError",content:repeated?"发生错误。即将前往首页。":(transientResultRoute?"发生错误。将返回扭蛋页面。":"发生错误。将重新载入当前页面。"),decideBtnText:repeated?"返回首页":(transientResultRoute?"返回扭蛋":"重新载入"),canClose:false},null,function(){
 var jq=window.jQuery||window.$;
 if(jq){
 var button=jq("#resultCodeError .decideBtn");
@@ -72,13 +85,14 @@ else reload()
 })
 }else reload()
 }catch(ignore){reload()}
+window.__MAGIACN_JS_ERROR_ACTIVE__=false;
 })
 }catch(handlerError){
 record.handlerError=asText(handlerError&&handlerError.stack||handlerError);
 saveRecord(record);
 directReload()
 }
-return true
+return false
 }
 })();window.app_ver="";window.webInitTime="";window.sendHostName=location.hostname;
 var nativeJsonObj={},nativeCallback=function(a){console.log("nativeCallback:function:",a);$("#commandDiv").trigger("nativeCallback",a)},saveDataCallback=function(a){$("#commandDiv").trigger("saveDataCallback",a)},appVersionGet=function(a){window.app_ver=a},getBaseData=function(a){$("#baseReceive").trigger("getBaseData",a)},fontDataGet=function(a){var e=[],f=document.styleSheets.item(1);e.push("@font-face {font-family: 'motoya'; src: url('data:font/ttf;base64,"+String(a.motoya)+"');}");e.push("@font-face {font-family: 'mbm'; src: url('data:font/ttf;base64,"+

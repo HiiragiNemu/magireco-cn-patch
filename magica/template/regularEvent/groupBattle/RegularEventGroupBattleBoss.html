@@ -2,7 +2,7 @@
       <div class="userName gbFontWhite"><%= _.escape(model.loginName) %></div>
     </div> <% } %> <% }) %> </div> <% } %> <!-- バトル情報 -->
   <div id="bossBattleInfoWrap" class="battleInfoWrap">
-    <div class="title <%= eventStatus %>"> <% if (eventStatus == "final") { %> <span class="gbFontGold">后半</span><span class="gbFontWhite">　小组战</span> <% } else { %> <span class="gbFontGold">前半</span> <% } %> </div>
+    <div class="title <%= eventStatus %>"> <% if (eventStatus == "final") { %> <span class="gbFontGold">后半</span><span class="gbFontWhite">　团体战</span> <% } else { %> <span class="gbFontGold">前半</span> <% } %> </div>
     <div class="bossHpGaugeWrap">
       <div class="gaugeWrap">
         <div id="bossHpGauge" class="gauge" style="width:<%= beforeHpRate %>%;" data-after="<%= afterHpRate %>%"></div>
@@ -21,13 +21,13 @@
     <div class="groupInfo">
       <div class="header groupName gbFontWhite"><%= regularEventGroupBattleUserGroup.name %></div>
       <div class="groupRank gbFontWhite">
-        <div class="title gbFontWhite">小组排名</div> <% if (regularEventGroupBattleUserGroup.ranking) { %> <div class="value gbFontImgS"> <% _.forEach(String(regularEventGroupBattleUserGroup.ranking).split(''),function(txt){ %> <div class='num<%= txt %>'></div> <% }) %> </div> <% } %>
+        <div class="title gbFontWhite">团体排名</div> <% if (regularEventGroupBattleUserGroup.ranking) { %> <div class="value gbFontImgS"> <% _.forEach(String(regularEventGroupBattleUserGroup.ranking).split(''),function(txt){ %> <div class='num<%= txt %>'></div> <% }) %> </div> <% } %>
       </div>
       <div class="personalRank gbFontWhite">
         <div class="title gbFontWhite">个人排名</div> <% if (regularEventGroupBattleUserGroup.personalRanking) { %> <div class="value gbFontImgS"> <% _.forEach(String(regularEventGroupBattleUserGroup.personalRanking).split(''),function(txt){ %> <div class='num<%= txt %>'></div> <% }) %> </div> <% } %>
       </div>
     </div>
-    <div class="changePageBtn TE se_decide" data-pageid="PAGE_USER"></div> <% if (battleDetailModel.userRegularEventGroupBattle.remainGoodCount > 0) { %> <div class="groupBtnBadge gbFontWhite"><span>「点赞」</span>一下<br><span>MP</span>到手!</div> <% } %>
+    <div class="changePageBtn TE se_decide" data-pageid="PAGE_USER"></div> <% if (battleDetailModel.userRegularEventGroupBattle.remainGoodCount > 0) { %> <div class="groupBtnBadge gbFontWhite"><span>点赞</span>即可获得<br><span>MP</span>！</div> <% } %>
   </div> <% } %> <!-- フッター -->
   <div id="bottomWrap">
     <div id="gpInfoWrap">

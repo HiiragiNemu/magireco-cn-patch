@@ -134,7 +134,7 @@
 		<ul class="">
 			<li class="rewardTab TE se_tabs" data-type="grade"><span>等级<br>奖励</span></li>
 			<li class="rewardTab TE se_tabs" data-type="subjugation"><span>击退数<br>奖励</span></li>
-			<li class="rewardTab TE se_tabs" data-type="emblem"><span>每日<br>伤害报酬</span>/li>
+			<li class="rewardTab TE se_tabs" data-type="emblem"><span>每日<br>伤害报酬</span></li>
 			<li class="rewardTab TE se_tabs" data-type="groupRanking"><span>小组<br>排行榜报酬</span></li>
 			<li class="rewardTab TE se_tabs" data-type="group"><span>所属小组<br>奖励</span></li>
 			<li class="rewardTab TE se_tabs" data-type="memberRanking"><span>小组内<br>排行榜报酬</span></li>
@@ -241,32 +241,32 @@
 	<%="<% } %\>"%>
 </script>
 <script type="text/template" id="RewardListPartsTemp"> <%="<% if (type == 'grade') { %\>"%>
-	<div class="gradeWrap">
+	<div class="gradeWrap"><%="<% if (model.__nativeCurrent) { %\>"%>当前等级<%="<% } %\>"%>
 		<div class="gradeBg"></div>
 		<div class="gradeIcon grade<%='<%= model.grade %\>'%>"></div>
 	</div>
-	<div class="needGp gbFontImgL">
+	<div class="needGp gbFontImgL">所需GP 
 		<%="<% _.forEach(String(model.requiredGp).split(''),function(txt){ %\>"%>
 		<div class="num<%='<%= txt %\>'%>"></div>
 		<%="<% }) %\>"%>
 	</div>
 	<%="<% } else if (type == 'emblem') { %\>"%>
-	<div class="gradeWrap">
+	<div class="gradeWrap"><%="<% if (model.__nativeCurrent) { %\>"%>最高获得徽章<%="<% } %\>"%>
 		<div class="emblemIcon emblem<%='<%= model.emblem %\>'%>"></div>
 	</div>
-	<div class="needGp gbFontImgL">
+	<div class="needGp gbFontImgL">每日伤害 
 		<%="<% _.forEach(String(model.threshold).split(''),function(txt){ %\>"%>
 		<div class="num<%='<%= txt %\>'%>"></div>
 		<%="<% }) %\>"%>
 	</div>
 	<%="<% } else if (type == 'subjugation') { %\>"%>
-	<div class="needRepel gbFontImgL">
+	<div class="needRepel gbFontImgL"><%="<% if (model.__nativeCurrent) { %\>"%>已达到击退Lv <%="<% } else { %\>"%>所需击退数 <%="<% } %\>"%>
 		<%="<% _.forEach(String(model.subjugationCount).split(''),function(txt){ %\>"%>
 		<div class="num<%='<%= txt %\>'%>"></div>
 		<%="<% }) %\>"%>
 	</div>
 	<%="<% } else if (type == 'groupRanking' || type == 'memberRanking') { %\>"%>
-		<div class="rewardImgTitle gbFontWhite">获得<br>称号</div>
+		<div class="rewardImgTitle gbFontWhite"><%="<% if (model.__nativeCurrent) { %\>"%>当前<%="<% } else { %\>"%>获得<%="<% } %\>"%><br><%="<% if (model.__nativeCurrent) { %\>"%>排名<%="<% } else { %\>"%>称号<%="<% } %\>"%></div>
 		<%="<% if (model.rankingStart === model.rankingEnd) { %\>"%>
 		<div class="rankTarget gbFontWhite"><%='<%= model.rankingStart %\>'%>名</div>
 		<%="<% } else if (model.rankingEnd < 100) { %\>"%>
@@ -276,7 +276,7 @@
 		<%="<% } %\>"%>
 	<%="<% } else if (type == 'group') { %\>"%>
 	<div class="rewardTitle gbFontWhite">小组等级</div>
-	<div class="gradeWrap">
+	<div class="gradeWrap"><%="<% if (model.__nativeCurrent) { %\>"%>当前等级<%="<% } %\>"%>
 		<div class="gradeBg"></div>
 		<div class="gradeIcon grade<%='<%= model.groupGrade %\>'%>"></div>
 	</div>
@@ -315,5 +315,5 @@
 	<div class="decideText">心魔战的所属小组已确定。</div><br>
 	<%="<% } %\>"%>
 	前日小组内排名第1的用户可以更改小组名。<br>
-	每天1次,可以向小组成员<span class="gbFontPurple">点赞</span>，即可让继承MP<span class="gbFontPurple">50</span>即可获得
+	每天可为小组成员<span class="gbFontPurple">点赞</span>1次，并获得<span class="gbFontPurple">50</span>点继承MP。
 </script>
