@@ -51,8 +51,8 @@
 			<!-- 所持数 -->
 			<ul id="memoriaListInfo" class="memoriaInfo">
 				<li class="listIcon"></li>
-				<li class="cardCount_2"><span id="info_memoriaCount">80</span>/<span id="info_memoriaCapacity"><%= gameUser.cardCapacity %></span></li>
-				<li class="cardCount_3"><span id="info_selectCount">0</span></li>
+				<li class="cardCount_2">持有数量 <span id="info_memoriaCount">80</span><span id="info_memoriaCapacity">/<%= gameUser.cardCapacity %></span></li>
+				<li class="cardCount_3">选择数量 <span id="info_selectCount">0</span></li>
 			</ul>
 
 			<!-- 各種ファンクション -->
@@ -136,7 +136,7 @@
 <!-- 強化対象選択カードリストtemplate -->
 <script type="text/template" id="CardListParts">
 	<div class="cardInner">
-		<div class="overWrap"></div>
+		<div class="overWrap">基础选择</div>
 		<span class="dispPrm"></span>
 		<span class="lv"><span class="lvNum">Lv<%="<%=model.level%\></span>/<%=model.maxLevel%\>"%></span>
 		<span class="limitBreak lbCount<%='<%=model.lbCount%\>'%>">
@@ -157,7 +157,7 @@
 
 <!-- ステータスtemplate -->
 <script type="text/template" id="StatusParts">
-	<p class="lvWrap"><%="<span class='lv'\><%= model.level %\></span\><span class='sla'>/</span><span class='maxLv'\><%= model.maxLevel %\>"%></span></p>
+	<p class="lvWrap">LV <%="<span class='lv'\><%= model.level %\></span\><span class='sla'>/</span><span class='maxLv'\><%= model.maxLevel %\>"%></span></p>
 	<p class="expWrap"><%="<span class='exp'\></span\>"%></p>
 	<ul class="lbCount_3<%="<% if(model.lbCount < 4){ %\> thisLb<%= model.lbCount %\><% }else if(model.lbCount > 3){ %\> thisLb4 <% } %\>"%>">
 		<li class="statuslb1"></li>

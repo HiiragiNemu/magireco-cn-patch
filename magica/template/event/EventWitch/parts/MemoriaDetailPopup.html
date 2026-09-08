@@ -8,7 +8,7 @@
 	</div>
 	<div class="detailWrap">
 		<div class="memoriaTypeIcon"></div>
-		<div class="memoriaTypeName"></div>
+		<div class="memoriaTypeName"><% if(model.pieceType === "SKILL"){ %>技能类型<% }else{ %>能力类型<% } %></div>
 		<div class="rarity <%= model.rank %>">
 			<span class="stars star1"></span>
 			<span class="stars star2"></span>
@@ -23,7 +23,7 @@
 			<dl class="common_dl"><dt>最大DEF</dt><dd><%= model.defense %></dd></dl>
 		</div>
 		<div class="description">
-			<dl class="common_dl"><dt></dt><dd><%= model.pieceSkill.name %></dd></dl>
+			<dl class="common_dl"><dt><% if(model.pieceType === "SKILL"){ %>技能<% }else{ %>能力<% } %></dt><dd><%= model.pieceSkill.name %></dd></dl>
 			<div class="memoriaDetail"><%= model.pieceSkill.shortDescription %></div>
 		</div>
 	</div>

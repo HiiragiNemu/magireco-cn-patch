@@ -4,7 +4,7 @@
 
 		<!-- 所持通貨表示エリア -->
 		<div id="dispAmounts">
-			<div id="hasItems">
+			<div id="hasItems">持有
 				<img src="/magica/resource/image_web/common/icon/icon_money_f.png" class="costIcon">
 				<img src="/magica/resource/image_web/common/icon/icon_purchased.png" class="purchasedIcon">
 				<span class="pointFrame"></span>
@@ -74,7 +74,7 @@
 			<!-- アイテム画像 -->
 			<div class="popNameMiniWrap"><%='<%= _.escape(model.name) %\>'%></div>
 			<!-- アイテム価格 -->
-			<div class="useCost">
+			<div class="useCost">价格
 				<%='<% if(purchasedFlg){ %\>'%>
 					<img src="/magica/resource/image_web/common/icon/icon_purchased.png" class="purchasedIcon">
 				<%='<% } %\>'%>
@@ -117,14 +117,14 @@
 
 		<!-- 価格と通貨所持数 -->
 		<div class="costWrap">
-			<div class="useCost">
+			<div class="useCost">合计价格
 				<%='<% if(purchasedFlg){ %\>'%>
 					<img src="/magica/resource/image_web/common/icon/icon_purchased.png" class="purchasedIcon">
 				<%='<% } %\>'%>
 				<img src="<%='<%= costImage %\>'%>" class="costIcon">
 				<span class="pointFrame" id="totalCost"><%='<%= model.needNumber %\>'%></span>
 			</div>
-			<div class="costHasNum<%='<% if(setVal < model.needNumber){%\> lessNum<% } %\>'%>">
+			<div class="costHasNum<%='<% if(setVal < model.needNumber){%\> lessNum<% } %\>'%>">持有
 				<%='<% if(purchasedFlg){ %\>'%>
 					<img src="/magica/resource/image_web/common/icon/icon_purchased.png" class="purchasedIcon">
 				<%='<% } %\>'%>
@@ -148,7 +148,7 @@
 			<!-- アイテム画像 -->
 			<div class="popNameMiniWrap"><%='<%= _.escape(model.name) %\>'%></div>
 			<!-- アイテム価格 -->
-			<div class="useCost">
+			<div class="useCost">价格
 				<%='<% if(purchasedFlg){ %\>'%>
 					<img src="/magica/resource/image_web/common/icon/icon_purchased.png" class="purchasedIcon">
 				<%='<% } %\>'%>
@@ -177,7 +177,7 @@
 
 		<!-- 数量選択 -->
 		<div class="amountSelectWrap">
-			<div class="useCost">
+			<div class="useCost">合计价格
 				<%='<% if(purchasedFlg){ %\>'%>
 					<img src="/magica/resource/image_web/common/icon/icon_purchased.png" class="purchasedIcon">
 				<%='<% } %\>'%>
@@ -242,7 +242,7 @@
 
 <!-- アイテム所持数 -->
 <%='<% if(hasNum && (model.shopItemType !== "MAXPIECE" && model.shopItemType !== "PIECE")){%\>'%>
-<span class="pointFrame completeQuantity"><%='<%= hasNum %\>'%></span>
+<span class="pointFrame completeQuantity">持有数 <%='<%= hasNum %\>'%></span>
 <%='<% } %\>'%>
 
 <!-- 魔法少女以外は直接付与 -->

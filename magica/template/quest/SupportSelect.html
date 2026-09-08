@@ -39,9 +39,9 @@
 
 	<%="<% if(model.chapterNoForView) { %\>"%>
 		<%="<% if(model.noDispStoryNum) { %\>"%>
-		<p class="chapterTitle c_white">第<%="<%= model.chapterNoForView %\>"%>章</p>
+		<p class="chapterTitle c_white"><%="<%= (function(v){var s=String(v).trim();return /^\\d+$/.test(s)?'第'+s+'章':/^第\\d+章$/.test(s)?s:v;})(model.chapterNoForView) %\>"%></p>
 		<%="<% } else { %\>"%>
-		<p class="chapterTitle c_white">第<%="<%= model.chapterNoForView %\>"%>章</p>
+		<p class="chapterTitle c_white"><%="<%= (function(v){var s=String(v).trim();return /^\\d+$/.test(s)?'第'+s+'章':/^第\\d+章$/.test(s)?s:v;})(model.chapterNoForView) %\>"%></p>
 		<p class="sectionTitle c_purple">第<%="<%= model.genericIndex %\>"%>话</p>
 		<%="<% } %\>"%>
 	<%="<% } else if(model.eventObj || model.eventFlag) { %\>"%>

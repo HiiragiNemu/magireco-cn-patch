@@ -201,7 +201,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/cam
           var b = this.timeParser(this.clearTime);
           a.doc.getElementById("correctResult").textContent = this.correctNum + "/" + this.totalQuizNum + "题";
           a.doc.getElementById("timeResult").textContent = b;
-          a.doc.getElementById("timeWrap").textContent = b;
+          a.doc.getElementById("timeWrap").textContent = "用时 " + b;
           this.nowQuizNum = 0;
           b = {};
           b.quizSectionId = this.section;
@@ -326,14 +326,14 @@ define("underscore backbone backboneCommon ajaxControl command text!template/cam
           {
             var a = (new Date).getTime() - c,
               d = new Date(a);
-            if (3599990 < d) b.textContent = "59分59秒99", e();
+            if (3599990 < d) b.textContent = "用时 59分59秒99", e();
             else
             {
               var a = d.getMinutes(),
                 f = d.getSeconds(),
                 d = d.getMilliseconds() / 10 | 0,
                 a = (0 < a ? a + "分" : "") + (f + "秒" + ("0" + d).substr(-2, 2));
-              b.textContent = a
+              b.textContent = "用时 " + a
             }
           }, 80)
         },

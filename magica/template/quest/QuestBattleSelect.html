@@ -33,7 +33,7 @@
 		<p class="chapter">
 			<% if(model.questType !== "COSTUME"){ %>
 				<% if(model.chapterNoForView){ %>
-					第<span class="chapterNo"><%= model.chapterNoForView %>章：</span>
+					<span class="chapterNo"><%= (function(v){var s=String(v).trim();return /^\d+$/.test(s)?"第"+s+"章":/^第\d+章$/.test(s)?s:v;})(model.chapterNoForView) %>：</span>
 				<% } %>
 				<span class="c_purple sectionNo">第<%= model.genericIndex %>话</span>
 			<% }else{ %>

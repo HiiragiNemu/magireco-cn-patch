@@ -13,7 +13,7 @@
 			<div class="hideArea">
 			<div class="infoWrap">
 				<div class="paramWrap">
-					<p class="cardLevel"><span class="nowLevel c_purple"><%= model.level %></span>/<%= model.maxLevel %></p>
+					<p class="cardLevel">Lv：<span class="nowLevel c_purple"><%= model.level %></span>/<%= model.maxLevel %></p>
 					<p class="memPopLbTitle c_gold">界限突破</p>
 					<ul class="lbCount_3<% if(model.lbCount < 4){ %> thisLb<%= model.lbCount %><% }else if(model.lbCount >= 4){ %> thisLb4 <% } %>">
 						<li class="statuslb1"></li>
@@ -24,9 +24,9 @@
 					<div class="expWrap"><span class='exp'></span></div>
 					<p class="expNum c_gold"></p>
 					<p class="nextLvWrap"><span class="c_gold">距升级</span>&nbsp;<span class='nextExp'></span></p>
-					<span class="cardHp"><%= model.hp %></span>
-					<span class="cardAttack"><%= model.attack %></span>
-					<span class="cardDefense"><%= model.defense %></span>
+					<span class="cardHp">HP：<%= model.hp %></span>
+					<span class="cardAttack">ATK：<%= model.attack %></span>
+					<span class="cardDefense">DEF：<%= model.defense %></span>
 				</div>
 				<% if (!model.isHideHasNum) { %>
 				<div class="hasNumWrap">
@@ -121,7 +121,7 @@
 					</div>
 				</div>
 				<div class="illustrator">
-					<%= model.piece.illustrator %>
+					画师：<%= model.piece.illustrator %>
 				</div>
 			</div>
 			</div>

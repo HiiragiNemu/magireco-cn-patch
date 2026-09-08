@@ -20,7 +20,7 @@
 		<img src="/magica/resource/image_web/item/main/prism.png">
 	</div>
 	<div class="popNameMiniWrap">Magia晶片</div>
-	<div class="afterPoint"><span class="pointFrame" id="totalNum"><%= model.saleFactor %></span></div>
+	<div class="afterPoint"><span class="pointFrame" id="totalNum">获得数：<%= model.saleFactor %></span></div>
 	<div class="hasCount c_gold">（持有数量&nbsp;<%= hasPrism %>)</div>
 </div>
 <% }else{ %>
@@ -29,7 +29,7 @@
 			<img src="/magica/resource/image_web/item/main/prism.png">
 		</div>
 		<div class="popNameMiniWrap"><%= prism.name %></div>
-		<div class="afterPoint"><span class="pointFrame" id="totalNum"><%= model.saleFactor %></span></div>
+		<div class="afterPoint"><span class="pointFrame" id="totalNum">获得数：<%= model.saleFactor %></span></div>
 		<div class="hasCount c_gold">（持有数量&nbsp;<%= hasPrism %>)</div>
 
 		<div class="partition"></div>
@@ -37,7 +37,7 @@
 			<img src="/magica/resource/image_web/item/main/destiny_crystal.png">
 		</div>
 		<div class="popNameMiniWrap crystal"><%= crystal.name %></div>
-		<div class="afterPoint crystal"><span class="pointFrame" id="crystalTotalNum">1</span></div>
+		<div class="afterPoint crystal"><span class="pointFrame" id="crystalTotalNum">获得数：1</span></div>
 		<div class="hasCount c_gold crystal">（持有数量&nbsp;<%= hasCrystal %>)</div>
 	</div>
 <% } %>
