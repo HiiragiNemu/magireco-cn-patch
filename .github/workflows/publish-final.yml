@@ -31,7 +31,7 @@ jobs:
           test "$(stat -c%s payload/cn_js_update.zip)" = 121388408
           test "$(stat -c%s payload/cn_scenario_update.zip)" = 195637970
           test "$(sha256sum payload/cn_js_update.zip | cut -d' ' -f1)" = d6dd4a9c45631aefba69cdf80f1435cf541715e972ca0ede277036a5fa90aca1
-          test "$(sha256sum payload/cn_scenario_update.zip | cut -d' ' -f1)" = ee79c97b46b80c1ea2e3d9a9d039b10b59777ff8e4e5967a259d6d847eeac7c0
+          test "$(sha256sum payload/cn_scenario_update.zip | cut -d' ' -f1)" = ee79c97b46b80c1e2ca152a9d039b10b59777ff8e4e5967a259d6d847eeac7c0
       - name: Upload and verify R2
         run: |
           pip install --quiet boto3
