@@ -1,0 +1,443 @@
+{
+  "schema": "totentanz-translation-attribution/v1",
+  "generated_at": "2026-09-09T00:00:00+08:00",
+  "source": "D:\\magia\\deliveries\\totentanz-final-distribution-20260908\\release-candidate-v17-approved-native91\\source\\magica\\i18n_audit\\release_v26_authority\\machine_translation_review\\full_machine_translation_review.tsv",
+  "source_sha256": "809549641b4762a621c04ca9ff4a67a65c166a212addd44fadd945a2f44bde70",
+  "denominator": {
+    "all_review_rows": 15982,
+    "runtime_or_packaged_rows": 13358
+  },
+  "requested_mapping": {
+    "official_cn": "source_bucket=official; additionally source_tier/provenance fields are retained for mixed rows",
+    "ours": "source_bucket=new-root-human; source_author is retained and counts are not expanded to unnamed rows",
+    "mercury": "typed-unavailable: no authoritative per-row Mercury identifier in this export; legacy-ai is reported separately, not relabeled",
+    "madoka_record_wiki": "source_bucket=wiki (wiki source/provenance evidence)"
+  },
+  "source_bucket_counts": {
+    "wiki": 1096,
+    "new-root-human": 2692,
+    "unknown": 8432,
+    "official": 2122,
+    "legacy-ai": 1640
+  },
+  "source_bucket_runtime_consumed_counts": {
+    "legacy-ai": 34,
+    "new-root-human": 2692,
+    "official": 2062,
+    "unknown": 8432,
+    "wiki": 138
+  },
+  "by_bucket": {
+    "legacy-ai": {
+      "rows": 1640,
+      "components": {
+        "fragments_unverified_mixed": 7,
+        "frontend_ai_assisted_translated": 1572,
+        "frontend_untranslated": 52,
+        "overrides_unverified_mixed": 9
+      },
+      "runtime_consumed_rows": 34,
+      "source_tier_examples": [
+        [
+          "legacy_unverified_ai_assisted",
+          1587
+        ],
+        [
+          "current-product-visible-identity-audit",
+          34
+        ],
+        [
+          "current-product-exact-node-audit",
+          18
+        ],
+        [
+          "existing_human_reviewed",
+          1
+        ]
+      ],
+      "source_author_examples": [
+        [
+          "Kimi AI-assisted batch label; per-row human author not proven",
+          1248
+        ],
+        [
+          "Claude AI-assisted batch label; per-row human author not proven",
+          297
+        ],
+        [
+          "not applicable; semantic classification only",
+          52
+        ],
+        [
+          "individual author not recorded",
+          27
+        ],
+        [
+          "unknown mixed human/model authorship",
+          16
+        ]
+      ]
+    },
+    "new-root-human": {
+      "rows": 2692,
+      "components": {
+        "engine_runtime_i18n_confirmed_human": 301,
+        "engine_runtime_i18n_root_reviewed": 2,
+        "runtime_changed_after_pass15": 7,
+        "runtime_pass18_outside_pass15": 8,
+        "runtime_visible_term_closure_root_reviewed": 2372,
+        "runtime_visible_term_closure_wiki": 2
+      },
+      "runtime_consumed_rows": 2692,
+      "source_tier_examples": [
+        [
+          "root-reviewed-official-cn-terminology",
+          2372
+        ],
+        [
+          "confirmed-human",
+          303
+        ],
+        [
+          "official-cn-component;official_component+wiki_component+new_human",
+          12
+        ],
+        [
+          "official_or_wiki+root_context",
+          2
+        ],
+        [
+          "wiki-exact-stable-id-plus-official-cn-terminology",
+          2
+        ],
+        [
+          "official_cn_game_term;official_or_wiki+root_context",
+          1
+        ]
+      ],
+      "source_author_examples": [
+        [
+          "HiiragiNemu root-reviewed terminology application",
+          2372
+        ],
+        [
+          "confirmed human translation; native dynamic AP timer context",
+          301
+        ],
+        [
+          "HiiragiNemu root-personal human translation/review",
+          15
+        ],
+        [
+          "HiiragiNemu project root semantic review",
+          2
+        ],
+        [
+          "HiiragiNemu Wiki exact stable ID plus root-reviewed official-CN terminology",
+          2
+        ]
+      ]
+    },
+    "official": {
+      "rows": 2122,
+      "components": {
+        "engine_runtime_i18n_official": 207,
+        "frontend_ai_assisted_translated": 60,
+        "frontend_untranslated": 1,
+        "runtime_changed_after_pass15": 828,
+        "runtime_pass18_outside_pass15": 263,
+        "runtime_visible_term_closure_official": 762,
+        "static_pass18_authority_correction": 1
+      },
+      "runtime_consumed_rows": 2062,
+      "source_tier_examples": [
+        [
+          "official-cn",
+          776
+        ],
+        [
+          "1_official_cn_dump_same_record",
+          631
+        ],
+        [
+          "official_cn_game_term",
+          251
+        ],
+        [
+          "official-cn-native-exact",
+          160
+        ],
+        [
+          "official_cn_character_name",
+          99
+        ],
+        [
+          "official_cn_dump",
+          60
+        ],
+        [
+          "1_official_cn_dump_component",
+          32
+        ],
+        [
+          "official_cn_exact_live2d",
+          24
+        ],
+        [
+          "official-cn-native-normalized",
+          23
+        ],
+        [
+          "official-same-character-or-wiki;official_cn_game_term",
+          18
+        ],
+        [
+          "official-same-character-or-wiki",
+          13
+        ],
+        [
+          "official-cn-component",
+          10
+        ]
+      ],
+      "source_author_examples": [
+        [
+          "official CN exact stable-context source",
+          762
+        ],
+        [
+          "individual translator/author not recorded in pass8 provenance",
+          664
+        ],
+        [
+          "official CN/Wiki authority adoption; no new model translation",
+          428
+        ],
+        [
+          "official CN native game data; normalization decisions recorded by HiiragiNemu",
+          182
+        ],
+        [
+          "Kimi AI-assisted batch label; per-row human author not proven",
+          42
+        ],
+        [
+          "Claude AI-assisted batch label; per-row human author not proven",
+          18
+        ],
+        [
+          "official CN game data; adoption recorded by HiiragiNemu",
+          12
+        ],
+        [
+          "official CN native game data; exact adoption recorded by HiiragiNemu",
+          9
+        ],
+        [
+          "official CN WebView UI terminology; adoption recorded by HiiragiNemu",
+          2
+        ],
+        [
+          "official CN game data; historical adoption commit author retained in evidence",
+          1
+        ],
+        [
+          "Official CN client",
+          1
+        ],
+        [
+          "official CN static product source",
+          1
+        ]
+      ]
+    },
+    "unknown": {
+      "rows": 8432,
+      "components": {
+        "engine_runtime_i18n_intentional_fragment": 1,
+        "engine_runtime_i18n_root_reviewed": 108,
+        "runtime_changed_after_pass15": 154,
+        "runtime_current_unverified": 7857,
+        "runtime_manual_outside_pass15": 10,
+        "static_js_html_unverified": 302
+      },
+      "runtime_consumed_rows": 8432,
+      "source_tier_examples": [
+        [
+          "none_exact_found",
+          8323
+        ],
+        [
+          "manual-semantic-reviewed",
+          108
+        ],
+        [
+          "intentional-structural-rule",
+          1
+        ]
+      ],
+      "source_author_examples": [
+        [
+          "individual translator/author not recorded in pass8 provenance",
+          8011
+        ],
+        [
+          "individual translator/reviewer not recorded per row",
+          302
+        ],
+        [
+          "HiiragiNemu project root semantic review",
+          108
+        ],
+        [
+          "individual reviewer not recorded per row",
+          10
+        ],
+        [
+          "existing maintenance rule; translator not applicable",
+          1
+        ]
+      ]
+    },
+    "wiki": {
+      "rows": 1096,
+      "components": {
+        "battle_miss_needs_review": 3,
+        "engine_runtime_i18n_wiki": 2,
+        "glossary_wiki_authority_support": 955,
+        "runtime_changed_after_pass15": 111,
+        "runtime_current_unverified": 2,
+        "runtime_pass18_outside_pass15": 23
+      },
+      "runtime_consumed_rows": 138,
+      "source_tier_examples": [
+        [
+          "wiki",
+          971
+        ],
+        [
+          "wiki_exact_organization",
+          77
+        ],
+        [
+          "第二权威：Wiki",
+          22
+        ],
+        [
+          "2_wiki_component",
+          17
+        ],
+        [
+          "wiki-exact-piece-id-name_sc-empty",
+          2
+        ],
+        [
+          "wiki_exact_character_name",
+          2
+        ],
+        [
+          "2_wiki_candidate",
+          2
+        ],
+        [
+          "wiki-exact-piece-id;official-parallel-timed-art-only",
+          1
+        ],
+        [
+          "wiki-plus-official-cn-terminology",
+          1
+        ],
+        [
+          "2_wiki_explicit_pair",
+          1
+        ]
+      ],
+      "source_author_examples": [
+        [
+          "HiiragiNemu/magireco-wiki-data contributors",
+          955
+        ],
+        [
+          "official CN/Wiki authority adoption; no new model translation",
+          94
+        ],
+        [
+          "individual translator/author not recorded in pass8 provenance",
+          42
+        ],
+        [
+          "Wiki candidate; per-row machine/human authorship not proven",
+          3
+        ],
+        [
+          "HiiragiNemu Wiki contributors",
+          1
+        ],
+        [
+          "HiiragiNemu Wiki contributors; official CN terminology; root semantic review",
+          1
+        ]
+      ]
+    }
+  },
+  "scope_counts": {
+    "battle_miss_review": 3,
+    "native_engine_i18n": 621,
+    "frontend_i18n_fragment": 7,
+    "frontend_i18n_input": 1685,
+    "offline_authority_support": 955,
+    "frontend_i18n_override": 9,
+    "runtime_dictionary": 12399,
+    "static_js_html": 303
+  },
+  "component_counts": {
+    "battle_miss_needs_review": 3,
+    "engine_runtime_i18n_confirmed_human": 301,
+    "engine_runtime_i18n_intentional_fragment": 1,
+    "engine_runtime_i18n_official": 207,
+    "engine_runtime_i18n_root_reviewed": 110,
+    "engine_runtime_i18n_wiki": 2,
+    "fragments_unverified_mixed": 7,
+    "frontend_ai_assisted_translated": 1632,
+    "frontend_untranslated": 53,
+    "glossary_wiki_authority_support": 955,
+    "overrides_unverified_mixed": 9,
+    "runtime_changed_after_pass15": 1100,
+    "runtime_current_unverified": 7859,
+    "runtime_manual_outside_pass15": 10,
+    "runtime_pass18_outside_pass15": 294,
+    "runtime_visible_term_closure_official": 762,
+    "runtime_visible_term_closure_root_reviewed": 2372,
+    "runtime_visible_term_closure_wiki": 2,
+    "static_js_html_unverified": 302,
+    "static_pass18_authority_correction": 1
+  },
+  "review_status_counts": {
+    "needs-review/root-translation-required": 3,
+    "confirmed-human-verified": 301,
+    "documented-intentional": 1,
+    "official-source-verified": 944,
+    "official-source-normalized": 23,
+    "verify-join": 1,
+    "official-cn-terminology-verified": 2,
+    "root-reviewed-approved": 2483,
+    "resolved": 1,
+    "authority-retained-formal-mechanic": 1,
+    "wiki-stable-id-official-cn-terminology-reviewed": 1,
+    "pending": 9912,
+    "authority-resolved": 61,
+    "visible-cn-compatible-identity": 33,
+    "runtime-absent/not-backlog": 18,
+    "identity-punctuation": 1,
+    "authority-support-available": 955,
+    "authority-applied-pending-human-check": 704,
+    "authority-verified": 525,
+    "root-translated-needs-human-review": 12
+  },
+  "interpretation": [
+    "These are authority-review rows, not a count of unique strings or unique plot scenes.",
+    "Runtime engine has 9,996 released successor rows; this review export retains the historical 621-row engine audit and must not be treated as the full released denominator.",
+    "Rows with source_bucket=unknown are intentionally not assigned to a person or project.",
+    "Mercury attribution remains typed-unavailable until a source field explicitly names the Mercury corpus/translator."
+  ]
+}
