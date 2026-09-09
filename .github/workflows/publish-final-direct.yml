@@ -1,6 +1,8 @@
 name: Publish finalized localization assets directly
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       purge_all:
