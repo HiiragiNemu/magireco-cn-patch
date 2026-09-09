@@ -1,0 +1,157 @@
+{
+  "schema": 16,
+  "updated": "2026-09-09T00:00:00Z",
+  "comment": "客户端从 https://api-host/legacy/config.json 读取本文件。settings 与 mirrors 都是可选的：settings 缺省时用客户端内置默认值；mirrors 为空或整个文件拉取失败时，客户端回退到内置默认线路 https://r2.assets.magireco.top/ ，行为与加入换线功能之前一致。client 段也是可选的：缺省时客户端跳过版本检查。proxy 段也是可选的：base 是代理入口前缀（必须以 / 结尾），domains 是允许被代理的域名后缀白名单，两者缺一则本次启动全程直连；web_mode 控制 WebView 拦截层代理，off = 纯透传（默认），measure = 仍然直连但后台配对测速并记日志，on = 本地文件没命中的 GET 改走代理、失败自动回退直连。 proxy.api_host 为 mock 服务器主机（裸主机名），命中时 api[0] 裸主机名改写为该主机、SNAA 引导也走它。",
+  "settings": {
+    "chunks": 4,
+    "min_chunk_bytes": 8388608,
+    "switch_after_failures": 1,
+    "stall_seconds": 25,
+    "min_speed_kbps": 1200,
+    "cooldown_ms": 60000,
+    "force_aria2": false,
+    "offline_url": "https://offline.magireco.top/",
+    "max_downloads": 6
+  },
+  "client": {
+    "version": "1.0.171",
+    "apk_url": "https://edgeone.assets.magireco.top/magireco-latest-legacy-client.apk",
+    "note": "你的客户端版本过低，请下载新版本后继续。由于运维团队精力有限，旧版本将不再获得任何技术支持。"
+  },
+  "mirrors": [
+    {
+      "name": "多吉云CDN • dogecdn.assets.magireco.top",
+      "base": "https://dogecdn.assets.magireco.top/",
+      "weight": 120,
+      "chunks": 8,
+      "enabled": false
+    },
+    {
+      "name": "EdgeOne加速 • edgeone.assets.magireco.top",
+      "base": "https://edgeone.assets.magireco.top/",
+      "weight": 80,
+      "chunks": 8,
+      "enabled": true
+    },
+    {
+      "name": "阿里ESA加速 • esa.assets.magireco.top",
+      "base": "https://esa.assets.magireco.top/",
+      "weight": 60,
+      "chunks": 8,
+      "enabled": true
+    },
+    {
+      "name": "R2直连 • r2.assets.magireco.top",
+      "base": "https://r2.assets.magireco.top/",
+      "weight": 40,
+      "chunks": 8,
+      "enabled": false
+    }
+  ],
+  "watch": {
+    "comment": "给外部监控用，客户端不读这一段。声明有哪几份热更版本 json、以及它们各自对应的包；监控插件里不写死文件名，没有这一段就跳过热更相关探针——不知道该探什么时保持沉默，比拿一份猜的清单去报警好。",
+    "version_files": [
+      "version_scenario.json",
+      "version_js.json"
+    ],
+    "packages": {
+      "version_scenario.json": "cn_scenario_update.zip",
+      "version_js.json": "cn_js_update.zip"
+    }
+  },
+  "ui_credits": {
+    "list": [
+      {
+        "type": "title",
+        "text": "魔法纪录Totentanz中文化"
+      },
+      {
+        "type": "item",
+        "text": "项目官网：www.magireco.top",
+        "url": "https://www.magireco.top",
+        "span": "www.magireco.top"
+      },
+      {
+        "type": "head",
+        "text": "主力人员"
+      },
+      {
+        "type": "item",
+        "text": "【汉化主力和资源整理】MadeInMagius（点击赞助）",
+        "url": "https://afdian.com/a/madeinmagius",
+        "span": "MadeInMagius"
+      },
+      {
+        "type": "sub",
+        "text": "bilibili个人主页",
+        "url": "https://b23.tv/aNjcz1p",
+        "span": "个人主页"
+      },
+      {
+        "type": "item",
+        "text": "【程序主力和国内加速】CyberNova/PhotonFlow（点击赞助）",
+        "url": "https://afdian.com/a/cybernova",
+        "span": "CyberNova/PhotonFlow"
+      },
+      {
+        "type": "sub",
+        "text": "bilibili个人主页",
+        "url": "https://b23.tv/9vyRcI8",
+        "span": "个人主页"
+      },
+      {
+        "type": "head",
+        "text": "其他协助者"
+      },
+      {
+        "type": "item",
+        "text": "【国服外翻译和校对】水银h2oag（点击个人主页）",
+        "url": "https://b23.tv/ovvbrNw",
+        "span": "水银h2oag"
+      },
+      {
+        "type": "item",
+        "text": "【国服外翻译】magireco.moe（无校对）",
+        "url": "https://magireco.moe",
+        "span": "magireco.moe"
+      },
+      {
+        "type": "item",
+        "text": "【国服数据留存】segfault（点击个人主页）",
+        "url": "https://b23.tv/xjXW9DI",
+        "span": "segfault"
+      },
+      {
+        "type": "head",
+        "text": "友情链接"
+      },
+      {
+        "type": "item",
+        "text": "magireader.pages.dev【魔法纪录剧情中日双语阅读网站】",
+        "url": "https://magireader.pages.dev",
+        "span": "magireader.pages.dev"
+      },
+      {
+        "type": "item",
+        "text": "magiaexedralive2dviewer.pages.dev【MagiaExedra和魔法纪录Live2D网站】",
+        "url": "https://magiaexedralive2dviewer.pages.dev",
+        "span": "magiaexedralive2dviewer.pages.dev"
+      },
+      {
+        "type": "item",
+        "text": "search-api.pages.dev【魔法少女称呼关系搜索与身高对比网站】",
+        "url": "https://search-api.pages.dev",
+        "span": "search-api.pages.dev"
+      }
+    ],
+    "footer": "MadeInMagius 负责游戏中文化与资源整理；CyberNova/PhotonFlow 负责现代化资源分发下载机制与下载 UI。联系与打赏：MadeInMagius https://afdian.com/a/madeinmagius；CyberNova https://afdian.com/a/cybernova。一般咨询与建议：QQ群 928098518；B站搜索 MadeInMagius。项目版本由 MadeInMagius 基于 Totentanz 制作，圆环记录 Wiki、国服、 水银与用户共同提供资料，未来目标为网页版与本地离线版。",
+    "github_url": "https://github.com/MagirecoCN-Revival-Project",
+    "footer_marquee": true
+  },
+  "branch_versions": {
+    "example-branch": {
+      "supported": false,
+      "mainline_apk_url": "https://assets.example.test/example.apk"
+    }
+  }
+}
