@@ -1,0 +1,121 @@
+{
+  "recordedAt": "2026-09-08T18:14:58.623213",
+  "source": "User: 全部验收通过 ... 这些全部完成后我认为该项目即可正式完成闭合",
+  "acceptedBaseline": "DEVICE2_V5",
+  "acceptedDevice": "127.0.0.1:16448",
+  "baselineEvidence": "D:\\magia\\deliveries\\totentanz-device2-v5-20260908\\artifact-roles\\verification\\FINAL_INJECTION_VERIFICATION.json",
+  "newRequirements": [
+    {
+      "id": "FINAL-SUMO",
+      "requirement": "相扑姓名同路径图像仿照原字形中文化，用户已接受首批；最新要求12号八云御魂更接近日文字势/不规则笔触的小范围试版",
+      "status": "C4_SERIES61_FORMAL_PRODUCT_INTEGRATED_DEVICE_PENDING",
+      "owner": "01a043bb-7751-7902-bbf5-8258e9b9f134",
+      "otherUiBindingsPreserve": 17,
+      "firstBatchNameImages": 24,
+      "firstBatchEvidence": "D:/magia/deliveries/totentanz-images27-accepted-v8-20260908/artifact-roles/verification/FINAL_INTEGRATION.json",
+      "remainingBindings": 0,
+      "remainingOriginals": "47/47 acquired by image owner; exact name29 authority resolved as 出涸岚玛娜",
+      "styleTrial": "C4_USER_ACCEPTED_AND_SERIES_INTEGRATED",
+      "remainingBindingDisposition": "61 Chinese images integrated;20 originals retained",
+      "full84Disposition": "mirror3 + C4names61 + preserve20",
+      "styleEvidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\image-supervisor-01a043bb-name12-c4-exact-hachi-v1-20260908\\comparison-jp-C2-C4.png",
+      "styleUserFeedback": "能否再比C2更简洁和尖角？请你看原版的八",
+      "styleAcceptance": "D:\\magia\\deliveries\\totentanz-c4-accepted-v15-20260908\\USER_ACCEPTANCE.json",
+      "seriesAuthorization": {
+        "userExact": "C4系列模式可以对相扑系列投产取代",
+        "scope": "SUMO name family only; mirror3 preserved; other SUMO UI excluded",
+        "status": "C4_SERIES61_FORMAL_PRODUCT_INTEGRATED",
+        "perImageApprovalRequired": false
+      },
+      "latestEvidence": "D:\\magia\\deliveries\\totentanz-c4-accepted-v15-20260908\\artifact-roles\\verification\\FINAL_INTEGRATION.json"
+    },
+    {
+      "id": "FINAL-MIRRORS",
+      "requirement": "新截图镜界残留文字分类与中文化",
+      "status": "THREE_LABELS_USER_ACCEPTED_FORMAL_PRODUCT_INTEGRATED_DEVICE_PENDING",
+      "owner": "01a043bb-7751-7902-bbf5-8258e9b9f134",
+      "exactTargets": [
+        "队伍战力",
+        "镜界积分",
+        "排名积分"
+      ],
+      "evidence": "D:/magia/deliveries/totentanz-images27-accepted-v8-20260908/artifact-roles/verification/FINAL_INTEGRATION.json"
+    },
+    {
+      "id": "FINAL-SHOP-VOICE",
+      "requirement": "御魂及同类商店台词完整分母；已有文本复用、无字幕音频听译并同步游戏字幕",
+      "status": "FORMAL75_138_READY;PRODUCT14_CHANGED_FILES_EXACT;DEVICE_PENDING",
+      "owner": "01a05e0b-17a6-7b33-978b-392ed254849e",
+      "denominator": {
+        "generalFiles": 15,
+        "cueOccurrences": 138,
+        "uniqueVoices": 75,
+        "existingCnUnique": 12,
+        "newTranslationUnique": 63
+      },
+      "audioEvidence": "D:/magia/deliveries/totentanz-shop-voice-source-20260908/additional-54/MANIFEST.json",
+      "nativeCaptionFlag": "V7_FORMAL_PRODUCT_INTEGRATED_DEVICE_PENDING",
+      "newIntegratedUnique": 63,
+      "evidence": "D:/magia/deliveries/totentanz-shop9-reviewed-subtitles-v9-20260908/artifact-roles/verification/FINAL_INTEGRATION.json",
+      "newIntegratedFields": 126,
+      "readySourceOccurrences": 138,
+      "remainingSourceOccurrences": 0,
+      "latestEvidence": "D:\\magia\\deliveries\\totentanz-shop-final5-v17-20260908\\artifact-roles\\verification\\ALL75_138_CURRENT_FORMAL_PRODUCT.json",
+      "latestSingleLineCorrection": "V12 vo_game_0202_03 explicit speaker subject; formal/product exact, device pending"
+    },
+    {
+      "id": "FINAL-FONT",
+      "requirement": "全部选关角色对话使用与scenario对话相同字体",
+      "status": "FORMAL_PRODUCT_V7_INTEGRATED_DEVICE_PENDING",
+      "owner": "01a0442a-465c-7c42-be4f-869b5fc60d6a",
+      "evidence": "D:/magia/deliveries/totentanz-font-shop-unified-v7-20260908/artifact-roles/verification/FINAL_INTEGRATION.json"
+    },
+    {
+      "id": "FINAL-READER",
+      "requirement": "Reader新其他文本类型，完整收录选关台词、剧情简介与御魂等商店台词",
+      "status": "3330_OTHER_TEXT_ONLINE;75_AUDIO;LAST5_CAPTIONS_AND5_METADATA_OWNER_CONSUMPTION_PENDING;MISSING_EVENT_SOURCE_DISTINCT",
+      "owner": "01a00bb3-2fb5-7411-8a64-950bc7c1fb9e",
+      "partialRows": 3330,
+      "currentReportedMain": "aefdb010c7079a4be15bfeb5182672e123086d34",
+      "ownerReportedEvidence": "D:/magia/deliveries/reader-shop-subtitles-9-20260908/verification.json"
+    },
+    {
+      "id": "EXISTING-RELEASE-REMAINDER",
+      "requirement": "已说明剩余文本/发布门修复与个人主仓正式打包上传，组织单向跟随",
+      "status": "OPEN",
+      "candidate": "V13_NAMES14_AND_V17_SHOP75_INTEGRATED;V16_IMAGE_MANIFEST1354_PASS;ENGINE_CSS_SUCCESSOR_GATE_IN_PROGRESS",
+      "evidence": "D:/magia/deliveries/totentanz-runtime29-checker87-v10-20260908/artifact-roles/verification/FINAL_INTEGRATION.json"
+    }
+  ],
+  "excluded": [
+    "重复Memoria图像处理",
+    "image_native修复",
+    "1496宽库存",
+    "Cloudflare Totentanz发布"
+  ],
+  "deviceWriter": "RETURNED_TO_DEMO_READONLY_CAPTURE;ROOT_DEVICE_WRITES0",
+  "goalCompletion": "Only after new scope plus existing release remainder completed; then close goal",
+  "acceptanceClarification": "User explicitly states all contents delivered up to now accepted; no reopening already accepted work.",
+  "shopTranslationSecondReviewer": "01a00bb3-2fb5-7411-8a64-950bc7c1fb9e; user explicitly authorized voice tone and translation accuracy review",
+  "userTermConfirmation": {
+    "before": "伊吕波",
+    "after": "彩羽",
+    "status": "USER_CONFIRMED_CORRECT"
+  },
+  "latestDeviceAuthorization": "All participating tasks may directly control MuMu and Windows; shared device/input single-writer coordinated",
+  "lastProgressAt": "2026-09-08T13:59:52.800258+00:00",
+  "latestImageAcceptance": {
+    "source": "Direct user async question answer",
+    "answer": "全部接受，继续补齐",
+    "count": 27,
+    "record": "D:/magia/deliveries/totentanz-images27-accepted-v8-20260908/USER_ACCEPTANCE.json",
+    "laterAmendment": "Try closer nonstandard Japanese glyph effect on 八云御魂 sample; keep accepted baseline while reviewing trial"
+  },
+  "latestUserProjectAssessment": {
+    "text": "实际上大部分内容已经进入收尾状态了 整个游戏汉化程度接近了100%",
+    "classification": "USER_ASSESSMENT_FINALIZATION_PHASE",
+    "effect": "Preserve accepted baseline; close enumerated remaining requirements, do not reopen full localization review."
+  },
+  "finalDistributionRequirement": "Converge every accepted localization, bug fix, font, image, native/runtime dictionary and shop caption into the same deliverable; preserve release-vs-repo resource division; personal main and player update chain. Totentanz Cloudflare remains cancelled.",
+  "imagePackageManifest": "D:\\magia\\deliveries\\totentanz-image64-manifest-v16-20260908\\artifact-roles\\verification\\FINAL_INTEGRATION.json"
+}

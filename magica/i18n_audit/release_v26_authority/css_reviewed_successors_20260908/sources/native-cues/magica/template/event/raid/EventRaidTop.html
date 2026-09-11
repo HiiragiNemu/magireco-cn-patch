@@ -1,0 +1,428 @@
+<%
+	var popupHeaderPath = '/magica/resource/image_web/event/raid/' + eventId + '/popup/title_raid_popup.png';
+%> <div id='EventRaidTop'>
+  <div id='helpBtn' class='se_decide TE mb_white' data-eventid="<%= eventId %>">玩法</div>
+  <div id='mapWrap'> <% if (window.isBrowser) { %> <ul id="debugArea">
+      <li class="debugTapWimpBtn sb_gold_01 TE on">点击手下</li>
+      <li class="debugTapBossBtn sb_gold_01 TE on">点击BOSS</li>
+      <li class="debugReliefBtn sb_gold_01 TE on">救援请求</li>
+      <li class="debugRewardPopupBtn sb_gold_01 TE on">击破报酬</li>
+      <li class="debugSuspendBtn sb_gold_01 TE on">暂停</li>
+      <li id="appEnemyBtn" class="sb_gold_01 TE on">手下重刷</li>
+    </ul> <% } %> </div>
+  <style type="text/css">
+    #eventShopWrap
+    {
+      background: url('/magica/resource/image_web/event/raid/<%= eventId %>/top/bg_item_count.png') left top no-repeat;
+    }
+
+    #eventLogo
+    {
+      background: url('/magica/resource/image_web/event/raid/<%= eventId %>/top/logo.png') left top no-repeat;
+    }
+
+    #bossListWimpWrap
+    {
+      background: url('/magica/resource/image_web/event/raid/<%= eventId %>/top/bg_enemy_count.png') left top no-repeat;
+    }
+
+    #bottomWrap
+    {
+      background: url('/magica/resource/image_web/event/raid/<%= eventId %>/top/bg_footer.png') left top no-repeat;
+    }
+
+    .bossListMask
+    {
+      -webkit-mask: url('/magica/resource/image_web/event/raid/<%= eventId %>/top/mask_list.png') left top no-repeat;
+    }
+
+  </style>
+  <div id='eventShopWrap' class="c_white"> ×<span class='num c_white'><%= itemQuantity %></span>
+  </div>
+  <div id="sideWrap">
+    <div id="eventLogo"></div>
+    <div id="bossListShowBtnWrap">
+      <div id="bossListShowBtn" class="TE se_decide">
+        <div id="bossListBatch" class="batch"></div>
+      </div>
+    </div>
+  </div>
+  <div id="bossListWrap">
+    <div id="bossListRoot">
+      <ul id="bossList" class="scrollInner"></ul>
+    </div>
+    <div id="bossListCloseBtn" class="sb_gold_02 TE se_cancel"><span class="b_screen"></span>关闭</div>
+  </div>
+  <div id="bossDetailCurtain"></div>
+  <div id="bossDetailWrap" class="hide">
+  </div>
+  <div id="bottomWrap">
+    <div id="missionBtn" class="mb_pink TE se_decide">
+      <span class="b_screen"></span>击破任务 <div id="missionBtnBatch" class="batch"></div>
+    </div>
+    <div id="logBtn" class="mb_white TE se_decide <% if (closedUserEventRaidBossList.length == 0) { %>off<% } %>"><span class="b_screen"></span>战斗记录</div>
+    <div id="findBossFrame">
+      <div class="bossNumArea"> <% _.forEach(String(userEventRaid.count).split(''),function(txt){ %> <div class='num<%= txt %>'></div> <% }) %> <div class='unit'></div>
+      </div>
+    </div>
+    <div id="totalBossFrame">
+      <div class="bossNumArea"> <% _.forEach(String(EventRaidSummary.count).split(''),function(txt){ %> <div class='num<%= txt %>'></div> <% }) %> <div class='unit'></div>
+      </div>
+    </div>
+    <div id="rpInfoPartsWrap" class="infoPartsWrap"></div>
+  </div>
+</div>
+<!-- ボスリストパーツ -->
+<script type="text/template" id="bossListParts"> <div class="bossChild bossListMask TE <%="<%= model.type %\>"%>">
+		<div class="bossImgWrap">
+			<img class="bossImg" src='/magica/resource/image_web/event/raid/<%= eventId %>/top/img_boss_<%="<%= parseInt(model.bossId/100) %\>"%>.png'>
+		</div>
+
+		<div id="attribute">
+			<span class="type_f <%="<%= model.raidBoss.attributeId %\>"%>"></span>
+		</div>
+
+		<%="<% if(model.reliefRequestedAt) { %\>"%>
+		<div class="reliefIcon"></div>
+		<%="<% } %\>"%>
+
+		<div class="combo c_white"><%="<%= model.combo %\>"%></div>
+
+		<div class="lv c_white">Lv<%="<%= model.raidBoss.level %\>"%></div>
+
+		<div class='hpGauge'>
+			<%="<% var hpGauge = model.currentHp / model.raidBoss.maxHp * 100 %\>"%>
+			<div class="gaugeInner" style='width:<%="<%= hpGauge %\>"%>%;'></div>
+		</div>
+	</div>
+</script>
+<!-- ボス詳細パーツ -->
+<script type="text/template" id="bossDetailParts"> <div class="<%='<%= model.type %\>'%>">
+		<div class="bossImgWrap">
+			<img class="bossImg" src='/magica/resource/image_web/event/raid/<%= eventId %>/top/img_boss_<%="<%= parseInt(model.bossId/100) %\>"%>.png'>
+		</div>
+		<div class="header"></div>
+
+		<div id="attribute">
+			<span class="type_f <%="<%= model.raidBoss.attributeId %\>"%>"></span>
+		</div>
+
+
+		<div class="discoverUserName c_white"><%="<%= _.escape(model.discoverUserLoginName) %\>"%></div>
+
+		<dl class="battleCount pointFrame type_r">
+			<dt>战斗次数</dt>
+			<dd><%="<%= model.combo %\>"%></dd>
+		</dl>
+		<dl class="limitTurn pointFrame type_r">
+			<dt>回合限制</dt>
+			<dd><%="<%= model.raidBoss.limitTurn %\>"%></dd>
+		</dl>
+
+		<div class="lv c_white">Lv<%="<%= model.raidBoss.level %\>"%></div>
+		<div class="name c_white"><%="<%= model.raidBoss.name %\>"%></div>
+
+		<%="<% if(model.reliefRequestedAt) { %\>"%>
+		<div class="reliefIcon"></div>
+		<%="<% } %\>"%>
+
+		<div class="bonusWrap">
+			<%="<% if(model.type == 'RELIEF') { %\>"%>
+			<div class="reliefBonus bgBonus c_white">援护加成!</div>
+			<%="<% } %\>"%>
+
+			<%="<% if(model.combo > 0) { %\>"%>
+			<div class="combo bgBonus c_white"><%="<%= model.combo %\>"%> 连击！</div>
+			<%="<% } %\>"%>
+			<%="<% if(model.type == 'RELIEF' || model.combo > 0) { %\>"%>
+			<div class="atkBonus">
+				<div class='line'></div>
+				<div class='numWrap'>
+					<%="<% var bonusArr = String(model.bonus).split('.')  %\>"%>
+					<div class='atk'></div>
+					<%="<% _.forEach(bonusArr[0].split(''),function(txt){ %\>"%>
+					<div class='num<%="<%= txt %\>"%>'></div>
+					<%="<% }) %\>"%>
+					<div class='dot'></div>
+					<%="<% _.forEach(bonusArr[1].split(''),function(txt){ %\>"%>
+					<div class='num<%="<%= txt %\>"%>'></div>
+					<%="<% }) %\>"%>
+				</div>
+			</div>
+			<%="<% } %\>"%>
+		</div>
+
+		<div class='bossHpWrap'>
+			<div class='hpGauge'>
+				<%="<% var hpGauge = model.currentHp / model.raidBoss.maxHp * 100 %\>"%>
+				<div class="gaugeInner" style='width:<%="<%= hpGauge %\>"%>%;'></div>
+			</div>
+
+			<div class='icon'></div>
+
+			<div class='numWrap'>
+				<%="<% _.forEach(String(model.currentHp).split(''),function(txt){ %\>"%>
+					<div class='num<%="<%= txt %\>"%>'></div>
+				<%="<% }) %\>"%>
+				<div class='sla'></div>
+				<%="<% _.forEach(String(model.raidBoss.maxHp).split(''),function(txt){ %\>"%>
+					<div class='num<%="<%= txt %\>"%>'></div>
+				<%="<% }) %\>"%>
+			</div>
+
+			<dl class="escapeWrap">
+				<%="<% var escapeText = model.isEscape ? '' : '距离逃亡' %\>"%>
+				<dt><%="<%= escapeText %\>"%></dt>
+				<dd><%="<%= model.displayEscapeTime %\>"%></dd>
+			</dl>
+		</div>
+
+		<div class="participantBtn btn b_white TE se_decide"><span class="b_screen"></span>战斗参加者</div>
+
+			<%="<% var battleStartBtnClass = model.isEscape ? 'off' : '' %\>"%>
+		<div id="battleStartBtn" class="btn b_pink TE se_decide <%="<%= battleStartBtnClass %\>"%>"><span class="b_screen"></span>战斗开始</div>
+	</div>
+</script>
+<!-- バトルログ -->
+<script type="text/template" id="battleLogParts"> <style type="text/css">
+		.header {
+			background: url(<%= popupHeaderPath %>) left top no-repeat;
+		}
+	</style>
+
+	<div class="closeBtn se_cancel TE"></div>
+
+	<div class="header c_white">战斗记录</div>
+	<div id="battleLogListWrap">
+		<ul id="battleLogList" class="scrollInner"></ul>
+	</div>
+
+	<div id="battleLogPagingWrap"></div>
+</script>
+<script type="text/template" id="battleLogListParts"> <div class="logChild <%="<%= model.type %\>"%>">
+		<div class="bossImgWrap">
+			<img class="bossImg" src='/magica/resource/image_web/event/raid/<%= eventId %>/top/img_boss_<%="<%= parseInt(model.bossId/100) %\>"%>.png'>
+		</div>
+		<div class="resultIcon <%="<%= model.status %\>"%>"></div>
+		<div class="badge"></div>
+
+		<div id="attribute">
+			<span class="type_f <%="<%= model.raidBoss.attributeId %\>"%>"></span>
+		</div>
+
+		<div class="name c_white"><%="<%= model.raidBoss.name %\>"%></div>
+
+		<div class="lv c_white">Lv<%="<%= model.raidBoss.level %\>"%></div>
+
+		<%="<% if(model.status == 'CLOSE' && model.sendRewardCodes) { %\>"%>
+		<div class="joinRewardWrap rewardWrap pointFrame02">
+			<ul class="logRewardList">
+			<%="<% var rewardCodeArr = model.sendRewardCodes.split(','); %\>"%>
+			<%="<% _.forEach(rewardCodeArr,function(txt){ %\>"%>
+				<%="<% var rewardCode = txt.split('_'); %\>"%>
+				<li class="rewardImg">
+					<%="<% var quantity = rewardCode[rewardCode.length-1]; %\>"%>
+					<%="<% if (rewardCode[0]=='GIFT') { %\>"%>
+						<%="<% var imgPath = 'item_gift_' + rewardCode[1]; %\>"%>
+						<img data-nativeimgkey="gift_<%='<%= imgPath %\>'%>" data-src="resource/image_native/gift/<%='<%= imgPath %\>'%>.png">
+					<%="<% } else { %\>"%>
+						<%="<% rewardCode.shift(); rewardCode.pop(); var imgPath = ((txt.indexOf('EVENT_') > -1)? 'event':'main') + '/' + rewardCode.join('_').toLowerCase(); %\>"%>
+						<img src="/magica/resource/image_web/item/<%='<%= imgPath %\>'%>.png" />
+					<%="<% } %\>"%>
+					<span class="quantity">×<%='<%= quantity %\>'%></span>
+				</li>
+			<%="<% }) %\>"%>
+			</ul>
+			<div class="c_white rewardTitle">对战<br />参加</div>
+		</div>
+		<%="<% } %\>"%>
+		<%="<% if(model.status == 'CLOSE' && model.raidBoss.discoverRewardCodes && model.type == 'SELF') { %\>"%>
+		<div class="discoverRewardWrap rewardWrap pointFrame02">
+			<ul class="logRewardList">
+			<%="<% var rewardCodeArr = model.raidBoss.discoverRewardCodes.split(','); %\>"%>
+			<%="<% _.forEach(rewardCodeArr,function(txt){ %\>"%>
+				<%="<% var rewardCode = txt.split('_'); %\>"%>
+				<li class="rewardImg">
+					<%="<% var quantity = rewardCode[rewardCode.length-1]; %\>"%>
+					<%="<% if (rewardCode[0]=='GIFT') { %\>"%>
+						<%="<% var imgPath = 'item_gift_' + rewardCode[1]; %\>"%>
+						<img data-nativeimgkey="gift_<%='<%= imgPath %\>'%>" data-src="resource/image_native/gift/<%='<%= imgPath %\>'%>.png">
+					<%="<% } else { %\>"%>
+						<%="<% rewardCode.shift(); rewardCode.pop(); var imgPath = ((txt.indexOf('EVENT_') > -1)? 'event':'main') + '/' + rewardCode.join('_').toLowerCase(); %\>"%>
+						<img src="/magica/resource/image_web/item/<%='<%= imgPath %\>'%>.png" />
+					<%="<% } %\>"%>
+					<span class="quantity">×<%='<%= quantity %\>'%></span>
+				</li>
+			<%="<% }) %\>"%>
+			</ul>
+			<div class="c_white rewardTitle">首次<br />对战</div>
+		</div>
+		<%="<% } %\>"%>
+		<div class="participantBtn mb_white TE se_decide"><span class="b_screen"></span>战斗参加者</div>
+	</div>
+</script>
+<!-- バトル参加者 -->
+<script type="text/template" id="participantParts"> <style type="text/css">
+		.header {
+			background: url(<%= popupHeaderPath %>) left top no-repeat;
+		}
+	</style>
+	<div class="header c_white">战斗参加者</div>
+
+	<div class="bossInfoWrap c_white <%='<%= model.type %\>'%>">
+
+		<div class="resultIcon <%='<%= model.status %\>'%>"></div>
+		<div class="bossImgWrap">
+			<img class="bossImg" src='/magica/resource/image_web/event/raid/<%= eventId %>/top/img_boss_<%="<%= parseInt(model.bossId/100) %\>"%>.png'>
+		</div>
+		<div class="badge"></div>
+
+		<div id="attribute">
+			<span class="type_f <%="<%= model.raidBoss.attributeId %\>"%>"></span>
+		</div>
+
+		<div class="name c_white"><%="<%= model.raidBoss.name %\>"%></div>
+
+		<div class="time c_white">发现时刻<br><%="<%= model.discoveredAt.slice(5,16) %\>"%></div>
+
+		<div class="lv c_white">Lv<%="<%= model.raidBoss.level %\>"%></div>
+
+		<ul class="joinNum">
+			<li class="c_white">参加战斗</li><li><%="<%= model.attackUserList.length %\>"%>人</li>
+		</ul>
+
+		<div class='bossHpWrap'>
+			<div class='hpGauge'>
+				<%="<% var hpGauge = model.currentHp / model.raidBoss.maxHp * 100 %\>"%>
+				<div class="gaugeInner" style='width:<%="<%= hpGauge %\>"%>%;'></div>
+			</div>
+
+			<div class='icon'></div>
+
+			<div class='numWrap'>
+				<%="<% _.forEach(String(model.currentHp).split(''),function(txt){ %\>"%>
+					<div class='num<%="<%= txt %\>"%>'></div>
+				<%="<% }) %\>"%>
+				<div class='sla'></div>
+				<%="<% _.forEach(String(model.raidBoss.maxHp).split(''),function(txt){ %\>"%>
+					<div class='num<%="<%= txt %\>"%>'></div>
+				<%="<% }) %\>"%>
+			</div>
+		</div>
+	</div>
+	<div id="participantListWrap">
+		<ul id="participantList" class="scrollInner"></ul>
+	</div>
+</script>
+<script type="text/template" id="participantListParts"> <div class="participantChild">
+		<!-- キャラアイコン -->
+		<div class="userCharaIcon <%='<%= model.rank %\>'%> <%='<%= model.attributeId %\>'%>">
+			<%="<% var att = 'att_' + model.leaderCard.attributeId.toLowerCase() %\>"%>
+			<%="<% var star = 'star_' + model.leaderCard.rank.toLowerCase() %\>"%>
+			<%="<% var frame = 'frame_' + model.leaderCard.rank.toLowerCase() %\>"%>
+			<%="<% var bg = 'bg_' + model.leaderCard.attributeId.toLowerCase() %\>"%>
+			<span class="att" data-nativebgkey='<%="<%= att %\>"%>' data-src='resource/image_native/card/frame/<%="<%= att %\>"%>.png'></span>
+			<span class="star" data-nativebgkey='<%="<%= star %\>"%>' data-src='resource/image_native/card/frame/<%="<%= star %\>"%>.png'></span>
+			<span class="rank" data-nativebgkey='<%="<%= frame %\>"%>' data-src='resource/image_native/card/frame/<%="<%= frame %\>"%>.png'></span>
+			<img data-nativeimgkey='card_<%="<%= model.leaderCard.cardId %\>"%>_f' data-src='resource/image_native/card/image/card_<%="<%= model.leaderCard.cardId %\>"%>_f.png'>
+			<span class="bg" data-nativebgkey='<%="<%= bg %\>"%>' data-src='resource/image_native/card/frame/<%="<%= bg %\>"%>.png'></span>
+		</div>
+
+		<div class="userInfoWrap">
+			<div class="rank c_white">等级<%="<%= model.level %\>"%></div>
+			<div class="name"><%="<%= _.escape(model.loginName) %\>"%></div>
+			<div class="time c_red"><%="<%= model.createdAt.slice(5,16) %\>"%></div>
+		</div>
+		<ul class="damageWrap">
+			<li class="c_white">伤害值</li><li><%="<%= model.damage %\>"%></li>
+		</ul>
+	</div>
+</script>
+<script type="text/template" id="missionParts"> <style type="text/css">
+		.header {
+			background: url(<%= popupHeaderPath %>) left top no-repeat;
+		}
+	</style>
+
+	<div class="closeBtn se_cancel TE"></div>
+
+	<div class="header c_white">击破任务</div>
+
+	<div id="tabBtn">
+		<div class="hiddenWrap" id="tabScroll">
+			<ul class="common_tab t_pink ml_tab">
+				<li class="btn TE se_tabs mission1" data-wrap="mission1" data-mission-name="个人击破报酬">
+					<span>个人击破报酬</span>
+					<div id="mission1Batch" class="batch"></div>
+				</li>
+				<li class="btn TE se_tabs mission2" data-wrap="mission2" data-mission-name="全体击破报酬">
+					<span>全体击破报酬</span>
+					<div id="mission2Batch" class="batch"></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 一覧 -->
+	<div id="listWrap" class="commonFrame2">
+		<h2 id="listTitle"></h2>
+
+		<!-- イベントミッションリスト -->
+		<div id="missionScrollWrap">
+			<div id="mission1" class="mission1List"></div>
+			<div id="mission2" class="mission2List"></div>
+		</div>
+	</div>
+
+	<div id="storyCond" class="commonFrame3">
+		１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０
+	</div>
+
+</script>
+<script type="text/template" id="missionListParts"> <%='<% var rewardModel = model.eventRaidChallenge.rewardList[0]; %\>'%>
+	<%='<% var presentType = rewardModel.presentType; %\>'%>
+	<%='<% var itemId      = rewardModel.itemId; %\>'%>
+
+	<%='<% var dir; %\>'%>
+	<%='<% if(presentType !== "GIFT") { %\>'%>
+		<%='<% dir = (itemId && itemId.indexOf("EVENT_") > -1) ? "event" : "main"; %\>'%>
+	<%='<% } else { %\>'%>
+		<%='<% dir = "gift"; %\>'%>
+	<%='<% } %\>'%>
+
+	<%='<% var itemName; %\>'%>
+	<%='<% if(presentType === "RICHE") { %\>'%>
+		<%='<% itemName = "riche"; %\>'%>
+	<%='<% } else if(presentType === "GIFT") { %\>'%>
+		<%='<% itemName = "item_gift_" + rewardModel.gift.id; %\>'%>
+	<%='<% } else if(presentType === "PIECE" || presentType === "MAXPIECE"){ %\>'%>
+		<%='<% itemName = "memoria_" + rewardModel.piece.pieceId + "_s"; %\>'%>
+	<%='<% } else if(presentType !== "LIVE2D"){ %\>'%>
+		<%='<% itemName = itemId.toLowerCase(); %\>'%>
+	<%='<% } %\>'%>
+	<div class="missionItemWrap">
+		<%='<% if(presentType == "LIVE2D") { %\>'%>
+
+			<div class="charaIcon">
+				<div class="maskWrap">
+					<img data-nativeimgkey='mini_<%="<%= rewardModel.live2d.charaId %\>00"%>_d' data-src='resource/image_native/mini/image/mini_<%="<%= rewardModel.live2d.charaId %\>00"%>_d.png'>
+				</div>
+			</div>
+			<img src='/magica/resource/image_web/item/main/live2d.png' alt='' class="itemImage">
+		<%='<% } else if(presentType === "PIECE" || presentType === "MAXPIECE"){ %\>'%>
+			<img src="/magica/resource/image_web/memoria/memoria_<%='<%=rewardModel.piece.pieceId%\>'%>_s.png" class="itemImage">
+		<%='<% } else if(presentType === "GIFT") { %\>'%>
+			<img data-nativeimgkey='gift_<%='<%= rewardModel.gift.id %\>'%>' data-src='resource/image_native/gift/item_gift_<%='<%= rewardModel.gift.id %\>'%>.png'>
+			<div class="rewardQuantity ts_gold">x<%='<%= rewardModel.quantity %\>'%></div>
+		<%='<% } else { %\>'%>
+			<img src="/magica/resource/image_web/item/<%='<%= dir %\>'%>/<%='<%= itemName %\>'%>.png">
+			<div class="rewardQuantity ts_gold">x<%='<%= rewardModel.quantity %\>'%></div>
+		<%='<% } %\>'%>
+
+	</div>
+
+	<span class="missionTitleWrap"><%='<%= model.eventRaidChallenge.displayName %\>'%></span>
+	<%='<% if(model.cleared && missionValidity) { %\>'%>
+	<span class="btn b_pink se_decide missionBtn TE"><span class="b_screen"></span>领取</span>
+	<%='<% } %\>'%>
+</script>

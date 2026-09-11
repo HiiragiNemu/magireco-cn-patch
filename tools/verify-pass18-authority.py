@@ -11,6 +11,8 @@ only CSS addition.
 
 from __future__ import annotations
 
+import pass18_css_successors
+
 import csv
 import hashlib
 import io
@@ -23,6 +25,9 @@ import tempfile
 from collections import Counter
 from pathlib import Path
 from typing import Any, Iterator
+from pass18_reviewed_successors import read_reviewed_contract
+from pass18_closure_successors import read_closure_contract
+from pass18_engine_successors import read_engine_contract
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -335,6 +340,55 @@ def resolve_pointer(document: Any, pointer: str) -> Any:
     return current
 
 
+
+def resolve_manifest_current(
+    document: Any, row: dict[str, str], history_cache: dict[str, Any]
+) -> tuple[Any, str, str | None]:
+    """Bind array-backed messages by the identity in the immutable source.
+
+    Pass18's message stable_key is a historical array offset, not a character
+    identity. Never accept an unrelated message merely occupying that offset.
+    All non-message paths retain their existing strict JSON-pointer behavior.
+    """
+    relative = row["file"]
+    pointer = row["json_pointer"]
+    if relative != "magica/js/libs/charaMessageList.json":
+        return resolve_pointer(document, pointer), pointer, None
+    tokens = pointer.split("/")
+    if len(tokens) != 3 or tokens[0] or tokens[2] != row["field"]:
+        raise ValueError("message manifest must point to one direct field")
+    if tokens[1] != row["stable_key"] or not tokens[1].isdigit():
+        raise ValueError("message historical offset does not match manifest identity")
+    if relative not in history_cache:
+        history_cache[relative] = json.loads(
+            run_git("show", f"{PASS18_MANIFEST_COMMIT}:{relative}")
+        )
+    historical = history_cache[relative]
+    if not isinstance(historical, list) or not isinstance(document, list):
+        raise ValueError("message history/current must both be arrays")
+    record = historical[int(tokens[1])]
+    keys = ("charaNo", "messageId")
+    if not isinstance(record, dict) or any(
+        type(record.get(key)) is not int for key in keys
+    ):
+        raise ValueError("pinned message has no exact typed composite identity")
+    identity = tuple(record[key] for key in keys)
+    matches = [
+        (index, current)
+        for index, current in enumerate(document)
+        if isinstance(current, dict)
+        and all(type(current.get(key)) is int for key in keys)
+        and tuple(current[key] for key in keys) == identity
+    ]
+    if len(matches) != 1:
+        raise ValueError(
+            f"message composite identity {identity} has {len(matches)} matches"
+        )
+    index, current = matches[0]
+    stable = "CHARA_MESSAGE|" + "|".join(map(str, identity)) + "|" + row["field"]
+    return current[row["field"]], f"/{index}/{tokens[2]}", stable
+
+
 def read_manifest() -> tuple[list[dict[str, str]], list[str]]:
     errors: list[str] = []
     with MANIFEST.open(encoding="utf-8", newline="") as handle:
@@ -368,7 +422,12 @@ def read_visible_term_closure() -> tuple[
     list[dict[str, str]], dict[tuple[str, str, str], dict[str, str]], dict[str, Any], list[str]
 ]:
     """Load the exact post-Pass18 authority layer and bind every row to product."""
-    errors: list[str] = []
+    manifest_rows = read_manifest()[0]
+    manifest_by_id = {row["change_id"]: row for row in manifest_rows}
+    reviewed = read_reviewed_contract(ROOT, manifest_rows)
+    closure_reviewed = read_closure_contract(ROOT)
+    errors: list[str] = list(reviewed.errors) + list(closure_reviewed.errors)
+    reviewed_bindings: list[dict[str, str]] = []
     required = {
         "closure_id",
         "path",
@@ -444,18 +503,33 @@ def read_visible_term_closure() -> tuple[
             document = document_cache.setdefault(relative, load_json(ROOT / relative))
             record = document[row.get("stable_key", "")]
             current = record[row.get("field", "")]
-            if current != row.get("after", ""):
+            successor = reviewed.by_target.get((relative, row.get("stable_key", ""), row.get("field", "")))
+            if successor:
+                current, _, _ = reviewed.resolve(manifest_by_id[successor["changeId"]], document)
+            closure_successor = closure_reviewed.entries.get(row.get("closure_id", ""))
+            if closure_successor and successor:
+                raise ValueError("overlapping manifest and closure successor identity")
+            if closure_successor:
+                current = closure_reviewed.resolve(row, document)
+            expected = (closure_successor["currentAuthorizedExact"] if closure_successor else
+                        successor["currentAuthorizedExact"] if successor else row.get("after", ""))
+            if successor and current == expected:
+                reviewed_bindings.append({"closure_id": row["closure_id"], "change_id": successor["changeId"]})
+            if closure_successor and current == expected:
+                reviewed_bindings.append({"closure_id": row["closure_id"], "contract": "closure-reviewed-13"})
+            if current != expected:
                 product_failures.append(
                     {
                         "closure_id": row.get("closure_id", ""),
                         "path": relative,
                         "stable_key": row.get("stable_key", ""),
                         "field": row.get("field", ""),
-                        "expected": row.get("after", ""),
+                        "expected": expected,
+                        "prior_expected": row.get("after", ""),
                         "actual": current if isinstance(current, str) else repr(current),
                     }
                 )
-        except (OSError, UnicodeError, json.JSONDecodeError, KeyError, TypeError) as exc:
+        except (OSError, UnicodeError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
             product_failures.append(
                 {
                     "closure_id": row.get("closure_id", ""),
@@ -504,6 +578,9 @@ def read_visible_term_closure() -> tuple[
         "metadata_failures": metadata_failures,
         "product_failures": product_failures,
         "summary_failures": summary_failures,
+        "reviewed_successor_contract": reviewed.report(),
+        "reviewed_product_bindings": reviewed_bindings,
+        "closure_reviewed_successor_contract": closure_reviewed.report(),
     }
     return rows, index, result, errors
 
@@ -512,23 +589,49 @@ def verify_manifest_after_images(
     rows: list[dict[str, str]],
     closure_index: dict[tuple[str, str, str], dict[str, str]],
 ) -> tuple[dict[str, Any], list[str]]:
-    errors: list[str] = []
+    reviewed = read_reviewed_contract(ROOT, rows)
+    errors: list[str] = list(reviewed.errors)
+    reviewed_runtime = 0
+    reviewed_matches: list[dict[str, str]] = []
     json_cache: dict[str, Any] = {}
     failures: list[dict[str, str]] = []
     direct_runtime = 0
     superseded_runtime = 0
     static_direct = 0
     strict_json_pointer_resolutions = 0
+    history_cache: dict[str, Any] = {}
+    stable_identity_resolutions: list[dict[str, str]] = []
     supersessions: list[dict[str, str]] = []
     for row in rows:
         relative = row["file"]
         path = ROOT / relative
+        expected_after = row.get("after", "")
         try:
             if path.suffix.lower() == ".json":
                 document = json_cache.setdefault(relative, load_json(path))
-                current = resolve_pointer(document, row["json_pointer"])
-                strict_json_pointer_resolutions += 1
-                if current == row["after"]:
+                successor = reviewed.entries.get(row["change_id"])
+                if successor:
+                    current, current_pointer, stable_identity = reviewed.resolve(row, document)
+                    expected_after = successor["currentAuthorizedExact"]
+                else:
+                    current, current_pointer, stable_identity = resolve_manifest_current(document, row, history_cache)
+                if stable_identity:
+                    stable_identity_resolutions.append({
+                        "change_id": row["change_id"],
+                        "stable_identity": stable_identity,
+                        "historical_pointer": row["json_pointer"],
+                        "current_pointer": current_pointer,
+                    })
+                else:
+                    strict_json_pointer_resolutions += 1
+                if successor:
+                    ok = current == expected_after
+                    if ok:
+                        reviewed_runtime += 1
+                        reviewed_matches.append({"change_id": row["change_id"], "file": relative,
+                            "stable_id": successor["stableId"], "field": successor["field"],
+                            "prior_terminal_class": successor["priorTerminalClass"]})
+                elif current == row["after"]:
                     direct_runtime += 1
                     ok = True
                 else:
@@ -558,7 +661,7 @@ def verify_manifest_after_images(
                 if ok:
                     static_direct += 1
                 actual = f"after_count={after_count}; before_count={before_count}"
-        except (OSError, UnicodeError, json.JSONDecodeError, KeyError, IndexError, ValueError) as exc:
+        except (OSError, UnicodeError, json.JSONDecodeError, KeyError, IndexError, ValueError, TypeError, RuntimeError) as exc:
             ok = False
             actual = f"exception: {exc}"
         if not ok:
@@ -567,7 +670,8 @@ def verify_manifest_after_images(
                     "change_id": row.get("change_id", ""),
                     "file": relative,
                     "json_pointer": row.get("json_pointer", ""),
-                    "expected_after": row.get("after", ""),
+                    "expected_after": expected_after,
+                    "original_pass18_after": row.get("after", ""),
                     "actual": str(actual),
                 }
             )
@@ -576,13 +680,15 @@ def verify_manifest_after_images(
             f"{len(failures)} Pass18 after-images have no exact approved successor"
         )
     expected_partition = {
-        "runtime_direct": EXPECTED_PASS18_RUNTIME_DIRECT,
-        "runtime_superseded": EXPECTED_PASS18_RUNTIME_SUPERSEDED,
+        "runtime_direct": EXPECTED_PASS18_RUNTIME_DIRECT - reviewed.prior_counts["runtime_direct"],
+        "runtime_superseded": EXPECTED_PASS18_RUNTIME_SUPERSEDED - reviewed.prior_counts["runtime_superseded"],
+        "runtime_reviewed_successors": len(reviewed.entries),
         "static_direct": EXPECTED_PASS18_STATIC_DIRECT,
     }
     actual_partition = {
         "runtime_direct": direct_runtime,
         "runtime_superseded": superseded_runtime,
+        "runtime_reviewed_successors": reviewed_runtime,
         "static_direct": static_direct,
     }
     partition_failures = {
@@ -595,11 +701,16 @@ def verify_manifest_after_images(
     return {
         "expected_rows": EXPECTED_MANIFEST_ROWS,
         "actual_rows": len(rows),
-        "after_image_matches": direct_runtime + superseded_runtime + static_direct,
+        "after_image_matches": direct_runtime + superseded_runtime + reviewed_runtime + static_direct,
+        "runtime_reviewed_successor_matches": reviewed_runtime,
+        "reviewed_successor_contract": reviewed.report(),
+        "reviewed_successors": reviewed_matches,
+        "expected_partition": expected_partition,
         "runtime_direct_matches": direct_runtime,
         "runtime_exact_approved_supersessions": superseded_runtime,
         "static_direct_matches": static_direct,
         "strict_json_pointer_resolutions": strict_json_pointer_resolutions,
+        "stable_identity_resolutions": stable_identity_resolutions,
         "partition_failures": partition_failures,
         "supersessions": supersessions,
         "failures": failures,
@@ -760,6 +871,8 @@ def verify_root_translations(
 def verify_engine() -> tuple[dict[str, Any], list[str]]:
     errors: list[str] = []
     raw = ENGINE.read_bytes()
+    engine_reviewed = read_engine_contract(ROOT, raw)
+    errors.extend(engine_reviewed.errors)
     if raw.startswith(b"\xef\xbb\xbf"):
         errors.append("engine_i18n.tsv has a UTF-8 BOM")
     if b"\r" in raw:
@@ -784,12 +897,12 @@ def verify_engine() -> tuple[dict[str, Any], list[str]]:
     }
     if duplicates:
         errors.append(f"engine_i18n.tsv has {len(duplicates)} duplicate source keys")
-    if len(entries) != EXPECTED_ENGINE_ROWS:
+    if len(entries) != EXPECTED_ENGINE_ROWS and not engine_reviewed.valid:
         errors.append(
             f"engine_i18n.tsv has {len(entries)} data rows, expected {EXPECTED_ENGINE_ROWS}"
         )
     physical_lines = len(text.splitlines())
-    if physical_lines != EXPECTED_ENGINE_PHYSICAL_LINES:
+    if physical_lines != EXPECTED_ENGINE_PHYSICAL_LINES and not engine_reviewed.valid:
         errors.append(
             f"engine_i18n.tsv has {physical_lines} physical lines, "
             f"expected {EXPECTED_ENGINE_PHYSICAL_LINES}"
@@ -850,7 +963,8 @@ def verify_engine() -> tuple[dict[str, Any], list[str]]:
             **metadata_by_entry.get(row.get("entry_id", ""), {}),
         }
         reasons: list[str] = []
-        if mapping.get(row.get("source_text", "")) != row.get("current_cn", ""):
+        expected_official_target = engine_reviewed.official_expected(row)
+        if mapping.get(row.get("source_text", "")) != expected_official_target:
             reasons.append("runtime mapping missing or target differs")
         for key, expected in expected_metadata.items():
             if row.get(key) != expected:
@@ -1067,6 +1181,7 @@ def verify_engine() -> tuple[dict[str, Any], list[str]]:
         "actual_data_rows": len(entries),
         "expected_physical_lines": EXPECTED_ENGINE_PHYSICAL_LINES,
         "actual_physical_lines": physical_lines,
+        "reviewed_extension_contract": engine_reviewed.report,
         "malformed_lines": malformed,
         "duplicate_source_keys": duplicates,
         "official_audit_rows": len(official),
@@ -1202,9 +1317,10 @@ def verify_connect_followup_layers() -> tuple[dict[str, Any], list[str]]:
             text = (ROOT / relative).read_text(encoding="utf-8")
             before_count = text.count(record.get("before", ""))
             after_count = text.count(record.get("after", ""))
-            if before_count != 0:
+            css_successor = pass18_css_successors.accept_connect(ROOT, record)
+            if before_count != 0 and not css_successor:
                 reasons.append(f"old literal count={before_count}")
-            if after_count != int(record.get("occurrences", 0)):
+            if after_count != int(record.get("occurrences", 0)) and not css_successor:
                 reasons.append(
                     f"new literal count={after_count}, expected={record.get('occurrences')}"
                 )
@@ -1346,7 +1462,7 @@ def verify_manual_round3_layered() -> tuple[dict[str, Any], list[str]]:
                     continue
                 expected = expected.replace(before_bytes, after_bytes, count)
             current = current_path.read_bytes()
-            if current != expected:
+            if current != expected and not pass18_css_successors.accept_manual(ROOT, relative):
                 reasons.append("product differs from prepared plus approved transforms")
             if str(item.get("kind")) == "css":
                 if not css_braces_are_balanced(current.decode("utf-8")):
@@ -1498,6 +1614,18 @@ def verify_css() -> tuple[dict[str, Any], list[str]]:
             if value in forbidden_values or kana_re.search(value):
                 generated_label_failures.append({"path": relative, "value": value})
 
+    css_reviewed = pass18_css_successors.verify(ROOT)
+    legacy_untouched_mismatches = list(untouched_mismatches)
+    legacy_visible_failures = list(visible_failures)
+    legacy_generated_failures = list(generated_label_failures)
+    if css_reviewed["ok"]:
+        untouched_mismatches = [x for x in untouched_mismatches if not pass18_css_successors.accept_frozen(ROOT, x)]
+        accepted_ids = set(css_reviewed["acceptedIds"])
+        visible_failures = [x for x in visible_failures if x["item_id"] not in accepted_ids]
+        generated_label_failures = pass18_css_successors.unregistered_generated(ROOT, generated_label_failures)
+    else:
+        errors.append("CSS reviewed successor proof contract invalid: " + "; ".join(css_reviewed["errors"]))
+
     if len(baseline) != EXPECTED_CSS_FILES:
         errors.append(
             f"baseline product has {len(baseline)} CSS files, expected {EXPECTED_CSS_FILES}"
@@ -1525,6 +1653,12 @@ def verify_css() -> tuple[dict[str, Any], list[str]]:
         )
     return {
         "baseline_commit": BASELINE_COMMIT,
+        "reviewed_css_successors": css_reviewed,
+        "legacy_contract_findings_preserved": {
+            "untouched_mismatches": legacy_untouched_mismatches,
+            "visible_failures": legacy_visible_failures,
+            "generated_label_failures": legacy_generated_failures,
+        },
         "expected_files": EXPECTED_CSS_FILES,
         "baseline_files": len(baseline),
         "current_files": len(current_paths),

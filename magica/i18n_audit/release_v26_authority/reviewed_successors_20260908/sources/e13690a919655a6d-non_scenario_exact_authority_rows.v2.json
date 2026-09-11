@@ -1,0 +1,3507 @@
+{
+  "schemaVersion": 3,
+  "generatedAtUtc": "2026-09-02T18:07:19.816795+00:00",
+  "status": "READY_SUPERSEDING_V1_KIMOCHI_VERSION_CORRECTED",
+  "scope": "D-only exact authority rows; no formal game-tree writes",
+  "baseline": {
+    "repository": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-publish-20260822\\magireco-cn-patch-main",
+    "branch": "main",
+    "head": "fb28df4cd0b279b29d6b044bb6001cdca80bd11b",
+    "sectionListRows": 1580
+  },
+  "reviewCoverage": {
+    "flaggedRows": 813,
+    "flaggedMessages": 700,
+    "flaggedOutlines": 113,
+    "changedAuditedRows": 75,
+    "unchangedAfterReview": 738
+  },
+  "summary": {
+    "operations": 172,
+    "sectionListOperations": 162,
+    "otherExactOperations": 10,
+    "paths": {
+      "madomagi/engine_i18n.tsv": 2,
+      "magica/js/libs/cardList.json": 2,
+      "magica/js/libs/charaList.json": 2,
+      "magica/js/libs/itemList.json": 2,
+      "magica/js/libs/sectionList.json": 162,
+      "magica/js/libs/shopItemList.json": 2
+    }
+  },
+  "operations": [
+    {
+      "relativePath": "madomagi/engine_i18n.tsv",
+      "stableKey": "engineSource=Shi",
+      "field": "target",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "",
+      "authorityDecision": "继承已审定的短名思、心魔/心魔石及组织名精确字段规则。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "madomagi/engine_i18n.tsv",
+      "stableKey": "engineSource=シィの試練",
+      "field": "target",
+      "exactBefore": "椎的试炼",
+      "exactAfter": "思的试炼",
+      "sourceJapanese": "",
+      "authorityDecision": "继承已审定的短名思、心魔/心魔石及组织名精确字段规则。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/cardList.json",
+      "stableKey": "cardId=39024",
+      "field": "cardName",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "",
+      "authorityDecision": "继承已审定的短名思、心魔/心魔石及组织名精确字段规则。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/cardList.json",
+      "stableKey": "cardId=39025",
+      "field": "cardName",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "",
+      "authorityDecision": "继承已审定的短名思、心魔/心魔石及组织名精确字段规则。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/charaList.json",
+      "stableKey": "id=3902",
+      "field": "kana",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "",
+      "authorityDecision": "继承已审定的短名思、心魔/心魔石及组织名精确字段规则。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/charaList.json",
+      "stableKey": "id=3902",
+      "field": "name",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "",
+      "authorityDecision": "继承已审定的短名思、心魔/心魔石及组织名精确字段规则。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/itemList.json",
+      "stableKey": "itemCode=EVENT_DAILYTOWER_1212_STICKER_390200",
+      "field": "name",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "",
+      "authorityDecision": "继承已审定的短名思、心魔/心魔石及组织名精确字段规则。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/itemList.json",
+      "stableKey": "itemCode=EVENT_DAILYTOWER_1212_STICKER_390200",
+      "field": "parameter",
+      "exactBefore": "227,椎",
+      "exactAfter": "227,思",
+      "sourceJapanese": "",
+      "authorityDecision": "继承已审定的短名思、心魔/心魔石及组织名精确字段规则。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102101",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102201",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102302",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102302",
+      "field": "outline",
+      "exactBefore": "为了获得自动净化系统，魔法少女们开始寻找“Kimochi之石”。为了查明Kimochi的位置，彩羽等人假装游玩，请忧整理出大致分布。＠PROMISED BLOOD的青与光在追踪彩羽等人时，抵达北养区的哞哞牧场，却发现这其实是彩羽等人布下的陷阱。两人一度陷入绝境，最后在结菜与树里的帮助下成功撤离。＠结菜意识到自己需要一名熟悉神滨地理的协助者。树里锁定了能够胜任的人选，接触Neo-Magius的时雨与育梦，强迫她们加入行动。",
+      "exactAfter": "为了获得自动净化系统，魔法少女们开始寻找“心魔石”。为了查明心魔的位置，彩羽等人假装游玩，请忧整理出大致分布。＠PROMISED BLOOD的青与光在追踪彩羽等人时，抵达北养区的哞哞牧场，却发现这其实是彩羽等人布下的陷阱。两人一度陷入绝境，最后在结菜与树里的帮助下成功撤离。＠结菜意识到自己需要一名熟悉神滨地理的协助者。树里锁定了能够胜任的人选，接触Neo-Magius的时雨与育梦，强迫她们加入行动。",
+      "sourceJapanese": "自動浄化システムを手に入れるため、キモチの石を求める魔法少女たち。キモチの所在を探るため、いろはたちは遊ぶフリをしながら、大まかな位置をういに纏めて貰っていた。＠対してプロミストブラッドのアオとひかるは、いろはたちを追いながらキモチが居る北養区のモーモーファームに辿り着いた。だがそれは、いろはたちの罠。窮地に追いやられたアオとひかるだったが、結菜と樹里の助けがあって、その場を後にする。＠神浜の土地に詳しい者が欲しくなる結菜。樹里はそれを叶えられる人物に目星を付けると、ネオマギウスの時雨とはぐむに接触し、強制的に手伝わせることにした。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09272",
+      "ruleIds": [
+        "KIMOCHI_STONE",
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102303",
+      "field": "outline",
+      "exactBefore": "神滨魔法联盟在北养深山中基本确定了Kimochi结界的位置。本应于次日展开详细调查，却突然探测到大量外来魔法少女进入神滨，只得分出少数人手应对。＠然而一切都是结菜的计谋，那些大量魔法少女的反应全是伪造。追击执行者光的Union成员虽然将她逼入绝境，却因进入调整师所在的中立区而无法出手；进入山区的彩羽等人也遭PROMISED BLOOD追击，只能撤退。＠Kimochi所在地被敌人占据，协助者静香又身负重伤，彩羽等人只能踏上归途。即便如此，她们仍保留着一线希望。",
+      "exactAfter": "神滨魔法联盟在北养深山中基本确定了心魔结界的位置。本应于次日展开详细调查，却突然探测到大量外来魔法少女进入神滨，只得分出少数人手应对。＠然而一切都是结菜的计谋，那些大量魔法少女的反应全是伪造。追击执行者光的Union成员虽然将她逼入绝境，却因进入调整师所在的中立区而无法出手；进入山区的彩羽等人也遭PROMISED BLOOD追击，只能撤退。＠心魔所在地被敌人占据，协助者静香又身负重伤，彩羽等人只能踏上归途。即便如此，她们仍保留着一线希望。",
+      "sourceJapanese": "北養の山奥でキモチの結界の位置を、概ね特定したいろはたち神浜マギアユニオン。翌日に詳しい調査を行うはずだったが、外から大量の魔法少女が来た反応があり、少数で対応することになった。＠ところが、全てはプロミストブラッドの結菜の策略。大量の魔法少女の反応は偽物だった。さらに、追いかけていたユニオンのメンバーは、実行犯のひかるを追い詰めるものの調整屋がいる中立地帯で手が出せず、山に入ったいろはたちもプロミストブラッドに追われて逃げることになった。＠キモチの場所を陣取られ、協力者である静香が重傷を負う中で帰路につくいろはたち。それでも希望は残っていた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-07018",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102304",
+      "field": "outline",
+      "exactBefore": "Union失去了Kimochi周边的控制权。＠美冬提出作战方案，以找出Kimochi结界为条件，成功把双方决战拖到结界内部。＠两大集团不断派出增援，维持着势均力敌的局面。结菜率领大量伙伴出现，静香等时女一族也赶来阻挡，双方最终一同进入结界。＠混战中，静香成功重创Kimochi；但最后由菲莉希亚完成致命一击，因此镶有Kimochi之石的手环出现在了她手腕上。＠Union与时女一族正为获得宝石而欣喜，环忧却遭PROMISED BLOOD掳走。",
+      "exactAfter": "Union失去了心魔周边的控制权。＠美冬提出作战方案，以找出心魔结界为条件，成功把双方决战拖到结界内部。＠两大集团不断派出增援，维持着势均力敌的局面。结菜率领大量伙伴出现，静香等时女一族也赶来阻挡，双方最终一同进入结界。＠混战中，静香成功重创心魔；但最后由菲莉希亚完成致命一击，因此镶有心魔石的手环出现在了她手腕上。＠Union与时女一族正为获得宝石而欣喜，环忧却遭PROMISED BLOOD掳走。",
+      "sourceJapanese": "プロミストブラッドにキモチの周辺を陣取られたユニオン。＠ところが、みふゆの作戦により、キモチの結界を見つけることを条件に、決着を結界内まで引っ張ることに成功した。＠増援を送り合って均衡を保つ両グループ。結菜が大量の仲間を連れて現れ、静香たち時女一族がそれを押さえに現れると、両者とも結界内に入っていった。＠その後、混迷する中でキモチに打撃を与えた静香。ところが、最後にフェリシアがトドメを刺したことで彼女の腕にキモチの石がはまったブレスレットが付いてしまった。＠その後、石を手に入れて喜ぶユニオンと時女一族だったが、環ういがプロミストブラッドにさらわれてしまった。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-06107",
+      "ruleIds": [
+        "KIMOCHI_STONE",
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102402",
+      "field": "outline",
+      "exactBefore": "Union为了救出忧开始行动。她们推测PROMISED BLOOD的据点位于神滨东部，计划把发信器装到对方身上以确定地点。然而目标一路向北离开神滨，发信器信号也随之消失；调查后发现，现场残留着镜层的魔力反应。＠忧则尝试把标有Kimochi位置的地图，以及写有自己所在地的密码信传给彩羽等人，却遭结菜等人利用而失败，地图落入PROMISED BLOOD手中。所幸密码信仍送达三日月庄，彩羽等人成功解读后，为救出忧而前往“二木市”。",
+      "exactAfter": "Union为了救出忧开始行动。她们推测PROMISED BLOOD的据点位于神滨东部，计划把发信器装到对方身上以确定地点。然而目标一路向北离开神滨，发信器信号也随之消失；调查后发现，现场残留着镜层的魔力反应。＠忧则尝试把标有心魔位置的地图，以及写有自己所在地的密码信传给彩羽等人，却遭结菜等人利用而失败，地图落入PROMISED BLOOD手中。所幸密码信仍送达三日月庄，彩羽等人成功解读后，为救出忧而前往“二木市”。",
+      "sourceJapanese": "ういを助けるために動き出したユニオン。神浜の東側にプロミストブラッドの拠点があると予想すると、相手に発信器を相手に取り付けて場所を特定しようとした。ところが相手は北へと進んで神浜から出ると、発信器の反応が消えてしまう。調べると、そこにはミラーズの魔力反応が残っていた。＠一方のういはキモチの場所が記された地図と、自分の居場所を記した暗号文をいろはたちに届けようとしていた。だが、結菜たちに躍らされて失敗。地図だけはプロミストブラッドの手に渡ってしまった。それでも、暗号文はみかづき荘に届き、解読したいろはたちはういを救出するために“二木市”へ向かうことにした。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04358",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102403",
+      "field": "outline",
+      "exactBefore": "彩羽等人在二木市营救忧，树里等人则在神滨市争夺Kimochi，战场由此分成两处。＠在二木市，彩羽中了结菜的计策，被迫与八千代等人分离。众人原想取得联系后撤退，但为了避开危险，只得在二木过夜，彩羽也独自在另一栋建筑中度过一晚。＠与此同时，树里等人与南区的日乃等人围绕Kimochi展开战斗。＠虽然途中因Neo-Magius的时雨、育梦倒戈，以及蓝家姬奈等人干扰而陷入苦战，最终青仍克服恐惧，打倒了Kimochi。",
+      "exactAfter": "彩羽等人在二木市营救忧，树里等人则在神滨市争夺心魔，战场由此分成两处。＠在二木市，彩羽中了结菜的计策，被迫与八千代等人分离。众人原想取得联系后撤退，但为了避开危险，只得在二木过夜，彩羽也独自在另一栋建筑中度过一晚。＠与此同时，树里等人与南区的雏乃等人围绕心魔展开战斗。＠虽然途中因Neo-Magius的时雨、育梦倒戈，以及蓝家姬奈等人干扰而陷入苦战，最终青仍克服恐惧，打倒了心魔。",
+      "sourceJapanese": "二木市でういを救出しようとするいろはたち。神浜市でキモチを倒そうとする樹里たち。戦いの場はふたつになった。＠二木市では結菜の策略にかかり、いろはだけがやちよたちから切り離されてしまう。連絡をとって撤退しようとした面々だったが、危険を回避するために二木で一泊することになり、いろはも離れたビルで一夜を明かすことになった。＠その一方で樹里たちは南のひなのたちとキモチを巡って争うことになった。途中、ネオマギウスの時雨とはぐむの離反や、＠“藍家ひめな”たちの邪魔によって苦戦したものの、最後は恐怖に打ち勝とうとするアオによってキモチは倒された。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-06765",
+      "ruleIds": [
+        "KIMOCHI_ENTITY",
+        "HINANO_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102404",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102404",
+      "field": "outline",
+      "exactBefore": "神滨与二木的战斗持续期间，静香因自己与其他魔法少女之间的隔阂，以及结菜说过的话而苦恼，返回时女一族本家所在的村落。＠在故乡度过的时间，让静香重新找到自己战斗的意义，并从母亲那里学会时女一心流的新招式。＠重整心情回到神滨后，静香等人遭遇正在返回二木途中发现Kimochi的树里与青，双方随即展开争夺。静香以新招将敌人逼入绝境，却被树里抢先完成最后一击，只能眼看Kimochi之石落入对方手中。",
+      "exactAfter": "神滨与二木的战斗持续期间，静香因自己与其他魔法少女之间的隔阂，以及结菜说过的话而苦恼，返回时女一族本家所在的村落。＠在故乡度过的时间，让静香重新找到自己战斗的意义，并从母亲那里学会时女一心流的新招式。＠重整心情回到神滨后，静香等人遭遇正在返回二木途中发现心魔的树里与青，双方随即展开争夺。静香以新招将敌人逼入绝境，却被树里抢先完成最后一击，只能眼看心魔石落入对方手中。",
+      "sourceJapanese": "神浜市と二木市で争いが続く頃、周りの魔法少女とのズレや、結菜に言われた言葉で思い悩んでいた静香は、時女一族の本家がある集落に帰郷していた。＠そこでの時間を通して、静香は改めて自分が戦う意味を見つける。さらに、母から時女一心流の技を教えてもらった。＠心機一転神浜に戻った静香たちを待ち受けていたのは樹里とアオ。ふたりは二木へ帰る途中でキモチを見つけていた。状況は両グループによるキモチの争奪戦となり、静香はさっそく新たな技を使って相手を追い詰めたが、トドメを樹里に奪われてしまって、キモチの石を渡す結果になってしまった。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-08995",
+      "ruleIds": [
+        "KIMOCHI_STONE",
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102405",
+      "field": "outline",
+      "exactBefore": "清晨等待彩羽的，是结菜等PROMISED BLOOD成员。她被带到二木的地下墓地“卡塔康贝”，那里安葬着逝去的魔法少女。结菜告诉她忧已经死亡，彩羽因此险些化为魔女。＠但彩羽受到自己持有的Kimochi支撑；随后八千代等人带着忧现身，终于让她脱离魔女化危机。＠众人带着忧死里逃生，离开二木市。丘比随即出现，告知神滨只剩最后两颗Kimochi之石；参与争斗的其他魔法少女，也同时听见了这番话。",
+      "exactAfter": "清晨等待彩羽的，是结菜等PROMISED BLOOD成员。她被带到二木的地下墓地“卡塔康贝”，那里安葬着逝去的魔法少女。结菜告诉她忧已经死亡，彩羽因此险些化为魔女。＠但彩羽受到自己持有的心魔支撑；随后八千代等人带着忧现身，终于让她脱离魔女化危机。＠众人带着忧死里逃生，离开二木市。丘比随即出现，告知神滨只剩最后两颗心魔石；参与争斗的其他魔法少女，也同时听见了这番话。",
+      "sourceJapanese": "朝を迎えたいろはを待ち受けていたのは結菜たちプロミストブラッドだった。連れて行かれたのは二木のカタコンベと呼ばれる、魔法少女たちが眠っている地下墓地。そこでいろはは、ういが死んだと聞かされて魔女になりかけてしまう。＠しかし、いろはは持っていたキモチに支えられる。さらに、やちよたちがういを連れて現れると、魔女化の危機を回避することになった。＠命からがらういを連れて二木市を後にするいろはたち。そこにキュゥべえが現れると、神浜にあるキモチの石は残り２つだと言う。その話は争いに関わる他の魔法少女たちも、聞いていた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-08479",
+      "ruleIds": [
+        "KIMOCHI_STONE",
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102502",
+      "field": "outline",
+      "exactBefore": "彩羽等人成功夺回忧。感受到结菜对伙伴深切的温柔后，彩羽决定进行最后一次赌博——为了避免双方继续出现牺牲，尝试与她携手。＠结菜表示，只要彩羽能打破PROMISED BLOOD与时女一族围绕Kimochi形成的僵局，她就愿意听取对方的提案。＠然而几天后，彩羽面对作为代理前来的光与咲夜，始终无法提出有说服力的方案。灯花与音梦于是交出灵魂宝石，提出以自己的死亡作为交换。＠与此同时，自称可能找到PROMISED BLOOD致命弱点的令，正独自展开行动。",
+      "exactAfter": "彩羽等人成功夺回忧。感受到结菜对伙伴深切的温柔后，彩羽决定进行最后一次赌博——为了避免双方继续出现牺牲，尝试与她携手。＠结菜表示，只要彩羽能打破PROMISED BLOOD与时女一族围绕心魔形成的僵局，她就愿意听取对方的提案。＠然而几天后，彩羽面对作为代理前来的光与咲夜，始终无法提出有说服力的方案。灯花与音梦于是交出灵魂宝石，提出以自己的死亡作为交换。＠与此同时，自称可能找到PROMISED BLOOD致命弱点的令，正独自展开行动。",
+      "sourceJapanese": "ういを奪還したいろはたち。その中で結菜が持つ仲間への強い優しさを感じ取ったいろはは、互いに被害を出さないために手を取り合う、最後の賭けに出た。＠話を聞いた結菜は、キモチを巡ってプロミストブラッドと時女一族が膠着している状況を動かすことを条件に、何が提案できるのか話を聞くと言う。＠しかし後日、代理として来たひかるとさくやに良い提案ができなかったいろは。ところが灯花とねむはソウルジェムを差し出すと、自分たちの死を提案した。＠その一方でプロミストブラッドの急所を見つけられそうだと言う令は、単独で行動をしていた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04360",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102503",
+      "field": "outline",
+      "exactBefore": "彩羽等人进行谈判期间，忧解决了PROMISED BLOOD与时女一族围绕Kimochi僵持不下的问题。＠结界位于爱曾存在的传闻空间。众人无法攻击全息影像而陷入苦战，但同行的莎奈回想起与爱共同度过的日子，以成为朋友的方式打开了通往Kimochi的道路。＠最终，战胜掌管恐惧的Kimochi的是时女一族，千春获得了Kimochi之石。＠然而同一时间，彩羽等人的谈判已经破裂。PROMISED BLOOD前往神滨监狱，莎奈等人得知日乃和南区魔法少女陷入危机，也随即赶往那里。＠试图跟上的时女一族，却遭Neo-Magius拦下。",
+      "exactAfter": "彩羽等人进行谈判期间，忧解决了PROMISED BLOOD与时女一族围绕心魔僵持不下的问题。＠结界位于爱曾存在的传闻空间。众人无法攻击全息影像而陷入苦战，但同行的莎奈回想起与爱共同度过的日子，以成为朋友的方式打开了通往心魔的道路。＠最终，战胜掌管恐惧的心魔的是时女一族，千春获得了心魔石。＠然而同一时间，彩羽等人的谈判已经破裂。PROMISED BLOOD前往神滨监狱，莎奈等人得知日乃和南区魔法少女陷入危机，也随即赶往那里。＠试图跟上的时女一族，却遭Neo-Magius拦下。",
+      "sourceJapanese": "いろはたちが交渉をする一方で、ういはプロミストブラッドと時女一族がキモチを巡って膠着している状況を解決した。＠結界はアイが居たウワサ空間。ホログラム相手に攻撃できず苦戦するが、一緒にいたさながアイと過ごした日々を思い出し、友だちになることでキモチへの道が開かれた。＠そして、現れた恐怖を司るキモチを相手に勝ったのは時女一族。ちはるがキモチの石を手に入れた。＠しかし同時に判明したのはいろはたちの交渉決裂。プロミストブラッドが神浜監獄へ向かうと、そこでひなのたち南の魔法少女がピンチだと知ったさなたちも向かい始める。＠続こうとする時女一族を制したのは、ネオマギウスだった。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04347",
+      "ruleIds": [
+        "KIMOCHI_STONE",
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102505",
+      "field": "outline",
+      "exactBefore": "令与青同归于尽、死亡得到确认后，最后一只Kimochi被郁美的悲伤吸引而现身。众人陷入苦战，彩羽借用自己持有的蓝宝石Kimochi之力给予致命伤，随后郁美完成最后一击，八颗宝石终于全部集齐。＠争夺宝石开始前，PROMISED BLOOD试图一次性杀死Union的魔法少女，却宣告失败，因为Kimochi已经筛选出有资格参与争夺的人选。＠三日月庄众人判断继续留在家中十分危险，在灯花引导下前往避难所。＠另一边，时女一族刚获得的宝石被Neo-Magius夺走，千春也遭受几乎失去手臂的重伤。",
+      "exactAfter": "令与青同归于尽、死亡得到确认后，最后一只心魔被郁美的悲伤吸引而现身。众人陷入苦战，彩羽借用自己持有的蓝宝石心魔之力给予致命伤，随后郁美完成最后一击，八颗宝石终于全部集齐。＠争夺宝石开始前，PROMISED BLOOD试图一次性杀死Union的魔法少女，却宣告失败，因为心魔已经筛选出有资格参与争夺的人选。＠三日月庄众人判断继续留在家中十分危险，在灯花引导下前往避难所。＠另一边，时女一族刚获得的宝石被Neo-Magius夺走，千春也遭受几乎失去手臂的重伤。",
+      "sourceJapanese": "アオと刺し違えた令の死が確認されると、郁美の悲しみに惹かれて最後のキモチが現れる。皆が苦戦する中、いろはは自分が保有するキモチ（サファイア）から力を借りて致命傷を与えると、続く郁美がトドメを刺して８つの石が揃った。＠石の奪い合いが始まる前に、プロミストブラッドがユニオンの魔法少女を纏めて殺そうとするが失敗する。それはキモチが奪い合いに参加できる魔法少女を選抜したからだった。＠その後、家に居ることを危険だと判断したみかづき荘の面々は、灯花の導きで避難先となるシェルターに向かった。＠一方の時女一族は手に入れた石をネオマギウスに奪われ、ちはるは腕を落とされる程の重傷を負っていた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-05037",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102601",
+      "field": "message",
+      "exactBefore": "找到你了……！＠这次一定要把那块心魔之石＠夺到手！",
+      "exactAfter": "找到你了……！＠这次一定要把那块心魔石＠夺到手！",
+      "sourceJapanese": "見つけた…！＠今度こそいただくっすよ！＠そのキモチの石！",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09356",
+      "ruleIds": [
+        "KIMOCHI_STONE"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102602",
+      "field": "outline",
+      "exactBefore": "Union与时女一族解除了同盟。得知双方动向的姬奈，把这视为绝佳机会而开始行动。＠时女一族查明姬奈所在的学校后，为夺回Kimochi之石发动攻击，却反被对方以心理动摇战术干扰，让姬奈成功逃脱。＠击退时女一族后，姬奈查清亚历山德拉近来行为可疑的原因，得知她其实属于“午夜零时的民俗”。＠与此同时，彩羽望着已经无法回头的现状，坦言自己在不断战斗中，渐渐看不清究竟应当抵达何处。",
+      "exactAfter": "Union与时女一族解除了同盟。得知双方动向的姬奈，把这视为绝佳机会而开始行动。＠时女一族查明姬奈所在的学校后，为夺回心魔石发动攻击，却反被对方以心理动摇战术干扰，让姬奈成功逃脱。＠击退时女一族后，姬奈查清亚历山德拉近来行为可疑的原因，得知她其实属于“午前0时的民间传说”。＠与此同时，彩羽望着已经无法回头的现状，坦言自己在不断战斗中，渐渐看不清究竟应当抵达何处。",
+      "sourceJapanese": "ユニオンと時女一族の同盟が解消された。そんな両グループの動向を知ったひめなは、これを好機と捉えて動く。＠一方の時女一族も、ひめなの通う学校を特定するとキモチの石を奪取するために攻撃を仕掛ける。しかし逆に“ゆさぶり”をかけられて取り逃がしてしまった。＠時女一族を退けたひめなは、かねてより気がかりだったアレクサンドラの怪しげな行動の理由を突き止めると、彼女が午前０時のフォークロアに所属する魔法少女だと知る。＠その頃、いろはは後戻りができない現状を見つめながら、戦いを通して目指す先が見えなくなっていることを口にした。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-06527",
+      "ruleIds": [
+        "KIMOCHI_STONE",
+        "FOLKLORE_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102604",
+      "field": "outline",
+      "exactBefore": "Union与PROMISED BLOOD在监狱地下交战。Union魔法少女的目标，是把鹤乃护送到疑似存在捷径的最深处。＠作战原本凭借图纸与照片顺利推进，却最终被逼入绝境；郁美与青发生接触，精神失控的青遭Kimochi支配身体，开始暴走。＠双方合作压制了青，但Union的行动仍以失败告终；同时还发现，连接二木与神滨的捷径路线并不只有一条。＠另一边，笼目让灯花与音梦强化了传闻，并在与小丽对话后，完成了“风之传道师的传闻”。",
+      "exactAfter": "Union与PROMISED BLOOD在监狱地下交战。Union魔法少女的目标，是把鹤乃护送到疑似存在捷径的最深处。＠作战原本凭借图纸与照片顺利推进，却最终被逼入绝境；郁美与青发生接触，精神失控的青遭心魔支配身体，开始暴走。＠双方合作压制了青，但Union的行动仍以失败告终；同时还发现，连接二木与神滨的捷径路线并不只有一条。＠另一边，笼目让灯花与音梦强化了传闻，并在与小丽对话后，完成了“风之传道师的传闻”。",
+      "sourceJapanese": "監獄地下で起きるユニオンとプロミストブラッドとの衝突。ユニオンの魔法少女たちの目標ははショートカットがあると思われる最深部まで鶴乃を送り出すことだった。＠図面と写真により作戦は順調に進むかと思われたが、窮地に追いやられた揚げ句、郁美とアオが接触。精神の乱れたアオはキモチに体を支配されると暴れ出した。＠両グループの協力によりアオを抑え込んだがユニオンの作戦は失敗。さらに二木と神浜を結ぶショートカットへのルートはひとつではないと判明した。＠一方、灯花とねむによってウワサを強化してもらったかごめは、リィとの対話の末に風の伝道師のウワサを完成させた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-08887",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102702",
+      "field": "outline",
+      "exactBefore": "神滨监狱之战后，Union得知废弃地铁的存在，基本锁定了PROMISED BLOOD用于连接神滨与二木的捷径位置。她们依据兰华提供的情报及证据攻入废弃地铁，却因敌方计策被迫撤退，十七夜也身负重伤。＠为了消除“西区正在陷害东区”的传言，Union还从两边阵营带来了未被Kimochi选中的魔法少女作证。然而这次行动反而产生负面效果，加深了东区魔法少女的不信任。＠与此同时，神滨市长选举中也弥漫着进一步撕裂东西关系的不祥气息。",
+      "exactAfter": "神滨监狱之战后，Union得知废弃地铁的存在，基本锁定了PROMISED BLOOD用于连接神滨与二木的捷径位置。她们依据兰华提供的情报及证据攻入废弃地铁，却因敌方计策被迫撤退，十七夜也身负重伤。＠为了消除“西区正在陷害东区”的传言，Union还从两边阵营带来了未被心魔选中的魔法少女作证。然而这次行动反而产生负面效果，加深了东区魔法少女的不信任。＠与此同时，神滨市长选举中也弥漫着进一步撕裂东西关系的不祥气息。",
+      "sourceJapanese": "神浜監獄での戦いのあと廃地下鉄の存在を知ったユニオンは、プロミストブラッドが使う神浜と二木を繋ぐショートカットの位置をほぼ特定した。その後“らんか”から情報提供と、その裏付けにより廃地下鉄に攻め込んだが、相手の計略によって撤退することになり、十七夜も負傷してしまった。＠この時ユニオンは、西が東を陥れているという噂を払拭するために、両陣営からキモチに選ばれていない魔法少女を連れてきていた。だが今回の一件で逆効果となり、東の魔法少女たちに不信感を植え付ける結果になってしまった。＠同時に神浜で行われた市長選でも東西の関係に亀裂を入れるような不穏な気配が漂っていた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09005",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102704",
+      "field": "outline",
+      "exactBefore": "黎明作战开始前，彩羽等人追赶离家出走的菲莉希亚。菲莉希亚释放魔女化身，为确认“自己杀死父母”的记忆真假而返回旧家；看到烧焦的房间后，她确信那是真的。＠赶到的彩羽等人进入她的内心，劝阻自暴自弃、准备把身体交给Kimochi的菲莉希亚，但她依然无法摆脱“父母憎恨自己”的想法。＠这时，菲莉希亚父母的亡灵现身，告诉她从未憎恨她，也解释了名字的含义。菲莉希亚终于决定活下去。亡灵由时女一族旭的力量召来，而把旭带来的正是花子与菖蒲。",
+      "exactAfter": "黎明作战开始前，彩羽等人追赶离家出走的菲莉希亚。菲莉希亚释放魔女化身，为确认“自己杀死父母”的记忆真假而返回旧家；看到烧焦的房间后，她确信那是真的。＠赶到的彩羽等人进入她的内心，劝阻自暴自弃、准备把身体交给心魔的菲莉希亚，但她依然无法摆脱“父母憎恨自己”的想法。＠这时，菲莉希亚父母的亡灵现身，告诉她从未憎恨她，也解释了名字的含义。菲莉希亚终于决定活下去。亡灵由时女一族旭的力量召来，而把旭带来的正是花子与菖蒲。",
+      "sourceJapanese": "明け方の作戦決行の前。家を去ったフェリシアを追いかけるいろはたち。ドッペルを出したフェリシアは、親を殺したという記憶の真偽を確認するために実家に向かうと、焼け焦げた部屋を見て真実だと確信した。＠追いついたいろはたちは、自暴自棄になってキモチに体を渡そうとするフェリシアの心に入って説得した。だが、彼女の心から両親に憎まれているという思いは消えなかった。＠刹那、現れたのはフェリシアの両親の亡霊。両親から憎んでいないことや自身の名前の意味を教えてもらうと、フェリシアは生きることを決めた。その亡霊を遣わせたのは時女一族の旭の力で、彼女を呼んで来たのは、かことあやめだった。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-08398",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102705",
+      "field": "outline",
+      "exactBefore": "摧毁神滨与二木捷径的作战，在三日月庄成员缺席的情况下开始。PROMISED BLOOD试图动摇菲莉希亚、击倒十七夜，并分裂神滨东西两区，令战局陷入极度混乱。＠但迟到的三日月庄成员救下十七夜，美冬等人也从终端救出桃子等人，危机暂时解除。代价却是郁美为了击败分株镜层魔女，带着令的遗志一同消逝。＠失去捷径后，PROMISED BLOOD被逼入绝境，却取得郁美的Kimochi之石，凑齐四颗。众人也由此得知，Kimochi真正的愿望是重新合为魔女。",
+      "exactAfter": "摧毁神滨与二木捷径的作战，在三日月庄成员缺席的情况下开始。PROMISED BLOOD试图动摇菲莉希亚、击倒十七夜，并分裂神滨东西两区，令战局陷入极度混乱。＠但迟到的三日月庄成员救下十七夜，美冬等人也从终端救出桃子等人，危机暂时解除。代价却是郁美为了击败分株镜层魔女，带着令的遗志一同消逝。＠失去捷径后，PROMISED BLOOD被逼入绝境，却取得郁美的心魔石，凑齐四颗。众人也由此得知，心魔真正的愿望是重新合为魔女。",
+      "sourceJapanese": "みかづき荘のメンバーが不在のまま開始した神浜と二木を結ぶショートカットを破壊する作戦。それはフェリシアを揺さぶり、十七夜を討ち、神浜の東西を分断しようとするプロミストブラッドの謀略によって混迷を極めた。＠だが、遅れたみかづき荘の助けによって十七夜は救われ、みふゆたちがターミナルからももこたちを助けたことで事無きを得る。しかし、株分けのミラーズの魔女を倒すことと引き換えに、郁美が令の遺志と共に散ってしまった。＠ショートカットを失い追い詰められたプロミストブラッド。だが、郁美のキモチの石を手にして４つが集まった。そこで判明したのは、キモチの魔女に戻りたいという真意だった。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04891",
+      "ruleIds": [
+        "KIMOCHI_STONE",
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102802",
+      "field": "outline",
+      "exactBefore": "被逼入绝境的PROMISED BLOOD把希望押在速战速决上，制定计策，要把最终战场设在二木市。＠Union方面，彩羽向伙伴坦白自己决心守护所有希望、不分敌我，并获得众人接受。她们还预想决战可能发生在神滨，争取时女一族协助，强化防御；但PROMISED BLOOD以Kimochi之石作筹码，迫使她们不得不前往二木市。＠随着参战者、旁观者以及其他阵营的各自思念相互交错，Union与时女一族对PROMISED BLOOD的最终决战即将在二木市打响。",
+      "exactAfter": "被逼入绝境的PROMISED BLOOD把希望押在速战速决上，制定计策，要把最终战场设在二木市。＠Union方面，彩羽向伙伴坦白自己决心守护所有希望、不分敌我，并获得众人接受。她们还预想决战可能发生在神滨，争取时女一族协助，强化防御；但PROMISED BLOOD以心魔石作筹码，迫使她们不得不前往二木市。＠随着参战者、旁观者以及其他阵营的各自思念相互交错，Union与时女一族对PROMISED BLOOD的最终决战即将在二木市打响。",
+      "sourceJapanese": "追い詰められたプロミストブラッドは短期決戦に望みをかけ、最後の戦場を二木市にするべく策を巡らす。＠一方、ユニオン側では、いろはが仲間たちに敵味方関係なく全ての希望を守る決意を告白し、受け入れられる。また、神浜市での短期決戦を想定し、時女一族へ協力を取り付けるなど守りを固めていた。しかしプロミストブラッドのキモチの石を盾にした策略により二木市に行かざるを得ない状況に陥る。＠そして両陣営だけでなく戦いに参加しない者、両陣営以外の者たちも各々の想いを交錯させる中、ユニオン・時女一族とプロミストブラッドとの最終決戦が二木市で始まろうとしていた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09549",
+      "ruleIds": [
+        "KIMOCHI_STONE"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102803",
+      "field": "message",
+      "exactBefore": "凪炭遇到麻烦了！＠米伊有没有什么能帮忙的!?",
+      "exactAfter": "十七夜姐姐遇到麻烦了！＠咪能做些什么吗!?",
+      "sourceJapanese": "なぎたんが困ってる！＠ミィにできることないかな!?",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04729",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102803",
+      "field": "outline",
+      "exactBefore": "二木市的最终决战终于揭幕。＠Union因地理不利，试图以人数优势弥补；PROMISED BLOOD却钻Kimochi规则的空子，连人数差也成功推翻。Union阵营被分割，各自陷入战斗与危机。在无数思念碰撞的战场上，青的思想逐渐染上深沉黑暗。Union与时女一族试图重新会合，却连这一点也落入结菜的圈套，被彻底包围。＠随后，PROMISED BLOOD的总攻向彩羽等人袭来。",
+      "exactAfter": "二木市的最终决战终于揭幕。＠Union因地理不利，试图以人数优势弥补；PROMISED BLOOD却钻心魔规则的空子，连人数差也成功推翻。Union阵营被分割，各自陷入战斗与危机。在无数思念碰撞的战场上，青的思想逐渐染上深沉黑暗。Union与时女一族试图重新会合，却连这一点也落入结菜的圈套，被彻底包围。＠随后，PROMISED BLOOD的总攻向彩羽等人袭来。",
+      "sourceJapanese": "二木市でついに最終決戦の火蓋が切られた。＠地理的には不利なので大人数で有利を取ろうとするユニオン側。しかしプロミストブラッドはキモチが定めたルールの穴を突いて人数差までも覆す。さらには仲間と分断され、それぞれが交戦する中、窮地に追い込まれるユニオン陣営。様々な想いがぶつかり合う戦場で、アオは深く暗い考えに染まっていく。何とか合流を図ろうとするユニオンと時女一族だったが、それさえも結菜の策略の内で囲まれてしまう。＠そこへプロミストブラッドの総攻撃がいろはたちを襲った。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-06766",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102805",
+      "field": "outline",
+      "exactBefore": "PROMISED BLOOD发动总攻，彩羽等人看似全军覆没，却因雫及时介入而脱险，并绕到敌人背后给予重创。＠胜负似乎已经分晓，结菜却借用四颗Kimochi之石，以压倒性暴力逐一击败彩羽等人。战况再次逆转之际，结菜得知咲夜在战斗中死亡，失去对力量的控制，开始不分敌我地攻击所有人。为了救她，彩羽独自上前。两人的精神彼此干涉，理解了对方的过去与思念。结菜终于停止暴走，承认彩羽的决意与心意皆为真实，并把未来托付给她。二木市之战就此落幕。",
+      "exactAfter": "PROMISED BLOOD发动总攻，彩羽等人看似全军覆没，却因雫及时介入而脱险，并绕到敌人背后给予重创。＠胜负似乎已经分晓，结菜却借用四颗心魔石，以压倒性暴力逐一击败彩羽等人。战况再次逆转之际，结菜得知咲夜在战斗中死亡，失去对力量的控制，开始不分敌我地攻击所有人。为了救她，彩羽独自上前。两人的精神彼此干涉，理解了对方的过去与思念。结菜终于停止暴走，承认彩羽的决意与心意皆为真实，并把未来托付给她。二木市之战就此落幕。",
+      "sourceJapanese": "プロミストブラッドの総攻撃によりいろはたちは全滅したかに見えた。しかし割って入った雫の力により難を逃れ、さらにはプロミストブラッドの背後を取り大打撃を与える。＠勝負がついたかに見えたが、結菜は４つのキモチの石から力を借り圧倒的な暴力でいろはたちを倒していく。再び形勢が逆転したかに思えたが、戦闘の最中さくやが命を散らしたことを知り、結菜は力の制御を失う。敵味方関係なく襲う結菜を助けるべくいろはは単身立ち向かう。互いの精神に干渉しそれぞれの過去と想いを知るふたり。なんとか暴走を止めた結菜は、いろはの決意も想いも本物だと受け入れると、未来を託すことで二木市で起きた戦いは決着をみた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-06110",
+      "ruleIds": [
+        "KIMOCHI_STONE"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102902",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102903",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102903",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102904",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102905",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102906",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102907",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102908",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102909",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102910",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102911",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102912",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102913",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102914",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102915",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102916",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102917",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102917",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102918",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102919",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102920",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102921",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102922",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102923",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102924",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102925",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102926",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102927",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102928",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102929",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102930",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102931",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102932",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102933",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102934",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102935",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102936",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102937",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102938",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102939",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102940",
+      "field": "outline",
+      "exactBefore": "二木市之战后，神滨魔法联盟和血盟的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "exactAfter": "二木市之战后，神滨魔法联盟和PROMISED BLOOD的成员们得知了双方要联手的消息。但是因为原本的仇恨和死去的魔法少女们的事，两阵营之间产生了很大的扭曲。＠莉薇娅等人决定对这些魔法少女进行采访和记录。这一切都是为了自己在二木市的战斗中没能保护笼目，导致笼目住院的原因而赎罪。＠在这样的情况下，小丘比想告诉彩羽等人蓝家姬奈还活着，而且危险正在逼近。但是，偏偏在关键的时候传达不好。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "PROMISED_BLOOD_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102945",
+      "field": "message",
+      "exactBefore": "怎么办……＠被姐姐和凪炭看见了……",
+      "exactAfter": "怎么办……＠被姐姐和十七夜姐姐看见了……",
+      "sourceJapanese": "どうしよ…＠姉ちゃとなぎたんに見られちゃった…",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04712",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102950",
+      "field": "message",
+      "exactBefore": "八块心魔之石终于集齐了……＠总算可以松一口气了……",
+      "exactAfter": "八块心魔石终于集齐了……＠总算可以松一口气了……",
+      "sourceJapanese": "キモチの石が８つ集まる…＠ようやくホッと息がつけそうね…",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-05407",
+      "ruleIds": [
+        "KIMOCHI_STONE"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102950",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-07140",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102951",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102952",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102953",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102954",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102954",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102955",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102956",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102956",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102957",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102958",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102959",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102959",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "102960",
+      "field": "outline",
+      "exactBefore": "在彩羽他们联手之前，暗地里已经有了动作。第一个是新玛吉斯。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "exactAfter": "在彩羽他们联手之前，暗地里已经有了动作。第一个是Neo-Magius。她们伪装蓝家姬奈之死，积蓄力量。莎夏害怕姬奈的计划会造成很多人的牺牲，让人在自己还是执行计划的天平上进行权衡。但是，姬奈选择了不停止。＠第二个是御魂和十七夜。在东西关系恶化的情况下，看到御影被西边的人欺负。至今为止忍耐了很多不讲理的两人，终于迎来了极限。＠第三个可能。花凛讲述了阿莉娜恢复记忆的故事，以及只留下隐藏记忆的意识的魔法少女濑奈命的故事。她渴望着毁灭。",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NEO_MAGIUS_FULL"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103001",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103001",
+      "field": "message",
+      "exactBefore": "从那以后心魔之石一直没有变化，＠它已经不会再失控了吗……？",
+      "exactAfter": "从那以后心魔石一直没有变化，＠它已经不会再失控了吗……？",
+      "sourceJapanese": "あれからキモチの石に変化はないけど＠もう、暴走しないのかな…？",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04310",
+      "ruleIds": [
+        "KIMOCHI_STONE"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103001",
+      "field": "outline",
+      "exactBefore": "彩羽等人满怀期待地集齐全部Kimochi之石，却在准备汇聚宝石的瞬间遭Kimochi暴走，目标直指忧。众人奋战后将其压制，无法进入神滨的丘比却突然现身。＠丘比揭示真相：它将夺走自动净化系统，使神滨重新成为魔法少女会化作魔女的城市；而且除忧以外，无论谁取得Kimochi之石，都无法夺回系统。随后，死而复生的姬奈率Neo-Magius出现，御魂等多名魔法少女也投奔其麾下。＠另一边，灯花与音梦为了拯救魔法少女实施自爆。万年樱依然存活，意味着两人的计划已经成功完成第一阶段。",
+      "exactAfter": "彩羽等人满怀期待地集齐全部心魔石，却在准备汇聚宝石的瞬间遭心魔暴走，目标直指忧。众人奋战后将其压制，无法进入神滨的丘比却突然现身。＠丘比揭示真相：它将夺走自动净化系统，使神滨重新成为魔法少女会化作魔女的城市；而且除忧以外，无论谁取得心魔石，都无法夺回系统。随后，死而复生的姬奈率Neo-Magius出现，御魂等多名魔法少女也投奔其麾下。＠另一边，灯花与音梦为了拯救魔法少女实施自爆。万年樱依然存活，意味着两人的计划已经成功完成第一阶段。",
+      "sourceJapanese": "すべてのキモチの石がそろうと期待を抱くいろはたち。ところが石を集約させようとした刹那、キモチがういを狙って暴走を始めた。奮闘の末にキモチを静めたいろはたちだったが、そこに現れたのは神浜市に入れないはずのキュゥべえ。＠語られたのは、自動浄化システムを奪って神浜市を魔女になる町に戻した上に、うい以外がキモチの石を手に入れてもシステムを奪取できないという真実だった。さらに現れたのは死んだはずのひめなを筆頭とするネオマギウスで、みたまたち複数の魔法少女が彼女たちの元に下っていった。＠一方、魔法少女を救うために自爆する灯花とねむ。万年桜の生存は、ふたりの計画が一段階成功したことを意味していた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04633",
+      "ruleIds": [
+        "KIMOCHI_STONE",
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103004",
+      "field": "outline",
+      "exactBefore": "静香为了把其他时女一族成员也纳入阵营，出现在千春等人面前。双方立场毫无改变，谈判平行发展，最终演变为战斗。千春等人追踪退出战线的静香时，收到静香与千春母亲们的联络。听过母亲们的话后，她们重整心意，再次站到静香面前。＠另一方面，放走美雨的灿与美由里开始追捕三寻和美冬，以药物让美冬昏睡后将其掳走，并把目标转向留下的三寻。然而三寻口中说出的真相，让时雨与育梦决定带她逃走。与此同时，彩羽等人察觉Neo-Magius的目标是电波望远镜，并为其真正目的感到战栗。",
+      "exactAfter": "静香为了把其他时女一族成员也纳入阵营，出现在千春等人面前。双方仍各执一词，最终爆发战斗。千春等人追踪撤离战线的静香时，收到静香与千春母亲们的联络。听过母亲们的话后，她们重整心意，再次站到静香面前。＠另一方面，放走美雨的灿与美由利开始追捕三寻和美冬，以药物让美冬昏睡后将其掳走，并把目标转向留下的三寻。然而三寻口中说出的真相，让时雨与育梦决定带她逃走。与此同时，彩羽等人察觉Neo-Magius的目标是电波望远镜，并为其真正目的感到战栗。",
+      "sourceJapanese": "他の時女一族も取り込むため、ちはるたちの前に現れた静香。互いの主張は変わらず平行線となり、戦闘へと突入する。戦線を離脱した静香の行方を追う最中、静香・ちはるの母たちから連絡が届く。母たちの言葉を受け、想いを新たに静香の前に立つちはるたち。＠一方、美雨を逃がした燦とミユリは、みつねとみふゆを確保するため動くと、みふゆを薬で眠らせて拉致し、残ったみつねを狙う。しかし仲間であるはずのみつねの口から語られた真実を受け、時雨とはぐむはみつねを連れ逃亡を図る。そんな中、いろはたちはネオマギウスの狙いが電波望遠鏡だということに気づき、その目的に戦慄する。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-06832",
+      "ruleIds": [
+        "MIYURI_NAME",
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103005",
+      "field": "outline",
+      "exactBefore": "灿等人发现时雨一行没有返回电波望远镜，也察觉她们已经叛离。彩羽等人在混战中与求援的时雨会合，从她口中听见Neo-Magius计划后，更加焦急地想抢先控制电波望远镜。＠另一边，千春等人借助Kimochi之石进入静香内心，重新经历莎奈所画绘本中的故事。静香在其中察觉自己已经堕入恶途，也看清那些寻求救助的人究竟是谁。千春等人又向她倾诉“让大家一起作出决定、一起前行”的心意，静香终于清醒。＠随后彩羽等人汇合，试图夺下电波望远镜，却仍让姬奈按照计划发出了能够伤害人类的电波。",
+      "exactAfter": "灿等人发现时雨一行没有返回电波望远镜，也察觉她们已经叛离。彩羽等人在混战中与求援的时雨会合，从她口中听见Neo-Magius计划后，更加焦急地想抢先控制电波望远镜。＠另一边，千春等人借助心魔石进入静香内心，重新经历莎奈所画绘本中的故事。静香在其中察觉自己已经堕入恶途，也看清那些寻求救助的人究竟是谁。千春等人又向她倾诉“让大家一起作出决定、一起前行”的心意，静香终于清醒。＠随后彩羽等人汇合，试图夺下电波望远镜，却仍让姬奈按照计划发出了能够伤害人类的电波。",
+      "sourceJapanese": "時雨たちが電波望遠鏡に戻っていないことを知り、離反が燦たちに露見する。いろはたちは時雨に助けを求められ混戦状態のまま合流すると、彼女からネオマギウスの計画を聞き、より一層電波望遠鏡を押さえようと焦り始める。＠一方、ちはるたちはキモチの石を使って静香の心に入り、さなが描いた絵本を追体験する。そこで静香は自分が悪に堕ちていたことや、救いを求める人たちがどういう人か気づくと、ちはるたちからも、みんなで決断して歩いていこうと想いをぶつけられ、ようやく目を覚ます。＠それからいろはたちは合流して電波望遠鏡を押さえようとしたが、ひめなの計画通り人に危害を及ぼす電波が放たれた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-08424",
+      "ruleIds": [
+        "KIMOCHI_STONE"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103101",
+      "field": "outline",
+      "exactBefore": "彩羽等人与Neo-Magius展开攻防前，那由他与午夜零时的民俗再次来到汤国市。＠然而那由他遭仓良等扑灭派绑架。她与扑灭派相互陈述立场，双方主张始终没有交集。拉比等人赶来营救，一度剑拔弩张，最终没有造成更严重后果。＠获救后，那由他听见了让拉比等人陷入谛念的事件及其后续，也从父亲太助那里了解“宇宙意志”的假说。太助等人准备依据神滨之战的结局决定是否接受谛念，那由他对此始终无法认同。",
+      "exactAfter": "彩羽等人与Neo-Magius展开攻防前，那由他与午前0时的民间传说再次来到汤国市。＠然而那由他遭仓良等扑灭派绑架。她与扑灭派相互陈述立场，双方主张始终没有交集。拉比等人赶来营救，一度剑拔弩张，最终没有造成更严重后果。＠获救后，那由他听见了让拉比等人陷入谛念的事件及其后续，也从父亲太助那里了解“宇宙意志”的假说。太助等人准备依据神滨之战的结局决定是否接受谛念，那由他对此始终无法认同。",
+      "sourceJapanese": "いろはたちがネオマギウスと攻防を繰り広げる直前に、那由他とフォークロアは湯国市を再び訪れていた。＠しかし那由他がくららたち撲滅派に誘拐されてしまう。那由他は撲滅派と互いの意見をぶつけ合うがそれぞれの主張は平行線を辿る。ラビたちが那由他を救出しに現れ一触即発になるも事なきを得る。＠救出された先で那由他は、ラビたちが諦念を抱くようになった事件とその後の話を聞かされると、父・太助からも宇宙の意志について説明を受けた。神浜市の戦いの結末次第で、諦念を受け入れるかを決めるつもりの太助たちを、那由他は納得ができない気持ちで見ていた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04345",
+      "ruleIds": [
+        "FOLKLORE_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103103",
+      "field": "outline",
+      "exactBefore": "结菜等人查看青的直播频道预告后，对敌人目标真是市民会馆产生怀疑。彩羽等人抵达现场，遭变换姿态的御魂与十七夜伏击，战斗后又被卷入她们留下的爆炸。＠之后，凭潜入Neo-Magius据点的莎奈所取得的成果，众人查明敌方行动：通过青的直播，对汤国市的扑灭派施以伤害。＠避开爆炸直击的彩羽等人，根据御魂二人的魔力方向，推测她们可能利用市政府的防灾广播。八千代得知御影等人的“友好大作战”后，也决定登上电视节目提供助力。",
+      "exactAfter": "结菜等人查看青的直播频道预告后，开始怀疑敌人的真正目标并非市民会馆。彩羽等人抵达现场，遭变换姿态的御魂与十七夜伏击，战斗后又被卷入她们留下的爆炸。＠之后，凭潜入Neo-Magius据点的莎奈所取得的成果，众人查明敌方行动：通过青的直播，对汤国市的扑灭派施以伤害。＠避开爆炸直击的彩羽等人，根据御魂二人的魔力方向，推测她们可能利用市政府的防灾广播。八千代得知御影等人的“友好大作战”后，也决定登上电视节目提供助力。",
+      "sourceJapanese": "アオの動画配信チャンネルの予定を見ると、敵の目標が市民会館ということに疑念を持った結菜たち。その現場に着いたいろはたちは、姿を変えたみたまと十七夜に待ち伏せされると、戦闘の末に置き土産の爆発に巻き込まれてしまった。＠その後、ネオマギウスの拠点に潜入していたさなの活躍によって彼女たちの行動が判明する。それは湯国市にいる撲滅派をアオの生配信で痛めつけるというものだった。＠一方、爆発の直撃は避けたいろはたちは、みたまたちの魔力の方向から、彼女たちが市役所の防災無線を利用する可能性に思い至る。また、みかげたちの「仲良し大作戦」を知ったやちよは、力になるべくテレビへの出演を決めた。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-05039",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103104",
+      "field": "outline",
+      "exactBefore": "莎奈从Neo-Magius据点逃脱时身负重伤，获莉薇娅等人救助。结菜等人为阻止青的直播赶往汤国市，时雨则寻找失踪的三寻。＠另一方面，围绕御魂与十七夜的战局因“友好大作战”发生巨大变化。两人最初对计划嗤之以鼻，但听见市长记者会、支持东西携手的学生签名人数，以及十七夜弟弟们的心意后，终于开始对未来怀抱希望。醒来的御魂随后告知众人：姬奈真正的目标，是荣区的1090。",
+      "exactAfter": "莎奈从Neo-Magius据点逃脱时身负重伤，获莉薇娅等人救助。结菜等人为阻止青的直播赶往汤国市，时雨则寻找失踪的三寻。＠另一方面，围绕御魂与十七夜的战局因“友好大作战”发生巨大变化。两人起初对这个计划一笑置之；然而，在得知市长召开了记者会、众多学生签名支持东西两区携手合作，又听到十七夜弟弟们的心意后，她们终于开始对未来抱有希望。御魂醒来后告诉众人：姬奈真正的目标，是荣区的“1090”。",
+      "sourceJapanese": "ネオマギウスの拠点からの脱出時に重傷を負い、リヴィアたちに助けられたさな。結菜たちはアオの生配信を止めるために湯国市へと向かい、時雨は行方不明のみつねを探す。＠その一方で、みたまと十七夜を巡る戦いは大きく動いた。それはみかげたちが進めていた「仲良し大作戦」の影響。話を聞いたみたまと十七夜は一笑に付していたが、市長よる記者会見や、東西で手を取り合うことに署名してくれた学生たちの数に加えて、十七夜の弟たちの想いを聞くと、未来に希望を抱くようになった。そして、目が覚めたみたまから聞いたのは、ひめなの本命が栄区の1090だということだった。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-05812",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103105",
+      "field": "outline",
+      "exactBefore": "结菜等人为阻止青来到汤国市。仓良等扑灭派已经落入青一行手中，但其他成员无法继续忍受青的暴走，最终释放了她们。＠结菜等人又借Kimochi之石进入青的精神，为修复她的内心提出一场游戏：从零岁开始把青养育到十四岁，看能否守住她的恐惧感情。漫长的十四年里，结菜等人一边养育青、一边与Kimochi攻防，最终守住恐惧、治愈她的心，从精神空间脱身。＠这时，姬奈向全体Neo-Magius发送的消息抵达青手中，内容是命令所有人离开神滨市。",
+      "exactAfter": "结菜等人为阻止青来到汤国市。仓良等扑灭派已被青一行俘虏，但其他成员再也无法忍受青的暴走，最终将她们释放。＠随后，结菜等人利用心魔石进入青的精神世界，并提出一场游戏来修复她的内心：从零岁开始将青抚养到十四岁，看看能否守护住她的恐惧之情。在漫长的十四年里，结菜等人既要抚养青，又要与心魔争夺恐惧之情，历尽艰辛；最终，她们成功让青保住恐惧、治愈内心，并从精神空间脱身。＠就在这时，姬奈发给全体Neo-Magius的消息传到了青手中，内容是命令所有人离开神滨市。",
+      "sourceJapanese": "アオを止めるため、湯国市に来た結菜たち。既にくららたち撲滅派はアオたちに囚われていたが、アオの暴走に耐えかねた他のメンバーによりくららたちは解放される。＠さらに、結菜たちはキモチの石を使ってアオの精神に入ると、彼女の心を正常に戻すためにあるゲームを提案する。それはアオを０歳から14歳まで育てる中で、恐怖の感情を守り切れるかというものだった。14年という時の中で、アオの育児とキモチとの攻防に悪戦苦闘する結菜たちは、アオに恐怖を守りきって心を治すと精神空間から脱出する。＠そこに、ひめなからネオマギウス全体へ宛てたメッセージが、アオに届く。それは神浜市から出るようにという指示だった。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-05041",
+      "ruleIds": [
+        "KIMOCHI_STONE",
+        "KIMOCHI_ENTITY",
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103201",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103201",
+      "field": "outline",
+      "exactBefore": "姬奈企图让世人把魔法少女视作威胁。彩羽等人为阻止她，在与灿、美由里交战后查明她藏身废弃博物馆。＠此后，Puella Care暗中行动取得成果，杀死所有魔法少女的装置宣告失败。姬奈于是选择让自己化作魔女，却在亚历山德拉支撑下停住。重新携手的天音姐妹、拉比等人也合力解除神滨市民所受暗示。＠一直旁观战局的太助与午夜零时的民俗，则从战斗结果中看见希望，转而决定参与拯救魔法少女的行动。",
+      "exactAfter": "姬奈企图让世人把魔法少女视作威胁。彩羽等人为阻止她，在与灿、美由利交战后查明她藏身废弃博物馆。＠此后，Puella Care暗中行动取得成果，杀死所有魔法少女的装置宣告失败。姬奈于是选择让自己化作魔女，却在亚历山德拉的劝阻与支持下打消了念头。重新携手的天音姐妹、拉比等人也合力解除神滨市民所受暗示。＠一直旁观战局的太助与午前0时的民间传说，则从战斗结果中看见希望，转而决定参与拯救魔法少女的行动。",
+      "sourceJapanese": "世間に魔法少女を脅威として伝えようとするひめな。それを防ごうとするいろはたちは、燦とミユリとの戦いを経て彼女が廃博物館にいることを突き止めた。＠その後、ピュエラケアが裏側で動いていた成果もあり、魔法少女を皆殺しにする仕掛けが失敗に終わると、ひめなは自ら魔女になる道を選ぶ。だが、アレクサンドラの支えによって踏み止まると、再び手を取った天音姉妹やラビたちの力によって、神浜市の人々にかけられた暗示は解かれた。＠一方、戦い行方を静観していた太助やフォークロアは、戦いの結果に希望を見出し、魔法少女を救う活動へと舵を切る。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-06749",
+      "ruleIds": [
+        "FOLKLORE_NAME",
+        "MIYURI_NAME",
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103202",
+      "field": "outline",
+      "exactBefore": "与Neo-Magius之战结束，彩羽等人只剩下从丘比手中夺回自动净化系统。＠莉薇娅等人开始行动，试图带回持有Kimochi之石的御魂与十七夜。她们向已经接近魔女化的两人展示大家收集的心意；但二人仍被悲伤束缚，莉薇娅为了帮助她们客观看待自己，决定展示自己的过去。那是她虽然贫穷却与家人幸福生活的日子，也是父亲去世后坠入地下社会，在严酷环境中生存，最终与丘比签订契约的记忆。",
+      "exactAfter": "与Neo-Magius之战结束，彩羽等人只剩下从丘比手中夺回自动净化系统。＠莉薇娅等人开始行动，试图带回持有心魔石的御魂与十七夜。她们向已经接近魔女化的两人展示大家收集的心意；但二人仍被悲伤束缚，莉薇娅为了帮助她们客观看待自己，决定展示自己的过去。那是她虽然贫穷却与家人幸福生活的日子，也是父亲去世后坠入地下社会，在严酷环境中生存，最终与丘比签订契约的记忆。",
+      "sourceJapanese": "ネオマギウスとの戦いに終止符を打ち、残るはキュゥべえから自動浄化システムを奪取するのみとなったいろはたち。＠リヴィアたちは、キモチの石を保有しているみたまと十七夜を連れ戻すために動き始めると、魔女化する寸前のふたりに、みんなから集めた想いを見せた。それでもみたまと十七夜が悲しみにとらわれていると、リヴィアはふたりが己を客観視できるように、自分の過去を見せることにした。見せたのは貧しいながらも幸せに暮らしていた頃。そして父の死をきっかけに裏社会へ転がり落ち、苛烈な環境で生きながら、キュゥべえと契約を結んだ時の記憶だった。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-05810",
+      "ruleIds": [
+        "KIMOCHI_STONE"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103203",
+      "field": "outline",
+      "exactBefore": "成为魔法少女后，莉薇娅几经曲折回到正常社会，被送往福利机构。她在新机构得到许多美好相遇，却发现自己的愿望会把不幸带给对方，于是始终维持疏离关系。即便如此，重要的人仍受到伤害。绝望中的莉薇娅从丘比口中得知维持宇宙的真相，决定为自己的不幸之力大概无法触及的“宇宙”而活。＠看过她的过去后，御魂与十七夜决定吞食自身悲伤、将其化作养分，返回神滨。＠彩羽等人终于凭集齐的Kimochi之石进入自动净化系统，等待她们的却是丘比。",
+      "exactAfter": "成为魔法少女后，莉薇娅几经曲折回到正常社会，被送往福利机构。她在新机构结识了许多善良的人，却发现自己的愿望会把不幸带给对方，于是始终与人保持距离。即便如此，重要的人仍受到伤害。绝望中的莉薇娅从丘比口中得知维持宇宙的真相，决定为了自己的不幸之力或许无法触及的“宇宙”而活。＠看过她的过去后，御魂与十七夜决定吞下自身悲伤、将其化作养分，返回神滨。＠彩羽等人终于凭集齐的心魔石进入自动净化系统，等待她们的却是丘比。",
+      "sourceJapanese": "魔法少女となったリヴィアは紆余曲折を経て表社会に戻ると施設に移された。新しい施設では良き出会いに恵まれたリヴィアだったが、自身の願いのせいで相手に不幸が降りかかることに気づくと、ドライな関係を維持していった。だが、それでも大切な人は傷つき、失意の中でキュゥべえから宇宙の維持に関する真実を聞いたリヴィアは、不幸にする力が及ばないであろう宇宙のために生きることを決意した。＠リヴィアの過去を見たみたまと十七夜は自分たちの中にある悲しみを食らって糧にするすると神浜市へ戻って行く。＠ついに集まったキモチの石でいろはたちは自動浄化システムの中へと突入したが、そこで待ち構えていたのはキュゥべえだった。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09947",
+      "ruleIds": [
+        "KIMOCHI_STONE",
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103204",
+      "field": "outline",
+      "exactBefore": "香春独自进入无尽镜层，找到阿莉娜后，为了把她带回来，接受濑奈御琴的提议，开始体验人类历史。＠在观看人们因各种理由彼此争斗的历史时，香春认识了西区的水名露与东区的千鹤，也见证东西冲突的起源：露与千鹤的努力终究无果，曾经携手的东西双方再次冲突，历史以露诅咒东区收场。＠看完这些，香春仍认为人类是既追求喜悦也追求悲伤的灰色存在。阿莉娜觉得这个想法很有趣，御琴则提议观察如今同样处于灰色地带的神滨最终会走向何方。",
+      "exactAfter": "香春独自进入无尽镜层，找到阿莉娜后，为了把她带回来，接受濑奈命的提议，开始体验人类历史。＠在观看人们因各种理由彼此争斗的历史时，香春认识了西区的水名露与东区的千鹤，也见证东西冲突的起源：露与千鹤的努力终究无果，曾经携手的东西双方再次冲突，历史以露诅咒东区收场。＠看完这些，香春仍认为人类是既追求喜悦也追求悲伤的灰色存在。阿莉娜觉得这个想法很有趣，御琴则提议观察如今同样处于灰色地带的神滨最终会走向何方。",
+      "sourceJapanese": "単身で果てなしのミラーズに乗り込んだかりんは、アリナを見つけると彼女を取り戻すため、瀬奈みことの提案を受け入れて人の歴史を体験することになった。＠様々な理由で争い合う歴史を見せられていく中で、かりんは西の水名露と東の千鶴と呼ばれた魔法少女を知り、東西が争う起源も見る。それは、露と千鶴の努力もむなしく、手を取り合った東西が再び衝突し、露が東を呪って終わる過去。＠それを見てもかりんは、人は喜びも悲しみも求めるグレーな存在だと言う。その発想をアリナは面白がるが、話を聞いたみことはグレーゾーンになっている現状の神浜市の結末を観察しようと言う。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-07044",
+      "ruleIds": [
+        "MIKOTO_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103205",
+      "field": "outline",
+      "exactBefore": "看见自动净化系统外的八千代等人突然如断线般接连倒下，彩羽等人顿时慌乱。现象是濑奈御琴回收并利用姬奈未启用的机关所致。众人为救伙伴急忙夺取核心，拉比却再次被谛念支配，Kimochi也与她同步。彩羽进入拉比内心，告诉她：正因为心中仍有想要抵达的未来，她才会继续战斗，她其实从未真正放弃。拉比终于吐露“不愿放弃”的真实感情，Kimochi也转而响应彩羽，不再抵抗。＠与此同时，忧向笼目坦白，自己唯一能做的，是成为自动净化系统核心并与其融为一体。",
+      "exactAfter": "看见自动净化系统外的八千代等人突然如断线般接连倒下，彩羽等人顿时慌乱。现象是濑奈命回收并利用姬奈未启用的机关所致。众人为救伙伴急忙夺取核心，拉比却再次被谛念支配，心魔也与她同步。彩羽进入拉比内心，告诉她：正因为心中仍有想要抵达的未来，她才会继续战斗，她其实从未真正放弃。拉比终于吐露“不愿放弃”的真实感情，心魔也转而响应彩羽，不再抵抗。＠与此同时，忧向笼目坦白，自己唯一能做的，是成为自动净化系统核心并与其融为一体。",
+      "sourceJapanese": "自動浄化システムの外に居るやちよたちが急に糸が切れたように倒れていく姿を見て狼狽するいろはたち。この現象はひめなの未使用の仕掛けを瀬奈みことが回収して利用した結果だった。仲間を助けるべくコアの確保に急ぐいろはたち。しかしラビが再び諦念に駆られキモチもそれに同調してしまう。ラビを救うために心の中に入ったいろはは、ラビが戦うのは望む未来があるからで、本当は諦めていないと言う。その言葉を受けて、ラビは本当は諦めたくない感情を吐露すると、キモチもいろはの想いに同調し抵抗するのをやめる。＠そんな中、ういは自分にできることは自動浄化システムのコアとなり、ひとつになることだとかごめに打ち明けた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09270",
+      "ruleIds": [
+        "MIKOTO_NAME",
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103303",
+      "field": "outline",
+      "exactBefore": "姬奈的作战消除了一层屏障，却发现里面还有第二层。拉比与莉薇娅等人一边应对屏障、一边调查敌人目的；在笼目与小阿尔努力下，众人得知镜之魔女真正目标并非世界崩坏，而是灭绝人类，时间悖论不过是手段之一。巨大镜子正是前往过去的入口。＠众人苦战后成功破坏守护巨大镜子的屏障，彩羽与忧也暂时使用回收的能量摧毁镜子。＠大家正为粉碎魔女计划而欢喜，忧却在刹那间遭镜之魔女杀害。",
+      "exactAfter": "姬奈的作战消除了一层屏障，却发现里面还有第二层。拉比与莉薇娅等人一边应对屏障、一边调查敌人目的；在笼目与小阿鲁努力下，众人得知镜之魔女真正目标并非世界崩坏，而是灭绝人类，时间悖论不过是手段之一。巨大镜子正是前往过去的入口。＠众人苦战后成功破坏守护巨大镜子的屏障，彩羽与忧也暂时使用回收的能量摧毁镜子。＠大家正为粉碎魔女计划而欢喜，忧却在刹那间遭镜之魔女杀害。",
+      "sourceJapanese": "ひめなの作戦によりバリアを消せたが、さらにもう１枚のバリアがあると判明。ラビやリヴィアたちがバリアの対処や敵の目的を探る中、かごめとアルちゃんの尽力により鏡の魔女の目的が世界の崩壊ではなく、人類を滅ぼすことでありタイムパラドクスも手段のひとつに過ぎなかったと判明。巨大な鏡は、その過去へ向かうための入口だった。＠苦戦するも、巨大な鏡を守っていたバリアの破壊には成功。いろはとういも、ひとまず回収したエネルギーを使って巨大な鏡を破壊する。＠鏡の魔女の目論見を打ち砕いたと喜ぶいろはたち。だがその刹那、ういが鏡の魔女によって殺されてしまった。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04791",
+      "ruleIds": [
+        "ARU_NICKNAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103305",
+      "field": "outline",
+      "exactBefore": "凭借来自未来的情报，过去的彩羽避开危机，终于成功成为“∞彩羽”。灯花与音梦也以传闻女王之姿觉醒，借能力把濒死魔法少女化为传闻，使她们重新起身。＠然而无论怎样削弱，魔女的力量都仿佛深不见底。攻击那具被强大魔力包裹、毫无手感的身体，众人又无法躲避魔女以无形之力发出的攻击，只能一点点被逼入绝境。＠灯花终于成功让敌方攻击显形，并摧毁看不见的被膜，众人与镜之魔女的战斗进入最终阶段。",
+      "exactAfter": "凭借来自未来的情报，过去的彩羽避开危机，终于成功成为“∞彩羽”。灯花与音梦也以传闻女王之姿觉醒，借能力把濒死魔法少女化为传闻，使她们重新起身。＠然而无论怎样削弱，魔女的力量都仿佛深不见底。攻击那具被强大魔力包裹的身体也毫无效果，众人又无法躲避魔女以无形之力发出的攻击，只能一点点被逼入绝境。＠灯花终于成功让敌方攻击显形，并摧毁看不见的被膜，众人与镜之魔女的战斗进入最终阶段。",
+      "sourceJapanese": "未来からの情報によって危機を回避したいろはは、今度こそ∞いろはになることに成功する。加えてウワサの女王として灯花とねむも目覚めると、ふたりの力によって瀕死の魔法少女たちをウワサ化することで覚醒させることに成功する。＠しかし、どれだけ力を削ろうとも魔女の力は底が見えない。押し潰すような強い魔力に攻撃をしても手ごたえのない体。魔女の攻撃も不可視の力によって避けられず、ジリジリと窮地に追い込まれる事態となった。＠そんな中、灯花の力によって相手の攻撃の可視化に成功すると、見えない被膜も破壊したことで、いよいよ鏡の魔女との最終局面を迎えることになる。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-08502",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103403",
+      "field": "outline",
+      "exactBefore": "八千代与菲莉希亚留在现代，为倒下的彩羽供给魔力；从小阿尔处听见消息的魔法少女也陆续聚集到万年樱的传闻。＠众人想利用“摧毁镜子即可重置对过去的篡改”这一机制，却担心会影响彩羽灵魂，始终无法实行。＠八千代准备提出自己的方案，但维持彩羽所需魔力过于庞大，她反而先倒下。众人因情况恶化而动摇时，Puella Care赶到，决定协助维持彩羽的存在。",
+      "exactAfter": "八千代与菲莉希亚留在现代，为倒下的彩羽供给魔力；从小阿鲁处听见消息的魔法少女也陆续聚集到万年樱的传闻。＠众人想利用“摧毁镜子即可重置对过去的篡改”这一机制，却担心会影响彩羽灵魂，始终无法实行。＠八千代准备提出自己的方案，但维持彩羽所需魔力过于庞大，她反而先倒下。众人因情况恶化而动摇时，Puella Care赶到，决定协助维持彩羽的存在。",
+      "sourceJapanese": "現代に残ったやちよとフェリシアが倒れたいろはに魔力を供給する中、アルちゃんから話を聞いた魔法少女たちが続々と万年桜のうわさに集まる。＠彼女たちは“鏡を破壊すれば過去の改ざんはリセットされる”という鏡の仕組みを利用しようとしたが、いろはの魂に影響がでる恐れがあり、実行には移せなかった。＠そこで、自身の考えを述べようとするやちよ。ところが、いろはの維持に必要な魔力が膨大で、こんどはやちよが倒れてしまう。事態の悪化に動揺が広がる中、現れたのはピュエラケア。彼女たちは、いろはを維持するために力を貸してくれることになった。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-08838",
+      "ruleIds": [
+        "ARU_NICKNAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103404",
+      "field": "outline",
+      "exactBefore": "Puella Care与御魂为维持彩羽持续供给魔力，八千代也重新醒来。她提出在现代收集彩羽概念的方法：彩羽过去曾削减灵魂，把魔法少女从传闻恢复，因此她的概念很可能留在大家身边。＠然而众人没能从聚集的魔法少女身上回收任何概念，八千代与菲莉希亚便推测概念可能留在与镜之魔女战斗的地点，开始行动；其他魔法少女也出发寻找悲叹之种。＠留下的人则使用《魔法纪录》中的书，准备向与彩羽共存的濑奈御琴询问真相。",
+      "exactAfter": "Puella Care与御魂为维持彩羽持续供给魔力，八千代也重新醒来。她提出在现代收集彩羽概念的方法：彩羽过去曾削减灵魂，把魔法少女从传闻恢复，因此她的概念很可能留在大家身边。＠然而众人没能从聚集的魔法少女身上回收任何概念，八千代与菲莉希亚便推测概念可能留在与镜之魔女战斗的地点，开始行动；其他魔法少女也出发寻找悲叹之种。＠留下的人则使用《魔法纪录》中的书，准备向与彩羽共存的濑奈命询问真相。",
+      "sourceJapanese": "ピュエラケアとみたまがいろはを維持するために魔力を供給する中、目を覚ましたやちよ。彼女がいろはを救うために提案したのは、現代でいろはの概念を集める方法。以前、いろはは魂を削って魔法少女たちをウワサから元に戻したので、いろははみんなの周りにいると考えていた。＠ところが、集まった魔法少女からいろはの概念は回収できず、やちよとフェリシアが鏡の魔女と戦った場所にいろはの概念があると想定して動き始めると、他の魔法少女たちもグリーフシードを捜しに向かった。＠そして残った者たちは、マギアレコードにある本を使い、いろはと共にある“瀬奈みこと”から話を聞くことにした。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-05935",
+      "ruleIds": [
+        "MIKOTO_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "103405",
+      "field": "outline",
+      "exactBefore": "众人为获得悲叹之种出发寻找魔女，笼目却觉得自己没有能够拼上性命发挥作用的地方，独自叹息。＠樱子带回“濑奈御琴”的书后，笼目运用自己“收集信息的力量”，调查御琴是否背叛彩羽。＠她却触怒记录中的御琴，被困进书中。＠在那里，笼目得知御琴非但没有背叛，反而一直协助彩羽；同时还发现，一只未被察觉的魔女正潜伏在万年樱的传闻中。",
+      "exactAfter": "众人为获得悲叹之种出发寻找魔女，笼目却觉得自己没有能够拼上性命发挥作用的地方，独自叹息。＠樱子带回“濑奈命”的书后，笼目运用自己“收集信息的力量”，调查御琴是否背叛彩羽。＠她却触怒记录中的御琴，被困进书中。＠在那里，笼目得知御琴非但没有背叛，反而一直协助彩羽；同时还发现，一只未被察觉的魔女正潜伏在万年樱的传闻中。",
+      "sourceJapanese": "みんなが、グリーフシードを手に入れるために魔女を捜しに行く中、体の張りどころのなく、嘆いているかごめ。＠ところが、桜子が“瀬奈みこと”の本を持って戻ってくると、かごめは自身の“情報を収集する力”を使って、みことがいろはを裏切っていないか内容を探ることになった。＠しかし、記録されたみことの逆鱗に触れたかごめは、本の中に捕われてしまう。＠そこで彼女が知ったのは、みことはいろはを裏切るどころか力を貸しているということ。そして、万年桜のうわさの中に、魔女が気づかずに存在しているということだった。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04927",
+      "ruleIds": [
+        "MIKOTO_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "104001",
+      "field": "message",
+      "exactBefore": "姬奈大人、美游莉大人、时雨大人……＠大家的名字都很特别呢。",
+      "exactAfter": "姬奈大人、美由利大人、时雨大人……＠大家的名字都很特别呢。",
+      "sourceJapanese": "ひめな様、みゆりん様、しぐりん様…＠不思議なお名前の方々ですね",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04794",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "207102",
+      "field": "charaName",
+      "exactBefore": "常盘七夏",
+      "exactAfter": "常盘七香",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NANAKA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "207403",
+      "field": "outline",
+      "exactBefore": "两人调查途中来到咨询所，遇见衣美里、明日香与纱纱罗。三人起初保持警戒，但得知夜鹤曾帮助雫后，便向她们讲述昨天与PROMISED BLOOD的冲突，以及Kimochi筛选参战者的情况。两人把情报报告给莉薇娅，夜鹤却还有另一件在意的事——她亲手端出的咖啡，被客人剩下了。",
+      "exactAfter": "两人调查途中来到咨询所，遇见衣美里、明日香与纱纱罗。三人起初保持警戒，但得知夜鹤曾帮助雫后，便向她们讲述昨天与PROMISED BLOOD的冲突，以及心魔筛选参战者的情况。两人把情报报告给莉薇娅，夜鹤却还有另一件在意的事——她亲手端出的咖啡，被客人剩下了。",
+      "sourceJapanese": "調査で立ち寄った相談所には衣美里と明日香とささらがいた。３人は警戒していたがヨヅルが雫を助けたことを知ると、昨日起きたプロミストブラッドとの衝突やキモチによる選抜について聞くことができた。その情報をリヴィアに報告するふたりだが、ヨヅルの気がかりは他にもあり、自ら出したコーヒーが残されてしまったことを伝えた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09410",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "207501",
+      "field": "outline",
+      "exactBefore": "莉薇娅与丘比取得联络。Kimochi主动筛选魔法少女，是双方都没有预料到的情况。＠虽然担忧计划已经出现偏差，她仍从神滨这片土地所拥有、足以引发巨大风浪的因素中看见“希望”。＠丘比于是请求她调查异常存在——笼目的行动。",
+      "exactAfter": "莉薇娅与丘比取得联络。心魔主动筛选魔法少女，是双方都没有预料到的情况。＠虽然担忧计划已经出现偏差，她仍从神滨这片土地所拥有、足以引发巨大风浪的因素中看见“希望”。＠丘比于是请求她调查异常存在——笼目的行动。",
+      "sourceJapanese": "キュゥべえとコンタクトを取るリヴィア。ふたりにとって、キモチによる魔法少女の選抜は予想外のことだった。＠だが、計画に狂いが生じたことを危惧しながらも、神浜という地が抱える波乱を起こす要因に“希望”を見出す。＠そんな彼女にキュゥべえは、イレギュラーであるかごめの動向を探って欲しいと頼むのだった。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-05417",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "207603",
+      "field": "outline",
+      "exactBefore": "莎奈与笼目一起前往各地采访。＠她们看见菲莉希亚与菖蒲、花子谈论自己在公寓见到父母亡灵的经历，也确认雫长期不在自家咖啡店，随后为继续采访前往电器街。＠途中，笼目再次询问莎奈为何愿意同行。莎奈坦白，自己确实一直在逃避现实，甚至已经无法再相信绘本的力量。",
+      "exactAfter": "莎奈与笼目一起前往各地采访。＠她们看见菲莉希亚与菖蒲、佳子谈论自己在公寓见到父母亡灵的经历，也确认雫不在自家咖啡店，随后为继续采访前往电器街。＠途中，笼目再次询问莎奈为何愿意同行。莎奈坦白，自己确实一直在逃避现实，甚至已经无法再相信绘本的力量。",
+      "sourceJapanese": "かごめと共に各地への取材に向かうさな。＠フェリシアがマンションで見た両親の亡霊についてあやめとかこと話をする様子や、雫が実家の喫茶店を留守にしている様子を確認しつつ、取材を続けるためにデンキ街へ向かう。＠その道中でさなは、かごめから取材に同行した理由を改めて聞かれると、自分が現実逃避をしていて、絵本の力も信じられなくなっていることを告白した。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04476",
+      "ruleIds": [
+        "KAKO_NAME",
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "207604",
+      "field": "outline",
+      "exactBefore": "莎奈与笼目来到电器街的女仆咖啡店，店内正在准备郁美的追悼活动，十七夜也来帮忙。两人感受着店中所有人面对郁美死亡时难以言明的郁结，切身体会一名魔法少女的死亡会对周围造成怎样的影响。＠随后她们来到无尽镜层，发现未被Kimochi选中的魔法少女正在寻找阿莉娜与香春。追踪过程中，一只强大魔女出现在终端，莎奈鼓起勇气，发动近乎舍命的突击。",
+      "exactAfter": "莎奈与笼目来到电器街的女仆咖啡店，店内正在准备郁美的追悼活动，十七夜也来帮忙。两人感受着店中所有人面对郁美死亡时难以言明的郁结，切身体会一名魔法少女的死亡会对周围造成怎样的影响。＠随后她们来到无尽镜层，发现未被心魔选中的魔法少女正在寻找阿莉娜与香春。追踪过程中，一只强大魔女出现在终端，莎奈鼓起勇气，发动近乎舍命的突击。",
+      "sourceJapanese": "デンキ街のメイド喫茶に来たさなとかごめ。そこでは郁美の追悼イベントの準備が行われており、十七夜も手伝いをしていた。店内に充満する郁美の死に対してモヤモヤする人たちの様子を感じ取りながら、ふたりは魔法少女の死がどんな影響を与えるのかを受け止めた。＠続けて訪れた果てなしのミラーズでは、キモチに選ばれなかった魔法少女たちがアリナとかりんの捜索をしていた。その様子を追う中で、ターミナルに現れた強力な魔女を前に、さなは勇気を振り絞って捨て身の特攻をしかけた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-05763",
+      "ruleIds": [
+        "KIMOCHI_ENTITY"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "207702",
+      "field": "charaName",
+      "exactBefore": "常盘七夏",
+      "exactAfter": "常盘七香",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NANAKA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "207802",
+      "field": "outline",
+      "exactBefore": "各集团魔法少女正尝试携手时，Union成员告诉十七夜与御魂：镜之魔女的真实身份是濑奈御琴。＠当晚，御魂向十七夜说明自己的推测：濑奈御琴会变成镜之魔女，是由自己的愿望所致，神滨也注定会毁灭。＠既然终究会灭亡，御魂不想继续反抗。十七夜没能阻止她，又因家人正面对问题，最终接受青代表Neo-Magius发出的邀请。",
+      "exactAfter": "各集团魔法少女正尝试携手时，Union成员告诉十七夜与御魂：镜之魔女的真实身份是濑奈命。＠当晚，御魂向十七夜说明自己的推测：濑奈命会变成镜之魔女，是由自己的愿望所致，神滨也注定会毁灭。＠既然终究会灭亡，御魂不想继续反抗。十七夜没能阻止她，又因家人正面对问题，最终接受青代表Neo-Magius发出的邀请。",
+      "sourceJapanese": "各グループの魔法少女たちが手を取ろうとする中、ユニオンのメンバーから、鏡の魔女の正体が瀬奈みことであると知らされた十七夜とみたま。＠その夜、みたまは十七夜に、瀬奈みことが鏡の魔女になったのは自分の願いのせいであり、神浜は必ず滅びるという考察を話す。＠どうせ滅びるなら、もう抗わないと話すみたま。そんな彼女を止められなかった十七夜は、家族の直面した問題もあり、ネオマギウスの招待をアオから受けることにした。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-07074",
+      "ruleIds": [
+        "MIKOTO_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "207903",
+      "field": "outline",
+      "exactBefore": "那由他在镇上遇见扑灭派。她试图消除对方对魔法少女的误解，可扑灭派心中的伤口太深，她的话没能传达。＠她仍无法认同拉比等人面对扑灭派单方面暴力时完全不作反抗。看见她的态度，拉比等人带她走访事故现场，讲述过去发生的一切。＠沉重过去令那由他痛苦，但她无法像午夜零时的民俗四人那样接受谛念。相反，她希望消除这份谛念，因此决定认真面对自己的感情。",
+      "exactAfter": "那由他在镇上遇见扑灭派。她试图消除对方对魔法少女的误解，可扑灭派心中的伤口太深，她的话没能传达。＠她仍无法认同拉比等人面对扑灭派单方面暴力时完全不作反抗。看见她的态度，拉比等人带她走访事故现场，讲述过去发生的一切。＠沉重过去令那由他痛苦，但她无法像午前0时的民间传说四人那样接受谛念。相反，她希望消除这份谛念，因此决定认真面对自己的感情。",
+      "sourceJapanese": "町で撲滅派と出会った那由他。魔法少女に対する誤解を解こうとするも、撲滅派の心に付いた傷は深く、彼女の言葉は届かなった。＠それでも、撲滅派の一方的な暴力に無抵抗でいるラビたちの態度に納得していない那由他。その様子を見たラビたちは、事故が起こった現場を巡りながら何があったのかを聞かせた。＠辛い過去に苦しくなる那由他だが、フォークロアの４人のように諦念を受け入れることはできない。むしろ、その諦念を消し去りたいと考えた彼女は、自分の気持ちと向き合うことにした。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-08867",
+      "ruleIds": [
+        "FOLKLORE_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "208002",
+      "field": "outline",
+      "exactBefore": "明日香等人已经基本消灭Neo-Magius散布的魔女，接着为支持彩羽联络的“友好大作战”，开始推广签名网站。拥有普通人粉丝的莉爱同意帮忙宣传，沙优希却因经纪公司禁止政治性发言而拒绝。众人重新认识到问题多么敏感，同时产生疑问：为什么魔法少女能够不分东西、平等对待东区的人？",
+      "exactAfter": "明日香等人已经基本消灭Neo-Magius散布的魔女，接着为支持彩羽联络的“友好大作战”，开始推广签名网站。拥有普通人粉丝的莉爱同意帮忙宣传，沙优希却因经纪公司禁止政治性发言而拒绝。众人再次意识到问题的敏感，也不禁疑惑：为什么魔法少女们能够不带偏见地对待东区居民？",
+      "sourceJapanese": "ネオマギウスがばらまいた魔女を、ほぼ倒し終えた明日香たち。続けていろはから連絡のあった仲良し大作戦を後押しするために、署名サイトの拡散を進める。一般人のファンがいる莉愛からは拡散の了承を得たものの、同様にファンを抱える沙優希からは事務所から政治的発言はNGが出たという理由で断られてしまう。改めて問題のセンシティブさを実感した一同は、同時に、どうして魔法少女たちは東に対し分け隔てなく接することができるのか、という疑問をいだいた。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-05808",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "208003",
+      "field": "outline",
+      "exactBefore": "明日香等人继续思考宣传签名网站的方法。有人提出使用#标签与热搜趋势，却始终看不见突破口。这时，本应在工匠区战斗的垒发来SOS。＠另一边，莉爱通过网络直播讨论东西问题，指出欺凌东区的人与认为这种行为有问题的自己等人之间，并没有想象中那么大的差别。＠沙优希一边观看直播一边移动，途中与明日香等人会合，抵达垒所在的工匠区。大河桥边，垒正拼命阻挡遭魔女之吻控制的人群不断涌来。",
+      "exactAfter": "明日香等人继续思考宣传签名网站的方法。有人提出使用#标签与热搜趋势，却始终看不见突破口。这时，本应在工匠区战斗的垒发来SOS。＠另一边，莉爱通过网络直播讨论东西问题，指出那些骚扰东区的人，与自认为这种行为有问题的她们，其实并没有根本差别。＠沙优希一边观看直播一边移动，途中与明日香等人会合，抵达垒所在的工匠区。大河桥边，垒正拼命阻挡遭魔女之吻控制的人群不断涌来。",
+      "sourceJapanese": "引き続き署名サイトの拡散方法を考える明日香たち。#（ハッシュタグ）やトレンドを使った方法も挙がるが、光明を見いだせないでいた。そんな中、工匠区で戦っているはずの塁からSOSが届く。＠一方、ネットの生配信で東西問題を語る莉愛は、東に嫌がらせをする人々と、それを問題と考える自分たちとの間に大きな差はないと答えた。＠その配信を見ながら移動していた沙優希は、道中、明日香たちと合流し塁の待つ工匠区に着く。大きな川の橋近くには、魔女の口づけを受けた人が押し寄せるのを必死で食い止める塁の姿があった。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-07732",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "208004",
+      "field": "message",
+      "exactBefore": "“我也一样”……＠那么，沙优希她……",
+      "exactAfter": "“我也在一起”……＠那么，沙优希她……",
+      "sourceJapanese": "『私も、一緒』…＠なら、沙優希は…",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04182",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "208101",
+      "field": "outline",
+      "exactBefore": "魔法少女打倒魔女，阻止了河滩上的集体投河。可准备自杀的人中有人认出偶像沙优希，引发骚动。沙优希没有隐瞒身份，反而为了鼓励心灵衰弱的众人，宣布举行临时演唱会，演唱尚未公开的新曲。站在这个现场，她决定把歌曲命名为《#我也同行，由我同行》，演出最终在巨大欢呼中落幕。＠后来沙优希坦白，歌名源自莉爱进行的Doutube直播，也承载了莉爱领悟“理解不同价值观”后的心意。",
+      "exactAfter": "魔法少女打倒魔女，阻止了河滩上的集体投河。可准备自杀的人中有人认出偶像沙优希，引发骚动。沙优希没有隐瞒身份，反而为了鼓励心灵衰弱的众人，宣布举行临时演唱会，演唱尚未公开的新曲。站在这个现场，她决定把歌曲命名为《#我也在一起，由我陪在一起》，演出最终在巨大欢呼中落幕。＠后来沙优希坦白，歌名源自莉爱进行的Doutube直播，也承载了莉爱领悟“理解不同价值观”后的心意。",
+      "sourceJapanese": "魔法少女たちが魔女を倒したことで河川敷での集団入水自殺を防ぐことができたが、自殺しようとしていた人々の中に、アイドルとしての沙優希を知っている者がいたことから騒ぎとなってしまう。しかし、沙優希は誤魔化すことをせず、それどころか、弱った皆の心を励ますため、ゲリラライブの開催まで宣言する。歌うのは未発表の新曲。この場に立ったことで、「#私も一緒、私が一緒」という曲名とすることも決定。ライブは大盛況の内に幕を下ろした。＠後日、あの曲名にしたのは、莉愛が行ったDoutubeの生配信がきっかけだったと沙優希は告白する。価値観の理解を悟った莉愛の想いも乗せた命名だった。",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09941",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "208102",
+      "field": "outline",
+      "exactBefore": "姬奈以激进魔法少女至上主义发动的暴走，被彩羽等人的联合行动压制。结果，全部Kimochi之石集齐，从丘比手中夺回自动净化系统的方法也得到确认，各阵营争斗暂时平息，魔法少女们获得一段短暂安宁。笼目利用这个时机，准备采访魔法少女们如今的生活。＠首先接受采访的是PROMISED BLOOD的结菜。她们把过去留在心中，仍为了创造“光明未来”而向前。结菜表示，她们自身已经出现变化；而同样的变化，也发生在笼目身上……",
+      "exactAfter": "姬奈以激进魔法少女至上主义发动的暴走，被彩羽等人的联合行动压制。结果，全部心魔石集齐，从丘比手中夺回自动净化系统的方法也得到确认，各阵营争斗暂时平息，魔法少女们获得一段短暂安宁。笼目利用这个时机，准备采访魔法少女们如今的生活。＠首先接受采访的是PROMISED BLOOD的结菜。她们把过去留在心中，仍为了创造“光明未来”而向前。结菜表示，她们自身已经出现变化；而同样的变化，也发生在笼目身上……",
+      "sourceJapanese": "過激な魔法少女至上主義を持ったひめなの暴走は、いろはたちの連帯によって鎮圧することができた。結果として、キモチの石はすべてそろい、キュゥべえから自動浄化システムを奪い返す方法も判明し、各勢力間での争いも落ち着き、魔法少女たちは一時の穏やかな時間を過ごしていた。このタイミングを利用して、かごめは魔法少女たちの今を取材しようと試みた。＠まず最初はプロミストブラッドの結菜。彼女たちは、過去を胸に抱えつつも、“明るい未来”を作るために前へ進もうとしていた。その証左として、自分たちには変化が起きていると結菜は語った。そして、それは同じくかごめにも…。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09662",
+      "ruleIds": [
+        "KIMOCHI_STONE"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "208103",
+      "field": "outline",
+      "exactBefore": "笼目来到荣区1090，原本准备采访时女静香，静香却并非独自前来，而是带着所有来到神滨的时女一族成员。她们把1090当作学习场所，准备掌握现代社会最新潮流。静香认为，这最终会帮助她们守护日之本与自己的愿望。众人热情地吸收新知识，可密集提问很快超出担任教师的沙绪与千春所能承受的范围，问题接着落到静香头上，最后连笼目也被卷入。＠小阿尔感觉，这时的笼目同样正在发生变化。",
+      "exactAfter": "笼目来到荣区1090，原本准备采访时女静香，静香却并非独自前来，而是带着所有来到神滨的时女一族成员。她们把1090当作学习场所，准备掌握现代社会最新潮流。静香认为，这最终会帮助她们守护日出之国与自己的愿望。众人热情地吸收新知识，可密集提问很快超出担任教师的沙绪与千春所能承受的范围，问题接着落到静香头上，最后连笼目也被卷入。＠小阿鲁感觉，这时的笼目同样正在发生变化。",
+      "sourceJapanese": "かごめは栄区の1090にやって来た。ここで時女静香から話を聞く予定なのだが、静香はひとりではなく、神浜市にやって来ている時女一族総出で現れた。どうやら彼女たちは、1090を学習の場として、今の世間の最新トレンドを学ぼうとしていた。静か曰く、ひいてはそれが日の本を、自分たちの願いを守ることに繋がっていくという。熱心に吸収しようとする時女一族の面々。しかし、その熱量からくる質問攻めは教師役であるすなおやちはるのキャパを超え、静香に飛び火し、ついにはかごめまで巻き込まれる。＠この時のかごめにも、やはり変化が起きていると、アルちゃんは感じていた。",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04479",
+      "ruleIds": [
+        "ARU_NICKNAME",
+        "HINOMOTO_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "310322",
+      "field": "message",
+      "exactBefore": "就是在那时，美游＠意识到自己原来是足控。",
+      "exactAfter": "就是在那时，美由＠意识到自己原来是足控。",
+      "sourceJapanese": "あのとき、ミユは＠足フェチなんだって自覚したんです",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04287",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "310323",
+      "field": "message",
+      "exactBefore": "美游也不是、也不是＠自愿变成＠这个样子的……！",
+      "exactAfter": "美由也不是、也不是＠自愿变成＠这个样子的……！",
+      "sourceJapanese": "ミユだってミユだって＠好きでこんな風に＠なってるわけじゃ…！",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-06266",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "310381",
+      "field": "message",
+      "exactBefore": "呜……被姐姐背叛了……＠姐姐也和米伊一样……",
+      "exactAfter": "呜……被姐姐背叛了……＠姐姐也和咪一样……",
+      "sourceJapanese": "うぅ…姉ちゃに裏切られた…＠姉ちゃもミィと同じで…",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04364",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "310382",
+      "field": "message",
+      "exactBefore": "只让姐姐一个人玩，太狡猾了！＠米伊明明也想和大家＠多玩一会儿！",
+      "exactAfter": "只让姐姐一个人玩，太狡猾了！＠咪明明也想和大家＠多玩一会儿！",
+      "sourceJapanese": "姉ちゃばっかりずるい！＠ミィだってもっとみんなと＠遊びたいのに！",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-07220",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "310383",
+      "field": "message",
+      "exactBefore": "果然，没有任何人＠能够代替米伊的姐姐！",
+      "exactAfter": "果然，没有任何人＠能够代替咪的姐姐！",
+      "sourceJapanese": "やっぱりミィの姉ちゃに＠代わりなんていないよねっ！",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04982",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "310393",
+      "field": "message",
+      "exactBefore": "（这种感觉……＠是约鹤的后背吗……）",
+      "exactAfter": "（这种感觉……＠是夜鹤的后背吗……）",
+      "sourceJapanese": "（この感じ…＠ヨヅルの背中かな…）",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09992",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "311391",
+      "field": "message",
+      "exactBefore": "（今天调整屋休息！＠我要和米伊一起玩！）",
+      "exactAfter": "（今天调整屋休息！＠我要和咪一起玩！）",
+      "sourceJapanese": "（今日は調整屋がお休み！＠ミィちゃんと遊ぶんだ！）",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09997",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "312021",
+      "field": "message",
+      "exactBefore": "呵呵，＠也许我正在做不符合自己性格的兴奋举动……＠是因为能和大家一起出门吗？",
+      "exactAfter": "呵呵，＠也许我有些不像自己，兴奋过头了……＠是因为能和大家一起出门吗？",
+      "sourceJapanese": "ふふっ、＠柄にもなくはしゃいでいるのかも…＠みんなで出かけられるからかしら？",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04815",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "314012",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "314013",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "314014",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "315011",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "315012",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "315013",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "315014",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "316011",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "316011",
+      "field": "message",
+      "exactBefore": "就算……心魔之石都集齐了……＠事情也还没有结束……",
+      "exactAfter": "就算……心魔石都集齐了……＠事情也还没有结束……",
+      "sourceJapanese": "まだ…キモチの石が集まっても…＠終わらないんだよ…",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04869",
+      "ruleIds": [
+        "KIMOCHI_STONE"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "316012",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "316013",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "318012",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "318013",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "321041",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "321043",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "325011",
+      "field": "message",
+      "exactBefore": "魔女终于现身了……＠把你抓走的人全都放了！",
+      "exactAfter": "魔女终于现身了……＠把你抓走的那些人都放了！",
+      "sourceJapanese": "魔女のお出ましね…＠捕まえた人を放してもらうわよ！",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09905",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "330194",
+      "field": "charaName",
+      "exactBefore": "毬子彩花",
+      "exactAfter": "毬子亚弥华",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "AYAKA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "330243",
+      "field": "message",
+      "exactBefore": "我……完全没能＠帮到真夏……",
+      "exactAfter": "我……完全没能＠帮到爱香……",
+      "sourceJapanese": "私…全然まなかの＠役に立ってない…",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09009",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "330451",
+      "field": "message",
+      "exactBefore": "穗香——！快点过来！＠去下一家店了！",
+      "exactAfter": "步鸟——！快点过来！＠去下一家店了！",
+      "sourceJapanese": "ほとりーん！早く来なさいよー！＠次のお店行くわよー！",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04839",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "330453",
+      "field": "message",
+      "exactBefore": "怎、怎么办……！＠如果笔记里的内容＠被穗香看见……！",
+      "exactAfter": "怎、怎么办……！＠如果笔记里的内容＠被步鸟看见……！",
+      "sourceJapanese": "ど、どうしよう…！＠ノートの中を＠ほとりんに読まれたら…！",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04706",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "330503",
+      "field": "message",
+      "exactBefore": "如果穗香小姐来了，＠首先得详细问清楚事情经过……",
+      "exactAfter": "如果步鸟小姐来了，＠首先得详细问清楚事情经过……",
+      "sourceJapanese": "ほとりさんがいらっしゃったら＠まずは事情を詳しくお聞きしないと…",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04837",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "330551",
+      "field": "message",
+      "exactBefore": "今天的化学实验课堂真令人期待，＠日向小姐。",
+      "exactAfter": "今天的化学实验课堂真令人期待，＠雏乃小姐。",
+      "sourceJapanese": "今日の化学実験教室、楽しみですね＠ひなのさん",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-06808",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "335021",
+      "field": "message",
+      "exactBefore": "｜就算是暑假，日向也应该在。＠她以前说过，遇到困难＠就可以去依靠她……｜",
+      "exactAfter": "｜就算是暑假，雏乃也应该在。＠她以前说过，遇到困难＠就可以去依靠她……｜",
+      "sourceJapanese": "｜夏休みでも、ひなのはいるはず＠困った時は頼っていいって＠前に言われたし…｜",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-10007",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "339021",
+      "field": "charaName",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "339022",
+      "field": "charaName",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "339023",
+      "field": "charaName",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "339024",
+      "field": "charaName",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "339024",
+      "field": "title",
+      "exactBefore": "椎的试炼",
+      "exactAfter": "思的试炼",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "340292",
+      "field": "message",
+      "exactBefore": "……好久不见，丘比。＠找我有什么事？",
+      "exactAfter": "……好久不见，丘布。＠找我有什么事？",
+      "sourceJapanese": "…しばらくぶりね、キューブ＠なんの用かしら？",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-03903",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "710016",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "710017",
+      "field": "charaName",
+      "exactBefore": "环伊吕波",
+      "exactAfter": "环彩羽",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "IROHA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "710321",
+      "field": "message",
+      "exactBefore": "按照计划……美游就在这里＠悄悄告辞了……！",
+      "exactAfter": "按照计划……美由就在这里＠悄悄告辞了……！",
+      "sourceJapanese": "計画通りに…ミユはここで＠そっと失礼するですぅ…！",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09384",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "710391",
+      "field": "message",
+      "exactBefore": "（我不会说话……＠和大家交谈就交给约鹤，＠我只要默默站着就行了吧……？）",
+      "exactAfter": "（我不会说话……＠和大家交谈就交给夜鹤，＠我只要默默站着就行了吧……？）",
+      "sourceJapanese": "（わたしは言葉が話せないし…＠みんなとの会話はヨヅルに任せて＠黙って立ってればいいよね…？）",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-09994",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "730051",
+      "field": "charaName",
+      "exactBefore": "常盘七夏",
+      "exactAfter": "常盘七香",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "NANAKA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "730112",
+      "field": "message",
+      "exactBefore": "泳装……怎么办……＠果然还是去拜托七海她们＠比较好吗？",
+      "exactAfter": "泳装……怎么办……＠果然还是去拜托七香她们＠比较好吗？",
+      "sourceJapanese": "水着…どうしよう…＠やっぱりななかさんたちに＠お願いしようかな",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-08644",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "730191",
+      "field": "charaName",
+      "exactBefore": "毬子彩花",
+      "exactAfter": "毬子亚弥华",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "AYAKA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "730192",
+      "field": "charaName",
+      "exactBefore": "毬子彩花",
+      "exactAfter": "毬子亚弥华",
+      "sourceJapanese": "",
+      "authorityDecision": "按Reader权威名称与用户最终术语规则作精确字段替换。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "AYAKA_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/sectionList.json",
+      "stableKey": "730281",
+      "field": "message",
+      "exactBefore": "啊，回来了！＠去吓木乃叶和叶月一跳吧！",
+      "exactAfter": "啊，回来了！＠去吓木叶和叶月一跳吧！",
+      "sourceJapanese": "あっ、帰ってきた！＠このはと葉月を驚かせちゃおっと！",
+      "authorityDecision": "按日文原文、Reader权威名称及用户最终术语规则进行整句人工校订。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "MTU-04283",
+      "ruleIds": [
+        "NATURAL_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/shopItemList.json",
+      "stableKey": "id=33210",
+      "field": "name",
+      "exactBefore": "【期间限定】椎",
+      "exactAfter": "【期间限定】思",
+      "sourceJapanese": "",
+      "authorityDecision": "继承已审定的短名思、心魔/心魔石及组织名精确字段规则。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/shopItemList.json",
+      "stableKey": "id=33379",
+      "field": "name",
+      "exactBefore": "椎的服装【制服】",
+      "exactAfter": "思的服装【制服】",
+      "sourceJapanese": "",
+      "authorityDecision": "继承已审定的短名思、心魔/心魔石及组织名精确字段规则。",
+      "preserveRules": [
+        "短名シィ显示为思；完整显示名为思惟；不得合成志切思惟",
+        "实体或交战对象キモチ/Kimochi译为心魔；キモチの石/Kimochi之石/心魔之石统一为心魔石",
+        "简称ネオマギ/Neo-Magi译为新玛；全称ネオマギウス/Neo-Magius保持Neo-Magius；新玛吉斯纠正为Neo-Magius",
+        "日の本/日之本统一为日出之国",
+        "技术键、sectionId、JSON结构、文件路径与控制符＠不得改变"
+      ],
+      "sourceAuditId": "",
+      "ruleIds": [
+        "SHII_3902_SHORT_NAME"
+      ]
+    }
+  ],
+  "supersedes": "non_scenario_exact_authority_rows.json",
+  "correction": {
+    "removedOperations": 8,
+    "authorityDecision": "氷室 ラビ（キモチver.）/冰室拉比（心魔ver.）保持“心魔”；仅キモチの石使用“心魔石”。",
+    "evidence": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  }
+}

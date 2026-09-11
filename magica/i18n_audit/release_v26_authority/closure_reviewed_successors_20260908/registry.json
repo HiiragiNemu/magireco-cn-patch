@@ -1,0 +1,2351 @@
+{
+  "schema": "pass18-closure-reviewed-successors/v1",
+  "expectedEntries": 13,
+  "existingManifestSuccessorsRemain": 74,
+  "closureSha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+  "originalFailureCount": 33,
+  "entries": [
+    {
+      "closureId": "DICT-00670",
+      "file": "magica/js/libs/cardSkillMap.json",
+      "idField": "$key",
+      "stableId": "40125",
+      "recordType": "CARD_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "CARD_SKILL|40125|shortDescription",
+      "oldExpected": "回复HP[Ⅷ] & 伤害削减[Ⅷ] & 防御力提升[Ⅷ]",
+      "observedCurrent": "回复HP[Ⅷ] & 伤害削减状态[Ⅷ] & 防御力提升[Ⅷ]",
+      "immutableClosure": {
+        "closure_id": "DICT-00670",
+        "path": "magica/js/libs/cardSkillMap.json",
+        "stable_key": "40125",
+        "field": "shortDescription",
+        "before": "回复HP[Ⅷ] & 伤害削减[Ⅷ] & 防御力UP[Ⅷ]",
+        "after": "回复HP[Ⅷ] & 伤害削减[Ⅷ] & 防御力提升[Ⅷ]",
+        "source_tier": "root-reviewed-official-cn-terminology",
+        "review_status": "root-reviewed-approved",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2：Accele MPUP/Blast伤害UP/攻击力UP等旧式英文后缀为0命中；对应“提升/下降”术语在官方数据中大量存在。"
+      },
+      "originalFailure": {
+        "closure_id": "DICT-00670",
+        "path": "magica/js/libs/cardSkillMap.json",
+        "stable_key": "40125",
+        "field": "shortDescription",
+        "expected": "回复HP[Ⅷ] & 伤害削减[Ⅷ] & 防御力提升[Ⅷ]",
+        "prior_expected": "回复HP[Ⅷ] & 伤害削减[Ⅷ] & 防御力提升[Ⅷ]",
+        "actual": "回复HP[Ⅷ] & 伤害削减状态[Ⅷ] & 防御力提升[Ⅷ]"
+      },
+      "runtimeExactSource": "HP回復[Ⅷ] & ダメージカット状態[Ⅷ] & 防御力UP[Ⅷ]",
+      "apiKindFilteredCount": 4,
+      "decision": "REGISTER_EXISTING_EXACT_REVIEWED_SUCCESSOR",
+      "currentAuthorizedExact": "回复HP[Ⅷ] & 伤害削减状态[Ⅷ] & 防御力提升[Ⅷ]",
+      "sourceReviewId": "V39-COLLISION-043",
+      "sourceAuthorityTier": "CODEX_MANUAL_RUNTIME_EXACT_SOURCE_COLLISION_REVIEW_WITH_SIGNED_STABLE_TARGET_LINEAGE",
+      "historicalHumanReviewFlags": {},
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/29"
+          },
+          "selectedSha256": "5b0f666c67b5787de323e3da11f2ff53c61d1816e74f90d13634e3f3297183e0",
+          "checks": {
+            "/closure_id": "DICT-00670",
+            "/path": "magica/js/libs/cardSkillMap.json",
+            "/stable_key": "40125",
+            "/field": "shortDescription",
+            "/expected": "回复HP[Ⅷ] & 伤害削减[Ⅷ] & 防御力提升[Ⅷ]",
+            "/actual": "回复HP[Ⅷ] & 伤害削减状态[Ⅷ] & 防御力提升[Ⅷ]"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "DICT-00670"
+          },
+          "selectedSha256": "951f973b6585598c07008313e506be59da26c9b1f220fbed961252cc30532433",
+          "checks": {
+            "/closure_id": "DICT-00670",
+            "/path": "magica/js/libs/cardSkillMap.json",
+            "/stable_key": "40125",
+            "/field": "shortDescription",
+            "/after": "回复HP[Ⅷ] & 伤害削减[Ⅷ] & 防御力提升[Ⅷ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userCharaList/199/chara/evolutionCard2/cardSkill"
+          },
+          "selectedSha256": "847f03770a9646fcca9dcb9bf83da6c339c9b38809ed3fd3468ea4fba2ffb8a9",
+          "checks": {
+            "/id": 40125,
+            "/groupId": 1078,
+            "/shortDescription": "HP回復[Ⅷ] & ダメージカット状態[Ⅷ] & 防御力UP[Ⅷ]"
+          }
+        },
+        {
+          "role": "historical-exact-stable-revision",
+          "path": "sources/a4fcc0ee6ebe6eab-native-map.exact-field-changes.json",
+          "sha256": "a4fcc0ee6ebe6eab192405cccb5193346e9919d888628075c9a8d6d95528029e",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/318"
+          },
+          "selectedSha256": "9ace49fb8402f26387710106a458c924738d49aa5dc918ce25de6d5703e30982",
+          "checks": {
+            "/reviewId": "V39-COLLISION-043",
+            "/relativePath": "magica/js/libs/cardSkillMap.json",
+            "/recordType": "CARD_SKILL",
+            "/id": "40125",
+            "/stableIdentity": "CARD_SKILL|40125|shortDescription",
+            "/field": "shortDescription",
+            "/exactBefore": "回复HP[Ⅷ] & 伤害削减[Ⅷ] & 防御力提升[Ⅷ]",
+            "/target": "回复HP[Ⅷ] & 伤害削减状态[Ⅷ] & 防御力提升[Ⅷ]",
+            "/runtimeExactSource": "HP回復[Ⅷ] & ダメージカット状態[Ⅷ] & 防御力UP[Ⅷ]",
+            "/machineTranslated": false
+          }
+        },
+        {
+          "role": "historical-source-review",
+          "path": "sources/0667a497d065428b-HUMAN_REVIEW_RUNTIME_SOURCE_COLLISION_V39.json",
+          "sha256": "0667a497d065428b6b214c36743d3cf758eec2867e6d3e65b5980d3bc1ccd5b2",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/sourceDecisions/42"
+          },
+          "selectedSha256": "85c7e5adfb24a4d31893a54ffa4e066d59e2b3a71ded7c10980f8c730dd21fe7",
+          "checks": {
+            "/reviewId": "V39-COLLISION-043",
+            "/exactBefore": "HP回復[Ⅷ] & ダメージカット状態[Ⅷ] & 防御力UP[Ⅷ]",
+            "/target": "回复HP[Ⅷ] & 伤害削减状态[Ⅷ] & 防御力提升[Ⅷ]",
+            "/stableIdentities": [
+              "CARD_SKILL|40035|shortDescription",
+              "CARD_SKILL|40125|shortDescription"
+            ],
+            "/reviewDecision": "READY_EXACT_PATCH",
+            "/machineTranslated": false
+          }
+        }
+      ],
+      "status": "CANDIDATE_FROM_EXISTING_FORMAL_REVISION_NOT_NEW_USER_ACCEPTANCE",
+      "reason": "历史同 kind + stable ID + field 修订记录的 exactBefore 精确等于旧 closure，target 精确等于现值；真实 API 完整源串同身份核对一致。",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "DICT-00776",
+      "file": "magica/js/libs/doppelCardMagiaMap.json",
+      "idField": "$key",
+      "stableId": "15028",
+      "recordType": "DOPPEL_CARD_MAGIA",
+      "field": "shortDescription",
+      "stableIdentity": "DOPPEL_CARD_MAGIA|15028|shortDescription",
+      "oldExpected": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & Variable(己全/1T)",
+      "observedCurrent": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & 全属性克制(己全/1T)",
+      "immutableClosure": {
+        "closure_id": "DICT-00776",
+        "path": "magica/js/libs/doppelCardMagiaMap.json",
+        "stable_key": "15028",
+        "field": "shortDescription",
+        "before": "对敌方全体属性强化伤害[Ⅹ] & 攻击力UP & 防御力UP & 状态异常耐性UP & 对魔女伤害上升(己全/5T) & Variable(己全/1T)",
+        "after": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & Variable(己全/1T)",
+        "source_tier": "root-reviewed-official-cn-terminology",
+        "review_status": "root-reviewed-approved",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2：Accele MPUP/Blast伤害UP/攻击力UP等旧式英文后缀为0命中；对应“提升/下降”术语在官方数据中大量存在。"
+      },
+      "originalFailure": {
+        "closure_id": "DICT-00776",
+        "path": "magica/js/libs/doppelCardMagiaMap.json",
+        "stable_key": "15028",
+        "field": "shortDescription",
+        "expected": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & Variable(己全/1T)",
+        "prior_expected": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & Variable(己全/1T)",
+        "actual": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & 全属性克制(己全/1T)"
+      },
+      "runtimeExactSource": "敵全体に属性強化ダメージ[Ⅹ] & 攻撃力UP & 防御力UP & 状態異常耐性UP & 対魔女ダメージアップ(味全/5T) & ヴァリアブル(味全/1T)",
+      "apiKindFilteredCount": 3,
+      "decision": "REGISTER_EXISTING_EXACT_REVIEWED_SUCCESSOR",
+      "currentAuthorizedExact": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & 全属性克制(己全/1T)",
+      "sourceReviewId": "V41-REMAIN-035",
+      "sourceAuthorityTier": "PURE_JP_EXACT_SOURCE_PLUS_ROOT_REVIEWED_VARIABLE_TERM",
+      "historicalHumanReviewFlags": {
+        "actualHumanReviewerRecorded": false,
+        "humanReviewRequiredBeforeSharedIntegration": true
+      },
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/30"
+          },
+          "selectedSha256": "7cbe05c2a9430e6c0185fc599e1da0c5b264757a5dba6ee552dc10ba19b7a9a3",
+          "checks": {
+            "/closure_id": "DICT-00776",
+            "/path": "magica/js/libs/doppelCardMagiaMap.json",
+            "/stable_key": "15028",
+            "/field": "shortDescription",
+            "/expected": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & Variable(己全/1T)",
+            "/actual": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & 全属性克制(己全/1T)"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "DICT-00776"
+          },
+          "selectedSha256": "76484790c3bf78e745b3b118329fd5f630ba50d31795251b84a68073746470b8",
+          "checks": {
+            "/closure_id": "DICT-00776",
+            "/path": "magica/js/libs/doppelCardMagiaMap.json",
+            "/stable_key": "15028",
+            "/field": "shortDescription",
+            "/after": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & Variable(己全/1T)"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userCharaList/90/chara/evolutionCard1/doppelCardMagia"
+          },
+          "selectedSha256": "2adb9f08a595c38d3e5be10f29c2d8ef686d6106fb5c218d1809f406920bb86c",
+          "checks": {
+            "/id": 15028,
+            "/groupId": 1014,
+            "/shortDescription": "敵全体に属性強化ダメージ[Ⅹ] & 攻撃力UP & 防御力UP & 状態異常耐性UP & 対魔女ダメージアップ(味全/5T) & ヴァリアブル(味全/1T)"
+          }
+        },
+        {
+          "role": "historical-exact-stable-revision",
+          "path": "sources/f122ad1048dfb97a-native-map.exact-field-changes.json",
+          "sha256": "f122ad1048dfb97a461e61810a48a152f966a72284d3a5eaa2dd3d9c9f249a13",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/6"
+          },
+          "selectedSha256": "9350a0722c2f18ff159c6df7de780fbc4df41f570528dadd48d6dfbef6a89de5",
+          "checks": {
+            "/reviewId": "V41-REMAIN-035",
+            "/relativePath": "magica/js/libs/doppelCardMagiaMap.json",
+            "/recordType": "DOPPEL_CARD_MAGIA",
+            "/id": "15028",
+            "/stableIdentity": "DOPPEL_CARD_MAGIA|15028|shortDescription",
+            "/field": "shortDescription",
+            "/exactBefore": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & Variable(己全/1T)",
+            "/target": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & 全属性克制(己全/1T)",
+            "/runtimeExactSource": "敵全体に属性強化ダメージ[Ⅹ] & 攻撃力UP & 防御力UP & 状態異常耐性UP & 対魔女ダメージアップ(味全/5T) & ヴァリアブル(味全/1T)",
+            "/machineTranslated": false
+          }
+        },
+        {
+          "role": "historical-source-review",
+          "path": "sources/0f92a5eba41ce421-HUMAN_REVIEW_REMAINING_RUNTIME_SKILL_V41.json",
+          "sha256": "0f92a5eba41ce42137902bd8d7940c17c58b2b35b86b5620979be1b9aa33f66d",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/sourceDecisions/34"
+          },
+          "selectedSha256": "d18be97ec1f1886337bb43ffd40454392f74ac925c718a66d0a067283cc83cf0",
+          "checks": {
+            "/reviewId": "V41-REMAIN-035",
+            "/exactBefore": "敵全体に属性強化ダメージ[Ⅹ] & 攻撃力UP & 防御力UP & 状態異常耐性UP & 対魔女ダメージアップ(味全/5T) & ヴァリアブル(味全/1T)",
+            "/target": "对敌方全体属性强化伤害[Ⅹ] & 攻击力提升 & 防御力提升 & 状态异常耐性提升 & 对魔女伤害上升(己全/5T) & 全属性克制(己全/1T)",
+            "/stableIdentities": [
+              "DOPPEL_CARD_MAGIA|15028|shortDescription"
+            ],
+            "/reviewDecision": "READY_EXACT_CONTEXT_PATCH",
+            "/machineTranslated": false
+          }
+        }
+      ],
+      "status": "CANDIDATE_FROM_EXISTING_FORMAL_REVISION_NOT_NEW_USER_ACCEPTANCE",
+      "reason": "历史同 kind + stable ID + field 修订记录的 exactBefore 精确等于旧 closure，target 精确等于现值；真实 API 完整源串同身份核对一致。",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "DICT-01291",
+      "file": "magica/js/libs/emotionSkillMap.json",
+      "idField": "$key",
+      "stableId": "1121113",
+      "recordType": "EMOTION_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "EMOTION_SKILL|1121113|shortDescription",
+      "oldExpected": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(现在HP的80%)",
+      "observedCurrent": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(当前HP的80%)",
+      "immutableClosure": {
+        "closure_id": "DICT-01291",
+        "path": "magica/js/libs/emotionSkillMap.json",
+        "stable_key": "1121113",
+        "field": "shortDescription",
+        "before": "濒死时攻击力UP[XI] & 濒死时防御力UP[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(现在HP的80%)",
+        "after": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(现在HP的80%)",
+        "source_tier": "root-reviewed-official-cn-terminology",
+        "review_status": "root-reviewed-approved",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2：Accele MPUP/Blast伤害UP/攻击力UP等旧式英文后缀为0命中；对应“提升/下降”术语在官方数据中大量存在。"
+      },
+      "originalFailure": {
+        "closure_id": "DICT-01291",
+        "path": "magica/js/libs/emotionSkillMap.json",
+        "stable_key": "1121113",
+        "field": "shortDescription",
+        "expected": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(现在HP的80%)",
+        "prior_expected": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(现在HP的80%)",
+        "actual": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(当前HP的80%)"
+      },
+      "runtimeExactSource": "ATK UP when near-fainting [XI] / DEF UP when near-fainting [IX] / Apply Barrier (10000) (Self/5 Turns) / Self Damage (80% of Current HP)",
+      "apiKindFilteredCount": 1,
+      "decision": "REGISTER_EXISTING_EXACT_REVIEWED_SUCCESSOR",
+      "currentAuthorizedExact": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(当前HP的80%)",
+      "sourceReviewId": "V39-COLLISION-002",
+      "sourceAuthorityTier": "CODEX_MANUAL_RUNTIME_EXACT_SOURCE_COLLISION_REVIEW_WITH_SIGNED_STABLE_TARGET_LINEAGE",
+      "historicalHumanReviewFlags": {},
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/31"
+          },
+          "selectedSha256": "bea71ad18c86f61c89fd832aed63a1431305e02a98a12b0289129fb24e21bfaa",
+          "checks": {
+            "/closure_id": "DICT-01291",
+            "/path": "magica/js/libs/emotionSkillMap.json",
+            "/stable_key": "1121113",
+            "/field": "shortDescription",
+            "/expected": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(现在HP的80%)",
+            "/actual": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(当前HP的80%)"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "DICT-01291"
+          },
+          "selectedSha256": "5f12f7ef55c217c4220636da22bf118fe2664772732b533c7105a82962b11f60",
+          "checks": {
+            "/closure_id": "DICT-01291",
+            "/path": "magica/js/libs/emotionSkillMap.json",
+            "/stable_key": "1121113",
+            "/field": "shortDescription",
+            "/after": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(现在HP的80%)"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userCharaList/69/emotionSkillList/12"
+          },
+          "selectedSha256": "0fb40e74890b5fccfa4d8751c9b452953725b8644e09a23cf8fa0b49ad7389f8",
+          "checks": {
+            "/id": 1121113,
+            "/groupId": 1241,
+            "/shortDescription": "ATK UP when near-fainting [XI] / DEF UP when near-fainting [IX] / Apply Barrier (10000) (Self/5 Turns) / Self Damage (80% of Current HP)"
+          }
+        },
+        {
+          "role": "historical-exact-stable-revision",
+          "path": "sources/a4fcc0ee6ebe6eab-native-map.exact-field-changes.json",
+          "sha256": "a4fcc0ee6ebe6eab192405cccb5193346e9919d888628075c9a8d6d95528029e",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/1"
+          },
+          "selectedSha256": "67b443ab0216b30d273854653add04f8f8b2f905308acd0a2ffcb990eebb48ff",
+          "checks": {
+            "/reviewId": "V39-COLLISION-002",
+            "/relativePath": "magica/js/libs/emotionSkillMap.json",
+            "/recordType": "EMOTION_SKILL",
+            "/id": "1121113",
+            "/stableIdentity": "EMOTION_SKILL|1121113|shortDescription",
+            "/field": "shortDescription",
+            "/exactBefore": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(现在HP的80%)",
+            "/target": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(当前HP的80%)",
+            "/runtimeExactSource": "ATK UP when near-fainting [XI] / DEF UP when near-fainting [IX] / Apply Barrier (10000) (Self/5 Turns) / Self Damage (80% of Current HP)",
+            "/machineTranslated": false
+          }
+        },
+        {
+          "role": "historical-source-review",
+          "path": "sources/0667a497d065428b-HUMAN_REVIEW_RUNTIME_SOURCE_COLLISION_V39.json",
+          "sha256": "0667a497d065428b6b214c36743d3cf758eec2867e6d3e65b5980d3bc1ccd5b2",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/sourceDecisions/1"
+          },
+          "selectedSha256": "3bddacd2393df8e1609e0af580e510d4b307a2e232aa54d53604ad9c898fa748",
+          "checks": {
+            "/reviewId": "V39-COLLISION-002",
+            "/exactBefore": "ATK UP when near-fainting [XI] / DEF UP when near-fainting [IX] / Apply Barrier (10000) (Self/5 Turns) / Self Damage (80% of Current HP)",
+            "/target": "濒死时攻击力提升[XI] & 濒死时防御力提升[Ⅸ] & 给与屏障(10000)(自/5T) & 对自己伤害(当前HP的80%)",
+            "/stableIdentities": [
+              "EMOTION_SKILL|1121113|shortDescription",
+              "EMOTION_SKILL|1216113|shortDescription"
+            ],
+            "/reviewDecision": "READY_EXACT_PATCH",
+            "/machineTranslated": false
+          }
+        }
+      ],
+      "status": "CANDIDATE_FROM_EXISTING_FORMAL_REVISION_NOT_NEW_USER_ACCEPTANCE",
+      "reason": "历史同 kind + stable ID + field 修订记录的 exactBefore 精确等于旧 closure，target 精确等于现值；真实 API 完整源串同身份核对一致。",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "DICT-01360",
+      "file": "magica/js/libs/emotionSkillMap.json",
+      "idField": "$key",
+      "stableId": "1209108",
+      "recordType": "EMOTION_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "EMOTION_SKILL|1209108|shortDescription",
+      "oldExpected": "造成伤害提升[Ⅱ]",
+      "observedCurrent": "伤害提升状态[Ⅱ]",
+      "immutableClosure": {
+        "closure_id": "DICT-01360",
+        "path": "magica/js/libs/emotionSkillMap.json",
+        "stable_key": "1209108",
+        "field": "shortDescription",
+        "before": "造成伤害UP[Ⅱ]",
+        "after": "造成伤害提升[Ⅱ]",
+        "source_tier": "root-reviewed-official-cn-terminology",
+        "review_status": "root-reviewed-approved",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2：Accele MPUP/Blast伤害UP/攻击力UP等旧式英文后缀为0命中；对应“提升/下降”术语在官方数据中大量存在。"
+      },
+      "originalFailure": {
+        "closure_id": "DICT-01360",
+        "path": "magica/js/libs/emotionSkillMap.json",
+        "stable_key": "1209108",
+        "field": "shortDescription",
+        "expected": "造成伤害提升[Ⅱ]",
+        "prior_expected": "造成伤害提升[Ⅱ]",
+        "actual": "伤害提升状态[Ⅱ]"
+      },
+      "runtimeExactSource": "Damage UP [II]",
+      "apiKindFilteredCount": 1,
+      "decision": "REGISTER_EXISTING_EXACT_REVIEWED_SUCCESSOR",
+      "currentAuthorizedExact": "伤害提升状态[Ⅱ]",
+      "sourceReviewId": "V39-COLLISION-029",
+      "sourceAuthorityTier": "CODEX_MANUAL_RUNTIME_EXACT_SOURCE_COLLISION_REVIEW_WITH_SIGNED_STABLE_TARGET_LINEAGE",
+      "historicalHumanReviewFlags": {},
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/32"
+          },
+          "selectedSha256": "8c9e959971c1461fb47b919a5ff4e1475c549eb874ed4ee556f33d12c8537d67",
+          "checks": {
+            "/closure_id": "DICT-01360",
+            "/path": "magica/js/libs/emotionSkillMap.json",
+            "/stable_key": "1209108",
+            "/field": "shortDescription",
+            "/expected": "造成伤害提升[Ⅱ]",
+            "/actual": "伤害提升状态[Ⅱ]"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "DICT-01360"
+          },
+          "selectedSha256": "30c681b03cf78e189b5a5b1cf901f9147ce340e941a8168831b35eb97a39ea1f",
+          "checks": {
+            "/closure_id": "DICT-01360",
+            "/path": "magica/js/libs/emotionSkillMap.json",
+            "/stable_key": "1209108",
+            "/field": "shortDescription",
+            "/after": "造成伤害提升[Ⅱ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userCharaList/79/emotionSkillList/7"
+          },
+          "selectedSha256": "9bdc40e08c9bbbc109a43b1b6d60a01d7fb05ba86955db35813b042e78cbd652",
+          "checks": {
+            "/id": 1209108,
+            "/groupId": 1087,
+            "/shortDescription": "Damage UP [II]"
+          }
+        },
+        {
+          "role": "historical-exact-stable-revision",
+          "path": "sources/a4fcc0ee6ebe6eab-native-map.exact-field-changes.json",
+          "sha256": "a4fcc0ee6ebe6eab192405cccb5193346e9919d888628075c9a8d6d95528029e",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/144"
+          },
+          "selectedSha256": "d6dfa37028f063d3fe14d67ca36478510384ed9dc6ae133aec70c17b11cfa826",
+          "checks": {
+            "/reviewId": "V39-COLLISION-029",
+            "/relativePath": "magica/js/libs/emotionSkillMap.json",
+            "/recordType": "EMOTION_SKILL",
+            "/id": "1209108",
+            "/stableIdentity": "EMOTION_SKILL|1209108|shortDescription",
+            "/field": "shortDescription",
+            "/exactBefore": "造成伤害提升[Ⅱ]",
+            "/target": "伤害提升状态[Ⅱ]",
+            "/runtimeExactSource": "Damage UP [II]",
+            "/machineTranslated": false
+          }
+        },
+        {
+          "role": "historical-source-review",
+          "path": "sources/0667a497d065428b-HUMAN_REVIEW_RUNTIME_SOURCE_COLLISION_V39.json",
+          "sha256": "0667a497d065428b6b214c36743d3cf758eec2867e6d3e65b5980d3bc1ccd5b2",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/sourceDecisions/28"
+          },
+          "selectedSha256": "f9684327ecf454c1e89e12da37cfab0ef1ae77a424cc1b864bcbfb94e2f83f8f",
+          "checks": {
+            "/reviewId": "V39-COLLISION-029",
+            "/exactBefore": "Damage UP [II]",
+            "/target": "伤害提升状态[Ⅱ]",
+            "/stableIdentities": [
+              "EMOTION_SKILL|1144103|shortDescription",
+              "EMOTION_SKILL|1209108|shortDescription",
+              "EMOTION_SKILL|1301106|shortDescription",
+              "EMOTION_SKILL|3008107|shortDescription",
+              "EMOTION_SKILL|3032108|shortDescription",
+              "EMOTION_SKILL|4014107|shortDescription",
+              "EMOTION_SKILL|4033109|shortDescription"
+            ],
+            "/reviewDecision": "READY_EXACT_PATCH",
+            "/machineTranslated": false
+          }
+        }
+      ],
+      "status": "CANDIDATE_FROM_EXISTING_FORMAL_REVISION_NOT_NEW_USER_ACCEPTANCE",
+      "reason": "历史同 kind + stable ID + field 修订记录的 exactBefore 精确等于旧 closure，target 精确等于现值；真实 API 完整源串同身份核对一致。",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "TERM-OFFICIAL-0738",
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "idField": "$key",
+      "stableId": "147501",
+      "recordType": "PIECE_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "PIECE_SKILL|147501|shortDescription",
+      "oldExpected": "攻击力提升[Ⅴ] & Charge后伤害提升[Ⅴ]",
+      "observedCurrent": "攻击力UP[Ⅴ] & Charge后伤害UP[Ⅴ] & “幽灵许可证”追加获得数＋10",
+      "immutableClosure": {
+        "closure_id": "TERM-OFFICIAL-0738",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "147501",
+        "field": "shortDescription",
+        "before": "攻击力UP[Ⅴ] & Charge后伤害UP[Ⅴ]",
+        "after": "攻击力提升[Ⅴ] & Charge后伤害提升[Ⅴ]",
+        "source_tier": "official-cn",
+        "review_status": "official-source-verified",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\06c9a692-0d08-11eb-8a7b-525400445d2a_001.json/userPieceList/3/piece/pieceSkill2/shortDescription"
+      },
+      "originalFailure": {
+        "closure_id": "TERM-OFFICIAL-0738",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "147501",
+        "field": "shortDescription",
+        "expected": "攻击力提升[Ⅴ] & Charge后伤害提升[Ⅴ]",
+        "prior_expected": "攻击力提升[Ⅴ] & Charge后伤害提升[Ⅴ]",
+        "actual": "攻击力UP[Ⅴ] & Charge后伤害UP[Ⅴ] & “幽灵许可证”追加获得数＋10"
+      },
+      "runtimeExactSource": "ATK UP [V] / Damage After Using Charge UP [V]",
+      "apiKindFilteredCount": 1,
+      "decision": "PRESERVE_PROVEN_DROP_SUFFIX_WITH_OFFICIAL_COMPONENTS",
+      "authorizedExactAfterRepair": "攻击力提升[Ⅴ] & Charge后伤害提升[Ⅴ] & “幽灵许可证”追加获得数＋10",
+      "termReplacements": 2,
+      "officialSourceId": "126701",
+      "officialEvidenceScope": "OTHER_STABLE_ID_OFFICIAL_COMPONENT",
+      "officialEffectTupleEqual": true,
+      "dropSuffix": " & “幽灵许可证”追加获得数＋10",
+      "postRepairClosure": "REGISTER_EXACT_SUFFIX_SUCCESSOR",
+      "dropCount": 10,
+      "reason": "旧 closure 正文术语仍有效；实际同 ID 活动掉落说明由 API 事件字段与 Wiki 同槽证明，整条恢复旧 after 会误删该后缀。",
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/4"
+          },
+          "selectedSha256": "1835936ffaf1befbe9eff0f003038aeb88cc58ef559e9a92778bcb736bcfa15e",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0738",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "147501",
+            "/field": "shortDescription",
+            "/expected": "攻击力提升[Ⅴ] & Charge后伤害提升[Ⅴ]",
+            "/actual": "攻击力UP[Ⅴ] & Charge后伤害UP[Ⅴ] & “幽灵许可证”追加获得数＋10"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "TERM-OFFICIAL-0738"
+          },
+          "selectedSha256": "fe0d0a38d239400f407065e34cbde4a6ec9d0858095599f56da7f3afdf92d00a",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0738",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "147501",
+            "/field": "shortDescription",
+            "/after": "攻击力提升[Ⅴ] & Charge后伤害提升[Ⅴ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/457/piece/pieceSkill2"
+          },
+          "selectedSha256": "9b95e7288df874ead86a5f8d8e2a60a393f256ef1eafc9efef29c14fe5afd709",
+          "checks": {
+            "/id": 147501,
+            "/groupId": 1085,
+            "/shortDescription": "ATK UP [V] / Damage After Using Charge UP [V]"
+          }
+        },
+        {
+          "role": "official-cn-component-not-same-id",
+          "path": "sources/215c698fc3b45a3c-06c9a692-0d08-11eb-8a7b-525400445d2a_001.json",
+          "sha256": "215c698fc3b45a3ccf6999d15209a2c0459d7773ce9eef6c84102d39e353170a",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/3/piece/pieceSkill2"
+          },
+          "selectedSha256": "a8c006cd1b5d5facad8cd1b51e4969be2fb3f1614b060b1f36ade3418f0f99e2",
+          "checks": {
+            "/id": 126701,
+            "/shortDescription": "攻击力提升[Ⅴ] & Charge后伤害提升[Ⅴ]"
+          }
+        },
+        {
+          "role": "wiki-exact-parent-number-and-slot",
+          "path": "sources/fe2f71f36f2fc63a-fe2f71f36f2fc63a-memoria.json",
+          "sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/紫苑の花を添えて"
+          },
+          "selectedSha256": "9379e848b9cd024f484c2b7e924271680a16a560fa41505feedb4c7d6a5e9a65",
+          "checks": {
+            "/number": 1475,
+            "/effect_max": "攻击力UP[Ⅴ] & Charge后伤害UP[Ⅴ] & “幽灵许可证”追加获得数＋10"
+          }
+        },
+        {
+          "role": "real-api-piece-parent-slot",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/457/piece"
+          },
+          "selectedSha256": "d8f5a8eeee750a31338ca689d99dcadfac9dd7dda50b42904adea0f8d1e5da85",
+          "checks": {
+            "/pieceId": 1475,
+            "/pieceSkill2/id": 147501
+          }
+        },
+        {
+          "role": "same-id-event-dropadd",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/457/piece/pieceSkill2"
+          },
+          "selectedSha256": "9b95e7288df874ead86a5f8d8e2a60a393f256ef1eafc9efef29c14fe5afd709",
+          "checks": {
+            "/id": 147501,
+            "/eventArt1": {
+              "artId": 1091004,
+              "verbCode": "OTHER",
+              "effectCode": "DROPADD",
+              "effectValue": 10000,
+              "genericValue": "EVENT_DAILYTOWER_1091_EXCHANGE_1"
+            },
+            "/eventDescription": "＆「幽霊免許」追加獲得数＋10"
+          }
+        }
+      ],
+      "currentAuthorizedExact": "攻击力提升[Ⅴ] & Charge后伤害提升[Ⅴ] & “幽灵许可证”追加获得数＋10",
+      "status": "CONDITIONAL_AFTER_EXACT_COMPONENT_REPAIR",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "TERM-OFFICIAL-0739",
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "idField": "$key",
+      "stableId": "147900",
+      "recordType": "PIECE_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "PIECE_SKILL|147900|shortDescription",
+      "oldExpected": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ]",
+      "observedCurrent": "攻击力UP[Ⅱ] & 防御力UP[Ⅱ] & “只有一次的时间”追加获得数＋1",
+      "immutableClosure": {
+        "closure_id": "TERM-OFFICIAL-0739",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "147900",
+        "field": "shortDescription",
+        "before": "攻击力UP[Ⅱ] & 防御力UP[Ⅱ]",
+        "after": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ]",
+        "source_tier": "official-cn",
+        "review_status": "official-source-verified",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\page\\MyPage_001.json/userPieceList/254/piece/pieceSkill/shortDescription"
+      },
+      "originalFailure": {
+        "closure_id": "TERM-OFFICIAL-0739",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "147900",
+        "field": "shortDescription",
+        "expected": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ]",
+        "prior_expected": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ]",
+        "actual": "攻击力UP[Ⅱ] & 防御力UP[Ⅱ] & “只有一次的时间”追加获得数＋1"
+      },
+      "runtimeExactSource": "ATK UP [II] / DEF UP [II]",
+      "apiKindFilteredCount": 1,
+      "decision": "PRESERVE_PROVEN_DROP_SUFFIX_WITH_OFFICIAL_COMPONENTS",
+      "authorizedExactAfterRepair": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ] & “只有一次的时间”追加获得数＋1",
+      "termReplacements": 2,
+      "officialSourceId": "131600",
+      "officialEvidenceScope": "OTHER_STABLE_ID_OFFICIAL_COMPONENT",
+      "officialEffectTupleEqual": true,
+      "dropSuffix": " & “只有一次的时间”追加获得数＋1",
+      "postRepairClosure": "REGISTER_EXACT_SUFFIX_SUCCESSOR",
+      "dropCount": 1,
+      "reason": "旧 closure 正文术语仍有效；实际同 ID 活动掉落说明由 API 事件字段与 Wiki 同槽证明，整条恢复旧 after 会误删该后缀。",
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/5"
+          },
+          "selectedSha256": "ffbef546b8f115cdb35f8fd7514788bc9f5eced01337dba8b5d367f7db16e9fa",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0739",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "147900",
+            "/field": "shortDescription",
+            "/expected": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ]",
+            "/actual": "攻击力UP[Ⅱ] & 防御力UP[Ⅱ] & “只有一次的时间”追加获得数＋1"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "TERM-OFFICIAL-0739"
+          },
+          "selectedSha256": "5f51a8624ca4b7e7227cb34fc821f99003478e195c7cbdbf01bcebdf91681b1a",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0739",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "147900",
+            "/field": "shortDescription",
+            "/after": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/461/piece/pieceSkill"
+          },
+          "selectedSha256": "fee8b5dac089a37d552aca2cc5214de00d8c3e258b9191cb685a721587019ce5",
+          "checks": {
+            "/id": 147900,
+            "/groupId": 1085,
+            "/shortDescription": "ATK UP [II] / DEF UP [II]"
+          }
+        },
+        {
+          "role": "official-cn-component-not-same-id",
+          "path": "sources/a82601d7cad737bf-MyPage_001.json",
+          "sha256": "a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/254/piece/pieceSkill"
+          },
+          "selectedSha256": "da2ba1a515d1c6b89d89054b26024a6455a8171f55e45a57d871afc8e85816f9",
+          "checks": {
+            "/id": 131600,
+            "/shortDescription": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ]"
+          }
+        },
+        {
+          "role": "wiki-exact-parent-number-and-slot",
+          "path": "sources/fe2f71f36f2fc63a-fe2f71f36f2fc63a-memoria.json",
+          "sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/ウワサの時間"
+          },
+          "selectedSha256": "9c12002e1b88cc1d98093754f19015d913ac4348d40cbf63d1a3f3d27f6f2540",
+          "checks": {
+            "/number": 1479,
+            "/effect": "攻击力UP[Ⅱ] & 防御力UP[Ⅱ] & “只有一次的时间”追加获得数＋1"
+          }
+        },
+        {
+          "role": "real-api-piece-parent-slot",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/461/piece"
+          },
+          "selectedSha256": "63708148b048b30471453b1b767f33cd2fbeaf60cdf5223d174c04ca54087125",
+          "checks": {
+            "/pieceId": 1479,
+            "/pieceSkill/id": 147900
+          }
+        },
+        {
+          "role": "same-id-event-dropadd",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/461/piece/pieceSkill"
+          },
+          "selectedSha256": "fee8b5dac089a37d552aca2cc5214de00d8c3e258b9191cb685a721587019ce5",
+          "checks": {
+            "/id": 147900,
+            "/eventArt1": {
+              "artId": 1092001,
+              "verbCode": "OTHER",
+              "effectCode": "DROPADD",
+              "effectValue": 1000,
+              "genericValue": "EVENT_DAILYTOWER_1092_EXCHANGE_1"
+            },
+            "/eventDescription": "＆「一度きりの時間」追加獲得数＋1"
+          }
+        }
+      ],
+      "currentAuthorizedExact": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ] & “只有一次的时间”追加获得数＋1",
+      "status": "CONDITIONAL_AFTER_EXACT_COMPONENT_REPAIR",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "TERM-OFFICIAL-0740",
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "idField": "$key",
+      "stableId": "147901",
+      "recordType": "PIECE_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "PIECE_SKILL|147901|shortDescription",
+      "oldExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+      "observedCurrent": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “只有一次的时间”追加获得数＋5",
+      "immutableClosure": {
+        "closure_id": "TERM-OFFICIAL-0740",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "147901",
+        "field": "shortDescription",
+        "before": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ]",
+        "after": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "source_tier": "official-cn",
+        "review_status": "official-source-verified",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\page\\MyPage_001.json/userPieceList/254/piece/pieceSkill2/shortDescription"
+      },
+      "originalFailure": {
+        "closure_id": "TERM-OFFICIAL-0740",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "147901",
+        "field": "shortDescription",
+        "expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "prior_expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "actual": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “只有一次的时间”追加获得数＋5"
+      },
+      "runtimeExactSource": "ATK UP [III] / DEF UP [III]",
+      "apiKindFilteredCount": 1,
+      "decision": "PRESERVE_PROVEN_DROP_SUFFIX_WITH_OFFICIAL_COMPONENTS",
+      "authorizedExactAfterRepair": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “只有一次的时间”追加获得数＋5",
+      "termReplacements": 2,
+      "officialSourceId": "131601",
+      "officialEvidenceScope": "OTHER_STABLE_ID_OFFICIAL_COMPONENT",
+      "officialEffectTupleEqual": true,
+      "dropSuffix": " & “只有一次的时间”追加获得数＋5",
+      "postRepairClosure": "REGISTER_EXACT_SUFFIX_SUCCESSOR",
+      "dropCount": 5,
+      "reason": "旧 closure 正文术语仍有效；实际同 ID 活动掉落说明由 API 事件字段与 Wiki 同槽证明，整条恢复旧 after 会误删该后缀。",
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/6"
+          },
+          "selectedSha256": "96e25111de6bbece1ca8dacfff743403018bd44b84195f9f5b472aaf56044a01",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0740",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "147901",
+            "/field": "shortDescription",
+            "/expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+            "/actual": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “只有一次的时间”追加获得数＋5"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "TERM-OFFICIAL-0740"
+          },
+          "selectedSha256": "5c6efc2d156eb3c33bd480402122892fb81b8f232615c7d4771237084be33089",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0740",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "147901",
+            "/field": "shortDescription",
+            "/after": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/461/piece/pieceSkill2"
+          },
+          "selectedSha256": "91a7d18ba9f511d446eddaed398218e8e8a7c90c31eed4cafd3c784aa423f0ee",
+          "checks": {
+            "/id": 147901,
+            "/groupId": 1085,
+            "/shortDescription": "ATK UP [III] / DEF UP [III]"
+          }
+        },
+        {
+          "role": "official-cn-component-not-same-id",
+          "path": "sources/a82601d7cad737bf-MyPage_001.json",
+          "sha256": "a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/254/piece/pieceSkill2"
+          },
+          "selectedSha256": "4420adf13dc5d86753e0341a6c2003c721a0e9821163cbec3b18f46b2a62ef33",
+          "checks": {
+            "/id": 131601,
+            "/shortDescription": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+          }
+        },
+        {
+          "role": "wiki-exact-parent-number-and-slot",
+          "path": "sources/fe2f71f36f2fc63a-fe2f71f36f2fc63a-memoria.json",
+          "sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/ウワサの時間"
+          },
+          "selectedSha256": "9c12002e1b88cc1d98093754f19015d913ac4348d40cbf63d1a3f3d27f6f2540",
+          "checks": {
+            "/number": 1479,
+            "/effect_max": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “只有一次的时间”追加获得数＋5"
+          }
+        },
+        {
+          "role": "real-api-piece-parent-slot",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/461/piece"
+          },
+          "selectedSha256": "63708148b048b30471453b1b767f33cd2fbeaf60cdf5223d174c04ca54087125",
+          "checks": {
+            "/pieceId": 1479,
+            "/pieceSkill2/id": 147901
+          }
+        },
+        {
+          "role": "same-id-event-dropadd",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/461/piece/pieceSkill2"
+          },
+          "selectedSha256": "91a7d18ba9f511d446eddaed398218e8e8a7c90c31eed4cafd3c784aa423f0ee",
+          "checks": {
+            "/id": 147901,
+            "/eventArt1": {
+              "artId": 1092002,
+              "verbCode": "OTHER",
+              "effectCode": "DROPADD",
+              "effectValue": 5000,
+              "genericValue": "EVENT_DAILYTOWER_1092_EXCHANGE_1"
+            },
+            "/eventDescription": "＆「一度きりの時間」追加獲得数＋5"
+          }
+        }
+      ],
+      "currentAuthorizedExact": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “只有一次的时间”追加获得数＋5",
+      "status": "CONDITIONAL_AFTER_EXACT_COMPONENT_REPAIR",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "TERM-OFFICIAL-0741",
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "idField": "$key",
+      "stableId": "149401",
+      "recordType": "PIECE_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "PIECE_SKILL|149401|shortDescription",
+      "oldExpected": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ]",
+      "observedCurrent": "HP最大时攻击力UP[Ⅴ] & 攻击力UP[Ⅳ] & “骚乱之种”“窃喜之花”追加获得数＋15",
+      "immutableClosure": {
+        "closure_id": "TERM-OFFICIAL-0741",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "149401",
+        "field": "shortDescription",
+        "before": "HP最大时攻击力UP[Ⅴ] & 攻击力UP[Ⅳ]",
+        "after": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ]",
+        "source_tier": "official-cn",
+        "review_status": "official-source-verified",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\0e600d06-0d07-11eb-9aca-525400c596f9_001.json/userPieceList/10/piece/pieceSkill2/shortDescription"
+      },
+      "originalFailure": {
+        "closure_id": "TERM-OFFICIAL-0741",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "149401",
+        "field": "shortDescription",
+        "expected": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ]",
+        "prior_expected": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ]",
+        "actual": "HP最大时攻击力UP[Ⅴ] & 攻击力UP[Ⅳ] & “骚乱之种”“窃喜之花”追加获得数＋15"
+      },
+      "runtimeExactSource": "ATK UP when at Max HP [V] / ATK UP [IV]",
+      "apiKindFilteredCount": 1,
+      "decision": "PRESERVE_PROVEN_DROP_SUFFIX_WITH_OFFICIAL_COMPONENTS",
+      "authorizedExactAfterRepair": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ] & “骚乱之种”“窃喜之花”追加获得数＋15",
+      "termReplacements": 2,
+      "officialSourceId": "120901",
+      "officialEvidenceScope": "OTHER_STABLE_ID_OFFICIAL_COMPONENT",
+      "officialEffectTupleEqual": true,
+      "dropSuffix": " & “骚乱之种”“窃喜之花”追加获得数＋15",
+      "postRepairClosure": "REGISTER_EXACT_SUFFIX_SUCCESSOR",
+      "dropCount": 15,
+      "reason": "旧 closure 正文术语仍有效；实际同 ID 活动掉落说明由 API 事件字段与 Wiki 同槽证明，整条恢复旧 after 会误删该后缀。",
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/7"
+          },
+          "selectedSha256": "017f5481259abfb8cee4d057c411421784a75a65dc368a356b33d9738863cef5",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0741",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "149401",
+            "/field": "shortDescription",
+            "/expected": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ]",
+            "/actual": "HP最大时攻击力UP[Ⅴ] & 攻击力UP[Ⅳ] & “骚乱之种”“窃喜之花”追加获得数＋15"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "TERM-OFFICIAL-0741"
+          },
+          "selectedSha256": "80a935b39bd26cd37bb2b157476d619282e5f91491c7f4b11d438df01c5b5378",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0741",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "149401",
+            "/field": "shortDescription",
+            "/after": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/476/piece/pieceSkill2"
+          },
+          "selectedSha256": "c3a305fe5aa9e7b6dcf80af7202cd4d28ee9385dfbe654a2efa0e4a47aad583c",
+          "checks": {
+            "/id": 149401,
+            "/groupId": 1085,
+            "/shortDescription": "ATK UP when at Max HP [V] / ATK UP [IV]"
+          }
+        },
+        {
+          "role": "official-cn-component-not-same-id",
+          "path": "sources/9c39e84ff8699a11-0e600d06-0d07-11eb-9aca-525400c596f9_001.json",
+          "sha256": "9c39e84ff8699a112bc7bfad44f8508d53caf018d1d7cf7eff3aecef6d7737e5",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/10/piece/pieceSkill2"
+          },
+          "selectedSha256": "cf1a8a93f15af1af7c12b5364adfeafacf93c35fcb5bdeb8f99aba78b5714435",
+          "checks": {
+            "/id": 120901,
+            "/shortDescription": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ]"
+          }
+        },
+        {
+          "role": "wiki-exact-parent-number-and-slot",
+          "path": "sources/fe2f71f36f2fc63a-fe2f71f36f2fc63a-memoria.json",
+          "sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/人生で最も幸せな時間"
+          },
+          "selectedSha256": "0f03238f73745e695f018d9503d68147a193105eeafc87f49f68b40ebe56f8e1",
+          "checks": {
+            "/number": 1494,
+            "/effect_max": "HP最大时攻击力UP[Ⅴ] & 攻击力UP[Ⅳ] & “骚乱之种”“窃喜之花”追加获得数＋15"
+          }
+        },
+        {
+          "role": "real-api-piece-parent-slot",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/476/piece"
+          },
+          "selectedSha256": "a7f760506d15cbb9eb437f4995251c06ca910f96ab49e91290ee84cec630f84d",
+          "checks": {
+            "/pieceId": 1494,
+            "/pieceSkill2/id": 149401
+          }
+        },
+        {
+          "role": "same-id-event-dropadd",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/476/piece/pieceSkill2"
+          },
+          "selectedSha256": "c3a305fe5aa9e7b6dcf80af7202cd4d28ee9385dfbe654a2efa0e4a47aad583c",
+          "checks": {
+            "/id": 149401,
+            "/eventArt1": {
+              "artId": 1099004,
+              "verbCode": "OTHER",
+              "effectCode": "DROPADD",
+              "effectValue": 15000,
+              "genericValue": "EVENT_BRANCH_1099_PART_1"
+            },
+            "/eventDescription": "＆「トラブルのタネ」「ほくそ笑む花」追加獲得数＋15"
+          }
+        }
+      ],
+      "currentAuthorizedExact": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ] & “骚乱之种”“窃喜之花”追加获得数＋15",
+      "status": "CONDITIONAL_AFTER_EXACT_COMPONENT_REPAIR",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "TERM-OFFICIAL-0742",
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "idField": "$key",
+      "stableId": "151201",
+      "recordType": "PIECE_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "PIECE_SKILL|151201|shortDescription",
+      "oldExpected": "攻击力提升[Ⅱ] & Charge后伤害提升[Ⅱ]",
+      "observedCurrent": "攻击力UP[Ⅱ] & Charge后伤害UP[Ⅱ] & “天使的勋章”追加获得数＋5",
+      "immutableClosure": {
+        "closure_id": "TERM-OFFICIAL-0742",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "151201",
+        "field": "shortDescription",
+        "before": "攻击力UP[Ⅱ] & Charge后伤害UP[Ⅱ]",
+        "after": "攻击力提升[Ⅱ] & Charge后伤害提升[Ⅱ]",
+        "source_tier": "official-cn",
+        "review_status": "official-source-verified",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\06c9a692-0d08-11eb-8a7b-525400445d2a_001.json/userPieceList/3/piece/pieceSkill/shortDescription"
+      },
+      "originalFailure": {
+        "closure_id": "TERM-OFFICIAL-0742",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "151201",
+        "field": "shortDescription",
+        "expected": "攻击力提升[Ⅱ] & Charge后伤害提升[Ⅱ]",
+        "prior_expected": "攻击力提升[Ⅱ] & Charge后伤害提升[Ⅱ]",
+        "actual": "攻击力UP[Ⅱ] & Charge后伤害UP[Ⅱ] & “天使的勋章”追加获得数＋5"
+      },
+      "runtimeExactSource": "ATK UP [II] / Damage After Using Charge UP [II]",
+      "apiKindFilteredCount": 1,
+      "decision": "PRESERVE_PROVEN_DROP_SUFFIX_WITH_OFFICIAL_COMPONENTS",
+      "authorizedExactAfterRepair": "攻击力提升[Ⅱ] & Charge后伤害提升[Ⅱ] & “天使的勋章”追加获得数＋5",
+      "termReplacements": 2,
+      "officialSourceId": "126700",
+      "officialEvidenceScope": "OTHER_STABLE_ID_OFFICIAL_COMPONENT",
+      "officialEffectTupleEqual": true,
+      "dropSuffix": " & “天使的勋章”追加获得数＋5",
+      "postRepairClosure": "REGISTER_EXACT_SUFFIX_SUCCESSOR",
+      "dropCount": 5,
+      "reason": "旧 closure 正文术语仍有效；实际同 ID 活动掉落说明由 API 事件字段与 Wiki 同槽证明，整条恢复旧 after 会误删该后缀。",
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/8"
+          },
+          "selectedSha256": "182924575e517bf36be48267d173403302746d837e43db740950819c5bb93b36",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0742",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "151201",
+            "/field": "shortDescription",
+            "/expected": "攻击力提升[Ⅱ] & Charge后伤害提升[Ⅱ]",
+            "/actual": "攻击力UP[Ⅱ] & Charge后伤害UP[Ⅱ] & “天使的勋章”追加获得数＋5"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "TERM-OFFICIAL-0742"
+          },
+          "selectedSha256": "35dae3fd40d047c76999191d9e7d4004734b90bef1c520ec7534698940bfa10e",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0742",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "151201",
+            "/field": "shortDescription",
+            "/after": "攻击力提升[Ⅱ] & Charge后伤害提升[Ⅱ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/494/piece/pieceSkill2"
+          },
+          "selectedSha256": "7cf99e90deff25b3142de317d31012123350d2c1e4952bc4982eec3b835f85b6",
+          "checks": {
+            "/id": 151201,
+            "/groupId": 1085,
+            "/shortDescription": "ATK UP [II] / Damage After Using Charge UP [II]"
+          }
+        },
+        {
+          "role": "official-cn-component-not-same-id",
+          "path": "sources/215c698fc3b45a3c-06c9a692-0d08-11eb-8a7b-525400445d2a_001.json",
+          "sha256": "215c698fc3b45a3ccf6999d15209a2c0459d7773ce9eef6c84102d39e353170a",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/3/piece/pieceSkill"
+          },
+          "selectedSha256": "0afc808c61a7546490fe4150fbfcc7997d54285ce666676480f7cdada602d192",
+          "checks": {
+            "/id": 126700,
+            "/shortDescription": "攻击力提升[Ⅱ] & Charge后伤害提升[Ⅱ]"
+          }
+        },
+        {
+          "role": "wiki-exact-parent-number-and-slot",
+          "path": "sources/fe2f71f36f2fc63a-fe2f71f36f2fc63a-memoria.json",
+          "sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/手に手を添えて"
+          },
+          "selectedSha256": "e5533422b896f2f76ac0cd38825dad5a81ea26c2f73ea191c346c0c203c087e6",
+          "checks": {
+            "/number": 1512,
+            "/effect_max": "攻击力UP[Ⅱ] & Charge后伤害UP[Ⅱ] & “天使的勋章”追加获得数＋5"
+          }
+        },
+        {
+          "role": "real-api-piece-parent-slot",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/494/piece"
+          },
+          "selectedSha256": "75418a3638add4536e4c315d90c2a7780f5b73bee1abc1bcee0340e24218bc0f",
+          "checks": {
+            "/pieceId": 1512,
+            "/pieceSkill2/id": 151201
+          }
+        },
+        {
+          "role": "same-id-event-dropadd",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/494/piece/pieceSkill2"
+          },
+          "selectedSha256": "7cf99e90deff25b3142de317d31012123350d2c1e4952bc4982eec3b835f85b6",
+          "checks": {
+            "/id": 151201,
+            "/eventArt1": {
+              "artId": 1158002,
+              "verbCode": "OTHER",
+              "effectCode": "DROPADD",
+              "effectValue": 5000,
+              "genericValue": "EVENT_SINGLERAID_1158_EXCHANGE_1"
+            },
+            "/eventDescription": "＆「天使のメダル」追加獲得数＋5"
+          }
+        }
+      ],
+      "currentAuthorizedExact": "攻击力提升[Ⅱ] & Charge后伤害提升[Ⅱ] & “天使的勋章”追加获得数＋5",
+      "status": "CONDITIONAL_AFTER_EXACT_COMPONENT_REPAIR",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "TERM-OFFICIAL-0751",
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "idField": "$key",
+      "stableId": "171500",
+      "recordType": "PIECE_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "PIECE_SKILL|171500|shortDescription",
+      "oldExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+      "observedCurrent": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “生锈的纹章”追加获得数＋1",
+      "immutableClosure": {
+        "closure_id": "TERM-OFFICIAL-0751",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "171500",
+        "field": "shortDescription",
+        "before": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ]",
+        "after": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "source_tier": "official-cn",
+        "review_status": "official-source-verified",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\page\\MyPage_001.json/userPieceList/254/piece/pieceSkill2/shortDescription"
+      },
+      "originalFailure": {
+        "closure_id": "TERM-OFFICIAL-0751",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "171500",
+        "field": "shortDescription",
+        "expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "prior_expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "actual": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “生锈的纹章”追加获得数＋1"
+      },
+      "runtimeExactSource": "ATK UP [III] / DEF UP [III]",
+      "apiKindFilteredCount": 1,
+      "decision": "PRESERVE_PROVEN_DROP_SUFFIX_WITH_OFFICIAL_COMPONENTS",
+      "authorizedExactAfterRepair": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “生锈的纹章”追加获得数＋1",
+      "termReplacements": 2,
+      "officialSourceId": "131601",
+      "officialEvidenceScope": "OTHER_STABLE_ID_OFFICIAL_COMPONENT",
+      "officialEffectTupleEqual": true,
+      "dropSuffix": " & “生锈的纹章”追加获得数＋1",
+      "postRepairClosure": "REGISTER_EXACT_SUFFIX_SUCCESSOR",
+      "dropCount": 1,
+      "reason": "旧 closure 正文术语仍有效；实际同 ID 活动掉落说明由 API 事件字段与 Wiki 同槽证明，整条恢复旧 after 会误删该后缀。",
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/17"
+          },
+          "selectedSha256": "e4d7850ad70a8fdc89a7ec82746ae6d4cc5f04d5cc26924d8e2e9f0bb700fe2c",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0751",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "171500",
+            "/field": "shortDescription",
+            "/expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+            "/actual": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “生锈的纹章”追加获得数＋1"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "TERM-OFFICIAL-0751"
+          },
+          "selectedSha256": "8b452c46c0b2c87cc34df5b57985fbf8ef94fdabb7605e61c07906dc6eb0399a",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0751",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "171500",
+            "/field": "shortDescription",
+            "/after": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/697/piece/pieceSkill"
+          },
+          "selectedSha256": "d38ebbf143826e8f2e90665b1f70d295ca9b5849012efdb42e687a9a6197d1e6",
+          "checks": {
+            "/id": 171500,
+            "/groupId": 1085,
+            "/shortDescription": "ATK UP [III] / DEF UP [III]"
+          }
+        },
+        {
+          "role": "official-cn-component-not-same-id",
+          "path": "sources/a82601d7cad737bf-MyPage_001.json",
+          "sha256": "a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/254/piece/pieceSkill2"
+          },
+          "selectedSha256": "4420adf13dc5d86753e0341a6c2003c721a0e9821163cbec3b18f46b2a62ef33",
+          "checks": {
+            "/id": 131601,
+            "/shortDescription": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+          }
+        },
+        {
+          "role": "wiki-exact-parent-number-and-slot",
+          "path": "sources/fe2f71f36f2fc63a-fe2f71f36f2fc63a-memoria.json",
+          "sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/陽は地を照らさず心は陰り"
+          },
+          "selectedSha256": "456215861ed65e27becda1dff3065600518d6e384005c10a4772075678af33be",
+          "checks": {
+            "/number": 1715,
+            "/effect": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “生锈的纹章”追加获得数＋1"
+          }
+        },
+        {
+          "role": "real-api-piece-parent-slot",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/697/piece"
+          },
+          "selectedSha256": "0769cfefa297565fc30951f6e5174a18ea20a668cd5dcdf865b4d98fa133069f",
+          "checks": {
+            "/pieceId": 1715,
+            "/pieceSkill/id": 171500
+          }
+        },
+        {
+          "role": "same-id-event-dropadd",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/697/piece/pieceSkill"
+          },
+          "selectedSha256": "d38ebbf143826e8f2e90665b1f70d295ca9b5849012efdb42e687a9a6197d1e6",
+          "checks": {
+            "/id": 171500,
+            "/eventArt1": {
+              "artId": 1154001,
+              "verbCode": "OTHER",
+              "effectCode": "DROPADD",
+              "effectValue": 1000,
+              "genericValue": "EVENT_DAILYTOWER_1154_EXCHANGE_1"
+            },
+            "/eventDescription": "＆「錆びついた紋章」追加獲得数＋1"
+          }
+        }
+      ],
+      "currentAuthorizedExact": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “生锈的纹章”追加获得数＋1",
+      "status": "CONDITIONAL_AFTER_EXACT_COMPONENT_REPAIR",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "TERM-OFFICIAL-0752",
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "idField": "$key",
+      "stableId": "171501",
+      "recordType": "PIECE_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "PIECE_SKILL|171501|shortDescription",
+      "oldExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+      "observedCurrent": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “生锈的纹章”追加获得数＋5",
+      "immutableClosure": {
+        "closure_id": "TERM-OFFICIAL-0752",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "171501",
+        "field": "shortDescription",
+        "before": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ]",
+        "after": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "source_tier": "official-cn",
+        "review_status": "official-source-verified",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\page\\MyPage_001.json/userPieceList/254/piece/pieceSkill2/shortDescription"
+      },
+      "originalFailure": {
+        "closure_id": "TERM-OFFICIAL-0752",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "171501",
+        "field": "shortDescription",
+        "expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "prior_expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "actual": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “生锈的纹章”追加获得数＋5"
+      },
+      "runtimeExactSource": "ATK UP [III] / DEF UP [III]",
+      "apiKindFilteredCount": 1,
+      "decision": "PRESERVE_PROVEN_DROP_SUFFIX_WITH_OFFICIAL_COMPONENTS",
+      "authorizedExactAfterRepair": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “生锈的纹章”追加获得数＋5",
+      "termReplacements": 2,
+      "officialSourceId": "131601",
+      "officialEvidenceScope": "OTHER_STABLE_ID_OFFICIAL_COMPONENT",
+      "officialEffectTupleEqual": true,
+      "dropSuffix": " & “生锈的纹章”追加获得数＋5",
+      "postRepairClosure": "REGISTER_EXACT_SUFFIX_SUCCESSOR",
+      "dropCount": 5,
+      "reason": "旧 closure 正文术语仍有效；实际同 ID 活动掉落说明由 API 事件字段与 Wiki 同槽证明，整条恢复旧 after 会误删该后缀。",
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/18"
+          },
+          "selectedSha256": "61dc709894b5d0a0420470e437b1cdc23314acd8cb2993e2d814a63dd31748af",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0752",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "171501",
+            "/field": "shortDescription",
+            "/expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+            "/actual": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “生锈的纹章”追加获得数＋5"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "TERM-OFFICIAL-0752"
+          },
+          "selectedSha256": "fa3e03f190d0e1b1b8b3d0fbfce6984d612af8aedbb07de0ccfb57baa15bd7cd",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0752",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "171501",
+            "/field": "shortDescription",
+            "/after": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/697/piece/pieceSkill2"
+          },
+          "selectedSha256": "c22710d52c51e0a9a4860ff93e959c01bfd6e7e958fd828970d9fbf5e1cb9136",
+          "checks": {
+            "/id": 171501,
+            "/groupId": 1085,
+            "/shortDescription": "ATK UP [III] / DEF UP [III]"
+          }
+        },
+        {
+          "role": "official-cn-component-not-same-id",
+          "path": "sources/a82601d7cad737bf-MyPage_001.json",
+          "sha256": "a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/254/piece/pieceSkill2"
+          },
+          "selectedSha256": "4420adf13dc5d86753e0341a6c2003c721a0e9821163cbec3b18f46b2a62ef33",
+          "checks": {
+            "/id": 131601,
+            "/shortDescription": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+          }
+        },
+        {
+          "role": "wiki-exact-parent-number-and-slot",
+          "path": "sources/fe2f71f36f2fc63a-fe2f71f36f2fc63a-memoria.json",
+          "sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/陽は地を照らさず心は陰り"
+          },
+          "selectedSha256": "456215861ed65e27becda1dff3065600518d6e384005c10a4772075678af33be",
+          "checks": {
+            "/number": 1715,
+            "/effect_max": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “生锈的纹章”追加获得数＋5"
+          }
+        },
+        {
+          "role": "real-api-piece-parent-slot",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/697/piece"
+          },
+          "selectedSha256": "0769cfefa297565fc30951f6e5174a18ea20a668cd5dcdf865b4d98fa133069f",
+          "checks": {
+            "/pieceId": 1715,
+            "/pieceSkill2/id": 171501
+          }
+        },
+        {
+          "role": "same-id-event-dropadd",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/697/piece/pieceSkill2"
+          },
+          "selectedSha256": "c22710d52c51e0a9a4860ff93e959c01bfd6e7e958fd828970d9fbf5e1cb9136",
+          "checks": {
+            "/id": 171501,
+            "/eventArt1": {
+              "artId": 1154002,
+              "verbCode": "OTHER",
+              "effectCode": "DROPADD",
+              "effectValue": 5000,
+              "genericValue": "EVENT_DAILYTOWER_1154_EXCHANGE_1"
+            },
+            "/eventDescription": "＆「錆びついた紋章」追加獲得数＋5"
+          }
+        }
+      ],
+      "currentAuthorizedExact": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “生锈的纹章”追加获得数＋5",
+      "status": "CONDITIONAL_AFTER_EXACT_COMPONENT_REPAIR",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "TERM-OFFICIAL-0761",
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "idField": "$key",
+      "stableId": "194700",
+      "recordType": "PIECE_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "PIECE_SKILL|194700|shortDescription",
+      "oldExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+      "observedCurrent": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “商店街的抽奖券”追加获得数＋1",
+      "immutableClosure": {
+        "closure_id": "TERM-OFFICIAL-0761",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "194700",
+        "field": "shortDescription",
+        "before": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ]",
+        "after": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "source_tier": "official-cn",
+        "review_status": "official-source-verified",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\page\\MyPage_001.json/userPieceList/254/piece/pieceSkill2/shortDescription"
+      },
+      "originalFailure": {
+        "closure_id": "TERM-OFFICIAL-0761",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "194700",
+        "field": "shortDescription",
+        "expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "prior_expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "actual": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “商店街的抽奖券”追加获得数＋1"
+      },
+      "runtimeExactSource": "ATK UP [III] / DEF UP [III]",
+      "apiKindFilteredCount": 1,
+      "decision": "PRESERVE_PROVEN_DROP_SUFFIX_WITH_OFFICIAL_COMPONENTS",
+      "authorizedExactAfterRepair": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “商店街的抽奖券”追加获得数＋1",
+      "termReplacements": 2,
+      "officialSourceId": "131601",
+      "officialEvidenceScope": "OTHER_STABLE_ID_OFFICIAL_COMPONENT",
+      "officialEffectTupleEqual": true,
+      "dropSuffix": " & “商店街的抽奖券”追加获得数＋1",
+      "postRepairClosure": "REGISTER_EXACT_SUFFIX_SUCCESSOR",
+      "dropCount": 1,
+      "reason": "旧 closure 正文术语仍有效；实际同 ID 活动掉落说明由 API 事件字段与 Wiki 同槽证明，整条恢复旧 after 会误删该后缀。",
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/27"
+          },
+          "selectedSha256": "d8f896d6eb337ea335f986d3d8c974aee63c5b52e1023f73496c6ae4a16198fd",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0761",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "194700",
+            "/field": "shortDescription",
+            "/expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+            "/actual": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “商店街的抽奖券”追加获得数＋1"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "TERM-OFFICIAL-0761"
+          },
+          "selectedSha256": "16e2ca98ae3059d464b403c9a915f12391016fc267f16a012de4d2436d191387",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0761",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "194700",
+            "/field": "shortDescription",
+            "/after": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/929/piece/pieceSkill"
+          },
+          "selectedSha256": "624cb644c1e6372a7fd91e5af16feb85b91f78982256b209f212b9aaed7c1795",
+          "checks": {
+            "/id": 194700,
+            "/groupId": 1085,
+            "/shortDescription": "ATK UP [III] / DEF UP [III]"
+          }
+        },
+        {
+          "role": "official-cn-component-not-same-id",
+          "path": "sources/a82601d7cad737bf-MyPage_001.json",
+          "sha256": "a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/254/piece/pieceSkill2"
+          },
+          "selectedSha256": "4420adf13dc5d86753e0341a6c2003c721a0e9821163cbec3b18f46b2a62ef33",
+          "checks": {
+            "/id": 131601,
+            "/shortDescription": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+          }
+        },
+        {
+          "role": "wiki-exact-parent-number-and-slot",
+          "path": "sources/fe2f71f36f2fc63a-fe2f71f36f2fc63a-memoria.json",
+          "sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/見守りたいの"
+          },
+          "selectedSha256": "050aafb65740024ca9f150e27eb70ba416619daffdd22d4e533d39a512729659",
+          "checks": {
+            "/number": 1947,
+            "/effect": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “商店街的抽奖券”追加获得数＋1"
+          }
+        },
+        {
+          "role": "real-api-piece-parent-slot",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/929/piece"
+          },
+          "selectedSha256": "0bb3344d9c36d864fc5c118aa574a77f066745be2e950b1755993e1e782ac5af",
+          "checks": {
+            "/pieceId": 1947,
+            "/pieceSkill/id": 194700
+          }
+        },
+        {
+          "role": "same-id-event-dropadd",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/929/piece/pieceSkill"
+          },
+          "selectedSha256": "624cb644c1e6372a7fd91e5af16feb85b91f78982256b209f212b9aaed7c1795",
+          "checks": {
+            "/id": 194700,
+            "/eventArt1": {
+              "artId": 1200001,
+              "verbCode": "OTHER",
+              "effectCode": "DROPADD",
+              "effectValue": 1000,
+              "genericValue": "EVENT_DAILYTOWER_1200_KEY"
+            },
+            "/eventDescription": "＆「商店街の福引券」追加獲得数＋1"
+          }
+        }
+      ],
+      "currentAuthorizedExact": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “商店街的抽奖券”追加获得数＋1",
+      "status": "CONDITIONAL_AFTER_EXACT_COMPONENT_REPAIR",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    },
+    {
+      "closureId": "TERM-OFFICIAL-0762",
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "idField": "$key",
+      "stableId": "194701",
+      "recordType": "PIECE_SKILL",
+      "field": "shortDescription",
+      "stableIdentity": "PIECE_SKILL|194701|shortDescription",
+      "oldExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+      "observedCurrent": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “商店街的抽奖券”追加获得数＋5",
+      "immutableClosure": {
+        "closure_id": "TERM-OFFICIAL-0762",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "194701",
+        "field": "shortDescription",
+        "before": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ]",
+        "after": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "source_tier": "official-cn",
+        "review_status": "official-source-verified",
+        "machine_translated": "false",
+        "evidence": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\page\\MyPage_001.json/userPieceList/254/piece/pieceSkill2/shortDescription"
+      },
+      "originalFailure": {
+        "closure_id": "TERM-OFFICIAL-0762",
+        "path": "magica/js/libs/pieceSkillMap.json",
+        "stable_key": "194701",
+        "field": "shortDescription",
+        "expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "prior_expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+        "actual": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “商店街的抽奖券”追加获得数＋5"
+      },
+      "runtimeExactSource": "ATK UP [III] / DEF UP [III]",
+      "apiKindFilteredCount": 1,
+      "decision": "PRESERVE_PROVEN_DROP_SUFFIX_WITH_OFFICIAL_COMPONENTS",
+      "authorizedExactAfterRepair": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “商店街的抽奖券”追加获得数＋5",
+      "termReplacements": 2,
+      "officialSourceId": "131601",
+      "officialEvidenceScope": "OTHER_STABLE_ID_OFFICIAL_COMPONENT",
+      "officialEffectTupleEqual": true,
+      "dropSuffix": " & “商店街的抽奖券”追加获得数＋5",
+      "postRepairClosure": "REGISTER_EXACT_SUFFIX_SUCCESSOR",
+      "dropCount": 5,
+      "reason": "旧 closure 正文术语仍有效；实际同 ID 活动掉落说明由 API 事件字段与 Wiki 同槽证明，整条恢复旧 after 会误删该后缀。",
+      "sourceProof": [
+        {
+          "role": "original-failure-exact-row",
+          "path": "sources/37c2f731156ae019-original-failures-33.json",
+          "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/rows/28"
+          },
+          "selectedSha256": "73ae5dbf15b02dd10efdf34182177e5adca1389f8a5f7d4c2467db0d239a82b8",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0762",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "194701",
+            "/field": "shortDescription",
+            "/expected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]",
+            "/actual": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “商店街的抽奖券”追加获得数＋5"
+          }
+        },
+        {
+          "role": "original-closure-exact-row",
+          "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+          "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+          "selector": {
+            "type": "tsv-closure-id",
+            "pointer": "TERM-OFFICIAL-0762"
+          },
+          "selectedSha256": "60fce3032442a5cc7be9c2da71202e3b882b4e7d731cc623d2c075c247ac8193",
+          "checks": {
+            "/closure_id": "TERM-OFFICIAL-0762",
+            "/path": "magica/js/libs/pieceSkillMap.json",
+            "/stable_key": "194701",
+            "/field": "shortDescription",
+            "/after": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+          }
+        },
+        {
+          "role": "real-api-stable-kind-id-field",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/929/piece/pieceSkill2"
+          },
+          "selectedSha256": "34070a6474c973ecd18b3103871c7c6ec3951129a20d7c2ccfbcd9c8d0167f4d",
+          "checks": {
+            "/id": 194701,
+            "/groupId": 1085,
+            "/shortDescription": "ATK UP [III] / DEF UP [III]"
+          }
+        },
+        {
+          "role": "official-cn-component-not-same-id",
+          "path": "sources/a82601d7cad737bf-MyPage_001.json",
+          "sha256": "a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/254/piece/pieceSkill2"
+          },
+          "selectedSha256": "4420adf13dc5d86753e0341a6c2003c721a0e9821163cbec3b18f46b2a62ef33",
+          "checks": {
+            "/id": 131601,
+            "/shortDescription": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+          }
+        },
+        {
+          "role": "wiki-exact-parent-number-and-slot",
+          "path": "sources/fe2f71f36f2fc63a-fe2f71f36f2fc63a-memoria.json",
+          "sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/見守りたいの"
+          },
+          "selectedSha256": "050aafb65740024ca9f150e27eb70ba416619daffdd22d4e533d39a512729659",
+          "checks": {
+            "/number": 1947,
+            "/effect_max": "攻击力UP[Ⅲ] & 防御力UP[Ⅲ] & “商店街的抽奖券”追加获得数＋5"
+          }
+        },
+        {
+          "role": "real-api-piece-parent-slot",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/929/piece"
+          },
+          "selectedSha256": "0bb3344d9c36d864fc5c118aa574a77f066745be2e950b1755993e1e782ac5af",
+          "checks": {
+            "/pieceId": 1947,
+            "/pieceSkill2/id": 194701
+          }
+        },
+        {
+          "role": "same-id-event-dropadd",
+          "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+          "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+          "selector": {
+            "type": "json-pointer",
+            "pointer": "/userPieceList/929/piece/pieceSkill2"
+          },
+          "selectedSha256": "34070a6474c973ecd18b3103871c7c6ec3951129a20d7c2ccfbcd9c8d0167f4d",
+          "checks": {
+            "/id": 194701,
+            "/eventArt1": {
+              "artId": 1200002,
+              "verbCode": "OTHER",
+              "effectCode": "DROPADD",
+              "effectValue": 5000,
+              "genericValue": "EVENT_DAILYTOWER_1200_KEY"
+            },
+            "/eventDescription": "＆「商店街の福引券」追加獲得数＋5"
+          }
+        }
+      ],
+      "currentAuthorizedExact": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “商店街的抽奖券”追加获得数＋5",
+      "status": "CONDITIONAL_AFTER_EXACT_COMPONENT_REPAIR",
+      "consumptionStatus": "REVIEWED_EXACT_CANDIDATE_AFTER_RUNTIME29",
+      "overallAcceptanceRecord": "overall-user-acceptance-relay.json"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "sources/37c2f731156ae019-original-failures-33.json",
+      "sha256": "37c2f731156ae0193a84193f945cbadf7504e6ef11b5243ec067bfcc9e4ee762",
+      "originalPath": "D:\\magia\\deliveries\\totentanz-closure33-reconciliation-20260908\\evidence\\original-failures-33.json",
+      "bytes": 13949,
+      "originalMtimeUtc": 1788866076.0600102
+    },
+    {
+      "path": "sources/6cf4f604b4b8778f-visible-term-closure-3136.tsv",
+      "sha256": "6cf4f604b4b8778f20b4455115722262d48a5078da3370e9d1eb3b8f6259c667",
+      "originalPath": "D:\\magia\\deliveries\\totentanz-closure33-reconciliation-20260908\\snapshot\\magica\\research\\totentanz-full-localization-20260817\\runtime-dictionary\\visible-term-closure-3136.tsv",
+      "bytes": 1388856,
+      "originalMtimeUtc": 1788866076.1370306
+    },
+    {
+      "path": "sources/4f71fa26ac6e6070-4f71fa26ac6e6070-ShopTop-response.json",
+      "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+      "originalPath": "D:\\magia\\deliveries\\totentanz-pass18-reviewed-successors-20260908\\modified-artifact\\magica\\i18n_audit\\release_v26_authority\\reviewed_successors_20260908\\sources\\4f71fa26ac6e6070-ShopTop-response.json",
+      "bytes": 34167661,
+      "originalMtimeUtc": 1788861876.0919452
+    },
+    {
+      "path": "sources/252fd066d9d83467-1b449608-0d01-11eb-a350-52540083a917_001.json",
+      "sha256": "252fd066d9d83467b83b112d3a97901a698d75d3cb5b2373766e71a92d2f2174",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\1b449608-0d01-11eb-a350-52540083a917_001.json",
+      "bytes": 1606477,
+      "originalMtimeUtc": 1776013760.972887
+    },
+    {
+      "path": "sources/fe2f71f36f2fc63a-fe2f71f36f2fc63a-memoria.json",
+      "sha256": "fe2f71f36f2fc63a9253c53d409fd1216bc5ce2a894c937aa1081060f63fad71",
+      "originalPath": "D:\\magia\\deliveries\\totentanz-pass18-reviewed-successors-20260908\\modified-artifact\\magica\\i18n_audit\\release_v26_authority\\reviewed_successors_20260908\\sources\\fe2f71f36f2fc63a-memoria.json",
+      "bytes": 2683204,
+      "originalMtimeUtc": 1788861876.3747833
+    },
+    {
+      "path": "sources/a82601d7cad737bf-MyPage_001.json",
+      "sha256": "a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\page\\MyPage_001.json",
+      "bytes": 16646277,
+      "originalMtimeUtc": 1776013759.6297693
+    },
+    {
+      "path": "sources/3603fc3e98926dc2-6f115094-0d37-11eb-bc54-525400debeaa_001.json",
+      "sha256": "3603fc3e98926dc2d6f6179b1a73ccea61b5a8a4108a9ef6b93f90eab8f7aacb",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\6f115094-0d37-11eb-bc54-525400debeaa_001.json",
+      "bytes": 1637729,
+      "originalMtimeUtc": 1776013761.1550128
+    },
+    {
+      "path": "sources/215c698fc3b45a3c-06c9a692-0d08-11eb-8a7b-525400445d2a_001.json",
+      "sha256": "215c698fc3b45a3ccf6999d15209a2c0459d7773ce9eef6c84102d39e353170a",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\06c9a692-0d08-11eb-8a7b-525400445d2a_001.json",
+      "bytes": 1912366,
+      "originalMtimeUtc": 1776013761.5122259
+    },
+    {
+      "path": "sources/9c39e84ff8699a11-0e600d06-0d07-11eb-9aca-525400c596f9_001.json",
+      "sha256": "9c39e84ff8699a112bc7bfad44f8508d53caf018d1d7cf7eff3aecef6d7737e5",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\0e600d06-0d07-11eb-9aca-525400c596f9_001.json",
+      "bytes": 1092489,
+      "originalMtimeUtc": 1776013761.2000513
+    },
+    {
+      "path": "sources/8bc21ca3306dc5f5-d1ebe186-0d00-11eb-ac1a-5254008ae84c_001.json",
+      "sha256": "8bc21ca3306dc5f5ac7a034df013a6500ede04b1d0ba40bb96d8e8d4380b62cc",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\d1ebe186-0d00-11eb-ac1a-5254008ae84c_001.json",
+      "bytes": 806712,
+      "originalMtimeUtc": 1776013761.2154398
+    },
+    {
+      "path": "sources/7d057a3f9b364faa-605d5074-0d1e-11eb-b90d-52540013bb0f_001.json",
+      "sha256": "7d057a3f9b364faa4c78ab012a7a461184411521ed9e45ccdee2339e86afbffd",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\605d5074-0d1e-11eb-b90d-52540013bb0f_001.json",
+      "bytes": 821032,
+      "originalMtimeUtc": 1776013761.0723283
+    },
+    {
+      "path": "sources/2f67fd784519b918-PieceCollection_001.json",
+      "sha256": "2f67fd784519b9186562a5c41f19cd28dcedc3b97cff0c2958abea3c0bae1d6e",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\page\\PieceCollection_001.json",
+      "bytes": 957776,
+      "originalMtimeUtc": 1776013759.8585956
+    },
+    {
+      "path": "sources/7f8789c815915cbf-453ca7eb-1a79-11eb-a13c-52540028ceb1_001.json",
+      "sha256": "7f8789c815915cbf494d54a0bb90eade23d71822635a9b8e9f925caedcb977b8",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\453ca7eb-1a79-11eb-a13c-52540028ceb1_001.json",
+      "bytes": 1771870,
+      "originalMtimeUtc": 1776013762.2432823
+    },
+    {
+      "path": "sources/d005eca8b151719d-23370a61-0b33-11ec-9267-52540097c47b_001.json",
+      "sha256": "d005eca8b151719dab940617c68b551d070f2bc0113bef60fe47f02292243995",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Full_Raw_Dump_V2\\magica\\api\\friend\\user\\23370a61-0b33-11ec-9267-52540097c47b_001.json",
+      "bytes": 1603786,
+      "originalMtimeUtc": 1776013760.187521
+    },
+    {
+      "path": "sources/a4fcc0ee6ebe6eab-native-map.exact-field-changes.json",
+      "sha256": "a4fcc0ee6ebe6eab192405cccb5193346e9919d888628075c9a8d6d95528029e",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v39-runtime-skill-source-collision-resolution-v2-20260903\\artifact-roles\\patch\\native-map.exact-field-changes.json",
+      "bytes": 17580227,
+      "originalMtimeUtc": 1788378553.5958347
+    },
+    {
+      "path": "sources/0667a497d065428b-HUMAN_REVIEW_RUNTIME_SOURCE_COLLISION_V39.json",
+      "sha256": "0667a497d065428b6b214c36743d3cf758eec2867e6d3e65b5980d3bc1ccd5b2",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v39-runtime-skill-source-collision-resolution-v2-20260903\\HUMAN_REVIEW_RUNTIME_SOURCE_COLLISION_V39.json",
+      "bytes": 791279,
+      "originalMtimeUtc": 1788378558.9382207
+    },
+    {
+      "path": "sources/f122ad1048dfb97a-native-map.exact-field-changes.json",
+      "sha256": "f122ad1048dfb97a461e61810a48a152f966a72284d3a5eaa2dd3d9c9f249a13",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v41-remaining-runtime-skill-context-closure-v2-20260903\\artifact-roles\\patch\\native-map.exact-field-changes.json",
+      "bytes": 16864,
+      "originalMtimeUtc": 1788400261.8770013
+    },
+    {
+      "path": "sources/0f92a5eba41ce421-HUMAN_REVIEW_REMAINING_RUNTIME_SKILL_V41.json",
+      "sha256": "0f92a5eba41ce42137902bd8d7940c17c58b2b35b86b5620979be1b9aa33f66d",
+      "originalPath": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v41-remaining-runtime-skill-context-closure-v2-20260903\\HUMAN_REVIEW_REMAINING_RUNTIME_SKILL_V41.json",
+      "bytes": 115132,
+      "originalMtimeUtc": 1788400266.4269948
+    }
+  ],
+  "runtimePrerequisites": [
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "128201",
+      "field": "shortDescription",
+      "exactExpected": "MP获得量提升[Ⅲ] & 被弱点属性攻击时MP提升[Ⅰ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "140400",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 防御力下降[Ⅴ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "140401",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅳ] & 防御力下降[Ⅴ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "141601",
+      "field": "shortDescription",
+      "exactExpected": "濒死时防御力提升[Ⅱ] & 防御力提升[Ⅲ] & 伤害削减状态[Ⅱ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "147501",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅴ] & Charge后伤害提升[Ⅴ] & “幽灵许可证”追加获得数＋10"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "147900",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ] & “只有一次的时间”追加获得数＋1"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "147901",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “只有一次的时间”追加获得数＋5"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "149401",
+      "field": "shortDescription",
+      "exactExpected": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ] & “骚乱之种”“窃喜之花”追加获得数＋15"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "151201",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅱ] & Charge后伤害提升[Ⅱ] & “天使的勋章”追加获得数＋5"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "154100",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅳ] & 防御力提升[Ⅳ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "154101",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅴ] & 防御力提升[Ⅴ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "157900",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "157901",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "163800",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "163801",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅳ] & 防御力提升[Ⅳ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "167000",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅱ] & 防御力提升[Ⅱ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "168000",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & MP获得量提升[Ⅱ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "171500",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “生锈的纹章”追加获得数＋1"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "171501",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “生锈的纹章”追加获得数＋5"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "181200",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅴ] & 防御力提升[Ⅴ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "181201",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅴ] & 防御力提升[Ⅴ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "186600",
+      "field": "shortDescription",
+      "exactExpected": "HP最大时攻击力提升[Ⅴ] & 攻击力提升[Ⅳ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "187900",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅳ] & 防御力提升[Ⅳ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "187901",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅳ] & 防御力提升[Ⅳ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "188301",
+      "field": "shortDescription",
+      "exactExpected": "HP最大时攻击力提升[Ⅳ] & HP最大时防御力提升[Ⅳ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "193500",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 状态异常耐性提升[Ⅱ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "193501",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 状态异常耐性提升[Ⅱ]"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "194700",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “商店街的抽奖券”追加获得数＋1"
+    },
+    {
+      "file": "magica/js/libs/pieceSkillMap.json",
+      "stableId": "194701",
+      "field": "shortDescription",
+      "exactExpected": "攻击力提升[Ⅲ] & 防御力提升[Ⅲ] & “商店街的抽奖券”追加获得数＋5"
+    }
+  ],
+  "acceptanceRecord": {
+    "path": "overall-user-acceptance-relay.json",
+    "sha256": "88851072e43346cec7fdb44dc743fe140fa4e10628aa7f381e8e6b6293f826df"
+  },
+  "denominatorsUnchanged": {
+    "historicalManifest": 939,
+    "visibleTermClosure": 3136
+  },
+  "requestedModel": "gpt-6-astra",
+  "requestedReasoningEffort": "ultra",
+  "observedModel": "NOT_EXPOSED_BY_TOOLS",
+  "observedReasoningEffort": "NOT_EXPOSED_BY_TOOLS"
+}

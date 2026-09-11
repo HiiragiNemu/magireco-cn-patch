@@ -1,0 +1,97 @@
+name: Publish finalized localization assets directly
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      purge_all:
+        description: "刷新根目录 CDN 缓存（仅四个热更新对象）"
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: github.repository == 'MagirecoCN-Revival-Project/magireco-cn-patch'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+      R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+      R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
+      R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
+      R2_REGION: ${{ secrets.R2_REGION }}
+      R2_BUCKET: ${{ secrets.R2_BUCKET }}
+      QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
+      QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
+      EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
+      EDGEONE_DOMAIN: ${{ secrets.EDGEONE_DOMAIN }}
+      ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }}
+      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }}
+      ESA_SITE_ID: ${{ secrets.ESA_SITE_ID }}
+      ESA_DOMAIN: ${{ secrets.ESA_DOMAIN }}
+    steps:
+      - name: Download exact final Release assets
+        run: |
+          set -euo pipefail
+          mkdir -p payload
+          gh release download latest --repo HiiragiNemu/magireco-cn-patch --dir payload --clobber \
+            --pattern cn_js_update.zip --pattern cn_scenario_update.zip \
+            --pattern version_js.json --pattern version_scenario.json
+          test "$(stat -c%s payload/cn_js_update.zip)" = 121388408
+          test "$(stat -c%s payload/cn_scenario_update.zip)" = 195637970
+          test "$(sha256sum payload/cn_js_update.zip | cut -d' ' -f1)" = d6dd4a9c45631aefba69cdf80f1435cf541715e972ca0ede277036a5fa90aca1
+          test "$(sha256sum payload/cn_scenario_update.zip | cut -d' ' -f1)" = ee79c97b46b80c1e2ca152a9d039b10b59777ff8e4e5967a259d6d847eeac7c0
+          python3 - <<'PY'
+          import json
+          for n,v,s,m in [('version_js.json',89,121388408,'5eb7cc625f7669f20101e2351d994bda'),('version_scenario.json',3290,195637970,'21202a5d7bd3273c067d60f61dca85bf')]:
+            d=json.load(open('payload/'+n)); assert d=={'version':v,'size':s,'md5':m}, (n,d)
+          PY
+
+      - name: Upload and verify R2 objects
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet boto3
+          python3 - <<'PY'
+          import os,hashlib,json,boto3
+          from botocore.config import Config
+          files={'cn_js_update.zip':('payload/cn_js_update.zip',121388408,'d6dd4a9c45631aefba69cdf80f1435cf541715e972ca0ede277036a5fa90aca1'),'cn_scenario_update.zip':('payload/cn_scenario_update.zip',195637970,'ee79c97b46b80c1e2ca152a9d039b10b59777ff8e4e5967a259d6d847eeac7c0'),'version_js.json':('payload/version_js.json',72,None),'version_scenario.json':('payload/version_scenario.json',74,None)}
+          s=boto3.client('s3',endpoint_url=os.environ['R2_ENDPOINT'].rstrip('/'),aws_access_key_id=os.environ['R2_ACCESS_KEY'],aws_secret_access_key=os.environ['R2_SECRET_KEY'],region_name=os.environ.get('R2_REGION') or 'auto',config=Config(signature_version='s3v4'))
+          evidence={}
+          for n,(p,w,sha) in files.items():
+            b=open(p,'rb').read(); assert len(b)==w,(n,len(b),w)
+            s.upload_file(p,os.environ['R2_BUCKET'],n,ExtraArgs={'CacheControl':'no-cache, must-revalidate'})
+            h=s.head_object(Bucket=os.environ['R2_BUCKET'],Key=n); got=int(h['ContentLength']); assert got==w,(n,got,w)
+            evidence[n]={'bytes':got,'sha256':hashlib.sha256(b).hexdigest()}
+            print(n,got,evidence[n]['sha256'])
+          json.dump(evidence,open('publish-evidence.json','w'),indent=2)
+          PY
+
+      - name: Purge EdgeOne and ESA exact URLs
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet tencentcloud-sdk-python alibabacloud_esa20240910
+          python3 - <<'PY'
+          import os,json
+          names=['cn_js_update.zip','cn_scenario_update.zip','version_js.json','version_scenario.json']
+          from tencentcloud.common import credential
+          from tencentcloud.common.profile.client_profile import ClientProfile
+          from tencentcloud.common.profile.http_profile import HttpProfile
+          from tencentcloud.teo.v20220901 import teo_client,models
+          c=credential.Credential(os.environ['QCLOUD_SECRET_ID'],os.environ['QCLOUD_SECRET_KEY']); hp=HttpProfile(); hp.endpoint='teo.tencentcloudapi.com'; cp=ClientProfile(); cp.httpProfile=hp; cli=teo_client.TeoClient(c,'',cp)
+          for n in names:
+            q=models.CreatePurgeTaskRequest(); q.from_json_string(json.dumps({'ZoneId':os.environ['EDGEONE_ZONE_ID'],'Type':'purge_url','Targets':[f"http://{os.environ['EDGEONE_DOMAIN']}/{n}"]})); print('edge',n,cli.CreatePurgeTask(q).RequestId)
+          from alibabacloud_esa20240910.client import Client
+          from alibabacloud_esa20240910 import models as em
+          from alibabacloud_tea_openapi import models as om
+          cfg=om.Config(access_key_id=os.environ['ALIBABA_CLOUD_ACCESS_KEY_ID'],access_key_secret=os.environ['ALIBABA_CLOUD_ACCESS_KEY_SECRET'],endpoint='esa.cn-hangzhou.aliyuncs.com'); ec=Client(cfg); q=em.PurgeCachesRequest(site_id=int(os.environ['ESA_SITE_ID']),type='file',content=em.PurgeCachesRequestContent(files=[f"http://{os.environ['ESA_DOMAIN']}/{n}" for n in names])); print('esa',getattr(ec.purge_caches(q).body,'task_id',None))
+          PY
+
+      - name: Upload verification artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: finalized-localization-publish-evidence
+          path: publish-evidence.json

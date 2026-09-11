@@ -22,37 +22,51 @@ spec.loader.exec_module(module)
 
 
 def main() -> None:
-    product_bytes = ENGINE.read_bytes()
+    working_tree_bytes = ENGINE.read_bytes()
+    assert not working_tree_bytes.startswith(b"\xef\xbb\xbf")
+    product_bytes = working_tree_bytes.replace(b"\r\n", b"\n")
+    assert b"\r" not in product_bytes
     with tempfile.TemporaryDirectory() as temp_raw:
         temp = Path(temp_raw)
-        baseline = temp / "baseline.tsv"
+        rolled_back = temp / "rolled-back.tsv"
         applied = temp / "applied.tsv"
         current = temp / "current.tsv"
         current.write_bytes(product_bytes)
 
-        logical_rules = sum("\t" in line for line in product_bytes.decode("utf-8").splitlines())
-        if logical_rules == 621:
-            baseline_bytes, initial_rollback = module.transform(current, EVIDENCE, "rollback")
-            assert initial_rollback["changed_records"] == 85
-        elif logical_rules == 615:
-            baseline_bytes = product_bytes
-        else:
-            raise AssertionError(f"unexpected product engine row count: {logical_rules}")
-        baseline.write_bytes(baseline_bytes)
+        header, product_pairs = module.load_engine(current)
+        assert len(product_pairs) == 702
+        official_core = product_pairs[:621]
+        extension = product_pairs[621:]
+        assert len(extension) == 81
+        assert len({source for source, _ in official_core}) == 621
+        assert len({source for source, _ in extension}) == 81
+        assert not ({source for source, _ in official_core} & {source for source, _ in extension})
 
-        applied_bytes, apply_report = module.transform(baseline, EVIDENCE, "apply")
+        rollback_bytes, rollback_report = module.transform(current, EVIDENCE, "rollback")
+        rolled_back.write_bytes(rollback_bytes)
+        assert rollback_report["input_logical_rules"] == 702
+        assert rollback_report["output_logical_rules"] == 696
+        assert rollback_report["official_core_logical_rules"] == 621
+        assert rollback_report["protected_extension_logical_rules"] == 81
+        assert rollback_report["changed_records"] == 85
+
+        _, rollback_pairs = module.load_engine(rolled_back)
+        assert rollback_pairs[615:] == extension
+
+        applied_bytes, apply_report = module.transform(rolled_back, EVIDENCE, "apply")
         applied.write_bytes(applied_bytes)
-        assert apply_report["input_logical_rules"] == 615
-        assert apply_report["output_logical_rules"] == 621
+        assert apply_report["input_logical_rules"] == 696
+        assert apply_report["output_logical_rules"] == 702
+        assert apply_report["official_core_logical_rules"] == 615
+        assert apply_report["protected_extension_logical_rules"] == 81
         assert apply_report["changed_records"] == 85
+        assert applied_bytes == product_bytes
 
-        rollback_bytes, rollback_report = module.transform(applied, EVIDENCE, "rollback")
-        assert rollback_report["input_logical_rules"] == 621
-        assert rollback_report["output_logical_rules"] == 615
-        assert rollback_bytes == baseline_bytes
+        _, applied_pairs = module.load_engine(applied)
+        assert applied_pairs[621:] == extension
 
         drifted = temp / "drifted.tsv"
-        text = baseline_bytes.decode("utf-8")
+        text = rollback_bytes.decode("utf-8")
         drifted.write_text(text.replace("スキル使用\t使用技能", "スキル使用\t漂移", 1), encoding="utf-8", newline="\n")
         try:
             module.transform(drifted, EVIDENCE, "apply")
@@ -61,9 +75,9 @@ def main() -> None:
         else:
             raise AssertionError("before-value drift was not rejected")
 
-    assert ENGINE.read_bytes() == product_bytes
+    assert ENGINE.read_bytes() == working_tree_bytes
 
-    print("PASS: official CN native engine apply/rollback/drift gates")
+    print("PASS: official CN native engine 621-core + 81-extension apply/rollback/drift gates")
 
 
 if __name__ == "__main__":

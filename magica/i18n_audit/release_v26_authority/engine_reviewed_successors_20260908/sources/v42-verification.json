@@ -1,0 +1,129 @@
+{
+  "status": "PASS",
+  "baseline": "V41 modified artifact seven-file D-only cumulative input",
+  "summary": {
+    "rendererSlotDenominator": 14906,
+    "uniqueStableFieldBindings": 13855,
+    "nonPieceTypedSlots": 10668,
+    "pieceCompositeRendererSlots": 4230,
+    "qbRuntimeSpecialSlots": 8,
+    "runtimeObservedSlots": 8748,
+    "runtimeUnobservedSlots": 6158,
+    "currentApiObservedNonPieceSlots": 8730,
+    "pieceObservedSlots": 10,
+    "qbSpecialObservedSlots": 8,
+    "currentApiRendererClosedAfterV38": 7429,
+    "currentApiRendererHoldAfterV38": 1301,
+    "pieceAndSpecialObservedClosed": 18,
+    "engineEligibleSourcePolicy": "exact full-source only; runtimeField-clean; globally unique signed target across 20156",
+    "currentApiRendererClosedAfterV39": 8669,
+    "currentApiRendererHoldAfterV39": 61,
+    "v39ResolvedRuntimeAssociations": 1240,
+    "runtimeObservedSlotsAfterV39": 8748,
+    "runtimeUnobservedSlotsAfterV39": 6158,
+    "fullRendererFamilyClosedObservedAfterV39": 8687,
+    "currentApiRendererClosedAfterV41": 8730,
+    "currentApiRendererHoldAfterV41": 0,
+    "v41ResolvedRuntimeAssociations": 61,
+    "runtimeObservedSlotsAfterV41": 8748,
+    "runtimeUnobservedSlotsAfterV41": 6158,
+    "fullRendererFamilyClosedObservedAfterV41": 8748,
+    "fullRendererFamilyPendingUnobservedAfterV41": 6158,
+    "runtimeObservedSlotsAfterV42": 8748,
+    "runtimeUnobservedSlotsAfterV42": 6158,
+    "v42StaticKnownExactSourceClosedSlots": 5469,
+    "v42StaticKnownExactSourceClosedStableFields": 4432,
+    "fullRendererFamilyClosedAfterV42": 14217,
+    "fullRendererFamilyPendingAfterV42": 689,
+    "v42EngineAdd": 2178,
+    "v42EngineReplace": 189,
+    "v42EngineSame": 1080,
+    "v42SourceAlreadyChinesePreserved": 127,
+    "v42SourceTargetCollisionsHeld": 176
+  },
+  "commands": {
+    "apply": {
+      "command": "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe \"D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\artifact-roles\\patch\\apply-exact.py\" --target-root \"D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\local-cycle-work\" --patch-dir \"D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\artifact-roles\\patch\"",
+      "stdout": "ENGINE_ADD=2178 ENGINE_REPLACE=189",
+      "stderr": "",
+      "exitStatus": 0
+    },
+    "rollback": {
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\artifact-roles\\rollback\\rollback.ps1\" -TargetRoot \"D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\local-cycle-work\" -OriginalRoot \"D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\artifact-roles\\original\"",
+      "stdout": "ROLLBACK_FILES=7",
+      "stderr": "",
+      "exitStatus": 0
+    },
+    "reapply": {
+      "command": "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe \"D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\artifact-roles\\patch\\apply-exact.py\" --target-root \"D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\local-cycle-work\" --patch-dir \"D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\artifact-roles\\patch\"",
+      "stdout": "ENGINE_ADD=2178 ENGINE_REPLACE=189",
+      "stderr": "",
+      "exitStatus": 0
+    }
+  },
+  "byteEquality": {
+    "applyModified": {
+      "madomagi\\engine_i18n.tsv": true,
+      "magica\\js\\libs\\cardMagiaMap.json": true,
+      "magica\\js\\libs\\cardSkillMap.json": true,
+      "magica\\js\\libs\\doppelCardMagiaMap.json": true,
+      "magica\\js\\libs\\emotionSkillMap.json": true,
+      "magica\\js\\libs\\placeSkillMap.json": true,
+      "magica\\js\\libs\\runtimeEntityFieldMap.json": true
+    },
+    "rollbackOriginal": {
+      "madomagi\\engine_i18n.tsv": true,
+      "magica\\js\\libs\\cardMagiaMap.json": true,
+      "magica\\js\\libs\\cardSkillMap.json": true,
+      "magica\\js\\libs\\doppelCardMagiaMap.json": true,
+      "magica\\js\\libs\\emotionSkillMap.json": true,
+      "magica\\js\\libs\\placeSkillMap.json": true,
+      "magica\\js\\libs\\runtimeEntityFieldMap.json": true
+    },
+    "reapplyModified": {
+      "madomagi\\engine_i18n.tsv": true,
+      "magica\\js\\libs\\cardMagiaMap.json": true,
+      "magica\\js\\libs\\cardSkillMap.json": true,
+      "magica\\js\\libs\\doppelCardMagiaMap.json": true,
+      "magica\\js\\libs\\emotionSkillMap.json": true,
+      "magica\\js\\libs\\placeSkillMap.json": true,
+      "magica\\js\\libs\\runtimeEntityFieldMap.json": true
+    }
+  },
+  "literalOutputs": {
+    "apply": "ENGINE_ADD=2178 ENGINE_REPLACE=189",
+    "rollback": "ROLLBACK_FILES=7",
+    "reapply": "ENGINE_ADD=2178 ENGINE_REPLACE=189"
+  },
+  "exitStatuses": {
+    "apply": 0,
+    "rollback": 0,
+    "reapply": 0
+  },
+  "reopen": {
+    "engineDecisions": "2367/2367",
+    "engineConfirmationsAndPreserves": "1207/1207",
+    "rendererLedger": "14906/14906",
+    "stableConfirmations": "4432/4432",
+    "remainingHoldRows": "689/689"
+  },
+  "hardGates": {
+    "DEVICE_WRITES": 0,
+    "PATCH_WRITES": 0,
+    "PRODUCT_WRITES": 0,
+    "GIT_WRITES": 0,
+    "SCENARIO_WRITES": 0,
+    "READER_WRITES": 0,
+    "CSS_CHANGES": 0,
+    "DOM_ADDITIONS": 0,
+    "PSEUDO_LABELS": 0,
+    "MASK_CHANGES": 0,
+    "OVERLAY_CHANGES": 0,
+    "EXTERNAL_MACHINE_TRANSLATION": 0,
+    "AUDIO_TRANSCRIPTION": 0,
+    "SCREENSHOT_ROWS_USED_AS_DENOMINATOR": 0,
+    "BARE_ID_WRITES": 0,
+    "SUBSTRING_WRITES": 0,
+    "WHOLE_FILE_CONSUMABLE": 0
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 3,
+  "generatedAtUtc": "2026-09-03T12:47:05.803699Z",
+  "status": "AUTHORITY_REVIEWED_TARGET_READY",
+  "scope": "SHII_RULE_EXACT_8_ONLY",
+  "supersedes": {
+    "file": "non_scenario_exact_authority_rows.v2.json",
+    "subsetRuleId": "SHII_3902_SHORT_NAME",
+    "operationCount": 8,
+    "reason": "用户最终确认游戏不使用“志切思惟”；短形シィ译“思”，完整显示名最多为“思惟”，禁止补造姓氏。"
+  },
+  "summary": {
+    "operations": 8,
+    "beforeMatch": 8,
+    "alreadyAfter": 0,
+    "conflict": 0,
+    "formalWrites": 0,
+    "productWrites": 0,
+    "deviceWrites": 0,
+    "gitWrites": 0
+  },
+  "authorityRule": {
+    "shortSource": "シィ",
+    "shortTarget": "思",
+    "fullVisibleTarget": "思惟",
+    "forbiddenSyntheticVisibleName": "志切思惟",
+    "note": "逐字段服从实际日文源；本8项全为短形源，因此全部目标仍为思。"
+  },
+  "operations": [
+    {
+      "relativePath": "madomagi/engine_i18n.tsv",
+      "stableKey": "engineSource=Shi",
+      "field": "target",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "シィ",
+      "sourceLocator": "engine source key Shi；magireco-wiki-data/data/characters.json#charaId=3902/nameJa=シィ",
+      "authorityDecision": "该字段日文源为短形“シィ”（或含シィ的标题），按用户最终权威译为“思”；本8项均不属于完整显示名，不引入“思惟”，更不合成“志切思惟”。",
+      "appliedIntent": "REPLACE_EXACT_BEFORE_WITH_EXACT_AFTER",
+      "reviewStatus": "AUTHORITY_REVIEWED_TARGET_READY",
+      "preserveRules": [
+        "シィ短标签/说话人→思",
+        "仅当原字段确为完整显示名时使用思惟",
+        "可见中文志切思惟→思惟",
+        "技术键、日文源、ID与文件结构不改"
+      ]
+    },
+    {
+      "relativePath": "madomagi/engine_i18n.tsv",
+      "stableKey": "engineSource=シィの試練",
+      "field": "target",
+      "exactBefore": "椎的试炼",
+      "exactAfter": "思的试炼",
+      "sourceJapanese": "シィの試練",
+      "sourceLocator": "magica/i18n_audit/release_v26_authority/machine_translation_review/unique_text_review.tsv#MTU-05539",
+      "authorityDecision": "该字段日文源为短形“シィ”（或含シィ的标题），按用户最终权威译为“思”；本8项均不属于完整显示名，不引入“思惟”，更不合成“志切思惟”。",
+      "appliedIntent": "REPLACE_EXACT_BEFORE_WITH_EXACT_AFTER",
+      "reviewStatus": "AUTHORITY_REVIEWED_TARGET_READY",
+      "preserveRules": [
+        "シィ短标签/说话人→思",
+        "仅当原字段确为完整显示名时使用思惟",
+        "可见中文志切思惟→思惟",
+        "技术键、日文源、ID与文件结构不改"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/cardList.json",
+      "stableKey": "cardId=39024",
+      "field": "cardName",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "シィ",
+      "sourceLocator": "magireco-wiki-data/data/characters.json#charaId=3902/nameJa=シィ；cardId=39024 character identity",
+      "authorityDecision": "该字段日文源为短形“シィ”（或含シィ的标题），按用户最终权威译为“思”；本8项均不属于完整显示名，不引入“思惟”，更不合成“志切思惟”。",
+      "appliedIntent": "REPLACE_EXACT_BEFORE_WITH_EXACT_AFTER",
+      "reviewStatus": "AUTHORITY_REVIEWED_TARGET_READY",
+      "preserveRules": [
+        "シィ短标签/说话人→思",
+        "仅当原字段确为完整显示名时使用思惟",
+        "可见中文志切思惟→思惟",
+        "技术键、日文源、ID与文件结构不改"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/cardList.json",
+      "stableKey": "cardId=39025",
+      "field": "cardName",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "シィ",
+      "sourceLocator": "magireco-wiki-data/data/characters.json#charaId=3902/nameJa=シィ；cardId=39025 character identity",
+      "authorityDecision": "该字段日文源为短形“シィ”（或含シィ的标题），按用户最终权威译为“思”；本8项均不属于完整显示名，不引入“思惟”，更不合成“志切思惟”。",
+      "appliedIntent": "REPLACE_EXACT_BEFORE_WITH_EXACT_AFTER",
+      "reviewStatus": "AUTHORITY_REVIEWED_TARGET_READY",
+      "preserveRules": [
+        "シィ短标签/说话人→思",
+        "仅当原字段确为完整显示名时使用思惟",
+        "可见中文志切思惟→思惟",
+        "技术键、日文源、ID与文件结构不改"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/charaList.json",
+      "stableKey": "id=3902",
+      "field": "kana",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "シィ",
+      "sourceLocator": "magireco-wiki-data/data/characters.json#charaId=3902/dataTable=シィ,nameJa=シィ",
+      "authorityDecision": "该字段日文源为短形“シィ”（或含シィ的标题），按用户最终权威译为“思”；本8项均不属于完整显示名，不引入“思惟”，更不合成“志切思惟”。",
+      "appliedIntent": "REPLACE_EXACT_BEFORE_WITH_EXACT_AFTER",
+      "reviewStatus": "AUTHORITY_REVIEWED_TARGET_READY",
+      "preserveRules": [
+        "シィ短标签/说话人→思",
+        "仅当原字段确为完整显示名时使用思惟",
+        "可见中文志切思惟→思惟",
+        "技术键、日文源、ID与文件结构不改"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/charaList.json",
+      "stableKey": "id=3902",
+      "field": "name",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "シィ",
+      "sourceLocator": "magireco-wiki-data/data/characters.json#charaId=3902/dataTable=シィ,nameJa=シィ",
+      "authorityDecision": "该字段日文源为短形“シィ”（或含シィ的标题），按用户最终权威译为“思”；本8项均不属于完整显示名，不引入“思惟”，更不合成“志切思惟”。",
+      "appliedIntent": "REPLACE_EXACT_BEFORE_WITH_EXACT_AFTER",
+      "reviewStatus": "AUTHORITY_REVIEWED_TARGET_READY",
+      "preserveRules": [
+        "シィ短标签/说话人→思",
+        "仅当原字段确为完整显示名时使用思惟",
+        "可见中文志切思惟→思惟",
+        "技术键、日文源、ID与文件结构不改"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/itemList.json",
+      "stableKey": "itemCode=EVENT_DAILYTOWER_1212_STICKER_390200",
+      "field": "name",
+      "exactBefore": "椎",
+      "exactAfter": "思",
+      "sourceJapanese": "シィ",
+      "sourceLocator": "magica/i18n_audit/release_v26_authority/machine_translation_review/unique_text_review.tsv#MTU-05537",
+      "authorityDecision": "该字段日文源为短形“シィ”（或含シィ的标题），按用户最终权威译为“思”；本8项均不属于完整显示名，不引入“思惟”，更不合成“志切思惟”。",
+      "appliedIntent": "REPLACE_EXACT_BEFORE_WITH_EXACT_AFTER",
+      "reviewStatus": "AUTHORITY_REVIEWED_TARGET_READY",
+      "preserveRules": [
+        "シィ短标签/说话人→思",
+        "仅当原字段确为完整显示名时使用思惟",
+        "可见中文志切思惟→思惟",
+        "技术键、日文源、ID与文件结构不改"
+      ]
+    },
+    {
+      "relativePath": "magica/js/libs/itemList.json",
+      "stableKey": "itemCode=EVENT_DAILYTOWER_1212_STICKER_390200",
+      "field": "parameter",
+      "exactBefore": "227,椎",
+      "exactAfter": "227,思",
+      "sourceJapanese": "227,シィ",
+      "sourceLocator": "magica/i18n_audit/release_v26_authority/machine_translation_review/unique_text_review.tsv#MTU-03434",
+      "authorityDecision": "该字段日文源为短形“シィ”（或含シィ的标题），按用户最终权威译为“思”；本8项均不属于完整显示名，不引入“思惟”，更不合成“志切思惟”。",
+      "appliedIntent": "REPLACE_EXACT_BEFORE_WITH_EXACT_AFTER",
+      "reviewStatus": "AUTHORITY_REVIEWED_TARGET_READY",
+      "preserveRules": [
+        "シィ短标签/说话人→思",
+        "仅当原字段确为完整显示名时使用思惟",
+        "可见中文志切思惟→思惟",
+        "技术键、日文源、ID与文件结构不改"
+      ]
+    }
+  ],
+  "preflight": [
+    {
+      "relativePath": "madomagi/engine_i18n.tsv",
+      "stableKey": "engineSource=Shi",
+      "field": "target",
+      "actual": "椎",
+      "expectedBefore": "椎",
+      "result": "BEFORE_MATCH"
+    },
+    {
+      "relativePath": "madomagi/engine_i18n.tsv",
+      "stableKey": "engineSource=シィの試練",
+      "field": "target",
+      "actual": "椎的试炼",
+      "expectedBefore": "椎的试炼",
+      "result": "BEFORE_MATCH"
+    },
+    {
+      "relativePath": "magica/js/libs/cardList.json",
+      "stableKey": "cardId=39024",
+      "field": "cardName",
+      "actual": "椎",
+      "expectedBefore": "椎",
+      "result": "BEFORE_MATCH"
+    },
+    {
+      "relativePath": "magica/js/libs/cardList.json",
+      "stableKey": "cardId=39025",
+      "field": "cardName",
+      "actual": "椎",
+      "expectedBefore": "椎",
+      "result": "BEFORE_MATCH"
+    },
+    {
+      "relativePath": "magica/js/libs/charaList.json",
+      "stableKey": "id=3902",
+      "field": "kana",
+      "actual": "椎",
+      "expectedBefore": "椎",
+      "result": "BEFORE_MATCH"
+    },
+    {
+      "relativePath": "magica/js/libs/charaList.json",
+      "stableKey": "id=3902",
+      "field": "name",
+      "actual": "椎",
+      "expectedBefore": "椎",
+      "result": "BEFORE_MATCH"
+    },
+    {
+      "relativePath": "magica/js/libs/itemList.json",
+      "stableKey": "itemCode=EVENT_DAILYTOWER_1212_STICKER_390200",
+      "field": "name",
+      "actual": "椎",
+      "expectedBefore": "椎",
+      "result": "BEFORE_MATCH"
+    },
+    {
+      "relativePath": "magica/js/libs/itemList.json",
+      "stableKey": "itemCode=EVENT_DAILYTOWER_1212_STICKER_390200",
+      "field": "parameter",
+      "actual": "227,椎",
+      "expectedBefore": "227,椎",
+      "result": "BEFORE_MATCH"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "files": [
+    {
+      "path": "magica/css/_common/fonts.css",
+      "before": "6cfe7909a282d4970d82c61dd49078be38091733792dcb64a81ede9d6ac7584a",
+      "after": "6dcc870b2841558baa6e2c133fbb4e06d314b98caa480356663325c4614f8a28",
+      "sourceExactOperation": {
+        "operation": "APPEND_EXACT",
+        "file": "magica/css/_common/fonts.css",
+        "beforeSha256": "6cfe7909a282d4970d82c61dd49078be38091733792dcb64a81ede9d6ac7584a",
+        "afterSha256": "6dcc870b2841558baa6e2c133fbb4e06d314b98caa480356663325c4614f8a28",
+        "exactAppend": "\n/* Selection dialogue: original scenario font, byte-identical resource. */\n@font-face{font-family:\"MagiReco CN Medium\";src:url(/magica/fonts/mbm_20160902.ttf) format(\"truetype\");font-style:normal;font-weight:500;}\n",
+        "scope": "selected 8 existing dialogue node selectors"
+      }
+    },
+    {
+      "path": "magica/css/_common/common.css",
+      "before": "e0aefdc1e6395b5df31439ce686dfb05040d83c16de8822408c7cb48d2e1e086",
+      "after": "708a78d8f1266119aef42937469076d9e2c047925c4da813bce7e7363776584e",
+      "sourceExactOperation": {
+        "operation": "APPEND_EXACT",
+        "file": "magica/css/_common/common.css",
+        "beforeSha256": "e0aefdc1e6395b5df31439ce686dfb05040d83c16de8822408c7cb48d2e1e086",
+        "afterSha256": "708a78d8f1266119aef42937469076d9e2c047925c4da813bce7e7363776584e",
+        "exactAppend": "\n/* Scope: existing selection dialogue text nodes only; no UI-wide override. */\n#QuestBattleSelect #charaWrap .charaSerif .serifFont,#CharaQuest #charaSection .charaText,#EventDailyTower.EventDailyTowerTop .charaSerif .serifFont,#EventAccomplishTop .charaSerif .serifFont,#EventTower.EventTowerTop .charaSerif .serifFont,#EventSingleRaidSelect .charaSerif .serifFont,#EventStoryRaidSelect .charaSerif .serifFont,#EventTrainingCharaSelect .charaSerif .serifFont{font-family:\"MagiReco CN Medium\",sans-serif;font-weight:500;font-synthesis:none;}\n",
+        "scope": "selected 8 existing dialogue node selectors"
+      }
+    },
+    {
+      "path": "magica/fonts/mbm_20160902.ttf",
+      "before": "ABSENT",
+      "after": "51383ac04bf0835445a0de382c07e6467f43991c6a51cf13a4327cad51f58b03",
+      "sourceExactOperation": {
+        "operation": "ADD_EXACT_RESOURCE",
+        "file": "magica/fonts/mbm_20160902.ttf",
+        "exactBefore": "ABSENT",
+        "afterSha256": "51383ac04bf0835445a0de382c07e6467f43991c6a51cf13a4327cad51f58b03",
+        "source": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\evidence\\runtime-diagnostics\\pass117-updater-endpoint-formal-apk-device-v1-20260905\\work\\source-lf-v2\\assets\\fonts\\mbm_20160902.ttf",
+        "bytes": 9070328
+      }
+    },
+    {
+      "path": "magica/js/view/shop/ShopTopView.js",
+      "before": "a78e4c5bb52e2cfc7b28f6888bd3181f31b6c3720300105caba709995f711830",
+      "after": "9a4c1ac9a8041009ddd6ee77670c210499fade07387127f9576f42dbb102152a",
+      "sourceExactOperation": {
+        "path": "magica/js/view/shop/ShopTopView.js",
+        "field": "startL2d.txtVisible",
+        "before": "b.type=0;b.key=e?e+r():\"vo_game_0002_\"+r();k.startL2d(b)",
+        "after": "b.type=0;b.key=e?e+r():\"vo_game_0002_\"+r();b.txtVisible=\"true\";k.startL2d(b)",
+        "beforeSha256": "a78e4c5bb52e2cfc7b28f6888bd3181f31b6c3720300105caba709995f711830",
+        "afterSha256": "9a4c1ac9a8041009ddd6ee77670c210499fade07387127f9576f42dbb102152a",
+        "nativeBridgeReferenceOnly": "magica/js/_common/nativeCommand.js",
+        "gameplayAndAudioSelectionUnchanged": true
+      }
+    }
+  ],
+  "logicalChanges": 4,
+  "textReplacements": 0,
+  "newDom": 0,
+  "pseudoContent": 0
+}

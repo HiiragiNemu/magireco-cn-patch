@@ -1,0 +1,183 @@
+{
+  "schema": "totentanz-pass18-engine-reviewed-successors/v1",
+  "historical": {
+    "commit": "c2e8615f116eb699a981e98c80a29a6335b290f2",
+    "dataRows": 621,
+    "physicalLines": 622,
+    "sha256": "054a726ade2241900a3b0b89ff2cf671162131ec9ff73939f6efe5108211a384"
+  },
+  "accepted": {
+    "commit": "93d0e8ed415154be244abd2d61cc4689a7307499",
+    "sha256": "5350f514ada4def218c4b7cd210a351233f44f116bc431d81dd69d7fbe0163c6",
+    "bytes": 858089,
+    "dataRows": 9996,
+    "physicalLines": 9997
+  },
+  "lineage": {
+    "ancestor": "c2e8615f116eb699a981e98c80a29a6335b290f2",
+    "descendant": "93d0e8ed415154be244abd2d61cc4689a7307499",
+    "retainedIdentities": 621,
+    "unchangedTargets": 619,
+    "registeredTargetSuccessors": 2,
+    "addedSources": 9375,
+    "removedSources": 0
+  },
+  "historicalTargetSuccessors": [
+    {
+      "source": "ヴァリアブル",
+      "oldExpected": "Variable",
+      "authorizedExact": "全属性克制",
+      "successorId": "ENGINE-ACCEPTED-RELEASE-VARIABLE",
+      "kind": "ACCEPTED_RELEASED_ARTIFACT_EXACT",
+      "proofs": [
+        "acceptedReleasedTable",
+        "releasedCommit",
+        "acceptedV4Manifest",
+        "overallUserAcceptance"
+      ],
+      "authorityScope": "Exact previously delivered/preserved engine artifact covered by overall user acceptance. No fabricated individual lexical review or same-ID official claim."
+    },
+    {
+      "source": "Critical Hit Chance [IV] / ATK UP [II] / Negate Charm",
+      "oldExpected": "一定几率暴击[Ⅳ] & 攻击力提升[Ⅱ] & 诱惑无效",
+      "authorizedExact": "概率暴击[Ⅳ] & 攻击力提升[Ⅱ] & 必定魅惑无效",
+      "successorId": "ENG-P18-004-V42-SRC-0593",
+      "kind": "V42_EXACT_STABLE_SOURCE_SUCCESSOR",
+      "entryId": "ENG-P18-004",
+      "stableIdentity": "PIECE_SKILL|144901|shortDescription",
+      "historicalOfficialRow": {
+        "entry_id": "ENG-P18-004",
+        "source_text": "Critical Hit Chance [IV] / ATK UP [II] / Negate Charm",
+        "current_cn": "一定几率暴击[Ⅳ] & 攻击力提升[Ⅱ] & 诱惑无效",
+        "source_tier": "official-cn-exact-art-id-join",
+        "evidence_path_or_key": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\Decoded_MyPage.json#artIds=690206304,390201102,690208300",
+        "source_sha256": "a82601d7cad737bf00a9a2f714d401c81389b825b27d45b492ae6f3bcc8a10db",
+        "is_machine_translation": "false",
+        "confidence": "exact-art-id-join",
+        "manual_review_status": "verify-join",
+        "runtime_consumed": "true",
+        "notes": "Each effect term and level is an exact official-CN art-ID match; the ordered whole string is a lossless join for the observed battle source."
+      },
+      "decisionPointer": "/509",
+      "decisionExact": {
+        "reviewId": "V42-SRC-0593",
+        "action": "REPLACE_NATIVE_EXACT_FULL_SOURCE_RULE",
+        "exactBefore": "Critical Hit Chance [IV] / ATK UP [II] / Negate Charm",
+        "existingTarget": "一定几率暴击[Ⅳ] & 攻击力提升[Ⅱ] & 诱惑无效",
+        "target": "概率暴击[Ⅳ] & 攻击力提升[Ⅱ] & 必定魅惑无效",
+        "stableIdentities": [
+          "PIECE_SKILL|144901|shortDescription"
+        ],
+        "associationCount": 1,
+        "familyFields": [
+          "PIECE_SKILL|shortDescription"
+        ],
+        "authorityTiers": [
+          "INHERITED_V25_STABLE_COMPOSITE_BINDING"
+        ],
+        "authorityEvidence": [
+          "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-publish-20260822\\magireco-cn-patch-main\\magica\\js\\libs\\pieceSkillMap.json",
+          "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\evidence\\pass26b-shop-icon-root-20260823\\runtime-probe\\20260824-0200-magic-stone-live\\ShopTop-response.json#/userPieceList/431/piece/pieceSkill2/shortDescription"
+        ],
+        "renderer": [
+          "QbSkillTitleProbe.text2"
+        ],
+        "reviewDecision": "ACCEPT_EXACT_FULL_SOURCE_GLOBAL_TARGET_UNIQUE_ACROSS_20156",
+        "preserveReason": "源串在完整20,156稳定字段图中仅对应一个已签目标。",
+        "machineTranslated": false,
+        "audioTranscription": false
+      },
+      "apiPointer": "/userPieceList/431/piece/pieceSkill2",
+      "runtimeMap": "magica/js/libs/pieceSkillMap.json",
+      "runtimeMapPointer": "/144901/shortDescription",
+      "proofs": [
+        "v42Decision",
+        "v42Verification",
+        "v42Independent",
+        "realApi",
+        "historicalOfficialAudit"
+      ],
+      "authorityScope": "V42 exact full-source decision inherited from V25 stable composite binding; not official-CN same-ID complete string."
+    }
+  ],
+  "proofs": {
+    "historicalTable": {
+      "path": "magica/i18n_audit/release_v26_authority/engine_reviewed_successors_20260908/sources/historical621.tsv",
+      "sha256": "054a726ade2241900a3b0b89ff2cf671162131ec9ff73939f6efe5108211a384",
+      "bytes": 52316,
+      "origin": "D:\\magia\\deliveries\\totentanz-engine-reviewed-successor-20260908\\evidence\\c2e8615f116eb699a981e98c80a29a6335b290f2-engine_i18n.tsv"
+    },
+    "acceptedReleasedTable": {
+      "path": "magica/i18n_audit/release_v26_authority/engine_reviewed_successors_20260908/sources/accepted-released9996.tsv",
+      "sha256": "5350f514ada4def218c4b7cd210a351233f44f116bc431d81dd69d7fbe0163c6",
+      "bytes": 858089,
+      "origin": "D:\\magia\\deliveries\\totentanz-engine-reviewed-successor-20260908\\evidence\\93d0e8ed415154be244abd2d61cc4689a7307499-engine_i18n.tsv"
+    },
+    "historicalCommit": {
+      "path": "magica/i18n_audit/release_v26_authority/engine_reviewed_successors_20260908/sources/historical-commit.txt",
+      "sha256": "43ec5ef03a2b71c83eaddc8a2a6c08d4983d6c9541db84d032eba2dd3de8c9e6",
+      "bytes": 316,
+      "origin": "D:\\magia\\deliveries\\totentanz-engine-reviewed-successor-20260908\\evidence\\c2e8615f116eb699a981e98c80a29a6335b290f2-commit.txt"
+    },
+    "releasedCommit": {
+      "path": "magica/i18n_audit/release_v26_authority/engine_reviewed_successors_20260908/sources/released-commit.txt",
+      "sha256": "f30b9a7c25b782df593fe603113a6d86e934a78f4b6d4f8fe8860fc781769e0e",
+      "bytes": 310,
+      "origin": "D:\\magia\\deliveries\\totentanz-engine-reviewed-successor-20260908\\evidence\\93d0e8ed415154be244abd2d61cc4689a7307499-commit.txt"
+    },
+    "ancestryReceipt": {
+      "path": "magica/i18n_audit/release_v26_authority/engine_reviewed_successors_20260908/sources/ancestry-and-exact-delta-receipt.json",
+      "sha256": "6c19fc21661dc4716332756606d90ce2a0e7f6be2836c8ccb92caaf8332b7058",
+      "bytes": 3088,
+      "origin": "D:\\magia\\deliveries\\totentanz-engine-reviewed-successor-20260908\\evidence\\HISTORICAL621_RELEASED9996_PROVENANCE.json"
+    },
+    "acceptedV4Manifest": {
+      "path": "magica/i18n_audit/release_v26_authority/engine_reviewed_successors_20260908/sources/accepted-v4-manifest.json",
+      "sha256": "bc65521e63b89d7067b3470d36778f30a6470b37835d468254f8c57cce66dc61",
+      "bytes": 22394,
+      "origin": "D:\\magia\\deliveries\\totentanz-current-review-unified-v4-20260907\\manifest.json"
+    },
+    "overallUserAcceptance": {
+      "path": "magica/i18n_audit/release_v26_authority/engine_reviewed_successors_20260908/sources/overall-user-acceptance-ledger.md",
+      "sha256": "e4ba337463a1136d5212470ddfbd92540ba318e0d84935afcbaa04ec890572f5",
+      "bytes": 162161,
+      "origin": "D:\\magia\\deliveries\\totentanz-visible14-name-closure-20260908\\evidence\\sources\\USER_TERM_LEDGER_SNAPSHOT.md"
+    },
+    "v42Decision": {
+      "path": "magica/i18n_audit/release_v26_authority/engine_reviewed_successors_20260908/sources/v42-engine-exact-decisions.json",
+      "sha256": "edeecdca09ea98ffd7dc36701358f8bf6a7edd1db1826d1c8d2261fe7d676a9b",
+      "bytes": 3087354,
+      "origin": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\artifact-roles\\patch\\engine_i18n.exact-decisions.json"
+    },
+    "v42Verification": {
+      "path": "magica/i18n_audit/release_v26_authority/engine_reviewed_successors_20260908/sources/v42-verification.json",
+      "sha256": "06400aec78588a99532e63747df477040772ccda73313ef83b9b2c94ddeab9bb",
+      "bytes": 6658,
+      "origin": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\artifact-roles\\verification\\VERIFICATION_RECORD.json"
+    },
+    "v42Independent": {
+      "path": "magica/i18n_audit/release_v26_authority/engine_reviewed_successors_20260908/sources/v42-independent-reopen.json",
+      "sha256": "f5d93e3036414c0559f3c7e0bff29784a5190d62e3bdbee8a415de354a3665a0",
+      "bytes": 3774,
+      "origin": "D:\\magia\\MyProducts\\MAGIA RECORD CN\\totentanz-recovery-20260822\\staging\\pass51m-battle-native-label-log-miss-closure-20260828\\evidence\\v42-static-known-exact-source-closure-v1-20260903\\artifact-roles\\verification\\INDEPENDENT_REOPEN.json"
+    },
+    "realApi": {
+      "path": "magica/i18n_audit/release_v26_authority/reviewed_successors_20260908/sources/4f71fa26ac6e6070-ShopTop-response.json",
+      "sha256": "4f71fa26ac6e60700e2fbff2d9e79bab5813b3d174055133b39c2b72b2d0c711",
+      "bytes": 34167661,
+      "origin": "Existing V10 87-contract source snapshot; unchanged and not added to consume allowlist."
+    },
+    "historicalOfficialAudit": {
+      "path": "magica/i18n_audit/release_v26_authority/pass18_engine_official_additions.tsv",
+      "sha256": "545934bc88e7377c3a0213abe836abf534cf967ca7ce13b2bb9d78c0999043e5",
+      "bytes": 2408,
+      "origin": "Original five-row Pass18 engine audit; retained byte-exact."
+    }
+  },
+  "acceptance": {
+    "scope": "Prior complete delivered contents accepted; the engine bytes are fixed by the released commit and V4 PRESERVE_CURRENT_BASELINE record. This is not a new 9996-row semantic review.",
+    "ledgerExactLine": "- USER_ACCEPTED: all previously delivered contents, DEVICE2 V5 protected. User confirms 伊吕波→彩羽 correct."
+  },
+  "preserveHistoricalConstants": true,
+  "existingEngineLayersUnchanged": true
+}

@@ -6,10 +6,15 @@ function storageGet(key){try{return window.localStorage?window.localStorage.getI
 function storageSet(key,value){try{window.localStorage&&window.localStorage.setItem(key,value)}catch(ignore){}}
 function storageRemove(key){try{window.localStorage&&window.localStorage.removeItem(key)}catch(ignore){}}
 function saveRecord(record){try{storageSet(lastKey,JSON.stringify(record))}catch(ignore){}}
-function reportRecord(common,record){
+function reportRecord(common,record,ajax){
 try{
 var url=common&&common.linkList?common.linkList.jsErrorSend:"";
-if(!url||typeof window.XMLHttpRequest!=="function")return;
+if(!url)return;
+if(ajax&&typeof ajax.ajaxPlainPost==="function"){
+ajax.ajaxPlainPost(url,JSON.stringify(record),null);
+return
+}
+if(typeof window.XMLHttpRequest!=="function")return;
 var xhr=new window.XMLHttpRequest();
 xhr.open("POST",url,true);
 xhr.setRequestHeader("Content-Type","text/plain; charset=UTF-8");
@@ -48,7 +53,7 @@ else window.location.href=target
 }catch(ignore){}
 }
 try{
-require(["underscore","backbone","backboneCommon","command"],function(underscore,backbone,common,command){
+require(["underscore","backbone","backboneCommon","ajaxControl","command"],function(underscore,backbone,common,ajax,command){
 function reload(){
 window.__MAGIACN_JS_ERROR_ACTIVE__=false;
 try{
@@ -68,7 +73,7 @@ var base=common&&common.doc&&typeof common.doc.querySelector==="function"?common
 if(base&&base.style)base.style.display="none";
 if(common)common.androidKeyStop=true
 }catch(ignore){}
-reportRecord(common,record);
+reportRecord(common,record,ajax);
 try{
 if(common&&typeof common.PopupClass==="function"){
 new common.PopupClass({title:"错误",popupId:"resultCodeError",content:repeated?"发生错误。即将前往首页。":(transientResultRoute?"发生错误。将返回扭蛋页面。":"发生错误。将重新载入当前页面。"),decideBtnText:repeated?"返回首页":(transientResultRoute?"返回扭蛋":"重新载入"),canClose:false},null,function(){
@@ -85,14 +90,13 @@ else reload()
 })
 }else reload()
 }catch(ignore){reload()}
-window.__MAGIACN_JS_ERROR_ACTIVE__=false;
 })
 }catch(handlerError){
 record.handlerError=asText(handlerError&&handlerError.stack||handlerError);
 saveRecord(record);
 directReload()
 }
-return false
+return true
 }
 })();window.app_ver="";window.webInitTime="";window.sendHostName=location.hostname;
 var nativeJsonObj={},nativeCallback=function(a){console.log("nativeCallback:function:",a);$("#commandDiv").trigger("nativeCallback",a)},saveDataCallback=function(a){$("#commandDiv").trigger("saveDataCallback",a)},appVersionGet=function(a){window.app_ver=a},getBaseData=function(a){$("#baseReceive").trigger("getBaseData",a)},fontDataGet=function(a){var e=[],f=document.styleSheets.item(1);e.push("@font-face {font-family: 'motoya'; src: url('data:font/ttf;base64,"+String(a.motoya)+"');}");e.push("@font-face {font-family: 'mbm'; src: url('data:font/ttf;base64,"+

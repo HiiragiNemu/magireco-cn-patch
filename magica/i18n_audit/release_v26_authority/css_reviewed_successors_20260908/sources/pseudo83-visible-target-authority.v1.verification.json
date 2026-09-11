@@ -1,0 +1,65 @@
+{
+  "schema": "css-visible-pseudo-target-authority-verification.v1",
+  "createdAtUtc": "2026-09-03T21:55:46.953848Z",
+  "status": "PASS",
+  "artifactPaths": {
+    "json": "D:\\magia\\deliveries\\css-visible-pseudo83-target-authority-v1-20260904\\pseudo83-visible-target-authority.v1.json",
+    "tsv": "D:\\magia\\deliveries\\css-visible-pseudo83-target-authority-v1-20260904\\pseudo83-visible-target-authority.v1.tsv"
+  },
+  "inputInventory": {
+    "path": "C:\\Users\\proje\\Documents\\Codex\\2026-09-02\\01a03676-5ac6-7cc2-a091-6716d30943cc-01a02586-2\\outputs\\css-visible-pseudo-route-inventory-pass108c-20260904.json",
+    "bytes": 36714,
+    "lastWriteTimeUtc": "2026-09-03T18:45:49.263428Z"
+  },
+  "checks": {
+    "jsonReopens": true,
+    "tsvReopens": true,
+    "jsonRecordCount83": true,
+    "tsvRecordCount83": true,
+    "recordIdsUnique83": true,
+    "recordIdSelectorPairsUnique83": true,
+    "inputOrderPreserved": true,
+    "sourceLiteralsByteSemanticEqual": true,
+    "allTargetsNonEmpty": true,
+    "allStatusesReady": true,
+    "technicalLabelsExact": true,
+    "twoLineMessagesExactly3": true,
+    "malformedLiteralRecovered": true,
+    "kimochiEntityRule": true,
+    "noTargetKana": true,
+    "scopeFormalProductDeviceGitZero": true,
+    "excludedReviewsZero": true,
+    "inputInventoryStatUnchanged": true
+  },
+  "counts": {
+    "records": 83,
+    "uniqueRecordIds": 83,
+    "uniqueRecordIdSelectorPairs": 83,
+    "selectorExactAuditMatches": 57,
+    "technicalLabelsPreserved": 22,
+    "twoLineMessages": 3,
+    "malformedSourceLiteralsRecovered": 1,
+    "decisionCounts": {
+      "ACCEPT_SELECTOR_EXACT_EXISTING_CN": 44,
+      "APPLY_KIMOCHI_ENTITY_TERM": 2,
+      "PRESERVE_NECESSARY_TECHNICAL_LABEL": 22,
+      "RECOVER_VISIBLE_TEXT_FROM_MALFORMED_LITERAL": 1,
+      "TRANSLATE_FROM_SOURCE_SEMANTICS": 8,
+      "TRANSLATE_VISIBLE_TWO_LINE_MESSAGE": 3,
+      "USE_CURRENT_PROJECT_AUTHORITY_TERM": 3
+    }
+  },
+  "writeBoundary": {
+    "allowedRoot": "D:\\magia\\deliveries\\css-visible-pseudo83-target-authority-v1-20260904",
+    "filesWritten": [
+      "D:\\magia\\deliveries\\css-visible-pseudo83-target-authority-v1-20260904\\pseudo83-visible-target-authority.v1.json",
+      "D:\\magia\\deliveries\\css-visible-pseudo83-target-authority-v1-20260904\\pseudo83-visible-target-authority.v1.tsv",
+      "D:\\magia\\deliveries\\css-visible-pseudo83-target-authority-v1-20260904\\pseudo83-visible-target-authority.v1.verification.json"
+    ],
+    "formalWrites": 0,
+    "productWrites": 0,
+    "deviceWrites": 0,
+    "gitWrites": 0
+  },
+  "correctionNote": "首轮校验器把两条同文活动提示误合并计为一条；分母按记录为3条两行提示。本次仅修正验证期望值，83条权威目标未变。"
+}

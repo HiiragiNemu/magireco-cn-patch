@@ -1,0 +1,1128 @@
+[
+  {
+    "id": "CSS-GENERATED-01",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "Lv",
+      "line": 1,
+      "inComment": false,
+      "selector": ".userCharaIcon .lv:before",
+      "context": "Icon .lv{display:block}.userCharaIcon .lv:before{color:#ff9;content:\"Lv\";margin-right:5px;font-size:10px}.userCharaIcon .atk{display:none}.use"
+    },
+    "relatedHistoricalIds": [
+      "UI-066"
+    ],
+    "binding": {
+      "path": "magica/template/chara/CharaListParts.html",
+      "sourceSha256": "719ea691d970f847094a536a7435881c64a55f461dcf69378c8c503bd2440bdf",
+      "sourceLayer": "ORIGINAL_LOCAL_RESOURCE_NOT_DEVICE_RECEIPT",
+      "hits": [
+        {
+          "needle": "class=\"lv\"",
+          "offset": 755,
+          "line": 1,
+          "exactContext": "rdId %>_f\" data-src=\"resource/image_native/card/image/card_<%= model.displayCardId %>_f.png\"> <span class=\"lv\"><span><%= model.level %></span></span> <span class=\"atk\"><%= (model.attack + model.addendAttack) %></span> <span class=\"def\"><%= (model.defense + model.addendDefense) %></span> <span class=\"hp\"><%= (model.hp + model.addendHp) %></span> <sp"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-02",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "エピソードLv",
+      "line": 1,
+      "inComment": false,
+      "selector": ".userCharaIcon .eplv:before",
+      "context": "n .eplv{display:none}.userCharaIcon .eplv:before{color:#ff9;content:\"エピソードLv\";margin-right:5px;font-size:10px}.userCharaIcon .rev{display:none}.use"
+    },
+    "relatedHistoricalIds": [
+      "UI-067"
+    ],
+    "binding": {
+      "path": "magica/template/chara/CharaListParts.html",
+      "sourceSha256": "719ea691d970f847094a536a7435881c64a55f461dcf69378c8c503bd2440bdf",
+      "sourceLayer": "ORIGINAL_LOCAL_RESOURCE_NOT_DEVICE_RECEIPT",
+      "hits": [
+        {
+          "needle": "class=\"eplv\"",
+          "offset": 1008,
+          "line": 1,
+          "exactContext": "e + model.addendDefense) %></span> <span class=\"hp\"><%= (model.hp + model.addendHp) %></span> <span class=\"eplv\"><%= model.episodeLevel %></span> <span class=\"get\"><%= model.createdAt.split(\" \")[0].substring( model.createdAt.split(\" \")[0].length, 2 ) %></span> <span class=\"bg\" data-nativebgkey=\"<%= bg %>\" data-src=\"resource/image_native/card/frame/<%"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-03",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "マギアLv",
+      "line": 1,
+      "inComment": false,
+      "selector": ".userCharaIcon .mlv:before",
+      "context": "con .mlv{display:none}.userCharaIcon .mlv:before{color:#ff9;content:\"マギアLv\";margin-right:5px;font-size:10px}.userCharaIcon .enhance{display:none}"
+    },
+    "relatedHistoricalIds": [
+      "UI-068"
+    ],
+    "binding": {
+      "path": "magica/template/chara/CharaListParts.html",
+      "sourceSha256": "719ea691d970f847094a536a7435881c64a55f461dcf69378c8c503bd2440bdf",
+      "sourceLayer": "ORIGINAL_LOCAL_RESOURCE_NOT_DEVICE_RECEIPT",
+      "hits": [
+        {
+          "needle": "class=\"mlv\"",
+          "offset": 1334,
+          "line": 1,
+          "exactContext": "image_native/card/frame/<%= bg %>.png\"></span> <span class=\"rev\"><%= model.revision %></span> <span class=\"mlv\"><%= model.magiaLevel %></span> <span class=\"prm\"> <span class=\"prm_userCardId\"><%= model.userCardId %></span> <span class=\"prm_charaId\"><%= model.charaId %></span> <span class=\"prm_att\"><%= model.card.attributeId %></span> <% var getTimeAr"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-04",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "マギア",
+      "line": 1,
+      "inComment": false,
+      "selector": "#charaComposeResult .resultMessageWrap .rowBox.magia .titleBox:after",
+      "context": "owBox.magia .titleBox:after{color:#5b3072;text-align:center;content:\"マギア\";width:84px;height:20px;text-shadow:none;background-color:#fff;border-"
+    },
+    "relatedHistoricalIds": [
+      "UI-073"
+    ],
+    "binding": {
+      "path": "magica/template/chara/CharaResult.html",
+      "sourceSha256": "54427d6d4c9e9fa8c281557e6f4ddb9187825492f3d9184a5b9eecb3eeff16f3",
+      "sourceLayer": "ORIGINAL_LOCAL_RESOURCE_NOT_DEVICE_RECEIPT",
+      "hits": [
+        {
+          "needle": "rowBox",
+          "offset": 4243,
+          "line": 1,
+          "exactContext": ">\"%> <%=\"<% if(model.after.episodeLevel == 4 || model.after.episodeLevel == 5) { %\\>\"%> <div class=\"rowBox episodeItem\">\n\t\t\t\t<div class=\"titleBox c_white\">获得魔法石</div>\n\t\t\t\t<div class=\"composeRewards\">\n\t\t\t\t\t<img src=\"/magica/resource/image_web/item/main/money.png\">\n\t\t\t\t\t<span class=\"rewardNums ts_gold\">×5</span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"textBox"
+        },
+        {
+          "needle": "rowBox",
+          "offset": 4737,
+          "line": 8,
+          "exactContext": "r.episodeLevel == 2) ? 1 : 2 %\\>\"%> <%=\"<% if(model.questArr[count].closeFlag) { %\\>\"%> <div class=\"rowBox close\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情</div>\n\t\t\t\t\t<div class=\"textBox c_white\">\n\t\t\t\t\t\t<span> <%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话「<%=\"<%= model.questArr[count].section.title %\\>\"%>」\n\t\t\t\t\t\t</span> <%=\"<% _.e"
+        },
+        {
+          "needle": "rowBox",
+          "offset": 5170,
+          "line": 13,
+          "exactContext": "=\"<%= condition %\\>\"%></span> <%=\"<% }) %\\>\"%> </div>\n\t\t\t\t</div> <%=\"<% } else { %\\>\"%> <div class=\"rowBox episodeStory\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情解放</div>\n\t\t\t\t\t<div class=\"textBox c_white\"><%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话<br>「<%=\"<%= model.questArr[count].section.title %\\>\"%>」</div>\n\t\t\t\t</div> <%=\"<% }"
+        },
+        {
+          "needle": "titleBox",
+          "offset": 4280,
+          "line": 2,
+          "exactContext": "el == 4 || model.after.episodeLevel == 5) { %\\>\"%> <div class=\"rowBox episodeItem\">\n\t\t\t\t<div class=\"titleBox c_white\">获得魔法石</div>\n\t\t\t\t<div class=\"composeRewards\">\n\t\t\t\t\t<img src=\"/magica/resource/image_web/item/main/money.png\">\n\t\t\t\t\t<span class=\"rewardNums ts_gold\">×5</span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"textBox\"></div>\n\t\t\t</div> <%=\"<% } %\\>\"%> <%=\""
+        },
+        {
+          "needle": "titleBox",
+          "offset": 4769,
+          "line": 9,
+          "exactContext": "\"%> <%=\"<% if(model.questArr[count].closeFlag) { %\\>\"%> <div class=\"rowBox close\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情</div>\n\t\t\t\t\t<div class=\"textBox c_white\">\n\t\t\t\t\t\t<span> <%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话「<%=\"<%= model.questArr[count].section.title %\\>\"%>」\n\t\t\t\t\t\t</span> <%=\"<% _.each(model.questArr[count].openCond"
+        },
+        {
+          "needle": "titleBox",
+          "offset": 5209,
+          "line": 14,
+          "exactContext": " %\\>\"%> </div>\n\t\t\t\t</div> <%=\"<% } else { %\\>\"%> <div class=\"rowBox episodeStory\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情解放</div>\n\t\t\t\t\t<div class=\"textBox c_white\"><%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话<br>「<%=\"<%= model.questArr[count].section.title %\\>\"%>」</div>\n\t\t\t\t</div> <%=\"<% } %\\>\"%> <%=\"<% } %\\>\"%> <div class=\"rowBo"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-05",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "EXスキル",
+      "line": 1,
+      "inComment": false,
+      "selector": "#charaComposeResult .resultMessageWrap .rowBox.exSkill .titleBox:after",
+      "context": "Box.exSkill .titleBox:after{color:#5b3072;text-align:center;content:\"EXスキル\";width:84px;height:20px;text-shadow:none;background-color:#fff;border-"
+    },
+    "relatedHistoricalIds": [
+      "UI-074"
+    ],
+    "binding": {
+      "path": "magica/template/chara/CharaResult.html",
+      "sourceSha256": "54427d6d4c9e9fa8c281557e6f4ddb9187825492f3d9184a5b9eecb3eeff16f3",
+      "sourceLayer": "ORIGINAL_LOCAL_RESOURCE_NOT_DEVICE_RECEIPT",
+      "hits": [
+        {
+          "needle": "rowBox",
+          "offset": 4243,
+          "line": 1,
+          "exactContext": ">\"%> <%=\"<% if(model.after.episodeLevel == 4 || model.after.episodeLevel == 5) { %\\>\"%> <div class=\"rowBox episodeItem\">\n\t\t\t\t<div class=\"titleBox c_white\">获得魔法石</div>\n\t\t\t\t<div class=\"composeRewards\">\n\t\t\t\t\t<img src=\"/magica/resource/image_web/item/main/money.png\">\n\t\t\t\t\t<span class=\"rewardNums ts_gold\">×5</span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"textBox"
+        },
+        {
+          "needle": "rowBox",
+          "offset": 4737,
+          "line": 8,
+          "exactContext": "r.episodeLevel == 2) ? 1 : 2 %\\>\"%> <%=\"<% if(model.questArr[count].closeFlag) { %\\>\"%> <div class=\"rowBox close\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情</div>\n\t\t\t\t\t<div class=\"textBox c_white\">\n\t\t\t\t\t\t<span> <%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话「<%=\"<%= model.questArr[count].section.title %\\>\"%>」\n\t\t\t\t\t\t</span> <%=\"<% _.e"
+        },
+        {
+          "needle": "rowBox",
+          "offset": 5170,
+          "line": 13,
+          "exactContext": "=\"<%= condition %\\>\"%></span> <%=\"<% }) %\\>\"%> </div>\n\t\t\t\t</div> <%=\"<% } else { %\\>\"%> <div class=\"rowBox episodeStory\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情解放</div>\n\t\t\t\t\t<div class=\"textBox c_white\"><%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话<br>「<%=\"<%= model.questArr[count].section.title %\\>\"%>」</div>\n\t\t\t\t</div> <%=\"<% }"
+        },
+        {
+          "needle": "titleBox",
+          "offset": 4280,
+          "line": 2,
+          "exactContext": "el == 4 || model.after.episodeLevel == 5) { %\\>\"%> <div class=\"rowBox episodeItem\">\n\t\t\t\t<div class=\"titleBox c_white\">获得魔法石</div>\n\t\t\t\t<div class=\"composeRewards\">\n\t\t\t\t\t<img src=\"/magica/resource/image_web/item/main/money.png\">\n\t\t\t\t\t<span class=\"rewardNums ts_gold\">×5</span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"textBox\"></div>\n\t\t\t</div> <%=\"<% } %\\>\"%> <%=\""
+        },
+        {
+          "needle": "titleBox",
+          "offset": 4769,
+          "line": 9,
+          "exactContext": "\"%> <%=\"<% if(model.questArr[count].closeFlag) { %\\>\"%> <div class=\"rowBox close\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情</div>\n\t\t\t\t\t<div class=\"textBox c_white\">\n\t\t\t\t\t\t<span> <%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话「<%=\"<%= model.questArr[count].section.title %\\>\"%>」\n\t\t\t\t\t\t</span> <%=\"<% _.each(model.questArr[count].openCond"
+        },
+        {
+          "needle": "titleBox",
+          "offset": 5209,
+          "line": 14,
+          "exactContext": " %\\>\"%> </div>\n\t\t\t\t</div> <%=\"<% } else { %\\>\"%> <div class=\"rowBox episodeStory\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情解放</div>\n\t\t\t\t\t<div class=\"textBox c_white\"><%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话<br>「<%=\"<%= model.questArr[count].section.title %\\>\"%>」</div>\n\t\t\t\t</div> <%=\"<% } %\\>\"%> <%=\"<% } %\\>\"%> <div class=\"rowBo"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-06",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "コネクト",
+      "line": 1,
+      "inComment": false,
+      "selector": "#charaComposeResult .resultMessageWrap .rowBox.connect .titleBox:after",
+      "context": "Box.connect .titleBox:after{color:#5b3072;text-align:center;content:\"コネクト\";width:84px;height:20px;text-shadow:none;background-color:#fff;border-"
+    },
+    "relatedHistoricalIds": [
+      "UI-075"
+    ],
+    "binding": {
+      "path": "magica/template/chara/CharaResult.html",
+      "sourceSha256": "54427d6d4c9e9fa8c281557e6f4ddb9187825492f3d9184a5b9eecb3eeff16f3",
+      "sourceLayer": "ORIGINAL_LOCAL_RESOURCE_NOT_DEVICE_RECEIPT",
+      "hits": [
+        {
+          "needle": "rowBox",
+          "offset": 4243,
+          "line": 1,
+          "exactContext": ">\"%> <%=\"<% if(model.after.episodeLevel == 4 || model.after.episodeLevel == 5) { %\\>\"%> <div class=\"rowBox episodeItem\">\n\t\t\t\t<div class=\"titleBox c_white\">获得魔法石</div>\n\t\t\t\t<div class=\"composeRewards\">\n\t\t\t\t\t<img src=\"/magica/resource/image_web/item/main/money.png\">\n\t\t\t\t\t<span class=\"rewardNums ts_gold\">×5</span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"textBox"
+        },
+        {
+          "needle": "rowBox",
+          "offset": 4737,
+          "line": 8,
+          "exactContext": "r.episodeLevel == 2) ? 1 : 2 %\\>\"%> <%=\"<% if(model.questArr[count].closeFlag) { %\\>\"%> <div class=\"rowBox close\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情</div>\n\t\t\t\t\t<div class=\"textBox c_white\">\n\t\t\t\t\t\t<span> <%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话「<%=\"<%= model.questArr[count].section.title %\\>\"%>」\n\t\t\t\t\t\t</span> <%=\"<% _.e"
+        },
+        {
+          "needle": "rowBox",
+          "offset": 5170,
+          "line": 13,
+          "exactContext": "=\"<%= condition %\\>\"%></span> <%=\"<% }) %\\>\"%> </div>\n\t\t\t\t</div> <%=\"<% } else { %\\>\"%> <div class=\"rowBox episodeStory\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情解放</div>\n\t\t\t\t\t<div class=\"textBox c_white\"><%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话<br>「<%=\"<%= model.questArr[count].section.title %\\>\"%>」</div>\n\t\t\t\t</div> <%=\"<% }"
+        },
+        {
+          "needle": "titleBox",
+          "offset": 4280,
+          "line": 2,
+          "exactContext": "el == 4 || model.after.episodeLevel == 5) { %\\>\"%> <div class=\"rowBox episodeItem\">\n\t\t\t\t<div class=\"titleBox c_white\">获得魔法石</div>\n\t\t\t\t<div class=\"composeRewards\">\n\t\t\t\t\t<img src=\"/magica/resource/image_web/item/main/money.png\">\n\t\t\t\t\t<span class=\"rewardNums ts_gold\">×5</span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"textBox\"></div>\n\t\t\t</div> <%=\"<% } %\\>\"%> <%=\""
+        },
+        {
+          "needle": "titleBox",
+          "offset": 4769,
+          "line": 9,
+          "exactContext": "\"%> <%=\"<% if(model.questArr[count].closeFlag) { %\\>\"%> <div class=\"rowBox close\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情</div>\n\t\t\t\t\t<div class=\"textBox c_white\">\n\t\t\t\t\t\t<span> <%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话「<%=\"<%= model.questArr[count].section.title %\\>\"%>」\n\t\t\t\t\t\t</span> <%=\"<% _.each(model.questArr[count].openCond"
+        },
+        {
+          "needle": "titleBox",
+          "offset": 5209,
+          "line": 14,
+          "exactContext": " %\\>\"%> </div>\n\t\t\t\t</div> <%=\"<% } else { %\\>\"%> <div class=\"rowBox episodeStory\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情解放</div>\n\t\t\t\t\t<div class=\"textBox c_white\"><%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话<br>「<%=\"<%= model.questArr[count].section.title %\\>\"%>」</div>\n\t\t\t\t</div> <%=\"<% } %\\>\"%> <%=\"<% } %\\>\"%> <div class=\"rowBo"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-07",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "条件クリアで解放",
+      "line": 1,
+      "inComment": false,
+      "selector": "#charaComposeResult .resultMessageWrap .rowBox.close .titleBox:after",
+      "context": "owBox.close .titleBox:after{color:#5b3072;text-align:center;content:\"条件クリアで解放\";width:150px;height:20px;text-shadow:none;background-color:#fff;border"
+    },
+    "relatedHistoricalIds": [
+      "UI-076"
+    ],
+    "binding": {
+      "path": "magica/template/chara/CharaResult.html",
+      "sourceSha256": "54427d6d4c9e9fa8c281557e6f4ddb9187825492f3d9184a5b9eecb3eeff16f3",
+      "sourceLayer": "ORIGINAL_LOCAL_RESOURCE_NOT_DEVICE_RECEIPT",
+      "hits": [
+        {
+          "needle": "rowBox",
+          "offset": 4243,
+          "line": 1,
+          "exactContext": ">\"%> <%=\"<% if(model.after.episodeLevel == 4 || model.after.episodeLevel == 5) { %\\>\"%> <div class=\"rowBox episodeItem\">\n\t\t\t\t<div class=\"titleBox c_white\">获得魔法石</div>\n\t\t\t\t<div class=\"composeRewards\">\n\t\t\t\t\t<img src=\"/magica/resource/image_web/item/main/money.png\">\n\t\t\t\t\t<span class=\"rewardNums ts_gold\">×5</span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"textBox"
+        },
+        {
+          "needle": "rowBox",
+          "offset": 4737,
+          "line": 8,
+          "exactContext": "r.episodeLevel == 2) ? 1 : 2 %\\>\"%> <%=\"<% if(model.questArr[count].closeFlag) { %\\>\"%> <div class=\"rowBox close\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情</div>\n\t\t\t\t\t<div class=\"textBox c_white\">\n\t\t\t\t\t\t<span> <%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话「<%=\"<%= model.questArr[count].section.title %\\>\"%>」\n\t\t\t\t\t\t</span> <%=\"<% _.e"
+        },
+        {
+          "needle": "rowBox",
+          "offset": 5170,
+          "line": 13,
+          "exactContext": "=\"<%= condition %\\>\"%></span> <%=\"<% }) %\\>\"%> </div>\n\t\t\t\t</div> <%=\"<% } else { %\\>\"%> <div class=\"rowBox episodeStory\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情解放</div>\n\t\t\t\t\t<div class=\"textBox c_white\"><%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话<br>「<%=\"<%= model.questArr[count].section.title %\\>\"%>」</div>\n\t\t\t\t</div> <%=\"<% }"
+        },
+        {
+          "needle": "titleBox",
+          "offset": 4280,
+          "line": 2,
+          "exactContext": "el == 4 || model.after.episodeLevel == 5) { %\\>\"%> <div class=\"rowBox episodeItem\">\n\t\t\t\t<div class=\"titleBox c_white\">获得魔法石</div>\n\t\t\t\t<div class=\"composeRewards\">\n\t\t\t\t\t<img src=\"/magica/resource/image_web/item/main/money.png\">\n\t\t\t\t\t<span class=\"rewardNums ts_gold\">×5</span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"textBox\"></div>\n\t\t\t</div> <%=\"<% } %\\>\"%> <%=\""
+        },
+        {
+          "needle": "titleBox",
+          "offset": 4769,
+          "line": 9,
+          "exactContext": "\"%> <%=\"<% if(model.questArr[count].closeFlag) { %\\>\"%> <div class=\"rowBox close\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情</div>\n\t\t\t\t\t<div class=\"textBox c_white\">\n\t\t\t\t\t\t<span> <%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话「<%=\"<%= model.questArr[count].section.title %\\>\"%>」\n\t\t\t\t\t\t</span> <%=\"<% _.each(model.questArr[count].openCond"
+        },
+        {
+          "needle": "titleBox",
+          "offset": 5209,
+          "line": 14,
+          "exactContext": " %\\>\"%> </div>\n\t\t\t\t</div> <%=\"<% } else { %\\>\"%> <div class=\"rowBox episodeStory\">\n\t\t\t\t\t<div class=\"titleBox c_white\">魔法少女剧情解放</div>\n\t\t\t\t\t<div class=\"textBox c_white\"><%=\"<%= model.questArr[count].section.genericIndex %\\>\"%>话<br>「<%=\"<%= model.questArr[count].section.title %\\>\"%>」</div>\n\t\t\t\t</div> <%=\"<% } %\\>\"%> <%=\"<% } %\\>\"%> <div class=\"rowBo"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-08",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "Rank",
+      "line": 1,
+      "inComment": false,
+      "selector": "#myProfile #followerParamDetail .detailMainWrap .userLevel:before",
+      "context": "ParamDetail .detailMainWrap .userLevel:before{color:#b28750;content:\"Rank\";font-size:16px;line-height:34px;position:absolute;bottom:0;left:0}#my"
+    },
+    "relatedHistoricalIds": [
+      "UI-045",
+      "UI-077"
+    ],
+    "binding": {
+      "path": "magica/template/user/MyProfilePopup.html",
+      "sourceSha256": "f2f57adbb2879eb63b97ed52fcfb5676f2a81a1b494bc247b48022c87ddab4ef",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "userLevel",
+          "offset": 953,
+          "line": 18,
+          "exactContext": "p\">\n\t\t\t\t<div class=\"detailWrap1\">\n\t\t\t\t\t<h1><%= _.escape(profile.userName) %></h1>\n\t\t\t\t\t<span class=\"userLevel\"><%= profile.userRank %></span>\n\n\t\t\t\t\t<% if (profile.gameUser.reachingAccomplish) { %>\n\t\t\t\t\t\t<span class=\"reachingAccomplish\"><%= profile.gameUser.reachingAccomplish %></span>\n\t\t\t\t\t<% } %>\n\n\t\t\t\t\t<% if (model.displayTitle) { %>\n\t\t\t\t\t\t<div c"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-09",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "Stage",
+      "line": 1,
+      "inComment": false,
+      "selector": "#myProfile #followerParamDetail .detailMainWrap .reachingAccomplish:after",
+      "context": "ail .detailMainWrap .reachingAccomplish:after{color:#b28750;content:\"Stage\";font-size:16px;line-height:34px;position:absolute;bottom:-1px;left:25"
+    },
+    "relatedHistoricalIds": [
+      "UI-078"
+    ],
+    "binding": {
+      "path": "magica/template/user/MyProfilePopup.html",
+      "sourceSha256": "f2f57adbb2879eb63b97ed52fcfb5676f2a81a1b494bc247b48022c87ddab4ef",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "reachingAccomplish",
+          "offset": 1025,
+          "line": 20,
+          "exactContext": ") %></h1>\n\t\t\t\t\t<span class=\"userLevel\"><%= profile.userRank %></span>\n\n\t\t\t\t\t<% if (profile.gameUser.reachingAccomplish) { %>\n\t\t\t\t\t\t<span class=\"reachingAccomplish\"><%= profile.gameUser.reachingAccomplish %></span>\n\t\t\t\t\t<% } %>\n\n\t\t\t\t\t<% if (model.displayTitle) { %>\n\t\t\t\t\t\t<div class=\"userTitle_m <%= model.displayTitle.font %>\">\n\t\t\t\t\t\t\t<div id=\"targetTitleTex"
+        },
+        {
+          "needle": "reachingAccomplish",
+          "offset": 1069,
+          "line": 21,
+          "exactContext": "rofile.userRank %></span>\n\n\t\t\t\t\t<% if (profile.gameUser.reachingAccomplish) { %>\n\t\t\t\t\t\t<span class=\"reachingAccomplish\"><%= profile.gameUser.reachingAccomplish %></span>\n\t\t\t\t\t<% } %>\n\n\t\t\t\t\t<% if (model.displayTitle) { %>\n\t\t\t\t\t\t<div class=\"userTitle_m <%= model.displayTitle.font %>\">\n\t\t\t\t\t\t\t<div id=\"targetTitleText\" class=\"userTitleText\"><%= model.displayTi"
+        },
+        {
+          "needle": "reachingAccomplish",
+          "offset": 1110,
+          "line": 21,
+          "exactContext": "ofile.gameUser.reachingAccomplish) { %>\n\t\t\t\t\t\t<span class=\"reachingAccomplish\"><%= profile.gameUser.reachingAccomplish %></span>\n\t\t\t\t\t<% } %>\n\n\t\t\t\t\t<% if (model.displayTitle) { %>\n\t\t\t\t\t\t<div class=\"userTitle_m <%= model.displayTitle.font %>\">\n\t\t\t\t\t\t\t<div id=\"targetTitleText\" class=\"userTitleText\"><%= model.displayTitle.name %></div>\n\t\t\t\t\t\t\t<img id=\"targetT"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-10",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "最終ログイン",
+      "line": 1,
+      "inComment": false,
+      "selector": "#myProfile #followerParamDetail .detailMainWrap .friendWrap .lastLogin:before",
+      "context": ".detailMainWrap .friendWrap .lastLogin:before{color:#b28750;content:\"最終ログイン\";width:200px;font-size:14px;position:absolute;bottom:0;right:85px}#myP"
+    },
+    "relatedHistoricalIds": [
+      "UI-080"
+    ],
+    "binding": {
+      "path": "magica/template/follow/FollowPopup.html",
+      "sourceSha256": "b60bb21a36b83ce9951acc4efe5edf5e5169dd95b5d381a4790d6d3cd29ac0f9",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "lastLogin",
+          "offset": 1504,
+          "line": 36,
+          "exactContext": "unt %></span>\n\t\t\t\t\t<span class=\"userFollower\"><%= profile.followerCount %></span>\n\t\t\t\t\t<span class=\"lastLogin\"><%= model.loginTimeLag %></span>\n\n\t\t\t\t\t<div class=\"detailUtilPanel\">\n\t\t\t\t\t\t<div class=\"detailWrap1Bg\">关注状态</div>\n\t\t\t\t\t\t<div id=\"followIcons\">\n\t\t\t\t\t\t\t<span class=\"followIcon<% if(!profile.follow){ %> grayScale<% } %>\"></span>\n\t\t\t\t\t\t\t<span "
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-11",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "スキルタイプ",
+      "line": 1,
+      "inComment": false,
+      "selector": ".announcementPopup .pickUpDetail.MEMORIA.SKILL .memoriaTypeName:before,.announcementPopupMainte .pickUpDetail.MEMORIA.SKILL .memoriaTypeName:before",
+      "context": "pDetail.MEMORIA.SKILL .memoriaTypeName:before{color:#ef638b;content:\"スキルタイプ\"}.announcementPopup .pickUpDetail.MEMORIA.SKILL .description .common_d"
+    },
+    "relatedHistoricalIds": [
+      "UI-081"
+    ],
+    "binding": {
+      "path": "magica/template/user/AnnounceTemp.html",
+      "sourceSha256": "2ec1dfbaec2bc18ca93e0265cd97b64f137cee6edc8531bc4ee5ce912b863935",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [],
+      "status": "DYNAMIC_OR_UNLOCATED_CONTEXT_NOT_RETIREMENT_PROOF"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-12",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "スキル",
+      "line": 1,
+      "inComment": false,
+      "selector": ".announcementPopup .pickUpDetail.MEMORIA.SKILL .description .common_dl dt:before,.announcementPopupMainte .pickUpDetail.MEMORIA.SKILL .description .common_dl dt:before",
+      "context": "ickUpDetail.MEMORIA.SKILL .description .common_dl dt:before{content:\"スキル\"}.announcementPopup .pickUpDetail.MEMORIA.ABILITY .memoriaTypeIcon,.an"
+    },
+    "relatedHistoricalIds": [
+      "UI-082"
+    ],
+    "binding": {
+      "path": "magica/template/user/AnnounceTemp.html",
+      "sourceSha256": "2ec1dfbaec2bc18ca93e0265cd97b64f137cee6edc8531bc4ee5ce912b863935",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [],
+      "status": "DYNAMIC_OR_UNLOCATED_CONTEXT_NOT_RETIREMENT_PROOF"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-13",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "アビリティタイプ",
+      "line": 1,
+      "inComment": false,
+      "selector": ".announcementPopup .pickUpDetail.MEMORIA.ABILITY .memoriaTypeName:before,.announcementPopupMainte .pickUpDetail.MEMORIA.ABILITY .memoriaTypeName:before",
+      "context": "etail.MEMORIA.ABILITY .memoriaTypeName:before{color:#3a9abd;content:\"アビリティタイプ\"}.announcementPopup .pickUpDetail.MEMORIA.ABILITY .description .common"
+    },
+    "relatedHistoricalIds": [
+      "UI-083"
+    ],
+    "binding": {
+      "path": "magica/template/user/AnnounceTemp.html",
+      "sourceSha256": "2ec1dfbaec2bc18ca93e0265cd97b64f137cee6edc8531bc4ee5ce912b863935",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [],
+      "status": "DYNAMIC_OR_UNLOCATED_CONTEXT_NOT_RETIREMENT_PROOF"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-14",
+    "originalFinding": {
+      "path": "magica/css/_common/common.css",
+      "value": "アビリティ",
+      "line": 1,
+      "inComment": false,
+      "selector": ".announcementPopup .pickUpDetail.MEMORIA.ABILITY .description .common_dl dt:before,.announcementPopupMainte .pickUpDetail.MEMORIA.ABILITY .description .common_dl dt:before",
+      "context": "kUpDetail.MEMORIA.ABILITY .description .common_dl dt:before{content:\"アビリティ\"}.announcementPopup .pickUpDetail.MEMORIA .rarity .stars,.announcement"
+    },
+    "relatedHistoricalIds": [
+      "UI-084"
+    ],
+    "binding": {
+      "path": "magica/template/user/AnnounceTemp.html",
+      "sourceSha256": "2ec1dfbaec2bc18ca93e0265cd97b64f137cee6edc8531bc4ee5ce912b863935",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [],
+      "status": "DYNAMIC_OR_UNLOCATED_CONTEXT_NOT_RETIREMENT_PROOF"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-15",
+    "originalFinding": {
+      "path": "magica/css/formation/DeckFormation.css",
+      "value": "コピー先",
+      "line": 1,
+      "inComment": false,
+      "selector": "#DeckFormation.deckCopy .deckSelectInner .currentDeck .detailOverwrap:before",
+      "context": "x -1px 2px #ff005d,-1px 1px 2px #ff005d,1px 1px 2px #ff005d;content:\"コピー先\";font-size:20px}#DeckFormation.formation #bonusTextWrap{display:none!i"
+    },
+    "relatedHistoricalIds": [
+      "UI-106"
+    ],
+    "binding": {
+      "path": "magica/template/formation/DeckFormation.html",
+      "sourceSha256": "96e05ae376699d429fcf909aa80ea731d0b63772cdb660daea0379ef6a3737be",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "detailOverwrap",
+          "offset": 37997,
+          "line": 709,
+          "exactContext": "e_tabs deck<%=\"<%= txt.deckType %\\>\"%>' data-decktype='<%=\"<%= txt.deckType %\\>\"%>'>\n\t\t\t<div class=\"detailOverwrap\"></div>\n\t\t\t<div class=\"formationMiniMap\">\n\t\t\t\t<%=\"<% _.forEach(txt.posArr,function(txt){ %\\>\"%>\n\t\t\t\t\t<span class='pos_<%=\"<%= txt %\\>\"%>'></span>\n\t\t\t\t<%=\"<% }) %\\>\"%>\n\t\t\t</div>\n\n\t\t\t<div class=\"charaIcon\">\n\t\t\t\t<div class=\"frame\"></div>\n\t\t\t\t"
+        },
+        {
+          "needle": "detailOverwrap",
+          "offset": 39035,
+          "line": 735,
+          "exactContext": "bs off deck<%=\"<%= txt.deckType %\\>\"%>' data-decktype='<%=\"<%= txt.deckType %\\>\"%>'>\n\t\t\t<div class=\"detailOverwrap\"></div>\n\t\t\t<div class=\"charaIcon\"></div>\n\t\t</div>\n\t<%=\"<% } %\\>\"%>\n<%=\"<% }) %\\>\"%>\n</script>\n\n<script type=\"text/template\" id=\"gaugeTemp\">\n\t<%=\"<% var hpGauge  = (model.memoriaHp) ? (model.addHp + model.addendHp + model.composeAttribute.c"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-16",
+    "originalFinding": {
+      "path": "magica/css/formation/DeckFormation.css",
+      "value": "第一の結界",
+      "line": 1,
+      "inComment": false,
+      "selector": "#DeckFormation .deckName.deck71:before",
+      "context": "3.png) top no-repeat}#DeckFormation .deckName.deck71:before{content:\"第一の結界\"}#DeckFormation .deckName.deck72:before{content:\"第二の結界\"}#DeckFormation"
+    },
+    "relatedHistoricalIds": [
+      "UI-107"
+    ],
+    "binding": {
+      "path": "magica/template/formation/DeckFormation.html",
+      "sourceSha256": "96e05ae376699d429fcf909aa80ea731d0b63772cdb660daea0379ef6a3737be",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "model.deckType",
+          "offset": 4503,
+          "line": 96,
+          "exactContext": "|| deckCatType === 'arenaRankMatchAttack') { %\\>\"%>\n\t\t<%=\"<% var addClass = 'deckName se_tabs deck'+model.deckType %\\>\"%>\n\t\t<%=\"<% if(deckCatType === 'exterminationCopy' || deckCatType === 'secondPartLastCopy') addClass += ' notEdit' %\\>\"%>\n\t\t<div class='deckName <%=\"<%= addClass %\\>\"%> se_tabs'>\n\t\t\t<p><%=\"<%= _.escape(model.name) %\\>\"%></p>\n\t\t</div>\n\t"
+        },
+        {
+          "needle": "model.name",
+          "offset": 4724,
+          "line": 99,
+          "exactContext": "= ' notEdit' %\\>\"%>\n\t\t<div class='deckName <%=\"<%= addClass %\\>\"%> se_tabs'>\n\t\t\t<p><%=\"<%= _.escape(model.name) %\\>\"%></p>\n\t\t</div>\n\t\t<%=\"<% if(deckCatType !== 'extermination' && deckCatType !== 'secondPartLast' && deckCatType !== 'accomplish') { %\\>\"%>\n\t\t\t<div class='deckChangeArrow se_tabs TE arrowR'></div>\n\t\t\t<div class='deckChangeArrow se_tabs "
+        },
+        {
+          "needle": "model.name",
+          "offset": 36663,
+          "line": 676,
+          "exactContext": "ea\">\n\t\t\t<div class=\"profileChange\">\n\t\t\t\t<input id=\"commentInput\" readonly=\"readonly\" value='<%=\"<%= model.name %\\>\"%>' maxlength=\"50\" /><br>\n\t\t\t\t<span class=\"commentNotis c_red\">不能使用表情符号。</span>\n\t\t\t\t<div class=\"textCount c_gold\"><span id=\"textCount\" class=\"c_gold\"><%=\"<%= model.name.length %\\>\"%></span>/10</div>\n\t\t\t\t<div class=\"btn b_pink se_decide"
+        },
+        {
+          "needle": "model.name",
+          "offset": 36836,
+          "line": 678,
+          "exactContext": "red\">不能使用表情符号。</span>\n\t\t\t\t<div class=\"textCount c_gold\"><span id=\"textCount\" class=\"c_gold\"><%=\"<%= model.name.length %\\>\"%></span>/10</div>\n\t\t\t\t<div class=\"btn b_pink se_decide TE\" id=\"commentDecide\"><span class=\"b_screen\"></span>确定</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</script>\n\n<script type=\"text/template\" id=\"TeamRemovePop\">\n\t<div class=\"popupInner"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-17",
+    "originalFinding": {
+      "path": "magica/css/formation/DeckFormation.css",
+      "value": "第二の結界",
+      "line": 1,
+      "inComment": false,
+      "selector": "#DeckFormation .deckName.deck72:before",
+      "context": "fore{content:\"第一の結界\"}#DeckFormation .deckName.deck72:before{content:\"第二の結界\"}#DeckFormation .deckName.deck73:before{content:\"第三の結界\"}#DeckFormation"
+    },
+    "relatedHistoricalIds": [
+      "UI-108"
+    ],
+    "binding": {
+      "path": "magica/template/formation/DeckFormation.html",
+      "sourceSha256": "96e05ae376699d429fcf909aa80ea731d0b63772cdb660daea0379ef6a3737be",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "model.deckType",
+          "offset": 4503,
+          "line": 96,
+          "exactContext": "|| deckCatType === 'arenaRankMatchAttack') { %\\>\"%>\n\t\t<%=\"<% var addClass = 'deckName se_tabs deck'+model.deckType %\\>\"%>\n\t\t<%=\"<% if(deckCatType === 'exterminationCopy' || deckCatType === 'secondPartLastCopy') addClass += ' notEdit' %\\>\"%>\n\t\t<div class='deckName <%=\"<%= addClass %\\>\"%> se_tabs'>\n\t\t\t<p><%=\"<%= _.escape(model.name) %\\>\"%></p>\n\t\t</div>\n\t"
+        },
+        {
+          "needle": "model.name",
+          "offset": 4724,
+          "line": 99,
+          "exactContext": "= ' notEdit' %\\>\"%>\n\t\t<div class='deckName <%=\"<%= addClass %\\>\"%> se_tabs'>\n\t\t\t<p><%=\"<%= _.escape(model.name) %\\>\"%></p>\n\t\t</div>\n\t\t<%=\"<% if(deckCatType !== 'extermination' && deckCatType !== 'secondPartLast' && deckCatType !== 'accomplish') { %\\>\"%>\n\t\t\t<div class='deckChangeArrow se_tabs TE arrowR'></div>\n\t\t\t<div class='deckChangeArrow se_tabs "
+        },
+        {
+          "needle": "model.name",
+          "offset": 36663,
+          "line": 676,
+          "exactContext": "ea\">\n\t\t\t<div class=\"profileChange\">\n\t\t\t\t<input id=\"commentInput\" readonly=\"readonly\" value='<%=\"<%= model.name %\\>\"%>' maxlength=\"50\" /><br>\n\t\t\t\t<span class=\"commentNotis c_red\">不能使用表情符号。</span>\n\t\t\t\t<div class=\"textCount c_gold\"><span id=\"textCount\" class=\"c_gold\"><%=\"<%= model.name.length %\\>\"%></span>/10</div>\n\t\t\t\t<div class=\"btn b_pink se_decide"
+        },
+        {
+          "needle": "model.name",
+          "offset": 36836,
+          "line": 678,
+          "exactContext": "red\">不能使用表情符号。</span>\n\t\t\t\t<div class=\"textCount c_gold\"><span id=\"textCount\" class=\"c_gold\"><%=\"<%= model.name.length %\\>\"%></span>/10</div>\n\t\t\t\t<div class=\"btn b_pink se_decide TE\" id=\"commentDecide\"><span class=\"b_screen\"></span>确定</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</script>\n\n<script type=\"text/template\" id=\"TeamRemovePop\">\n\t<div class=\"popupInner"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-18",
+    "originalFinding": {
+      "path": "magica/css/formation/DeckFormation.css",
+      "value": "第三の結界",
+      "line": 1,
+      "inComment": false,
+      "selector": "#DeckFormation .deckName.deck73:before",
+      "context": "fore{content:\"第二の結界\"}#DeckFormation .deckName.deck73:before{content:\"第三の結界\"}#DeckFormation .deckName.deck74:before{content:\"第四の結界\"}#DeckFormation"
+    },
+    "relatedHistoricalIds": [
+      "UI-109"
+    ],
+    "binding": {
+      "path": "magica/template/formation/DeckFormation.html",
+      "sourceSha256": "96e05ae376699d429fcf909aa80ea731d0b63772cdb660daea0379ef6a3737be",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "model.deckType",
+          "offset": 4503,
+          "line": 96,
+          "exactContext": "|| deckCatType === 'arenaRankMatchAttack') { %\\>\"%>\n\t\t<%=\"<% var addClass = 'deckName se_tabs deck'+model.deckType %\\>\"%>\n\t\t<%=\"<% if(deckCatType === 'exterminationCopy' || deckCatType === 'secondPartLastCopy') addClass += ' notEdit' %\\>\"%>\n\t\t<div class='deckName <%=\"<%= addClass %\\>\"%> se_tabs'>\n\t\t\t<p><%=\"<%= _.escape(model.name) %\\>\"%></p>\n\t\t</div>\n\t"
+        },
+        {
+          "needle": "model.name",
+          "offset": 4724,
+          "line": 99,
+          "exactContext": "= ' notEdit' %\\>\"%>\n\t\t<div class='deckName <%=\"<%= addClass %\\>\"%> se_tabs'>\n\t\t\t<p><%=\"<%= _.escape(model.name) %\\>\"%></p>\n\t\t</div>\n\t\t<%=\"<% if(deckCatType !== 'extermination' && deckCatType !== 'secondPartLast' && deckCatType !== 'accomplish') { %\\>\"%>\n\t\t\t<div class='deckChangeArrow se_tabs TE arrowR'></div>\n\t\t\t<div class='deckChangeArrow se_tabs "
+        },
+        {
+          "needle": "model.name",
+          "offset": 36663,
+          "line": 676,
+          "exactContext": "ea\">\n\t\t\t<div class=\"profileChange\">\n\t\t\t\t<input id=\"commentInput\" readonly=\"readonly\" value='<%=\"<%= model.name %\\>\"%>' maxlength=\"50\" /><br>\n\t\t\t\t<span class=\"commentNotis c_red\">不能使用表情符号。</span>\n\t\t\t\t<div class=\"textCount c_gold\"><span id=\"textCount\" class=\"c_gold\"><%=\"<%= model.name.length %\\>\"%></span>/10</div>\n\t\t\t\t<div class=\"btn b_pink se_decide"
+        },
+        {
+          "needle": "model.name",
+          "offset": 36836,
+          "line": 678,
+          "exactContext": "red\">不能使用表情符号。</span>\n\t\t\t\t<div class=\"textCount c_gold\"><span id=\"textCount\" class=\"c_gold\"><%=\"<%= model.name.length %\\>\"%></span>/10</div>\n\t\t\t\t<div class=\"btn b_pink se_decide TE\" id=\"commentDecide\"><span class=\"b_screen\"></span>确定</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</script>\n\n<script type=\"text/template\" id=\"TeamRemovePop\">\n\t<div class=\"popupInner"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-19",
+    "originalFinding": {
+      "path": "magica/css/formation/DeckFormation.css",
+      "value": "第四の結界",
+      "line": 1,
+      "inComment": false,
+      "selector": "#DeckFormation .deckName.deck74:before",
+      "context": "fore{content:\"第三の結界\"}#DeckFormation .deckName.deck74:before{content:\"第四の結界\"}#DeckFormation .deckName.deck75:before{content:\"終の結界\"}#DeckFormation "
+    },
+    "relatedHistoricalIds": [
+      "UI-110"
+    ],
+    "binding": {
+      "path": "magica/template/formation/DeckFormation.html",
+      "sourceSha256": "96e05ae376699d429fcf909aa80ea731d0b63772cdb660daea0379ef6a3737be",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "model.deckType",
+          "offset": 4503,
+          "line": 96,
+          "exactContext": "|| deckCatType === 'arenaRankMatchAttack') { %\\>\"%>\n\t\t<%=\"<% var addClass = 'deckName se_tabs deck'+model.deckType %\\>\"%>\n\t\t<%=\"<% if(deckCatType === 'exterminationCopy' || deckCatType === 'secondPartLastCopy') addClass += ' notEdit' %\\>\"%>\n\t\t<div class='deckName <%=\"<%= addClass %\\>\"%> se_tabs'>\n\t\t\t<p><%=\"<%= _.escape(model.name) %\\>\"%></p>\n\t\t</div>\n\t"
+        },
+        {
+          "needle": "model.name",
+          "offset": 4724,
+          "line": 99,
+          "exactContext": "= ' notEdit' %\\>\"%>\n\t\t<div class='deckName <%=\"<%= addClass %\\>\"%> se_tabs'>\n\t\t\t<p><%=\"<%= _.escape(model.name) %\\>\"%></p>\n\t\t</div>\n\t\t<%=\"<% if(deckCatType !== 'extermination' && deckCatType !== 'secondPartLast' && deckCatType !== 'accomplish') { %\\>\"%>\n\t\t\t<div class='deckChangeArrow se_tabs TE arrowR'></div>\n\t\t\t<div class='deckChangeArrow se_tabs "
+        },
+        {
+          "needle": "model.name",
+          "offset": 36663,
+          "line": 676,
+          "exactContext": "ea\">\n\t\t\t<div class=\"profileChange\">\n\t\t\t\t<input id=\"commentInput\" readonly=\"readonly\" value='<%=\"<%= model.name %\\>\"%>' maxlength=\"50\" /><br>\n\t\t\t\t<span class=\"commentNotis c_red\">不能使用表情符号。</span>\n\t\t\t\t<div class=\"textCount c_gold\"><span id=\"textCount\" class=\"c_gold\"><%=\"<%= model.name.length %\\>\"%></span>/10</div>\n\t\t\t\t<div class=\"btn b_pink se_decide"
+        },
+        {
+          "needle": "model.name",
+          "offset": 36836,
+          "line": 678,
+          "exactContext": "red\">不能使用表情符号。</span>\n\t\t\t\t<div class=\"textCount c_gold\"><span id=\"textCount\" class=\"c_gold\"><%=\"<%= model.name.length %\\>\"%></span>/10</div>\n\t\t\t\t<div class=\"btn b_pink se_decide TE\" id=\"commentDecide\"><span class=\"b_screen\"></span>确定</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</script>\n\n<script type=\"text/template\" id=\"TeamRemovePop\">\n\t<div class=\"popupInner"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-20",
+    "originalFinding": {
+      "path": "magica/css/formation/DeckFormation.css",
+      "value": "終の結界",
+      "line": 1,
+      "inComment": false,
+      "selector": "#DeckFormation .deckName.deck75:before",
+      "context": "fore{content:\"第四の結界\"}#DeckFormation .deckName.deck75:before{content:\"終の結界\"}#DeckFormation .formationSheet,#DeckFormation #formationDetail{displa"
+    },
+    "relatedHistoricalIds": [
+      "UI-111"
+    ],
+    "binding": {
+      "path": "magica/template/formation/DeckFormation.html",
+      "sourceSha256": "96e05ae376699d429fcf909aa80ea731d0b63772cdb660daea0379ef6a3737be",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "model.deckType",
+          "offset": 4503,
+          "line": 96,
+          "exactContext": "|| deckCatType === 'arenaRankMatchAttack') { %\\>\"%>\n\t\t<%=\"<% var addClass = 'deckName se_tabs deck'+model.deckType %\\>\"%>\n\t\t<%=\"<% if(deckCatType === 'exterminationCopy' || deckCatType === 'secondPartLastCopy') addClass += ' notEdit' %\\>\"%>\n\t\t<div class='deckName <%=\"<%= addClass %\\>\"%> se_tabs'>\n\t\t\t<p><%=\"<%= _.escape(model.name) %\\>\"%></p>\n\t\t</div>\n\t"
+        },
+        {
+          "needle": "model.name",
+          "offset": 4724,
+          "line": 99,
+          "exactContext": "= ' notEdit' %\\>\"%>\n\t\t<div class='deckName <%=\"<%= addClass %\\>\"%> se_tabs'>\n\t\t\t<p><%=\"<%= _.escape(model.name) %\\>\"%></p>\n\t\t</div>\n\t\t<%=\"<% if(deckCatType !== 'extermination' && deckCatType !== 'secondPartLast' && deckCatType !== 'accomplish') { %\\>\"%>\n\t\t\t<div class='deckChangeArrow se_tabs TE arrowR'></div>\n\t\t\t<div class='deckChangeArrow se_tabs "
+        },
+        {
+          "needle": "model.name",
+          "offset": 36663,
+          "line": 676,
+          "exactContext": "ea\">\n\t\t\t<div class=\"profileChange\">\n\t\t\t\t<input id=\"commentInput\" readonly=\"readonly\" value='<%=\"<%= model.name %\\>\"%>' maxlength=\"50\" /><br>\n\t\t\t\t<span class=\"commentNotis c_red\">不能使用表情符号。</span>\n\t\t\t\t<div class=\"textCount c_gold\"><span id=\"textCount\" class=\"c_gold\"><%=\"<%= model.name.length %\\>\"%></span>/10</div>\n\t\t\t\t<div class=\"btn b_pink se_decide"
+        },
+        {
+          "needle": "model.name",
+          "offset": 36836,
+          "line": 678,
+          "exactContext": "red\">不能使用表情符号。</span>\n\t\t\t\t<div class=\"textCount c_gold\"><span id=\"textCount\" class=\"c_gold\"><%=\"<%= model.name.length %\\>\"%></span>/10</div>\n\t\t\t\t<div class=\"btn b_pink se_decide TE\" id=\"commentDecide\"><span class=\"b_screen\"></span>确定</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</script>\n\n<script type=\"text/template\" id=\"TeamRemovePop\">\n\t<div class=\"popupInner"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-21",
+    "originalFinding": {
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "value": "OVER",
+      "line": 1,
+      "inComment": false,
+      "selector": "#popupArea .archiveMoveSelectPop .popupBtnArea .toListBtn.off:after,#popupArea .archiveMoveSelectPop .popupBtnArea .toListBtn.now:after",
+      "context": "ea .archiveMoveSelectPop .popupBtnArea .toListBtn.now:after{content:\"OVER\";-webkit-box-sizing:border-box;box-sizing:border-box;color:#fff;text-s"
+    },
+    "relatedHistoricalIds": [
+      "UI-116",
+      "UI-117"
+    ],
+    "binding": {
+      "path": "magica/template/memoria/PieceArchive.html",
+      "sourceSha256": "567810355f04a79ca891981ad9f70f70e5d1a54809fb289898c757a39463611e",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "toListBtn",
+          "offset": 7421,
+          "line": 185,
+          "exactContext": "var num = model.piece.length; var _flag = model.mode == \"normal\" %\\>'%>\n\t\t\t\t\t<span \n\t\t\t\t\t\tclass=\"TE toListBtn decideBtn se_decide <%='<% if(_flag){ %\\>'%>now<%='<% } %\\>'%><%='<% if( !_flag && num + count > model.cardCapacity){ %\\>'%> off<%='<% } %\\>'%>\"\n\t\t\t\t\t\tdata-moveto=\"0\"\n\t\t\t\t\t>\n\t\t\t\t\t<span class=\"name\">持有格</span>\n\t\t\t\t\t<!-- <span class=\"pieceNu"
+        },
+        {
+          "needle": "toArchiveBtn",
+          "offset": 8199,
+          "line": 200,
+          "exactContext": "model.data[0].piece.length; var _flag = model.mode == \"archive1\" %\\>'%>\n\t\t\t\t\t<span \n\t\t\t\t\t\tclass=\"TE toArchiveBtn decideBtn se_decide <%='<% if(_flag){ %\\>'%>now<%='<% } %\\>'%><%='<% if( !_flag && num + count > 500){ %\\>'%> off<%='<% } %\\>'%>\" \n\t\t\t\t\t\tdata-moveto=\"1\"\n\t\t\t\t\t>\n\t\t\t\t\t<span class=\"name\"><%='<%= _.escape(model.data[0].storage.name) %\\>'%></sp"
+        },
+        {
+          "needle": "toArchiveBtn",
+          "offset": 8846,
+          "line": 209,
+          "exactContext": "model.data[1].piece.length; var _flag = model.mode == \"archive2\" %\\>'%>\n\t\t\t\t\t<span \n\t\t\t\t\t\tclass=\"TE toArchiveBtn decideBtn se_decide <%='<% if(_flag){ %\\>'%>now<%='<% } %\\>'%><%='<% if( !_flag && num + count > 500){ %\\>'%> off<%='<% } %\\>'%>\" \n\t\t\t\t\t\tdata-moveto=\"2\"\n\t\t\t\t\t>\n\t\t\t\t\t<span class=\"name\"><%='<%= _.escape(model.data[1].storage.name) %\\>'%></sp"
+        },
+        {
+          "needle": "toArchiveBtn",
+          "offset": 9510,
+          "line": 220,
+          "exactContext": "model.data[2].piece.length; var _flag = model.mode == \"archive3\" %\\>'%>\n\t\t\t\t\t<span \n\t\t\t\t\t\tclass=\"TE toArchiveBtn decideBtn se_decide <%='<% if(_flag){ %\\>'%>now<%='<% } %\\>'%><%='<% if( !_flag && num + count > 500){ %\\>'%> off<%='<% } %\\>'%>\" \n\t\t\t\t\t\tdata-moveto=\"3\"\n\t\t\t\t\t>\n\t\t\t\t\t<span class=\"name\"><%='<%= _.escape(model.data[2].storage.name) %\\>'%></sp"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-22",
+    "originalFinding": {
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "value": "OVER",
+      "line": 1,
+      "inComment": false,
+      "selector": "#popupArea .archiveMoveSelectPop .popupBtnArea .toArchiveBtn.off:after,#popupArea .archiveMoveSelectPop .popupBtnArea .toArchiveBtn.now:after",
+      "context": ".archiveMoveSelectPop .popupBtnArea .toArchiveBtn.now:after{content:\"OVER\";-webkit-box-sizing:border-box;box-sizing:border-box;color:#fff;text-s"
+    },
+    "relatedHistoricalIds": [
+      "UI-118",
+      "UI-119"
+    ],
+    "binding": {
+      "path": "magica/template/memoria/PieceArchive.html",
+      "sourceSha256": "567810355f04a79ca891981ad9f70f70e5d1a54809fb289898c757a39463611e",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "toListBtn",
+          "offset": 7421,
+          "line": 185,
+          "exactContext": "var num = model.piece.length; var _flag = model.mode == \"normal\" %\\>'%>\n\t\t\t\t\t<span \n\t\t\t\t\t\tclass=\"TE toListBtn decideBtn se_decide <%='<% if(_flag){ %\\>'%>now<%='<% } %\\>'%><%='<% if( !_flag && num + count > model.cardCapacity){ %\\>'%> off<%='<% } %\\>'%>\"\n\t\t\t\t\t\tdata-moveto=\"0\"\n\t\t\t\t\t>\n\t\t\t\t\t<span class=\"name\">持有格</span>\n\t\t\t\t\t<!-- <span class=\"pieceNu"
+        },
+        {
+          "needle": "toArchiveBtn",
+          "offset": 8199,
+          "line": 200,
+          "exactContext": "model.data[0].piece.length; var _flag = model.mode == \"archive1\" %\\>'%>\n\t\t\t\t\t<span \n\t\t\t\t\t\tclass=\"TE toArchiveBtn decideBtn se_decide <%='<% if(_flag){ %\\>'%>now<%='<% } %\\>'%><%='<% if( !_flag && num + count > 500){ %\\>'%> off<%='<% } %\\>'%>\" \n\t\t\t\t\t\tdata-moveto=\"1\"\n\t\t\t\t\t>\n\t\t\t\t\t<span class=\"name\"><%='<%= _.escape(model.data[0].storage.name) %\\>'%></sp"
+        },
+        {
+          "needle": "toArchiveBtn",
+          "offset": 8846,
+          "line": 209,
+          "exactContext": "model.data[1].piece.length; var _flag = model.mode == \"archive2\" %\\>'%>\n\t\t\t\t\t<span \n\t\t\t\t\t\tclass=\"TE toArchiveBtn decideBtn se_decide <%='<% if(_flag){ %\\>'%>now<%='<% } %\\>'%><%='<% if( !_flag && num + count > 500){ %\\>'%> off<%='<% } %\\>'%>\" \n\t\t\t\t\t\tdata-moveto=\"2\"\n\t\t\t\t\t>\n\t\t\t\t\t<span class=\"name\"><%='<%= _.escape(model.data[1].storage.name) %\\>'%></sp"
+        },
+        {
+          "needle": "toArchiveBtn",
+          "offset": 9510,
+          "line": 220,
+          "exactContext": "model.data[2].piece.length; var _flag = model.mode == \"archive3\" %\\>'%>\n\t\t\t\t\t<span \n\t\t\t\t\t\tclass=\"TE toArchiveBtn decideBtn se_decide <%='<% if(_flag){ %\\>'%>now<%='<% } %\\>'%><%='<% if( !_flag && num + count > 500){ %\\>'%> off<%='<% } %\\>'%>\" \n\t\t\t\t\t\tdata-moveto=\"3\"\n\t\t\t\t\t>\n\t\t\t\t\t<span class=\"name\"><%='<%= _.escape(model.data[2].storage.name) %\\>'%></sp"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-23",
+    "originalFinding": {
+      "path": "magica/css/memoria/UserMemoriaList.css",
+      "value": "Lv MAX",
+      "line": 1,
+      "inComment": false,
+      "selector": "#UserMemoriaList.compose .userMemoriaIcon.lvMax .overWrap:before",
+      "context": "riaIcon.lvMax .overWrap:before{color:#fff;text-align:center;content:\"Lv MAX\";text-shadow:-2px -2px 2px #724a33,2px -2px 2px #724a33,-2px 2px 2px #"
+    },
+    "relatedHistoricalIds": [
+      "UI-046",
+      "UI-120"
+    ],
+    "binding": {
+      "path": "magica/template/memoria/UserMemoriaList.html",
+      "sourceSha256": "bad554e28e3ef1a6e80655f7f7d5c80f09ab7db78e757b1dfab24b3e5f3771f3",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "overWrap",
+          "offset": 2808,
+          "line": 70,
+          "exactContext": "示パーツ -->\n<script type=\"text/template\" id=\"MemoriaListParts\">\n\t<div class=\"cardInner\">\n\t\t<div class=\"overWrap\"></div><span class=\"dispPrm\"></span><span class=\"lv\"><span class=\"lvNum\">Lv<%=\"<%=model.level%\\></span>/<%=model.maxLevel%\\>\"%></span><span class=\"limitBreak lbCount<%='<%=model.lbCount%\\>'%>\"><span class=\"lb1\"></span><span class=\"lb2\"></s"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-24",
+    "originalFinding": {
+      "path": "magica/css/patrol/PatrolDeckView.css",
+      "value": "BONUS",
+      "line": 45,
+      "inComment": false,
+      "selector": ".popupDetail #popupDetailScrollWrap .scrollInner .commonItemImgWrap.bonus:after",
+      "context": "lScrollWrap .scrollInner .commonItemImgWrap.bonus:after {\n  content: \"BONUS\";\n  display: block;\n  position: absolute;\n  top: 78px;\n  left: -5px;\n "
+    },
+    "relatedHistoricalIds": [
+      "MANUAL-ROUND3-PATROL"
+    ],
+    "binding": {
+      "path": "magica/template/patrol/PatrolDeckView.html",
+      "sourceSha256": "d5547c5e3e11133481317d4bcf6d3d89e6af1cfa26a7c89503147875f5366992",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "commonItemImgWrap",
+          "offset": 593,
+          "line": 18,
+          "exactContext": "emList\">\n\t\t\t<% _.forEach(rewardArr,function(txt,index){ %>\n\t\t\t\t<% if(index < 8){ %>\n\t\t\t\t<div class=\"commonItemImgWrap\">\n\t\t\t\t\t<%= txt %>\n\t\t\t\t</div>\n\t\t\t\t<% } %>\n\t\t\t<% }) %>\n\t\t</div>\n\t\t<div id=\"other\">\n\t\t\t<span id=\"expArea\"><span>EXP</span><%= model.patrolArea.cardExp %></span>\n\t\t\t<span id=\"ccArea\"><%= model.patrolArea.riche %></span>\n\t\t</div>\n\t</div>\n\n\t<div"
+        },
+        {
+          "needle": "bonus",
+          "offset": 3596,
+          "line": 110,
+          "exactContext": "></div>\n\t\t\t\t</div>\n\t\t\n\t\t\t</div>\n\t\t</div>\n\t\t<%=\"<% } %\\>\"%>\n\n\t\t<div class=\"bg\"></div>\n\n\t\t<div class=\"bonusIcon \"></div>\n\n\t</div>\n</script>"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-25",
+    "originalFinding": {
+      "path": "magica/css/patrol/PatrolLumpFormation.css",
+      "value": "BONUS",
+      "line": 1,
+      "inComment": false,
+      "selector": "#popupArea .popupDetail #popupDetailScrollWrap .scrollInner .commonItemImgWrap.bonus:after",
+      "context": "etailScrollWrap .scrollInner .commonItemImgWrap.bonus:after{content:\"BONUS\";text-align:center;color:#fff;text-shadow:0 0 4px #ff3b81,0 0 4px #ff3"
+    },
+    "relatedHistoricalIds": [
+      "UI-133"
+    ],
+    "binding": {
+      "path": "magica/template/patrol/PatrolLumpFormation.html",
+      "sourceSha256": "0cfa9bf8cd1822226191ffd41a487116f812c705778c41b70876c78b18d9380a",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "commonItemImgWrap",
+          "offset": 2456,
+          "line": 57,
+          "exactContext": "奖励<span id=\"itemListBtn\" class=\"TE se_decide\"></span></span>\n\t\t\t<div id=\"itemList\">\n\t\t\t\t<div class=\"commonItemImgWrap\"></div>\n\t\t\t</div>\n\t\t\t<div id=\"other\">\n\t\t\t\t<span id=\"expArea\"><span>EXP</span><%='<%= patrolModel.patrolArea.cardExp %\\>'%></span>\n\t\t\t\t<span id=\"ccArea\"><%='<%= patrolModel.patrolArea.riche %\\>'%></span>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"rig"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-26",
+    "originalFinding": {
+      "path": "magica/css/quest/MainQuest.css",
+      "value": "最新までクリア済です\\a 次回のストーリー配信をお待ち下さい",
+      "line": 1,
+      "inComment": false,
+      "selector": "#QuestMap #content #questListWrap #questList.allClear:before,#QuestMap #content #questListWrap #questListSeason2.allClear:before,#QuestMap #content #questListWrapSeason2 #questList.allClear:before,#QuestMap #content #questListWrapSeason2 #questListSeason2.allClear:before",
+      "context": "ListSeason2.allClear:before{color:#5b3072;text-align:center;content:\"最新までクリア済です\\a 次回のストーリー配信をお待ち下さい\";white-space:pre;background:url(/magica/resource/image_web/page/quest/"
+    },
+    "relatedHistoricalIds": [
+      "UI-134"
+    ],
+    "binding": {
+      "path": "magica/template/quest/MainQuest.html",
+      "sourceSha256": "e9b5fb31a94c819562510bdec658138e51917f0bbc6e6b91d189bf1bdfa8645c",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "questList",
+          "offset": 553,
+          "line": 24,
+          "exactContext": " class=\"TE se_decide\">\n\t\t</div>\n\t</div>\n\n\t<div id=\"content\">\n\t\t<div id=\"curtain\"></div>\n\n\t\t<div id=\"questListWrap\">\n\t\t\t<ul id=\"questList\">\n\t\t\t</ul>\n\t\t</div>\n\n\t\t<div id=\"questListWrapSeason2\" class=\"hide\">\n\t\t\t<ul id=\"questListSeason2\">\n\t\t\t</ul>\n\t\t</div>\n\n\t\t<div id=\"debugArea\"></div>\n\n\t\t<div id=\"questLinkBtnWrap\">\n\t\t\t<ul class=\"btns\">\n\t\t\t\t<li class="
+        },
+        {
+          "needle": "questList",
+          "offset": 580,
+          "line": 25,
+          "exactContext": "div>\n\t</div>\n\n\t<div id=\"content\">\n\t\t<div id=\"curtain\"></div>\n\n\t\t<div id=\"questListWrap\">\n\t\t\t<ul id=\"questList\">\n\t\t\t</ul>\n\t\t</div>\n\n\t\t<div id=\"questListWrapSeason2\" class=\"hide\">\n\t\t\t<ul id=\"questListSeason2\">\n\t\t\t</ul>\n\t\t</div>\n\n\t\t<div id=\"debugArea\"></div>\n\n\t\t<div id=\"questLinkBtnWrap\">\n\t\t\t<ul class=\"btns\">\n\t\t\t\t<li class=\"current main\"><span></span"
+        },
+        {
+          "needle": "questList",
+          "offset": 622,
+          "line": 29,
+          "exactContext": "d=\"curtain\"></div>\n\n\t\t<div id=\"questListWrap\">\n\t\t\t<ul id=\"questList\">\n\t\t\t</ul>\n\t\t</div>\n\n\t\t<div id=\"questListWrapSeason2\" class=\"hide\">\n\t\t\t<ul id=\"questListSeason2\">\n\t\t\t</ul>\n\t\t</div>\n\n\t\t<div id=\"debugArea\"></div>\n\n\t\t<div id=\"questLinkBtnWrap\">\n\t\t\t<ul class=\"btns\">\n\t\t\t\t<li class=\"current main\"><span></span><div class='bg'></div></li>\n\t\t\t\t<li class"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-27",
+    "originalFinding": {
+      "path": "magica/css/quest/SecondPartLastBattleConfirm.css",
+      "value": "参加済",
+      "line": 1,
+      "inComment": false,
+      "selector": "#SecondPartLastBattleConfirm #deckListArea.off:after",
+      "context": "s(40%)}#SecondPartLastBattleConfirm #deckListArea.off:after{content:\"参加済\";text-align:center;color:#fff;text-shadow:2px 0 2px #b28850,-2px 0 2px"
+    },
+    "relatedHistoricalIds": [
+      "UI-135"
+    ],
+    "binding": {
+      "path": "magica/template/quest/secondPartLast/BattleConfirm.html",
+      "sourceSha256": "5491700d62a05dd6b6d100b1c121a3d994b7061b376436ed71d0e744a32cb812",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "deckListArea",
+          "offset": 865,
+          "line": 27,
+          "exactContext": "<%= _eventData.enemyImage %>.png'>\n\t\t</div>\n\t\n\t</div>\n\n\t<div id=\"vsIcon\" class=\"\"></div>\n\n\t<div id=\"deckListArea\" data-index=\"<%= _eventData.index %>\" class=\"se_decide TE\">\n\t</div>\n\n\t<div id=\"footerBtnArea\">\n\t\t<div id=\"linkFormationtBtn\" class=\"btn b_white se_decide TE\">队伍编成一览</div>\n\t\t<div id=\"linkBattleBtn\" class=\"se_decide TE\">开始</div>\n\t</div>\n\n</d"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  },
+  {
+    "id": "CSS-GENERATED-28",
+    "originalFinding": {
+      "path": "magica/css/regularEvent/extermination/RegularEventExterminationBattleConfirm.css",
+      "value": "参加済",
+      "line": 1,
+      "inComment": false,
+      "selector": "#RegularEventExterminationBattleConfirm #deckListArea.off:after",
+      "context": "ularEventExterminationBattleConfirm #deckListArea.off:after{content:\"参加済\";text-align:center;color:#fff;text-shadow:2px 0 2px #b28850,-2px 0 2px"
+    },
+    "relatedHistoricalIds": [
+      "UI-138"
+    ],
+    "binding": {
+      "path": "magica/template/regularEvent/extermination/RegularEventExterminationBattleConfirm.html",
+      "sourceSha256": "f81e593188ccd9f0f6b5f70c0163e37daedbf75b71a1fb25a72b57710ef4458c",
+      "sourceLayer": "FORMAL_OVERLAY",
+      "hits": [
+        {
+          "needle": "deckListArea",
+          "offset": 1227,
+          "line": 29,
+          "exactContext": "iv>\n\t\n\t</div>\n\n\t<div id=\"vsIcon\" class=\"difficulty<%= _eventData.difficultyId %>\"></div>\n\n\t<div id=\"deckListArea\" data-index=\"<%= _eventData.index %>\" class=\"se_decide TE\">\n\t</div>\n\n\t<!-- <div id=\"deckChangeArea\">\n\t\t<div class=\"backBtn se_decide TE\"></div>\n\t\t<div class=\"nextBtn se_decide TE\"></div>\n\t</div> -->\n\n\t<div id=\"footerBtnArea\">\n\t\t<div id=\"li"
+        }
+      ],
+      "status": "SOURCE_SLOT_CUE"
+    },
+    "mechanism": "RETAINED_CSS_GENERATED_CONTENT; not mislabelled as native text",
+    "actualDeviceVisibility": "NOT_CAPTURED_THIS_ATOM",
+    "productDefect": "NOT_ESTABLISHED; an old forbidden-token hit alone does not override overall accepted delivery"
+  }
+]

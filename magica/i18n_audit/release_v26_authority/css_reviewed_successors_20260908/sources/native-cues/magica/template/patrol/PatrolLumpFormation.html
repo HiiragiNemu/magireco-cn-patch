@@ -1,0 +1,73 @@
+<div id="PatrolLumpFormation">
+
+	<div id="header">
+		<!-- <div id="description">以这个队伍批量开始巡逻</div> -->
+		以这个队伍批量开始巡逻
+		<!-- <div class="caution">请选择要更换的队伍</div> -->
+		<!-- <ul id="tabBtnList" class="common_tab t_gold">
+			<li id="formationModeBtn" class="TE btn se_tabs current" data-mode="formation">队伍编成</li>
+			<li id="swapModeBtn" class="TE btn se_tabs" data-mode="swap">替换</li>
+		</ul> -->
+	</div>
+
+	<div id="deckWrap" class="formation">
+		<div id="bg"></div>
+	</div>
+
+	<div id="bottomWrap">
+		<!-- <div id="allClearBtn" class="TE"></div>
+		<div id="autoFormationBtn" class="TE"></div> -->
+		<div id="patrolLumpBtn" class="TE">开始</div>
+	</div>
+
+</div>
+
+
+<!-- deckパーツ -->
+<script type="text/template" id="deckPartsTemp">
+	<div class="bg"></div>
+	<div class="header <%='<%= patrolModel.listWarpClass  %\>'%>">
+		<div class="attribute"><span class="<%='<%= patrolModel.patrolArea.forcesBonusAttributeId %\>'%>"></span></div>
+		<div class="forces">战力值</div>
+		<div class="title"><%='<%= patrolModel.patrolArea.areaName %\>'%></div>
+		<div class="requiredTime"><%='<%= patrolModel.time %\>'%></div>
+	</div>
+	<div class="userCharaListWarp <%='<%= patrolModel.listWarpClass %\>'%>">
+		<div class="cannotPlayText"></div>
+		<div class="teamiconCollect"></div>
+		<ul class="userCharaList">
+			<%="<% _.each(deckModel.charaList,function(_val, _index) { %\>"%>
+			<li class="userCharaIcon">
+				<span class="att" data-nativebgkey='<%="<%= _val.att %\>"%>' data-src='resource/image_native/card/frame/<%="<%= _val.att %\>"%>.png'></span>
+				<span class="star" data-nativebgkey='<%="<%= _val.star %\>"%>' data-src='resource/image_native/card/frame/<%="<%= _val.star %\>"%>.png'></span>
+				<span class="rank" data-nativebgkey='<%="<%= _val.frame %\>"%>' data-src='resource/image_native/card/frame/<%="<%= _val.frame %\>"%>.png'></span>
+				<img data-nativeimgkey='card_<%="<%= _val.cardId %\>"%>_f' data-src='resource/image_native/card/image/card_<%="<%= _val.cardId %\>"%>_f.png'>
+				<span class="bg" data-nativebgkey='<%="<%= _val.bg %\>"%>' data-src='resource/image_native/card/frame/<%="<%= _val.bg %\>"%>.png'></span>
+			</li>
+			<%="<% }); %\>"%>
+		</ul>
+		<div class="playerPower"></div>
+		<div class="swapArrow"></div>
+		<div class="lockWrap">
+			<div class="requiredTime">？？？</div>
+		</div>
+		<div id="rewardArea">
+			<span id="rewardTitle" class="c_gold">奖励<span id="itemListBtn" class="TE se_decide"></span></span>
+			<div id="itemList">
+				<div class="commonItemImgWrap"></div>
+			</div>
+			<div id="other">
+				<span id="expArea"><span>EXP</span><%='<%= patrolModel.patrolArea.cardExp %\>'%></span>
+				<span id="ccArea"><%='<%= patrolModel.patrolArea.riche %\>'%></span>
+			</div>
+		</div>
+		<div class="rightArea">
+			<div id="strengthArea">
+				<span id="goalStrength">总战力值
+					<span id="mineStrengthNum"><%='<%= deckModel.strength %\>'%></span>
+					<span id="expected" class="<%='<%= deckModel.expectedClass %\>'%>">掉落期待度<span></span><span></span><span></span></span>
+				</span>
+			</div>
+		</div>
+	</div>
+</script>

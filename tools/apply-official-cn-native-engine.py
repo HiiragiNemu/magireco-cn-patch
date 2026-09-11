@@ -60,6 +60,29 @@ def transform(engine: Path, evidence: Path, mode: str) -> tuple[bytes, dict]:
     values = dict(pairs)
     changed: list[dict] = []
 
+    added_records = [record for record in records if not record["current_cn"]]
+    added_sources = [record["source"] for record in added_records]
+    present_added = [source for source in added_sources if source in values]
+    if present_added and len(present_added) != len(added_sources):
+        raise AssertionError("partial official-CN added-source set")
+
+    official_post_rows = contract["expected_post_application"]["engine_logical_rules"]
+    official_baseline_rows = official_post_rows - len(added_sources)
+    official_core_rows = official_post_rows if present_added else official_baseline_rows
+    if len(pairs) < official_core_rows:
+        raise AssertionError("native engine is shorter than the official-CN core")
+
+    accepted_sources = {record["source"] for record in records}
+    expected_core_sources = accepted_sources - (set(added_sources) if not present_added else set())
+    core_sources = set(order[:official_core_rows])
+    extension_sources = set(order[official_core_rows:])
+    if not expected_core_sources.issubset(core_sources):
+        raise AssertionError("official-CN source escaped the native engine core")
+    if accepted_sources & extension_sources:
+        raise AssertionError("official-CN source collided with an extension rule")
+    extension_logical_rules = len(pairs) - official_core_rows
+    insertion_index = official_core_rows
+
     if mode == "apply":
         for record in records:
             source = record["source"]
@@ -75,11 +98,12 @@ def transform(engine: Path, evidence: Path, mode: str) -> tuple[bytes, dict]:
             else:
                 if current is None:
                     values[source] = selected
-                    order.append(source)
+                    order.insert(insertion_index, source)
+                    insertion_index += 1
                     changed.append({"source": source, "before": "", "after": selected, "operation": "add"})
                 elif current != selected:
                     raise AssertionError(f"new-source collision for {source!r}")
-        expected_rows = contract["expected_post_application"]["engine_logical_rules"]
+        expected_rows = len(pairs) + len(added_sources) - len(present_added)
     elif mode == "rollback":
         for record in reversed(records):
             source = record["source"]
@@ -100,7 +124,7 @@ def transform(engine: Path, evidence: Path, mode: str) -> tuple[bytes, dict]:
                 del values[source]
                 order.remove(source)
                 changed.append({"source": source, "before": current, "after": "", "operation": "remove"})
-        expected_rows = contract["expected_post_application"]["engine_logical_rules"] - 6
+        expected_rows = len(pairs) - len(present_added)
     else:
         raise AssertionError(f"unsupported mode: {mode}")
 
@@ -117,6 +141,8 @@ def transform(engine: Path, evidence: Path, mode: str) -> tuple[bytes, dict]:
         "output_bytes": len(output_bytes),
         "input_logical_rules": len(pairs),
         "output_logical_rules": len(output_pairs),
+        "official_core_logical_rules": official_core_rows,
+        "protected_extension_logical_rules": extension_logical_rules,
         "changed_records": len(changed),
         "changes": changed,
         "protected_debug_source_writes": 0,

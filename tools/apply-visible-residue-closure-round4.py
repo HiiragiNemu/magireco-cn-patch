@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import pass18_css_successors
+
 import argparse
 import csv
 import json
@@ -220,10 +222,12 @@ def verify_entry_fields(
     area = "prepared" if expected == "after" else "bases"
     if kind == "css":
         if confined(root, rel).read_bytes() != (state / area / rel).read_bytes():
-            raise ClosureError(f"product byte drift: {rel}")
+            if expected != "after" or not pass18_css_successors.accept_round4(root, entry, rows):
+                raise ClosureError(f"product byte drift: {rel}")
         return 0
 
     data = json.loads(confined(root, rel).read_text(encoding="utf-8"))
+    reviewed_css_round4 = pass18_css_successors.reviewed_round4_targets(root, entry, rows) if expected == "after" else {}
     value_field = "after" if expected == "after" else "before"
     supersessions = supersessions or {}
     accepted_supersessions = 0
@@ -232,6 +236,10 @@ def verify_entry_fields(
         actual = record.get(row["field"])
         wanted = row[value_field]
         if actual != wanted:
+            reviewed_key = (row["item_id"], str(row["key"]), row["field"])
+            if reviewed_key in reviewed_css_round4 and reviewed_css_round4[reviewed_key] == actual:
+                accepted_supersessions += 1
+                continue
             index = data.index(record)
             approved = supersessions.get((rel, f"{index}/{row['field']}"))
             if not (
