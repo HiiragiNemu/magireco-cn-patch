@@ -18,7 +18,7 @@ from typing import Iterable, NamedTuple
 SCENARIO_PREFIX = "madomagi/resource/scenario/json/"
 JS_PREFIXES = tuple(
     f"magica/{directory}/"
-    for directory in ("css", "fonts", "js", "resource", "template")
+    for directory in ("css", "fonts", "js", "json", "resource", "template")
 )
 ENGINE_TABLE = "madomagi/engine_i18n.tsv"
 REPAIR_MANIFEST = "madomagi/repair_manifest.json"
@@ -47,6 +47,8 @@ def classify(paths: Iterable[str], scope: str = "auto") -> Classification:
     has_scenario = False
     for raw_path in paths:
         path = raw_path.rstrip("\r\n")
+        if path.startswith("madomagi/resource/image_native/memoria/"):
+            continue
         if not path:
             continue
         # The workflow emits this fail-closed sentinel when the comparison

@@ -4,6 +4,20 @@ name: 个人仓库游戏更新发布
 # Organization mirroring runs independently and never gates publication.
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'magica/css/**'
+      - 'magica/fonts/**'
+      - 'magica/js/**'
+      - 'magica/json/**'
+      - 'magica/resource/**'
+      - 'magica/template/**'
+      - 'madomagi/engine_i18n.tsv'
+      - 'madomagi/repair_manifest.json'
+      - 'madomagi/resource/image_native/**'
+      - '!madomagi/resource/image_native/memoria/**'
+      - 'madomagi/resource/scenario/json/**'
   workflow_dispatch:
     inputs:
       package_scope:
@@ -36,7 +50,7 @@ on:
 concurrency:
   # 手动触发与上游触发分组排队，避免某一事件源的 GitHub 队列死锁
   # 把另一类事件也堵住；同事件源内仍保持严格串行。
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  group: personal-main-hotupdate-publication
   # Release promotion changes several related assets.  Queue a later dispatch
   # instead of cancelling between a rename and its verification/rollback.
   cancel-in-progress: false
@@ -47,7 +61,7 @@ permissions:
 
 jobs:
   setup:
-    if: github.repository == 'HiiragiNemu/magireco-cn-patch'
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     outputs:
       should_sync:    ${{ steps.check_upstream.outputs.should_sync }}
@@ -110,6 +124,7 @@ jobs:
       - name: 📦 检出下游仓库
         uses: actions/checkout@v4
         with:
+          ref: main
           token: ${{ secrets.GH_TOKEN }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           # 需要完整历史：detect 步骤要 diff「上次同步点 → 最新」的整个
@@ -203,7 +218,7 @@ jobs:
               err(f"获取上游 SHA 失败: {result.stderr.strip()}")
               sys.exit(1)
 
-          upstream_sha  = result.stdout.strip()
+          upstream_sha  = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
           # 仓库变量不会自动注入 env，必须靠下面 env: 显式带入；
           # 空串也归一化成 "0"（首次运行 / 变量未设置）
           last_sync_sha = os.environ.get("LAST_SYNC_COMMIT_SHA") or "0"
@@ -241,7 +256,7 @@ jobs:
           SCRIPT_END
         env:
           INPUT_FORCE_SYNC: ${{ inputs.force_sync }}
-          INPUT_PUBLISH_HOTFIX: ${{ inputs.publish_hotfix }}
+          INPUT_PUBLISH_HOTFIX: ${{ github.event_name == 'push' && 'true' || inputs.publish_hotfix }}
           INPUT_CONFIRM_CLEANUP: ${{ inputs.confirm_cleanup }}
           # ⚠ 仓库变量（Settings → Variables）不会自动注入 env，必须显式
           # 带进来——否则 os.environ.get 永远拿到默认值 "0"，SHA 比对形同
@@ -325,6 +340,7 @@ jobs:
       - name: 📦 检出下游仓库
         uses: actions/checkout@v4
         with:
+          ref: ${{ needs.setup.outputs.commit_sha }}
           token: ${{ secrets.GH_TOKEN }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           # 需要完整历史：build_manifest.py 账本要 diff 上一版
@@ -357,6 +373,7 @@ jobs:
       - name: "[HOTUPDATE] 触发分类与清单所有权回归"
         if: needs.setup.outputs.has_js == '1'
         run: |
+          python3 scripts/test_personal_release_helpers.py -v
           python3 scripts/test_classify_hotupdate_changes.py -v
           python3 scripts/test_hotupdate_workflow_contract.py -v
           python3 scripts/test_hotupdate_version.py -v
@@ -493,7 +510,10 @@ jobs:
 
           CFG_DIR  = os.environ["CONFIG_DIR"]
           ZIP_NEW  = "cn_js_update_new.zip"
-          NAME     = "version_js"            # base name, 没有 _new / .json
+          NAME     = "version_js"            from scripts.reuse_unchanged_package import reuse
+          reuse(ZIP_NEW, "_release_baseline/js/assets/cn_js_update.zip")
+
+          # base name, 没有 _new / .json
 
           # 包结构护栏：engine 表必须且只能出现一次；剧情与审计材料不得混入。
           with zipfile.ZipFile(ZIP_NEW) as zf:
@@ -651,6 +671,7 @@ jobs:
       - name: 📦 检出下游仓库
         uses: actions/checkout@v4
         with:
+          ref: ${{ needs.setup.outputs.commit_sha }}
           token: ${{ secrets.GH_TOKEN }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           # 需要完整历史：build_manifest.py 账本要 diff 上一版
@@ -696,11 +717,18 @@ jobs:
           ZIP_NEW  = "cn_scenario_update_new.zip"
           NAME     = "version_scenario"
 
+          from scripts.reuse_unchanged_package import reuse
+          reuse(ZIP_NEW, "_release_baseline/scenario/assets/cn_scenario_update.zip")
+
           # 剧情包不得再次携带 engine 表，避免两个版本通道互相覆盖。
           with zipfile.ZipFile(ZIP_NEW) as zf:
               names = zf.namelist()
           assert "madomagi/engine_i18n.tsv" not in names
           assert any(n.startswith("madomagi/resource/scenario/json/") for n in names)
+          with zipfile.ZipFile(ZIP_NEW) as zf:
+              for name in names:
+                  if name.endswith('.json'):
+                      json.loads(zf.read(name).decode('utf-8-sig'))
 
           release_baseline_dir = os.path.join("_release_baseline", "scenario")
           official_path = os.path.join(release_baseline_dir, f"{NAME}.json")
@@ -902,6 +930,7 @@ jobs:
       - name: 📦 检出下游仓库（正式清单基线与事务工具）
         uses: actions/checkout@v4
         with:
+          ref: ${{ needs.setup.outputs.commit_sha }}
           token: ${{ secrets.GH_TOKEN }}
           repository: ${{ env.DOWNSTREAM_OWNER }}/${{ env.DOWNSTREAM_REPO }}
           fetch-depth: 1
@@ -2655,6 +2684,7 @@ jobs:
       - name: 📦 检出下游仓库
         uses: actions/checkout@v4
         with:
+          ref: main
           token: ${{ secrets.GH_TOKEN }}
           repository: HiiragiNemu/magireco-cn-patch
           # 浅克隆即可：本 job 只 add+commit+push，不需要 diff 完整历史区间
@@ -2701,6 +2731,10 @@ jobs:
             echo "- publish job 结果：\`${{ needs.publish.result }}\`"
             echo "- 结果：本轮 official \`version_*.json\` / \`manifest.json\` 未提交，客户端仍读上一版"
           } >> "$GITHUB_STEP_SUMMARY"
+      - name: Record promoted personal release fingerprints
+        if: needs.setup.outputs.publish_hotfix == 'true' && needs.publish.result == 'success'
+        run: python3 scripts/refresh_finalized_record.py --source-commit "${{ needs.setup.outputs.commit_sha }}"
+
       - name: 💾 提交配置变更并同步推送上下游
         id: commit_configs
         # 分发或镜像失败时不固化 official 版本；重试仍复用同一候选版本。
@@ -2732,6 +2766,7 @@ jobs:
           # 注意：official version_*.json 只在 /configures/ 下维护，
           # 根目录不再提交 official 副本（_new 预览文件仍写根目录）。
           git add \
+              configures/finalized-localization-assets.json \
               manifests/cn_js_update_ledger.json \
               manifests/cn_scenario_update_ledger.json \
               version_scenario_new.json \

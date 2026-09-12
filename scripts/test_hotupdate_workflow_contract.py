@@ -235,7 +235,7 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
     def test_promotion_is_queued_rollback_capable_and_version_last(self):
         self.assertIn("cancel-in-progress: false", self.text)
         self.assertIn(
-            "group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}",
+            "group: personal-main-hotupdate-publication",
             self.text,
         )
         self.assertIn("def rename_asset(asset_id, old_name, new_name):", self.text)
@@ -320,31 +320,14 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             self.text,
         )
 
-    def test_cursor_waits_for_all_external_distribution_jobs(self):
+    def test_cursor_waits_for_personal_publication_not_retired_mirrors(self):
         jobs = self.workflow_jobs()
-        cursor = jobs["update-cursor"]
-        summary = jobs["summary"]
-
-        self.assertIn(
-            "needs: [setup, commit-configs, r2-sync, doge-sync, pan123-upload, mirror-release]",
-            cursor,
-        )
-        for job in ("r2-sync", "mirror-release"):
-            self.assertIn(f"needs.{job}.result == 'success'", cursor)
-        for job in ("doge-sync", "pan123-upload"):
-            self.assertIn(f"needs.{job}.result != 'failure'", cursor)
-
-        self.assertIn("fromJSON(vars.ENABLE_DOGE_SYNC || 'true')", jobs["doge-sync"])
-        self.assertIn("fromJSON(vars.ENABLE_PAN123_SYNC || 'true')", jobs["pan123-upload"])
-
-        self.assertIn(
-            "needs: [setup, pack-js, pack-scenario, publish, r2-sync, bump-gate, "
-            "doge-sync, pan123-upload, mirror-release, commit-configs, update-cursor]",
-            summary,
-        )
-        self.assertIn("needs.pan123-upload.result", summary)
-        self.assertIn("123云盘同步", summary)
-        self.assertIn("🚫 已停用", summary)
+        self.assertIn("needs: [setup, commit-configs]", jobs['update-cursor'])
+        self.assertIn("needs.commit-configs.result == 'success'", jobs['update-cursor'])
+        for name in ['r2-sync','doge-sync','pan123-upload','mirror-release','bump-gate']:
+            self.assertIn("if: ${{ false }}", jobs[name])
+        self.assertIn("refresh_finalized_record.py", jobs['commit-configs'])
+        self.assertIn("needs.publish.result == 'success'", jobs['commit-configs'])
 
     def test_publish_self_heals_interrupted_release_promotion(self):
         publish = self.workflow_jobs()["publish"]
@@ -497,21 +480,11 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("首次镜像未完成", self.text)
         self.assertIn("变更快照有", self.text)
 
-    def test_apk_distribution_is_not_chained_to_hot_update_packaging(self):
-        """r2-sync 必须带 always()：APK 的分发不能被热更打包链连坐。
-
-        2026-08-20 的事故就是这条不成立：
-          · run #236 —— pack-js 红 → publish 的停链护栏红 → r2-sync 被跳过；
-          · run #239 —— 无内容变更 → pack-* 被 skip，skip 沿 needs 图向下
-            传递，publish 靠 always() 仍然绿，r2-sync 照样被跳过（整个 run
-            显示成功）。
-        而「构建完 APK 再 dispatch 过来」时上游 git 内容一个字节没变，走的
-        正是后一条。于是 APK 停在 Release 里上不了 CDN，闸门却由构建 CI 照抬
-        —— 玩家装完还低于闸门，无限更新。这条守卫钉住那次修复。
-        """
-        r2 = self.workflow_jobs()["r2-sync"]
-        self.assertIn("if: always() && needs.setup.result == 'success'", r2)
-        self.assertIn("apk_version: ${{ steps.sync_script.outputs.apk_version }}", r2)
+    def test_apk_is_streamed_from_personal_release_without_r2_job(self):
+        self.assertIn("if: ${{ false }}", self.workflow_jobs()['r2-sync'])
+        worker = (ROOT/'distribution/personal/_worker.js').read_text(encoding='utf-8')
+        self.assertIn('"magireco-latest-legacy-client.apk"', worker)
+        self.assertIn('"HiiragiNemu/magireco-cn-patch"', worker)
 
     def test_client_apk_is_owned_by_this_repository_everywhere(self):
         """APK 与版本旁注的归属判据四处同源，漏改一处就会拿旧包盖新包。
@@ -563,7 +536,7 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         """
         gate = self.workflow_jobs()["bump-gate"]
         self.assertIn("needs: [r2-sync]", gate)
-        self.assertIn("if: needs.r2-sync.outputs.apk_version != \'\'", gate)
+        self.assertIn("if: ${{ false }}", gate)
         # 落地前核对 CDN 边缘真正吐出来的大小
         self.assertIn('tolower($1)=="content-length:"', gate)
         self.assertIn("拒绝提升闸门", gate)
@@ -574,7 +547,7 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("闸门已经是", gate)
         # 写配置仓库要过白名单
         self.assertIn(
-            'ALLOW_CONFIG = {"MagirecoCN-Revival-Project/magirecocn-online-configs"}',
+            'ALLOW_CONFIG = {"HiiragiNemu/magireco-cn-patch"}',
             gate,
         )
 
