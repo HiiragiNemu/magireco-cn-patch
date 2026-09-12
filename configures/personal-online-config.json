@@ -1,6 +1,6 @@
 {
   "schema": 16,
-  "updated": "2026-09-12T11:19:06.262099+00:00",
+  "updated": "2026-09-12T13:08:12.584795+00:00",
   "comment": "Personal release configuration. Canonical installation markers are unchanged. Client gate is set only after the new APK body and signature are verified.",
   "settings": {
     "chunks": 4,
@@ -144,10 +144,10 @@
     }
   },
   "client": {
-    "version": "1.0.172",
+    "version": "1.0.174",
     "apk_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/magireco-latest-legacy-client.apk",
-    "sha256": "9c9ef4869ab4ef8a5c7c39513c133cb2efd92a0690ec799620ff5c1a39160333",
-    "size": 80849951,
-    "note": "修复启动恢复与调试回调，接入独立更新入口；保留原有资源安装标记。"
+    "sha256": "6a64d2a80f4da96897098de3381fbe50cc1fac2202486abbb23d376fcc21ba64",
+    "size": 80854047,
+    "note": "多来源独立比对 APK、JS 与剧情版本；EdgeOne 落后时仍采用已验证的较新版本，保留原有存档与资源安装标记。"
   }
 }
