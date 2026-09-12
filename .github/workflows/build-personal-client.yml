@@ -29,6 +29,7 @@ jobs:
         REQUESTED_VERSION: ${{ inputs.client_version }}
         CONFIG_URL: ${{ vars.CLIENT_CONFIG_URL }}
         VERIFY_ONLY: ${{ inputs.verify_only }}
+        VERSION_FLOOR: ${{ vars.CLIENT_VERSION_FLOOR }}
       run: 'set -euo pipefail
 
         test "$VERIFY_ONLY" = true || { echo ''This pipeline exports verified artifacts only''; exit 1; }
@@ -55,7 +56,11 @@ jobs:
 
         with urllib.request.urlopen(req, timeout=45) as response: config = json.load(response)
 
-        previous = config[''client''][''version'']
+        floor = os.environ[''VERSION_FLOOR'']
+
+        assert re.fullmatch(r''1\.0\.[1-9][0-9]*'', floor), ''Verified predecessor version floor is required''
+
+        previous = max([floor, config.get(''client'', {}).get(''version'', floor)], key=lambda v: tuple(map(int, v.split(''.''))))
 
         assert tuple(map(int, version.split(''.''))) > tuple(map(int, previous.split(''.''))), ''Version must exceed the live
         gate''
