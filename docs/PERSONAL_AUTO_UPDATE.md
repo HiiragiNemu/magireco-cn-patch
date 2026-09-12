@@ -1,9 +1,23 @@
 # 个人 main 自动更新
 
-只发布 main，不创建 PR，也不进行分支发布。个人 main 的运行资源变更触发既有双包构建与事务式 Release 转正；组织镜像独立执行，R2/EdgeOne/ESA 不再阻塞个人发布。
+只发布 main，不创建 PR，也不从其他分支发布。运行时资源进入 main 后，热更新工作流按变化范围打包；发布成功后写回正式元数据并进行线上完整下载校验。组织镜像不再是个人更新入口的发布前置条件。
 
-JS 范围为 WebView 运行文件、公告/活动 JSON、引擎翻译表以及完整清单约束的 image_native；明确排除 memoria。Scenario 只收剧情 JSON，保持 JP/CN 结构修复，不夹带引擎表。所有已存在的校验仍保留；资源成员未变化时复用正式 ZIP（仅对 UTF-8 文本忽略 Git checkout 的 CRLF/LF 差别，不忽略文本值变化），避免仅因压缩时间戳升级。
+## 热更新范围
 
-发布成功后回写七个最终资产指纹；个人 Pages 入口实时读取 personal main 配置和 latest Release，并由后续任务对七个实际 HTTP 文件全文校验。main 的自动发布和手动发布共用串行锁。手动默认仍是预览，正式发布须 publish_hotfix=true。
+- JS：WebView 文件、接口及活动 JSON、引擎翻译表，以及资源清单指定的 image_native；明确排除 memoria。
+- Scenario：剧情 JSON，保留已合入的 JP/CN 结构修复。
+- 不以重新压缩产生的字节差异冒充内容更新。成员名及内容相同的包复用原正式 ZIP；文本比较只容忍 UTF-8 的 CRLF/LF 差异。
+- 原有翻译来源、保护字段与资源校验仍然执行。校验失败不提升正式版本。历史保护基线与新版文本的差异需要独立核对，不回退已验收文案来凑绿灯。
+- 手动热更新默认仅生成候选包，正式转正需显式设置 publish_hotfix=true。
 
-旧 api.magireco.top 的部署仍属旧服务控制面，仅更新配置仓库不代表域名已经生效。新原生客户端仍须完成源码签名、APK 构建和验证后再提升版本门槛。
+## 原生客户端
+
+原生启动修复和更新入口迁移属于 APK，不是 JS 包。手动运行「个人 main 客户端手动构建」，指定原生仓库当前 main 的完整提交 SHA，以及高于线上客户端闸门的版本号。该流程保留原生构建校验，产出 APK 与来源记录供正式发布；不在 push 时发布 APK，也不在验证阶段覆盖现有 APK 或提升版本闸门。
+
+构建仓库变量：NATIVE_SOURCE_REPO、BASELINE_APK_URL、OVERLAY_URL、CLIENT_ROOT_DOMAIN、CLIENT_PAGES_HOSTS、CLIENT_CONFIG_URL、CLIENT_PRIMARY_BASE、CLIENT_SECONDARY_BASE。具体取值由部署配置管理。源码中的端点参数保持空值，安装完成标记使用的规范资源身份保持不变。
+
+## 线上生效条件
+
+新入口直接读取个人 main 配置和正式 Release。旧客户端能否迁移，取决于它已内置的配置域名是否部署新配置，或者用户是否安装迁移后的新 APK；仅推送配置仓库不等于旧域名已更新。
+
+当前公开资源中继依赖个人补丁仓库及 Release 的公开可读性。恢复私人仓库之前，需要先将中继改为已配置鉴权的资源存储并验证实际下载。

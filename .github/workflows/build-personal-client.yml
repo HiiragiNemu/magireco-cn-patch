@@ -1,0 +1,472 @@
+# Manual native main build; original native checks and binary pins are preserved.
+name: 个人 main 客户端手动构建
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      TREE: work/tree
+    steps:
+    - name: 🛡️ 安全护栏（fork 不得构建）
+      if: ${{ github.event.repository.fork }}
+      run: 'echo "::error::这是一个 fork，不允许用本工作流产出对外产物"
+
+        exit 1
+
+        '
+    - name: 📦 检出仓库
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ vars.NATIVE_SOURCE_REPO }}
+        ref: main
+        token: ${{ secrets.GH_TOKEN }}
+        persist-credentials: false
+    - name: Verify native main source and monotonic client version
+      env:
+        EXPECTED_SOURCE_SHA: ${{ inputs.source_sha }}
+        REQUESTED_VERSION: ${{ inputs.client_version }}
+        CONFIG_URL: ${{ vars.CLIENT_CONFIG_URL }}
+        VERIFY_ONLY: ${{ inputs.verify_only }}
+      run: 'set -euo pipefail
+
+        test "$VERIFY_ONLY" = true || { echo ''This pipeline exports verified artifacts only''; exit 1; }
+
+        python3 - <<''PY''
+
+        import json, os, re, subprocess, urllib.request
+
+        sha = subprocess.check_output([''git'', ''rev-parse'', ''HEAD''], text=True).strip()
+
+        assert re.fullmatch(r''[0-9a-f]{40}'', os.environ[''EXPECTED_SOURCE_SHA''])
+
+        assert sha == os.environ[''EXPECTED_SOURCE_SHA''], ''Native main advanced; select the new main commit explicitly''
+
+        commit = subprocess.check_output([''git'', ''cat-file'', ''commit'', ''HEAD''], text=True)
+
+        assert ''gpgsig -----BEGIN SSH SIGNATURE-----'' in commit, ''Source commit has no SSH signature''
+
+        version = os.environ[''REQUESTED_VERSION'']
+
+        assert re.fullmatch(r''1\.0\.[1-9][0-9]*'', version), ''Invalid version''
+
+        req = urllib.request.Request(os.environ[''CONFIG_URL''], headers={''User-Agent'': ''MadeInMagius-Build-Verification''})
+
+        with urllib.request.urlopen(req, timeout=45) as response: config = json.load(response)
+
+        previous = config[''client''][''version'']
+
+        assert tuple(map(int, version.split(''.''))) > tuple(map(int, previous.split(''.''))), ''Version must exceed the live
+        gate''
+
+        print(''MAIN_SOURCE_PIN_AND_MONOTONIC_VERSION_PASS'', sha, version)
+
+        with open(os.environ[''GITHUB_ENV''], ''a'') as f: f.write(''NATIVE_SOURCE_SHA='' + sha + ''\n'')
+
+        PY'
+    - name: ☕ 设置 JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - name: 🔧 安装构建工具
+      run: "set -euo pipefail\nsudo mkdir -p /usr/local/bin\n\n# ── 构建工具 2.9.3 ───────────────────────────────────────────\n\
+        curl -sSL -o /tmp/apktool.jar \\\n  \"https://github.com/iBotPeaches/Apktool/releases/download/v2.9.3/apktool_2.9.3.jar\"\
+        \n# X-C3：下载即校验 sha256（与 baseline.json 的 apktool pin 同值）——\n# 这个 jar 随后被 sudo 装进 /usr/local/bin 执行；release 资产被替换\n\
+        # 或下载链路被劫持时，没有内容校验就是 CI 远程命令执行入口。\necho \"7956eb04194300ce0d0a84ad18771eebc94b89fb8d1ddcce8ea4c056818646f4  /tmp/apktool.jar\"\
+        \ \\\n  | sha256sum -c -\nsudo mv /tmp/apktool.jar /usr/local/bin/apktool.jar\nprintf '#!/bin/bash\\nexec java -jar\
+        \ /usr/local/bin/apktool.jar \"$@\"\\n' \\\n  | sudo tee /usr/local/bin/apktool > /dev/null\nsudo chmod +x /usr/local/bin/apktool\n\
+        \n# ── 解码器 3.0.9（Google 维护的延续版本，tag 无 v 前缀）──────\ncurl -sSL -o /tmp/baksmali.jar \\\n  \"https://github.com/baksmali/smali/releases/download/3.0.9/baksmali-3.0.9-fat-release.jar\"\
+        \n# X-C3：sha256 钉死（baksmali-3.0.9-fat-release.jar，实测自官方 release）\necho \"1b206070701b2145bd1e6204abd6c14fea877f335486845cd4df149bf5f79c2e\
+        \  /tmp/baksmali.jar\" \\\n  | sha256sum -c -\nsudo mv /tmp/baksmali.jar /usr/local/bin/baksmali.jar\nprintf '#!/bin/bash\\\
+        nexec java -jar /usr/local/bin/baksmali.jar \"$@\"\\n' \\\n  | sudo tee /usr/local/bin/baksmali > /dev/null\nsudo\
+        \ chmod +x /usr/local/bin/baksmali\n\n# ── Android SDK build-tools（d8 / zipalign / apksigner）──────\nBT_DIR=\"$(ls\
+        \ -d \"${ANDROID_HOME}\"/build-tools/*/ 2>/dev/null | sort -r | head -1 || true)\"\nif [ -z \"${BT_DIR}\" ]; then\n\
+        \  yes | \"${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager\" \"build-tools;34.0.0\" > /dev/null\n  BT_DIR=\"$(ls\
+        \ -d \"${ANDROID_HOME}\"/build-tools/*/ | sort -r | head -1)\"\nfi\necho \"BT_DIR=${BT_DIR%/}\" >> \"$GITHUB_ENV\"\
+        \necho \"build-tools: ${BT_DIR}\"\n\napktool --version\n\"${BT_DIR%/}/apksigner\" --version\n"
+    - name: 📥 准备编译依赖（android.jar + OkHttp）
+      run: "set -euo pipefail\n# classpath 只有 android.jar + OkHttp/Okio。\n# 补丁源码只用 JDK 自带能力与 Android 框架，不引第三方库。\nmkdir -p\
+        \ .cache/deps\ncurl -sSL -o .cache/deps/platform.zip \\\n  \"https://dl.google.com/android/repository/platform-33_r02.zip\"\
+        \n# X-C3：三个依赖全部 sha256 钉死（platform-33_r02.zip / okhttp /\n# okio，均实测自官方源）——它们进 javac/d8 的 classpath，被污染的\n# jar 会把恶意字节码直接编进补丁\
+        \ dex。\necho \"f851b13fe89f8510a1250df5e8593e86176b2428f4f3cbe0e304a85818c07bc8  .cache/deps/platform.zip\" \\\n \
+        \ | sha256sum -c -\nunzip -o -q -j .cache/deps/platform.zip \"*/android.jar\" -d .cache/deps\nrm -f .cache/deps/platform.zip\n\
+        curl -sSL -o .cache/deps/okhttp.jar \\\n  \"https://repo1.maven.org/maven2/com/squareup/okhttp3/okhttp/3.12.13/okhttp-3.12.13.jar\"\
+        \necho \"508234e024ef7e270ab1a6d5b356f5b98e786511239ca986d684fd1e2cf7bc82  .cache/deps/okhttp.jar\" \\\n  | sha256sum\
+        \ -c -\ncurl -sSL -o .cache/deps/okio.jar \\\n  \"https://repo1.maven.org/maven2/com/squareup/okio/okio/1.17.5/okio-1.17.5.jar\"\
+        \necho \"19a7ff48d86d3cf4497f7f250fbf295f430c13a528dd5b7b203f821802b886ad  .cache/deps/okio.jar\" \\\n  | sha256sum\
+        \ -c -\nls -la .cache/deps\n"
+    - name: 🔑 预检必需的 secret
+      env:
+        BASELINE_APK_URL: ${{ vars.BASELINE_APK_URL }}
+        OVERLAY_URL: ${{ vars.OVERLAY_URL }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        TARGET_REPO: ${{ vars.TARGET_REPO }}
+        CLIENT_ROOT_DOMAIN: ${{ vars.CLIENT_ROOT_DOMAIN }}
+        CLIENT_PAGES_HOSTS: ${{ vars.CLIENT_PAGES_HOSTS }}
+      run: "set -euo pipefail\n# CLIENT_ROOT_DOMAIN / CLIENT_PAGES_HOSTS 是**每次**都要的：源码里的\n# 主机名常量恒为空串，缺了照样能编出 APK，但那个包装上去什么都不会\n\
+        # 发生（线路表为空、外链全不放行、热更地址拼不出来）。所以在这里拦，\n# 而不是等玩家装上才发现。\nNEED=\"BASELINE_APK_URL OVERLAY_URL CLIENT_ROOT_DOMAIN CLIENT_PAGES_HOSTS\"\
+        \n# 发版相关的只有真要发版时才需要。GH_TOKEN 也在这一档：它只服务发版，\n# 构建本身不碰它——取件要凭证的话，凭证跟着 OVERLAY_URL 走。\nif [ \"${{ inputs.verify_only\
+        \ }}\" != \"true\" ]; then\n  NEED=\"$NEED GH_TOKEN TARGET_REPO\"\nfi\nMISSING=\"\"\nfor v in $NEED; do\n  if [ -z\
+        \ \"${!v:-}\" ]; then MISSING=\"$MISSING $v\"; fi\ndone\nif [ -n \"$MISSING\" ]; then\n  echo \"::error::这些 secret\
+        \ 是空的：$MISSING\"\n  echo \"::error::两种可能——(1) 仓库 Settings 里还没配；(2) 本次是被别的\"\n  echo \"::error::workflow 以 workflow_call\
+        \ 调进来的，而调用方没写 secrets: inherit。\"\n  echo \"::error::第二种最容易误判成「脚本读不到环境变量」：变量其实设了，值是空串。\"\n  exit 1\nfi\necho \"必需的\
+        \ secret 都在（$NEED）\"\n# Fail before injection if production endpoints are blank or misbound.\npython3 tools/check-production-endpoints.py\n"
+    - name: 🚧 校验 native 入口保护（异常绝不外泄）
+      run: python3 tools/check-entry-guard.py
+    - name: 🔒 校验调试开关没伸进安全判据
+      run: python3 tools/check-debug-flag-boundary.py
+    - name: 🧬 校验基线 patchset 自洽
+      run: 'python3 tools/check-baseline.py
+
+        python3 tools/test-check-baseline.py
+
+        '
+    - name: ⚖️ 校验第三方组件声明没有漏项
+      run: 'python3 tools/check-third-party-notices.py
+
+        python3 tools/test-check-third-party-notices.py
+
+        '
+    - name: 🌱 从Totentanz 整包重建工程树
+      env:
+        OVERLAY_URL: ${{ vars.OVERLAY_URL }}
+        BASELINE_APK_URL: ${{ vars.BASELINE_APK_URL }}
+      run: "set -euo pipefail\nJ21=\"${JAVA_HOME_21_X64:-}\"\nif [ -z \"$J21\" ] || [ ! -x \"$J21/bin/java\" ]; then\n  echo\
+        \ \"::error::runner 上找不到 JDK 21（JAVA_HOME_21_X64 未设或不可用）\"\n  exit 1\nfi\nexport JAVA_HOME=\"$J21\"\nexport PATH=\"\
+        $JAVA_HOME/bin:$PATH\"\njava -version\npython3 tools/baseline.py fetch --java \"$J21/bin/java\"\npython3 tools/baseline.py\
+        \ apply --out \"${TREE}\"\necho \"重建树：$(find \"${TREE}\" -type f | wc -l) 个文件\"\n"
+    - name: 🚫 正式包剔除悬浮窗权限（F-043）
+      if: ${{ inputs.debug_overlay != true }}
+      run: "set -euo pipefail\nMANIFEST=\"${TREE}/AndroidManifest.xml\"\nsed -i '/android.permission.SYSTEM_ALERT_WINDOW/d'\
+        \ \"$MANIFEST\"\nif grep -q 'SYSTEM_ALERT_WINDOW' \"$MANIFEST\"; then\n  echo \"::error::正式包仍含 SYSTEM_ALERT_WINDOW，剔除失败\"\
+        \n  exit 1\nfi\necho \"已剔除悬浮窗权限（release 构建，debug_overlay=false）\"\n"
+    - name: 🛠 移除离线导入跳板的 noHistory（F-051）
+      run: "set -euo pipefail\nMANIFEST=\"${TREE}/AndroidManifest.xml\"\nsed -i '/CNOfflineImportActivity/s/ android:noHistory=\"\
+        true\"//' \"$MANIFEST\"\nif grep 'CNOfflineImportActivity' \"$MANIFEST\" | grep -q 'noHistory=\"true\"'; then\n  echo\
+        \ \"::error::CNOfflineImportActivity 仍含 noHistory，移除失败\"\n  exit 1\nfi\necho \"已移除 CNOfflineImportActivity 的 noHistory（离线导入结果回调可送达）\"\
+        \n"
+    - name: 🗑 剔除死库：libbacktrace-native / libcrashpad_handler
+      run: "set -euo pipefail\n# 这两枚 .so 是游戏原版 APK 里 Backtrace.io 崩溃上报 SDK 的 native\n# 组件（f4samurai 自带；上游 Puella-Care 与本项目均未添加，上游\n\
+        # 仓库 lib/ 只有 Dobby/cocos/untp，Backtrace.patch 只改游戏自身\n# smali 的上报端点）。1.1.1 → 1.2.0 换基线时已删除全部 358 个埋点\n# SDK 类（含 backtrace\
+        \ Java 侧，见 tools/baseline.py 文档），官方\n# 服务器也已停运——没有任何代码再加载它们，纯死重，且 4K 对齐\n# 无法重链（无源码）。删掉既省体积又根除 16K 对齐扫描噪音。\n#\n# fail-closed：删之前全树搜引用，搜到即失败。将来换基线若重新\n\
+        # 引入加载者，这里红灯拦住，而不是静默出一个启动即崩的包。\nif grep -rlsI -e 'backtrace-native' -e 'crashpad' \\\n     --include='*.smali' --include='*.xml'\
+        \ --include='*.json' \\\n     --include='*.java' --include='*.cpp' --include='*.h' \\\n     --include='*.txt' --include='*.yml'\
+        \ \\\n     \"${TREE}\"; then\n  echo \"::error::工程树里仍有 backtrace/crashpad 引用（见上），不能删库——请人工核对引用来源后再放行\"\n  exit 1\n\
+        fi\nfor ABI in arm64-v8a armeabi-v7a; do\n  rm -f \"${TREE}/lib/${ABI}/libbacktrace-native.so\" \\\n        \"${TREE}/lib/${ABI}/libcrashpad_handler.so\"\
+        \ndone\n# 删除必须生效：任何一枚还在就是 rm 没追上基线变化，立即报\nfor f in \"${TREE}\"/lib/*/libbacktrace-native.so \"${TREE}\"/lib/*/libcrashpad_handler.so;\
+        \ do\n  if [ -e \"$f\" ]; then echo \"::error::$f 删除失败\"; exit 1; fi\ndone\necho \"已剔除 4 枚死库（双 ABI × backtrace-native/crashpad_handler）\"\
+        \n"
+    - name: 🔤 校验字体基线与重定向目标
+      run: python3 tools/check-fonts.py --tree "${TREE}"
+    - name: 🕸 核对 WebView 拦截链的假设
+      run: python3 tools/check-webview-interceptor.py
+    - name: 🔀 核对代理钩子的启用状态与注释一致
+      run: python3 tools/check-proxy-hooks.py
+    - name: 🧭 钉住 initLabel 的真实调用 ABI
+      run: python3 tools/check-initlabel-abi.py
+    - name: 🧵 钉住 native string 双 ABI 布局
+      run: 'python3 tools/check-native-string-layout.py
+
+        python3 tools/test-check-native-string-layout.py
+
+        # libarchive「源码修复 ⇄ shipped 二进制」漂移守卫（补丁 19）：源码防护
+
+        # 缺失 FAIL；archive_jni.cpp 仍不在 CMake 编译目标则 WARN「修复未进
+
+        # 二进制」，每构建必现，不许漂移被遗忘。
+
+        python3 tools/check-cnzip-guards.py
+
+        '
+    - name: 🧩 校验 engine i18n 前缀规则无字符集门槛
+      run: 'python3 tools/check-engine-i18n-prefix.py
+
+        python3 tools/test-check-engine-i18n-prefix.py
+
+        '
+    - name: 🔄 校验 engine i18n 热重载文件身份合同
+      run: 'python3 tools/check-engine-i18n-reload.py
+
+        python3 tools/test-check-engine-i18n-reload.py
+
+        '
+    - name: 🔗 核对规范前缀与热更地址一致
+      run: python3 tools/check-base-urls.py
+    - name: 📝 native 语法预检（桩头文件）
+      run: tools/check-native-syntax.sh
+    - name: 🔢 注入客户端版本号（构建号）
+      run: "set -euo pipefail\n# 客户端版本通道的「本端版本」在这里定：1.0.<run_number>，每个构建\n# 单调递增，可回溯到具体 workflow run。config.json 的 client.version\n\
+        # 抬过它，旧包启动时就会弹强制更新框。\n# 注意这与 APK 的 versionName/versionCode 无关——那是 Totentanz 包的身份，\n# 不能动。cpp 里的字面量只是本地构建（build-local.sh）的兜底。\n\
+        VER=\"$REQUESTED_VERSION\"\necho \"客户端版本号: ${VER}\"\nsed -i -E \"s/CLIENT_VERSION = \\\"[^\\\"]+\\\"/CLIENT_VERSION\
+        \ = \\\"${VER}\\\"/\" \\\n  magia-native/src/MagiaLegacy.cpp\ngrep -q \"CLIENT_VERSION = \\\"${VER}\\\"\" magia-native/src/MagiaLegacy.cpp\
+        \ \\\n  || { echo \"::error::版本号注入失败（CLIENT_VERSION 常量没匹配上）\"; exit 1; }\n# 同一版本号也注入 Java 侧统一 UA 常量（CNUserAgent.CLIENT_VERSION），\n\
+        # CDN 日志里的 magireco-cn-legacy/<ver> 与强制更新通道的版本一致。\nsed -i -E \"s/CLIENT_VERSION = \\\"[^\\\"]+\\\"/CLIENT_VERSION\
+        \ = \\\"${VER}\\\"/\" \\\n  patch/src/main/java/io/kamihama/magianative/CNUserAgent.java\ngrep -q \"CLIENT_VERSION\
+        \ = \\\"${VER}\\\"\" \\\n  patch/src/main/java/io/kamihama/magianative/CNUserAgent.java \\\n  || { echo \"::error::版本号注入失败（CNUserAgent.CLIENT_VERSION\
+        \ 常量没匹配上）\"; exit 1; }\necho \"CLIENT_VERSION=${VER}\" >> \"$GITHUB_ENV\"\n"
+      env:
+        REQUESTED_VERSION: ${{ inputs.client_version }}
+    - name: 🌐 注入端点（主域与署名区主机名）
+      env:
+        CLIENT_ROOT_DOMAIN: ${{ vars.CLIENT_ROOT_DOMAIN }}
+        CLIENT_PAGES_HOSTS: ${{ vars.CLIENT_PAGES_HOSTS }}
+        CLIENT_CONFIG_URL: ${{ vars.CLIENT_CONFIG_URL }}
+        CLIENT_PRIMARY_BASE: ${{ vars.CLIENT_PRIMARY_BASE }}
+        CLIENT_SECONDARY_BASE: ${{ vars.CLIENT_SECONDARY_BASE }}
+      run: 'set -euo pipefail
+
+        python3 tools/inject-endpoints.py
+
+        ROOT="$(python3 tools/inject-endpoints.py --print-root)"
+
+        echo "::add-mask::$ROOT"
+
+        echo "MAGIA_ROOT_DOMAIN=$ROOT" >> "$GITHUB_ENV"
+
+        '
+    - name: 🛠 编译 libMagiaLegacy.so（magia-native）
+      run: "set -euo pipefail\n# 取代原先包内两个预编译的 Dobby hook 库：\n#   libuwasa.so   一改：端点重定向（顺带按英文行宽重排剧情文本，正是要去掉的）\n#   libcn_hook.so\
+        \ 二改：拦引擎下载入口接我们的浮层\nNDK_ROOT=\"${ANDROID_NDK_HOME:-}\"\nif [ -z \"$NDK_ROOT\" ] || [ ! -d \"$NDK_ROOT\" ]; then\n\
+        \  NDK_BASE=\"${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}/ndk\"\n  NDK_ROOT=\"$(ls -1d $NDK_BASE/* 2>/dev/null\
+        \ | sort -V | tail -1)\"\nfi\nif [ -z \"$NDK_ROOT\" ] || [ ! -d \"$NDK_ROOT\" ]; then\n  echo \"::error::找不到 Android\
+        \ NDK\"; exit 1\nfi\necho \"[NDK] 使用 $NDK_ROOT\"\n# shadowhook v2.0.1 的 CMakeLists 要求 CMake >= 4.0.2\n# （magia-native/CMakeLists.txt\
+        \ 的 PATCH_COMMAND 已把它降回 3.22；\n# sed 降级补丁的命中由 FetchContent_MakeAvailable 之后的守卫显式\n# 核对，漏命中即 configure 阶段失败），低于降级后要求的\
+        \ CMake 会\n# 在 configure 阶段直接失败\ncmake --version | head -1\n\nSTRIP=\"$(find \"$NDK_ROOT/toolchains/llvm/prebuilt\"\
+        \ -name llvm-strip 2>/dev/null | head -1)\"\nfor ABI in arm64-v8a armeabi-v7a; do\n  BUILD_DIR=\"magia-native/build/$ABI\"\
+        \n  cmake -G Ninja \\\n    -DCMAKE_TOOLCHAIN_FILE=\"$NDK_ROOT/build/cmake/android.toolchain.cmake\" \\\n    -DANDROID_ABI=\"\
+        $ABI\" -DANDROID_PLATFORM=android-21 \\\n    -DCMAKE_BUILD_TYPE=Release \\\n    -DMAGIA_ROOT_DOMAIN=\"${MAGIA_ROOT_DOMAIN}\"\
+        \ \\\n    -DMAGIA_DEBUG_OVERLAY=${{ inputs.debug_overlay && 1 || 0 }} \\\n    -B \"$BUILD_DIR\" magia-native\n  cmake\
+        \ --build \"$BUILD_DIR\" --parallel\n  SO=\"$BUILD_DIR/libMagiaLegacy.so\"\n  if [ ! -f \"$SO\" ]; then echo \"::error::[$ABI]\
+        \ 未产出 libMagiaLegacy.so\"; exit 1; fi\n  cp \"$SO\" \"${TREE}/lib/$ABI/libMagiaLegacy.so\"\n  [ -n \"$STRIP\" ] &&\
+        \ \"$STRIP\" --strip-unneeded \"${TREE}/lib/$ABI/libMagiaLegacy.so\"\n  # shadowhook 是**动态库**，libMagiaLegacy 对它有 DT_NEEDED，\n\
+        \  # 必须一并打包——漏了的话 APK 照样能打能签能装，但真机启动时\n  # dlopen failed: library \"libshadowhook.so\" not found。这个坑踩过一次。\n  SH=\"\
+        $BUILD_DIR/_deps/shadowhook-build/libshadowhook.so\"\n  if [ ! -f \"$SH\" ]; then echo \"::error::[$ABI] 未产出 libshadowhook.so\"\
+        ; exit 1; fi\n  cp \"$SH\" \"${TREE}/lib/$ABI/libshadowhook.so\"\n  [ -n \"$STRIP\" ] && \"$STRIP\" --strip-unneeded\
+        \ \"${TREE}/lib/$ABI/libshadowhook.so\"\n  echo \"[$ABI] MagiaLegacy=$(du -h \"${TREE}/lib/$ABI/libMagiaLegacy.so\"\
+        \ | cut -f1) shadowhook=$(du -h \"${TREE}/lib/$ABI/libshadowhook.so\" | cut -f1)\"\ndone\n\n# 旧库必须已从包内移除，否则会与新库对同一地址重复装\
+        \ hook\nfor f in \"${TREE}\"/lib/arm64-v8a/libuwasa.so \"${TREE}\"/lib/armeabi-v7a/libuwasa.so \"${TREE}\"/lib/arm64-v8a/libcn_hook.so;\
+        \ do\n  if [ -e \"$f\" ]; then echo \"::error::$f 仍然存在，会与 libMagiaLegacy 冲突\"; exit 1; fi\ndone\n"
+    - name: 🎵 转换 BGM：HCA → OGG（vgmstream + ffmpeg）
+      env:
+        FFMPEG_SHA256: ${{ vars.FFMPEG_SHA256 }}
+        VGMS_SHA256: ${{ vars.VGMS_SHA256 }}
+      run: "set -euo pipefail\n# assets 里的 BGM 是 CRI HCA 且 ciphType=56（加密），Android 放不了。\n# vgmstream 自带 CRI 游戏的密钥库，能直接解；再用\
+        \ ffmpeg 转 OGG。\nmkdir -p .cache/audio\n\n# R4-04：FFmpeg 是浮动下载（latest 标签可重指）且随后 chmod +x 直接\n# 执行——供应链投毒即 CI RCE。缓解：curl\
+        \ -f 拒绝 HTTP 错误页；FFmpeg\n# 钉**不可变 autobuild**（URL 带时间戳 tag + GitHub Release API 的官方\n# assets[].digest），摘要缺失/不符即硬失败。\n\
+        # vgmstream **不钉**（维护者决定 2026-08-19）：只做 HCA 音频解密转换、\n# 内置密钥库不删减、非关键路径；curl -f 已拒绝 HTTP 错误页。\ncurl -fsSL -o .cache/audio/vgms.tar.gz\
+        \ \\\n  \"https://github.com/vgmstream/vgmstream-releases/releases/download/nightly/vgmstream-linux-cli.tar.gz\"\n\
+        # vgmstream 可选 pin（WARN 不阻断）：配了 VGMS_SHA256 就校验（官方\n# Release digest），不符/未配都只告警——音频非关键路径，不该卡构建。\nif [ -n \"${VGMS_SHA256:-}\"\
+        \ ]; then\n  if ! echo \"${VGMS_SHA256}  .cache/audio/vgms.tar.gz\" | sha256sum -c - >/dev/null 2>&1; then\n    echo\
+        \ \"::warning::vgmstream 哈希不符（可能上游已更新），请核对该 Variable\"\n  fi\nelse\n  echo \"::warning::vgmstream 未钉哈希（配置仓库 Variable\
+        \ VGMS_SHA256 可启用校验）\"\nfi\nmkdir -p .cache/audio/vgms\ntar xzf .cache/audio/vgms.tar.gz -C .cache/audio/vgms\nVGMS=\"\
+        $(find .cache/audio/vgms -name vgmstream-cli -type f | head -1)\"\nchmod +x \"${VGMS}\"\n\n# ffmpeg：不走 apt（源不稳），直接拉\
+        \ BtbN 的静态构建（含 libvorbis）。\n# 钉不可变 autobuild-2026-08-18-15-03 的 ffmpeg-N-126207-g21bbd98e7b，\n# 官方 digest = FFMPEG_SHA256\
+        \ 仓库 Variable。\n: \"${FFMPEG_SHA256:?缺少仓库变量 FFMPEG_SHA256；拒绝执行未钉摘要的 FFmpeg}\"\ncurl -fsSL -o .cache/audio/ff.tar.xz\
+        \ \\\n  \"https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-08-18-15-03/ffmpeg-N-126207-g21bbd98e7b-linux64-gpl.tar.xz\"\
+        \necho \"${FFMPEG_SHA256}  .cache/audio/ff.tar.xz\" | sha256sum -c -\nmkdir -p .cache/audio/ff\ntar xJf .cache/audio/ff.tar.xz\
+        \ -C .cache/audio/ff\nFF=\"$(find .cache/audio/ff -name ffmpeg -type f | head -1)\"\nchmod +x \"${FF}\"\n\npython3\
+        \ tools/convert-bgm.py --vgmstream \"${VGMS}\" --ffmpeg \"${FF}\" --tree \"${TREE}\"\n\n# 产物必须齐全：缺了浮层就没有 BGM。音频不是关键路径，只告警不阻断。\n\
+        for f in \"${TREE}\"/assets/magia/bgm1.ogg \"${TREE}\"/assets/magia/bgm2.ogg \"${TREE}\"/assets/magia/bgm.json; do\n\
+        \  if [ ! -s \"${f}\" ]; then echo \"::warning::缺少 ${f}，本次 APK 浮层将没有 BGM\"; fi\ndone\nls -la \"${TREE}/assets/magia/\"\
+        \n"
+    - name: 🚂 注入主下载引擎（构建期默认）
+      run: "set -euo pipefail\nENGINE=\"${{ inputs.engine }}\"\ncase \"$ENGINE\" in\n  self|aria2c) ;;\n  *) echo \"::error::非法引擎值：$ENGINE（只接受\
+        \ self / aria2c）\"; exit 1 ;;\nesac\nsed -i -E \"s/MAIN_ENGINE = \\\"[a-z0-9]+\\\"/MAIN_ENGINE = \\\"${ENGINE}\\\"\
+        /\" \\\n  patch/src/main/java/io/kamihama/magianative/CNBuildConfig.java\ngrep -q \"MAIN_ENGINE = \\\"${ENGINE}\\\"\
+        \" \\\n  patch/src/main/java/io/kamihama/magianative/CNBuildConfig.java \\\n  || { echo \"::error::引擎注入失败（CNBuildConfig.MAIN_ENGINE\
+        \ 常量没匹配上）\"; exit 1; }\necho \"主下载引擎: ${ENGINE}\"\n"
+    - name: ☕ 编译补丁源码 → dex
+      run: "set -euo pipefail\nCP=\".cache/deps/android.jar:.cache/deps/okhttp.jar:.cache/deps/okio.jar\"\n\n# RestClient\
+        \ 只作为编译期桩存在：真实实现在 smali_classes2 里，\n# 不参与本次 dex 产出（下面 d8 的输入里没有它）。\nmkdir -p .build/stubs/io/kamihama/magianative\n\
+        cat > .build/stubs/io/kamihama/magianative/RestClient.java <<'STUB'\npackage io.kamihama.magianative;\nimport android.app.Activity;\n\
+        public class RestClient {\n    public static Activity getCurrentActivity() { return null; }\n}\nSTUB\n\nmkdir -p .build/classes\n\
+        mapfile -t SRC < <(find patch/src/main/java -name '*.java')\necho \"编译 ${#SRC[@]} 个补丁源文件\"\njavac -nowarn -source\
+        \ 8 -target 8 -encoding UTF-8 \\\n      -cp \"${CP}\" -d .build/classes \\\n      \"${SRC[@]}\" .build/stubs/io/kamihama/magianative/RestClient.java\n\
+        \n# d8 撞上「带 this$0 的类」或「implements Comparator<T>」时，只会报一句\n# R8 内部的 NullPointerException，没有行号也没有别的线索。在这里先拦一道，\n# 把它换成能照着改的话。判据与实测记录见脚本头部。\n\
+        python3 tools/check-d8-pitfalls.py .build/classes\n\n# ── 分两组出 dex：UI 类进 classes2，其余补丁类进 classes3 ──\n# 这个划分必须与仓库里\
+        \ smali_classes2/ 和 smali_classes3/ 的现状一致，\n# 否则同一个类会在两个 dex 里各出现一次。\n#\n# ⚠ 第二组用「排除法」而不是逐个点名。原先是点名的，结果 CNBgm 加进来\n\
+        # 之后没人记得改这一行，它就**两组都不属于**——编译得出 .class，却进不了\n# 任何 dex。而 CNCNDownloadUI.buildOverlay 里有一句没有兜底的\n# CNBgm.trackCount(act)，真机上会抛\
+        \ NoClassDefFoundError，浮层直接建不\n# 出来。这种「类静默缺席」的错误静态检查一律看不见，只有装到机器上才炸。\n# 排除法保证以后新加的补丁类默认有归属。\nmkdir -p .build/dexui\
+        \ .build/dex3\nmapfile -t DEX_UI < <(find .build/classes -name 'CNCNDownloadUI*.class' | sort)\n# RestClient 是编译期桩，真实实现在\
+        \ smali_classes2 里，不能进 dex\nmapfile -t DEX_3 < <(find .build/classes -name '*.class' \\\n    ! -name 'CNCNDownloadUI*.class'\
+        \ ! -name 'RestClient*.class' | sort)\necho \"classes2 组 ${#DEX_UI[@]} 个类，classes3 组 ${#DEX_3[@]} 个类\"\nif [ \"${#DEX_UI[@]}\"\
+        \ -eq 0 ] || [ \"${#DEX_3[@]}\" -eq 0 ]; then\n  echo \"::error::dex 分组为空，补丁类没被编译出来\"; exit 1\nfi\n# 每个 .class 都必须恰好落在一组里，否则就是上面那种静默缺席\n\
+        TOTAL=$(find .build/classes -name '*.class' ! -name 'RestClient*.class' | wc -l)\nif [ \"$(( ${#DEX_UI[@]} + ${#DEX_3[@]}\
+        \ ))\" -ne \"$TOTAL\" ]; then\n  echo \"::error::dex 分组没覆盖全部补丁类（$TOTAL 个）\"; exit 1\nfi\n# ⚠ 两组各自出 dex，但 desugar 需要看见**全部**补丁类，所以整个\n\
+        # .build/classes 都要作为 --classpath 传进去（--classpath 只供解析类型，\n# 不会被写进输出 dex——这一点实测过：加与不加，两组 dex 逐字节相同）。\n#\n# 不加会怎样：CNCNDownloadUI$17\
+        \ 实现的 CNOfflineImportActivity$Callback\n# 在另一组里，d8 看不见它，于是每次构建都报\n#     Type `...$Callback` was not found, it is required\
+        \ for default or\n#     static interface methods desugaring of `...CNCNDownloadUI$17`\n# 今天这条告警无害——Callback 只有一个抽象方法，没有\
+        \ default/static，\n# 没东西要 desugar。但 minSdk 21 意味着 default 方法**必须**靠 desugar\n# 才能在 API 21–23 上跑（原生支持是 24+）。哪天有人给某个跨组接口加了\n\
+        # default 方法，d8 同样只会报这一句，然后**静默产出装得上、跑起来炸的类**\n# ——而这句话早已天天出现、没人再看。所以：既补上 classpath，也把\n# 「d8 有告警」变成红灯，把这个信号救回来。\n\
+        run_d8() {\n  local out=\"$1\"; shift\n  local log=\".build/d8-$(basename \"$out\").log\"\n  if ! \"${BT_DIR}/d8\"\
+        \ --min-api 21 --output \"$out\" \\\n       --lib .cache/deps/android.jar --classpath .build/classes \\\n       \"\
+        $@\" > \"$log\" 2>&1; then\n    cat \"$log\"; echo \"::error::d8 失败（$out）\"; exit 1\n  fi\n  cat \"$log\"\n  if grep\
+        \ -qE '^(Warning|Error)' \"$log\"; then\n    echo \"::error::d8 出了告警（$out）。desugar 相关的告警在 minSdk 21 上\"\n    echo\
+        \ \"::error::可能意味着产出的类装得上但跑起来炸，不要当噪音略过。\"\n    exit 1\n  fi\n}\nrun_d8 .build/dexui \"${DEX_UI[@]}\"\nrun_d8 .build/dex3\
+        \  \"${DEX_3[@]}\"\n\nrm -rf .build/smaliui .build/smali3\nbaksmali d .build/dexui/classes.dex -o .build/smaliui\n\
+        baksmali d .build/dex3/classes.dex  -o .build/smali3\n"
+    - name: 🔁 用编译产物覆盖仓库中的补丁
+      run: "set -euo pipefail\n# Java 源码是唯一事实来源：每次构建都用它重新生成补丁类的 smali，\n# 这样仓库里的 .smali 即使被手工改过也不会悄悄влия响产物。\n#\n# 注意：smali_classes2/\
+        \ 里除补丁类以外的内容（含 RestClient 那处\n# 把 cnDownloadFileFull 委托给 CNHotUpdate 的改动）保持原样，\n# 只删掉并重建 CNCNDownloadUI*。\nrm -f \"\
+        ${TREE}\"/smali_classes2/io/kamihama/magianative/CNCNDownloadUI*.smali\ncp .build/smaliui/io/kamihama/magianative/CNCNDownloadUI*.smali\
+        \ \\\n   \"${TREE}/smali_classes2/io/kamihama/magianative/\"\n\nrm -rf \"${TREE}/smali_classes3\"\nmkdir -p \"${TREE}/smali_classes3\"\
+        \ncp -r .build/smali3/. \"${TREE}/smali_classes3/\"\n\necho \"smali_classes2 补丁类：$(ls \"${TREE}\"/smali_classes2/io/kamihama/magianative/CNCNDownloadUI*.smali\
+        \ | wc -l) 个\"\necho \"smali_classes3 类：$(find \"${TREE}/smali_classes3\" -name '*.smali' | wc -l) 个\"\n"
+    - name: 🔨 重组 APK
+      run: 'set -euo pipefail
+
+        apktool b "${TREE}" -o .build/unsigned.apk --use-aapt2
+
+        ls -la .build/unsigned.apk
+
+        '
+    - name: 📐 对齐 APK（zipalign）
+      run: 'set -euo pipefail
+
+        "${BT_DIR}/zipalign" -f 4 .build/unsigned.apk .build/aligned.apk
+
+        "${BT_DIR}/zipalign" -c 4 .build/aligned.apk
+
+        echo "对齐校验通过"
+
+        '
+    - name: 🔏 签名 APK（AOSP testkey）
+      run: "set -euo pipefail\n# AOSP 公开测试密钥：与 Totentanz 发行包同一签名身份，产物可直接覆盖安装。\n# 它是公开的测试密钥，**不提供任何真实性保证**，仅用于保持可覆盖安装。\n#\n\
+        # googlesource 在 CI 上间歇性不可达（已撞两次 base64: invalid input），\n# 所以加校验 + 多源回退：首选 googlesource（base64），\n# 回退 GitHub aosp-mirror\
+        \ 的 raw 二进制（走 gh-proxy，不用解码）。\nmkdir -p .build/key\nfor f in testkey.pk8 testkey.x509.pem; do\n  ok=0\n  for attempt\
+        \ in 1 2 3; do\n    if curl -sSL --max-time 60 -o \".build/key/${f}.b64\" \\\n        \"https://android.googlesource.com/platform/build/+/refs/tags/android-13.0.0_r83/target/product/security/${f}?format=TEXT\"\
+        \ \\\n        && base64 -d \".build/key/${f}.b64\" > \".build/key/${f}\" 2>/dev/null \\\n        && [ -s \".build/key/${f}\"\
+        \ ]; then\n      ok=1; break\n    fi\n    echo \"⚠ googlesource 第 $attempt 次拉取 $f 失败\"\n    sleep 3\n  done\n  if\
+        \ [ \"$ok\" = 0 ]; then\n    echo \"↪ 回退 gh-proxy + aosp-mirror: $f\"\n    curl -sSL --max-time 120 -o \".build/key/${f}\"\
+        \ \\\n      \"https://gh-proxy.org/https://raw.githubusercontent.com/aosp-mirror/platform_build/refs/tags/android-13.0.0_r83/target/product/security/${f}\"\
+        \n  fi\n  # 终检：pk8 是 DER 二进制，pem 必须含 BEGIN CERTIFICATE\n  if [ \"$f\" = \"testkey.x509.pem\" ]; then\n    grep -q\
+        \ \"BEGIN CERTIFICATE\" \".build/key/${f}\" || { echo \"::error::$f 内容无效\"; exit 1; }\n  else\n    [ -s \".build/key/${f}\"\
+        \ ] || { echo \"::error::$f 为空\"; exit 1; }\n  fi\ndone\n\"${BT_DIR}/apksigner\" sign \\\n  --key .build/key/testkey.pk8\
+        \ \\\n  --cert .build/key/testkey.x509.pem \\\n  --v1-signing-enabled true \\\n  --v2-signing-enabled true \\\n  --v3-signing-enabled\
+        \ true \\\n  --out .build/magirecocn-legacy-client.apk \\\n  .build/aligned.apk\n\"${BT_DIR}/apksigner\" verify --print-certs\
+        \ .build/magirecocn-legacy-client.apk\n"
+    - name: 🔍 构建后自检
+      run: "set -euo pipefail\nAPK=.build/magirecocn-legacy-client.apk\necho \"sha256: $(sha256sum \"$APK\" | cut -d' ' -f1)\"\
+        \necho \"大小:   $(stat -c%s \"$APK\") 字节\"\n# BGM 的 ogg 必须未压缩，否则 AssetManager.openFd() 打不开，\n# 表现为「界面一切正常、就是没声音」——光看界面发现不了\n\
+        python3 tools/check-asset-compression.py \"$APK\"\n# 每个 .so 的 DT_NEEDED 都要能在包内或系统里解析到，\n# 否则 dlopen 只在真机启动那一刻才失败，静态自检全都发现不了\n\
+        python3 tools/check-so-deps.py \"$APK\"\n# F-F-07：重链/新编的 arm64 库必须满足 16KB 页对齐（Android 15+ 上\n# 不满足直接 dlopen 失败）。libarchive\
+        \ 预编译违例由脚本内排除并留痕，\n# 其余库（libMagiaLegacy / libaria2c）违例一票否决。\npython3 tools/check-so-alignment.py\n# R4-03：上面无参调用只扫**入库**的\
+        \ 4 枚预编译库；本次新编的\n# libMagiaLegacy/libshadowhook 落在重建树 ${TREE}/lib/arm64-v8a/\n# （见 native 编译 step 的 cp），不进包前的对齐违例必须在这里拦。\n\
+        # 注意只逐枚点扫 CI 自建库，**不能**整目录扫：\n# ${TREE} 里还有游戏历史包自带的预编译库（libbacktrace-native /\n# libcrashpad_handler 等），它们不是本工程构建产物、4K\
+        \ 对齐是\n# 既成事实且无法重链，整目录扫会把这些历史库卷进来误报红灯。\npython3 tools/check-so-alignment.py \\\n  \"${TREE}/lib/arm64-v8a/libMagiaLegacy.so\"\
+        \ \\\n  \"${TREE}/lib/arm64-v8a/libshadowhook.so\"\n# 包里的 .so 与补丁类必须都是这次构建的产物。踩过两次「编译了却没进包」：\n# CNBgm 不在任何一组 d8 输入里；libMagiaLegacy.so\
+        \ 忘了拷进 lib/。\n# 两次都能打包、能签名、能安装，只有真机跑起来才暴露，而且现象会把人\n# 引向去查功能逻辑而不是查产物\npython3 tools/check-apk-freshness.py \"$APK\"\
+        \npython3 tools/check-built-endpoints.py \"$APK\"\n# 签名指纹必须是 AOSP testkey，否则装不上既有设备\nFP=$(\"${BT_DIR}/apksigner\"\
+        \ verify --print-certs \"$APK\" \\\n      | grep -m1 'SHA-256 digest' | awk '{print $NF}')\nEXPECT=\"a40da80a59d170caa950cf15c18c454d47a39b26989d8b640ecd745ba71bf5dc\"\
+        \nif [ \"$FP\" != \"$EXPECT\" ]; then\n  echo \"::error::签名指纹不符，实得 $FP\"\n  exit 1\nfi\necho \"签名指纹校验通过（AOSP testkey）\"\
+        \n# minSdk 必须钉在 21：manifest 由 apktool 从基线 APK 重编码，构建链\n# 从不读 uses-sdk。基线 APK 换代时若换成 minSdk≥24 的包，产物会静默\n# 放弃 API 21\
+        \ 设备、CI 照样全绿——只有真机装不上才暴露。这里直接\n# aapt dump badging 断言。\nMIN_SDK=$(\"${BT_DIR}/aapt\" dump badging \"$APK\" \\\n  \
+        \        | awk -F\"'\" '/^sdkVersion:/{print $2}')\nTARGET_SDK=$(\"${BT_DIR}/aapt\" dump badging \"$APK\" \\\n   \
+        \          | awk -F\"'\" '/^targetSdkVersion:/{print $2}')\nif [ -z \"$MIN_SDK\" ]; then\n  echo \"::error::aapt dump\
+        \ badging 读不到 sdkVersion（APK 可能损坏）\"\n  exit 1\nfi\nif [ \"$MIN_SDK\" != \"21\" ]; then\n  echo \"::error::产物 minSdkVersion=$MIN_SDK，期望\
+        \ 21——基线换包可能静默抬高了 minSdk，API 21 设备将无法安装\"\n  exit 1\nfi\necho \"minSdkVersion=$MIN_SDK targetSdkVersion=$TARGET_SDK（符合\
+        \ minSdk 21 约定）\"\n# 登记的高 API 符号出现处必须有 SDK_INT 守卫（见 check-api-levels.py）。\n# javac 对 API 33 编译、d8 的 API model 只覆盖\
+        \ java.*，android.* 框架\n# 高 API 调用编译期零拦截，这条把铁律 3 从约定变成可执行检查。\npython3 tools/check-api-levels.py\n# 补丁类必须真的在产物里\nunzip\
+        \ -l \"$APK\" | grep -qE 'classes3\\.dex' \\\n  || { echo \"::error::产物缺少 classes3.dex\"; exit 1; }\necho \"自检通过\"\
+        \n"
+    - name: Record verified APK and native source provenance
+      run: "set -euo pipefail\npython3 - <<'PY'\nimport datetime, hashlib, json, os, pathlib\napk = pathlib.Path('.build/magirecocn-legacy-client.apk')\n\
+        record = {'version': os.environ['CLIENT_VERSION'], 'apk': 'magireco-latest-legacy-client.apk',\n          'sha256':\
+        \ hashlib.sha256(apk.read_bytes()).hexdigest(), 'size': apk.stat().st_size,\n          'source_commit': os.environ['NATIVE_SOURCE_SHA'],\
+        \ 'workflow_commit': os.environ['GITHUB_SHA'],\n          'source_branch': 'main', 'publication': 'NOT_PUBLISHED',\n\
+        \          'built_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),\n          'run': os.environ['GITHUB_SERVER_URL']\
+        \ + '/' + os.environ['GITHUB_REPOSITORY'] + '/actions/runs/' + os.environ['GITHUB_RUN_ID']}\npathlib.Path('.build/magireco-latest-legacy-client.version.json').write_text(json.dumps(record,\
+        \ indent=2) + '\\n')\nprint(json.dumps(record))\nPY"
+    - name: Export verified APK for explicit publication
+      uses: actions/upload-artifact@v4
+      with:
+        name: personal-native-main-verified
+        path: '.build/magirecocn-legacy-client.apk
+
+          .build/magireco-latest-legacy-client.version.json'
+        if-no-files-found: error
+        retention-days: 14
+    - name: 🚀 发布 APK
+      if: ${{ false }}
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        SYNC_REPO: ${{ vars.TARGET_REPO }}
+      run: "set -euo pipefail\nSRC=.build/magirecocn-legacy-client.apk\nNAME=magireco-latest-legacy-client.apk\nSIDECAR=magireco-latest-legacy-client.version.json\n\
+        if [ -z \"${SYNC_REPO:-}\" ]; then\n  echo \"::error::secret TARGET_REPO 未配置（Settings → Secrets and variables → Actions）\"\
+        \n  exit 1\nfi\n\n# preflight：token 必须能对 UP_REPO 的 release 读写，否则玩家那边留下的\n# 是 404 死链——宁可构建红掉也不发死链。\n#\n# ⚠ 报错必须分清是哪一种。原先三种情况共用一句「GH_TOKEN\
+        \ 缺失或无权限」，\n# 于是 2026-08-13 那次 401（token 本身失效）把维护者送去查权限设置——\n# 而权限一直是对的，过期的是 token。三者的处理办法完全不同：\n#\n#   secret 为空\
+        \ → 去仓库 Settings 配上\n#   401         → token 已过期/被撤销/粘进了空白，重新签发一枚\n#   403 / 404   → token 有效，但够不着目标（细粒度 PAT 的可访问范围\n\
+        #                 是签发它的那个账户，够不到范围外的目标）\nif [ -z \"${GH_TOKEN:-}\" ]; then\n  echo \"::error::GH_TOKEN secret 未配置或为空（Settings\
+        \ → Secrets and variables → Actions）\"\n  exit 1\nfi\n\n# 先问 token 自己是谁，顺带把有效期打出来——过期是这条路最常见的\n# 死法，而它到期前一天和到期后一天在配置界面上长得一模一样。\n\
+        WHO=$(curl -sS -o /tmp/who.json -D /tmp/who.hdr -w '%{http_code}' \\\n      -H \"Authorization: Bearer ${GH_TOKEN}\"\
+        \ \\\n      -H \"Accept: application/vnd.github+json\" \\\n      https://api.github.com/user || echo 000)\nif [ \"\
+        $WHO\" = \"401\" ]; then\n  echo \"::error::GH_TOKEN 无效（HTTP 401 Bad credentials）。这不是权限问题——token 已过期、被撤销，或写进 secret\
+        \ 时混入了换行/空格。请重新签发一枚并更新 secret。\"\n  exit 1\nfi\nif [ \"$WHO\" != \"200\" ]; then\n  echo \"::error::校验 GH_TOKEN 时\
+        \ GitHub 返回 HTTP $WHO，无法确认凭据\"\n  exit 1\nfi\necho \"GH_TOKEN 身份：$(grep -o '\"login\"[^,]*' /tmp/who.json | head -1)\"\
+        \nEXP=$(tr -d '\\r' < /tmp/who.hdr \\\n      | grep -i '^github-authentication-token-expiration:' | cut -d' ' -f2-\
+        \ || true)\n# 写成 if 而不是 `[ -n \"$EXP\" ] && echo ...`。后者在 EXP 为空时整条\n# 返回 1；只要它后面还有别的命令，set -e 并不会中止（实测确认），\n# 但只要哪天它被挪到脚本末尾，这一步就会以\
+        \ exit 1 收场——一个纯提示\n# 把发布搞挂。if 形式没有这个位置依赖。\nif [ -n \"$EXP\" ]; then\n  echo \"::notice::GH_TOKEN 有效期至 ${EXP}（到期后本步骤会以\
+        \ 401 失败）\"\nfi\n\n# 再确认够得着 SYNC_REPO。403 与 404 分开报：无权限时 GitHub 回的可能是\n# 404，不写清楚会让人以为 release 被删了。\nUP=$(curl -sS\
+        \ -o /dev/null -w '%{http_code}' \\\n     -H \"Authorization: Bearer ${GH_TOKEN}\" \\\n     -H \"Accept: application/vnd.github+json\"\
+        \ \\\n     \"https://api.github.com/repos/$SYNC_REPO/releases/tags/latest\" || echo 000)\ncase \"$UP\" in\n  200)\
+        \ echo \"$SYNC_REPO latest release 可读，继续发布\" ;;\n  403) echo \"::error::token 有效但无权访问 $SYNC_REPO（HTTP 403）。细粒度 PAT\
+        \ 的可访问范围是签发它的那个账户，够不到范围外的目标；classic PAT 则需要 token 持有者本人对目标有写权限。\"; exit 1 ;;\n  404) echo \"::error::看不到 $SYNC_REPO\
+        \ 的 latest release（HTTP 404）。无权限时同样返回 404，所以这既可能是权限不够，也可能是 latest tag 真的不在了。\"; exit 1 ;;\n  *)   echo \"::error::读取\
+        \ $SYNC_REPO latest release 返回 HTTP $UP，无法发布\"; exit 1 ;;\nesac\n\n# 版本旁注：闸门那端**只认它**——读到本次版本号后，还要用其中的\n# sha256 与\
+        \ APK 实际内容对拍，对得上才认。没有它，闸门就只能靠\n# 「构建成功」这种与玩家能不能下到毫无因果关系的信号——那正是\n# 2026-08-20 全体旧版客户端无限更新的成因。\ncp \"$SRC\" \"$NAME\"\
+        \nSHA=$(sha256sum \"$NAME\" | cut -d' ' -f1)\nSIZE=$(stat -c%s \"$NAME\")\nBUILT_AT=$(date -u +'%Y-%m-%dT%H:%M:%SZ')\
+        \ \\\nAPK_NAME=\"$NAME\" APK_SHA=\"$SHA\" APK_SIZE=\"$SIZE\" OUT=\"$SIDECAR\" \\\npython3 <<'PY'\nimport json, os\n\
+        json.dump({\n    \"version\":  os.environ[\"CLIENT_VERSION\"],\n    \"apk\":      os.environ[\"APK_NAME\"],\n    \"\
+        sha256\":   os.environ[\"APK_SHA\"],\n    \"size\":     int(os.environ[\"APK_SIZE\"]),\n    \"built_at\": os.environ[\"\
+        BUILT_AT\"],\n    \"run\": \"%s/%s/actions/runs/%s\" % (\n        os.environ.get(\"GITHUB_SERVER_URL\", \"\"),\n \
+        \       os.environ.get(\"GITHUB_REPOSITORY\", \"\"),\n        os.environ.get(\"GITHUB_RUN_ID\", \"\")),\n}, open(os.environ[\"\
+        OUT\"], \"w\", encoding=\"utf-8\"),\n    ensure_ascii=False, indent=2)\nPY\ncat \"$SIDECAR\"\n\n# 先包后旁注：中断时宁可留下「包已就位、还没人宣称版本」，\n\
+        # 也不要「版本已宣称、包还没上去」——后者会把闸门抬到一个下不到的版本。\ngh release upload latest \"$NAME\" --repo \"$SYNC_REPO\" --clobber\necho \"\
+        ✅ 已上传 $NAME 到 $SYNC_REPO latest Release\"\ngh release upload latest \"$SIDECAR\" --repo \"$SYNC_REPO\" --clobber\n\
+        echo \"✅ 已上传 $SIDECAR 到 $SYNC_REPO latest Release\"\n\n# 通知发布目标立即跟进。**这一步失败必须红**：2026-08-21 起这条\n# dispatch 是唯一的自动通知路径，没有「下次常规触发会跟上」这回事了。\n\
+        # 没送达 = 产物躺在那儿没人接手，而这正是要根治的那个故障形状。\n#\n# ⚠ event_type 叫 upstream-update 是**历史遗留**，别按字面理解：\n# 这名字来自资产仓还是某个仓库 fork 的年代。2026-08-22\
+        \ 起资产仓已断开\n# 上游、转为组织下的独立私有仓，本条 dispatch 的真实语义是「客户端产物\n# 就绪」，与任何「上游」无关。名字两边都保留不改——它是跨仓库的线上\n# 标识符，一边改一边没改就会静默失联（dispatch\
+        \ 照样返回成功，\n# 那边没人监听）。\nfor i in 1 2 3; do\n  if gh api \"repos/$SYNC_REPO/dispatches\" -f event_type=upstream-update;\
+        \ then\n    echo \"✅ 已通知 $SYNC_REPO 同步\"\n    exit 0\n  fi\n  echo \"::notice::第 $i 次 dispatch 失败，重试\"\n  sleep 5\n\
+        done\necho \"::error::无法通知发布目标（dispatch 连续失败 3 次）。\"\necho \"::error::产物已经传上去了，缺的只是那一声通知——\"\necho \"::error::在发布目标那侧手动触发一次即可补上。\"\
+        \nexit 1\n"
+    - name: 📊 构建报告
+      if: always()
+      run: "{\n  echo \"## 构建结果\"\n  echo\n  if [ -f .build/magirecocn-legacy-client.apk ]; then\n    echo \"- 状态：✅ 成功\"\n\
+        \    echo \"- 客户端版本：\\`${CLIENT_VERSION}\\`（随 APK 一起写进版本旁注；云端闸门不在本流水线提升）\"\n    echo \"- 主下载引擎：\\`${{ inputs.engine\
+        \ }}\\`\"\n    echo \"- 调试悬浮窗：\\`${{ inputs.debug_overlay && '开' || '关' }}\\`（native MAGIA_DEBUG_OVERLAY）\"\n    echo\
+        \ \"- sha256：\\`$(sha256sum .build/magirecocn-legacy-client.apk | cut -d' ' -f1)\\`\"\n    echo \"- 大小：$(( $(stat\
+        \ -c%s .build/magirecocn-legacy-client.apk) / 1024 / 1024 )) MB\"\n    echo \"- 签名：AOSP testkey（v1+v2+v3）\"\n  else\n\
+        \    echo \"- 状态：❌ 失败\"\n  fi\n} >> \"$GITHUB_STEP_SUMMARY\"\n"
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' }}
+'on':
+  workflow_dispatch:
+    inputs:
+      source_sha:
+        description: Native main commit to verify before building
+        required: true
+        type: string
+      client_version:
+        description: Client version above the live configuration gate
+        required: true
+        type: string
+      verify_only:
+        description: Build verification only; download the artifact before publishing
+        type: boolean
+        default: true
+      engine:
+        description: Primary download engine
+        type: choice
+        options:
+        - self
+        - aria2c
+        default: self
+      debug_overlay:
+        description: Internal debug overlay; keep off for public builds
+        type: boolean
+        default: false
+concurrency:
+  group: personal-main-native-build
+  cancel-in-progress: false
