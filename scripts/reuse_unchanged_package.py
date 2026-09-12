@@ -1,4 +1,4 @@
-"""Reuse released bytes when a rebuild has identical member names and contents."""
+"""Reuse released bytes for equal members, ignoring CRLF/LF in UTF-8 text only."""
 import argparse
 import hashlib
 from pathlib import Path
@@ -6,12 +6,28 @@ import shutil
 import zipfile
 
 
+TEXT_SUFFIXES = {'.json', '.js', '.css', '.html', '.tsv', '.txt'}
+
+
+def content_digest(name, body):
+    # Git text checkout can change CRLF to LF. This changes neither translation
+    # values nor JS logic. Never normalize binary assets or parse/reserialize JSON.
+    if Path(name).suffix.lower() in TEXT_SUFFIXES:
+        try:
+            body.decode('utf-8')
+        except UnicodeDecodeError:
+            pass
+        else:
+            body = body.replace(b'\r\n', b'\n')
+    return hashlib.sha256(body).hexdigest()
+
+
 def inventory(path):
     with zipfile.ZipFile(path) as archive:
         names = [i.filename for i in archive.infolist() if not i.is_dir()]
         if len(names) != len(set(names)):
             raise ValueError('Duplicate ZIP members')
-        return {name: hashlib.sha256(archive.read(name)).hexdigest() for name in names}
+        return {name: content_digest(name, archive.read(name)) for name in names}
 
 
 def reuse(candidate, baseline):

@@ -2666,7 +2666,7 @@ jobs:
   commit-configs:
     runs-on: ubuntu-latest
     needs: [setup, pack-js, pack-scenario, publish]
-    if: always() && needs.setup.result == 'success'
+    if: always() && needs.setup.result == 'success' && needs.publish.result == 'success'
     outputs:
       committed:   ${{ steps.commit_configs.outputs.committed }}
       sha:         ${{ steps.commit_configs.outputs.sha }}

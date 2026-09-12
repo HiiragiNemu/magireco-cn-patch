@@ -4,11 +4,16 @@ from pathlib import Path
 import tempfile
 import unittest
 import zipfile
-from reuse_unchanged_package import reuse
+from reuse_unchanged_package import reuse, content_digest
 from refresh_finalized_record import record, NAMES, EXCLUDED
 
 
 class Helpers(unittest.TestCase):
+    def test_git_line_endings_only_for_utf8_text(self):
+        self.assertEqual(content_digest('a.json', b'{\r\n}\r\n'),content_digest('a.json', b'{\n}\n'))
+        self.assertNotEqual(content_digest('a.png', b'a\r\n'),content_digest('a.png', b'a\n'))
+        self.assertNotEqual(content_digest('a.json', b'{"text":"a"}'),content_digest('a.json', b'{"text":"b"}'))
+
     def test_reuse_ignores_zip_timestamp_but_not_product_bytes(self):
         with tempfile.TemporaryDirectory() as td:
             a, b = Path(td)/'candidate.zip', Path(td)/'baseline.zip'
