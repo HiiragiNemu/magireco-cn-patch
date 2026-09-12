@@ -320,6 +320,12 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             self.text,
         )
 
+    def test_automatic_push_uses_event_range_without_a_previous_cursor(self):
+        self.assertIn('PUSH_BEFORE: ${{ github.event.before }}', self.text)
+        self.assertIn('if [ "$GITHUB_EVENT_NAME" = "push" ]; then', self.text)
+        self.assertIn('PRE_SYNC_SHA=${PUSH_BEFORE:-0000000000000000000000000000000000000000}', self.text)
+        self.assertIn("if: always() && needs.setup.result == 'success' && needs.commit-configs.result == 'success'", self.workflow_jobs()['update-cursor'])
+
     def test_cursor_waits_for_personal_publication_not_retired_mirrors(self):
         jobs = self.workflow_jobs()
         self.assertIn("needs: [setup, commit-configs]", jobs['update-cursor'])

@@ -266,11 +266,14 @@ jobs:
       - name: Pin personal main change range
         if: steps.check_upstream.outputs.should_sync == 'true'
         env:
+          PUSH_BEFORE: ${{ github.event.before }}
           LAST_SYNC_COMMIT_SHA: ${{ vars.LAST_SYNC_COMMIT_SHA }}
         run: |
           set -euo pipefail
           test "$GITHUB_REPOSITORY" = 'HiiragiNemu/magireco-cn-patch'
-          if [ -n "$LAST_SYNC_COMMIT_SHA" ] && git cat-file -e "$LAST_SYNC_COMMIT_SHA^{commit}" 2>/dev/null; then
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            echo "PRE_SYNC_SHA=${PUSH_BEFORE:-0000000000000000000000000000000000000000}" >> "$GITHUB_ENV"
+          elif [ -n "$LAST_SYNC_COMMIT_SHA" ] && git cat-file -e "$LAST_SYNC_COMMIT_SHA^{commit}" 2>/dev/null; then
             echo "PRE_SYNC_SHA=$LAST_SYNC_COMMIT_SHA" >> "$GITHUB_ENV"
           else
             echo "PRE_SYNC_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
@@ -3000,7 +3003,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [setup, commit-configs]
     # GitHub-only candidate: external distribution jobs are intentionally skipped.
-    if: needs.commit-configs.result == 'success' && (needs.setup.outputs.should_sync == 'true' || needs.commit-configs.outputs.committed == 'true')
+    if: always() && needs.setup.result == 'success' && needs.commit-configs.result == 'success' && (needs.setup.outputs.should_sync == 'true' || needs.commit-configs.outputs.committed == 'true')
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       FINAL_SYNC_SHA: ${{ needs.commit-configs.outputs.final_sync_sha }}
