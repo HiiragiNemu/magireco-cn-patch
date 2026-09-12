@@ -16,6 +16,7 @@ def save(path, data):
 
 def local():
     data = json.loads(EXPECTED.read_text(encoding='utf-8'))
+    assert not data.get('publication_hold'), data.get('hold_reason', 'Publication paused')
     assert set(data['files']) == set(NAMES)
     for name in NAMES:
         p = PAYLOAD / name; row = data['files'][name]

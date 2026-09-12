@@ -30,6 +30,8 @@ ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT = "cn_js_update_new.zip"
 ENGINE_MEMBER = "madomagi/engine_i18n.tsv"
 REPAIR_PREFIX = "madomagi/resource/image_native/"
+# Explicit user exclusion: existing Memoria sources stay untouched and never ship.
+EXCLUDED_NATIVE_PREFIXES = ("madomagi/resource/image_native/memoria/",)
 REPAIR_MANIFEST = "madomagi/repair_manifest.json"
 IMAGE_WEB_PREFIX = "magica/resource/image_web/"
 IMAGE_WEB_MANIFEST = (
@@ -37,7 +39,7 @@ IMAGE_WEB_MANIFEST = (
     "image-web-product-closure-20260820/image_web_product_manifest.json"
 )
 EXCLUDED_PREFIXES = ("magica/research/", "magica/i18n_audit/")
-FORBIDDEN_PREFIXES = EXCLUDED_PREFIXES + ("madomagi/resource/scenario/",)
+FORBIDDEN_PREFIXES = EXCLUDED_PREFIXES + ("madomagi/resource/scenario/",) + EXCLUDED_NATIVE_PREFIXES
 FIXED_DOS_TIME = (1980, 1, 1, 0, 0, 0)
 UNIX_FILE_MODE = stat.S_IFREG | 0o644
 COMPRESSION = zipfile.ZIP_DEFLATED
@@ -118,7 +120,7 @@ def _repair_inputs(root: Path) -> list[tuple[str, Path]]:
         if not isinstance(member, str):
             raise PackageError("native 修复清单路径缺失")
         _normalise_member(member)
-        if not member.startswith(REPAIR_PREFIX) or member in declared:
+        if not member.startswith(REPAIR_PREFIX) or member.startswith(EXCLUDED_NATIVE_PREFIXES) or member in declared:
             raise PackageError(f"native 修复路径越界或重复: {member!r}")
         declared.add(member)
         source = root.joinpath(*PurePosixPath(member).parts)
@@ -132,7 +134,7 @@ def _repair_inputs(root: Path) -> list[tuple[str, Path]]:
     actual = {
         source.relative_to(root).as_posix()
         for source in (root / REPAIR_PREFIX).rglob("*")
-        if source.is_file()
+        if source.is_file() and not source.relative_to(root).as_posix().startswith(EXCLUDED_NATIVE_PREFIXES)
     }
     if actual != declared:
         raise PackageError(
