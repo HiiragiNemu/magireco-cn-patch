@@ -391,7 +391,7 @@
     "textLeft": "（那这个任务就不适合@普通士兵来做了。）"
    },
    {
-    "autoTurnLast": 1.0,
+    "autoTurnLast": 1,
     "bg": "bg_adv_20073.jpg",
     "bgm": "stop",
     "chara": [
@@ -440,7 +440,7 @@
      {
       "cheek": 0,
       "face": "mtn_ex_010.exp.json",
-      "id": 831100,
+      "id": 402900,
       "motion": 0,
       "pos": 2
      },
@@ -456,7 +456,7 @@
    {
     "chara": [
      {
-      "id": 831100
+      "id": 402900
      }
     ],
     "nameRight": "佩蕾奈尔·弗拉梅尔",
@@ -473,7 +473,7 @@
    {
     "chara": [
      {
-      "id": 831100
+      "id": 402900
      }
     ],
     "textRight": "嗯，是的。"
@@ -481,7 +481,7 @@
    {
     "chara": [
      {
-      "id": 831100
+      "id": 402900
      }
     ],
     "textRight": "身为探究神秘之人……"
@@ -489,7 +489,7 @@
    {
     "chara": [
      {
-      "id": 831100
+      "id": 402900
      }
     ],
     "textRight": "我对那个幽灵骑士的传闻很感兴趣。"
@@ -499,7 +499,7 @@
      {
       "cheek": 0,
       "face": "mtn_ex_011.exp.json",
-      "id": 831100
+      "id": 402900
      }
     ],
     "textRight": "因此决定和您同行。"
@@ -540,7 +540,7 @@
      {
       "cheek": 0,
       "face": "mtn_ex_011.exp.json",
-      "id": 831100,
+      "id": 402900,
       "motion": 0,
       "pos": 2
      },
@@ -670,7 +670,7 @@
      {
       "cheek": 0,
       "face": "mtn_ex_030.exp.json",
-      "id": 831100,
+      "id": 402900,
       "motion": 0,
       "pos": 2
      }
@@ -681,7 +681,7 @@
    {
     "chara": [
      {
-      "id": 831100
+      "id": 402900
      }
     ],
     "textRight": "您就这么讨厌丘卜吗？"
@@ -731,7 +731,7 @@
      },
      {
       "effect": "fadeout",
-      "id": 831100
+      "id": 402900
      }
     ],
     "textClear": 1
@@ -743,13 +743,15 @@
       "cheek": 0,
       "face": "mtn_ex_000.exp.json",
       "id": 760000,
+      "live2dName": "live2d_0",
       "motion": 0,
       "pos": 0
      },
      {
       "cheek": 0,
       "face": "mtn_ex_000.exp.json",
-      "id": 760090,
+      "id": 760000,
+      "live2dName": "live2d_1",
       "motion": 0,
       "pos": 2
      }
@@ -763,11 +765,13 @@
     "chara": [
      {
       "effect": "fadeout",
-      "id": 760000
+      "id": 760000,
+      "live2dName": "live2d_0"
      },
      {
       "effect": "fadeout",
-      "id": 760090
+      "id": 760000,
+      "live2dName": "live2d_1"
      }
     ],
     "textClear": 1
@@ -810,7 +814,7 @@
     "textCenter": "我来收拾掉你们这帮东西！"
    },
    {
-    "autoTurnLast": 2.0,
+    "autoTurnLast": 2,
     "deleteArmatureList": [
      1
     ],

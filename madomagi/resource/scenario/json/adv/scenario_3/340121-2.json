@@ -2,8 +2,9 @@
  "story": {
   "group_1": [
    {
+    "autoTurnLast": 0.01,
     "bg": "bg_adv_13021.jpg",
-    "bgm": "bgm03_story02",
+    "bgm": "bgm03_story06",
     "chara": [
      {
       "cheek": 0,
@@ -14,16 +15,22 @@
      },
      {
       "cheek": 0,
-      "face": "mtn_ex_010.exp.json",
+      "face": "mtn_ex_030.exp.json",
       "id": 301101,
       "motion": 0,
       "pos": 2
      }
     ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 401200
+     }
+    ],
     "nameLeft": "御崎海香",
-    "nameRight": "夏目佳子",
-    "textLeft": "莫非……你也是！？",
-    "turnChangeIn": "fadeIn",
+    "textLeft": "难道……你也是!?",
     "turnChangeOut": "fadeOut"
    },
    {
@@ -31,10 +38,16 @@
      {
       "cheek": 0,
       "face": "mtn_ex_010.exp.json",
-      "id": 301101
+      "id": 301101,
+      "motion": 400
      }
     ],
-    "textRight": "没错，我也是！"
+    "nameRight": "夏目佳子",
+    "textRight": "是的！"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "textClear": 1
    },
    {
     "chara": [
@@ -43,34 +56,84 @@
       "effect": "ef_adv_05",
       "face": "mtn_ex_010.exp.json",
       "id": 301100,
-      "motion": 400,
+      "motion": 0,
       "pos": 2
      }
     ],
+    "nameRight": "夏目佳子",
     "se": "7205_magic_girl",
-    "textRight": "我叫做夏目佳子！"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
-      "id": 401200,
-      "motion": 0
-     }
-    ],
-    "textLeft": "神滨市的……魔法少女……！"
+    "textRight": "我叫夏目佳子！"
    },
    {
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_010.exp.json",
-      "id": 301100,
-      "motion": 1
+      "id": 401200,
+      "motion": 0
      }
     ],
-    "textRight": "是的！"
+    "nameLeft": "御崎海香",
+    "textLeft": "神滨市的……魔法少女……！@我是从翌桧市来的。"
+   },
+   {
+    "chara": [
+     {
+      "id": 301100,
+      "motion": 200
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "哇，我还是第一次见到@翌桧市的魔法少女。"
+   },
+   {
+    "chara": [
+     {
+      "id": 301100
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "翌桧市有拉比乐园、@安洁莉卡熊博物馆……"
+   },
+   {
+    "chara": [
+     {
+      "id": 301100
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "好玩的地方@有很多呢！"
+   },
+   {
+    "chara": [
+     {
+      "id": 301100,
+      "motion": 400
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "还有一家叫“蕾帕·玛琪卡”的@西餐厅，东西很好吃！"
+   },
+   {
+    "chara": [
+     {
+      "id": 301100
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "前些天电视上还介绍过，@我妈妈说那位主厨很有魅力。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 401200,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "是啊，立花先生的确是位@很有魅力的主厨，不过……那个……"
    },
    {
     "chara": [
@@ -80,84 +143,12 @@
       "id": 301100
      }
     ],
-    "textRight": "哎？@听你语气，难不成……"
+    "nameRight": "夏目佳子",
+    "textRight": "……啊，对不起！@一直都是我一个人在说个不停……"
    },
    {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
-      "id": 401200,
-      "motion": 1
-     }
-    ],
-    "textLeft": "我……是从翌桧市来的。"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_010.exp.json",
-      "id": 301100,
-      "motion": 400
-     }
-    ],
-    "textRight": "好厉害！我还是第一次遇到@翌桧市的魔法少女！"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_010.exp.json",
-      "id": 301100,
-      "motion": 0
-     }
-    ],
-    "textRight": "你为什么要来我们市？"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 401200,
-      "motion": 300
-     }
-    ],
-    "textLeft": "关于这个……@呃……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 301100,
-      "motion": 300
-     }
-    ],
-    "textRight": "啊，不好意思……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 301100
-     }
-    ],
-    "textRight": "如果有什么难言之隐的话，@我就不问了……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 401200,
-      "motion": 0,
-      "pos": 0
-     }
-    ],
-    "textLeft": "不，并非如此……"
+    "autoTurnLast": 0.01,
+    "textClear": 1
    },
    {
     "chara": [
@@ -166,165 +157,157 @@
       "effect": "ef_adv_05",
       "face": "mtn_ex_001.exp.json",
       "id": 401201,
-      "motion": 1,
+      "motion": 0,
       "pos": 0
      }
     ],
+    "nameLeft": "御崎海香",
     "se": "7205_magic_girl",
-    "textLeft": "我先解除变身吧……"
+    "textLeft": "没事……@我们先解除变身吧？"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "textClear": 1
    },
    {
     "chara": [
      {
       "cheek": 0,
       "effect": "ef_adv_05",
-      "face": "mtn_ex_050.exp.json",
+      "face": "mtn_ex_011.exp.json",
       "id": 301101,
       "motion": 0,
       "pos": 2
      }
     ],
+    "nameRight": "夏目佳子",
     "se": "7205_magic_girl",
-    "textRight": "啊！对、对哦！"
+    "textRight": "……啊！说、说得也是！"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
-      "id": 401201,
-      "motion": 0
-     }
-    ],
-    "textLeft": "然后，关于刚才的问题……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
-      "id": 401201
-     }
-    ],
-    "textLeft": "我——不，我们，@是追着魔女来到神滨的。"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
-      "id": 301101,
-      "motion": 400
-     }
-    ],
-    "textRight": "追着魔女……！"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 401201,
-      "motion": 300
-     }
-    ],
-    "textLeft": "我跟同行的朋友，@在魔女的结界中走散了……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 401201
-     }
-    ],
-    "textLeft": "不过我想她们应该都在附近……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 301101,
-      "motion": 1
-     }
-    ],
-    "textRight": "这……@可真是够呛呢……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
-      "id": 401201,
-      "motion": 0
-     }
-    ],
-    "textLeft": "不过，和美……我那个同伴，@肯定会平安无事的！"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
-      "id": 401201
-     }
-    ],
-    "textLeft": "我们很清楚！"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
       "id": 301101,
       "motion": 300
      }
     ],
-    "textRight": "是这样啊……"
+    "nameRight": "夏目佳子",
+    "textRight": "因为是第一次见到翌桧市的魔法少女，@我一高兴就……"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 301101
-     }
-    ],
-    "textRight": "不过，你都不知道她在哪里，@也能这么确信……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_022.exp.json",
-      "id": 301101,
-      "motion": 1
-     }
-    ],
-    "textRight": "真棒啊……！"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 1,
       "face": "mtn_ex_010.exp.json",
+      "id": 401201,
+      "motion": 1
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "呵呵……不管来自哪座城市，@魔法少女都是魔法少女。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 301101,
+      "motion": 1
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "……说得也是。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 401201
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "我和几位魔法少女同伴一起@追着魔女来到了这座城市。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 401201
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "可是在魔女的结界里，@我和同伴走散了……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 401201,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "你有没有在哪里听说过@和美和薰这两个名字？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
       "id": 301101,
       "motion": 100
      }
     ],
-    "textRight": "你们的心是连在一起呢。@真美好啊……"
+    "nameRight": "夏目佳子",
+    "textRight": "和美小姐和薰小姐……@我还是第一次听到这两个名字。"
    },
    {
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_030.exp.json",
-      "id": 401201,
-      "motion": 300
+      "id": 301101,
+      "motion": 0
      }
     ],
-    "textLeft": "话是这么说……@她究竟在哪里呢……"
+    "nameRight": "夏目佳子",
+    "textRight": "对不起……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 401201,
+      "motion": 0
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "这不是你该道歉的事。"
+   },
+   {
+    "chara": [
+     {
+      "id": 401201
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "不过，之后如果你或是@你的熟人……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 401201,
+      "motion": 200
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "要是得知了和美和薰的消息，@希望你能联系我，那就帮大忙了。"
    },
    {
     "chara": [
@@ -332,21 +315,64 @@
       "cheek": 0,
       "face": "mtn_ex_011.exp.json",
       "id": 301101,
-      "lipSynch": 0,
+      "motion": 200
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "联系……@要怎么联系呢……"
+   },
+   {
+    "chara": [
+     {
+      "id": 401201
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "只要用灵魂宝石呼唤我@就可以了。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp.json",
+      "id": 301101,
       "motion": 0
      }
     ],
-    "textRight": "…………"
+    "nameRight": "夏目佳子",
+    "textRight": "啊，对哦！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 401201,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "那么，我先告辞了。"
    },
    {
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_022.exp.json",
+      "id": 301101
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "……那个！"
+   },
+   {
+    "chara": [
+     {
       "id": 301101,
       "motion": 400
      }
     ],
+    "nameRight": "夏目佳子",
     "textRight": "我来帮忙！"
    },
    {
@@ -358,52 +384,53 @@
       "motion": 0
      }
     ],
-    "textLeft": "哎？"
+    "nameLeft": "御崎海香",
+    "textLeft": "咦？"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 301101,
-      "motion": 0
+      "face": "mtn_ex_011.exp.json",
+      "id": 301101
      }
     ],
-    "textRight": "你对这里不熟，@找起来可能不怎么方便……"
+    "nameRight": "夏目佳子",
+    "textRight": "我想你在不熟悉的地方@一定会有很多不便……"
    },
    {
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_010.exp.json",
-      "id": 301101
+      "id": 301101,
+      "motion": 1
      }
     ],
-    "textRight": "而且，同为魔法少女，@相遇就是缘分嘛！"
+    "nameRight": "夏目佳子",
+    "textRight": "而且，我觉得我们同为魔法少女，@能像这样相遇也是一种缘分……"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
       "id": 401201,
       "lipSynch": 0
      }
     ],
+    "nameLeft": "御崎海香",
     "textLeft": "…………"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
+      "face": "mtn_ex_020.exp.json",
       "id": 401201,
-      "lipSynch": 0,
-      "motion": 1
+      "lipSynch": 0
      }
     ],
-    "textLeft": "（她说得对……@我确实对神滨不熟……）",
-    "turnEffect": "thinking"
+    "nameLeft": "御崎海香",
+    "textLeft": "（……她说得没错……可是，@魔法少女也未必会站在我这边……）"
    },
    {
     "chara": [
@@ -414,51 +441,30 @@
       "lipSynch": 0
      }
     ],
-    "textLeft": "（与其一个人找，@还是拜托她一下吧……）"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 401201,
-      "motion": 300
-     }
-    ],
-    "textLeft": "不好意思……@那我就恭敬不如从命了。",
-    "turnEffect": "stop"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
-      "id": 401201,
-      "motion": 100
-     }
-    ],
-    "textLeft": "要麻烦你帮忙了……！"
+    "nameLeft": "御崎海香",
+    "textLeft": "（不……这孩子的眼神……@和和美一样清澈……）"
    },
    {
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_010.exp.json",
+      "id": 401201,
+      "motion": 1
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "佳子小姐，谢谢你。@那我就恭敬不如从命了。"
+   },
+   {
+    "chara": [
+     {
       "id": 301101,
-      "motion": 400
+      "motion": 0
      }
     ],
-    "textRight": "好的！@我很乐意！"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_010.exp.json",
-      "id": 301101
-     }
-    ],
-    "textRight": "那就赶快开始吧……！"
+    "nameRight": "夏目佳子",
+    "textRight": "好！"
    },
    {
     "chara": [
@@ -469,18 +475,40 @@
       "motion": 200
      }
     ],
-    "textLeft": "在此之前！"
+    "nameLeft": "御崎海香",
+    "textLeft": "那我们一边寻找她们俩，@一边请你给我介绍这座城市，可以吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_011.exp.json",
+      "id": 301101,
+      "motion": 200
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "啊，好的……不过……"
    },
    {
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_050.exp.json",
-      "id": 301101,
-      "motion": 200
+      "id": 401201
      }
     ],
-    "textRight": "啊，嗯！@什么事？"
+    "nameLeft": "御崎海香",
+    "textLeft": "还是说，你也有事情要办，@时间不方便？"
+   },
+   {
+    "chara": [
+     {
+      "id": 301101
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "那倒不是……"
    },
    {
     "chara": [
@@ -488,42 +516,63 @@
       "cheek": 0,
       "face": "mtn_ex_001.exp.json",
       "id": 401201,
-      "motion": 1
+      "motion": 0
      }
     ],
-    "textLeft": "可以先跟我说说神滨的事吗？"
+    "nameLeft": "御崎海香",
+    "textLeft": "我明明是有求于人的一方，实在抱歉，@可是我没有时间了……"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
-      "id": 401201
-     }
-    ],
-    "textLeft": "除了找人之外，@我还想搜集一下这里的情报。"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_022.exp.json",
       "id": 301101,
       "motion": 100
      }
     ],
-    "textRight": "这样啊……！"
+    "nameRight": "夏目佳子",
+    "textRight": "呃……那个……"
+   },
+   {
+    "chara": [
+     {
+      "id": 301101
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "……我家就在附近，@要不要去喝杯茶……"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_010.exp.json",
+      "face": "mtn_ex_020.exp.json",
+      "id": 401201,
+      "motion": 1
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "我没有时间了……"
+   },
+   {
+    "chara": [
+     {
       "id": 301101,
       "motion": 400
      }
     ],
-    "textRight": "正好……我家就在附近，去那里说吧！"
+    "nameRight": "夏目佳子",
+    "textRight": "可是，神滨市很大……@还是先想清楚该怎么找比较好……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301101
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "对、对不起……如果你赶时间，@边走边说也……应该可以……"
    },
    {
     "chara": [
@@ -531,10 +580,12 @@
       "cheek": 0,
       "face": "mtn_ex_030.exp.json",
       "id": 401201,
-      "motion": 300
+      "motion": 300,
+      "pos": 0
      }
     ],
-    "textLeft": "你家？@不，也不太好突然上门叨扰……"
+    "nameLeft": "御崎海香",
+    "textLeft": "……你说得对，@我应该静下心来想好下一步。"
    },
    {
     "chara": [
@@ -545,43 +596,23 @@
       "motion": 0
      }
     ],
-    "textRight": "不必介意！@说是家，其实也是一家店啦……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
-      "id": 401201,
-      "motion": 0
-     }
-    ],
-    "textLeft": "店……？"
+    "nameRight": "夏目佳子",
+    "textRight": "啊，好的！那我来带路。@就在前面不远……"
    },
    {
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_010.exp.json",
-      "id": 301101,
-      "motion": 1
-     }
-    ],
-    "textRight": "是的，是旧书店！@店名叫「夏目书房」！"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_001.exp.json",
       "id": 401201,
-      "motion": 1
+      "motion": 0
      }
     ],
-    "textLeft": "夏目书房……"
+    "nameLeft": "御崎海香",
+    "textLeft": "……谢谢。"
    },
    {
-    "autoTurnLast": 2.0,
+    "autoTurnLast": 2,
     "turnChangeIn": "fadeIn"
    }
   ]

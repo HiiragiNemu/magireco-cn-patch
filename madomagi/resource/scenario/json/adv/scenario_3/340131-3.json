@@ -19,14 +19,14 @@
      }
     ],
     "nameNarration": "牧薰",
-    "narration": "我根据灵魂宝石的反应@闯进了一个魔女的结界，@然后在那里遇到了另一位魔法少女。",
+    "narration": "循着灵魂宝石的反应@闯进魔女结界的我@遇见了一位魔法少女",
     "narrationBg": "bg_adv_47105.jpg",
     "narrationEffect": "in",
     "turnChangeIn": "fadeIn",
     "turnChangeOut": "fadeOut"
    },
    {
-    "narration": "我们立刻组成了搭档，@一起讨伐魔女！"
+    "narration": "我们临时组成了搭档@向魔女发起挑战！"
    },
    {
     "chara": [
@@ -51,7 +51,7 @@
       "motion": 0
      }
     ],
-    "textRight": "就是现在！"
+    "textRight": "……就是现在！"
    },
    {
     "chara": [
@@ -73,20 +73,20 @@
       "name": "sprite_0"
      }
     ],
-    "textLeft": "[flashEffect:flashRed2][se:6114_hit_slash_06_h][bgEffect:shakeLarge][name:sprite_0:effect_shake]∞//×Θ！"
+    "textLeft": "[flashEffect:flashRed2][se:6114_hit_slash_06_h][bgEffect:shakeLarge][name:sprite_0:effect_shake]∞?×Θ！"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "0",
+      "face": "mtn_ex_010.exp.json",
       "id": 401300,
       "motion": 0,
       "pos": 2
      }
     ],
     "nameRight": "牧薰",
-    "textRight": "捕捉到轨迹了……！"
+    "textRight": "……找到射门路线了……！"
    },
    {
     "chara": [
@@ -111,7 +111,7 @@
     ],
     "flashEffect": "flashRed2",
     "surround": "4013A06",
-    "textLeft": "§×ΘΦщβ！！！"
+    "textLeft": "§×ΘΦщβ!!!"
    },
    {
     "autoTurnLast": 0.5,
@@ -122,7 +122,8 @@
       "name": "sprite_0"
      }
     ],
-    "se": "3102_enemy_dead"
+    "se": "3102_enemy_dead",
+    "textClear": 1
    },
    {
     "autoTurnLast": 0.5,
@@ -130,6 +131,18 @@
     "bgChangeEffect": "exitWitchSpace",
     "bgm": "stop",
     "se": "7209_gate_close"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 300200,
+      "motion": 0,
+      "pos": 0
+     }
+    ]
    },
    {
     "bgm": "bgm01_anime03",
@@ -144,7 +157,11 @@
      }
     ],
     "se": "7205_magic_girl",
-    "textRight": "呼～"
+    "textRight": "……呼～……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "textClear": 1
    },
    {
     "chara": [
@@ -159,7 +176,7 @@
     ],
     "nameLeft": "空穗夏希",
     "se": "7205_magic_girl",
-    "textLeft": "打倒了……@太、太好了……"
+    "textLeft": "……打倒了……@……太、太好了……"
    },
    {
     "chara": [
@@ -170,7 +187,7 @@
       "motion": 1
      }
     ],
-    "textRight": "好险啊。@你没事吧？"
+    "textRight": "……好险啊@你没事吧？"
    },
    {
     "chara": [
@@ -181,7 +198,7 @@
       "motion": 0
      }
     ],
-    "textLeft": "啊，是、是的……！"
+    "textLeft": "……啊，没、没事……！"
    },
    {
     "chara": [
@@ -191,7 +208,7 @@
       "id": 300201
      }
     ],
-    "textLeft": "那个！@非常感谢！"
+    "textLeft": "……那个！@谢谢你救了我！"
    },
    {
     "chara": [
@@ -202,7 +219,7 @@
       "motion": 300
      }
     ],
-    "textLeft": "我该怎么谢你才好啊……"
+    "textLeft": "真不知道该怎么谢你……"
    },
    {
     "chara": [
@@ -213,16 +230,15 @@
       "motion": 0
      }
     ],
-    "textRight": "不用跟我道谢啦～"
+    "textRight": "不用谢我啦"
    },
    {
     "chara": [
      {
-      "cheek": 0,
       "id": 401301
      }
     ],
-    "textRight": "大家同为魔法少女，@有困难时就该互相帮助，对吧？"
+    "textRight": "我们都是魔法少女@遇到困难就该互相帮助，对吧？"
    },
    {
     "chara": [
@@ -233,7 +249,7 @@
       "motion": 100
      }
     ],
-    "textLeft": "[chara:300201:effect_emotion_joy_0][se:7222_happy]谢谢你！"
+    "textLeft": "[chara:300201:effect_emotion_joy_0][se:7222_happy]……谢谢你！"
    },
    {
     "chara": [
@@ -244,13 +260,11 @@
       "motion": 1
      }
     ],
-    "textLeft": "那个……你好！@我叫做空穗夏希。"
+    "textLeft": "……还有，初次见面……！@我叫空穗夏希"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_010.exp.json",
       "id": 401301,
       "motion": 100
      }
@@ -265,7 +279,7 @@
       "id": 401301
      }
     ],
-    "textRight": "你是……神滨本地的魔法少女吧？"
+    "textRight": "……你是神滨的……魔法少女吧？"
    },
    {
     "chara": [
@@ -276,7 +290,7 @@
       "motion": 0
      }
     ],
-    "textLeft": "哎？啊，是的！@你……不是吗？"
+    "textLeft": "咦？嗯、嗯！@你……不是吗？"
    },
    {
     "chara": [
@@ -287,16 +301,15 @@
       "motion": 1
      }
     ],
-    "textRight": "我家在翌桧市……"
+    "textRight": "我的据点在翌桧市"
    },
    {
     "chara": [
      {
-      "cheek": 0,
       "id": 401301
      }
     ],
-    "textRight": "因为发生了一些事……@我和同伴一起被丢来了这里。"
+    "textRight": "因为发生了不少事@我和伙伴们一起被传送到这里来了"
    },
    {
     "chara": [
@@ -307,7 +320,7 @@
       "motion": 300
      }
     ],
-    "textLeft": "被丢来？虽然我不太明白，@不过好像很不妙啊……"
+    "textLeft": "被传送过来……我不太明白是怎么回事@不过听起来很不容易呢……"
    },
    {
     "chara": [
@@ -318,16 +331,15 @@
       "motion": 300
      }
     ],
-    "textRight": "是啊，@感觉事情变得很严重了。"
+    "textRight": "是啊@事情不知怎么就闹大了"
    },
    {
     "chara": [
      {
-      "cheek": 0,
       "id": 401301
      }
     ],
-    "textRight": "现在我根本分不清东南西北，@所以想找人帮忙。"
+    "textRight": "我在这儿连东南西北都分不清@所以想找你商量一下，或者说……"
    },
    {
     "chara": [
@@ -343,16 +355,14 @@
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
       "id": 401301,
       "motion": 0
      }
     ],
-    "textRight": "可以听我说几句话吗？"
+    "textRight": "……能听我说说吗？"
    },
    {
-    "autoTurnLast": 2.0,
+    "autoTurnLast": 2,
     "turnChangeIn": "fadeIn"
    }
   ]

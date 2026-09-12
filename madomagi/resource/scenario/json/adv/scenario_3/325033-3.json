@@ -1,577 +1,577 @@
 {
-  "story": {
-    "group_1": [
-      {
-        "autoTurnLast": 0.2,
-        "bg": "black",
-        "item": [
-          {
-            "path": "resource/scenario/img/32503_mami_story/memoria_2004.jpg",
-            "posX": 0,
-            "posY": 0,
-            "visible": "appear"
-          }
-        ],
-        "turnChangeIn": "fadeIn"
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.2,
+    "bg": "black",
+    "item": [
+     {
+      "path": "resource/scenario/img/32503_mami_story/memoria_2004.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bgm": "bgm01_anime22",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "se": "3207_restraint"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "sequence": [
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 30,
+          "posY": 30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": -30,
+          "posY": -30
+         }
+        },
+        {
+         "moveTo": {
+          "duration": 0.05,
+          "posX": 0,
+          "posY": 0
+         }
+        }
+       ]
       },
-      {
-        "autoTurnLast": 0.01,
-        "bgm": "bgm01_anime22",
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "autoTurnLast": 0.01,
-        "se": "3207_restraint"
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "action": {
-              "sequence": [
-                {
-                  "moveTo": {
-                    "duration": 0.05,
-                    "posX": -30,
-                    "posY": -30
-                  }
-                },
-                {
-                  "moveTo": {
-                    "duration": 0.05,
-                    "posX": 30,
-                    "posY": 30
-                  }
-                },
-                {
-                  "moveTo": {
-                    "duration": 0.05,
-                    "posX": -30,
-                    "posY": -30
-                  }
-                },
-                {
-                  "moveTo": {
-                    "duration": 0.05,
-                    "posX": 30,
-                    "posY": 30
-                  }
-                },
-                {
-                  "moveTo": {
-                    "duration": 0.05,
-                    "posX": -30,
-                    "posY": -30
-                  }
-                },
-                {
-                  "moveTo": {
-                    "duration": 0.05,
-                    "posX": 0,
-                    "posY": 0
-                  }
-                }
-              ]
-            },
-            "path": "resource/scenario/img/32503_mami_story/memoria_2004.jpg"
-          }
-        ]
-      },
-      {
-        "nameNarration": "焰",
-        "narration": "这是…",
-        "narrationAnchor": "bottom",
-        "narrationCoverOpacity": 110,
-        "narrationEffect": "in",
-        "narrationFontSize": 30,
-        "narrationLineMargin": 60,
-        "narrationLineSpace": 20
-      },
-      {
-        "narration": "（装作失去了平衡@和不得已射出的子弹都是假动作…）"
-      },
-      {
-        "narration": "（她从最开始就瞄准了盾牌？）"
-      },
-      {
-        "narration": "（…完美地封住了操纵时间的魔法@莫非…她其实知道吗？）"
-      },
-      {
-        "autoTurnLast": 1.3,
-        "bg": "bg_adv_21147.jpg",
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_020.exp3.json",
-            "id": 200500,
-            "motion": 0,
-            "pos": 0
-          },
-          {
-            "cheek": 0,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 200200,
-            "motion": 300,
-            "pos": 2
-          }
-        ],
-        "narrationEffect": "out",
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500,
-            "lipSynch": 0
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "…………",
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 200500,
-            "lipSynch": 1,
-            "motion": 100
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "…干得漂亮@是我输了"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_051.exp3.json",
-            "id": 200200,
-            "lipSynch": 0,
-            "motion": 0
-          }
-        ],
-        "nameRight": "焰",
-        "textRight": "…………"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500,
-            "motion": 200
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "是你用出王牌的速度更快"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "虽然不知道用了什么魔法…"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "但居然能让四发子弹@从不同的方向同时袭来"
-      },
-      {
-        "chara": [
-          {
-            "eyeClose": 1,
-            "id": 200500,
-            "motion": 1
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "而且只要走错一步就都是致命伤…"
-      },
-      {
-        "chara": [
-          {
-            "eyeClose": 1,
-            "id": 200500
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "只要你真的想那么做@这次攻击完全可以命中我"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "…是我完败了呢"
-      },
-      {
-        "chara": [
-          {
-            "eyeClose": 0,
-            "id": 200500,
-            "motion": 300
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "虽然追着你的视线"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "想着只要封住那面盾牌就能赢@把胜负赌在了那上面…"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500,
-            "motion": 0
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "但看来是你的魔法"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "早了一瞬间生效呢"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_000.exp3.json",
-            "id": 200200,
-            "lipSynch": 0
-          }
-        ],
-        "nameRight": "焰",
-        "textRight": "…………"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 200200,
-            "lipSynch": 0,
-            "motion": 200
-          }
-        ],
-        "nameRight": "焰",
-        "textRight": "（嗯…确实赢得很惊险）",
-        "turnEffect": "thinking"
-      },
-      {
-        "chara": [
-          {
-            "id": 200200,
-            "lipSynch": 0
-          }
-        ],
-        "nameRight": "焰",
-        "textRight": "（只是因为在缎带碰到之前@我就停下了时间才赢了）"
-      },
-      {
-        "chara": [
-          {
-            "id": 200200,
-            "lipSynch": 0
-          }
-        ],
-        "nameRight": "焰",
-        "textRight": "（她还不知道我的底牌）"
-      },
-      {
-        "chara": [
-          {
-            "id": 200200,
-            "lipSynch": 0
-          }
-        ],
-        "nameRight": "焰",
-        "textRight": "（明明我应该是在@压倒性有利的条件下挑战她的…）"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_010.exp3.json",
-            "id": 200500,
-            "motion": 100,
-            "pos": 0
-          },
-          {
-            "eyeClose": 1,
-            "id": 200200
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "…看来，你是个@充分领悟了战斗方式的魔法少女呢",
-        "turnEffect": "stop"
-      },
-      {
-        "chara": [
-          {
-            "eyeClose": 0,
-            "id": 200200,
-            "lipSynch": 1,
-            "motion": 0
-          }
-        ],
-        "nameRight": "焰",
-        "textRight": "那是…"
-      },
-      {
-        "chara": [
-          {
-            "id": 200200,
-            "lipSynch": 0
-          }
-        ],
-        "nameRight": "焰",
-        "textRight": "（全都是在你的教导下@才得以掌握的）"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_050.exp3.json",
-            "id": 200500,
-            "motion": 200,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "麻美",
-        "textLeft": "那是…什么？"
-      },
-      {
-        "chara": [
-          {
-            "eyeClose": 1,
-            "id": 200200,
-            "lipSynch": 1,
-            "motion": 101
-          }
-        ],
-        "nameRight": "焰",
-        "textRight": "不…什么都没有"
-      },
-      {
-        "autoTurnLast": 0.2,
-        "bg": "bg_adv_24014.jpg",
-        "bgm": "stop",
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "autoTurnLast": 2,
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "autoTurnLast": 0.2,
-        "bg": "black",
-        "item": [
-          {
-            "path": "resource/scenario/img/32503_mami_story/memoria_2006.jpg",
-            "posX": 0,
-            "posY": 0,
-            "visible": "appear"
-          }
-        ],
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "bgm": "bgm01_anime17",
-        "nameNarration": "焰",
-        "narration": "—焰—@…你应该记得约定吧",
-        "narrationAnchor": "bottom",
-        "narrationCoverOpacity": 110,
-        "narrationEffect": "in",
-        "narrationFontSize": 30,
-        "narrationLineMargin": 35,
-        "narrationLineSpace": 20,
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "nameNarration": "麻美",
-        "narration": "—麻美—@嗯"
-      },
-      {
-        "narration": "—麻美—@按照约定，我今后@不会在见泷原进行任何魔法少女活动"
-      },
-      {
-        "narration": "—麻美—@作为代替…"
-      },
-      {
-        "nameNarration": "焰",
-        "narration": "—焰—@…什么？"
-      },
-      {
-        "nameNarration": "麻美",
-        "narration": "—麻美—@你能守护好这座城市吗？"
-      },
-      {
-        "autoTurnLast": 0.2,
-        "bg": "bg_adv_21147.jpg",
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_000.exp3.json",
-            "id": 200200,
-            "motion": 0,
-            "pos": 0
-          },
-          {
-            "cheek": 0,
-            "face": "mtn_ex_040.exp3.json",
-            "id": 200500,
-            "motion": 0,
-            "pos": 2
-          }
-        ],
-        "narrationEffect": "out",
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "chara": [
-          {
-            "id": 200200,
-            "lipSynch": 0
-          }
-        ],
-        "nameLeft": "焰",
-        "textLeft": "…………",
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "chara": [
-          {
-            "id": 200200,
-            "lipSynch": 1,
-            "motion": 101
-          }
-        ],
-        "nameLeft": "焰",
-        "textLeft": "…我无法与你约定"
-      },
-      {
-        "chara": [
-          {
-            "id": 200200
-          }
-        ],
-        "nameLeft": "焰",
-        "textLeft": "我决定了如果自己输掉@就要无条件服从你"
-      },
-      {
-        "chara": [
-          {
-            "id": 200200,
-            "motion": 200
-          }
-        ],
-        "nameLeft": "焰",
-        "textLeft": "反之亦然@我无法接受附加条件的投降"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 200500,
-            "motion": 300,
-            "pos": 2
-          }
-        ],
-        "nameRight": "麻美",
-        "textRight": "…是吗，真遗憾"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500
-          }
-        ],
-        "nameRight": "麻美",
-        "textRight": "明明只要你想那么做@完全可以夺去我的性命"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500
-          }
-        ],
-        "nameRight": "麻美",
-        "textRight": "你却没有那么做"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500,
-            "motion": 0
-          }
-        ],
-        "nameRight": "麻美",
-        "textRight": "我还以为你并不是@完全讲不通道理的"
-      },
-      {
-        "chara": [
-          {
-            "id": 200500
-          }
-        ],
-        "nameRight": "麻美",
-        "textRight": "残忍无情的魔法少女…"
-      },
-      {
-        "chara": [
-          {
-            "eyeClose": 1,
-            "id": 200200,
-            "lipSynch": 0
-          }
-        ],
-        "nameLeft": "焰",
-        "textLeft": "…………"
-      },
-      {
-        "chara": [
-          {
-            "eyeClose": 1,
-            "id": 200200,
-            "lipSynch": 1,
-            "motion": 300
-          }
-        ],
-        "nameLeft": "焰",
-        "textLeft": "…那还真是不巧呢"
-      },
-      {
-        "autoTurnLast": 0.1,
-        "textClear": 1
-      },
-      {
-        "autoTurnLast": 3,
-        "turnChangeIn": "fadeIn",
-        "turnChangeInTime": 2
-      }
+      "path": "resource/scenario/img/32503_mami_story/memoria_2004.jpg"
+     }
     ]
-  },
-  "version": 3
+   },
+   {
+    "nameNarration": "焰",
+    "narration": "这是……！",
+    "narrationAnchor": "bottom",
+    "narrationCoverOpacity": 110,
+    "narrationEffect": "in",
+    "narrationFontSize": 30,
+    "narrationLineMargin": 60,
+    "narrationLineSpace": 20
+   },
+   {
+    "narration": "（故意失去平衡也好@那发看似垂死挣扎的子弹也好，全都是诱饵……）"
+   },
+   {
+    "narration": "（她从一开始就在瞄准盾牌？）"
+   },
+   {
+    "narration": "（……操纵时间的能力被彻底封住了@难道……她早就知道？）"
+   },
+   {
+    "autoTurnLast": 1.3,
+    "bg": "bg_adv_21147.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 200500,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 200200,
+      "motion": 300,
+      "pos": 2
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500,
+      "lipSynch": 0
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "…………",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 200500,
+      "lipSynch": 1,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "……真是漂亮@是我输了"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_051.exp3.json",
+      "id": 200200,
+      "lipSynch": 0,
+      "motion": 0
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "…………"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500,
+      "motion": 200
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "还是你更早一步@打出了最后的牌"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "虽然我不知道@你究竟用了什么魔法……"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "四发子弹从不同方向@同时朝我袭来"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 200500,
+      "motion": 1
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "而每一发都只要稍有偏差@便会变成致命伤……"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 200500
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "那是你只要有心@就完全能够命中的攻击"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "……是我输得彻底"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 200500,
+      "motion": 300
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "我循着你的视线"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "判断只要封住那面盾牌就能取胜@于是赌上了胜负……"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500,
+      "motion": 0
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "可是你的魔法@开始生效的时间"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "似乎还是快了那么一瞬"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp3.json",
+      "id": 200200,
+      "lipSynch": 0
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 200200,
+      "lipSynch": 0,
+      "motion": 200
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "（是啊……只差一线）",
+    "turnEffect": "thinking"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200,
+      "lipSynch": 0
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "（不过是因为时间在缎带触及前@便停止了，我才能取胜）"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200,
+      "lipSynch": 0
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "（明明她还不知道我的底牌）"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200,
+      "lipSynch": 0
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "（我理应是在占尽优势的条件下@向她挑战……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 200500,
+      "motion": 100,
+      "pos": 0
+     },
+     {
+      "eyeClose": 1,
+      "id": 200200
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "……看来你是个深谙战斗方式的@魔法少女呢",
+    "turnEffect": "stop"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 200200,
+      "lipSynch": 1,
+      "motion": 0
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "那是……"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200,
+      "lipSynch": 0
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "（这一切都是你教会我@并让我掌握的）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp3.json",
+      "id": 200500,
+      "motion": 200,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "麻美",
+    "textLeft": "那是……什么？"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 200200,
+      "lipSynch": 1,
+      "motion": 101
+     }
+    ],
+    "nameRight": "焰",
+    "textRight": "没什么……@什么都没有"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "bg": "bg_adv_24014.jpg",
+    "bgm": "stop",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 2,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "bg": "black",
+    "item": [
+     {
+      "path": "resource/scenario/img/32503_mami_story/memoria_2006.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm01_anime17",
+    "nameNarration": "焰",
+    "narration": "—焰—@……你还记得约定吧",
+    "narrationAnchor": "bottom",
+    "narrationCoverOpacity": 110,
+    "narrationEffect": "in",
+    "narrationFontSize": 30,
+    "narrationLineMargin": 35,
+    "narrationLineSpace": 20,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "nameNarration": "麻美",
+    "narration": "—麻美—@记得"
+   },
+   {
+    "narration": "—麻美—@我会遵守约定，今后绝不在见泷原@从事任何魔法少女活动"
+   },
+   {
+    "narration": "—麻美—@不过相对地……"
+   },
+   {
+    "nameNarration": "焰",
+    "narration": "—焰—@……什么？"
+   },
+   {
+    "nameNarration": "麻美",
+    "narration": "—麻美—@能请你来守护@这座城市吗？"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "bg": "bg_adv_21147.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_000.exp3.json",
+      "id": 200200,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_040.exp3.json",
+      "id": 200500,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200,
+      "lipSynch": 0
+     }
+    ],
+    "nameLeft": "焰",
+    "textLeft": "…………",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200,
+      "lipSynch": 1,
+      "motion": 101
+     }
+    ],
+    "nameLeft": "焰",
+    "textLeft": "……这件事我不能答应"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200
+     }
+    ],
+    "nameLeft": "焰",
+    "textLeft": "我已经定下规矩，一旦我落败@就会无条件服从你"
+   },
+   {
+    "chara": [
+     {
+      "id": 200200,
+      "motion": 200
+     }
+    ],
+    "nameLeft": "焰",
+    "textLeft": "反过来也一样@我不接受附带条件的投降"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 200500,
+      "motion": 300,
+      "pos": 2
+     }
+    ],
+    "nameRight": "麻美",
+    "textRight": "……是吗，真遗憾"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500
+     }
+    ],
+    "nameRight": "麻美",
+    "textRight": "你刚才如果有意@本可以连我的性命也一并夺走"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500
+     }
+    ],
+    "nameRight": "麻美",
+    "textRight": "可你并没有那么做"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500,
+      "motion": 0
+     }
+    ],
+    "nameRight": "麻美",
+    "textRight": "所以我还以为@你不是个完全无法沟通的"
+   },
+   {
+    "chara": [
+     {
+      "id": 200500
+     }
+    ],
+    "nameRight": "麻美",
+    "textRight": "冷酷魔法少女……"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 200200,
+      "lipSynch": 0
+     }
+    ],
+    "nameLeft": "焰",
+    "textLeft": "…………"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 200200,
+      "lipSynch": 1,
+      "motion": 300
+     }
+    ],
+    "nameLeft": "焰",
+    "textLeft": "……那还真是让你失望了"
+   },
+   {
+    "autoTurnLast": 0.1,
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 3,
+    "turnChangeIn": "fadeIn",
+    "turnChangeInTime": 2
+   }
+  ]
+ },
+ "version": 3
 }

@@ -7,15 +7,15 @@
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_000.exp.json",
+      "face": "mtn_ex_000.exp3.json",
       "id": 301800,
       "motion": 0,
       "pos": 0
      },
      {
       "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
-      "id": 800300,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 104400,
       "motion": 0,
       "pos": 2
      }
@@ -23,19 +23,33 @@
     "turnChangeIn": "fadeIn"
    },
    {
-    "autoTurnLast": 1.0,
+    "autoTurnLast": 0.3,
     "chara": [
      {
       "cheek": 0,
       "effect": "ef_adv_05",
-      "face": "mtn_ex_000.exp.json",
+      "face": "mtn_ex_000.exp3.json",
       "id": 301801,
       "motion": 0,
       "pos": 0
      }
     ],
     "se": "7205_magic_girl",
-    "textClear": 1,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 0.3,
+    "chara": [
+     {
+      "cheek": 0,
+      "effect": "ef_adv_05",
+      "face": "mtn_ex_030.exp3.json",
+      "id": 104401,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "se": "7205_magic_girl",
     "turnChangeOut": "fadeOut"
    },
    {
@@ -46,17 +60,17 @@
      }
     ],
     "nameLeft": "更纱帆奈",
-    "textLeft": "呼……"
+    "textLeft": "呼～……"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
+      "face": "mtn_ex_030.exp3.json",
       "id": 301801
      }
     ],
-    "textLeft": "到头来就只有使魔啊……"
+    "textLeft": "结果还是只有使魔啊……"
    },
    {
     "chara": [
@@ -64,16 +78,16 @@
       "id": 301801
      }
     ],
-    "textLeft": "濑奈，我们又扑了个空呢……"
+    "textLeft": "又扑空了，濑奈……"
    },
    {
     "chara": [
      {
-      "id": 800300,
+      "id": 104401,
       "lipSynch": 0
      }
     ],
-    "nameRight": "濑奈命",
+    "nameRight": "命",
     "textRight": "…………"
    },
    {
@@ -82,7 +96,7 @@
       "id": 301801
      }
     ],
-    "textLeft": "你啊……@[chara:301801:lipSynch_0][wait:1.0][chara:301801:motion_1][chara:301801:eyeClose_1][chara:301801:lipSynch_1]唉～又在这发呆了？"
+    "textLeft": "……发什么呆……@[chara:301801:lipSynch_0][wait:1.0][chara:301801:motion_1][chara:301801:eyeClose_1][chara:301801:lipSynch_1]……哈啊～……又来了？"
    },
    {
     "chara": [
@@ -91,7 +105,7 @@
       "id": 301801
      }
     ],
-    "textLeft": "你还真是喜欢这里的景色呢……"
+    "textLeft": "你很喜欢啊，@从这里看到的景色……"
    },
    {
     "chara": [
@@ -99,12 +113,12 @@
       "id": 301801
      }
     ],
-    "textLeft": "我知道这里漂亮啦，@快回去吧。"
+    "textLeft": "我知道很漂亮了，@赶紧回去吧。"
    },
    {
     "chara": [
      {
-      "id": 800300,
+      "id": 104401,
       "lipSynch": 0
      }
     ],
@@ -117,33 +131,35 @@
       "motion": 0
      }
     ],
-    "textLeft": "我说啊，濑奈！"
+    "textLeft": "……所以说～……濑奈！"
    },
    {
     "chara": [
      {
-      "id": 800300
+      "id": 104401,
+      "motion": 300
      }
     ],
-    "textRight": "不、不是的……"
+    "textRight": "……不、不是……"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
+      "face": "mtn_ex_050.exp3.json",
       "id": 301801
      }
     ],
-    "textLeft": "嗯？"
+    "textLeft": "……嗯？"
    },
    {
     "chara": [
      {
-      "id": 800300
+      "id": 104401,
+      "motion": 0
      }
     ],
-    "textRight": "我感觉……自己……好奇怪……"
+    "textRight": "不知道为什么……我、我……不太对劲……"
    },
    {
     "bgm": "stop",
@@ -153,22 +169,29 @@
       "motion": 400
      }
     ],
-    "textLeft": "你怎么了！？"
+    "textLeft": "……怎么了！？"
    },
    {
     "bgm": "bgm05_event08",
     "chara": [
      {
-      "id": 800300
+      "effect": "ef_adv_08",
+      "eyeClose": 1,
+      "id": 104401,
+      "mouthOpen": 1
      }
     ],
     "textBg": "shout",
-    "textRight": "啊、啊啊啊啊啊啊！"
+    "textRight": "啊、啊啊啊啊啊啊啊！"
    },
    {
     "chara": [
      {
       "id": 301801
+     },
+     {
+      "id": 104401,
+      "mouthOpen": 0
      }
     ],
     "textLeft": "濑奈！？"
@@ -176,19 +199,23 @@
    {
     "chara": [
      {
-      "id": 800300
+      "eyeClose": 1,
+      "id": 104401,
+      "motion": 300,
+      "mouthOpen": 0
      }
     ],
-    "textRight": "帆、帆奈！@我、我该怎么办啊！？"
+    "textRight": "帆、帆奈！@怎、怎么办！？"
    },
    {
     "chara": [
      {
-      "id": 800300
+      "eyeClose": 1,
+      "id": 104401
      }
     ],
     "textBg": "shout",
-    "textRight": "我好痛苦啊！@救、救救我！"
+    "textRight": "好难受……！！@救、救我……！！"
    },
    {
     "chara": [
@@ -197,19 +224,15 @@
       "motion": 100
      }
     ],
-    "textLeft": "濑、濑奈，你振作一点！"
+    "textLeft": "等、等一下！@濑奈！振作一点！"
    },
    {
     "chara": [
      {
       "id": 301801
-     },
-     {
-      "effect": "ef_adv_08",
-      "id": 800300
      }
     ],
-    "textLeft": "诶！？"
+    "textLeft": "……咦！？"
    },
    {
     "chara": [
@@ -218,23 +241,24 @@
       "lipSynch": 0
      }
     ],
-    "textLeft": "（灵魂宝石……@变、变成这样了！？）",
+    "textLeft": "（灵魂宝石……@怎、怎么会变成这样……！？）",
     "turnEffect": "thinking"
    },
    {
     "chara": [
      {
-      "id": 800300
+      "eyeClose": 1,
+      "id": 104401
      }
     ],
-    "textRight": "帆奈……@我、我是怎么了！？",
+    "textRight": "帆奈……！@我、我……怎么了……！？",
     "turnEffect": "stop"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
+      "face": "mtn_ex_030.exp3.json",
       "id": 301801
      }
     ],
@@ -243,10 +267,12 @@
    {
     "chara": [
      {
-      "id": 800300
+      "eyeClose": 0,
+      "id": 104401
      }
     ],
-    "textRight": "帆奈！"
+    "nameRight": "命",
+    "textRight": "……帆奈……！"
    },
    {
     "chara": [
@@ -256,22 +282,22 @@
      }
     ],
     "textBg": "shout",
-    "textLeft": "濑奈！"
+    "textLeft": "濑奈——！"
    },
    {
     "nameNarration": "更纱帆奈",
-    "narration": "这时，我亲眼发现了被隐藏起来的@魔法少女的真相",
+    "narration": "就在那时，我@亲眼看见了被隐藏起来的@所谓魔法少女真相……",
     "narrationBg": "black",
     "narrationEffect": "in"
    },
    {
-    "narration": "魔法少女最后的结局……"
+    "narration": "魔法少女最后的归宿……"
    },
    {
-    "narration": "竟是变成魔女！"
+    "narration": "……竟然是魔女……！"
    },
    {
-    "narration": "啊哈！"
+    "narration": "……啊哈……！"
    },
    {
     "autoTurnFirst": 4.8,
@@ -281,7 +307,7 @@
      {
       "cheek": 0,
       "eyeClose": 0,
-      "face": "mtn_ex_030.exp.json",
+      "face": "mtn_ex_030.exp3.json",
       "id": 301801,
       "motion": 1,
       "pos": 1,
@@ -290,12 +316,12 @@
     ],
     "nameCenter": "更纱帆奈",
     "narrationEffect": "out",
-    "textCenter": "这个世界总是对我很冷漠呢……@虽说我已经习惯了……",
+    "textCenter": "这个世界无论何时都对我@如此冷酷……虽然我早就习惯了……",
     "turnChangeIn": "fadeIn",
     "turnChangeOut": "fadeOut"
    },
    {
-    "autoTurnFirst": 2.0,
+    "autoTurnFirst": 2,
     "chara": [
      {
       "eyeClose": 1,
@@ -311,7 +337,7 @@
     ]
    },
    {
-    "autoTurnLast": 2.0,
+    "autoTurnLast": 2,
     "turnChangeIn": "fadeIn"
    }
   ]

@@ -1,1336 +1,1336 @@
 {
-  "story": {
-    "group_1": [
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "path": "resource/scenario/img/scene0/scene_bg.jpg",
-            "posX": 0,
-            "posY": 0,
-            "visible": "appear",
-            "zOrder": "charaBack"
-          },
-          {
-            "path": "resource/scenario/img/scene0/scene_32.png",
-            "posX": 0,
-            "posY": 0,
-            "visible": "appear",
-            "zOrder": "charaFront"
-          }
-        ],
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "autoTurnLast": 2,
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "autoTurnLast": 2,
-        "bg": "black",
-        "bgm": "bgm02_anime12",
-        "item": [
-          {
-            "iPhoneXScale": 1,
-            "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
-            "posX": 0,
-            "posY": 0,
-            "visible": "appear"
-          }
-        ],
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "autoTurnLast": 5,
-        "turnChangeOut": "fadeOut",
-        "turnChangeOutTime": 2
-      },
-      {
-        "autoTurnLast": 1,
-        "bg": "bg_adv_20391.jpg",
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_020.exp3.json",
-            "id": 200400,
-            "motion": 1,
-            "pos": 0
-          },
-          {
-            "cheek": 0,
-            "face": "mtn_ex_040.exp3.json",
-            "id": 200100,
-            "motion": 0,
-            "pos": 2
-          }
-        ],
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "沙耶香",
-        "textLeft": "那就是魔女之夜！",
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "chara": [
-          {
-            "id": 200100,
-            "motion": 300,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "沙耶香…"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_010.exp3.json",
-            "id": 200400,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "沙耶香",
-        "textLeft": "没事的，只要我们齐心协力@就一定…"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_020.exp3.json",
-            "id": 200100,
-            "motion": 0,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "…嗯！！"
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": 0
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png",
-            "posX": 0,
-            "posY": 3000,
-            "scale": 6,
-            "setVisible": 1,
-            "zOrder": "messageFront"
-          }
-        ],
-        "textClear": 1
-      },
-      {
-        "autoTurnLast": 0.01,
-        "chara": [
-          {
-            "effect": "fadeout",
-            "id": 200400
-          },
-          {
-            "effect": "fadeout",
-            "id": 200100
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "iPhoneXScale": 1,
-            "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
-            "posX": 0,
-            "posY": 0,
-            "visible": "appear"
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "bg": "black",
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": -3000
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png"
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 2,
-        "surround": "7015_walpurgis_voice"
-      },
-      {
-        "autoTurnLast": 1,
-        "flashEffect": "flashWhite2",
-        "surround": "6405A01"
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": 0
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png",
-            "posX": 0,
-            "posY": -3000,
-            "scale": 6,
-            "setVisible": 1,
-            "zOrder": "messageFront"
-          }
-        ],
-        "textClear": 1
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
-            "visible": "hide"
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_063.exp3.json",
-            "id": 200400,
-            "motion": 0,
-            "pos": 0
-          },
-          {
-            "cheek": 0,
-            "face": "mtn_ex_064.exp3.json",
-            "id": 200100,
-            "motion": 0,
-            "pos": 2
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "bg": "bg_adv_20391.jpg",
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": 3000
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png"
-          }
-        ]
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "eyeClose": 1,
-            "face": "mtn_ex_060.exp3.json",
-            "id": 200400,
-            "motion": 400,
-            "pos": 0
-          },
-          {
-            "cheek": 0,
-            "eyeClose": 1,
-            "face": "mtn_ex_060.exp3.json",
-            "id": 200100,
-            "motion": 300,
-            "pos": 2
-          }
-        ],
-        "nameLeft": "沙耶香",
-        "textLeft": "[bgEffect:shakeLarge][flashEffect:flashRed2][se:3001_chara_damage][chara:200400:effect_shake][chara:200100:effect_shake]…呜哇！！"
-      },
-      {
-        "chara": [
-          {
-            "id": 200100,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "呀啊！"
-      },
-      {
-        "chara": [
-          {
-            "eyeClose": 0,
-            "id": 200400,
-            "motion": 300,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "沙耶香",
-        "textLeft": "小圆，没事吧！？"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "eyeClose": 0,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 200100,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "嗯…嗯…"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_040.exp3.json",
-            "id": 200100,
-            "motion": 0,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "比起这个，魔女之夜@正在朝着城市前进！"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_050.exp3.json",
-            "id": 200400,
-            "motion": 0,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "沙耶香",
-        "textLeft": "诶…"
-      },
-      {
-        "chara": [
-          {
-            "id": 200100,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "那个方向@是上条君家的方向吧？"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 200400,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "沙耶香",
-        "textLeft": "嗯…恭介的腿还没治好"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "沙耶香",
-        "textLeft": "好像还留在家里"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "eyeClose": 1,
-            "face": "mtn_ex_020.exp3.json",
-            "id": 200100,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "沙耶香…"
-      },
-      {
-        "chara": [
-          {
-            "eyeClose": 0,
-            "id": 200100,
-            "motion": 201,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "…我会在这里拦住魔女之夜的！"
-      },
-      {
-        "chara": [
-          {
-            "id": 200100,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "所以，沙耶香@快去救上条君他们吧！"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_063.exp3.json",
-            "id": 200400,
-            "motion": 201,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "沙耶香",
-        "textLeft": "但是…@只留小圆一个人在这里…"
-      },
-      {
-        "chara": [
-          {
-            "id": 200100,
-            "motion": 100,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "沙耶香就从@进入了城市的使魔手中"
-      },
-      {
-        "chara": [
-          {
-            "id": 200100,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "保护好大家吧！"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 200400,
-            "motion": 0,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "沙耶香",
-        "textLeft": "…我知道了，小圆@[chara:200400:lipSynch_0][wait:0.8][chara:200400:cheek_0][chara:200400:face_mtn_ex_020.exp3.json][chara:200400:lipSynch_1]但是千万别勉强自己！"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_010.exp3.json",
-            "id": 200100,
-            "motion": 0,
-            "pos": 2
-          }
-        ],
-        "nameRight": "圆",
-        "textRight": "嗯，交给我吧！"
-      },
-      {
-        "armatureList": [
-          {
-            "animation": [
-              "action"
-            ],
-            "armatureId": 1,
-            "filePath": "resource/image_native/effect/story/general/3004_rainstorm.ExportJson",
-            "zOrder": "messageBack"
-          }
-        ],
-        "autoTurnLast": 2,
-        "bgm": "stop",
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "bgm": "bgm02_anime13",
-        "nameNarration": "",
-        "narration": "[bgEffect:shakeLarge][surround:7022_earthquake]轰轰轰…",
-        "narrationEffect": "in",
-        "surround": "7012_tempest",
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_063.exp3.json",
-            "id": 200400,
-            "motion": 400,
-            "pos": 1
-          }
-        ],
-        "nameCenter": "沙耶香",
-        "narrationEffect": "out",
-        "textCenter": "呜哇…！"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "lipSynch": 0,
-            "motion": 0,
-            "pos": 1
-          }
-        ],
-        "nameCenter": "沙耶香",
-        "textCenter": "（城市正在崩坏…）"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "id": 200400,
-            "lipSynch": 0,
-            "pos": 1
-          }
-        ],
-        "nameCenter": "沙耶香",
-        "textCenter": "（这样下去@被留下的人会…）"
-      },
-      {
-        "autoTurnLast": 0.2,
-        "chara": [
-          {
-            "effect": "fadeout",
-            "id": 200400
-          }
-        ],
-        "textClear": 1
-      },
-      {
-        "autoTurnLast": 0.1,
-        "bg": "bg_adv_20391.jpg",
-        "bgChangeEffect": "cameraPan"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "eyeClose": 1,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 810500,
-            "lipSynch": 0,
-            "motion": 0,
-            "pos": 1
-          }
-        ],
-        "nameCenter": "恭介",
-        "textCenter": "…………@…………"
-      },
-      {
-        "autoTurnLast": 0.2,
-        "chara": [
-          {
-            "effect": "fadeout",
-            "id": 810500
-          }
-        ],
-        "textClear": 1
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_063.exp3.json",
-            "id": 200400,
-            "motion": 0,
-            "pos": 1
-          }
-        ],
-        "nameCenter": "沙耶香",
-        "textCenter": "…恭介！？@[chara:200400:lipSynch_0][wait:0.8][chara:200400:cheek_1][chara:200400:face_mtn_ex_020.exp3.json][chara:200400:lipSynch_1]快振作起来！"
-      },
-      {
-        "autoTurnLast": 0.2,
-        "chara": [
-          {
-            "effect": "fadeout",
-            "id": 200400
-          }
-        ],
-        "textClear": 1
-      },
-      {
-        "autoTurnLast": 1,
-        "chara": [
-          {
-            "cheek": 0,
-            "eyeClose": 1,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 810500,
-            "motion": 0,
-            "pos": 0,
-            "posX": 80
-          },
-          {
-            "cheek": 1,
-            "face": "mtn_ex_020.exp3.json",
-            "id": 200400,
-            "motion": 0,
-            "pos": 2,
-            "posX": -80
-          }
-        ]
-      },
-      {
-        "chara": [
-          {
-            "eyeClose": 0,
-            "id": 810500,
-            "lipSynch": 0,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "…？"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_050.exp3.json",
-            "id": 810500,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "…沙耶…香…？"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 1,
-            "face": "mtn_ex_031.exp3.json",
-            "id": 200400,
-            "motion": 300,
-            "pos": 2
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "太好了，恭介…"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "pos": 2
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "没事吧？@没受伤吧？"
-      },
-      {
-        "chara": [
-          {
-            "id": 810500,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "…嗯…嗯"
-      },
-      {
-        "chara": [
-          {
-            "id": 810500,
-            "lipSynch": 0,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "（沙耶香…@穿着很不可思议的衣服…）"
-      },
-      {
-        "chara": [
-          {
-            "id": 810500,
-            "lipSynch": 0,
-            "motion": 300,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "（这是梦吗…？）"
-      },
-      {
-        "nameNarration": "",
-        "narration": "[bgEffect:shakeLarge][surround:7022_earthquake]轰轰轰…",
-        "narrationEffect": "in"
-      },
-      {
-        "autoTurnLast": 1,
-        "bg": "black",
-        "item": [
-          {
-            "iPhoneXScale": 1,
-            "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
-            "posX": 0,
-            "posY": 0,
-            "visible": "appear"
-          }
-        ],
-        "narrationEffect": "out",
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "autoTurnLast": 3,
-        "surround": "7015_walpurgis_voice",
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "autoTurnLast": 1,
-        "bg": "bg_adv_20391.jpg",
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_050.exp3.json",
-            "id": 200400,
-            "motion": 0,
-            "pos": 2,
-            "posX": -80
-          },
-          {
-            "cheek": 0,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 810500,
-            "motion": 0,
-            "pos": 0,
-            "posX": 80
-          }
-        ],
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "pos": 2
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "魔女之夜…！",
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 1,
-            "face": "mtn_ex_063.exp3.json",
-            "id": 200400,
-            "motion": 300,
-            "pos": 2,
-            "tear": 1
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "怎么会…！@那，小圆她…！"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "pos": 2
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "已经被干掉了吗…！？"
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": 0
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png",
-            "posX": 0,
-            "posY": 3000,
-            "scale": 6,
-            "setVisible": 1,
-            "zOrder": "messageFront"
-          }
-        ],
-        "textClear": 1
-      },
-      {
-        "autoTurnLast": 0.01,
-        "chara": [
-          {
-            "effect": "fadeout",
-            "id": 200400
-          },
-          {
-            "effect": "fadeout",
-            "id": 810500
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "iPhoneXScale": 1,
-            "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
-            "posX": 0,
-            "posY": 0,
-            "visible": "appear"
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "bg": "black",
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": -3000
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png"
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 1.5,
-        "flashEffect": "flashWhite2",
-        "surround": "6405A01"
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": 0
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png",
-            "posX": 0,
-            "posY": -3000,
-            "scale": 6,
-            "setVisible": 1,
-            "zOrder": "messageFront"
-          }
-        ],
-        "textClear": 1
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
-            "visible": "hide"
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_063.exp3.json",
-            "id": 200400,
-            "motion": 0,
-            "pos": 2,
-            "posX": -80
-          },
-          {
-            "cheek": 0,
-            "face": "mtn_ex_050.exp3.json",
-            "id": 810500,
-            "motion": 0,
-            "pos": 0,
-            "posX": 80
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "bg": "bg_adv_20391.jpg",
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": 3000
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png"
-          }
-        ]
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "eyeClose": 1,
-            "face": "mtn_ex_060.exp3.json",
-            "id": 200400,
-            "motion": 300,
-            "pos": 2
-          },
-          {
-            "cheek": 0,
-            "face": "mtn_ex_050.exp3.json",
-            "id": 810500,
-            "motion": 0,
-            "pos": 0
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "[bgEffect:shakeLarge][chara:200400:effect_7002_damage01][se:3001_chara_damage]呜哇！"
-      },
-      {
-        "chara": [
-          {
-            "id": 810500,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "沙耶香！"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "motion": 0,
-            "pos": 2
-          },
-          {
-            "id": 810500,
-            "pos": 0
-          }
-        ],
-        "nameNarration": "",
-        "narration": "[surround:7022_earthquake]（摇晃…）",
-        "narrationBg": "bg_adv_20391.jpg",
-        "narrationEffect": "in"
-      },
-      {
-        "chara": [
-          {
-            "id": 810500,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "narrationEffect": "out",
-        "textLeft": "房子要…！"
-      },
-      {
-        "chara": [
-          {
-            "id": 810500,
-            "lipSynch": 0,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "（塌下来…）"
-      },
-      {
-        "autoTurnLast": 0.5,
-        "bg": "black",
-        "bgm": "stop",
-        "deleteArmatureList": [
-          1
-        ],
-        "surround": "stop",
-        "turnChangeIn": "fadeIn"
-      },
-      {
-        "nameNarration": "",
-        "narration": "[surround:7022_earthquake]喀拉喀拉喀拉",
-        "narrationBg": "black",
-        "narrationEffect": "in",
-        "turnChangeOut": "fadeOut"
-      },
-      {
-        "nameNarration": "恭介",
-        "narration": "「沙耶香！！」",
-        "surround": "stop"
-      },
-      {
-        "armatureList": [
-          {
-            "animation": [
-              "action"
-            ],
-            "armatureId": 1,
-            "filePath": "resource/image_native/effect/story/general/3004_rainstorm.ExportJson",
-            "zOrder": "messageBack"
-          }
-        ],
-        "autoTurnLast": 3,
-        "bg": "bg_adv_20391.jpg",
-        "chara": [
-          {
-            "cheek": 0,
-            "eyeClose": 1,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 810500,
-            "motion": 0,
-            "pos": 1
-          }
-        ],
-        "narrationEffect": "out",
-        "turnChangeIn": "fadeIn",
-        "turnChangeInTime": 2
-      },
-      {
-        "autoTurnLast": 0.1,
-        "surround": "7012_tempest",
-        "turnChangeOut": "fadeOut",
-        "turnChangeOutTime": 2
-      },
-      {
-        "autoTurnLast": 2,
-        "bgm": "bgm01_anime21",
-        "chara": [
-          {
-            "eyeClose": 0,
-            "id": 810500
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.2,
-        "chara": [
-          {
-            "id": 810500,
-            "pos": 0
-          }
-        ]
-      },
-      {
-        "chara": [
-          {
-            "cheek": 1,
-            "face": "mtn_ex_060.exp3.json",
-            "id": 200400,
-            "motion": 0,
-            "pos": 2
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "…你没事吧？@手没有受伤吧？"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_050.exp3.json",
-            "id": 810500,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "嗯…嗯@沙耶香…？"
-      },
-      {
-        "chara": [
-          {
-            "id": 810500,
-            "lipSynch": 0,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "（柱子倒了下来…@但沙耶香…保护了我？）"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 1,
-            "eyeClose": 1,
-            "face": "mtn_ex_010.exp3.json",
-            "id": 200400,
-            "motion": 300,
-            "pos": 2
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "太好了…@我守护住恭介的音乐了"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 0,
-            "face": "mtn_ex_030.exp3.json",
-            "id": 810500,
-            "motion": 300,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "但是，沙耶香…@你受了好重的伤"
-      },
-      {
-        "chara": [
-          {
-            "cheek": 1,
-            "eyeClose": 0,
-            "face": "mtn_ex_060.exp3.json",
-            "id": 200400,
-            "pos": 2
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "…我…没事的@我好像只有恢复能力比其他人都强"
-      },
-      {
-        "chara": [
-          {
-            "id": 810500,
-            "motion": 0,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "沙耶香…你在说什么？"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "motion": 201,
-            "pos": 2
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "行了…恭介就集中考虑@要怎么生存下去吧"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "pos": 2
-          }
-        ],
-        "nameRight": "沙耶香",
-        "textRight": "然后，要让更多更多的人@听到恭介的音乐…！"
-      },
-      {
-        "chara": [
-          {
-            "id": 810500,
-            "pos": 0
-          }
-        ],
-        "nameLeft": "恭介",
-        "textLeft": "沙耶香…"
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": 0
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png",
-            "posX": 0,
-            "posY": 3000,
-            "scale": 6,
-            "setVisible": 1,
-            "zOrder": "messageFront"
-          }
-        ],
-        "textClear": 1
-      },
-      {
-        "autoTurnLast": 0.01,
-        "chara": [
-          {
-            "effect": "fadeout",
-            "id": 200400
-          },
-          {
-            "effect": "fadeout",
-            "id": 810500
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "iPhoneXScale": 1,
-            "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
-            "posX": 0,
-            "posY": 0,
-            "visible": "appear"
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "bg": "black",
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": -3000
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png"
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 2.5,
-        "surround": "7015_walpurgis_voice"
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": 0
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png",
-            "posX": 0,
-            "posY": -3000,
-            "scale": 6,
-            "setVisible": 1,
-            "zOrder": "messageFront"
-          }
-        ],
-        "textClear": 1
-      },
-      {
-        "autoTurnLast": 0.01,
-        "item": [
-          {
-            "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
-            "visible": "hide"
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "chara": [
-          {
-            "cheek": 1,
-            "face": "mtn_ex_020.exp3.json",
-            "id": 200400,
-            "motion": 0,
-            "pos": 1
-          }
-        ]
-      },
-      {
-        "autoTurnLast": 0.01,
-        "bg": "bg_adv_20391.jpg",
-        "item": [
-          {
-            "action": {
-              "moveTo": {
-                "duration": 0.2,
-                "posY": 3000
-              }
-            },
-            "path": "resource/scenario/img/adv_roll_fade.png"
-          }
-        ]
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "lipSynch": 0,
-            "pos": 1
-          }
-        ],
-        "nameCenter": "沙耶香",
-        "textCenter": "（我绝对不会…）"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "lipSynch": 0,
-            "pos": 1
-          }
-        ],
-        "nameCenter": "沙耶香",
-        "textCenter": "（让魔女之夜继续接近…！）"
-      },
-      {
-        "chara": [
-          {
-            "id": 200400,
-            "motion": 201,
-            "mouthOpen": 1,
-            "pos": 1
-          }
-        ],
-        "nameCenter": "沙耶香",
-        "textBg": "shout",
-        "textCenter": "[bgEffect:shakeSmall]呀啊啊啊——！"
-      },
-      {
-        "autoTurnLast": 0.2,
-        "chara": [
-          {
-            "id": 200400,
-            "mouthOpen": 0
-          }
-        ],
-        "textClear": 1
-      },
-      {
-        "autoTurnLast": 2.5,
-        "deleteArmatureList": [
-          1
-        ],
-        "surround": "stop",
-        "turnChangeIn": "fadeIn",
-        "turnChangeInTime": 1.5
-      }
+ "story": {
+  "group_1": [
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/scene0/scene_bg.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear",
+      "zOrder": "charaBack"
+     },
+     {
+      "path": "resource/scenario/img/scene0/scene_32.png",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear",
+      "zOrder": "charaFront"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 2,
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 2,
+    "bg": "black",
+    "bgm": "bgm02_anime12",
+    "item": [
+     {
+      "iPhoneXScale": 1,
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 5,
+    "turnChangeOut": "fadeOut",
+    "turnChangeOutTime": 2
+   },
+   {
+    "autoTurnLast": 1,
+    "bg": "bg_adv_20391.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 200400,
+      "motion": 1,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_040.exp3.json",
+      "id": 200100,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "沙耶香",
+    "textLeft": "那就是魔女之夜！",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 200100,
+      "motion": 300,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "小沙耶香……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 200400,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "沙耶香",
+    "textLeft": "没事，只要我们@齐心协力，一定能……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 200100,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "……嗯!!"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png",
+      "posX": 0,
+      "posY": 3000,
+      "scale": 6,
+      "setVisible": 1,
+      "zOrder": "messageFront"
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 200400
+     },
+     {
+      "effect": "fadeout",
+      "id": 200100
+     }
     ]
-  },
-  "version": 3
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "iPhoneXScale": 1,
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "black",
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": -3000
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 2,
+    "surround": "7015_walpurgis_voice"
+   },
+   {
+    "autoTurnLast": 1,
+    "flashEffect": "flashWhite2",
+    "surround": "6405A01"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png",
+      "posX": 0,
+      "posY": -3000,
+      "scale": 6,
+      "setVisible": 1,
+      "zOrder": "messageFront"
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
+      "visible": "hide"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_063.exp3.json",
+      "id": 200400,
+      "motion": 0,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_064.exp3.json",
+      "id": 200100,
+      "motion": 0,
+      "pos": 2
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_20391.jpg",
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": 3000
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png"
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_060.exp3.json",
+      "id": 200400,
+      "motion": 400,
+      "pos": 0
+     },
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_060.exp3.json",
+      "id": 200100,
+      "motion": 300,
+      "pos": 2
+     }
+    ],
+    "nameLeft": "沙耶香",
+    "textLeft": "[bgEffect:shakeLarge][flashEffect:flashRed2][se:3001_chara_damage][chara:200400:effect_shake][chara:200100:effect_shake]……呜哇!!"
+   },
+   {
+    "chara": [
+     {
+      "id": 200100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "呀！"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 200400,
+      "motion": 300,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "沙耶香",
+    "textLeft": "没事吧，圆!?"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 200100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "嗯……嗯……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_040.exp3.json",
+      "id": 200100,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "比起这个，魔女之夜@正在朝城里去！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp3.json",
+      "id": 200400,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "沙耶香",
+    "textLeft": "什么……"
+   },
+   {
+    "chara": [
+     {
+      "id": 200100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "那个方向@是上条同学家那边吧？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 200400,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "沙耶香",
+    "textLeft": "嗯……恭介的脚@还没痊愈"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "沙耶香",
+    "textLeft": "好像还留在家里"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 200100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "小沙耶香……"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 200100,
+      "motion": 201,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "……魔女之夜@由我留在这里阻挡！"
+   },
+   {
+    "chara": [
+     {
+      "id": 200100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "小沙耶香去救@上条同学他们吧！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_063.exp3.json",
+      "id": 200400,
+      "motion": 201,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "沙耶香",
+    "textLeft": "可是……圆一个人……"
+   },
+   {
+    "chara": [
+     {
+      "id": 200100,
+      "motion": 100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "小沙耶香去对付@那些前往城里的使魔"
+   },
+   {
+    "chara": [
+     {
+      "id": 200100,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "保护大家吧！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 200400,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "沙耶香",
+    "textLeft": "……我知道了，圆@[chara:200400:lipSynch_0][wait:0.8][chara:200400:cheek_0][chara:200400:face_mtn_ex_020.exp3.json][chara:200400:lipSynch_1]但千万别乱来！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 200100,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "圆",
+    "textRight": "嗯，交给我！"
+   },
+   {
+    "armatureList": [
+     {
+      "animation": [
+       "action"
+      ],
+      "armatureId": 1,
+      "filePath": "resource/image_native/effect/story/general/3004_rainstorm.ExportJson",
+      "zOrder": "messageBack"
+     }
+    ],
+    "autoTurnLast": 2,
+    "bgm": "stop",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "bgm": "bgm02_anime13",
+    "nameNarration": "",
+    "narration": "[bgEffect:shakeLarge][surround:7022_earthquake]轰隆隆……",
+    "narrationEffect": "in",
+    "surround": "7012_tempest",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_063.exp3.json",
+      "id": 200400,
+      "motion": 400,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "沙耶香",
+    "narrationEffect": "out",
+    "textCenter": "呜哇……！"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "沙耶香",
+    "textCenter": "（城市正在被摧毁……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "id": 200400,
+      "lipSynch": 0,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "沙耶香",
+    "textCenter": "（这样下去@那些没能逃出去的人……）"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 200400
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.1,
+    "bg": "bg_adv_20391.jpg",
+    "bgChangeEffect": "cameraPan"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 810500,
+      "lipSynch": 0,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "恭介",
+    "textCenter": "…………@…………"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 810500
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_063.exp3.json",
+      "id": 200400,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "沙耶香",
+    "textCenter": "……恭介!?@[chara:200400:lipSynch_0][wait:0.8][chara:200400:cheek_1][chara:200400:face_mtn_ex_020.exp3.json][chara:200400:lipSynch_1]振作一点！"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 200400
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 1,
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 810500,
+      "motion": 0,
+      "pos": 0,
+      "posX": 80
+     },
+     {
+      "cheek": 1,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 200400,
+      "motion": 0,
+      "pos": 2,
+      "posX": -80
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 810500,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "……？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp3.json",
+      "id": 810500,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "……沙耶……香……？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_031.exp3.json",
+      "id": 200400,
+      "motion": 300,
+      "pos": 2
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "太好了，恭介……"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "pos": 2
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "你没事吧？@有没有受伤？"
+   },
+   {
+    "chara": [
+     {
+      "id": 810500,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "……嗯……嗯"
+   },
+   {
+    "chara": [
+     {
+      "id": 810500,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "（沙耶香……穿着奇怪的衣服……）"
+   },
+   {
+    "chara": [
+     {
+      "id": 810500,
+      "lipSynch": 0,
+      "motion": 300,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "（这是梦吗……？）"
+   },
+   {
+    "nameNarration": "",
+    "narration": "[bgEffect:shakeLarge][surround:7022_earthquake]轰隆隆……",
+    "narrationEffect": "in"
+   },
+   {
+    "autoTurnLast": 1,
+    "bg": "black",
+    "item": [
+     {
+      "iPhoneXScale": 1,
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "autoTurnLast": 3,
+    "surround": "7015_walpurgis_voice",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "autoTurnLast": 1,
+    "bg": "bg_adv_20391.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp3.json",
+      "id": 200400,
+      "motion": 0,
+      "pos": 2,
+      "posX": -80
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 810500,
+      "motion": 0,
+      "pos": 0,
+      "posX": 80
+     }
+    ],
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "pos": 2
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "魔女之夜……！",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_063.exp3.json",
+      "id": 200400,
+      "motion": 300,
+      "pos": 2,
+      "tear": 1
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "怎么会……！@那圆她……！"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "pos": 2
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "被打倒了吗……!?"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png",
+      "posX": 0,
+      "posY": 3000,
+      "scale": 6,
+      "setVisible": 1,
+      "zOrder": "messageFront"
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 200400
+     },
+     {
+      "effect": "fadeout",
+      "id": 810500
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "iPhoneXScale": 1,
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "black",
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": -3000
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 1.5,
+    "flashEffect": "flashWhite2",
+    "surround": "6405A01"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png",
+      "posX": 0,
+      "posY": -3000,
+      "scale": 6,
+      "setVisible": 1,
+      "zOrder": "messageFront"
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
+      "visible": "hide"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_063.exp3.json",
+      "id": 200400,
+      "motion": 0,
+      "pos": 2,
+      "posX": -80
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp3.json",
+      "id": 810500,
+      "motion": 0,
+      "pos": 0,
+      "posX": 80
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_20391.jpg",
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": 3000
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png"
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_060.exp3.json",
+      "id": 200400,
+      "motion": 300,
+      "pos": 2
+     },
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp3.json",
+      "id": 810500,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "[bgEffect:shakeLarge][chara:200400:effect_7002_damage01][se:3001_chara_damage]呜哇！"
+   },
+   {
+    "chara": [
+     {
+      "id": 810500,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "沙耶香！"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "motion": 0,
+      "pos": 2
+     },
+     {
+      "id": 810500,
+      "pos": 0
+     }
+    ],
+    "nameNarration": "",
+    "narration": "[surround:7022_earthquake]咯啦……",
+    "narrationBg": "bg_adv_20391.jpg",
+    "narrationEffect": "in"
+   },
+   {
+    "chara": [
+     {
+      "id": 810500,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "narrationEffect": "out",
+    "textLeft": "建筑物……！"
+   },
+   {
+    "chara": [
+     {
+      "id": 810500,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "（要塌了……）"
+   },
+   {
+    "autoTurnLast": 0.5,
+    "bg": "black",
+    "bgm": "stop",
+    "deleteArmatureList": [
+     1
+    ],
+    "surround": "stop",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "nameNarration": "",
+    "narration": "[surround:7022_earthquake]哗啦啦啦",
+    "narrationBg": "black",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "nameNarration": "恭介",
+    "narration": "“沙耶香!!”",
+    "surround": "stop"
+   },
+   {
+    "armatureList": [
+     {
+      "animation": [
+       "action"
+      ],
+      "armatureId": 1,
+      "filePath": "resource/image_native/effect/story/general/3004_rainstorm.ExportJson",
+      "zOrder": "messageBack"
+     }
+    ],
+    "autoTurnLast": 3,
+    "bg": "bg_adv_20391.jpg",
+    "chara": [
+     {
+      "cheek": 0,
+      "eyeClose": 1,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 810500,
+      "motion": 0,
+      "pos": 1
+     }
+    ],
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn",
+    "turnChangeInTime": 2
+   },
+   {
+    "autoTurnLast": 0.1,
+    "surround": "7012_tempest",
+    "turnChangeOut": "fadeOut",
+    "turnChangeOutTime": 2
+   },
+   {
+    "autoTurnLast": 2,
+    "bgm": "bgm01_anime21",
+    "chara": [
+     {
+      "eyeClose": 0,
+      "id": 810500
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "id": 810500,
+      "pos": 0
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_060.exp3.json",
+      "id": 200400,
+      "motion": 0,
+      "pos": 2
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "……你没事吧？@手有没有受伤？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp3.json",
+      "id": 810500,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "嗯……嗯@沙耶香……？"
+   },
+   {
+    "chara": [
+     {
+      "id": 810500,
+      "lipSynch": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "（面对倒下来的柱子……@是沙耶香……保护了我？）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "eyeClose": 1,
+      "face": "mtn_ex_010.exp3.json",
+      "id": 200400,
+      "motion": 300,
+      "pos": 2
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "太好了……@恭介的音乐保住了"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp3.json",
+      "id": 810500,
+      "motion": 300,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "可沙耶香……@你伤得很重"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 1,
+      "eyeClose": 0,
+      "face": "mtn_ex_060.exp3.json",
+      "id": 200400,
+      "pos": 2
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "……我……没事@听说我的恢复力比一般人强"
+   },
+   {
+    "chara": [
+     {
+      "id": 810500,
+      "motion": 0,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "沙耶香……你在说什么？"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "motion": 201,
+      "pos": 2
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "别管了……恭介只要@想着活下去"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "pos": 2
+     }
+    ],
+    "nameRight": "沙耶香",
+    "textRight": "然后，让更多更多的人@听见恭介的琴声……！"
+   },
+   {
+    "chara": [
+     {
+      "id": 810500,
+      "pos": 0
+     }
+    ],
+    "nameLeft": "恭介",
+    "textLeft": "沙耶香……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png",
+      "posX": 0,
+      "posY": 3000,
+      "scale": 6,
+      "setVisible": 1,
+      "zOrder": "messageFront"
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "effect": "fadeout",
+      "id": 200400
+     },
+     {
+      "effect": "fadeout",
+      "id": 810500
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "iPhoneXScale": 1,
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
+      "posX": 0,
+      "posY": 0,
+      "visible": "appear"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "black",
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": -3000
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 2.5,
+    "surround": "7015_walpurgis_voice"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": 0
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png",
+      "posX": 0,
+      "posY": -3000,
+      "scale": 6,
+      "setVisible": 1,
+      "zOrder": "messageFront"
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 0.01,
+    "item": [
+     {
+      "path": "resource/scenario/img/51049_storyselect_homura/51049_walpurgisnacht.jpg",
+      "visible": "hide"
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "chara": [
+     {
+      "cheek": 1,
+      "face": "mtn_ex_020.exp3.json",
+      "id": 200400,
+      "motion": 0,
+      "pos": 1
+     }
+    ]
+   },
+   {
+    "autoTurnLast": 0.01,
+    "bg": "bg_adv_20391.jpg",
+    "item": [
+     {
+      "action": {
+       "moveTo": {
+        "duration": 0.2,
+        "posY": 3000
+       }
+      },
+      "path": "resource/scenario/img/adv_roll_fade.png"
+     }
+    ]
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "lipSynch": 0,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "沙耶香",
+    "textCenter": "（魔女之夜……）"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "lipSynch": 0,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "沙耶香",
+    "textCenter": "（绝不让你继续靠近……！）"
+   },
+   {
+    "chara": [
+     {
+      "id": 200400,
+      "motion": 201,
+      "mouthOpen": 1,
+      "pos": 1
+     }
+    ],
+    "nameCenter": "沙耶香",
+    "textBg": "shout",
+    "textCenter": "[bgEffect:shakeSmall]喝啊啊啊——！"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "id": 200400,
+      "mouthOpen": 0
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "autoTurnLast": 2.5,
+    "deleteArmatureList": [
+     1
+    ],
+    "surround": "stop",
+    "turnChangeIn": "fadeIn",
+    "turnChangeInTime": 1.5
+   }
+  ]
+ },
+ "version": 3
 }

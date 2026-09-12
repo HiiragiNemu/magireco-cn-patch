@@ -14,7 +14,7 @@
      }
     ],
     "nameCenter": "都雏乃",
-    "textCenter": "灵感枯竭的我，@在来这里之前去过公园……",
+    "textCenter": "思路堵塞的我@来这里之前去了一趟公园……",
     "turnChangeIn": "fadeIn",
     "turnChangeOut": "fadeOut"
    },
@@ -26,7 +26,7 @@
       "id": 300301
      }
     ],
-    "textCenter": "一边走，一边漫无边际地思考……"
+    "textCenter": "我一边走，一边翻来覆去地@思考这个方案和那个方案……"
    },
    {
     "chara": [
@@ -37,7 +37,7 @@
       "motion": 200
      }
     ],
-    "textCenter": "但还是没有想法！"
+    "textCenter": "……结果还是什么也没想出来！"
    },
    {
     "chara": [
@@ -47,7 +47,7 @@
       "id": 300301
      }
     ],
-    "textCenter": "就在我长叹了一口气时，@听到了那个声音。"
+    "textCenter": "就在我长叹了一口气时，@听见了一个声音。"
    },
    {
     "chara": [
@@ -59,20 +59,34 @@
      }
     ],
     "nameNarration": "牧薰",
-    "narration": "我是牧薰！@请多指教！！",
+    "narration": "“我是牧薰！@请多指教！！”",
     "narrationBg": "bg_adv_21141.jpg",
-    "narrationEffect": "in"
+    "narrationEffect": "in",
+    "turnChangeIn": "fadeIn",
+    "turnChangeOut": "fadeOut"
    },
    {
+    "autoTurnLast": 0.5,
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_030.exp.json",
-      "id": 300301
+      "id": 300301,
+      "motion": 0,
+      "pos": 1
      }
     ],
     "narrationEffect": "out",
-    "textCenter": "即使离得很远，@也能感受到那种@运动系的热情活力……"
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 300301
+     }
+    ],
+    "textCenter": "即使离得很远也能感受到的，@那种运动系少女的热血劲头……",
+    "turnChangeOut": "fadeOut"
    },
    {
     "chara": [
@@ -83,7 +97,7 @@
       "motion": 300
      }
     ],
-    "textCenter": "那份热情！@怎么就不能运用在我的实验中呢！"
+    "textCenter": "那份热情！我不禁想到，能不能@把它也运用到我的实验中……"
    },
    {
     "chara": [
@@ -93,7 +107,7 @@
       "id": 300301
      }
     ],
-    "textCenter": "就是这份渴望促使我记住她了！@嗯！"
+    "textCenter": "正因为还夹杂着这样的念头，@我才会记得她！嗯！"
    },
    {
     "chara": [
@@ -110,30 +124,26 @@
      }
     ],
     "nameLeft": "和美",
-    "textLeft": "是、是哪里的公园！？"
+    "textLeft": "是、是哪个公园？"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_000.exp.json",
       "id": 300301,
       "motion": 0
      }
     ],
     "nameRight": "都雏乃",
-    "textRight": "啊，正好手头有纸和笔，@我画个简易地图吧。"
+    "textRight": "嗯，正好纸笔都在，@我给你画张简单的地图吧。"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_000.exp.json",
       "id": 300301,
       "motion": 200
      }
     ],
-    "textRight": "在这里这样走，@再那样走……嗯，就是这里！"
+    "textRight": "……先往这里走，再往这里走……@好了，就在这儿！"
    },
    {
     "chara": [
@@ -144,7 +154,7 @@
       "motion": 100
      }
     ],
-    "textLeft": "是这里啊！@谢谢你！"
+    "textLeft": "……就是这里吧！@谢谢你！"
    },
    {
     "chara": [
@@ -157,7 +167,7 @@
      }
     ],
     "nameRight": "胡桃爱香",
-    "textRight": "和美，那你快走吧！"
+    "textRight": "好了，和美小姐！@快去吧！"
    },
    {
     "chara": [
@@ -168,7 +178,7 @@
       "motion": 0
      }
     ],
-    "textLeft": "嗯！"
+    "textLeft": "好的！"
    },
    {
     "chara": [
@@ -179,7 +189,7 @@
       "motion": 1
      }
     ],
-    "textLeft": "那个……我还会再来的！@[chara:401101:lipSynch_0][wait:0.8][chara:401101:cheek_0][chara:401101:face_mtn_ex_011.exp.json][chara:401101:lipSynch_1]下次……我会三个人一起来！"
+    "textLeft": "……那个……我还会再来的！@[chara:401101:lipSynch_0][wait:0.8][chara:401101:cheek_0][chara:401101:face_mtn_ex_011.exp.json][chara:401101:lipSynch_1]下次……我们三个人一起来！"
    },
    {
     "chara": [
@@ -190,7 +200,7 @@
       "motion": 1
      }
     ],
-    "textRight": "我等着你哦！"
+    "textRight": "……我等着你们！"
    },
    {
     "chara": [
@@ -201,16 +211,17 @@
       "motion": 100
      }
     ],
-    "textLeft": "再见！"
+    "textLeft": "……那我走了！"
    },
    {
-    "autoTurnLast": 0.3,
+    "autoTurnLast": 0.5,
     "chara": [
      {
       "effect": "fadeout",
       "id": 401101
      }
-    ]
+    ],
+    "textClear": 1
    },
    {
     "chara": [
@@ -221,7 +232,7 @@
       "motion": 300
      }
     ],
-    "textRight": "呼……太好了……"
+    "textRight": "……呼……太好了……"
    },
    {
     "chara": [
@@ -234,7 +245,7 @@
      }
     ],
     "nameLeft": "都雏乃",
-    "textLeft": "唔呣！"
+    "textLeft": "……嗯！"
    },
    {
     "chara": [
@@ -244,7 +255,7 @@
       "id": 300301
      }
     ],
-    "textLeft": "那我就继续计算吧……"
+    "textLeft": "那我继续计算……"
    },
    {
     "chara": [
@@ -255,7 +266,7 @@
       "motion": 0
      }
     ],
-    "textRight": "说起来，@你在做的是什么实验？"
+    "textRight": "……话说回来，@您在做什么实验呢？"
    },
    {
     "chara": [
@@ -266,7 +277,7 @@
       "motion": 100
      }
     ],
-    "textLeft": "你问这个吗？@呵呵呵……听了可别吓到哦……"
+    "textLeft": "这个吗？@呵呵呵……听了可别吓一跳……"
    },
    {
     "chara": [
@@ -276,27 +287,27 @@
       "id": 300301
      }
     ],
-    "textLeft": "其实呢……！"
+    "textLeft": "居然是……！"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_020.exp.json",
       "id": 300301,
       "motion": 200,
       "mouthOpen": 1
      }
     ],
-    "textLeft": "这是「把砂糖变成盐」的实验！@如何！"
+    "textLeft": "“把砂糖变成盐的实验”@哦——！怎么样——！"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
       "id": 300902,
       "motion": 1
+     },
+     {
+      "id": 300301,
+      "mouthOpen": 0
      }
     ],
     "textRight": "把砂糖……变成盐……？"
@@ -315,13 +326,11 @@
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
       "id": 300902,
       "motion": 0
      }
     ],
-    "textRight": "直接用盐不就行了吗……？"
+    "textRight": "……那不是@一开始直接用盐就好了吗……？"
    },
    {
     "chara": [
@@ -332,7 +341,7 @@
       "motion": 0
      }
     ],
-    "textLeft": "嗯？"
+    "textLeft": "……嗯？"
    },
    {
     "chara": [
@@ -348,8 +357,6 @@
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
       "id": 300301,
       "lipSynch": 0,
       "motion": 300
@@ -365,7 +372,7 @@
       "id": 300301
      }
     ],
-    "textLeft": "有道理……"
+    "textLeft": "……确实……"
    },
    {
     "chara": [
@@ -376,74 +383,77 @@
       "motion": 200
      }
     ],
-    "textLeft": "不……不对！那个！@这个实验还有别的意义！"
+    "textLeft": "……不、不对！那个！这项实验@还有其他意义——！"
    },
    {
     "nameNarration": "和美",
-    "narration": "赶快按照雏乃的情报，@去公园吧……！",
+    "narration": "我根据雏乃小姐提供的线索，@火速赶往公园……！",
     "narrationBg": "bg_adv_narration.jpg",
     "narrationEffect": "in",
     "turnChangeIn": "fadeIn",
     "turnChangeOut": "fadeOut"
    },
    {
-    "narration": "薰在那里的话，@海香说不定也在……！"
+    "narration": "既然薰在那里，@海香说不定也和她在一起……！"
    },
    {
     "bgm": "stop",
-    "narration": "可是……"
+    "narration": "……可是……"
    },
    {
-    "narration": "到了公园后，@我却怎么找也找不到薰……"
+    "narration": "到了公园后，不管怎么找，@我都没找到薰……"
    },
    {
+    "autoTurnLast": 0.01,
     "bg": "bg_adv_21141.jpg",
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_030.exp.json",
       "id": 401101,
-      "motion": 300,
+      "motion": 0,
       "pos": 1
      }
     ],
-    "nameCenter": "和美",
     "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
+   },
+   {
+    "chara": [
+     {
+      "id": 401101,
+      "motion": 300
+     }
+    ],
+    "nameCenter": "和美",
     "surround": "7001_birdsong",
-    "textCenter": "唉～是错过了吗……",
-    "turnChangeIn": "fadeIn",
+    "textCenter": "……唉～……难道刚好错过了吗……",
     "turnChangeOut": "fadeOut"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
       "id": 401101
      }
     ],
-    "textCenter": "感觉突然好累啊……"
+    "textCenter": "……感觉疲惫一下子@全涌上来了……"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
       "id": 401101,
       "motion": 1
      }
     ],
-    "textCenter": "又是在店里帮忙，又是下厨做菜，@然后又跑到这里……"
+    "textCenter": "……又帮忙照看店里，又做了料理，@还一路跑到这里来……"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
       "id": 401101
      }
     ],
-    "textCenter": "海香……薰……"
+    "textCenter": "……海香……薰……"
    },
    {
     "chara": [
@@ -454,11 +464,11 @@
       "motion": 100
      }
     ],
-    "textCenter": "但是，我相信！@我肯定很快就能见到她们！"
+    "textCenter": "不过，我们一定很快就能见面的！@我相信！"
    },
    {
     "nameNarration": "和美",
-    "narration": "后来又过了一阵子，@我才与她们重逢……",
+    "narration": "而我与她们两人重逢，@则是发生在这之后不久的故事……",
     "narrationBg": "bg_adv_21141.jpg",
     "narrationEffect": "in",
     "surround": "stop"
@@ -482,12 +492,12 @@
      }
     ],
     "nameCenter": "和美",
-    "textCenter": "太好了，找到了～！@必须快点去她们两个那里！",
+    "textCenter": "能找到真是太好了～！@我得赶紧去她们俩那儿！",
     "turnChangeOut": "fadeOut",
     "turnEffect": "stop"
    },
    {
-    "autoTurnFirst": 3.0,
+    "autoTurnFirst": 3,
     "chara": [
      {
       "cheek": 0,
@@ -505,7 +515,7 @@
     ]
    },
    {
-    "autoTurnLast": 2.0,
+    "autoTurnLast": 2,
     "turnChangeIn": "fadeIn"
    }
   ]

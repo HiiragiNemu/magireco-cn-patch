@@ -2,130 +2,127 @@
  "story": {
   "group_1": [
    {
+    "autoTurnLast": 0.01,
     "bg": "black",
     "bgm": "bgm03_story08",
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
-      "id": 401201,
-      "motion": 400,
-      "pos": 1
-     }
-    ],
-    "nameCenter": "御崎海香",
-    "surround": "7202_telepathy",
-    "textCenter": "和美！你在哪里……？",
-    "turnChangeIn": "fadeIn",
-    "turnChangeOut": "fadeOut",
-    "turnEffect": "ef_adv_02"
+    "turnChangeIn": "fadeIn"
    },
    {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
-      "id": 401201
-     }
-    ],
-    "textCenter": "在的话就回答我！@和美……"
+    "nameNarration": "御崎海香",
+    "narration": "那时，我心急如焚……@是的，心急如焚……",
+    "narrationBg": "black",
+    "narrationEffect": "in",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "narration": "是因为担心可能会失去同伴？@不，并不是……"
    },
    {
     "autoTurnLast": 0.01,
-    "surround": "stop",
-    "turnChangeIn": "whiteIn",
-    "turnEffect": "stop"
-   },
-   {
     "bg": "bg_adv_13021.jpg",
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_030.exp.json",
+      "face": "mtn_ex_001.exp.json",
       "id": 401201,
-      "lipSynch": 0,
       "motion": 1,
       "pos": 1
      }
     ],
-    "textCenter": "（不行啊……）",
-    "turnChangeOut": "whiteOut",
-    "turnEffect": "thinking"
+    "narrationEffect": "out",
+    "turnChangeIn": "fadeIn"
    },
    {
     "chara": [
      {
-      "cheek": 0,
-      "id": 401201,
-      "lipSynch": 0
+      "id": 401201
      }
     ],
-    "textCenter": "（一点反应也没有，@难道她不在神滨吗……）"
+    "nameCenter": "御崎海香",
+    "textCenter": "……明明和和美、薰走散后@已经过了一个小时……",
+    "turnChangeOut": "fadeOut"
+   },
+   {
+    "chara": [
+     {
+      "id": 401201
+     }
+    ],
+    "nameCenter": "御崎海香",
+    "textCenter": "竟然连灵魂宝石都感应不到@和美，甚至薰的存在。"
    },
    {
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_030.exp.json",
-      "id": 401201,
-      "lipSynch": 0,
-      "motion": 300
+      "id": 401201
      }
     ],
-    "textCenter": "（还是说，@和美发生了什么事……）"
+    "nameCenter": "御崎海香",
+    "textCenter": "想读取这座城市的记忆，@“伊克斯·菲雷”却也不起作用……"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 401201
+     }
+    ],
+    "nameCenter": "御崎海香",
+    "textCenter": "虽然不用担心薰，@但我想让和美远离魔法……"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "id": 401201,
-      "lipSynch": 0
-     }
-    ],
-    "textCenter": "（竟然和薰也走散了……）"
-   },
-   {
-    "bgm": "stop",
-    "chara": [
-     {
-      "cheek": 0,
-      "effect": "ef_adv_01",
+      "eyeClose": 0,
       "face": "mtn_ex_050.exp.json",
+      "id": 401201,
+      "motion": 400
+     }
+    ],
+    "nameCenter": "御崎海香",
+    "textCenter": "[chara:401201:effect_ef_adv_01][se:7201_detect_magic]啊……！"
+   },
+   {
+    "chara": [
+     {
+      "id": 401201
+     }
+    ],
+    "nameCenter": "御崎海香",
+    "textCenter": "这个反应……很近？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_020.exp.json",
       "id": 401201,
       "motion": 0
      }
     ],
-    "se": "7201_detect_magic",
-    "textCenter": "唉……！",
-    "turnEffect": "stop"
+    "nameCenter": "御崎海香",
+    "textCenter": "……来了！"
    },
    {
+    "autoTurnLast": 0.2,
     "chara": [
      {
-      "cheek": 0,
-      "face": "mtn_ex_020.exp.json",
+      "effect": "fadeout",
       "id": 401201
      }
     ],
-    "textCenter": "这个反应……好近？"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_020.exp.json",
-      "id": 401201,
-      "motion": 1
-     }
-    ],
-    "textCenter": "来了！"
+    "textClear": 1
    },
    {
     "autoTurnLast": 0.5,
     "bg": "bg_adv_47103.jpg",
     "bgChangeEffect": "enterWitchSpace",
     "bgm": "stop",
-    "se": "7208_wander_into"
+    "se": "7208_wander_into",
+    "textClear": 1
    },
    {
     "bgm": "bgm01_anime12",
@@ -133,16 +130,22 @@
      {
       "id": 7103,
       "name": "sprite_0",
-      "pos": 0
-     },
-     {
-      "id": 401201,
-      "pos": 2
+      "pos": 1
      }
     ],
-    "nameLeft": "",
-    "nameRight": "御崎海香",
-    "textLeft": "咻★□※☆▼砰"
+    "nameCenter": "",
+    "textCenter": "咻★□※☆▼啵"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "id": 7103,
+      "name": "sprite_0",
+      "pos": 0
+     }
+    ],
+    "textClear": 1
    },
    {
     "chara": [
@@ -150,19 +153,27 @@
       "cheek": 0,
       "face": "mtn_ex_020.exp.json",
       "id": 401201,
-      "motion": 0
+      "motion": 200,
+      "pos": 2
      }
     ],
-    "textRight": "不是魔女啊……"
+    "nameRight": "御崎海香",
+    "textRight": "……真是的，也不看看这是什么地方。"
    },
    {
     "chara": [
      {
       "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
       "id": 401201
      }
     ],
-    "textRight": "唔，虽然现在没有心情陪它打架……"
+    "nameRight": "御崎海香",
+    "textRight": "我现在可没心情@讨伐魔女……"
+   },
+   {
+    "autoTurnLast": 0.01,
+    "textClear": 1
    },
    {
     "chara": [
@@ -175,8 +186,9 @@
       "pos": 2
      }
     ],
+    "nameRight": "御崎海香",
     "se": "7205_magic_girl",
-    "textRight": "但也不能放任不管……！"
+    "textRight": "但也不能放着不管……！"
    },
    {
     "chara": [
@@ -185,7 +197,51 @@
       "name": "sprite_0"
      }
     ],
-    "textLeft": "啵啵▼△◎★！！"
+    "nameLeft": "",
+    "textLeft": "啵啵▼△◎★!!"
+   },
+   {
+    "chara": [
+     {
+      "id": 401200
+     }
+    ],
+    "nameRight": "御崎海香",
+    "textRight": "让我把你的一切@都读取出来吧……"
+   },
+   {
+    "chara": [
+     {
+      "id": 401200,
+      "motion": 100
+     }
+    ],
+    "flashEffect": "flashWhite2",
+    "jingle": "4012M01",
+    "nameRight": "御崎海香",
+    "textRight": "伊克斯·菲雷！"
+   },
+   {
+    "chara": [
+     {
+      "id": 7103,
+      "name": "sprite_0"
+     }
+    ],
+    "nameLeft": "",
+    "textLeft": "咻啵▲◎☆◆!?"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 401200,
+      "motion": 0
+     }
+    ],
+    "nameRight": "御崎海香",
+    "textRight": "……哦……原来如此，@你的弱点是……"
    },
    {
     "chara": [
@@ -196,52 +252,8 @@
       "motion": 200
      }
     ],
-    "textRight": "让我看看你的弱点吧！"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_020.exp.json",
-      "id": 401200,
-      "mouthOpen": 1
-     }
-    ],
-    "flashEffect": "flashWhite2",
-    "jingle": "4012M01",
-    "textRight": "X档案！"
-   },
-   {
-    "chara": [
-     {
-      "id": 7103,
-      "name": "sprite_0"
-     }
-    ],
-    "textLeft": "咻啵▲◎☆◆！？"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_020.exp.json",
-      "id": 401200,
-      "motion": 1,
-      "mouthOpen": 0
-     }
-    ],
-    "textRight": "唔……原来如此，@你的弱点是……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_020.exp.json",
-      "id": 401200,
-      "motion": 100
-     }
-    ],
-    "textRight": "[flashEffect:flashWhite2][surround:4012A07]这里！"
+    "nameRight": "御崎海香",
+    "textRight": "[flashEffect:flashWhite2][surround:4012A07]就是那里！"
    },
    {
     "autoTurnLast": 0.5,
@@ -255,7 +267,7 @@
     ],
     "flashEffect": "flashRed2",
     "surround": "4012A08",
-    "textLeft": "□▽★※◎◆#砰！！"
+    "textLeft": "□▽★※◎◆♯啵——!!"
    },
    {
     "autoTurnLast": 0.5,
@@ -266,38 +278,121 @@
       "name": "sprite_0"
      }
     ],
-    "se": "3102_enemy_dead"
+    "se": "3102_enemy_dead",
+    "textClear": 1
    },
    {
     "autoTurnLast": 0.5,
     "bg": "bg_adv_13021.jpg",
     "bgChangeEffect": "exitWitchSpace",
     "bgm": "stop",
-    "se": "7209_gate_close"
+    "se": "7209_gate_close",
+    "textClear": 1
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_010.exp.json",
+      "face": "mtn_ex_030.exp.json",
       "id": 401200,
-      "motion": 0,
+      "motion": 1,
       "pos": 1
      }
     ],
     "nameCenter": "御崎海香",
-    "textCenter": "呼……"
+    "textCenter": "无论经历多少次，@打倒魔女都是件痛苦的事。"
+   },
+   {
+    "chara": [
+     {
+      "eyeClose": 1,
+      "id": 401200
+     }
+    ],
+    "nameCenter": "御崎海香",
+    "textCenter": "愿“她”得以安详地@长眠……"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_020.exp.json",
+      "eyeClose": 0,
+      "face": "mtn_ex_001.exp.json",
       "id": 401200,
-      "motion": 1
+      "motion": 0
      }
     ],
-    "textCenter": "不管哪里都有这种东西啊……"
+    "nameCenter": "御崎海香",
+    "textCenter": "……接下来该怎么@寻找和美和薰呢……"
+   },
+   {
+    "autoTurnLast": 0.2,
+    "chara": [
+     {
+      "id": 401200,
+      "pos": 0
+     }
+    ],
+    "textClear": 1
+   },
+   {
+    "bgm": "bgm03_story06",
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 301101,
+      "lipSynch": 0,
+      "motion": 1,
+      "pos": 2
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "…………"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_050.exp.json",
+      "id": 401200
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "……什么？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 301101
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "那个～……"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 401200,
+      "motion": 100
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "……我们是不是在哪里见过？@还是说，你刚才也在魔女的结界里……"
+   },
+   {
+    "chara": [
+     {
+      "id": 301101,
+      "motion": 100
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "不，是你那身打扮……"
    },
    {
     "chara": [
@@ -307,27 +402,8 @@
       "id": 401200
      }
     ],
-    "textCenter": "但是，不好办呢……@她们两个究竟在哪里啊？"
-   },
-   {
-    "bgm": "bgm03_story02",
-    "chara": [
-     {
-      "id": 401200,
-      "pos": 0
-     },
-     {
-      "cheek": 0,
-      "face": "mtn_ex_011.exp.json",
-      "id": 301101,
-      "lipSynch": 0,
-      "motion": 0,
-      "pos": 2
-     }
-    ],
     "nameLeft": "御崎海香",
-    "nameRight": "夏目佳子",
-    "textRight": "…………"
+    "textLeft": "……打扮……？"
    },
    {
     "chara": [
@@ -338,40 +414,123 @@
       "motion": 400
      }
     ],
-    "textLeft": "咦！？"
+    "nameLeft": "御崎海香",
+    "textLeft": "[chara:401200:effect_emotion_surprise_0][se:7226_shock]……啊!?"
+   },
+   {
+    "chara": [
+     {
+      "id": 401200,
+      "lipSynch": 0
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "（……我还保持着变身状态……！）"
    },
    {
     "chara": [
      {
       "cheek": 0,
-      "face": "mtn_ex_011.exp.json",
-      "id": 301101,
-      "motion": 300
+      "face": "mtn_ex_030.exp.json",
+      "id": 401200,
+      "lipSynch": 0,
+      "motion": 0
      }
     ],
-    "textRight": "请问～"
+    "nameLeft": "御崎海香",
+    "textLeft": "（……要是表现得太慌张，@反而会惹她怀疑……）"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_001.exp.json",
+      "id": 401200
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "……我的打扮……有什么问题吗？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_022.exp.json",
+      "id": 301101,
+      "motion": 400,
+      "pos": 2
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "……你是……魔法……少女吗？"
+   },
+   {
+    "chara": [
+     {
+      "id": 401200
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "是的，我是魔法少女……[chara:401200:lipSynch_0][wait:0.8][chara:401200:cheek_0][chara:401200:face_mtn_ex_050.exp.json][chara:401200:motion_400][chara:401200:lipSynch_1]啊！@不对，我这是魔法少女的装扮。"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 401200,
+      "lipSynch": 0
+     }
+    ],
+    "nameLeft": "御崎海香",
+    "textLeft": "（回答得太自然，一不小心就……@用装扮这个说法，蒙混过去了吗……）"
    },
    {
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_050.exp.json",
-      "id": 401200,
-      "motion": 0
+      "id": 301101,
+      "motion": 100
      }
     ],
-    "textLeft": "怎、怎么啦？"
+    "nameRight": "夏目佳子",
+    "textRight": "啊啊啊！@原来是角色扮演啊……"
    },
    {
     "chara": [
      {
       "cheek": 0,
       "face": "mtn_ex_011.exp.json",
-      "id": 301101,
+      "id": 301101
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "对不起！@请别放在心上！"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 401200,
       "motion": 1
      }
     ],
-    "textRight": "不，你的模样……"
+    "nameLeft": "御崎海香",
+    "textLeft": "……不对，你刚才是不是……@说了“魔法少女”？"
+   },
+   {
+    "chara": [
+     {
+      "cheek": 0,
+      "face": "mtn_ex_030.exp.json",
+      "id": 301101,
+      "motion": 0
+     }
+    ],
+    "nameRight": "夏目佳子",
+    "textRight": "……是、是的……"
    },
    {
     "chara": [
@@ -381,138 +540,8 @@
       "id": 401200
      }
     ],
-    "textLeft": "模样……？"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
-      "id": 401200,
-      "motion": 400
-     }
-    ],
-    "textLeft": "[chara:401200:effect_emotion_surprise_0][se:7226_shock]啊！？"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "id": 401200,
-      "lipSynch": 0
-     }
-    ],
-    "textLeft": "（忘了解除变身……！）",
-    "turnEffect": "thinking"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_020.exp.json",
-      "id": 401200,
-      "lipSynch": 0,
-      "motion": 0
-     }
-    ],
-    "textLeft": "（这种情况，要表现得冷静一点……）"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_020.exp.json",
-      "id": 401200,
-      "motion": 1
-     }
-    ],
-    "textLeft": "这……有什么问题吗？",
-    "turnEffect": "stop"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_011.exp.json",
-      "id": 301101,
-      "motion": 400
-     }
-    ],
-    "textRight": "你是……魔法少女吗？"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "id": 401200,
-      "lipSynch": 0
-     }
-    ],
-    "textLeft": "…………"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
-      "id": 401200,
-      "motion": 400
-     }
-    ],
-    "textLeft": "[chara:401200:effect_emotion_surprise_0][se:7226_shock]咦！？"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
-      "id": 301101,
-      "motion": 100
-     }
-    ],
-    "textRight": "啊啊啊！抱歉！@只是化装吗！？"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "id": 301101
-     }
-    ],
-    "textRight": "对不起！@请不要在意！"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
-      "id": 401200,
-      "motion": 0
-     }
-    ],
-    "textLeft": "不，你刚刚提到了……@“魔法少女”这个词对吧？"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_011.exp.json",
-      "id": 301101,
-      "motion": 0
-     }
-    ],
-    "textRight": "是、是的……"
-   },
-   {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_050.exp.json",
-      "id": 401200,
-      "motion": 100
-     }
-    ],
-    "textLeft": "莫非……你也是！？"
+    "nameLeft": "御崎海香",
+    "textLeft": "难道……你也是!?"
    },
    {
     "chara": [
@@ -523,17 +552,12 @@
       "motion": 400
      }
     ],
-    "textRight": "那么，你果然是！"
+    "nameRight": "夏目佳子",
+    "textRight": "是的！"
    },
    {
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_010.exp.json",
-      "id": 301101
-     }
-    ],
-    "textRight": "没错，我也是！"
+    "autoTurnLast": 0.01,
+    "textClear": 1
    },
    {
     "chara": [
@@ -546,11 +570,12 @@
       "pos": 2
      }
     ],
+    "nameRight": "夏目佳子",
     "se": "7205_magic_girl",
-    "textRight": "我叫做夏目佳子！"
+    "textRight": "我叫夏目佳子！"
    },
    {
-    "autoTurnLast": 2.0,
+    "autoTurnLast": 2,
     "turnChangeIn": "fadeIn"
    }
   ]

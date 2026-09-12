@@ -11,7 +11,7 @@
     "bg": "bg_adv_20231.jpg",
     "nameNarration": "",
     "narration": "＜1429年4月＞",
-    "narrationCoverOpacity": 50.0,
+    "narrationCoverOpacity": 50,
     "narrationEffect": "in",
     "questBg": "bg_adv_20231.jpg",
     "questTurnChangeOut": "fadeOut"
@@ -38,13 +38,15 @@
       "cheek": 0,
       "face": "mtn_ex_000.exp.json",
       "id": 760000,
+      "live2dName": "live2d_0",
       "motion": 0,
       "pos": 0
      },
      {
       "cheek": 0,
       "face": "mtn_ex_000.exp.json",
-      "id": 760090,
+      "id": 760000,
+      "live2dName": "live2d_1",
       "motion": 0,
       "pos": 2
      }
@@ -58,7 +60,8 @@
     "bgm": "bgm05_event03",
     "chara": [
      {
-      "id": 760000
+      "id": 760000,
+      "live2dName": "live2d_0"
      }
     ],
     "nameCenter": "",
@@ -71,11 +74,13 @@
     "chara": [
      {
       "effect": "fadeout",
-      "id": 760000
+      "id": 760000,
+      "live2dName": "live2d_0"
      },
      {
       "effect": "fadeout",
-      "id": 760090
+      "id": 760000,
+      "live2dName": "live2d_1"
      }
     ],
     "textClear": 1
@@ -92,7 +97,7 @@
      {
       "cheek": 0,
       "face": "mtn_ex_020.exp.json",
-      "id": 831100,
+      "id": 402900,
       "motion": 0,
       "pos": 2
      }
@@ -103,7 +108,7 @@
    {
     "chara": [
      {
-      "id": 831100
+      "id": 402900
      }
     ],
     "nameRight": "佩蕾奈尔·弗拉梅尔",
@@ -122,7 +127,7 @@
     "textRight": "爱丽莎，小心应战。"
    },
    {
-    "autoTurnLast": 2.0,
+    "autoTurnLast": 2,
     "deleteArmatureList": [
      1
     ],

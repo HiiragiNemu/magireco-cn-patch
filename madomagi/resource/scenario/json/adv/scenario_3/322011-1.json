@@ -1,578 +1,578 @@
 {
- "story": {
-  "group_1": [
-   {
-    "autoTurnLast": 0.01,
-    "bg": "bg_adv_narration.jpg",
-    "bgm": "bgm01_anime03",
-    "chara": [
-     {
-      "cheek": 0,
-      "face": "mtn_ex_010.exp3.json",
-      "id": 200380,
-      "motion": 0,
-      "pos": 2
-     },
-     {
-      "cheek": 0,
-      "face": "mtn_ex_010.exp3.json",
-      "id": 220180,
-      "motion": 0,
-      "pos": 0
-     }
-    ],
-    "turnChangeIn": "fadeIn"
-   },
-   {
-    "chara": [
-     {
-      "id": 200380
-     }
-    ],
-    "nameRight": "小焰",
-    "textRight": "这个魔法少女的故事是关于@“神滨温泉冒险”的",
-    "turnChangeOut": "fadeOut"
-   },
-   {
-    "chara": [
-     {
-      "id": 200380
-     }
-    ],
-    "nameRight": "小焰",
-    "textRight": "我建议玩完后阅读@"
-   },
-   {
-    "chara": [
-     {
-      "id": 220180
-     }
-    ],
-    "nameLeft": "恶魔小焰",
-    "textLeft": "即使在活动期间之外"
-   },
-   {
-    "chara": [
-     {
-      "id": 220180
-     }
-    ],
-    "nameLeft": "恶魔小焰",
-    "textLeft": "您可以使用爱主题“记忆的碎片”查看@的故事"
-   },
-   {
-    "autoTurnLast": 2,
-    "bg": "black",
-    "bgm": "stop",
-    "item": [
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1b.jpg",
-      "posX": 0,
-      "posY": 0,
-      "scale": 1,
-      "setVisible": 1
-     }
-    ],
-    "narrationAnchor": "bottom",
-    "narrationCoverOpacity": 0,
-    "narrationEffect": "in",
-    "narrationFontSize": 0,
-    "narrationLineSpace": 2000,
-    "turnChangeIn": "fadeIn"
-   },
-   {
-    "autoTurnLast": 0.01,
-    "bgm": "bgm01_anime05",
-    "turnChangeOut": "fadeOut"
-   },
-   {
-    "item": [
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1c.png",
-      "posX": 0,
-      "posY": 0,
-      "scale": 1,
-      "setVisible": 1
-     }
-    ],
-    "nameNarration": "小焰",
-    "narration": "由于我的心理弱点，我与恶魔和@签订了合同。"
-   },
-   {
-    "item": [
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg",
-      "posX": 0,
-      "posY": 0,
-      "scale": 1,
-      "setVisible": 1
-     },
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1b.jpg",
-      "visible": "hide"
-     },
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1c.png",
-      "visible": "hide"
-     }
-    ],
-    "nameNarration": "恶魔",
-    "narration": "我接受了这个愿望"
-   },
-   {
-    "autoTurnLast": 0.01,
-    "item": [
-     {
-      "action": {
-       "spawn": [
-        {
-         "scaleTo": {
-          "duration": 0.5,
-          "scale": 2
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.5,
-          "posX": 300,
-          "posY": 0
-         }
-        }
-       ]
+  "story": {
+    "group_1": [
+      {
+        "autoTurnLast": 0.01,
+        "bg": "bg_adv_narration.jpg",
+        "bgm": "bgm01_anime03",
+        "chara": [
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 200380,
+            "motion": 0,
+            "pos": 2
+          },
+          {
+            "cheek": 0,
+            "face": "mtn_ex_010.exp3.json",
+            "id": 220180,
+            "motion": 0,
+            "pos": 0
+          }
+        ],
+        "turnChangeIn": "fadeIn"
       },
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg"
-     }
-    ]
-   },
-   {
-    "autoTurnLast": 0.01,
-    "item": [
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg",
-      "visible": "hide"
-     }
-    ]
-   },
-   {
-    "autoTurnLast": 0.01,
-    "item": [
-     {
-      "action": {
-       "sequence": [
-        {
-         "moveTo": {
-          "duration": 0.3,
-          "posX": 0,
-          "posY": 0
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": -5,
-          "posY": 5
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 5,
-          "posY": 0
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": -5,
-          "posY": -5
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 5,
-          "posY": 0
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": -5,
-          "posY": 5
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 5,
-          "posY": 0
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": -5,
-          "posY": -5
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 5,
-          "posY": 0
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": -5,
-          "posY": 5
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 5,
-          "posY": 0
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": -5,
-          "posY": -5
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 5,
-          "posY": 0
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": -5,
-          "posY": 5
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": 0
-         }
-        }
-       ]
+      {
+        "chara": [
+          {
+            "id": 200380
+          }
+        ],
+        "nameRight": "小焰",
+        "textRight": "本篇魔法少女剧情，@建议先游玩《神滨SPA大冒险》",
+        "turnChangeOut": "fadeOut"
       },
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2b.jpg",
-      "posX": -1200,
-      "posY": -900,
-      "scale": 1,
-      "setVisible": 1
-     }
-    ]
-   },
-   {
-    "item": [
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2c.png",
-      "posX": 0,
-      "posY": 0,
-      "scale": 1,
-      "setVisible": 1
-     },
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg",
-      "visible": "hide"
-     }
-    ],
-    "narration": "我会借用@的身体，直到契约完成，我自由了！"
-   },
-   {
-    "item": [
-     {
-      "action": {
-       "sequence": [
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": -50,
-          "posY": -20
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 50,
-          "posY": 70
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": 0
-         }
-        }
-       ]
+      {
+        "chara": [
+          {
+            "id": 200380
+          }
+        ],
+        "nameRight": "小焰",
+        "textRight": "之后@再来阅读"
       },
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2d.png",
-      "posX": 0,
-      "posY": 0,
-      "scale": 1,
-      "setVisible": 1
-     }
-    ],
-    "nameNarration": "小焰",
-    "narration": "啊——！"
-   },
-   {
-    "autoTurnLast": 0.01,
-    "item": [
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2a.jpg",
-      "posX": 0,
-      "posY": 0,
-      "scale": 1,
-      "setVisible": 1
-     },
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2b.jpg",
-      "visible": "hide"
-     },
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2c.png",
-      "visible": "hide"
-     },
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2d.png",
-      "visible": "hide"
-     }
-    ]
-   },
-   {
-    "autoTurnLast": 0.01,
-    "item": [
-     {
-      "action": {
-       "moveTo": {
-        "duration": 0.3,
-        "posX": 1200,
-        "posY": 900
-       }
+      {
+        "chara": [
+          {
+            "id": 220180
+          }
+        ],
+        "nameLeft": "恶魔小焰",
+        "textLeft": "即使不在活动期间"
       },
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2a.jpg"
-     },
-     {
-      "action": {
-       "scaleTo": {
-        "duration": 1,
-        "scale": 1
-       }
+      {
+        "chara": [
+          {
+            "id": 220180
+          }
+        ],
+        "nameLeft": "恶魔小焰",
+        "textLeft": "也可以使用道具「追忆碎片」@阅读这篇剧情哦"
       },
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3b.jpg",
-      "posX": 0,
-      "posY": 0,
-      "scale": 0,
-      "setVisible": 1
-     }
-    ]
-   },
-   {
-    "autoTurnLast": 0.01,
-    "item": [
-     {
-      "action": {
-       "sequence": [
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": 10
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": -10
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": 10
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": -10
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": 10
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": -10
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": 10
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": -10
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 0.05,
-          "posX": 0,
-          "posY": 0
-         }
-        }
-       ]
+      {
+        "autoTurnLast": 2,
+        "bg": "black",
+        "bgm": "stop",
+        "item": [
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1b.jpg",
+            "posX": 0,
+            "posY": 0,
+            "scale": 1,
+            "setVisible": 1
+          }
+        ],
+        "narrationAnchor": "bottom",
+        "narrationCoverOpacity": 0,
+        "narrationEffect": "in",
+        "narrationFontSize": 0,
+        "narrationLineSpace": 2000,
+        "turnChangeIn": "fadeIn"
       },
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3b.jpg"
-     }
-    ]
-   },
-   {
-    "item": [
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3d.png",
-      "posX": 0,
-      "posY": 0,
-      "scale": 1,
-      "setVisible": 1
-     },
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2a.jpg",
-      "visible": "hide"
-     }
-    ],
-    "nameNarration": "恶魔小焰",
-    "narration": "距离我上次见到这个实体已经过去很长时间了。"
-   },
-   {
-    "item": [
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3a.jpg",
-      "posX": 0,
-      "posY": 0,
-      "scale": 1,
-      "setVisible": 1
-     },
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3b.jpg",
-      "visible": "hide"
-     },
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3d.png",
-      "visible": "hide"
-     }
-    ],
-    "narration": "我会毫不犹豫地去做。"
-   },
-   {
-    "autoTurnLast": 0.01,
-    "item": [
-     {
-      "action": {
-       "spawn": [
-        {
-         "scaleTo": {
-          "duration": 1,
-          "scale": 2
-         }
-        },
-        {
-         "moveTo": {
-          "duration": 1,
-          "posX": -120,
-          "posY": -200
-         }
-        }
-       ]
+      {
+        "autoTurnLast": 0.01,
+        "bgm": "bgm01_anime05",
+        "turnChangeOut": "fadeOut"
       },
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3a.jpg"
-     }
-    ]
-   },
-   {
-    "autoTurnLast": 1,
-    "item": [
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3a.jpg",
-      "visible": "hide"
-     }
-    ]
-   },
-   {
-    "autoTurnLast": 0.01,
-    "bgm": "stop",
-    "item": [
-     {
-      "action": {
-       "spawn": [
-        {
-         "moveTo": {
-          "duration": 2,
-          "posX": 0,
-          "posY": 0
-         }
-        },
-        {
-         "scaleTo": {
-          "duration": 2,
-          "scale": 1
-         }
-        }
-       ]
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1c.png",
+            "posX": 0,
+            "posY": 0,
+            "scale": 1,
+            "setVisible": 1
+          }
+        ],
+        "nameNarration": "小焰",
+        "narration": "我是因为内心软弱，@不慎和恶魔签下契约的小焰"
       },
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_4b.jpg",
-      "posX": 170,
-      "posY": -250,
-      "scale": 5,
-      "setVisible": 1
-     }
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg",
+            "posX": 0,
+            "posY": 0,
+            "scale": 1,
+            "setVisible": 1
+          },
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1b.jpg",
+            "visible": "hide"
+          },
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1c.png",
+            "visible": "hide"
+          }
+        ],
+        "nameNarration": "恶魔",
+        "narration": "这个愿望，我接下了"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "item": [
+          {
+            "action": {
+              "spawn": [
+                {
+                  "scaleTo": {
+                    "duration": 0.5,
+                    "scale": 2
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.5,
+                    "posX": 300,
+                    "posY": 0
+                  }
+                }
+              ]
+            },
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg"
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.01,
+        "item": [
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg",
+            "visible": "hide"
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.01,
+        "item": [
+          {
+            "action": {
+              "sequence": [
+                {
+                  "moveTo": {
+                    "duration": 0.3,
+                    "posX": 0,
+                    "posY": 0
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": -5,
+                    "posY": 5
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 5,
+                    "posY": 0
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": -5,
+                    "posY": -5
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 5,
+                    "posY": 0
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": -5,
+                    "posY": 5
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 5,
+                    "posY": 0
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": -5,
+                    "posY": -5
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 5,
+                    "posY": 0
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": -5,
+                    "posY": 5
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 5,
+                    "posY": 0
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": -5,
+                    "posY": -5
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 5,
+                    "posY": 0
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": -5,
+                    "posY": 5
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": 0
+                  }
+                }
+              ]
+            },
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2b.jpg",
+            "posX": -1200,
+            "posY": -900,
+            "scale": 1,
+            "setVisible": 1
+          }
+        ]
+      },
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2c.png",
+            "posX": 0,
+            "posY": 0,
+            "scale": 1,
+            "setVisible": 1
+          },
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_1a.jpg",
+            "visible": "hide"
+          }
+        ],
+        "narration": "在契约完成、重获自由之前，@你的身体就借我一用！"
+      },
+      {
+        "item": [
+          {
+            "action": {
+              "sequence": [
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": -50,
+                    "posY": -20
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 50,
+                    "posY": 70
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": 0
+                  }
+                }
+              ]
+            },
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2d.png",
+            "posX": 0,
+            "posY": 0,
+            "scale": 1,
+            "setVisible": 1
+          }
+        ],
+        "nameNarration": "小焰",
+        "narration": "啊——！"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "item": [
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2a.jpg",
+            "posX": 0,
+            "posY": 0,
+            "scale": 1,
+            "setVisible": 1
+          },
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2b.jpg",
+            "visible": "hide"
+          },
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2c.png",
+            "visible": "hide"
+          },
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2d.png",
+            "visible": "hide"
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.01,
+        "item": [
+          {
+            "action": {
+              "moveTo": {
+                "duration": 0.3,
+                "posX": 1200,
+                "posY": 900
+              }
+            },
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2a.jpg"
+          },
+          {
+            "action": {
+              "scaleTo": {
+                "duration": 1,
+                "scale": 1
+              }
+            },
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3b.jpg",
+            "posX": 0,
+            "posY": 0,
+            "scale": 0,
+            "setVisible": 1
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.01,
+        "item": [
+          {
+            "action": {
+              "sequence": [
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": 10
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": -10
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": 10
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": -10
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": 10
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": -10
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": 10
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": -10
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 0.05,
+                    "posX": 0,
+                    "posY": 0
+                  }
+                }
+              ]
+            },
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3b.jpg"
+          }
+        ]
+      },
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3d.png",
+            "posX": 0,
+            "posY": 0,
+            "scale": 1,
+            "setVisible": 1
+          },
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_2a.jpg",
+            "visible": "hide"
+          }
+        ],
+        "nameNarration": "恶魔小焰",
+        "narration": "真是久违的肉身啊"
+      },
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3a.jpg",
+            "posX": 0,
+            "posY": 0,
+            "scale": 1,
+            "setVisible": 1
+          },
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3b.jpg",
+            "visible": "hide"
+          },
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3d.png",
+            "visible": "hide"
+          }
+        ],
+        "narration": "那我就不客气地尽情享受了"
+      },
+      {
+        "autoTurnLast": 0.01,
+        "item": [
+          {
+            "action": {
+              "spawn": [
+                {
+                  "scaleTo": {
+                    "duration": 1,
+                    "scale": 2
+                  }
+                },
+                {
+                  "moveTo": {
+                    "duration": 1,
+                    "posX": -120,
+                    "posY": -200
+                  }
+                }
+              ]
+            },
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3a.jpg"
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 1,
+        "item": [
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_3a.jpg",
+            "visible": "hide"
+          }
+        ]
+      },
+      {
+        "autoTurnLast": 0.01,
+        "bgm": "stop",
+        "item": [
+          {
+            "action": {
+              "spawn": [
+                {
+                  "moveTo": {
+                    "duration": 2,
+                    "posX": 0,
+                    "posY": 0
+                  }
+                },
+                {
+                  "scaleTo": {
+                    "duration": 2,
+                    "scale": 1
+                  }
+                }
+              ]
+            },
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_4b.jpg",
+            "posX": 170,
+            "posY": -250,
+            "scale": 5,
+            "setVisible": 1
+          }
+        ]
+      },
+      {
+        "item": [
+          {
+            "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_4a.jpg",
+            "posX": 0,
+            "posY": 0,
+            "scale": 1,
+            "setVisible": 1
+          }
+        ],
+        "narration": "请问是神滨披萨吗？@巨量芝士意式披萨，@明太子蛋黄酱鲜虾披萨大份，再加可乐、@奶昔和芝士挞，请立刻送来"
+      },
+      {
+        "autoTurnLast": 2,
+        "turnChangeIn": "fadeIn"
+      }
     ]
-   },
-   {
-    "item": [
-     {
-      "path": "resource/scenario/img/32201_akumahomurachan_story/32201_m1_4a.jpg",
-      "posX": 0,
-      "posY": 0,
-      "scale": 1,
-      "setVisible": 1
-     }
-    ],
-    "narration": "是神滨披萨吗？ @ Giga Cheese Italiana、@ Mentai Mayo Shrimp L、可乐、@ 奶昔和奶酪 塔鲁特 ASAP"
-   },
-   {
-    "autoTurnLast": 2,
-    "turnChangeIn": "fadeIn"
-   }
-  ]
- },
- "version": 3
+  },
+  "version": 3
 }
