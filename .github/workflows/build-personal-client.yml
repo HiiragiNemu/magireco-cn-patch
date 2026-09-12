@@ -286,6 +286,7 @@ jobs:
       env:
         FFMPEG_SHA256: ${{ vars.FFMPEG_SHA256 }}
         VGMS_SHA256: ${{ vars.VGMS_SHA256 }}
+        FFMPEG_URL: ${{ vars.FFMPEG_URL }}
       run: "set -euo pipefail\n# assets 里的 BGM 是 CRI HCA 且 ciphType=56（加密），Android 放不了。\n# vgmstream 自带 CRI 游戏的密钥库，能直接解；再用\
         \ ffmpeg 转 OGG。\nmkdir -p .cache/audio\n\n# R4-04：FFmpeg 是浮动下载（latest 标签可重指）且随后 chmod +x 直接\n# 执行——供应链投毒即 CI RCE。缓解：curl\
         \ -f 拒绝 HTTP 错误页；FFmpeg\n# 钉**不可变 autobuild**（URL 带时间戳 tag + GitHub Release API 的官方\n# assets[].digest），摘要缺失/不符即硬失败。\n\
@@ -298,13 +299,12 @@ jobs:
         $(find .cache/audio/vgms -name vgmstream-cli -type f | head -1)\"\nchmod +x \"${VGMS}\"\n\n# ffmpeg：不走 apt（源不稳），直接拉\
         \ BtbN 的静态构建（含 libvorbis）。\n# 钉不可变 autobuild-2026-08-18-15-03 的 ffmpeg-N-126207-g21bbd98e7b，\n# 官方 digest = FFMPEG_SHA256\
         \ 仓库 Variable。\n: \"${FFMPEG_SHA256:?缺少仓库变量 FFMPEG_SHA256；拒绝执行未钉摘要的 FFmpeg}\"\ncurl -fsSL -o .cache/audio/ff.tar.xz\
-        \ \\\n  \"https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-08-18-15-03/ffmpeg-N-126207-g21bbd98e7b-linux64-gpl.tar.xz\"\
-        \necho \"${FFMPEG_SHA256}  .cache/audio/ff.tar.xz\" | sha256sum -c -\nmkdir -p .cache/audio/ff\ntar xJf .cache/audio/ff.tar.xz\
-        \ -C .cache/audio/ff\nFF=\"$(find .cache/audio/ff -name ffmpeg -type f | head -1)\"\nchmod +x \"${FF}\"\n\npython3\
-        \ tools/convert-bgm.py --vgmstream \"${VGMS}\" --ffmpeg \"${FF}\" --tree \"${TREE}\"\n\n# 产物必须齐全：缺了浮层就没有 BGM。音频不是关键路径，只告警不阻断。\n\
-        for f in \"${TREE}\"/assets/magia/bgm1.ogg \"${TREE}\"/assets/magia/bgm2.ogg \"${TREE}\"/assets/magia/bgm.json; do\n\
-        \  if [ ! -s \"${f}\" ]; then echo \"::warning::缺少 ${f}，本次 APK 浮层将没有 BGM\"; fi\ndone\nls -la \"${TREE}/assets/magia/\"\
-        \n"
+        \ \\\n  \"${FFMPEG_URL:?Missing verified FFmpeg download URL}\"\necho \"${FFMPEG_SHA256}  .cache/audio/ff.tar.xz\"\
+        \ | sha256sum -c -\nmkdir -p .cache/audio/ff\ntar xJf .cache/audio/ff.tar.xz -C .cache/audio/ff\nFF=\"$(find .cache/audio/ff\
+        \ -name ffmpeg -type f | head -1)\"\nchmod +x \"${FF}\"\n\npython3 tools/convert-bgm.py --vgmstream \"${VGMS}\" --ffmpeg\
+        \ \"${FF}\" --tree \"${TREE}\"\n\n# 产物必须齐全：缺了浮层就没有 BGM。音频不是关键路径，只告警不阻断。\nfor f in \"${TREE}\"/assets/magia/bgm1.ogg\
+        \ \"${TREE}\"/assets/magia/bgm2.ogg \"${TREE}\"/assets/magia/bgm.json; do\n  if [ ! -s \"${f}\" ]; then echo \"::warning::缺少\
+        \ ${f}，本次 APK 浮层将没有 BGM\"; fi\ndone\nls -la \"${TREE}/assets/magia/\"\n"
     - name: 🚂 注入主下载引擎（构建期默认）
       run: "set -euo pipefail\nENGINE=\"${{ inputs.engine }}\"\ncase \"$ENGINE\" in\n  self|aria2c) ;;\n  *) echo \"::error::非法引擎值：$ENGINE（只接受\
         \ self / aria2c）\"; exit 1 ;;\nesac\nsed -i -E \"s/MAIN_ENGINE = \\\"[a-z0-9]+\\\"/MAIN_ENGINE = \\\"${ENGINE}\\\"\
