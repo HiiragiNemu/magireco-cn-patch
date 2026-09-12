@@ -202,15 +202,44 @@ jobs:
     - name: 📝 native 语法预检（桩头文件）
       run: tools/check-native-syntax.sh
     - name: 🔢 注入客户端版本号（构建号）
-      run: "set -euo pipefail\n# 客户端版本通道的「本端版本」在这里定：1.0.<run_number>，每个构建\n# 单调递增，可回溯到具体 workflow run。config.json 的 client.version\n\
-        # 抬过它，旧包启动时就会弹强制更新框。\n# 注意这与 APK 的 versionName/versionCode 无关——那是 Totentanz 包的身份，\n# 不能动。cpp 里的字面量只是本地构建（build-local.sh）的兜底。\n\
-        VER=\"$REQUESTED_VERSION\"\necho \"客户端版本号: ${VER}\"\nsed -i -E \"s/CLIENT_VERSION = \\\"[^\\\"]+\\\"/CLIENT_VERSION\
-        \ = \\\"${VER}\\\"/\" \\\n  magia-native/src/MagiaLegacy.cpp\ngrep -q \"CLIENT_VERSION = \\\"${VER}\\\"\" magia-native/src/MagiaLegacy.cpp\
-        \ \\\n  || { echo \"::error::版本号注入失败（CLIENT_VERSION 常量没匹配上）\"; exit 1; }\n# 同一版本号也注入 Java 侧统一 UA 常量（CNUserAgent.CLIENT_VERSION），\n\
-        # CDN 日志里的 magireco-cn-legacy/<ver> 与强制更新通道的版本一致。\nsed -i -E \"s/CLIENT_VERSION = \\\"[^\\\"]+\\\"/CLIENT_VERSION\
-        \ = \\\"${VER}\\\"/\" \\\n  patch/src/main/java/io/kamihama/magianative/CNUserAgent.java\ngrep -q \"CLIENT_VERSION\
-        \ = \\\"${VER}\\\"\" \\\n  patch/src/main/java/io/kamihama/magianative/CNUserAgent.java \\\n  || { echo \"::error::版本号注入失败（CNUserAgent.CLIENT_VERSION\
-        \ 常量没匹配上）\"; exit 1; }\necho \"CLIENT_VERSION=${VER}\" >> \"$GITHUB_ENV\"\n"
+      run: 'set -euo pipefail
+
+        python3 - <<''PY''
+
+        import os, pathlib, re
+
+        version = os.environ[''REQUESTED_VERSION'']
+
+        assert re.fullmatch(r''1\.0\.[1-9][0-9]*'', version)
+
+        native = pathlib.Path(''magia-native/src/MagiaLegacy.cpp'')
+
+        source = native.read_text(encoding=''utf-8'')
+
+        pattern = r''(?m)^static constexpr char CLIENT_VERSION\[\] = "[^"\n]+";$''
+
+        replacement = ''static constexpr char CLIENT_VERSION[] = "'' + version + ''";''
+
+        modified, count = re.subn(pattern, replacement, source)
+
+        assert count == 1, ''Native version declaration must match exactly once, not a comment''
+
+        java = pathlib.Path(''patch/src/main/java/io/kamihama/magianative/CNUserAgent.java'').read_text(encoding=''utf-8'')
+
+        assert ''CNVersionCheck.nativeClientVersion()'' in java, ''Java must read the native version''
+
+        assert not re.search(r''(?m)^\s*(?:public|private).*String\s+CLIENT_VERSION\s*='', java), ''Duplicate Java version
+        constant''
+
+        native.write_text(modified, encoding=''utf-8'', newline=''\n'')
+
+        assert replacement in native.read_text(encoding=''utf-8'')
+
+        with open(os.environ[''GITHUB_ENV''], ''a'') as f: f.write(''CLIENT_VERSION='' + version + ''\n'')
+
+        print(''NATIVE_SINGLE_SOURCE_VERSION_INJECTED'', version)
+
+        PY'
       env:
         REQUESTED_VERSION: ${{ inputs.client_version }}
     - name: 🌐 注入端点（主域与署名区主机名）
