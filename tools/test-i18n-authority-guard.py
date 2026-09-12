@@ -29,8 +29,8 @@ class AuthorityGuardTests(unittest.TestCase):
     def test_repository_contract_passes(self) -> None:
         report = guard.validate_repository(ROOT)
         self.assertTrue(report["ok"], "\n".join(report["errors"]))
-        self.assertEqual(report["json_dictionaries"], 23)
-        self.assertEqual(report["jquery_dictionaries"], 23)
+        self.assertEqual(report["json_dictionaries"], 32)
+        self.assertEqual(report["jquery_dictionaries"], 32)
 
     def test_authority_weights_are_fixed(self) -> None:
         self.assertEqual(guard.validate_policy(self.policy), [])
