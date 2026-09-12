@@ -400,6 +400,8 @@ jobs:
         \ java.*，android.* 框架\n# 高 API 调用编译期零拦截，这条把铁律 3 从约定变成可执行检查。\npython3 tools/check-api-levels.py\n# 补丁类必须真的在产物里\nunzip\
         \ -l \"$APK\" | grep -qE 'classes3\\.dex' \\\n  || { echo \"::error::产物缺少 classes3.dex\"; exit 1; }\necho \"自检通过\"\
         \n"
+    - name: Verify existing native version encoding contract
+      run: python3 tools/check-no-plain-version.py .build/magirecocn-legacy-client.apk "$CLIENT_VERSION"
     - name: Record verified APK and native source provenance
       run: "set -euo pipefail\npython3 - <<'PY'\nimport datetime, hashlib, json, os, pathlib\napk = pathlib.Path('.build/magirecocn-legacy-client.apk')\n\
         record = {'version': os.environ['CLIENT_VERSION'], 'apk': 'magireco-latest-legacy-client.apk',\n          'sha256':\
