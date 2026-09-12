@@ -358,6 +358,8 @@ jobs:
         java -cp ''.build/update-tests:.build/classes:.cache/deps/*'' io.kamihama.magianative.MultiSourceUpdateTest
 
         '
+    - name: Verify application APK updater
+      run: python3 tools/test-apk-update.py
     - name: 🔁 用编译产物覆盖仓库中的补丁
       run: "set -euo pipefail\n# Java 源码是唯一事实来源：每次构建都用它重新生成补丁类的 smali，\n# 这样仓库里的 .smali 即使被手工改过也不会悄悄влия响产物。\n#\n\
         # 注意：smali_classes2/ 里除补丁类以外的内容（含 RestClient 那处\n# 把 cnDownloadFileFull 委托给 CNHotUpdate 的改动）保持原样，\n# 只删掉并重建\
