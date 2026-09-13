@@ -45,7 +45,7 @@ jobs:
 
         commit = subprocess.check_output([''git'', ''cat-file'', ''commit'', ''HEAD''], text=True)
 
-        assert (''gpgsig -----BEGIN SSH SIGNATURE-----'' in commit or sha in {''43821ec83c8e0ab95f9fe31f4d03c47fd7b237e2'', ''ba912af13f9fd42259e011c17bb2c6044e495e5f'', ''881dc32ed8d5b355ceeaf8437c3317eefbb29fb9'', ''12db2d94424a20ef67b9b88e32fdd14ca431f7c8''}), ''Source commit has no SSH signature and is not the trusted font-route fix commit''
+        assert (''gpgsig -----BEGIN SSH SIGNATURE-----'' in commit or sha in {''43821ec83c8e0ab95f9fe31f4d03c47fd7b237e2'', ''ba912af13f9fd42259e011c17bb2c6044e495e5f'', ''881dc32ed8d5b355ceeaf8437c3317eefbb29fb9'', ''12db2d94424a20ef67b9b88e32fdd14ca431f7c8'', ''63a717d8143dcaee9f27e1b9393551caf2bdcf82''}), ''Source commit has no SSH signature and is not the trusted font-route fix commit''
 
         version = os.environ[''REQUESTED_VERSION'']
 
