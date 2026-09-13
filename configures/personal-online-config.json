@@ -1,6 +1,6 @@
 {
   "schema": 16,
-  "updated": "2026-09-13T03:20:00Z",
+  "updated": "2026-09-13T03:50:00Z",
   "comment": "Personal release configuration. Canonical installation markers are unchanged. Client gate is set only after the new APK body and signature are verified.",
   "settings": {
     "chunks": 4,
@@ -136,23 +136,23 @@
   "branch_versions": {
     "single-thread": {
       "supported": false,
-      "mainline_apk_url": "https://edgeone.assets.magireco.top/magireco-latest-legacy-client.apk"
+      "mainline_apk_url": "https://magireco-personal-release.pages.dev/magireco-latest-legacy-client.apk"
     },
     "single-thread-r2-github": {
       "supported": false,
-      "mainline_apk_url": "https://edgeone.assets.magireco.top/magireco-latest-legacy-client.apk"
+      "mainline_apk_url": "https://magireco-personal-release.pages.dev/magireco-latest-legacy-client.apk"
     },
     "current-download-ui-fixed": {
       "supported": false,
-      "mainline_apk_url": "https://edgeone.assets.magireco.top/magireco-latest-legacy-client.apk"
+      "mainline_apk_url": "https://magireco-personal-release.pages.dev/magireco-latest-legacy-client.apk"
     }
   },
   "client": {
-    "version": "1.0.176",
-    "apk_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/magireco-latest-legacy-client.apk",
-    "sha256": "da30832740de1bf913dfd679bcfcf8dec36d8cdcddd59303258c563509c5ce5a",
-    "size": 80862239,
-    "note": "应用内显示 APK 下载进度与速度，校验包名、签名、大小和 SHA-256 后打开安卓安装确认；多来源比较版本，保留存档及已安装资源。"
+    "version": "1.0.177",
+    "apk_url": "https://magireco-personal-release.pages.dev/magireco-latest-legacy-client.apk",
+    "sha256": "ff48bc1a923e424ff46e2d40fa509c5ac3b09208645cbad3eb6ed33ed87a2869",
+    "size": 96873654,
+    "note": "双线路下载：个人 Pages 发布与个人 GitHub Release；客户端校验包名、签名、大小和 SHA-256 后安装。EdgeOne 路由保留为兼容入口，边缘资产需同步到同一版本。"
   },
   "contribution_stats": {
     "scope": "V2：全量审计行；机翻及机翻后人工校对计入 MadeInMagius；sectionList.message 统一命名为选关对话；charaMessageList.message 为语音字幕",
