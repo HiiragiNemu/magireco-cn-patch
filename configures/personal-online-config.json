@@ -1,6 +1,6 @@
 {
   "schema": 16,
-  "updated": "2026-09-13T00:00:00Z",
+  "updated": "2026-09-13T03:20:00Z",
   "comment": "Personal release configuration. Canonical installation markers are unchanged. Client gate is set only after the new APK body and signature are verified.",
   "settings": {
     "chunks": 4,
@@ -82,7 +82,7 @@
       },
       {
         "type": "sub",
-        "text": "可核验贡献统计：MadeInMagius 2,692 条；其中剧情字段 2 条、战斗技能 2,374 条、原生引擎/界面 303 条；语音字幕 0 条。圆环记录 Wiki 1,096 条（含术语支持 955 条）。未归属 8,432 条不计入个人署名。"
+        "text": "可核验贡献统计 V2（全量审计15,982行；机翻及机翻后人工校对计入 MadeInMagius）：MadeInMagius：剧情701（选关对话700）、语音字幕299、战斗技能4,034、原生引擎/界面303、前端UI1,640；Reader人工重译507字段/498部故事。水银：剧情1,408（标题721/角色名562/摘要50/区域75），战斗技能0、Totentanz语音字幕0。圆环记录：剧情94、语音字幕2、战斗技能1、Wiki来源1,096（术语表955）。国服来源：剧情174、语音字幕2、战斗技能908。角色台词hometext：总槽6,851，已有2,821，缺口4,030；仍需听译/转录3,664。"
       },
       {
         "type": "head",
@@ -129,7 +129,7 @@
         "span": "search-api.pages.dev"
       }
     ],
-    "footer": "总体规划与大部分实现、汉化引擎及内容修复：@MadeInMagius | 国内加速、下载 UI 与部分下载技术协助：@CyberNova/PhotonFlow | 国服与圆环记录汉化组外剧情翻译及部分校对：水银h2oag | 圆环记录汉化组提供国服外译文（50项剧情及战斗技能译文引用）。统计口径：MadeInMagius 可核验 2,692 条；剧情字段 2 条；语音字幕 0 条；Wiki 1,096 条；未归属 8,432 条不强行分配。",
+    "footer": "MadeInMagius：剧情701（选关对话700）、语音字幕299、战斗技能4,034、原生引擎/界面303、前端UI1,640；水银：剧情1,408，战斗技能0、Totentanz语音字幕0；圆环记录：剧情94、语音字幕2、战斗技能1、Wiki来源1,096；机翻及机翻后人工校对计入 MadeInMagius。hometext总槽6,851，已有2,821，缺口4,030（剩余听译/转录3,664）。",
     "github_url": "https://github.com/HiiragiNemu/magireco-cn-patch",
     "footer_marquee": true
   },
@@ -155,13 +155,32 @@
     "note": "应用内显示 APK 下载进度与速度，校验包名、签名、大小和 SHA-256 后打开安卓安装确认；多来源比较版本，保留存档及已安装资源。"
   },
   "contribution_stats": {
-    "scope": "排除国服官方来源；按 2026-09-09 attribution export 行计数",
-    "madeinmagius_verified_rows": 2692,
-    "madeinmagius_scenario_rows": 2,
-    "madeinmagius_voice_subtitle_rows": 0,
+    "scope": "V2：全量审计行；机翻及机翻后人工校对计入 MadeInMagius；sectionList.message 统一命名为选关对话；charaMessageList.message 为语音字幕",
+    "audit_total_rows": 15982,
+    "madeinmagius_verified_rows": 6990,
+    "madeinmagius_story_rows": 701,
+    "madeinmagius_scenario_rows": 701,
+    "madeinmagius_selection_dialogue_rows": 700,
+    "madeinmagius_voice_subtitle_rows": 299,
+    "madeinmagius_battle_skill_rows": 4034,
+    "madeinmagius_frontend_ui_rows": 1640,
+    "madeinmagius_native_engine_ui_rows": 303,
+    "mercury_story_rows": 1408,
+    "mercury_battle_skill_rows": 0,
+    "mercury_voice_subtitle_rows": 0,
+    "madoka_record_story_rows": 94,
+    "madoka_record_voice_subtitle_rows": 2,
+    "madoka_record_battle_skill_rows": 1,
+    "official_story_rows": 174,
+    "official_voice_subtitle_rows": 2,
+    "official_battle_skill_rows": 908,
     "madoka_record_wiki_rows": 1096,
     "madoka_record_wiki_glossary_support_rows": 955,
-    "unassigned_rows_excluded": 8432,
-    "note": "这些是审计行数，不是去重后的独立句子/场景数。"
+    "unassigned_audit_rows": 5779,
+    "hometext_total_slots": 6851,
+    "hometext_present_textHome": 2821,
+    "hometext_gap_rows": 4030,
+    "hometext_remaining_listening_transcription": 3664,
+    "note": "审计行数，不是去重后的独立句子/场景数；Wiki来源为来源归属，不是游戏字段。"
   }
 }
