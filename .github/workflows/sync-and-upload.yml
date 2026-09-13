@@ -513,7 +513,8 @@ jobs:
 
           CFG_DIR  = os.environ["CONFIG_DIR"]
           ZIP_NEW  = "cn_js_update_new.zip"
-          NAME     = "version_js"            from scripts.reuse_unchanged_package import reuse
+          NAME     = "version_js"
+          from scripts.reuse_unchanged_package import reuse
           reuse(ZIP_NEW, "_release_baseline/js/assets/cn_js_update.zip")
 
           # base name, 没有 _new / .json
