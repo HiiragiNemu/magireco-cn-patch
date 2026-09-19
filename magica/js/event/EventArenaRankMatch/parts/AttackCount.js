@@ -66,7 +66,7 @@ define("underscore backbone backboneCommon ajaxControl command text!template/eve
         quantity: g.attackCountInfo.recoverNeedNum,
         isPurchasedMoneyOnly: !1
       });
-    0 > h.totalMoney && (a = "statusCanNotUse", l = "确定", d = null, e = '魔法石<span class="c_pink">' + Math.abs(h.totalMoney) + "个</span>,<br>无法回复。");
+    0 > h.totalMoney && (a = "statusCanNotUse", l = "确定", d = null, e = '还缺魔法石<span class="c_pink">' + Math.abs(h.totalMoney) + "个</span>，<br>暂时不能回复对战次数。");
     var f = new c.PopupClass(
     {
       title: "对战次数回复",
