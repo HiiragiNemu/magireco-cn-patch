@@ -1,6 +1,6 @@
 {
   "schema": 16,
-  "updated": "2026-09-14T03:30:00Z",
+  "updated": "2026-09-19T18:22:07.479873+00:00",
   "comment": "Personal release configuration. Canonical installation markers are unchanged. Client gate is set only after the new APK body and signature are verified.",
   "settings": {
     "chunks": 4,
@@ -43,28 +43,52 @@
   "ui_credits": {
     "list": [
       {
-        "type": "title",
-        "text": "魔法纪录Totentanz中文化"
-      },
-      {
         "type": "head",
         "text": "主力人员"
       },
       {
         "type": "item",
-        "text": "【总体规划、路线设计与核心实现】MadeInMagius（点击个人主页）",
+        "text": "MadeInMagius",
         "url": "https://space.bilibili.com/625821",
         "span": "MadeInMagius"
       },
       {
-        "type": "item",
-        "text": "【国内加速、下载 UI 与部分下载技术协助】CyberNova/PhotonFlow（点击个人主页）",
-        "url": "https://space.bilibili.com/3546962632640645",
-        "span": "CyberNova/PhotonFlow"
+        "type": "sub",
+        "text": "总体规划、路线设计、核心实现与汉化整合。"
       },
       {
         "type": "sub",
-        "text": "可核验贡献统计：MadeInMagius：剧情701部、选关对话700条、语音字幕299条、战斗技能4,034条、原生引擎/界面303项、前端UI1,640项；Reader人工重译507字段/498部故事。圆环记录的剧情、角色语音字幕和战斗技能权威文本已纳入本统计。"
+        "text": "剧情翻译与校订：完成 344 个剧情汉化。"
+      },
+      {
+        "type": "sub",
+        "text": "选关对话：汉化 735 条文字内容。"
+      },
+      {
+        "type": "sub",
+        "text": "角色语音文本翻译与校订：共 1,588 条。其中语音字幕 1,335 条、看板语音 784 条，两类重合 531 条。"
+      },
+      {
+        "type": "sub",
+        "text": "战斗技能文本翻译与修订：4,209 项。"
+      },
+      {
+        "type": "sub",
+        "text": "前端界面文本汉化：1,470 项。"
+      },
+      {
+        "type": "sub",
+        "text": "游戏图像资源汉化：汉化 280 个图像，包括 184 个 PNG 和 96 个 .vfxt 特效图像文件。"
+      },
+      {
+        "type": "item",
+        "text": "CyberNova／PhotonFlow",
+        "url": "https://space.bilibili.com/3546962632640645",
+        "span": "CyberNova／PhotonFlow"
+      },
+      {
+        "type": "sub",
+        "text": "国内加速、现代化下载界面与部分下载技术协助，发现了非 Web 页面外战斗场景 Cocos 引擎部分汉化的可能性和早期实现技术，提供了美服 API 抓包资源。"
       },
       {
         "type": "head",
@@ -72,15 +96,69 @@
       },
       {
         "type": "item",
-        "text": "【国服外剧情翻译及部分校对】水银h2oag（点击个人主页）",
-        "url": "https://b23.tv/ovvbrNw",
-        "span": "水银h2oag"
+        "text": "圆环记录攻略组",
+        "url": "https://space.bilibili.com/194242416",
+        "span": "圆环记录攻略组"
+      },
+      {
+        "type": "sub",
+        "text": "提供剧情、角色语音及战斗技能相关的权威汉化文本。"
+      },
+      {
+        "type": "sub",
+        "text": "剧情翻译与校订：参与 52 个剧情。"
+      },
+      {
+        "type": "sub",
+        "text": "角色语音文本：共 703 条。其中语音字幕 109 条、看板语音 641 条，两类重合 47 条。"
+      },
+      {
+        "type": "sub",
+        "text": "战斗技能文本：4,114 项。"
       },
       {
         "type": "item",
-        "text": "【国服数据留存】segfault（点击个人主页）",
+        "text": "水银 h2oag",
+        "url": "https://b23.tv/ovvbrNw",
+        "span": "水银 h2oag"
+      },
+      {
+        "type": "sub",
+        "text": "剧情翻译与部分校订：汉化 144 个剧情。"
+      },
+      {
+        "type": "item",
+        "text": "segfault",
         "url": "https://b23.tv/xjXW9DI",
         "span": "segfault"
+      },
+      {
+        "type": "sub",
+        "text": "国服数据留存。"
+      },
+      {
+        "type": "head",
+        "text": "统计说明"
+      },
+      {
+        "type": "sub",
+        "text": "70 个合作剧情目录分别计入各参与者的个人贡献。各人的目录数量含合作重叠，不相加作为全游戏剧情总数。"
+      },
+      {
+        "type": "sub",
+        "text": "所有人采用相同的语音分类：语音字幕为 charaMessageList.message，看板台词为主界面等场景中的 textHome。同一语音在两处出现时，合计只计一次。"
+      },
+      {
+        "type": "sub",
+        "text": "选关对话按对应关卡的 message 字段统计。当前发布包静态表有 1,580 条记录，另有 32 条表外运行时对话，合计覆盖 1,612 个关卡记录：国服来源 600 条、非国服文字 735 条、非国服省略号 159 条、空白 118 条。省略号和空白不计入文字汉化贡献；1,612 是当前已核实的发布数据覆盖量。"
+      },
+      {
+        "type": "sub",
+        "text": "技能按类型与 ID 统计，同一技能的名称和说明不拆成两项。原译与后续实质校订分别保留贡献。"
+      },
+      {
+        "type": "sub",
+        "text": "国服原有译文不计入上述个人汉化贡献。"
       },
       {
         "type": "head",
@@ -105,7 +183,7 @@
         "span": "magius3dviewer.pages.dev"
       }
     ],
-    "footer": "MadeInMagius：剧情701部、选关对话700条、语音字幕299条、战斗技能4,034条、原生引擎/界面303项、前端UI1,640项；Reader人工重译507字段/498部故事。圆环记录的剧情、角色语音字幕和战斗技能权威文本已纳入本统计。",
+    "footer": "MadeInMagius：剧情 344 个；选关对话 735 条；角色语音共 1,588 条（字幕 1,335 条、看板语音 784 条，重合 531 条）；战斗技能 4,209 项；前端界面 1,470 项；图像 280 个（PNG 184 个、.vfxt 96 个）。CyberNova／PhotonFlow：国内加速、现代化下载界面、部分下载技术、Cocos 战斗场景汉化早期技术与美服 API 抓包资源。圆环记录攻略组：剧情 52 个；角色语音共 703 条（字幕 109 条、看板语音 641 条，重合 47 条）；战斗技能 4,114 项。水银 h2oag：剧情 144 个。segfault：国服数据留存。70 个合作剧情分别计入各参与者；国服原有译文不计入个人汉化贡献。",
     "github_url": "https://github.com/HiiragiNemu/magireco-cn-patch",
     "footer_marquee": true
   },
@@ -131,43 +209,65 @@
     "note": "双线路下载：个人 Pages 发布与个人 GitHub Release；客户端校验包名、签名、大小和 SHA-256 后安装。EdgeOne 路由保留为兼容入口，边缘资产需同步到同一版本。"
   },
   "contribution_stats": {
-    "scope": "V2：全量审计；sectionList.message统一命名为选关对话；charaMessageList.message为语音字幕",
-    "audit_total_rows": 15982,
-    "madeinmagius_verified_rows": 6990,
-    "madeinmagius_story_rows": 701,
-    "madeinmagius_scenario_rows": 701,
-    "madeinmagius_selection_dialogue_rows": 700,
-    "madeinmagius_voice_subtitle_rows": 299,
-    "madeinmagius_battle_skill_rows": 4034,
-    "madeinmagius_frontend_ui_rows": 1640,
-    "madeinmagius_native_engine_ui_rows": 303,
-    "mercury_story_rows": 1408,
-    "mercury_battle_skill_rows": 0,
-    "mercury_voice_subtitle_rows": 0,
-    "madoka_record_story_rows": 94,
-    "madoka_record_voice_subtitle_rows": 2,
-    "madoka_record_battle_skill_rows": 1,
-    "official_story_rows": 174,
-    "official_voice_subtitle_rows": 2,
-    "official_battle_skill_rows": 908,
-    "madoka_record_wiki_rows": 1096,
-    "madoka_record_wiki_glossary_support_rows": 955,
-    "unassigned_audit_rows": 5779,
-    "hometext_total_slots": 6851,
-    "hometext_present_textHome": 2821,
-    "hometext_gap_rows": 4030,
-    "hometext_remaining_listening_transcription": 3664,
-    "note": "审计行数，不是去重后的独立句子/场景数。",
-    "selection_dialogue_field": "sectionList.message",
+    "schema": 3,
+    "as_of": "2026-09-19T18:22:07.479873+00:00",
+    "story": {
+      "MadeInMagius": 344,
+      "圆环记录攻略组": 52,
+      "水银h2oag": 144
+    },
+    "collaborative_story_directories": 70,
+    "voice": {
+      "MadeInMagius": {
+        "subtitle": 1335,
+        "home": 784,
+        "overlap": 531,
+        "unique_total": 1588
+      },
+      "圆环记录攻略组": {
+        "subtitle": 109,
+        "home": 641,
+        "overlap": 47,
+        "unique_total": 703
+      },
+      "水银h2oag": {
+        "subtitle": 0,
+        "home": 0,
+        "overlap": 0,
+        "unique_total": 0
+      },
+      "new_credit_for_reusing_existing_translation": 0,
+      "distinct_costume_recording_adaptation": "16 existing Chinese source contributions carried into distinct recordings; 14 substantial expansions also credit Made. Not 16 newly authored Wiki translations."
+    },
+    "battle_skills": {
+      "MadeInMagius": 4209,
+      "圆环记录攻略组": 4114
+    },
+    "selection_dialogue": {
+      "total": 1612,
+      "static_table_total": 1580,
+      "additional_runtime_ids": 32,
+      "official": 600,
+      "made_words": 735,
+      "made_ellipsis": 159,
+      "empty": 118
+    },
+    "frontend_interface_entries": 1470,
+    "images": {
+      "total": 280,
+      "png": 184,
+      "vfxt": 96,
+      "sumo_png_included": 74
+    },
+    "home_coverage": {
+      "unique_voice_ids": 12582,
+      "empty": 5500,
+      "nonempty": 7082
+    },
     "voice_subtitle_field": "charaMessageList.message",
-    "reader_manual_retranslation_fields": 507,
-    "reader_manual_retranslation_unique_stories": 498,
-    "reader_other_text_total": 3330,
-    "reader_other_text_selection_dialogue": 2879,
-    "reader_other_text_story_summary": 376,
-    "reader_other_text_shop_voice": 75,
-    "reader_other_text_missing": 12,
-    "reader_ledger_additive_to_audit_rows": false,
-    "wiki_source_note": "来源统计字段保留在审计数据中。"
+    "home_voice_field": "textHome",
+    "selection_dialogue_field": "sectionList.message",
+    "selection_total_scope": "当前发布数据覆盖量；省略号和空白不计入文字汉化贡献。",
+    "counting_rule": "同一语音跨字幕和看板去重；合作剧情分别计入参与者；技能按类型与ID统计；国服原有译文不计入个人汉化贡献。"
   }
 }
