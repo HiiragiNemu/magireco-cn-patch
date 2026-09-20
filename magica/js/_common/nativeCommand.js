@@ -25,7 +25,7 @@ text:"可以在支援编成中设置@供其他玩家用作支援的魔法少女"
 this.sendCommand(b.DATA_REMOVE_ASSET+","+a)},removeFile:function(a){a=JSON.stringify(a);this.sendCommand(b.DATA_REMOVE_ASSET_FILE+","+a)},existFile:function(a){a=JSON.stringify(a);this.sendCommand(b.DATA_ASSET_FILE_EXIST+","+a)},callTouchesBegin:function(a){a=JSON.stringify(a);this.sendCommand(b.DATA_CALL_TOUCHES_BEGIN+","+a)},callTouchesMove:function(a){a=JSON.stringify(a);this.sendCommand(b.DATA_CALL_TOUCHES_MOVE+","+a)},callTouchesEnd:function(a){a=JSON.stringify(a);this.sendCommand(b.DATA_CALL_TOUCHES_END+
 ","+a)},callTouchesClear:function(){this.sendCommand(b.DATA_CALL_TOUCHES_CLEAR)},awakePurchase:function(){this.sendCommand(b.DATA_AWAKE_PURCHASE)},purchaseItem:function(a){var c={};c.productId=window.isDebug?"jp.f4samurai.madomagi.purchase.item."+a.moneyCode:"com.aniplex.magireco.item."+a.moneyCode;c.userId=e.storage.gameUser.toJSON().userId;c.itemId=c.productId;c.itemName=a.commonMoney.name;c.unitPrice=a.commonMoney.coin;c.quantity=1;c.imageUrl=a.commonMoney.imagePath;c.description=a.commonMoney.limitDescription?
 a.commonMoney.limitDescription+a.commonMoney.description:a.commonMoney.description;c=JSON.stringify(c);this.sendCommand(b.DATA_PURCHASE_ITEM+","+c)}},k=!1;b.getSNS=function(){k||(k=!0,this.sendCommand(b.DATA_GET_SNS_USER_ID))};b.getAppVersion=function(){this.sendCommand(b.DATA_GET_APP_VERSION)};b.getDownloadConfig=function(a){this.sendCommand(b.DATA_GET_DOWNLOAD_CONFIG+(a?","+a:""))};b.getDeviceInfo=function(a){this.sendCommand(b.DATA_GET_DEVICE_INFO+(a?","+a:""))};b.getAccessToken=function(){this.sendCommand(b.DATA_GET_ACCESS_TOKEN)};
-b.closeGame=function(){this.sendCommand(b.DATA_CLOSE_APP)};b.setMovieConfig=function(a){var c={};c.movie=a;a=JSON.stringify(c);this.sendCommand(b.DATA_SET_DOWNLOAD_CONFIG+","+a)};b.getStorySaveData=function(){this.sendCommand(b.DATA_GET_STORY_STORED_DATA+",saveDataCallback")};b.getFontData=function(){this.sendCommand(b.DATA_GET_FONT)};b.userDataInitilize=function(){this.sendCommand(b.DATA_INITIALIZE_SNS_USER_ID)};b.configDataInitilize=function(){this.sendCommand(b.DATA_INITIALIZE_CONFIG)};b.browserOpen=
+b.closeGame=function(){this.sendCommand(b.DATA_CLOSE_APP)};b.setDownloadConfig=function(a){a=JSON.stringify(a||{});this.sendCommand(b.DATA_SET_DOWNLOAD_CONFIG+","+a)};b.setMovieConfig=function(a){this.setDownloadConfig({movie:a})};b.getStorySaveData=function(){this.sendCommand(b.DATA_GET_STORY_STORED_DATA+",saveDataCallback")};b.getFontData=function(){this.sendCommand(b.DATA_GET_FONT)};b.userDataInitilize=function(){this.sendCommand(b.DATA_INITIALIZE_SNS_USER_ID)};b.configDataInitilize=function(){this.sendCommand(b.DATA_INITIALIZE_CONFIG)};b.browserOpen=
 function(a){this.sendCommand(b.DATA_OPEN_URL+","+a)};b.getBaseData=function(a){a=JSON.stringify(a);this.sendCommand(b.DATA_GET_BASE64+","+a)};b.copyClipboard=function(a){this.sendCommand(b.DATA_SET_CLIPBOARD+","+a.toString())};b.pasteClipboard=function(){this.sendCommand(b.DATA_GET_CLIPBOARD)};b.getRewardPrm=function(){this.sendCommand(b.DATA_GET_REWARD+",nativeCallback")};b.deleteRewardPrm=function(){this.sendCommand(b.DATA_DELETE_REWARD)};b.setFoxData=function(a,c){!window.isDebug&&a&&(a=JSON.stringify(a),
 this.sendCommand(b.DATA_SET_FOX+","+a));c&&(a={},a.token=c.token,a.eventName=c.eventName,c.currency&&(a.currency=c.currency),c.price&&(a.price=c.price),c=JSON.stringify(a),this.sendCommand(b.DATA_SET_ADJUST+","+c))};b.setUserId=function(a){this.sendCommand(b.DATA_SET_TD_LOGIN+","+String(a))};b.openKeyBoard=function(a,c,d,f){var e={};e.text=a?a:"";c&&0<c&&(e.maxLength=Number(c));d&&0<d&&(e.keyboardType=1);f&&(e.callback=f);a=JSON.stringify(e);this.sendCommand(b.DATA_OPEN_EDIT_BOX+","+a)};b.getReplayVersion=
 function(){this.sendCommand(b.DATA_GET_QUEST_REPLAY_VERSION)};b.getPurchaseStatus=function(){this.sendCommand(b.DATA_GET_PURCHASE_STATE)};b.startBgm=function(a,c){c||(e.bgm=a);this.sendCommand(b.SOUND_BGM_PLAY+","+a)};b.stopBgm=function(){this.sendCommand(b.SOUND_BGM_STOP)};b.setBGMVolume=function(a){this.sendCommand(b.SOUND_BGM_SET_VOL+","+a)};b.getBGMVolume=function(a){this.sendCommand(b.SOUND_BGM_GET_VOL+(a?","+a:""))};b.startSe=function(a){this.sendCommand(b.SOUND_SE_PLAY+","+a)};b.stopSe=function(){this.sendCommand(b.SOUND_SE_STOP)};
@@ -57,4 +57,58 @@ b.playComposeEffect=function(a){a=JSON.stringify(a);this.sendCommand(b.DISPLAY_P
 function(a){a=a?b.NOTI_TURN_ON_PNOTE+","+JSON.stringify(a):b.NOTI_TURN_ON_PNOTE;this.sendCommand(a)};b.noticeRestore=function(){this.sendCommand(b.NOTI_TURN_OFF_PNOTE)};b.noticeGetWeekly=function(a){this.sendCommand(b.NOTI_GET_CONF_WEEKLY_QUEST+(a?","+a:""))};b.noticeSetWeekly=function(a){a=JSON.stringify(a);this.sendCommand(b.NOTI_TURN_ON_WEEKLY_QUEST+","+a)};b.noticeOffWeekly=function(a){this.sendCommand(b.NOTI_TURN_OFF_WEEKLY_QUEST+","+a)};b.noticeApConfig=function(a){this.sendCommand(b.NOTI_GET_CONF_AP_FULL+
 (a?","+a:""))};b.noticeApFullSet=function(a){this.sendCommand(0<a?b.NOTI_TURN_ON_AP_FULL+","+a:b.NOTI_CANCEL_AP_FULL)};b.noticeApFullTurnOn=function(){this.sendCommand(b.NOTI_TURN_ON_AP_FULL+",0")};b.noticeApFullOff=function(){this.sendCommand(b.NOTI_TURN_OFF_AP_FULL)};b.noticeStoryRaidBossDied=function(a){a=JSON.stringify(a);this.sendCommand(b.NOTI_STORY_RAID_BOSS_DIED+","+a)};b.formationPreview=function(a){a=JSON.stringify(a);this.sendCommand(b.DISPLAY_PLAY_FORMATION+","+a)};b.formationPreviewRemove=
 function(){this.sendCommand(b.DISPLAY_STOP_FORMATION)};b.enemyFormationPreview=function(a){a=JSON.stringify(a);this.sendCommand(b.DISPLAY_PLAY_FORMATION_ENEMY+","+a)};b.enemyFormationPreviewRemove=function(){this.sendCommand(b.DISPLAY_STOP_FORMATION_ENEMY)};b.weekQuestTopSet=function(a){a=JSON.stringify(a);this.sendCommand(b.DISPLAY_PLAY_WEEKLY_QUEST_TOP+","+a)};b.weekQuestTopUnset=function(){this.sendCommand(b.DISPLAY_STOP_WEEKLY_QUEST_TOP)};b.playEffect=function(a){a=JSON.stringify(a);this.sendCommand(b.DISPLAY_PLAY_EFFECT+
-","+a)};b.stopEffect=function(){this.sendCommand(b.DISPLAY_STOP_EFFECT)};b.turnOnCamera=function(){this.sendCommand(b.SCENE_PUSH_CAMERA)};b.turnOffCamera=function(){this.sendCommand(b.SCENE_POP_CAMERA)};b.swapCamera=function(){this.sendCommand(b.SCENE_SWAP_CAMERA)};b.zoomCamera=function(a){var c={};c.ratio=a;a=JSON.stringify(c);this.sendCommand(b.SCENE_ZOOM_CAMERA+","+a)};b.captureCamera=function(){this.sendCommand(b.SCENE_CAPTURE_CAMERA)};return b});
+","+a)};b.stopEffect=function(){this.sendCommand(b.DISPLAY_STOP_EFFECT)};b.turnOnCamera=function(){this.sendCommand(b.SCENE_PUSH_CAMERA)};b.turnOffCamera=function(){this.sendCommand(b.SCENE_POP_CAMERA)};b.swapCamera=function(){this.sendCommand(b.SCENE_SWAP_CAMERA)};b.zoomCamera=function(a){var c={};c.ratio=a;a=JSON.stringify(c);this.sendCommand(b.SCENE_ZOOM_CAMERA+","+a)};b.captureCamera=function(){this.sendCommand(b.SCENE_CAPTURE_CAMERA)};
+
+/*
+ * 1.0.178 one-time media-default migration.
+ *
+ * The CN package already installs the full voice/movie payload outside the
+ * original selective downloader.  Old native defaults may therefore leave
+ * those present files disabled.  Apply the product defaults once per install:
+ * voice playback on, high-quality movies, and retain both payloads.
+ *
+ * Do not enforce this forever: after this marker is written, a player's later
+ * manual choice in ConfigTop is respected.  Prefer CNLocalState because it
+ * survives WebView cache/localStorage cleanup; localStorage is only fallback.
+ */
+b.applyCnMediaDefaults178=function(){
+  if(window.isBrowser)return;
+  var ns="media_defaults_v178",fallback="cn_media_defaults_v178",done=!1;
+  try{
+    if(window.CNLocalState&&typeof window.CNLocalState.get==="function"){
+      var raw=window.CNLocalState.get(ns);
+      if(raw){
+        var state=JSON.parse(raw);
+        done=!!(state&&state.applied===1&&state.voice===1&&state.movie===2);
+      }
+    }
+  }catch(ignore){}
+  try{if(!done&&window.localStorage&&localStorage.getItem(fallback)==="1")done=!0}catch(ignore2){}
+  if(done)return;
+  var tries=0,apply=function(){
+    if(window.isBrowser)return;
+    if(!window.app_ver){
+      if(tries++<20)setTimeout(apply,500);
+      return;
+    }
+    try{
+      b.setDownloadConfig({voice:1,movie:2});
+      b.setDownloadDeleteConfig({voice:0,movie:0});
+      var record=JSON.stringify({applied:1,voice:1,movie:2,deleteVoice:0,deleteMovie:0});
+      var saved=!1;
+      try{
+        if(window.CNLocalState&&typeof window.CNLocalState.set==="function"){
+          saved=!!window.CNLocalState.set(ns,record);
+        }
+      }catch(ignore3){}
+      try{if(!saved&&window.localStorage){localStorage.setItem(fallback,"1");saved=!0}}catch(ignore4){}
+      window.isDebug&&console.log("CN 1.0.178 media defaults applied: voice=1 movie=2 retain=1");
+    }catch(err){
+      if(tries++<6)setTimeout(apply,1000);
+      else window.isDebug&&console.log("CN 1.0.178 media defaults failed",err);
+    }
+  };
+  setTimeout(apply,800);
+};
+setTimeout(function(){try{b.applyCnMediaDefaults178()}catch(ignore){}},0);
+return b});

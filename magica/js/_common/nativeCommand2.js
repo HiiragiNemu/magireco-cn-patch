@@ -19,6 +19,7 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
       DATA_GET_DEVICE_INFO: 23,
       DATA_GET_ACCESS_TOKEN: 24,
       DATA_CLOSE_APP: 25,
+      DATA_SET_DOWNLOAD_CONFIG: 26,
       DATA_GET_FONT: 30,
       DATA_GET_QUEST_RESULT_JSON: 40,
       DATA_OPEN_URL: 50,
@@ -46,6 +47,8 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
       SCENE_POP_WEBVIEW: 202,
       SCENE_PUSH_LOADING: 211,
       SCENE_PUSH_DOWNLOAD: 221,
+      SCENE_GET_CONF_DELETE_DATA: 222,
+      SCENE_SET_CONF_DELETE_DATA: 223,
       SCENE_PUSH_GACHA: 231,
       SCENE_PUSH_PRESENT: 232,
       SCENE_POP_GACHA: 233,
@@ -530,6 +533,15 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
   {
     this.sendCommand(b.DATA_CLOSE_APP)
   };
+  b.setDownloadConfig = function(a)
+  {
+    a = JSON.stringify(a || {});
+    this.sendCommand(b.DATA_SET_DOWNLOAD_CONFIG + "," + a)
+  };
+  b.setMovieConfig = function(a)
+  {
+    this.setDownloadConfig({movie:a})
+  };
   b.getFontData = function()
   {
     this.sendCommand(b.DATA_GET_FONT)
@@ -648,6 +660,15 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
     c.isNeedConfirm = !0;
     a = JSON.stringify(c);
     this.sendCommand(b.SCENE_PUSH_DOWNLOAD + "," + a)
+  };
+  b.getDownloadDeleteConfig = function(a)
+  {
+    this.sendCommand(b.SCENE_GET_CONF_DELETE_DATA + (a ? "," + a : ""))
+  };
+  b.setDownloadDeleteConfig = function(a)
+  {
+    a = JSON.stringify(a || {});
+    this.sendCommand(b.SCENE_SET_CONF_DELETE_DATA + "," + a)
   };
   b.startGachaAnimation = function(a)
   {
@@ -1034,5 +1055,64 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
   {
     this.sendCommand(b.SCENE_CAPTURE_CAMERA)
   };
+
+  // Same one-time 1.0.178 media-default migration as nativeCommand.js.
+  b.applyCnMediaDefaults178 = function()
+  {
+    if (window.isBrowser) return;
+    var ns = "media_defaults_v178", fallback = "cn_media_defaults_v178", done = !1;
+    try
+    {
+      if (window.CNLocalState && "function" === typeof window.CNLocalState.get)
+      {
+        var raw = window.CNLocalState.get(ns);
+        if (raw)
+        {
+          var state = JSON.parse(raw);
+          done = !!(state && 1 === state.applied && 1 === state.voice && 2 === state.movie)
+        }
+      }
+    }
+    catch (ignore) {}
+    try
+    {
+      !done && window.localStorage && "1" === localStorage.getItem(fallback) && (done = !0)
+    }
+    catch (ignore2) {}
+    if (done) return;
+    var tries = 0, apply = function()
+    {
+      if (window.isBrowser) return;
+      if (!window.app_ver)
+      {
+        tries++ < 20 && setTimeout(apply, 500);
+        return
+      }
+      try
+      {
+        b.setDownloadConfig({voice:1, movie:2});
+        b.setDownloadDeleteConfig({voice:0, movie:0});
+        var record = JSON.stringify({applied:1, voice:1, movie:2, deleteVoice:0, deleteMovie:0});
+        var saved = !1;
+        try
+        {
+          window.CNLocalState && "function" === typeof window.CNLocalState.set &&
+            (saved = !!window.CNLocalState.set(ns, record))
+        }
+        catch (ignore3) {}
+        try
+        {
+          !saved && window.localStorage && (localStorage.setItem(fallback, "1"), saved = !0)
+        }
+        catch (ignore4) {}
+      }
+      catch (err)
+      {
+        tries++ < 6 && setTimeout(apply, 1000)
+      }
+    };
+    setTimeout(apply, 800)
+  };
+  setTimeout(function(){try{b.applyCnMediaDefaults178()}catch(ignore){}},0);
   return b
 });
