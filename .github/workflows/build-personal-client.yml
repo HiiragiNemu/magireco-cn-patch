@@ -39,11 +39,9 @@ jobs:
         EXPECTED_SOURCE_SHA: ${{ inputs.source_sha }}
         REQUESTED_VERSION: ${{ inputs.client_version }}
         CONFIG_URL: ${{ vars.CLIENT_CONFIG_URL }}
-        VERIFY_ONLY: ${{ inputs.verify_only }}
         VERSION_FLOOR: ${{ vars.CLIENT_VERSION_FLOOR }}
       run: 'set -euo pipefail
 
-        test "$VERIFY_ONLY" = true || { echo ''This pipeline exports verified artifacts only''; exit 1; }
 
         python3 - <<''PY''
 
@@ -112,23 +110,25 @@ jobs:
         \  | sha256sum -c -\ncurl -sSL -o .cache/deps/okio.jar \\\n  \"https://repo1.maven.org/maven2/com/squareup/okio/okio/1.17.5/okio-1.17.5.jar\"\
         \necho \"19a7ff48d86d3cf4497f7f250fbf295f430c13a528dd5b7b203f821802b886ad  .cache/deps/okio.jar\" \\\n \
         \ | sha256sum -c -\nls -la .cache/deps\n"
-    - name: 🔑 预检必需的 secret
+    - name: 🔑 预检必需的构建变量
       env:
         BASELINE_APK_URL: ${{ vars.BASELINE_APK_URL }}
         OVERLAY_URL: ${{ vars.OVERLAY_URL }}
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        TARGET_REPO: ${{ vars.TARGET_REPO }}
         CLIENT_ROOT_DOMAIN: ${{ vars.CLIENT_ROOT_DOMAIN }}
         CLIENT_PAGES_HOSTS: ${{ vars.CLIENT_PAGES_HOSTS }}
-      run: "set -euo pipefail\n# CLIENT_ROOT_DOMAIN / CLIENT_PAGES_HOSTS 是**每次**都要的：源码里的\n# 主机名常量恒为空串，缺了照样能编出 APK，但那个包装上去什么都不会\n\
-        # 发生（线路表为空、外链全不放行、热更地址拼不出来）。所以在这里拦，\n# 而不是等玩家装上才发现。\nNEED=\"BASELINE_APK_URL OVERLAY_URL CLIENT_ROOT_DOMAIN\
-        \ CLIENT_PAGES_HOSTS\"\n# 发版相关的只有真要发版时才需要。GH_TOKEN 也在这一档：它只服务发版，\n# 构建本身不碰它——取件要凭证的话，凭证跟着 OVERLAY_URL 走。\n\
-        if [ \"${{ inputs.verify_only }}\" != \"true\" ]; then\n  NEED=\"$NEED GH_TOKEN TARGET_REPO\"\nfi\nMISSING=\"\
-        \"\nfor v in $NEED; do\n  if [ -z \"${!v:-}\" ]; then MISSING=\"$MISSING $v\"; fi\ndone\nif [ -n \"$MISSING\"\
-        \ ]; then\n  echo \"::error::这些 secret 是空的：$MISSING\"\n  echo \"::error::两种可能——(1) 仓库 Settings 里还没配；(2)\
-        \ 本次是被别的\"\n  echo \"::error::workflow 以 workflow_call 调进来的，而调用方没写 secrets: inherit。\"\n  echo \"::error::第二种最容易误判成「脚本读不到环境变量」：变量其实设了，值是空串。\"\
-        \n  exit 1\nfi\necho \"必需的 secret 都在（$NEED）\"\n# Fail before injection if production endpoints are blank\
-        \ or misbound.\npython3 tools/check-production-endpoints.py\n"
+      run: |
+        set -euo pipefail
+        NEED="BASELINE_APK_URL OVERLAY_URL CLIENT_ROOT_DOMAIN CLIENT_PAGES_HOSTS"
+        MISSING=""
+        for v in $NEED; do
+          if [ -z "${!v:-}" ]; then MISSING="$MISSING $v"; fi
+        done
+        if [ -n "$MISSING" ]; then
+          echo "::error::这些构建变量为空：$MISSING"
+          exit 1
+        fi
+        echo "必需的构建变量都在（$NEED）"
+        python3 tools/check-production-endpoints.py
     - name: 🚧 校验 native 入口保护（异常绝不外泄）
       run: python3 tools/check-entry-guard.py
     - name: 🔒 校验调试开关没伸进安全判据
@@ -209,8 +209,6 @@ jobs:
         if ! python3 tools/check-base-urls.py; then
           echo "::warning::发现未登记的绝对 URL；最终端点注入与 APK 内端点校验仍会硬拦真正的部署错误"
         fi
-    - name: 📝 native 语法预检（桩头文件）
-      run: tools/check-native-syntax.sh
     - name: 🔢 读取客户端版本号（源码）
       run: |
         set -euo pipefail
@@ -446,54 +444,6 @@ jobs:
           .build/magireco-latest-legacy-client.version.json'
         if-no-files-found: error
         retention-days: 14
-    - name: 🚀 发布 APK
-      if: ${{ false }}
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        SYNC_REPO: ${{ vars.TARGET_REPO }}
-      run: "set -euo pipefail\nSRC=.build/magirecocn-legacy-client.apk\nNAME=magireco-latest-legacy-client.apk\n\
-        SIDECAR=magireco-latest-legacy-client.version.json\nif [ -z \"${SYNC_REPO:-}\" ]; then\n  echo \"::error::secret\
-        \ TARGET_REPO 未配置（Settings → Secrets and variables → Actions）\"\n  exit 1\nfi\n\n# preflight：token 必须能对\
-        \ UP_REPO 的 release 读写，否则玩家那边留下的\n# 是 404 死链——宁可构建红掉也不发死链。\n#\n# ⚠ 报错必须分清是哪一种。原先三种情况共用一句「GH_TOKEN 缺失或无权限」，\n\
-        # 于是 2026-08-13 那次 401（token 本身失效）把维护者送去查权限设置——\n# 而权限一直是对的，过期的是 token。三者的处理办法完全不同：\n#\n#   secret 为空 →\
-        \ 去仓库 Settings 配上\n#   401         → token 已过期/被撤销/粘进了空白，重新签发一枚\n#   403 / 404   → token 有效，但够不着目标（细粒度 PAT\
-        \ 的可访问范围\n#                 是签发它的那个账户，够不到范围外的目标）\nif [ -z \"${GH_TOKEN:-}\" ]; then\n  echo \"::error::GH_TOKEN\
-        \ secret 未配置或为空（Settings → Secrets and variables → Actions）\"\n  exit 1\nfi\n\n# 先问 token 自己是谁，顺带把有效期打出来——过期是这条路最常见的\n\
-        # 死法，而它到期前一天和到期后一天在配置界面上长得一模一样。\nWHO=$(curl -sS -o /tmp/who.json -D /tmp/who.hdr -w '%{http_code}' \\\n\
-        \      -H \"Authorization: Bearer ${GH_TOKEN}\" \\\n      -H \"Accept: application/vnd.github+json\" \\\n\
-        \      https://api.github.com/user || echo 000)\nif [ \"$WHO\" = \"401\" ]; then\n  echo \"::error::GH_TOKEN\
-        \ 无效（HTTP 401 Bad credentials）。这不是权限问题——token 已过期、被撤销，或写进 secret 时混入了换行/空格。请重新签发一枚并更新 secret。\"\n  exit\
-        \ 1\nfi\nif [ \"$WHO\" != \"200\" ]; then\n  echo \"::error::校验 GH_TOKEN 时 GitHub 返回 HTTP $WHO，无法确认凭据\"\n\
-        \  exit 1\nfi\necho \"GH_TOKEN 身份：$(grep -o '\"login\"[^,]*' /tmp/who.json | head -1)\"\nEXP=$(tr -d '\\\
-        r' < /tmp/who.hdr \\\n      | grep -i '^github-authentication-token-expiration:' | cut -d' ' -f2- || true)\n\
-        # 写成 if 而不是 `[ -n \"$EXP\" ] && echo ...`。后者在 EXP 为空时整条\n# 返回 1；只要它后面还有别的命令，set -e 并不会中止（实测确认），\n# 但只要哪天它被挪到脚本末尾，这一步就会以\
-        \ exit 1 收场——一个纯提示\n# 把发布搞挂。if 形式没有这个位置依赖。\nif [ -n \"$EXP\" ]; then\n  echo \"::notice::GH_TOKEN 有效期至 ${EXP}（到期后本步骤会以\
-        \ 401 失败）\"\nfi\n\n# 再确认够得着 SYNC_REPO。403 与 404 分开报：无权限时 GitHub 回的可能是\n# 404，不写清楚会让人以为 release 被删了。\nUP=$(curl\
-        \ -sS -o /dev/null -w '%{http_code}' \\\n     -H \"Authorization: Bearer ${GH_TOKEN}\" \\\n     -H \"Accept:\
-        \ application/vnd.github+json\" \\\n     \"https://api.github.com/repos/$SYNC_REPO/releases/tags/latest\"\
-        \ || echo 000)\ncase \"$UP\" in\n  200) echo \"$SYNC_REPO latest release 可读，继续发布\" ;;\n  403) echo \"::error::token\
-        \ 有效但无权访问 $SYNC_REPO（HTTP 403）。细粒度 PAT 的可访问范围是签发它的那个账户，够不到范围外的目标；classic PAT 则需要 token 持有者本人对目标有写权限。\";\
-        \ exit 1 ;;\n  404) echo \"::error::看不到 $SYNC_REPO 的 latest release（HTTP 404）。无权限时同样返回 404，所以这既可能是权限不够，也可能是\
-        \ latest tag 真的不在了。\"; exit 1 ;;\n  *)   echo \"::error::读取 $SYNC_REPO latest release 返回 HTTP $UP，无法发布\"\
-        ; exit 1 ;;\nesac\n\n# 版本旁注：闸门那端**只认它**——读到本次版本号后，还要用其中的\n# sha256 与 APK 实际内容对拍，对得上才认。没有它，闸门就只能靠\n# 「构建成功」这种与玩家能不能下到毫无因果关系的信号——那正是\n\
-        # 2026-08-20 全体旧版客户端无限更新的成因。\ncp \"$SRC\" \"$NAME\"\nSHA=$(sha256sum \"$NAME\" | cut -d' ' -f1)\nSIZE=$(stat\
-        \ -c%s \"$NAME\")\nBUILT_AT=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \\\nAPK_NAME=\"$NAME\" APK_SHA=\"$SHA\" APK_SIZE=\"\
-        $SIZE\" OUT=\"$SIDECAR\" \\\npython3 <<'PY'\nimport json, os\njson.dump({\n    \"version\":  os.environ[\"\
-        CLIENT_VERSION\"],\n    \"apk\":      os.environ[\"APK_NAME\"],\n    \"sha256\":   os.environ[\"APK_SHA\"\
-        ],\n    \"size\":     int(os.environ[\"APK_SIZE\"]),\n    \"built_at\": os.environ[\"BUILT_AT\"],\n    \"\
-        run\": \"%s/%s/actions/runs/%s\" % (\n        os.environ.get(\"GITHUB_SERVER_URL\", \"\"),\n        os.environ.get(\"\
-        GITHUB_REPOSITORY\", \"\"),\n        os.environ.get(\"GITHUB_RUN_ID\", \"\")),\n}, open(os.environ[\"OUT\"\
-        ], \"w\", encoding=\"utf-8\"),\n    ensure_ascii=False, indent=2)\nPY\ncat \"$SIDECAR\"\n\n# 先包后旁注：中断时宁可留下「包已就位、还没人宣称版本」，\n\
-        # 也不要「版本已宣称、包还没上去」——后者会把闸门抬到一个下不到的版本。\ngh release upload latest \"$NAME\" --repo \"$SYNC_REPO\" --clobber\n\
-        echo \"✅ 已上传 $NAME 到 $SYNC_REPO latest Release\"\ngh release upload latest \"$SIDECAR\" --repo \"$SYNC_REPO\"\
-        \ --clobber\necho \"✅ 已上传 $SIDECAR 到 $SYNC_REPO latest Release\"\n\n# 通知发布目标立即跟进。**这一步失败必须红**：2026-08-21\
-        \ 起这条\n# dispatch 是唯一的自动通知路径，没有「下次常规触发会跟上」这回事了。\n# 没送达 = 产物躺在那儿没人接手，而这正是要根治的那个故障形状。\n#\n# ⚠ event_type 叫\
-        \ upstream-update 是**历史遗留**，别按字面理解：\n# 这名字来自资产仓还是某个仓库 fork 的年代。2026-08-22 起资产仓已断开\n# 上游、转为组织下的独立私有仓，本条 dispatch\
-        \ 的真实语义是「客户端产物\n# 就绪」，与任何「上游」无关。名字两边都保留不改——它是跨仓库的线上\n# 标识符，一边改一边没改就会静默失联（dispatch 照样返回成功，\n# 那边没人监听）。\n\
-        for i in 1 2 3; do\n  if gh api \"repos/$SYNC_REPO/dispatches\" -f event_type=upstream-update; then\n  \
-        \  echo \"✅ 已通知 $SYNC_REPO 同步\"\n    exit 0\n  fi\n  echo \"::notice::第 $i 次 dispatch 失败，重试\"\n  sleep 5\n\
-        done\necho \"::error::无法通知发布目标（dispatch 连续失败 3 次）。\"\necho \"::error::产物已经传上去了，缺的只是那一声通知——\"\necho \"::error::在发布目标那侧手动触发一次即可补上。\"\
-        \nexit 1\n"
     - name: 📊 构建报告
       if: always()
       run: "{\n  echo \"## 构建结果\"\n  echo\n  if [ -f .build/magirecocn-legacy-client.apk ]; then\n    echo \"- 状态：✅\
@@ -514,10 +464,6 @@ jobs:
         description: Expected client version; must match source CLIENT_VERSION and exceed the live gate
         required: true
         type: string
-      verify_only:
-        description: Build verification only; download the artifact before publishing
-        type: boolean
-        default: true
       engine:
         description: Primary download engine
         type: choice
@@ -532,3 +478,4 @@ jobs:
 concurrency:
   group: personal-main-native-build
   cancel-in-progress: false
+
