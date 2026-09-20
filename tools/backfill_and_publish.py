@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
-"""Apply reviewed localization decisions and optionally launch the exact-asset publisher.
+"""Apply reviewed localization decisions with backups and a deterministic report.
 
 Input TSV columns: path, key (or stable_key), original (or source), replacement
 (or suggested/current), decision. Rows with decision=accept/fill/replace are applied.
 All edits are backed up under .backfill-backups/<timestamp>; originals are checked
 before replacement. Use --check to validate without writing.
+
+Publication is intentionally separate from this helper. The retired
+publish-final.yml workflow no longer exists; use the active release workflow after
+reviewing the generated report.
 """
 from __future__ import annotations
-import argparse, csv, hashlib, json, os, shutil, subprocess, sys, time
+import argparse, csv, hashlib, json, shutil, time
 from pathlib import Path
 
 ACCEPT = {"accept","accepted","fill","replace","approved","use"}
@@ -25,8 +29,6 @@ def main() -> int:
     ap.add_argument("--review", required=True, type=Path)
     ap.add_argument("--root", type=Path, default=Path("."))
     ap.add_argument("--check", action="store_true")
-    ap.add_argument("--publish", action="store_true")
-    ap.add_argument("--workflow", default="publish-final.yml")
     args=ap.parse_args(); root=args.root.resolve()
     rows=list(csv.DictReader(args.review.open(encoding="utf-8-sig",newline=""), delimiter="\t"))
     ops=[]
@@ -56,7 +58,5 @@ def main() -> int:
     report={"timestamp":stamp,"accepted":len(ops),"changed":changed,"backup":str(backup),"sha256":{rel:sha(root/rel) for rel in changed}}
     (root/"backfill-report.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
     print(json.dumps(report,ensure_ascii=False,indent=2))
-    if args.publish:
-        subprocess.run(["gh","workflow","run",args.workflow,"--repo","HiiragiNemu/magireco-cn-patch"],check=True)
     return 0
 if __name__ == "__main__": raise SystemExit(main())
