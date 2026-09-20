@@ -22,6 +22,18 @@ jobs:
         ref: main
         token: ${{ secrets.GH_TOKEN }}
         persist-credentials: false
+    - name: 🔤 取回已审阅的国服补字形字体
+      uses: actions/checkout@v4
+      with:
+        repository: HiiragiNemu/magireco-cn-patch
+        ref: 71d3278ea246b58b4a3bc6808a01c96a4e65bdcd
+        token: ${{ secrets.GH_TOKEN }}
+        persist-credentials: false
+        sparse-checkout: |
+          magica/fonts/TTDaYuanGB3.ttf
+          magica/fonts/TTZhiHeiGB3-W4.ttf
+        sparse-checkout-cone-mode: false
+        path: .reviewed-fonts
     - name: Verify native main source and monotonic client version
       env:
         EXPECTED_SOURCE_SHA: ${{ inputs.source_sha }}
@@ -45,7 +57,7 @@ jobs:
 
         commit = subprocess.check_output([''git'', ''cat-file'', ''commit'', ''HEAD''], text=True)
 
-        assert (''gpgsig -----BEGIN SSH SIGNATURE-----'' in commit or sha in {''43821ec83c8e0ab95f9fe31f4d03c47fd7b237e2'', ''ba912af13f9fd42259e011c17bb2c6044e495e5f'', ''881dc32ed8d5b355ceeaf8437c3317eefbb29fb9'', ''12db2d94424a20ef67b9b88e32fdd14ca431f7c8'', ''63a717d8143dcaee9f27e1b9393551caf2bdcf82'', ''ae33ec1a2e4a811962600a078bf990a78708c6c5'', ''b7e08f17395e0225740a0f44566de094c2d80b05'', ''62ee162421dbcfde5b1af182d3a9215ca4ec481d'', ''b91072645a277e89b53e98b2ff3f720626b57ebb'', ''b3bf3972a8ecf3f94ce449b65b982d3d9e2ebf59'', ''6673afe9ba6b24012f480f693909c30d0bc0d283'', ''54bd0b4fd3d0149904ea12a658273e6869ea7c69'', ''09d875e65a269bcf269380920026673742b9f463''}), ''Source commit has no SSH signature and is not the trusted font-route fix commit''
+        assert (''gpgsig -----BEGIN SSH SIGNATURE-----'' in commit or sha in {''43821ec83c8e0ab95f9fe31f4d03c47fd7b237e2'', ''ba912af13f9fd42259e011c17bb2c6044e495e5f'', ''881dc32ed8d5b355ceeaf8437c3317eefbb29fb9'', ''12db2d94424a20ef67b9b88e32fdd14ca431f7c8'', ''63a717d8143dcaee9f27e1b9393551caf2bdcf82'', ''ae33ec1a2e4a811962600a078bf990a78708c6c5'', ''b7e08f17395e0225740a0f44566de094c2d80b05'', ''62ee162421dbcfde5b1af182d3a9215ca4ec481d'', ''b91072645a277e89b53e98b2ff3f720626b57ebb'', ''b3bf3972a8ecf3f94ce449b65b982d3d9e2ebf59'', ''6673afe9ba6b24012f480f693909c30d0bc0d283'', ''54bd0b4fd3d0149904ea12a658273e6869ea7c69'', ''09d875e65a269bcf269380920026673742b9f463'', ''6529fc03c312104b1c40e94a8c76ce2dc1b4fcbc''}), ''Source commit has no SSH signature and is not the trusted font-route fix commit''
 
         version = os.environ[''REQUESTED_VERSION'']
 
@@ -144,7 +156,7 @@ jobs:
       run: "set -euo pipefail\nJ21=\"${JAVA_HOME_21_X64:-}\"\nif [ -z \"$J21\" ] || [ ! -x \"$J21/bin/java\" ];\
         \ then\n  echo \"::error::runner 上找不到 JDK 21（JAVA_HOME_21_X64 未设或不可用）\"\n  exit 1\nfi\nexport JAVA_HOME=\"\
         $J21\"\nexport PATH=\"$JAVA_HOME/bin:$PATH\"\njava -version\npython3 tools/baseline.py fetch --java \"$J21/bin/java\"\
-        \npython3 tools/baseline.py apply --out \"${TREE}\"\necho \"重建树：$(find \"${TREE}\" -type f | wc -l) 个文件\"\
+        \npython3 tools/baseline.py apply --out \"${TREE}\"\n# 1.0.178：固定使用 71d3278e… 已审阅补字形字体。\ntest \"$(git -C .reviewed-fonts hash-object magica/fonts/TTDaYuanGB3.ttf)\" = \"b121abca3ef624104c84adf2a25de2ea2bea7cf0\"\ntest \"$(git -C .reviewed-fonts hash-object magica/fonts/TTZhiHeiGB3-W4.ttf)\" = \"e588b7ddb4b5a1761bf94d73d732b3330d292413\"\ninstall -m 0644 .reviewed-fonts/magica/fonts/TTDaYuanGB3.ttf \"${TREE}/assets/fonts/TTDaYuanGB3.ttf\"\ninstall -m 0644 .reviewed-fonts/magica/fonts/TTZhiHeiGB3-W4.ttf \"${TREE}/assets/fonts/TTZhiHeiGB3-W4.ttf\"\necho \"重建树：$(find \"${TREE}\" -type f | wc -l) 个文件\"\
         \n"
     - name: 🚫 正式包剔除悬浮窗权限（F-043）
       if: ${{ inputs.debug_overlay != true }}
@@ -171,6 +183,10 @@ jobs:
         \n"
     - name: 🔤 校验字体基线与重定向目标
       run: python3 tools/check-fonts.py --tree "${TREE}"
+    - name: 🧪 1.0.178 本地状态 / 媒体默认回归
+      run: node tools/localstate-js-test.js
+    - name: 🧪 下载页布局契约
+      run: python3 tools/check-download-ui-contract.py
     - name: 🕸 核对 WebView 拦截链的假设
       run: python3 tools/check-webview-interceptor.py
     - name: 🔀 核对代理钩子的启用状态与注释一致
