@@ -1,6 +1,6 @@
-/* 简体中文字体接管：koruri 族名保留（全部 CSS 引用不动），
-   src 指向包内 GB 标准字体。原日文字体文件不增不改。 */
-@font-face{font-family:koruri;src:url(/magica/fonts/TTDaYuanGB3.ttf) format("truetype")}
+/* 国服双字体路由：普通 Web/UI 沿用 koruri 族名，但载体用 TTZhiHeiGB3-W4。
+   这是旧国服/既有架构证据中的 UI 字体；字体文件本身使用 2026-09-19 补字形版。 */
+@font-face{font-family:koruri;src:url(/magica/fonts/TTZhiHeiGB3-W4.ttf) format("truetype")}
 
-/* Selection dialogue: original scenario font, byte-identical resource. */
+/* ADV/剧情/选择对白继续使用大圆体。 */
 @font-face{font-family:"MagiReco CN Medium";src:url(/magica/fonts/TTDaYuanGB3.ttf) format("truetype");font-style:normal;font-weight:500;}
