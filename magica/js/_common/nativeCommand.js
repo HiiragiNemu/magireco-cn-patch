@@ -73,6 +73,13 @@ function(){this.sendCommand(b.DISPLAY_STOP_FORMATION)};b.enemyFormationPreview=f
  */
 b.applyCnMediaDefaults178=function(){
   if(window.isBrowser)return;
+  var bridge=window.CNLocalState;
+  if(!bridge||typeof bridge.clientVersion!=="function")return;
+  var clientVer="";
+  try{clientVer=String(bridge.clientVersion()||"")}catch(versionErr){return}
+  var vp=clientVer.split("."),vmaj=Number(vp[0]),vmin=Number(vp[1]),vpatch=Number(vp[2]);
+  if(vp.length!==3||!isFinite(vmaj)||!isFinite(vmin)||!isFinite(vpatch))return;
+  if(vmaj<1||(vmaj===1&&vmin<0)||(vmaj===1&&vmin===0&&vpatch<178))return;
   var ns="media_defaults_v178",fallback="cn_media_defaults_v178",done=!1;
   try{
     if(window.CNLocalState&&typeof window.CNLocalState.get==="function"){
@@ -102,7 +109,7 @@ b.applyCnMediaDefaults178=function(){
         }
       }catch(ignore3){}
       try{if(!saved&&window.localStorage){localStorage.setItem(fallback,"1");saved=!0}}catch(ignore4){}
-      window.isDebug&&console.log("CN 1.0.178 media defaults applied: voice=1 movie=2 retain=1");
+      window.isDebug&&console.log("CN media defaults applied for "+clientVer+": voice=1 movie=2 retain=1");
     }catch(err){
       if(tries++<6)setTimeout(apply,1000);
       else window.isDebug&&console.log("CN 1.0.178 media defaults failed",err);

@@ -1060,6 +1060,13 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
   b.applyCnMediaDefaults178 = function()
   {
     if (window.isBrowser) return;
+    var bridge = window.CNLocalState;
+    if (!bridge || "function" !== typeof bridge.clientVersion) return;
+    var clientVer = "";
+    try { clientVer = String(bridge.clientVersion() || "") } catch (versionErr) { return }
+    var vp = clientVer.split("."), vmaj = Number(vp[0]), vmin = Number(vp[1]), vpatch = Number(vp[2]);
+    if (3 !== vp.length || !isFinite(vmaj) || !isFinite(vmin) || !isFinite(vpatch)) return;
+    if (vmaj < 1 || (1 === vmaj && vmin < 0) || (1 === vmaj && 0 === vmin && vpatch < 178)) return;
     var ns = "media_defaults_v178", fallback = "cn_media_defaults_v178", done = !1;
     try
     {
