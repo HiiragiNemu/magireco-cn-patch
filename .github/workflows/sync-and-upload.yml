@@ -61,7 +61,10 @@ permissions:
 
 jobs:
   setup:
-    if: github.repository == 'HiiragiNemu/magireco-cn-patch' && github.ref == 'refs/heads/main'
+    # [stage-only] lets a reviewed release change land on main without mutating
+    # the public Release. The 1.0.178 media-default migration is version-gated
+    # in JS and will be published explicitly after the APK passes verification.
+    if: ${{ github.repository == 'HiiragiNemu/magireco-cn-patch' && github.ref == 'refs/heads/main' && (github.event_name != 'push' || !contains(github.event.head_commit.message, '[stage-only]')) }}
     runs-on: ubuntu-24.04
     outputs:
       should_sync:    ${{ steps.check_upstream.outputs.should_sync }}
@@ -385,6 +388,7 @@ jobs:
           python3 scripts/test_release_asset_transaction.py -v
           python3 scripts/test_build_manifest.py -v
           python3 scripts/test_private_asset_fetch.py -v
+          python3 scripts/test_media_defaults_178.py -v
 
       - name: "[JS] CSS 冻结检查"
         continue-on-error: true
