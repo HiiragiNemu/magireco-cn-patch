@@ -15,6 +15,7 @@ class MediaDefaults178Contract(unittest.TestCase):
         self.assertIn('CNLocalState', s)
         self.assertIn('clientVersion', s)
         self.assertIn('vpatch<178', s)
+        self.assertIn('applyCnMediaDefaults178(gateTry+1)', s)
 
     def test_legacy_command_bridge_has_same_contract(self):
         s=(ROOT/"magica/js/_common/nativeCommand2.js").read_text(encoding="utf-8")
@@ -25,6 +26,7 @@ class MediaDefaults178Contract(unittest.TestCase):
         self.assertIn("b.setDownloadDeleteConfig({voice:0, movie:0})", s)
         self.assertIn("bridge.clientVersion", s)
         self.assertIn("vpatch < 178", s)
+        self.assertIn("applyCnMediaDefaults178(gateTry + 1)", s)
 
     def test_config_page_starts_from_cn_full_media_defaults(self):
         s=(ROOT/"magica/js/view/config/ConfigTopView.js").read_text(encoding="utf-8")

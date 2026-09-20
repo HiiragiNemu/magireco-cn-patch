@@ -1057,15 +1057,29 @@ define(["underscore", "backbone", "backboneCommon"], function(k, l, e)
   };
 
   // Same one-time 1.0.178 media-default migration as nativeCommand.js.
-  b.applyCnMediaDefaults178 = function()
+  b.applyCnMediaDefaults178 = function(gateTry)
   {
     if (window.isBrowser) return;
+    gateTry = gateTry || 0;
     var bridge = window.CNLocalState;
-    if (!bridge || "function" !== typeof bridge.clientVersion) return;
+    if (!bridge || "function" !== typeof bridge.clientVersion)
+    {
+      gateTry < 20 && setTimeout(function(){b.applyCnMediaDefaults178(gateTry + 1)}, 500);
+      return
+    }
     var clientVer = "";
-    try { clientVer = String(bridge.clientVersion() || "") } catch (versionErr) { return }
+    try { clientVer = String(bridge.clientVersion() || "") }
+    catch (versionErr)
+    {
+      gateTry < 20 && setTimeout(function(){b.applyCnMediaDefaults178(gateTry + 1)}, 500);
+      return
+    }
     var vp = clientVer.split("."), vmaj = Number(vp[0]), vmin = Number(vp[1]), vpatch = Number(vp[2]);
-    if (3 !== vp.length || !isFinite(vmaj) || !isFinite(vmin) || !isFinite(vpatch)) return;
+    if (3 !== vp.length || !isFinite(vmaj) || !isFinite(vmin) || !isFinite(vpatch))
+    {
+      gateTry < 20 && setTimeout(function(){b.applyCnMediaDefaults178(gateTry + 1)}, 500);
+      return
+    }
     if (vmaj < 1 || (1 === vmaj && vmin < 0) || (1 === vmaj && 0 === vmin && vpatch < 178)) return;
     var ns = "media_defaults_v178", fallback = "cn_media_defaults_v178", done = !1;
     try
