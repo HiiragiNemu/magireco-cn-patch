@@ -94,7 +94,8 @@ jobs:
           cd native
           git config user.name "Hiiragi Nemu"
           git config user.email "128921071+HiiragiNemu@users.noreply.github.com"
-          git add -f assets/magia/bgm1.ogg assets/magia/bgm2.ogg assets/magia/bgm.json\n          git add baseline/baseline.json
+          git add -f assets/magia/bgm1.ogg assets/magia/bgm2.ogg assets/magia/bgm.json
+          git add baseline/baseline.json
           git diff --cached --stat
           git commit -m "build: vendor verified overlay BGM assets"
           git push origin HEAD:main
