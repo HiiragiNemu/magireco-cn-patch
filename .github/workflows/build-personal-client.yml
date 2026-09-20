@@ -287,24 +287,6 @@ jobs:
         \ -h \"${TREE}/lib/$ABI/libshadowhook.so\" | cut -f1)\"\ndone\n\n# 旧库必须已从包内移除，否则会与新库对同一地址重复装 hook\nfor f\
         \ in \"${TREE}\"/lib/arm64-v8a/libuwasa.so \"${TREE}\"/lib/armeabi-v7a/libuwasa.so \"${TREE}\"/lib/arm64-v8a/libcn_hook.so;\
         \ do\n  if [ -e \"$f\" ]; then echo \"::error::$f 仍然存在，会与 libMagiaLegacy 冲突\"; exit 1; fi\ndone\n"
-    - name: Convert BGM using the native oggenc interface
-      env:
-        VGMS_SHA256: ${{ vars.VGMS_SHA256 }}
-      run: "set -euo pipefail\n# assets 里的 BGM 是 CRI HCA 且 ciphType=56（加密），Android 放不了。\n# vgmstream 自带 CRI 游戏的密钥库，能直接解；再用\
-        \ ffmpeg 转 OGG。\nmkdir -p .cache/audio\n\n# R4-04：FFmpeg 是浮动下载（latest 标签可重指）且随后 chmod +x 直接\n# 执行——供应链投毒即\
-        \ CI RCE。缓解：curl -f 拒绝 HTTP 错误页；FFmpeg\n# 钉**不可变 autobuild**（URL 带时间戳 tag + GitHub Release API 的官方\n# assets[].digest），摘要缺失/不符即硬失败。\n\
-        # vgmstream **不钉**（维护者决定 2026-08-19）：只做 HCA 音频解密转换、\n# 内置密钥库不删减、非关键路径；curl -f 已拒绝 HTTP 错误页。\ncurl -fsSL\
-        \ -o .cache/audio/vgms.tar.gz \\\n  \"https://github.com/vgmstream/vgmstream-releases/releases/download/nightly/vgmstream-linux-cli.tar.gz\"\
-        \n# vgmstream 可选 pin（WARN 不阻断）：配了 VGMS_SHA256 就校验（官方\n# Release digest），不符/未配都只告警——音频非关键路径，不该卡构建。\nif [\
-        \ -n \"${VGMS_SHA256:-}\" ]; then\n  if ! echo \"${VGMS_SHA256}  .cache/audio/vgms.tar.gz\" | sha256sum\
-        \ -c - >/dev/null 2>&1; then\n    echo \"::warning::vgmstream 哈希不符（可能上游已更新），请核对该 Variable\"\n  fi\nelse\n\
-        \  echo \"::warning::vgmstream 未钉哈希（配置仓库 Variable VGMS_SHA256 可启用校验）\"\nfi\nmkdir -p .cache/audio/vgms\n\
-        tar xzf .cache/audio/vgms.tar.gz -C .cache/audio/vgms\nVGMS=\"$(find .cache/audio/vgms -name vgmstream-cli\
-        \ -type f | head -1)\"\nchmod +x \"${VGMS}\"\n\nsudo apt-get update -qq\nsudo apt-get install -y --no-install-recommends\
-        \ vorbis-tools\noggenc --version\npython3 tools/convert-bgm.py --vgmstream \"${VGMS}\" --oggenc \"$(command\
-        \ -v oggenc)\" --tree \"${TREE}\"\n\n# 产物必须齐全：缺了浮层就没有 BGM。音频不是关键路径，只告警不阻断。\nfor f in \"${TREE}\"/assets/magia/bgm1.ogg\
-        \ \"${TREE}\"/assets/magia/bgm2.ogg \"${TREE}\"/assets/magia/bgm.json; do\n  if [ ! -s \"${f}\" ]; then\
-        \ echo \"::warning::缺少 ${f}，本次 APK 浮层将没有 BGM\"; fi\ndone\nls -la \"${TREE}/assets/magia/\"\n"
     - name: 🚂 注入主下载引擎（构建期默认）
       run: "set -euo pipefail\nENGINE=\"${{ inputs.engine }}\"\ncase \"$ENGINE\" in\n  self|aria2c) ;;\n  *) echo\
         \ \"::error::非法引擎值：$ENGINE（只接受 self / aria2c）\"; exit 1 ;;\nesac\nsed -i -E \"s/MAIN_ENGINE = \\\"[a-z0-9]+\\\
@@ -478,4 +460,5 @@ jobs:
 concurrency:
   group: personal-main-native-build
   cancel-in-progress: false
+
 
