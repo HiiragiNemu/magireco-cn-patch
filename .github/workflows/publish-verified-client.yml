@@ -1,0 +1,239 @@
+name: Publish verified client
+
+on:
+  workflow_run:
+    workflows: ["个人 main 客户端手动构建"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful client build run ID to publish
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: publish-verified-client
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: ${{ github.repository == 'HiiragiNemu/magireco-cn-patch' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
+    runs-on: ubuntu-latest
+    env:
+      APK_NAME: "magireco-latest-legacy-client.apk"
+      META_NAME: "magireco-latest-legacy-client.version.json"
+      PAGES_BASE: "https://magireco-personal-release.pages.dev"
+    steps:
+      - name: Resolve and validate source run
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EVENT_RUN_ID: ${{ github.event.workflow_run.id }}
+          INPUT_RUN_ID: ${{ inputs.run_id }}
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_run" ]; then
+            RUN_ID="${EVENT_RUN_ID}"
+          else
+            RUN_ID="${INPUT_RUN_ID}"
+          fi
+          [[ "${RUN_ID}" =~ ^[0-9]+$ ]]
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}" > /tmp/source-run.json
+          python3 - <<'PY'
+          import json, os
+          run=json.load(open('/tmp/source-run.json', encoding='utf-8'))
+          assert run.get('name') == '个人 main 客户端手动构建', run.get('name')
+          assert run.get('event') == 'workflow_dispatch', run.get('event')
+          assert run.get('head_branch') == 'main', run.get('head_branch')
+          assert run.get('status') == 'completed', run.get('status')
+          assert run.get('conclusion') == 'success', run.get('conclusion')
+          print('source run accepted', run['id'], run['head_sha'])
+          PY
+          echo "SOURCE_RUN_ID=${RUN_ID}" >> "${GITHUB_ENV}"
+
+      - name: Download verified artifact
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p payload
+          gh run download "${SOURCE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name personal-native-main-verified \
+            --dir payload
+          test -s payload/magirecocn-legacy-client.apk
+          test -s "payload/${META_NAME}"
+          mv payload/magirecocn-legacy-client.apk "payload/${APK_NAME}"
+
+      - name: Verify artifact and publication monotonicity
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os, re, subprocess
+          from pathlib import Path
+
+          apk=Path('payload')/os.environ['APK_NAME']
+          meta_path=Path('payload')/os.environ['META_NAME']
+          meta=json.loads(meta_path.read_text(encoding='utf-8'))
+          digest=hashlib.sha256(apk.read_bytes()).hexdigest()
+          size=apk.stat().st_size
+
+          assert re.fullmatch(r'1\.0\.[1-9][0-9]*', str(meta.get('version',''))), meta
+          assert meta.get('apk') == os.environ['APK_NAME'], meta
+          assert meta.get('sha256') == digest, (meta.get('sha256'), digest)
+          assert int(meta.get('size',-1)) == size, (meta.get('size'), size)
+          assert meta.get('source_branch') == 'main', meta
+
+          run=json.load(open('/tmp/source-run.json', encoding='utf-8'))
+          assert meta.get('workflow_commit') == run.get('head_sha'), (meta.get('workflow_commit'), run.get('head_sha'))
+
+          raw=subprocess.check_output([
+              'gh','api',
+              f"repos/{os.environ['GITHUB_REPOSITORY']}/contents/configures/personal-online-config.json",
+              '-H','Accept: application/vnd.github.raw+json',
+          ], text=True)
+          cfg=json.loads(raw)
+          current=cfg['client']
+          def v(s): return tuple(map(int,str(s).split('.')))
+          new=str(meta['version']); old=str(current['version'])
+          assert v(new) >= v(old), f'stale artifact {new} < live gate {old}'
+          if v(new) == v(old):
+              assert current.get('sha256') == digest and int(current.get('size',-1)) == size, (
+                  'same version already published with different bytes', old,
+                  current.get('sha256'), digest, current.get('size'), size
+              )
+
+          meta['publication']='PUBLISHED'
+          meta['published_from_run']=int(os.environ['SOURCE_RUN_ID'])
+          meta_path.write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          with open(os.environ['GITHUB_ENV'],'a') as f:
+              f.write('APK_SHA256='+digest+'\n')
+              f.write('APK_SIZE='+str(size)+'\n')
+              f.write('APK_VERSION='+new+'\n')
+          print('artifact accepted', new, size, digest, 'live', old)
+          PY
+
+      - name: Upload verified client to latest Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh release upload latest \
+            "payload/${APK_NAME}" \
+            "payload/${META_NAME}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --clobber
+
+      - name: Verify latest Release bytes
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, subprocess
+          release=json.loads(subprocess.check_output([
+              'gh','api',f"repos/{os.environ['GITHUB_REPOSITORY']}/releases/tags/latest"
+          ],text=True))
+          assets={a['name']:a for a in release['assets']}
+          apk=assets[os.environ['APK_NAME']]
+          assert int(apk['size']) == int(os.environ['APK_SIZE']), apk
+          assert apk.get('digest') == 'sha256:'+os.environ['APK_SHA256'], apk
+          assert int(assets[os.environ['META_NAME']]['size']) > 0
+          print('release verified', apk['name'], apk['size'], apk['digest'])
+          PY
+
+      - name: Verify Pages transport before raising gate
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, time, urllib.request
+          base=os.environ['PAGES_BASE']
+
+          req=urllib.request.Request(
+              base+'/'+os.environ['META_NAME']+'?verify='+str(time.time_ns()),
+              headers={'User-Agent':'MadeInMagius-Client-Publish-Verify','Accept-Encoding':'identity'})
+          with urllib.request.urlopen(req,timeout=60) as r:
+              meta=json.loads(r.read().decode())
+          assert meta['version'] == os.environ['APK_VERSION'], meta
+          assert meta['sha256'] == os.environ['APK_SHA256'], meta
+          assert int(meta['size']) == int(os.environ['APK_SIZE']), meta
+
+          req=urllib.request.Request(
+              base+'/'+os.environ['APK_NAME']+'?verify='+str(time.time_ns()),
+              method='HEAD',
+              headers={'User-Agent':'MadeInMagius-Client-Publish-Verify','Accept-Encoding':'identity'})
+          with urllib.request.urlopen(req,timeout=60) as r:
+              length=int(r.headers.get('Content-Length') or 0)
+          assert length == int(os.environ['APK_SIZE']), (length,os.environ['APK_SIZE'])
+          print('Pages verified',meta['version'],length)
+          PY
+
+      - name: Checkout publication authority
+        uses: actions/checkout@v4
+        with:
+          repository: HiiragiNemu/magireco-cn-patch
+          ref: main
+          token: ${{ secrets.GH_TOKEN }}
+          persist-credentials: true
+          fetch-depth: 1
+
+      - name: Raise client gate after verified publication
+        run: |
+          set -euo pipefail
+          APK_VERSION="${APK_VERSION}" APK_SHA256="${APK_SHA256}" APK_SIZE="${APK_SIZE}" python3 - <<'PY'
+          import datetime,json,os
+          from pathlib import Path
+
+          p=Path('configures/personal-online-config.json')
+          data=json.loads(p.read_text(encoding='utf-8'))
+          client=data['client']
+          def v(s): return tuple(map(int,str(s).split('.')))
+          old=str(client['version']); new=os.environ['APK_VERSION']
+
+          if v(new) < v(old):
+              raise SystemExit(f'refuse gate rollback {old} -> {new}')
+          if v(new) == v(old):
+              if client.get('sha256') != os.environ['APK_SHA256'] or int(client.get('size',-1)) != int(os.environ['APK_SIZE']):
+                  raise SystemExit('same client version points at different APK bytes')
+              print('gate already matches',old)
+          else:
+              client['version']=new
+              client['sha256']=os.environ['APK_SHA256']
+              client['size']=int(os.environ['APK_SIZE'])
+              client['apk_url']='https://magireco-personal-release.pages.dev/magireco-latest-legacy-client.apk'
+              data['updated']=datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z')
+              p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+              print('client.version',old,'->',new)
+          PY
+
+          git config user.name "Hiiragi Nemu"
+          git config user.email "128921071+HiiragiNemu@users.noreply.github.com"
+          git add configures/personal-online-config.json
+          if git diff --cached --quiet; then
+            echo "gate already current; nothing to commit"
+            exit 0
+          fi
+          git commit -m "release: publish verified client ${APK_VERSION} [skip ci]"
+          git push origin HEAD:main
+
+      - name: Verify live config
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,os,time,urllib.request
+          url=os.environ['PAGES_BASE']+'/legacy/config.json?verify='+str(time.time_ns())
+          req=urllib.request.Request(url,headers={'User-Agent':'MadeInMagius-Client-Gate-Verify','Accept-Encoding':'identity'})
+          with urllib.request.urlopen(req,timeout=60) as r:
+              cfg=json.loads(r.read().decode())
+          c=cfg['client']
+          assert c['version'] == os.environ['APK_VERSION'], c
+          assert c['sha256'] == os.environ['APK_SHA256'], c
+          assert int(c['size']) == int(os.environ['APK_SIZE']), c
+          print('live client gate verified',c['version'])
+          PY
