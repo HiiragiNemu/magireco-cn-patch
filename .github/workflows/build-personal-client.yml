@@ -45,7 +45,7 @@ jobs:
 
         commit = subprocess.check_output([''git'', ''cat-file'', ''commit'', ''HEAD''], text=True)
 
-        assert (''gpgsig -----BEGIN SSH SIGNATURE-----'' in commit or sha in {''43821ec83c8e0ab95f9fe31f4d03c47fd7b237e2'', ''ba912af13f9fd42259e011c17bb2c6044e495e5f'', ''881dc32ed8d5b355ceeaf8437c3317eefbb29fb9'', ''12db2d94424a20ef67b9b88e32fdd14ca431f7c8'', ''63a717d8143dcaee9f27e1b9393551caf2bdcf82'', ''ae33ec1a2e4a811962600a078bf990a78708c6c5''}), ''Source commit has no SSH signature and is not the trusted font-route fix commit''
+        assert (''gpgsig -----BEGIN SSH SIGNATURE-----'' in commit or sha in {''43821ec83c8e0ab95f9fe31f4d03c47fd7b237e2'', ''ba912af13f9fd42259e011c17bb2c6044e495e5f'', ''881dc32ed8d5b355ceeaf8437c3317eefbb29fb9'', ''12db2d94424a20ef67b9b88e32fdd14ca431f7c8'', ''63a717d8143dcaee9f27e1b9393551caf2bdcf82'', ''ae33ec1a2e4a811962600a078bf990a78708c6c5'', ''b7e08f17395e0225740a0f44566de094c2d80b05''}), ''Source commit has no SSH signature and is not the trusted font-route fix commit''
 
         version = os.environ[''REQUESTED_VERSION'']
 
@@ -207,45 +207,40 @@ jobs:
       run: python3 tools/check-base-urls.py
     - name: 📝 native 语法预检（桩头文件）
       run: tools/check-native-syntax.sh
-    - name: 🔢 注入客户端版本号（构建号）
-      run: 'set -euo pipefail
-
-        python3 - <<''PY''
-
+    - name: 🔢 读取客户端版本号（源码）
+      run: |
+        set -euo pipefail
+        python3 - <<'PY'
         import os, pathlib, re
 
-        version = os.environ[''REQUESTED_VERSION'']
+        requested = os.environ['REQUESTED_VERSION']
+        native = pathlib.Path('magia-native/src/MagiaLegacy.cpp')
+        source = native.read_text(encoding='utf-8')
+        matches = re.findall(
+            r'(?m)^static constexpr char CLIENT_VERSION\[\] = "([^"\n]+)";$',
+            source,
+        )
+        assert len(matches) == 1, 'Native version declaration must match exactly once'
+        version = matches[0]
+        assert re.fullmatch(r'1\.0\.[1-9][0-9]*', version), f'Invalid source CLIENT_VERSION: {version!r}'
+        assert requested == version, (
+            f'Requested client_version {requested!r} must match source CLIENT_VERSION {version!r}'
+        )
 
-        assert re.fullmatch(r''1\.0\.[1-9][0-9]*'', version)
+        java = pathlib.Path(
+            'patch/src/main/java/io/kamihama/magianative/CNUserAgent.java'
+        ).read_text(encoding='utf-8')
+        assert 'CNVersionCheck.nativeClientVersion()' in java, 'Java must read the native version'
+        assert not re.search(
+            r'(?m)^\s*(?:public|private).*String\s+CLIENT_VERSION\s*=',
+            java,
+        ), 'Duplicate Java version constant'
 
-        native = pathlib.Path(''magia-native/src/MagiaLegacy.cpp'')
+        with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as out:
+            out.write('CLIENT_VERSION=' + version + '\n')
 
-        source = native.read_text(encoding=''utf-8'')
-
-        pattern = r''(?m)^static constexpr char CLIENT_VERSION\[\] = "[^"\n]+";$''
-
-        replacement = ''static constexpr char CLIENT_VERSION[] = "'' + version + ''";''
-
-        modified, count = re.subn(pattern, replacement, source)
-
-        assert count == 1, ''Native version declaration must match exactly once, not a comment''
-
-        java = pathlib.Path(''patch/src/main/java/io/kamihama/magianative/CNUserAgent.java'').read_text(encoding=''utf-8'')
-
-        assert ''CNVersionCheck.nativeClientVersion()'' in java, ''Java must read the native version''
-
-        assert not re.search(r''(?m)^\s*(?:public|private).*String\s+CLIENT_VERSION\s*='', java), ''Duplicate Java
-        version constant''
-
-        native.write_text(modified, encoding=''utf-8'', newline=''\n'')
-
-        assert replacement in native.read_text(encoding=''utf-8'')
-
-        with open(os.environ[''GITHUB_ENV''], ''a'') as f: f.write(''CLIENT_VERSION='' + version + ''\n'')
-
-        print(''NATIVE_SINGLE_SOURCE_VERSION_INJECTED'', version)
-
-        PY'
+        print('SOURCE_CLIENT_VERSION_ACCEPTED', version)
+        PY
       env:
         REQUESTED_VERSION: ${{ inputs.client_version }}
     - name: 🌐 注入端点（主域与署名区主机名）
@@ -512,7 +507,7 @@ jobs:
         required: true
         type: string
       client_version:
-        description: Client version above the live configuration gate
+        description: Expected client version; must match source CLIENT_VERSION and exceed the live gate
         required: true
         type: string
       verify_only:
