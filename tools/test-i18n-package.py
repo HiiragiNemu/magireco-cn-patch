@@ -2,6 +2,7 @@
 """i18n-package.py 的包边界与 engine-only 回归测试。"""
 
 from pathlib import Path
+import json
 import os
 import subprocess
 import sys
@@ -73,8 +74,12 @@ class I18nPackageTest(unittest.TestCase):
                     or name.startswith(REPAIR_PREFIX)
                     for name in names
                 ))
+                expected_repairs = len(
+                    json.loads(REPO_REPAIR_MANIFEST.read_text(encoding='utf-8'))['entries']
+                )
                 self.assertEqual(
-                    91, sum(name.startswith(REPAIR_PREFIX) for name in names)
+                    expected_repairs,
+                    sum(name.startswith(REPAIR_PREFIX) for name in names),
                 )
                 self.assertEqual(names.count(REPAIR_MANIFEST), 1)
                 self.assertEqual(
