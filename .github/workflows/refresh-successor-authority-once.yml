@@ -1,0 +1,49 @@
+name: One-shot refresh successor authority
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/refresh-successor-authority-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - name: Rebuild successor-aware machine review
+        run: |
+          set -euo pipefail
+          python3 tools/build-v26-machine-review.py
+          python3 tools/test-build-v26-machine-review.py -v
+      - name: Rebuild protected authority from current reviewed targets
+        run: |
+          set -euo pipefail
+          python3 tools/build-v26-authority-protection.py
+          python3 tools/test-v26-authority-protection.py -v
+          python3 tools/verify-v26-authority-protection.py --json
+      - name: Re-run the release blocker
+        run: |
+          set -euo pipefail
+          python3 tools/test-verify-pass20-human-materialization.py -v
+          python3 tools/verify-pass20-human-materialization.py --require-release-open
+      - name: Commit deterministic authority outputs
+        run: |
+          set -euo pipefail
+          git config user.name "Hiiragi Nemu"
+          git config user.email "128921071+HiiragiNemu@users.noreply.github.com"
+          git add             magica/i18n_audit/release_v26_authority/machine_translation_review             magica/i18n_audit/release_v26_authority/protected_authority
+          git diff --cached --stat
+          if git diff --cached --quiet; then
+            echo "authority outputs already current"
+            exit 0
+          fi
+          git commit -m "build: refresh successor-aware authority snapshots"
+          git push origin HEAD:main
