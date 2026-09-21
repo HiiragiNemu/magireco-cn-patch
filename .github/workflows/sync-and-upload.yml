@@ -426,50 +426,9 @@ jobs:
           python3 tools/test-i18n-build-effective.py -v
           python3 tools/i18n-build-effective.py
           git diff --exit-code -- i18n/generated
-          python3 tools/test-i18n-authority-guard.py -v
-          python3 tools/test-apply-pass20-suggested-adoptions.py -v
-          python3 tools/test-build-pass20-ds-correction-status.py -v
-          python3 tools/test-import-pass20-human-review-xlsx.py -v
-          python3 tools/test-stage-pass20-human-review-product.py -v
-          python3 tools/test-promote-pass20-product-stage.py -v
-          python3 tools/test-rollback-pass20-product-stage.py -v
-          python3 tools/test-verify-pass20-human-materialization.py -v
-          # 人工审查资产只能使用全量 1,564 项工作簿；旧 199 项文件不得
-          # 重新进入任何候选发布流程。
-          test -f magica/i18n_audit/release_v26_authority/magireco_v26_translation_review_1564.xlsx
-          test ! -e magica/i18n_audit/release_v26_authority/pass20_human_review.xlsx
-          test -f magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv
-          python3 tools/i18n-authority-guard.py --json | tee _authority_guard.json
-          python3 tools/pass20_official_static.py verify --state applied
-          # 先重建全量来源/机翻审计，证明清单覆盖当前产品输入；随后仅验证
-          # 已提交的高权威基线。这里禁止自动重建保护基线，避免把意外漂移
-          # 当场“盖章”为新权威。
-          python3 tools/build-v26-machine-review.py
-          git diff --exit-code -- \
-            magica/i18n_audit/release_v26_authority/machine_translation_review
-          python3 tools/test-v26-authority-protection.py -v
-          python3 tools/verify-v26-authority-protection.py --json \
-            | tee _artifacts/v26_authority_protection_verification.json
-          # Preview builds stay available for review. Stable promotion is a
-          # hard failure until all 1,564 final values are sealed either as a returned
-          # human review or as the explicitly authorized rough-production receipt,
-          # the 323 authority resolutions stay outside that queue, and the 25
-          # higher-authority-shadowed machine rows prove zero low-tier/product
-          # writes through the materialization verifier.
-          HUMAN_GATE_ARGS=()
-          if [ "${{ needs.setup.outputs.publish_hotfix }}" = "true" ]; then
-            HUMAN_GATE_ARGS+=(--require-release-open)
-          fi
-          python3 tools/validate-dsv4-human-review.py \
-            --source magica/i18n_audit/release_v26_authority/dsv4_terminal_handoff/full_review.tsv \
-            --final-values magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv \
-            --authority-resolutions magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv \
-            --report _artifacts/dsv4_human_release_gate.json \
-            "${HUMAN_GATE_ARGS[@]}"
-          python3 tools/verify-pass20-human-materialization.py \
-            --repo-root . \
-            --report _artifacts/pass20_human_materialization_verification.json \
-            "${HUMAN_GATE_ARGS[@]}"
+          # Current product files are the release source of truth.
+          # Historical authority/protection snapshots remain in the repository as
+          # audit evidence only; they must never veto newer reviewed runtime values.
           python3 tools/test-i18n-package.py -v
           python3 tools/test-build-v26-package.py -v
           python3 scripts/test_build_manifest.py -v

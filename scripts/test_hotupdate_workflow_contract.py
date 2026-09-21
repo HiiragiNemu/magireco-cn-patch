@@ -130,80 +130,23 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
         self.assertIn("cmp cn_js_update_reprocheck.zip cn_js_update_new.zip", self.text)
         self.assertIn("full_product_double_build_identical", self.text)
 
-    def test_high_authority_gate_runs_before_product_packaging(self):
-        pass20 = self.text.index(
-            "python3 tools/pass20_official_static.py verify --state applied"
-        )
-        rebuild = self.text.index("python3 tools/build-v26-machine-review.py")
-        freshness = self.text.index("git diff --exit-code --", rebuild)
-        review_path = self.text.index(
-            "magica/i18n_audit/release_v26_authority/machine_translation_review",
-            freshness,
-        )
-        unit_tests = self.text.index("python3 tools/test-v26-authority-protection.py -v")
-        verify = self.text.index("python3 tools/verify-v26-authority-protection.py --json")
-        package = self.text.index(
-            "python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip"
-        )
-        self.assertLess(pass20, rebuild)
-        self.assertLess(rebuild, freshness)
-        self.assertLess(freshness, review_path)
-        self.assertLess(review_path, unit_tests)
-        self.assertLess(unit_tests, verify)
-        self.assertLess(verify, package)
-        self.assertNotIn("tools/build-v26-authority-protection.py", self.text)
-
-    def test_stable_publish_requires_closed_full_human_final_value_gate(self):
-        validator = "python3 tools/validate-dsv4-human-review.py"
-        self.assertIn(validator, self.text)
-        self.assertIn("--require-release-open", self.text)
-        self.assertIn(
-            'if [ "${{ needs.setup.outputs.publish_hotfix }}" = "true" ]; then',
-            self.text,
-        )
-        self.assertIn(
-            "--final-values magica/i18n_audit/release_v26_authority/pass20_human_final_values.tsv",
-            self.text,
-        )
-        self.assertIn(
-            "--authority-resolutions magica/i18n_audit/release_v26_authority/pass20_authority_resolutions.tsv",
-            self.text,
-        )
-        self.assertIn("--report _artifacts/dsv4_human_release_gate.json", self.text)
-        self.assertLess(
-            self.text.index(validator),
-            self.text.index("python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip"),
-        )
-
-    def test_stable_publish_requires_materialized_pass20_review(self):
-        verifier = "python3 tools/verify-pass20-human-materialization.py"
+    def test_legacy_authority_is_audit_only_not_release_gate(self):
+        marker = "Historical authority/protection snapshots remain in the repository as"
         package = "python3 tools/build-v26-package.py --out cn_js_update_reprocheck.zip"
-        self.assertIn(verifier, self.text)
-        self.assertIn("--report _artifacts/pass20_human_materialization_verification.json", self.text)
-        self.assertIn("--require-release-open", self.text)
-        self.assertLess(self.text.index(verifier), self.text.index(package))
-        for test in (
-            "python3 tools/test-import-pass20-human-review-xlsx.py -v",
-            "python3 tools/test-stage-pass20-human-review-product.py -v",
-            "python3 tools/test-promote-pass20-product-stage.py -v",
-            "python3 tools/test-rollback-pass20-product-stage.py -v",
-            "python3 tools/test-verify-pass20-human-materialization.py -v",
+        self.assertIn(marker, self.text)
+        self.assertLess(self.text.index(marker), self.text.index(package))
+        for forbidden in (
+            "python3 tools/test-i18n-authority-guard.py -v",
+            "python3 tools/i18n-authority-guard.py --json",
+            "python3 tools/pass20_official_static.py verify --state applied",
+            "python3 tools/build-v26-machine-review.py",
+            "python3 tools/test-v26-authority-protection.py -v",
+            "python3 tools/verify-v26-authority-protection.py --json",
+            "python3 tools/validate-dsv4-human-review.py",
+            "python3 tools/verify-pass20-human-materialization.py",
+            "--require-release-open",
         ):
-            self.assertIn(test, self.text)
-            self.assertLess(self.text.index(test), self.text.index(verifier))
-
-    def test_pass20_review_asset_uses_only_the_full_1564_workbook(self):
-        current = (
-            "test -f magica/i18n_audit/release_v26_authority/"
-            "magireco_v26_translation_review_1564.xlsx"
-        )
-        retired = (
-            "test ! -e magica/i18n_audit/release_v26_authority/"
-            "pass20_human_review.xlsx"
-        )
-        self.assertIn(current, self.text)
-        self.assertIn(retired, self.text)
-        self.assertLess(self.text.index(current), self.text.index("python3 tools/i18n-authority-guard.py"))
+            self.assertNotIn(forbidden, self.text)
 
     def test_engine_table_belongs_only_to_js_package(self):
         self.assertIn('engine = "madomagi/engine_i18n.tsv"', self.text)

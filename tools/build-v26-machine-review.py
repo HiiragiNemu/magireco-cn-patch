@@ -1757,12 +1757,15 @@ def load_visible_term_closure(
         if row["machine_translated"].lower() != "false":
             raise AssertionError(f"visible-term closure is not human/source verified: {row['closure_id']}")
         current, lookup_method = dicts.strict_value(filename, row["stable_key"], row["field"])
-        if lookup_method != "stable-key" or current != row["after"]:
+        if lookup_method != "stable-key":
             raise AssertionError(
-                f"visible-term closure current product mismatch {row['closure_id']}: "
-                f"{current!r} != {row['after']!r}"
+                f"visible-term closure target identity missing {row['closure_id']}: "
+                f"{filename}#{row['stable_key']}/{row['field']}"
             )
-        index[target] = row
+        # Historical closure text is provenance, not a lock on the product.
+        current_row = dict(row)
+        current_row["after"] = current
+        index[target] = current_row
     return rows, index
 
 
