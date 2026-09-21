@@ -35,6 +35,8 @@ import zipfile
 ENGINE_MEMBER = 'madomagi/engine_i18n.tsv'
 REPAIR_MANIFEST = 'madomagi/repair_manifest.json'
 REPAIR_PREFIX = 'madomagi/resource/image_native/'
+# 与正式 build-v26-package.py 同一产品边界：现有 Memoria 源明确不随 JS 热更下发。
+EXCLUDED_REPAIR_PREFIXES = (REPAIR_PREFIX + 'memoria/',)
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_ENGINE = REPO_ROOT / ENGINE_MEMBER
 DEFAULT_REPAIR_MANIFEST = REPO_ROOT / REPAIR_MANIFEST
@@ -84,6 +86,8 @@ def allowed_base_member(name):
         return False
     if normalized.startswith(RUNTIME_EXCLUDED_PREFIXES):
         return False
+    if normalized.startswith(EXCLUDED_REPAIR_PREFIXES):
+        return False
     return (
         normalized == 'magica/'
         or normalized.startswith('magica/')
@@ -119,10 +123,14 @@ def main():
     if not DEFAULT_REPAIR_ROOT.is_dir():
         print('native 修复目录不存在：%s' % DEFAULT_REPAIR_ROOT, file=sys.stderr)
         return 1
-    repair_files = {
-        REPAIR_PREFIX + path.relative_to(DEFAULT_REPAIR_ROOT).as_posix(): path
-        for path in DEFAULT_REPAIR_ROOT.rglob('*') if path.is_file()
-    }
+    repair_files = {}
+    for path in DEFAULT_REPAIR_ROOT.rglob('*'):
+        if not path.is_file():
+            continue
+        name = REPAIR_PREFIX + path.relative_to(DEFAULT_REPAIR_ROOT).as_posix()
+        if name.startswith(EXCLUDED_REPAIR_PREFIXES):
+            continue
+        repair_files[name] = path
     if not repair_files:
         print('native 修复目录为空', file=sys.stderr)
         return 1
