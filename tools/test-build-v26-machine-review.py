@@ -176,9 +176,11 @@ class FrontendEmptyClassificationTests(unittest.TestCase):
         self.assertEqual(survive["component"], "engine_runtime_i18n_official")
         self.assertEqual(survive["review_status"], "official-source-verified")
         variable = next(row for row in engine if row["japanese_or_source_original"] == "ヴァリアブル")
-        self.assertEqual(variable["current_cn"], "Variable")
+        self.assertEqual(variable["current_cn"], "全属性克制")
         self.assertEqual(variable["component"], "engine_runtime_i18n_wiki")
-        self.assertEqual(variable["review_status"], "authority-retained-formal-mechanic")
+        self.assertEqual(variable["review_status"], "accepted-released-artifact-exact")
+        self.assertEqual(variable["source_batch"], "ENGINE-ACCEPTED-RELEASE-VARIABLE")
+        self.assertIn("engine_reviewed_successors_20260908/registry.json", variable["evidence_path_or_key"])
 
     def test_final_root_engine_sidecar_exact_binding(self) -> None:
         payload = MODULE.read_json(MODULE.ENGINE_FINAL_ROOT_REVIEW)

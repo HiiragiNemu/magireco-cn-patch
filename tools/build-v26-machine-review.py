@@ -20,6 +20,8 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
+from pass18_engine_successors import read_engine_contract
+
 
 PRODUCT = Path(__file__).resolve().parent.parent
 ROOT = PRODUCT.parents[1]
@@ -773,6 +775,12 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
         )
 
     engine = PRODUCT / "madomagi" / "engine_i18n.tsv"
+    engine_successor_contract = read_engine_contract(PRODUCT, engine.read_bytes())
+    if not engine_successor_contract.valid:
+        raise AssertionError(
+            "engine reviewed-successor contract invalid: "
+            + "; ".join(engine_successor_contract.errors)
+        )
     official_additions = {row["source_text"]: row for row in read_tsv(ENGINE_OFFICIAL)}
     selected_additions = {row["source_text"]: row for row in read_tsv(SCREENSHOT_ENGINE)}
     ap_recovery = read_json(AP_RECOVERY_ENGINE)
@@ -916,6 +924,9 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
                 if final_root["semantic_verdict"] == "correction-proposed"
                 else final_root["before_cn"]
             )
+            expected_root_cn = engine_successor_contract.expected_target(
+                ja, expected_root_cn
+            )
             if ja not in native_official_by_source and cn != expected_root_cn:
                 raise AssertionError(
                     f"final root review target drift at line {physical_line}: "
@@ -1051,25 +1062,47 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
             notes = reviewed["notes"]
         elif ja in formal_engine_by_source:
             retained = formal_engine_by_source[ja]
-            if cn != retained["selected_cn"]:
+            successor = engine_successor_contract.successor_for(ja)
+            expected_cn = (
+                successor["authorizedExact"] if successor else retained["selected_cn"]
+            )
+            if cn != expected_cn:
                 raise AssertionError(
-                    f"formal engine mechanism drift: {ja!r}: {cn!r} != {retained['selected_cn']!r}"
+                    f"formal engine mechanism/successor drift: {ja!r}: {cn!r} != {expected_cn!r}"
                 )
             component = "engine_runtime_i18n_wiki"
             provenance_class = retained["source_tier"]
-            source_stage = "retained-formal-mechanisms"
-            source_batch = retained["stable_key"]
-            source_author = "HiiragiNemu Wiki contributors"
-            machine = "false"
-            confidence = "exact-wiki-source-key"
             authority_tier = retained["source_tier"]
             authority_match = cn
-            authority_status = retained["status"]
-            issue_type = "wiki_formal_mechanism_retained"
             suggestion = cn
-            manual_status = retained["status"]
-            evidence = f"{relative_display(RETAINED_FORMAL_MECHANISMS)}#{retained['stable_key']};{retained['evidence']}"
-            notes = "正式机制名按 Wiki 同源键保留；中文语义释义不替换正式标签。"
+            machine = "false"
+            source_author = "HiiragiNemu Wiki contributors; exact successor sealed by accepted released artifact"
+            if successor:
+                source_stage = "engine-reviewed-successor-20260908"
+                source_batch = successor["successorId"]
+                confidence = "accepted-released-artifact-exact"
+                authority_status = "accepted-released-artifact-exact"
+                issue_type = "wiki_formal_mechanism_registered_successor"
+                manual_status = "accepted-released-artifact-exact"
+                evidence = (
+                    "magica/i18n_audit/release_v26_authority/"
+                    "engine_reviewed_successors_20260908/registry.json#"
+                    + successor["successorId"]
+                    + f";historical={retained['selected_cn']};{retained['evidence']}"
+                )
+                notes = (
+                    "历史 Wiki 机制身份保留；产品目标已由封存的 accepted-release "
+                    "successor 精确替代，禁止保护表把它回滚到旧值。"
+                )
+            else:
+                source_stage = "retained-formal-mechanisms"
+                source_batch = retained["stable_key"]
+                confidence = "exact-wiki-source-key"
+                authority_status = retained["status"]
+                issue_type = "wiki_formal_mechanism_retained"
+                manual_status = retained["status"]
+                evidence = f"{relative_display(RETAINED_FORMAL_MECHANISMS)}#{retained['stable_key']};{retained['evidence']}"
+                notes = "正式机制名按 Wiki 同源键保留；中文语义释义不替换正式标签。"
         elif ja in selected_additions:
             selected = selected_additions[ja]
             if cn != selected["current_cn"]:

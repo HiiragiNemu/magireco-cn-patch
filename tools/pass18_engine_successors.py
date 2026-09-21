@@ -28,11 +28,16 @@ def table(raw):
  return rows,len(lines)
 class EngineContract:
  def __init__(self):
-  self.errors=[];self.valid=False;self.official_row=None;self.official_target=None
+  self.errors=[];self.valid=False;self.official_row=None;self.official_target=None;self.successors={}
   self.report={'schema':'totentanz-pass18-engine-reviewed-contract-result/v1','valid':False,'historical_data_rows':621,'historical_physical_lines':622,'failures':self.errors}
  def official_expected(self,row):
   if self.valid and row==self.official_row:return self.official_target
   return row.get('current_cn','')
+ def successor_for(self,source):
+  return self.successors.get(source) if self.valid else None
+ def expected_target(self,source,fallback):
+  row=self.successor_for(source)
+  return row['authorizedExact'] if row else fallback
 def read_engine_contract(root:Path,current_raw:bytes)->EngineContract:
  out=EngineContract()
  try:
@@ -100,6 +105,6 @@ def read_engine_contract(root:Path,current_raw:bytes)->EngineContract:
   historical_failures=[{'source':s,'historicalExpected':hist[s],'authorizedExpected':successors[s]['authorizedExact'] if s in successors else hist[s],'actual':current.get(s)} for s in hist if current.get(s)!=(successors[s]['authorizedExact'] if s in successors else hist[s])]
   if historical_failures:out.errors.append('historical 621 source identities/authorized exact targets differ: '+str(len(historical_failures)))
   out.report.update({'registry':REGISTRY,'registry_sha256':REGISTRY_SHA256,'historical_commit':HISTORICAL_COMMIT,'accepted_commit':RELEASED_COMMIT,'accepted_source_sha256':RELEASED_SHA256,'accepted_data_rows':len(accepted),'accepted_physical_lines':al,'historical_retained_identities':len(hist),'historical_unchanged_targets':619,'historical_registered_target_successors':2,'registered_added_sources':len(added),'missing_registered_sources':missing,'unregistered_sources':extra,'target_drift':drift,'historical_identity_failures':historical_failures,'official_reviewed_successor_matches':1 if not out.errors else 0,'registered_successor_ids':[r['successorId'] for r in reg['historicalTargetSuccessors']],'authority_scope':reg['acceptance']['scope']})
-  out.official_row=off['historicalOfficialRow'];out.official_target=off['authorizedExact'];out.valid=not out.errors;out.report['valid']=out.valid
+  out.official_row=off['historicalOfficialRow'];out.official_target=off['authorizedExact'];out.successors={k:dict(v) for k,v in successors.items()};out.valid=not out.errors;out.report['valid']=out.valid
  except (OSError,ValueError,KeyError,TypeError,IndexError,UnicodeError) as exc:out.errors.append('engine reviewed contract invalid: '+str(exc))
  return out
