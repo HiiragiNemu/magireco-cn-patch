@@ -38,14 +38,23 @@ if "ignore legacy US/JP base64 carriers" not in base:
     problems.append("fontDataGet 没有明确进入 CN 固定字体模式")
 
 
-# 使用链也必须正确：普通 UI 继承 body 的 koruri/motoya（两者都落 TTZhiHei）；
-# 剧情/对白 .serifFont 必须优先 mbm/MagiReco CN Medium，绝不能再把 koruri 放首位。
+# WebView 不是 ADV 渲染器：普通页面、角色页、记忆结晶、主页气泡、活动 UI 等
+# 一律使用 TTZhiHei。真正 ADV/剧情由 native Story* / RaidScrollView 语义路由
+# 到 TTDaYuan；不能再把通用 .serifFont 误当成“剧情”。
 if not re.search(r"body\s*\{[^}]*font-family\s*:\s*koruri\s*,\s*motoya\s*,\s*sans-serif", common, re.I | re.S):
     problems.append("body 普通 UI 字体链漂移：必须是 koruri,motoya,sans-serif")
-if not re.search(r"\.serifFont\s*\{[^}]*font-family\s*:\s*mbm\s*,\s*[\"']MagiReco CN Medium[\"']\s*,\s*sans-serif", common, re.I | re.S):
-    problems.append("serifFont 剧情字体链漂移：必须优先 mbm / MagiReco CN Medium")
-if re.search(r"\.serifFont\s*\{[^}]*font-family\s*:\s*koruri\b", common, re.I | re.S):
-    problems.append("serifFont 仍把 koruri 放在首位，会把剧情错误路由到 TTZhiHei")
+if not re.search(r"\.serifFont\s*\{[^}]*font-family\s*:\s*koruri\s*,\s*motoya\s*,\s*sans-serif", common, re.I | re.S):
+    problems.append("serifFont 是通用 Web UI 类，必须走 koruri/motoya -> TTZhiHei")
+
+css_root = root / "magica/css"
+for css_path in css_root.rglob("*.css"):
+    if css_path.name == "fonts.css":
+        continue
+    css_text = css_path.read_text(encoding="utf-8")
+    if re.search(r"font-family\s*:[^;}]*\bmbm\b", css_text, re.I):
+        problems.append(f"普通 Web CSS 仍直接选择 mbm/TTDaYuan: {css_path.relative_to(root)}")
+    if "MagiReco CN Medium" in css_text:
+        problems.append(f"普通 Web CSS 仍直接选择 MagiReco CN Medium/TTDaYuan: {css_path.relative_to(root)}")
 
 for name in ("TTZhiHeiGB3-W4.ttf", "TTDaYuanGB3.ttf"):
     p = root / "magica/fonts" / name

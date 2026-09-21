@@ -1,7 +1,7 @@
-/* 国服 Web 字体唯一入口。
-   普通 UI：koruri / motoya -> TTZhiHeiGB3-W4
-   剧情/ADV：mbm / MagiReco CN Medium -> TTDaYuanGB3
-   native fontDataGet 已禁用 US/JP base64 字体注入；四个 legacy family 均只走这份国服路由。 */
+/* 国服字体载体。
+   WebView/普通 UI：koruri / motoya -> TTZhiHeiGB3-W4。
+   TTDaYuan 只给真正 ADV/剧情语义使用；当前 Web 产品 CSS 不得把 mbm /
+   MagiReco CN Medium 用作普通 UI。native fontDataGet 的 US/JP base64 注入已关闭。 */
 @font-face{font-family:koruri;src:url(/magica/fonts/TTZhiHeiGB3-W4.ttf) format("truetype");font-style:normal;font-weight:400;}
 @font-face{font-family:motoya;src:url(/magica/fonts/TTZhiHeiGB3-W4.ttf) format("truetype");font-style:normal;font-weight:400;}
 @font-face{font-family:mbm;src:url(/magica/fonts/TTDaYuanGB3.ttf) format("truetype");font-style:normal;font-weight:400;}
