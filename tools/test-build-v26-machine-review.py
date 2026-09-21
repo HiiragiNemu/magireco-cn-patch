@@ -181,6 +181,22 @@ class FrontendEmptyClassificationTests(unittest.TestCase):
         self.assertEqual(variable["review_status"], "accepted-released-artifact-exact")
         self.assertEqual(variable["source_batch"], "ENGINE-ACCEPTED-RELEASE-VARIABLE")
         self.assertIn("engine_reviewed_successors_20260908/registry.json", variable["evidence_path_or_key"])
+        reviewed_skill = next(
+            row for row in engine
+            if row["japanese_or_source_original"]
+            == "Critical Hit Chance [IV] / ATK UP [II] / Negate Charm"
+        )
+        self.assertEqual(
+            reviewed_skill["current_cn"],
+            "概率暴击[Ⅳ] & 攻击力提升[Ⅱ] & 必定魅惑无效",
+        )
+        self.assertEqual(reviewed_skill["component"], "engine_runtime_i18n_official")
+        self.assertEqual(reviewed_skill["review_status"], "reviewed-successor-verified")
+        self.assertEqual(reviewed_skill["source_batch"], "ENG-P18-004-V42-SRC-0593")
+        self.assertIn(
+            "engine_reviewed_successors_20260908/registry.json",
+            reviewed_skill["evidence_path_or_key"],
+        )
 
     def test_final_root_engine_sidecar_exact_binding(self) -> None:
         payload = MODULE.read_json(MODULE.ENGINE_FINAL_ROOT_REVIEW)

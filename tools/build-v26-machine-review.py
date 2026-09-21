@@ -935,28 +935,52 @@ def append_migrated_i18n_and_engine(master: list[dict[str, str]]) -> dict[str, i
 
         official = official_additions.get(ja)
         if official:
-            if cn != official["current_cn"]:
+            successor = engine_successor_contract.successor_for(ja)
+            expected_cn = engine_successor_contract.expected_target(
+                ja, official["current_cn"]
+            )
+            if cn != expected_cn:
                 raise AssertionError(
-                    f"engine official entry drift: {ja!r}: {cn!r} != {official['current_cn']!r}"
+                    f"engine official/successor entry drift: {ja!r}: {cn!r} != {expected_cn!r}"
                 )
             component = "engine_runtime_i18n_official"
             provenance_class = official["source_tier"]
-            source_stage = "pass18_engine_official_additions"
-            source_batch = "official-cn-engine-authority"
-            source_author = "official CN game data; adoption recorded by HiiragiNemu"
             machine = official["is_machine_translation"]
-            confidence = official["confidence"]
             authority_tier = official["source_tier"]
             authority_match = cn
-            authority_status = "official-source-verified"
-            issue_type = "official_engine_translation"
             suggestion = cn
-            manual_status = official["manual_review_status"]
-            evidence = (
-                f"{relative_display(ENGINE_OFFICIAL)}#{official['entry_id']};"
-                f"{official['evidence_path_or_key']};sha256={official['source_sha256']}"
-            )
-            notes = official["notes"]
+            if successor:
+                source_stage = "engine-reviewed-successor-20260908"
+                source_batch = successor["successorId"]
+                source_author = "official CN component evidence; exact full-source successor sealed by reviewed stable binding"
+                confidence = "reviewed-exact-stable-source-successor"
+                authority_status = "reviewed-successor-verified"
+                issue_type = "official_component_reviewed_full_source_successor"
+                manual_status = "reviewed-successor-verified"
+                evidence = (
+                    "magica/i18n_audit/release_v26_authority/"
+                    "engine_reviewed_successors_20260908/registry.json#"
+                    + successor["successorId"]
+                    + f";historical={official['current_cn']};"
+                    + f"{official['evidence_path_or_key']};sha256={official['source_sha256']}"
+                )
+                notes = (
+                    "旧 Pass18 official-component 拼接值由 V42 精确稳定源 successor "
+                    "替代；保留原官方组件证据，不冒充官方同 ID 完整字符串。"
+                )
+            else:
+                source_stage = "pass18_engine_official_additions"
+                source_batch = "official-cn-engine-authority"
+                source_author = "official CN game data; adoption recorded by HiiragiNemu"
+                confidence = official["confidence"]
+                authority_status = "official-source-verified"
+                issue_type = "official_engine_translation"
+                manual_status = official["manual_review_status"]
+                evidence = (
+                    f"{relative_display(ENGINE_OFFICIAL)}#{official['entry_id']};"
+                    f"{official['evidence_path_or_key']};sha256={official['source_sha256']}"
+                )
+                notes = official["notes"]
         elif ja in native_official_by_source:
             reviewed = native_official_by_source[ja]
             if cn != reviewed["selected_cn"]:
