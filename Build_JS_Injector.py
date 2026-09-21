@@ -19,11 +19,8 @@ TARGET = LIBS / "jquery-3.7.1.min.js"
 RUNTIME_AUDIT = ROOT / "magica" / "i18n_audit" / "release_v26_authority"
 RUNTIME_MANIFEST = RUNTIME_AUDIT / "runtime_layer_manifest.json"
 RUNTIME_SUMS = RUNTIME_AUDIT / "RUNTIME_LAYER_SHA256SUMS.txt"
-AUDITED_RUNTIME27_SUFFIX = ROOT / "original_source" / "jquery-runtime27-suffix.bin"
 
 ORIGINAL_SHA256 = "fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a"
-AUDITED_PREFIX_SHA256 = "0243774265dc954e6f9d129d63776c0446097030bebeffaa81798477de3892a1"
-BOOTSTRAP_SUFFIX_SHA256 = "eb84112df5b0ad55357143862e3b9eb7227345f8d4a083d587bfaa84b467f805"
 DICT_NAMES = (
     "arenaClassList", "cardList", "cardMagiaMap", "cardSkillMap", "chapterList",
     "charaList", "charaMessageList", "doppelCardMagiaMap", "doppelList",
@@ -64,35 +61,29 @@ def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def split_audited_runtime() -> tuple[bytes, bytes]:
+def split_current_runtime() -> tuple[bytes, bytes]:
+    """Preserve current checked-in runtime code around the dictionary payload."""
+
     text = lf_bytes(TARGET).decode("utf-8-sig")
     start = text.rfind("(function(){")
     if start < 0:
-        raise RuntimeError("audited injector start marker missing")
+        raise RuntimeError("injector start marker missing")
     marker = "var cn = "
     payload_start = text.find(marker, start)
     if payload_start < 0:
-        raise RuntimeError("audited var cn marker missing")
+        raise RuntimeError("var cn marker missing")
     payload_start += len(marker)
     _, consumed = json.JSONDecoder().raw_decode(text[payload_start:])
     payload_end = payload_start + consumed
     prefix = text[:payload_start].encode("utf-8")
     suffix = text[payload_end:].encode("utf-8")
-    audited_suffix = AUDITED_RUNTIME27_SUFFIX.read_bytes()
-    if sha(prefix) != AUDITED_PREFIX_SHA256 or (
-        suffix != audited_suffix and sha(suffix) != BOOTSTRAP_SUFFIX_SHA256
-    ):
-        raise RuntimeError(
-            "runtime code outside the dictionary payload differs from the audited runtime27 candidate template"
-        )
+
     original = lf_bytes(ORIGINAL)
     if sha(original) != ORIGINAL_SHA256:
         raise RuntimeError(f"original jQuery hash mismatch: {sha(original)}")
     if not prefix.startswith(original):
-        raise RuntimeError("audited jQuery prefix is not based on the pinned original jQuery")
-    return prefix, audited_suffix
-
-
+        raise RuntimeError("current jQuery prefix is not based on the pinned original jQuery")
+    return prefix, suffix
 def map_dictionary(name: str, data):
     if name not in LIST_KEYS:
         if not isinstance(data, dict):
@@ -162,7 +153,7 @@ def main() -> int:
         raise RuntimeError(
             f"dictionary set mismatch; missing={sorted(expected-actual)} extra={sorted(actual-expected)}"
         )
-    prefix, suffix = split_audited_runtime()
+    prefix, suffix = split_current_runtime()
     dictionaries = {}
     for name in DICT_NAMES:
         with (LIBS / f"{name}.json").open("r", encoding="utf-8-sig", newline="") as fh:

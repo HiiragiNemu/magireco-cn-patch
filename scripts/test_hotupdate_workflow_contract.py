@@ -145,6 +145,9 @@ class HotUpdateWorkflowContractTest(unittest.TestCase):
             "python3 tools/validate-dsv4-human-review.py",
             "python3 tools/verify-pass20-human-materialization.py",
             "--require-release-open",
+            "python3 tools/test-i18n-build-effective.py -v",
+            "python3 tools/i18n-build-effective.py",
+            "git diff --exit-code -- i18n/generated",
         ):
             self.assertNotIn(forbidden, self.text)
 

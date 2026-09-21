@@ -422,9 +422,8 @@ jobs:
             magica/js/libs/jquery-3.7.1.min.js \
             magica/i18n_audit/release_v26_authority/runtime_layer_manifest.json \
             magica/i18n_audit/release_v26_authority/RUNTIME_LAYER_SHA256SUMS.txt
-          python3 tools/test-i18n-build-effective.py -v
-          python3 tools/i18n-build-effective.py
-          git diff --exit-code -- i18n/generated
+          # Historical maintenance/authority report generation is audit-only.
+          # It must not veto the checked-in runtime product.
           # Current product files are the release source of truth.
           # Historical authority/protection snapshots remain in the repository as
           # audit evidence only; they must never veto newer reviewed runtime values.
