@@ -12,8 +12,8 @@ common = (root / "magica/css/_common/common.css").read_text(encoding="utf-8")
 expected = {
     "koruri": "TTZhiHeiGB3-W4.ttf",
     "motoya": "TTZhiHeiGB3-W4.ttf",
-    "mbm": "TTDaYuanGB3.ttf",
-    "MagiReco CN Medium": "TTDaYuanGB3.ttf",
+    "mbm": "TTZhiHeiGB3-W4.ttf",
+    "MagiReco CN Medium": "TTZhiHeiGB3-W4.ttf",
 }
 problems = []
 for family, filename in expected.items():
@@ -40,7 +40,8 @@ if "ignore legacy US/JP base64 carriers" not in base:
 
 # WebView 不是 ADV 渲染器：普通页面、角色页、记忆结晶、主页气泡、活动 UI 等
 # 一律使用 TTZhiHei。真正 ADV/剧情由 native Story* / RaidScrollView 语义路由
-# 到 TTDaYuan；不能再把通用 .serifFont 误当成“剧情”。
+# 到 TTDaYuan。为防未来 CSS/JS 再引入旧 family，Web 层四个 legacy family 本身
+# 也全部绑定 TTZhiHei，而不是只依赖当前 selector 恰好不使用 mbm。
 if not re.search(r"body\s*\{[^}]*font-family\s*:\s*koruri\s*,\s*motoya\s*,\s*sans-serif", common, re.I | re.S):
     problems.append("body 普通 UI 字体链漂移：必须是 koruri,motoya,sans-serif")
 if not re.search(r"\.serifFont\s*\{[^}]*font-family\s*:\s*koruri\s*,\s*motoya\s*,\s*sans-serif", common, re.I | re.S):
@@ -56,6 +57,9 @@ for css_path in css_root.rglob("*.css"):
     if "MagiReco CN Medium" in css_text:
         problems.append(f"普通 Web CSS 仍直接选择 MagiReco CN Medium/TTDaYuan: {css_path.relative_to(root)}")
 
+if "TTDaYuanGB3.ttf" in css:
+    problems.append("Web fonts.css 仍引用 TTDaYuan；ADV 大圆体只能由 native 语义路由")
+
 for name in ("TTZhiHeiGB3-W4.ttf", "TTDaYuanGB3.ttf"):
     p = root / "magica/fonts" / name
     if not p.is_file():
@@ -67,4 +71,4 @@ if problems:
         print("  ✗ " + p, file=sys.stderr)
     raise SystemExit(1)
 
-print("Web 字体路由已封闭：UI=TTZhiHei；剧情/ADV=TTDaYuan；legacy base64 字体注入已禁用。")
+print("Web 字体路由已封闭：四个 legacy Web family 全部=TTZhiHei；ADV/剧情 TTDaYuan 仅由 native 语义路由；legacy base64 注入已禁用。")

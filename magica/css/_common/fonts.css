@@ -1,8 +1,9 @@
-/* 国服字体载体。
-   WebView/普通 UI：koruri / motoya -> TTZhiHeiGB3-W4。
-   TTDaYuan 只给真正 ADV/剧情语义使用；当前 Web 产品 CSS 不得把 mbm /
-   MagiReco CN Medium 用作普通 UI。native fontDataGet 的 US/JP base64 注入已关闭。 */
+/* 国服 WebView 字体唯一入口。
+   WebView 中不存在真正 ADV 排版：所有 legacy family 都收敛到 TTZhiHeiGB3-W4。
+   真正 ADV/剧情字体由 native StoryMessage/StoryNarration/StoryLog 等语义路由到
+   TTDaYuanGB3；Web CSS 不再保留任何会把普通 UI 误送到大圆体的入口。
+   native fontDataGet 的 US/JP base64 动态字体注入也已关闭。 */
 @font-face{font-family:koruri;src:url(/magica/fonts/TTZhiHeiGB3-W4.ttf) format("truetype");font-style:normal;font-weight:400;}
 @font-face{font-family:motoya;src:url(/magica/fonts/TTZhiHeiGB3-W4.ttf) format("truetype");font-style:normal;font-weight:400;}
-@font-face{font-family:mbm;src:url(/magica/fonts/TTDaYuanGB3.ttf) format("truetype");font-style:normal;font-weight:400;}
-@font-face{font-family:"MagiReco CN Medium";src:url(/magica/fonts/TTDaYuanGB3.ttf) format("truetype");font-style:normal;font-weight:500;}
+@font-face{font-family:mbm;src:url(/magica/fonts/TTZhiHeiGB3-W4.ttf) format("truetype");font-style:normal;font-weight:400;}
+@font-face{font-family:"MagiReco CN Medium";src:url(/magica/fonts/TTZhiHeiGB3-W4.ttf) format("truetype");font-style:normal;font-weight:500;}

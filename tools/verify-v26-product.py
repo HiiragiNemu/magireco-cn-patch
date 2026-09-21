@@ -563,9 +563,12 @@ def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
         "structured JS error record drift"
     )
     assert base.count('schema:"MagiaCNClientError/v2"') == 1
-    assert base.count('var target=repeated?"#/TopPage":route;') == 1, (
-        "first-error current-route recovery drift"
-    )
+    assert base.count(
+        'var transientResultRoute=/^#\\/GachaResult(?:[/?]|$)/.test(route);'
+    ) == 1, "GachaResult transient-route recovery drift"
+    assert base.count(
+        'var target=repeated?"#/TopPage":(transientResultRoute?"#/GachaTop":route);'
+    ) == 1, "JS error recovery target drift"
     assert base.count(
         'if(command&&typeof command.setWebView==="function")command.setWebView(true);'
     ) == 1, "JS error WebView visibility recovery drift"
@@ -587,6 +590,7 @@ def verify_runtime_network_resilience(root: Path = ROOT) -> dict[str, object]:
         "status_zero_error_forces_webview_visible": True,
         "release_info_remains_server_dynamic": True,
         "first_js_error_reloads_current_route": True,
+        "gacha_result_error_falls_back_to_gacha_top": True,
         "repeated_same_js_error_falls_back_to_top_page": True,
         "structured_js_error_record": "MagiaCNClientError/v2",
     }
