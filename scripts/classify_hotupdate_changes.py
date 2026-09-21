@@ -47,8 +47,6 @@ def classify(paths: Iterable[str], scope: str = "auto") -> Classification:
     has_scenario = False
     for raw_path in paths:
         path = raw_path.rstrip("\r\n")
-        if path.startswith("madomagi/resource/image_native/memoria/"):
-            continue
         if not path:
             continue
         # The workflow emits this fail-closed sentinel when the comparison

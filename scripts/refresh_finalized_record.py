@@ -10,7 +10,6 @@ REPO = 'HiiragiNemu/magireco-cn-patch'
 NAMES = ['cn_js_update.zip', 'cn_scenario_update.zip',
          'cn_js_update_manifest.json', 'cn_scenario_update_manifest.json',
          'manifest.json', 'version_js.json', 'version_scenario.json']
-EXCLUDED = 'madomagi/resource/image_native/memoria/'
 
 
 def record(previous, release, payload, source_commit):
@@ -37,8 +36,6 @@ def record(previous, release, payload, source_commit):
                 and version['size'] == manifest['zip_size'] == files[f'cn_{scope}_update.zip']['bytes']
                 and version['md5'] == manifest['zip_md5']):
             raise ValueError('Version / ZIP / manifest mismatch: ' + scope)
-        if any(n.startswith(EXCLUDED) for n in manifest['files']):
-            raise ValueError('Memoria is excluded')
     if files == previous['files']:
         return previous
     if not re.fullmatch(r'[0-9a-f]{40}', source_commit):

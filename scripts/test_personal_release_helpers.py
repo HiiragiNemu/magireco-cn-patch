@@ -5,7 +5,7 @@ import tempfile
 import unittest
 import zipfile
 from reuse_unchanged_package import reuse, content_digest
-from refresh_finalized_record import record, NAMES, EXCLUDED
+from refresh_finalized_record import record, NAMES
 
 
 class Helpers(unittest.TestCase):
@@ -43,11 +43,6 @@ class Helpers(unittest.TestCase):
             self.assertEqual(record(new,release,root,'b'*40),new)
             with self.assertRaises(ValueError): record(dict(previous,publication_hold=True),release,root,'a'*40)
             with self.assertRaises(ValueError): record(previous,dict(release,tag_name='other'),root,'a'*40)
-            name='cn_js_update_manifest.json'; obj=objects[name]; obj['files'][EXCLUDED+'wrong.png']={}
-            body=json.dumps(obj).encode();(root/name).write_bytes(body)
-            for a in release['assets']:
-                if a['name']==name:a.update(size=len(body),digest='sha256:'+hashlib.sha256(body).hexdigest())
-            with self.assertRaises(ValueError): record(previous,release,root,'a'*40)
 
 
 if __name__ == '__main__': unittest.main(verbosity=2)
