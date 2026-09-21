@@ -409,6 +409,7 @@ jobs:
 
       - name: "[JS] 打包 cn_js_update_new.zip"
         run: |
+          python3 scripts/check_web_font_routing.py
           pip3 install requests 2>/dev/null || true
           python3 Build_JS_Injector.py
           FIRST_RUNTIME_SHA=$(sha256sum magica/js/libs/jquery-3.7.1.min.js | cut -d' ' -f1)

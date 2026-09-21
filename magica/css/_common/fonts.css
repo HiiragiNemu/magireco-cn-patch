@@ -1,6 +1,8 @@
-/* 国服双字体路由：普通 Web/UI 沿用 koruri 族名，但载体用 TTZhiHeiGB3-W4。
-   这是旧国服/既有架构证据中的 UI 字体；字体文件本身使用 2026-09-19 补字形版。 */
-@font-face{font-family:koruri;src:url(/magica/fonts/TTZhiHeiGB3-W4.ttf) format("truetype")}
-
-/* ADV/剧情/选择对白继续使用大圆体。 */
+/* 国服 Web 字体唯一入口。
+   普通 UI：koruri / motoya -> TTZhiHeiGB3-W4
+   剧情/ADV：mbm / MagiReco CN Medium -> TTDaYuanGB3
+   禁止再由 native fontDataGet 注入 US/JP base64 字体覆盖这些规则。 */
+@font-face{font-family:koruri;src:url(/magica/fonts/TTZhiHeiGB3-W4.ttf) format("truetype");font-style:normal;font-weight:400;}
+@font-face{font-family:motoya;src:url(/magica/fonts/TTZhiHeiGB3-W4.ttf) format("truetype");font-style:normal;font-weight:400;}
+@font-face{font-family:mbm;src:url(/magica/fonts/TTDaYuanGB3.ttf) format("truetype");font-style:normal;font-weight:400;}
 @font-face{font-family:"MagiReco CN Medium";src:url(/magica/fonts/TTDaYuanGB3.ttf) format("truetype");font-style:normal;font-weight:500;}
