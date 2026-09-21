@@ -222,18 +222,37 @@ jobs:
           git commit -m "release: publish verified client ${APK_VERSION} [skip ci]"
           git push origin HEAD:main
 
-      - name: Verify live config
+      - name: Verify live config after propagation
         run: |
           set -euo pipefail
           python3 - <<'PY'
           import json,os,time,urllib.request
-          url=os.environ['PAGES_BASE']+'/legacy/config.json?verify='+str(time.time_ns())
-          req=urllib.request.Request(url,headers={'User-Agent':'MadeInMagius-Client-Gate-Verify','Accept-Encoding':'identity'})
-          with urllib.request.urlopen(req,timeout=60) as r:
-              cfg=json.loads(r.read().decode())
-          c=cfg['client']
-          assert c['version'] == os.environ['APK_VERSION'], c
-          assert c['sha256'] == os.environ['APK_SHA256'], c
-          assert int(c['size']) == int(os.environ['APK_SIZE']), c
-          print('live client gate verified',c['version'])
+          want_version=os.environ['APK_VERSION']
+          want_sha=os.environ['APK_SHA256']
+          want_size=int(os.environ['APK_SIZE'])
+          last=None
+          for attempt in range(1,13):
+              url=os.environ['PAGES_BASE']+'/legacy/config.json?verify='+str(time.time_ns())
+              try:
+                  req=urllib.request.Request(url,headers={
+                      'User-Agent':'MadeInMagius-Client-Gate-Verify',
+                      'Accept-Encoding':'identity',
+                      'Cache-Control':'no-cache',
+                  })
+                  with urllib.request.urlopen(req,timeout=30) as r:
+                      cfg=json.loads(r.read().decode())
+                  c=cfg['client']
+                  last=c
+                  if (c.get('version') == want_version
+                          and c.get('sha256') == want_sha
+                          and int(c.get('size',-1)) == want_size):
+                      print('live client gate verified',c['version'],'attempt',attempt)
+                      break
+                  print('live config propagation pending',attempt,c)
+              except Exception as e:
+                  last=repr(e)
+                  print('live config read pending',attempt,repr(e))
+              if attempt == 12:
+                  raise SystemExit('live config did not converge within 60s: '+repr(last))
+              time.sleep(5)
           PY
