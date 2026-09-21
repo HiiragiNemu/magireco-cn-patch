@@ -1,0 +1,29 @@
+name: Dispatch client 1.0.181 once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/dispatch-client-181-once.yml'
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger verified client build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh workflow run build-personal-client.yml \
+            --repo "${GITHUB_REPOSITORY}" \
+            --ref main \
+            -f source_sha=45e4bba06c2ab99d856595c2d27e3d673bfc70ec \
+            -f client_version=1.0.181 \
+            -f engine=self \
+            -f debug_overlay=false
