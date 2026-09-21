@@ -172,12 +172,16 @@ jobs:
         \ f in \"${TREE}\"/lib/*/libbacktrace-native.so \"${TREE}\"/lib/*/libcrashpad_handler.so; do\n  if [ -e\
         \ \"$f\" ]; then echo \"::error::$f 删除失败\"; exit 1; fi\ndone\necho \"已剔除 4 枚死库（双 ABI × backtrace-native/crashpad_handler）\"\
         \n"
+    - name: 📁 加入手动文件访问权限入口
+      run: python3 tools/enable-storage-access.py --self-test --tree "${TREE}"
     - name: 🔤 校验字体基线与重定向目标
       run: python3 tools/check-fonts.py --tree "${TREE}"
     - name: 🧪 1.0.178 本地状态 / 媒体默认回归
       run: node tools/localstate-js-test.js
     - name: 🧪 下载页布局契约
-      run: python3 tools/check-download-ui-contract.py
+      run: |
+        python3 tools/check-download-ui-contract.py
+        python3 tools/test-download-presentation.py
     - name: 🕸 核对 WebView 拦截链的假设
       run: python3 tools/check-webview-interceptor.py
     - name: 🔀 核对代理钩子的启用状态与注释一致
