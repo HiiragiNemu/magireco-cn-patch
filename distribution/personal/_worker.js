@@ -9,6 +9,7 @@ const ASSETS = new Set([
 "cn_scenario_img.zip","cn_scenario_update.zip","cn_scenario_update_manifest.json",
 "cn_voice_01.zip","cn_voice_02_done.zip","magireco-latest-legacy-client.apk",
 "magireco-latest-legacy-client.version.json","manifest.json","movie.zip","movie2.zip",
+"cn_js_delta.zip","cn_js_delta_manifest.json","version_js_delta.json",
 "version_js.json","version_scenario.json"]);
 export function route(path) {
   if (path === "/legacy/config.json") return RAW + "configures/personal-online-config.json";

@@ -305,6 +305,8 @@ jobs:
           fi
           printf '%s\n' "$CHANGED" | python3 scripts/classify_hotupdate_changes.py \
             --scope "$SCOPE" --github-output "$GITHUB_OUTPUT"
+          # Full JS 102 is frozen. New JS/native resource edits publish through package 16.
+          if [ -f configures/js-delta-baseline.json ]; then echo "has_js=0" >> "$GITHUB_OUTPUT"; fi
           mkdir -p _artifacts
 
       # ───────────────────────────────────────────────────────────────

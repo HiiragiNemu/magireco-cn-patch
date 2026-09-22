@@ -130,7 +130,9 @@ jobs:
         echo "必需的构建变量都在（$NEED）"
         python3 tools/check-production-endpoints.py
     - name: 🚧 校验 native 入口保护（异常绝不外泄）
-      run: python3 tools/check-entry-guard.py
+      run: |
+        python3 tools/check-entry-guard.py
+        python3 tools/check-final-flag-parity.py
     - name: 🔒 校验调试开关没伸进安全判据
       run: python3 tools/check-debug-flag-boundary.py
     - name: 🧬 校验基线 patchset 自洽
@@ -308,7 +310,7 @@ jobs:
         \ '*.java')\necho \"编译 ${#SRC[@]} 个补丁源文件\"\njavac -nowarn -source 8 -target 8 -encoding UTF-8 \\\n     \
         \ -cp \"${CP}\" -d .build/classes \\\n      \"${SRC[@]}\" .build/stubs/io/kamihama/magianative/RestClient.java\n\
         \n# d8 撞上「带 this$0 的类」或「implements Comparator<T>」时，只会报一句\n# R8 内部的 NullPointerException，没有行号也没有别的线索。在这里先拦一道，\n\
-        # 把它换成能照着改的话。判据与实测记录见脚本头部。\npython3 tools/check-d8-pitfalls.py .build/classes\npython3 tools/test-optional-client-update.py --classes .build/classes --classpath \"${CP}\"\npython3 tools/test-manual-route.py --classes .build/classes --classpath \"${CP}\"\n\n# ── 分两组出 dex：UI 类进 classes2，其余补丁类进\
+        # 把它换成能照着改的话。判据与实测记录见脚本头部。\npython3 tools/check-d8-pitfalls.py .build/classes\npython3 tools/test-package-routing.py --classes .build/classes --classpath \"${CP}\"\npython3 tools/test-js-delta-install.py --classes .build/classes --classpath \"${CP}\"\npython3 tools/test-optional-client-update.py --classes .build/classes --classpath \"${CP}\"\npython3 tools/test-manual-route.py --classes .build/classes --classpath \"${CP}\"\n\n# ── 分两组出 dex：UI 类进 classes2，其余补丁类进\
         \ classes3 ──\n# 这个划分必须与仓库里 smali_classes2/ 和 smali_classes3/ 的现状一致，\n# 否则同一个类会在两个 dex 里各出现一次。\n#\n# ⚠ 第二组用「排除法」而不是逐个点名。原先是点名的，结果\
         \ CNBgm 加进来\n# 之后没人记得改这一行，它就**两组都不属于**——编译得出 .class，却进不了\n# 任何 dex。而 CNCNDownloadUI.buildOverlay 里有一句没有兜底的\n\
         # CNBgm.trackCount(act)，真机上会抛 NoClassDefFoundError，浮层直接建不\n# 出来。这种「类静默缺席」的错误静态检查一律看不见，只有装到机器上才炸。\n# 排除法保证以后新加的补丁类默认有归属。\n\
