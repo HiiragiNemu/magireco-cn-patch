@@ -1,6 +1,6 @@
 {
   "schema": 16,
-  "updated": "2026-09-22T18:26:43Z",
+  "updated": "2026-09-22T19:52:53.401775+00:00",
   "comment": "Personal release configuration. Canonical installation markers are unchanged. Client gate is set only after the new APK body and signature are verified.",
   "settings": {
     "chunks": 4,
@@ -95,6 +95,14 @@
         "text": "游戏图像资源汉化：汉化 280 个图像，包括 184 个 PNG 和 96 个 .vfxt 特效图像文件。"
       },
       {
+        "type": "sub",
+        "text": "称号名称与解锁条件汉化整合：967 项，共 1,934 个字段。"
+      },
+      {
+        "type": "sub",
+        "text": "剧情逐句校对：复核 264 条独立文本，修正 245 条；含复刻剧情共覆盖 339 处载体，实际修正 313 处。"
+      },
+      {
         "type": "item",
         "text": "CyberNova／PhotonFlow",
         "url": "https://space.bilibili.com/3546962632640645",
@@ -151,8 +159,20 @@
         "text": "国服数据留存。"
       },
       {
+        "type": "item",
+        "text": "魔法纪录中文 Wiki 编辑者"
+      },
+      {
+        "type": "sub",
+        "text": "提供称号译名资料：545 项直接采用，420 项结合现有规范人名与称号格式整理。"
+      },
+      {
         "type": "head",
         "text": "统计说明"
+      },
+      {
+        "type": "sub",
+        "text": "称号单独按 ID 统计，不并入原有前端 1,470 项。现成译文的整合不重复计为个人原创；修订既有剧情、复刻载体和空白内容不重复增加汉化数量。"
       },
       {
         "type": "sub",
@@ -209,7 +229,7 @@
         "span": "madeinmagius-site.pages.dev"
       }
     ],
-    "footer": "MadeInMagius：剧情 344 个；选关对话 735 条；角色语音共 1,588 条（字幕 1,335 条、看板语音 784 条，重合 531 条）；战斗技能 4,209 项；前端界面 1,470 项；图像 280 个（PNG 184 个、.vfxt 96 个）。CyberNova／PhotonFlow：国内加速、现代化下载界面、部分下载技术、Cocos 战斗场景汉化早期技术与美服 API 抓包资源。圆环记录攻略组：剧情 52 个；角色语音共 703 条（字幕 109 条、看板语音 641 条，重合 47 条）；战斗技能 4,114 项。水银 h2oag：剧情 144 个。segfault：国服数据留存。70 个合作剧情分别计入各参与者；国服原有译文不计入个人汉化贡献。",
+    "footer": "MadeInMagius：剧情 344 个；选关对话 735 条；角色语音共 1,588 条（字幕 1,335 条、看板语音 784 条，重合 531 条）；战斗技能 4,209 项；前端界面 1,470 项；图像 280 个（PNG 184 个、.vfxt 96 个）。CyberNova／PhotonFlow：国内加速、现代化下载界面、部分下载技术、Cocos 战斗场景汉化早期技术与美服 API 抓包资源。圆环记录攻略组：剧情 52 个；角色语音共 703 条（字幕 109 条、看板语音 641 条，重合 47 条）；战斗技能 4,114 项。水银 h2oag：剧情 144 个。segfault：国服数据留存。70 个合作剧情分别计入各参与者；国服原有译文不计入个人汉化贡献。 称号汉化整合 967 项（1,934 个字段）；Wiki 现成译名 545 项、规范人名及称号格式整理 420 项、另有 2 项补译。剧情逐句校对 264 条，修正 245 条。",
     "github_url": "https://github.com/HiiragiNemu/magireco-cn-patch",
     "footer_marquee": true
   },
@@ -294,6 +314,36 @@
     "home_voice_field": "textHome",
     "selection_dialogue_field": "sectionList.message",
     "selection_total_scope": "当前发布数据覆盖量；省略号和空白不计入文字汉化贡献。",
-    "counting_rule": "同一语音跨字幕和看板去重；合作剧情分别计入参与者；技能按类型与ID统计；国服原有译文不计入个人汉化贡献。"
+    "counting_rule": "同一语音跨字幕和看板去重；合作剧情分别计入参与者；技能按类型与ID统计；国服原有译文不计入个人汉化贡献。",
+    "updates_20260923": {
+      "as_of": "2026-09-22T19:52:53.401775+00:00",
+      "title_localization": {
+        "records": 967,
+        "fields": 1934,
+        "id_based_not_globally_unique_sentences": true,
+        "name_sources": {
+          "wiki-title-exact": 545,
+          "canonical-character-and-wiki-title-pattern": 420,
+          "reviewed-translation-after-wiki-miss": 2
+        },
+        "newly_added_runtime_keys": 967,
+        "preexisting_runtime_entries_changed": 0,
+        "personal_work": "Translation integration and review; not 967 individually authored original translations",
+        "wiki_work": "545 exact archive names plus format references used by 420 character-derived names",
+        "original_translation_after_source_miss": 2,
+        "keep_separate_from_old_frontend_1470_scope": true
+      },
+      "scenario_proofreading": {
+        "reviewed_unique": 264,
+        "reviewed_carriers": 339,
+        "corrected_unique": 245,
+        "corrected_carriers": 313,
+        "new_story_credit": 0,
+        "new_voice_credit": 0,
+        "publication": "scenario3300"
+      },
+      "no_new_voice_story_skill_image_credit": true,
+      "blank_or_ellipsis_credit": 0
+    }
   }
 }
