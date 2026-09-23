@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import os
+import json
 import subprocess
 import sys
 import tempfile
@@ -113,6 +114,33 @@ class HotUpdateChangeClassificationTest(unittest.TestCase):
 
     def test_empty_change_list_triggers_neither(self):
         self.assert_flags(self.run_cli([]), js=0, scenario=0)
+
+    def test_supplemental_scenario_paths_do_not_rebuild_full_package(self):
+        listed = "madomagi/resource/scenario/json/listed.json"
+        unlisted = "madomagi/resource/scenario/json/unlisted.json"
+        with tempfile.TemporaryDirectory() as raw:
+            config = Path(raw) / "baseline.json"
+            config.write_text(json.dumps({"supplemental_product_paths": [listed]}), encoding="utf-8")
+            extra = ["--delta-baseline", str(config)]
+            cases = [([listed], "auto", 0, 0),
+                     ([listed, "magica/js/app.js"], "auto", 1, 0),
+                     ([listed, unlisted], "auto", 0, 1),
+                     ([listed], "scenario", 0, 1),
+                     ([listed], "all", 1, 1),
+                     (["ALL"], "auto", 1, 1)]
+            for paths, scope, js, scenario in cases:
+                with self.subTest(paths=paths, scope=scope):
+                    self.assert_flags(self.run_cli(paths, scope=scope, extra_args=extra), js, scenario)
+
+    def test_invalid_supplemental_config_is_not_silently_ignored(self):
+        with tempfile.TemporaryDirectory() as raw:
+            config = Path(raw) / "baseline.json"
+            for invalid in ["not-a-list", [None], ["../x.json"],
+                            ["madomagi/resource/scenario/json/../x.json"]]:
+                config.write_text(json.dumps({"supplemental_product_paths": invalid}), encoding="utf-8")
+                proc = self.run_cli([], extra_args=["--delta-baseline", str(config)])
+                self.assertNotEqual(proc.returncode, 0)
+                self.assertIn("invalid supplemental_product_paths", proc.stderr)
 
     def test_diff_failure_sentinel_fails_closed_to_both_packages(self):
         self.assert_flags(self.run_cli(["ALL"]), js=1, scenario=1)

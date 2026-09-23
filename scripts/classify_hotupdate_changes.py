@@ -9,6 +9,7 @@ large runtime package by accident.
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 from pathlib import Path
@@ -31,7 +32,7 @@ class Classification(NamedTuple):
     has_scenario: int
 
 
-def classify(paths: Iterable[str], scope: str = "auto") -> Classification:
+def classify(paths: Iterable[str], scope: str = "auto", supplemental_paths: Iterable[str] = ()) -> Classification:
     """Return package flags for *paths* under the requested manual/auto scope."""
 
     if scope == "js":
@@ -45,6 +46,7 @@ def classify(paths: Iterable[str], scope: str = "auto") -> Classification:
 
     has_js = False
     has_scenario = False
+    supplemental = set(supplemental_paths)
     for raw_path in paths:
         path = raw_path.rstrip("\r\n")
         if not path:
@@ -63,7 +65,7 @@ def classify(paths: Iterable[str], scope: str = "auto") -> Classification:
             or path.startswith(MADOMAGI_REPAIR_PREFIX)
         ):
             has_js = True
-        if path.startswith(SCENARIO_PREFIX):
+        if path.startswith(SCENARIO_PREFIX) and path not in supplemental:
             has_scenario = True
 
     return Classification(has_js=int(has_js), has_scenario=int(has_scenario))
@@ -98,6 +100,11 @@ def parse_args(argv: list[str] | None = None) -> tuple[argparse.Namespace, argpa
         help="auto classifies stdin paths; other values explicitly select packages",
     )
     parser.add_argument(
+        "--delta-baseline",
+        type=Path,
+        help="explicit package-16 scenario paths do not trigger automatic full scenario rebuilds",
+    )
+    parser.add_argument(
         "--github-output",
         nargs="?",
         const="",
@@ -109,7 +116,18 @@ def parse_args(argv: list[str] | None = None) -> tuple[argparse.Namespace, argpa
 
 def main(argv: list[str] | None = None) -> int:
     args, parser = parse_args(argv)
-    result = classify(sys.stdin, scope=args.scope)
+    supplemental = []
+    if args.delta_baseline is not None:
+        config = json.loads(args.delta_baseline.read_text(encoding="utf-8"))
+        supplemental = config.get("supplemental_product_paths", [])
+        if not isinstance(supplemental, list) or any(
+            not isinstance(p, str) or not p.startswith(SCENARIO_PREFIX) or not p.endswith(".json")
+            or "\\" in p or ":" in p or any(ord(c) < 32 for c in p)
+            or any(part in ("", ".", "..") for part in p.split("/"))
+            for p in supplemental
+        ):
+            parser.error("invalid supplemental_product_paths in delta baseline")
+    result = classify(sys.stdin, scope=args.scope, supplemental_paths=supplemental)
     payload = format_outputs(result)
     sys.stdout.write(payload)
 

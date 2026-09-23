@@ -288,8 +288,7 @@ jobs:
           # 而不是只看最后一个 commit——否则上游一次推多个 commit 时，
           # 只有 HEAD 那个 commit 的文件会被检测到，其余全部漏掉。
           # PRE_SYNC_SHA 为空说明本次没有同步（无新内容），变动为空。
-          # 仅作日志/审计用：打包已改为【无条件】，无论变动如何
-          # 都同时重打 JS 与 SCENARIO 包（见 pack-js / pack-scenario）。
+          # 明确由第 16 包接管的剧情文件不重复触发整包；其他剧情仍按变动发布。
           if [ -n "$PRE_SYNC_SHA" ]; then
             CHANGED=$(git diff --name-only "$PRE_SYNC_SHA" HEAD 2>/dev/null || echo "ALL")
           else
@@ -303,8 +302,13 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             SCOPE="${{ inputs.package_scope }}"
           fi
+          DELTA=()
+          if [ -f configures/js-delta-baseline.json ]; then
+            DELTA=(--delta-baseline configures/js-delta-baseline.json)
+          fi
+          python3 scripts/test_classify_hotupdate_changes.py
           printf '%s\n' "$CHANGED" | python3 scripts/classify_hotupdate_changes.py \
-            --scope "$SCOPE" --github-output "$GITHUB_OUTPUT"
+            --scope "$SCOPE" "${DELTA[@]}" --github-output "$GITHUB_OUTPUT"
           # Full JS 102 is frozen. New JS/native resource edits publish through package 16.
           if [ -f configures/js-delta-baseline.json ]; then echo "has_js=0" >> "$GITHUB_OUTPUT"; fi
           mkdir -p _artifacts
