@@ -67,3 +67,14 @@
 - 204001: 电光强化[Ⅲ] → 辉光精通[Ⅲ]
 
 资料：[记忆1637](https://wiki.puella-magi.net/File:Memoria_1637_c.png)、[发型设计交换会](https://wiki.puella-magi.net/Magia_Record_Unit_-_Madoka_%26_Iroha)、[Argent](https://scrabble.merriam.com/finder/argent)、[Glow](https://dictionary.cambridge.org/us/dictionary/english/glow)。
+
+
+# 第八批：已有语音字幕的范围与语气
+
+- 1040 / messageId 11：`真美好……就像一对母女……` → `看起来……是一对很棒的亲子……`。
+- 原始文本键 `vo_char_1040_00_11_hca` 对应 `素晴らしい…親子のようでした…`。保持原文“亲子”的范围，不指定尚未证实的母女/父女关系；保留推测语气。
+- 不声称已证明亲子的具体身份。采用中性译法后，字幕不再依赖这个未证实的限定。
+- 仅复审已有文字，不听译空白语音，不计新增翻译贡献。
+- 其余 8 个特殊 ID 字段在原始基线和国服 dump 来源记录中均为空，继续保留，不填入相似角色资料。
+
+来源：segfault-bilibili/magireco_cn_char_text 的锁定提交与哈希见 batch08-corrections.json；原始数据保留了本句日文，未把仓库名误认作已存在官方中文译句。

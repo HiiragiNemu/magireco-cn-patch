@@ -1,0 +1,41 @@
+{
+  "schema": "magireco-cn-existing-voice-context/v1",
+  "changes": [
+    {
+      "table": "charaMessageList",
+      "id": "1040|11",
+      "charaNo": 1040,
+      "messageId": 11,
+      "field": "message",
+      "ja": "素晴らしい…親子のようでした…",
+      "before": "真美好……就像一对母女……",
+      "after": "看起来……是一对很棒的亲子……",
+      "reason": "移除原文未限定、上下文也尚未证实的母女性别关系，保留親子的范围；保留ようでした的推测语气，并将素晴らしい与親子的修饰关系合并表达。不是断言原场景一定不是母女。"
+    }
+  ],
+  "source_key": "vo_char_1040_00_11_hca",
+  "source_manifest": [
+    {
+      "repo": "erectorOps/gofightwin",
+      "commit": "b8ab532ea124ab8ecffe7c06db447cbb7e423434",
+      "url": "https://raw.githubusercontent.com/erectorOps/gofightwin/b8ab532ea124ab8ecffe7c06db447cbb7e423434/CharaCollection.json",
+      "path": "D:\\magia\\deliveries\\totentanz-font-upstream-sync-20260921\\existing-text-review-20260923\\batch-08\\sources\\CharaCollection.json",
+      "sha256": "ceba912f3e269c0de354ce0dc959cfa71ef2c548fd7f9d2f347f904e9e51761e",
+      "http_status": 200
+    },
+    {
+      "repo": "segfault-bilibili/magireco_cn_char_text",
+      "commit": "ab083768c8792ea787387448cb377a573146a81c",
+      "url": "https://raw.githubusercontent.com/segfault-bilibili/magireco_cn_char_text/ab083768c8792ea787387448cb377a573146a81c/lobby_vo_char_text.json",
+      "path": "D:\\magia\\deliveries\\totentanz-font-upstream-sync-20260921\\existing-text-review-20260923\\batch-08\\sources\\lobby_vo_char_text.json",
+      "sha256": "6df106938b7f7333ef7b43f4116312cabbd68c7ea25dda516c1b869b540a61cf",
+      "http_status": 200
+    }
+  ],
+  "source_sha256": "6df106938b7f7333ef7b43f4116312cabbd68c7ea25dda516c1b869b540a61cf",
+  "selector_evidence": "D:\\magia\\deliveries\\totentanz-font-upstream-sync-20260921\\existing-text-review-20260923\\batch-06\\voice-selection-evidence.json",
+  "method": "Existing written JA/CN text review. Neutral wording preserves unresolved referent rather than inventing one.",
+  "new_audio_transcription": false,
+  "new_translation_credit": 0,
+  "device_acceptance": "USER_PENDING"
+}
