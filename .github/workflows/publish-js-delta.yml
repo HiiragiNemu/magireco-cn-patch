@@ -9,6 +9,8 @@ on:
       - 'madomagi/engine_i18n.tsv'
       - 'madomagi/repair_manifest.json'
       - 'madomagi/resource/image_native/**'
+      - 'madomagi/resource/scenario/**'
+      - 'configures/js-delta-baseline.json'
   workflow_dispatch:
 permissions:
   contents: write
@@ -52,6 +54,8 @@ jobs:
           node tools/test-existing-skill-names.cjs .
           node tools/test-existing-skill-terms.cjs .
           node tools/test-existing-voice-context.cjs .
+          node tools/test-white-feather-standardization.cjs .
+          python3 tools/test-cumulative-extra-paths.py
           python3 tools/test-i18n-delta-package.py
           PREVIOUS=()
           if [ -f previous/cn_js_delta.zip ]; then PREVIOUS=(--previous previous/cn_js_delta.zip); fi

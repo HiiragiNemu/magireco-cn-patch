@@ -12,6 +12,19 @@ def product(name):
     return name.startswith('magica/') or name.startswith('madomagi/resource/image_native/') or name in (
         'madomagi/engine_i18n.tsv', 'madomagi/repair_manifest.json')
 
+def supplemental_paths(cfg):
+    paths = cfg.get('supplemental_product_paths', [])
+    if not isinstance(paths, list) or any(not isinstance(p, str) for p in paths):
+        raise ValueError('Supplemental product paths must be a list of strings')
+    if len(paths) != len(set(paths)):
+        raise ValueError('Duplicate supplemental product path')
+    for name in paths:
+        if (not name.startswith('madomagi/resource/scenario/json/') or not name.endswith('.json')
+                or '\\' in name or ':' in name or any(ord(c) < 32 for c in name)
+                or any(p in ('', '.', '..') for p in name.split('/'))):
+            raise ValueError('Invalid supplemental scenario path: ' + name)
+    return set(paths)
+
 def build(repo, base, config, out, previous=None, ref='HEAD'):
     repo, base, out = map(Path, (repo, base, out)); out.mkdir(parents=True, exist_ok=True)
     cfg = json.loads(Path(config).read_text(encoding='utf8'))
@@ -19,7 +32,9 @@ def build(repo, base, config, out, previous=None, ref='HEAD'):
     def git(*args): return subprocess.check_output(['git','-C',str(repo),*args])
     source = git('rev-parse', ref).decode().strip()
     changes = [n.decode('utf8') for n in git('diff','--name-only','--no-renames','-z',cfg['base_source_commit'],source).split(b'\0') if n]
-    changes = sorted(n for n in changes if product(n))
+    # The approved scenario list is explicit: unrelated story edits are not imported.
+    # Include these paths even after a later revert, so skipped updates converge.
+    changes = sorted({n for n in changes if product(n)} | supplemental_paths(cfg))
     blobs = {}
     for name in changes:
         # Removal is not an overwrite. Do not silently erase or leave a stale layer.
