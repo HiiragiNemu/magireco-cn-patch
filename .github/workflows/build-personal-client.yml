@@ -174,8 +174,8 @@ jobs:
         \ f in \"${TREE}\"/lib/*/libbacktrace-native.so \"${TREE}\"/lib/*/libcrashpad_handler.so; do\n  if [ -e\
         \ \"$f\" ]; then echo \"::error::$f 删除失败\"; exit 1; fi\ndone\necho \"已剔除 4 枚死库（双 ABI × backtrace-native/crashpad_handler）\"\
         \n"
-    - name: 📁 关闭当前发布的所有文件访问权限与入口
-      run: python3 tools/enable-storage-access.py --disable --self-test --tree "${TREE}"
+    - name: 📁 恢复玩家手动文件访问入口（不作为下载条件）
+      run: python3 tools/enable-storage-access.py --enable --self-test --tree "${TREE}"
     - name: 🔤 校验字体基线与重定向目标
       run: python3 tools/check-fonts.py --tree "${TREE}"
     - name: 🧪 1.0.178 本地状态 / 媒体默认回归
