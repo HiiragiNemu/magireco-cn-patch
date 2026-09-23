@@ -48,6 +48,7 @@ jobs:
       - name: Build cumulative overlay without changing full JS
         run: |
           node tools/test-title-localization.cjs .
+          node tools/test-existing-skill-proofread.cjs .
           python3 tools/test-i18n-delta-package.py
           PREVIOUS=()
           if [ -f previous/cn_js_delta.zip ]; then PREVIOUS=(--previous previous/cn_js_delta.zip); fi
