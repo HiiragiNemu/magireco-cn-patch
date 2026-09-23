@@ -49,6 +49,7 @@ jobs:
         run: |
           node tools/test-title-localization.cjs .
           node tools/test-existing-skill-proofread.cjs .
+          node tools/test-existing-skill-names.cjs .
           python3 tools/test-i18n-delta-package.py
           PREVIOUS=()
           if [ -f previous/cn_js_delta.zip ]; then PREVIOUS=(--previous previous/cn_js_delta.zip); fi
