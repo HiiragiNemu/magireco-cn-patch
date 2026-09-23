@@ -183,7 +183,7 @@ jobs:
     - name: 🧪 下载页布局契约
       run: |
         python3 tools/check-download-ui-contract.py
-        python3 tools/test-download-presentation.py
+        python3 tools/test-download-presentation.py --all-files-access enabled --tree "${TREE}"
         python3 tools/test-slow-download.py
     - name: 🕸 核对 WebView 拦截链的假设
       run: python3 tools/check-webview-interceptor.py
@@ -467,5 +467,4 @@ jobs:
 concurrency:
   group: personal-main-native-build
   cancel-in-progress: false
-
 
