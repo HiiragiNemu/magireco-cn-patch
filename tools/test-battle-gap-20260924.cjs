@@ -18,7 +18,13 @@ for(const row of audit.nativeExactAdditions){
  for(const b of row.bindings)assert.equal(maps[b.table][b.id][b.field==='description'?'shortDescription':b.field],row.target);
  assert(!engine.has(row.target),'new target should not trigger a second native translation');
 }
-for(const row of audit.heldExistingNames)assert(!engine.has(row.source),'held term must stay unmodified');
+const resolved=JSON.parse(read(path.join(__dirname,'..'),'magica/i18n_audit/existing_text_review_20260924/battle_cn_authority_review.json'));
+for(const row of audit.heldExistingNames){
+ const proof=resolved.nativeExactAdditions.find(x=>x.source===row.source&&x.kind==='official_cn_skill_name');
+ assert(proof&&proof.evidence.some(x=>x.kind==='official_cn_capture'&&x.fieldValue===row.target));
+ assert.equal(proof.target,row.target,'Keep the captured official CN name, not a speculative retranslation');
+ assert.equal(engine.get(row.source),proof.target);
+}
 function runtime(r){
  const text=read(r,'magica/js/libs/jquery-3.7.1.min.js'),at=text.indexOf('    var cn = '),start=text.lastIndexOf('(function(){',at);
  assert(at>0&&start>0);
@@ -50,4 +56,4 @@ if(baseline){
  for(const [obj,parent] of [[{id:999999999,description:fix.source},'pieceSkill'],[{id:Number(fix.id),description:fix.source},'itemList'],[{id:Number(fix.id),description:fix.source},'unrelated']])
   assert.deepStrictEqual(current.tr(copy(obj),parent),prev.tr(copy(obj),parent));
 }
-console.log(JSON.stringify({status:'PASS',nativeExactBindings:184,semanticCorrections:1,runtimeCases:cases,unchangedSkillIds:unchangedIds,heldNames:5,numericGameFieldsChanged:0,newSkillIdCredit:0,deviceAcceptance:'pending'}));
+console.log(JSON.stringify({status:'PASS',nativeExactBindings:184,semanticCorrections:1,runtimeCases:cases,unchangedSkillIds:unchangedIds,officialCnNamesResolved:5,numericGameFieldsChanged:0,newSkillIdCredit:0,deviceAcceptance:'pending'}));
