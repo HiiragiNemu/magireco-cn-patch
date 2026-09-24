@@ -50,6 +50,7 @@ jobs:
       - name: Build cumulative overlay without changing full JS
         run: |
           node tools/test-title-localization.cjs .
+          node tools/test-title-cn-style.cjs .
           node tools/test-existing-skill-proofread.cjs .
           node tools/test-existing-skill-names.cjs .
           node tools/test-existing-skill-terms.cjs .

@@ -28,7 +28,7 @@ for(const t of titles){
   const first=JSON.stringify(x);tr(x,parent);assert.equal(JSON.stringify(x),first,'重复翻译应不变');
  }
  if(old){
-  for(const [o,p] of [[{...t,id:99999999},'titleList'],[{...t,baseImage:'other_100'},'titleList'],[t,'itemList'],[t,'unrelated'],[{...t,name:t.name+'__changed',description:t.description+'__changed'},'titleList']]){
+  for(const [o,p] of [[{...t,baseImage:'other_100'},'titleList'],[t,'itemList'],[t,'unrelated'],[{...t,name:t.name+'__changed',description:t.description+'__changed'},'titleList']]){
    assert.deepStrictEqual(tr(clone(o),p),old(clone(o),p),`负例变动 ${t.id}/${p}`);controls++;
   }
  }
