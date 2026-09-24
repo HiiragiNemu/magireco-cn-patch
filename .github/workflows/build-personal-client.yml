@@ -76,6 +76,8 @@ jobs:
         with open(os.environ[''GITHUB_ENV''], ''a'') as f: f.write(''NATIVE_SOURCE_SHA='' + sha + ''\n'')
 
         PY'
+    - name: Verify typed native battle skill names
+      run: python3 tools/test-battle-skill-name-context.py
     - name: ☕ 设置 JDK 17
       uses: actions/setup-java@v4
       with:
