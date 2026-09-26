@@ -1,0 +1,36 @@
+name: 准备194字体替换
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['tools/prepare-font194.py', '.github/workflows/prepare-font194.yml']
+permissions:
+  contents: read
+concurrency:
+  group: font194-preparation
+  cancel-in-progress: false
+jobs:
+  prepare:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch' && github.actor == 'HiiragiNemu'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install fonttools==4.59.2 pillow==11.3.0
+      - name: 生成并核验补字文件，再原子提交兼容别名
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python -u tools/prepare-font194.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: font194-preparation-report
+          path: |
+            .font194/report.json
+            .font194/symbols.png
+          if-no-files-found: warn
