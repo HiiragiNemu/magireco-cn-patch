@@ -28,5 +28,5 @@ jobs:
       source_repository: ${{ github.repository }}
       implementation_ref: 0e70441801d58cd566698cab2dcc3a13140fe354
     secrets:
-      source_read_token: ${{ github.token }}
+      source_read_token: ${{ secrets.GITHUB_TOKEN }}
       target_write_token: ${{ secrets.GH_TOKEN }}
