@@ -1,0 +1,39 @@
+name: 194字体完整包清理
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['release-requests/font194-full.json']
+permissions:
+  contents: read
+concurrency:
+  group: personal-main-hotupdate-publication
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch' && github.actor == 'HiiragiNemu'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 原有累计包合同回归
+        run: |
+          python tools/test-i18n-delta-package.py
+          python tools/test-cumulative-extra-paths.py
+          python scripts/check_web_font_routing.py
+      - name: 字体范围内更新完整包及累计层，失败恢复
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python -u tools/publish-font194-full.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: font194-full-publication-receipt
+          path: font194-full/receipt.json
+          if-no-files-found: warn
