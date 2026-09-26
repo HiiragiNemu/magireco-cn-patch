@@ -1,0 +1,32 @@
+name: 同步独立公开资源仓
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/mirror-public-resources.yml'
+      - 'configures/personal-online-config.json'
+  schedule:
+    - cron: '17 * * * *'
+  workflow_run:
+    workflows:
+      - 'Publish verified client'
+      - '累计补充包发布'
+      - 'Personal finalized release delivery'
+      - '个人仓库游戏更新发布'
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: public-player-resource-mirror
+  cancel-in-progress: false
+jobs:
+  mirror:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch' && github.ref == 'refs/heads/main' && (github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'))
+    uses: HiiragiNemu/ProgettoMagius-1/.github/workflows/mirror.yml@0e70441801d58cd566698cab2dcc3a13140fe354
+    with:
+      source_repository: ${{ github.repository }}
+      implementation_ref: 0e70441801d58cd566698cab2dcc3a13140fe354
+    secrets:
+      source_read_token: ${{ github.token }}
+      target_write_token: ${{ secrets.GH_TOKEN }}
