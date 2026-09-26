@@ -85,16 +85,17 @@ def complements(droid):
     polygon(p,[(340,490),(340,570),(660,670),(660,590)])
     polygon(p,[(340,230),(340,310),(660,410),(660,330)])
     glyphs['natural']=p.glyph()
-    cp=0x3146 if 0x3146 in droid.getBestCmap() else 0x110A
-    assert cp in droid.getBestCmap(),'Missing Hangul ssang-sios donor'
+    cp=int(unicodedata.decomposition(chr(0xFFBA)).split()[-1],16)
+    if cp not in droid.getBestCmap():cp=ord(unicodedata.normalize('NFKC',chr(0xFFBA)))
+    assert cp in droid.getBestCmap(),'Missing equivalent Hangul donor'
     assert unicodedata.normalize('NFKC',chr(0xFFBA))==unicodedata.normalize('NFKC',chr(cp))
     rec=DecomposingRecordingPen(droid.getGlyphSet());droid.getGlyphSet()[droid.getBestCmap()[cp]].draw(rec)
     p=TTGlyphPen(None);scale=1000/droid['head'].unitsPerEm
-    rec.replay(TransformPen(p,(scale*0.5,0,0,scale,0,0)));glyphs['halfwidthSsangSios']=p.glyph()
+    rec.replay(TransformPen(p,(scale*0.5,0,0,scale,0,0)));glyphs['halfwidthHangul']=p.glyph()
     fb=FontBuilder(1000,isTTF=True);fb.setupGlyphOrder(list(glyphs))
-    fb.setupCharacterMap({0x266B:'beamedEighth',0x266E:'natural',0xFFBA:'halfwidthSsangSios'})
+    fb.setupCharacterMap({0x266B:'beamedEighth',0x266E:'natural',0xFFBA:'halfwidthHangul'})
     fb.setupGlyf(glyphs)
-    fb.setupHorizontalMetrics({n:(500 if n=='halfwidthSsangSios' else 1000,0) for n in glyphs})
+    fb.setupHorizontalMetrics({n:(500 if n=='halfwidthHangul' else 1000,0) for n in glyphs})
     fb.setupHorizontalHeader(ascent=900,descent=-100)
     fb.setupNameTable({'familyName':'Magius Supplement Symbols','styleName':'Regular'})
     fb.setupOS2(sTypoAscender=900,sTypoDescender=-100,usWinAscent=900,usWinDescent=100)
@@ -164,7 +165,7 @@ def main():
     'donors':{k:{'sha256':v[1],'license':v[2]} for k,v in donors.items()}}
     write('magica/font-licenses/Apache-Droid-NOTICE.txt',get(f'https://raw.githubusercontent.com/{aosp}/{aosp_ref}/data/fonts/NOTICE'))
     write('magica/font-licenses/Noto-CJK-OFL.txt',get(f'https://raw.githubusercontent.com/notofonts/noto-cjk/{NOTO_REF}/Sans/LICENSE'))
-    write('magica/font-licenses/Magius-Symbols-NOTICE.txt','Two original geometric music signs U+266B and U+266E, implemented in prepare-font194.py, licensed under Apache-2.0. U+FFBA is a horizontally scaled adaptation of the corresponding Apache-2.0 Droid Hangul glyph; NFKC equivalence is asserted. No Tengxiang outlines used. Full Apache license and Droid copyright accompany this file.\n')
+    write('magica/font-licenses/Magius-Symbols-NOTICE.txt','Two original geometric music signs U+266B and U+266E, implemented in prepare-font194.py, licensed under Apache-2.0. U+FFBA is a horizontally scaled adaptation of its corresponding Apache-2.0 Droid Hangul glyph; Unicode narrow mapping and NFKC equivalence are asserted. No Tengxiang outlines used. Full Apache license and Droid copyright accompany this file.\n')
     image=Image.new('RGB',(1300,440),'white');draw=ImageDraw.Draw(image)
     for idx,spec in enumerate(SPECS):
         name,label,family,style,url,archive_sha,member,font_sha=spec
