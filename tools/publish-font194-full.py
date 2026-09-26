@@ -44,7 +44,7 @@ def main():
         if row['type']=='file':files[row['path']]=raw(row['path'],FONT)
     manifest=json.loads(files['magica/font-licenses/font194-manifest.json'])
     for name,row in manifest['fonts'].items():
-        files['magica/fonts/'+name]=raw('magica/fonts/'+name,FONT)
+        files['magica/fonts/'+name]=(ROOT/'magica/fonts'/name).read_bytes()
         assert hashlib.sha256(files['magica/fonts/'+name]).hexdigest()==row['sha256']
     files['magica/fonts/mbm_20160902.ttf']=files['magica/fonts/TTZhiHeiGB3-W4.ttf']
     assert len([n for n in files if n.endswith('.ttf')])==3
