@@ -1,0 +1,45 @@
+name: 执行维护者194字体发布请求
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['release-requests/font194.json']
+permissions:
+  contents: read
+concurrency:
+  group: font194-explicit-build-request
+  cancel-in-progress: false
+jobs:
+  prepare-and-request:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch' && github.actor == 'HiiragiNemu'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            tools/integrate-font194.py
+            release-requests/font194.json
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: python -m pip install PyYAML==6.0.2
+      - name: 核验字体范围并提交此次人工指定的194构建
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NATIVE_SOURCE_REPO: ${{ vars.NATIVE_SOURCE_REPO }}
+        run: python -u tools/integrate-font194.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: font194-build-request-receipt
+          path: |
+            font194-integration/source.json
+            font194-integration/request.json
+          if-no-files-found: warn
