@@ -1,0 +1,85 @@
+name: 私有化迁移兼容验收
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/check-public-cutover.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  client-selector:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.NATIVE_SOURCE_REPO }}
+          ref: 8e1da563a6df34418a54eec6a544307f26e4c8c9
+          token: ${{ secrets.GH_TOKEN }}
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 模拟旧资源源 404 并验证现有身份约束
+        run: python tools/test-public-resource-fallback.py
+  public-assets:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: HiiragiNemu/ProgettoMagius-1
+          ref: 0e70441801d58cd566698cab2dcc3a13140fe354
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 验证源与公开镜像身份及匿名下载
+        env:
+          SOURCE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY'
+          import importlib.util,json,os
+          spec=importlib.util.spec_from_file_location('mirror','tools/mirror_release.py')
+          m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+          source=m.API(os.environ['GITHUB_REPOSITORY'],os.environ['SOURCE_TOKEN'])
+          target=m.API('HiiragiNemu/ProgettoMagius-1')
+          src=m.select_assets(source.json('releases/tags/latest'),m.asset_map(source,source.json('releases/tags/latest')))
+          dst=m.select_assets(target.json('releases/tags/latest'),m.asset_map(target,target.json('releases/tags/latest')))
+          for name,want in src.items():
+              got=dst.get(name,{})
+              assert (want['size'],want['digest'])==(got.get('size'),got.get('digest')),name
+          raw,_=source.file(m.CONFIG_PATH)
+          public,_=target.file('legacy/config.json')
+          want=m.public_config(json.loads(raw),target.repo)
+          assert json.loads(public)==want,'Public configuration differs from approved projection'
+          m.anonymous_verify(target.repo,dst,public)
+          print('PASS_PUBLIC_ASSETS',len(dst),'bytes',sum(a['size'] for a in dst.values()),'client',want['client']['version'])
+          PY
+  deployed-transport:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: 只读检查原代理是否已部署双入口
+        run: |
+          python3 - <<'PY'
+          import json,time,urllib.request
+          url='https://magireco-personal-release.pages.dev/health.json?verify='+str(time.time_ns())
+          try:
+              req=urllib.request.Request(url,headers={'User-Agent':'Public-Migration-Deployment-Check','Cache-Control':'no-cache'})
+              with urllib.request.urlopen(req,timeout=30) as response: health=json.load(response)
+          except Exception as e:
+              print('DEPLOYMENT_NOT_VERIFIED',type(e).__name__)
+              raise SystemExit('Do not privatize the source repository before compatibility deployment is verified')
+          print(json.dumps(health,ensure_ascii=False))
+          if health.get('fallbackAuthority')!='HiiragiNemu/ProgettoMagius-1':
+              raise SystemExit('Dual-source Worker is not deployed at the existing player URL; keep source repository public')
+          print('PASS_DUAL_WORKER_DEPLOYMENT_HEALTH; real blocked-origin/device acceptance is still required')
+          PY
