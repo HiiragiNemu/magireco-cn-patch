@@ -1,0 +1,38 @@
+name: 字体194只读核查
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/font-194-audit.py'
+      - '.github/workflows/check-font-replacements.yml'
+permissions:
+  contents: read
+concurrency:
+  group: font-194-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            magica/fonts
+            tools/font-194-audit.py
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install fonttools==4.59.2
+      - name: 核对旧补字、替代原版和当前发行包
+        run: python -u tools/font-194-audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: font-194-audit-report
+          path: font194-audit/report.json
+          if-no-files-found: warn
