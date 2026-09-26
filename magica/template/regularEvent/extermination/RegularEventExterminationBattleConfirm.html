@@ -1,5 +1,17 @@
 <div id="RegularEventExterminationBattleConfirm">
-	<% var _eventData = eventMaster.RegularEventExterminationBattleConfirm; %>
+	<%
+        var _eventData = eventMaster.RegularEventExterminationBattleConfirm;
+        // This view only: preserve the source battle object and every unknown name.
+        var _cnExterminationEnemyNames = {
+            "子守の魔女": "照看孩子的魔女",
+            "流浪の魔女": "流浪魔女",
+            "屋上の魔女": "屋顶魔女",
+            "獄門の魔女": "狱门的魔女",
+            "砂場の魔女": "沙地魔女"
+};
+        var _enemyDisplayName = Object.prototype.hasOwnProperty.call(_cnExterminationEnemyNames, _eventData.enemyName)
+            ? _cnExterminationEnemyNames[_eventData.enemyName] : _eventData.enemyName;
+    %>
 
 	<!-- <div id='helpBtn' class='se_decide TE sb_gold_02' data-eventid="<%= eventMaster.regularEventId %>">玩法</div> -->
 
@@ -11,7 +23,7 @@
 		</div>
 		
 		<div id="bossParamArea">
-			<div id="name"><%= _eventData.enemyName %></div>
+			<div id="name"><%= _enemyDisplayName %></div>
 			<div id="stageName"><%= _eventData.areaname %></div>
 			<div class="attribute"><div class="<%= _eventData.enemyAttribute %>"></div></div>
 			<div id="bossParam">推荐战力<span id="bossParamNum"><%= _eventData.enemyForces %></span></div>
