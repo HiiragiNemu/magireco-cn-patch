@@ -1,0 +1,57 @@
+name: 195原生圆体替换准备
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/prepare-font195.py
+      - tools/check-font195-artifact.py
+      - .github/workflows/prepare-font195.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: font195-preparation
+  cancel-in-progress: false
+jobs:
+  prepare:
+    if: github.repository == 'HiiragiNemu/magireco-cn-patch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: HiiragiNemu/magirecocn-legacy-client
+          ref: 3f2ff638579f25200303fe648a68610829a037a2
+          token: ${{ secrets.GH_TOKEN }}
+          persist-credentials: false
+          path: .native
+      - uses: actions/checkout@v4
+        with:
+          repository: HiiragiNemu/magireco-cn-patch
+          ref: 24e3b0c56d478c7b8cf972347761ad255fc253db
+          token: ${{ secrets.GH_TOKEN }}
+          persist-credentials: false
+          sparse-checkout: |
+            magica/fonts/TTDaYuanGB3.ttf
+            magica/fonts/TTZhiHeiGB3-W4.ttf
+            magica/font-licenses/
+          sparse-checkout-cone-mode: false
+          path: .native/.reviewed-fonts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install PyYAML==6.0.2 fonttools==4.59.2
+      - name: 校验实际别名并准备提交对象（不移动分支）
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python -u tools/prepare-font195.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: font195-preparation-evidence
+          path: font195-evidence/*.json
+          if-no-files-found: warn
+          retention-days: 14
