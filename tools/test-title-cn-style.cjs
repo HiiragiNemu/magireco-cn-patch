@@ -1,3 +1,4 @@
+function canonicalName(s){return typeof s==='string'?s.replaceAll('传闻鹤乃','谣鹤乃').replaceAll('传闻莎奈','谣莎奈').replaceAll('万年樱的传闻','万年樱之谣'):s;}
 // Reproduce the reported title overflow/misses and retain the user's Magia label.
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert'),crypto=require('crypto');
 const root=path.resolve(process.argv[2]||path.join(__dirname,'..'));
@@ -23,7 +24,7 @@ for(const [index,rule] of audit.sharedExactNames.entries()){
  if(old){assert.equal(old(clone(fixture),'titleList').name,rule.source);oldMisses++;}
  for(const parent of ['titleList','title','displayTitle']) for(const id of [fixture.id,String(fixture.id)]){
   const input={...fixture,id},x=tr(clone(input),parent);
-  assert.equal(x.name,rule.target);assert(!/[\u3040-\u30ff]/.test(x.name));
+  assert.equal(x.name,canonicalName(rule.target));assert(!/[\u3040-\u30ff]/.test(x.name));
   assert.deepStrictEqual({...x,name:input.name},input,'fallback must only change name');
   assert.deepStrictEqual(tr(clone(x),parent),x,'idempotence');positives++;
  }
@@ -41,7 +42,7 @@ for(const [index,rule] of audit.sharedExactNames.entries()){
 assert.equal(audit.sharedExactNames.length,12);
 for(const row of audit.correctedTitles){
  const t=master.find(x=>x.id===row.id);
- assert.equal(tr(clone(t),'titleList').name,row.after);
+ assert.equal(tr(clone(t),'titleList').name,canonicalName(row.after));
  assert(!/[A-Za-z（）]/.test(row.after));
  if(old)assert.equal(old(clone(t),'titleList').name,row.before);
 }

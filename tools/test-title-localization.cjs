@@ -1,10 +1,11 @@
+function canonicalName(s){return typeof s==='string'?s.replaceAll('传闻鹤乃','谣鹤乃').replaceAll('传闻莎奈','谣莎奈').replaceAll('万年樱的传闻','万年樱之谣'):s;}
 // 使用完整已生成注入器检查称号的三种实际载体，负例与基线逐项比较。
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
 const root=path.resolve(process.argv[2]||path.join(__dirname,'..'));
 const base=process.argv[3]&&path.resolve(process.argv[3]);
 const audit=path.join(root,'magica/i18n_audit/title_battle_delta_20260923');
 const titles=JSON.parse(fs.readFileSync(path.join(audit,'jp-title-master.json'),'utf8'));
-const expected=new Map(JSON.parse(fs.readFileSync(path.join(audit,'title-review.json'),'utf8')).map(x=>[x.id,x]));
+const expected=new Map(JSON.parse(fs.readFileSync(path.join(audit,'title-review.json'),'utf8')).map(x=>[x.id,{...x,name:canonicalName(x.name),description:canonicalName(x.description)}]));
 const clone=x=>JSON.parse(JSON.stringify(x));
 function runtime(dir){
  const s=fs.readFileSync(path.join(dir,'magica/js/libs/jquery-3.7.1.min.js'),'utf8');
@@ -19,7 +20,7 @@ const tr=runtime(root),old=base?runtime(base):null;
 let fields=0,controls=0,baselineMissing=0;
 assert.equal(titles.length,967);assert.equal(expected.size,967);
 for(const t of titles){
- const e=expected.get(t.id);
+ const historical=expected.get(t.id),e={...historical,name:canonicalName(historical.name),description:canonicalName(historical.description)};
  if(old){const b=old(clone(t),'titleList');for(const f of ['name','description'])if(b[f]!==e[f])baselineMissing++;}
  for(const parent of ['titleList','title','displayTitle']){
   const x=tr(clone(t),parent);

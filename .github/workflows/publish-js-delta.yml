@@ -49,6 +49,8 @@ jobs:
           PY
       - name: Build cumulative overlay without changing full JS
         run: |
+          node tools/test-uwasa-names.cjs .
+          node tools/test-double-home-caption.cjs .
           node tools/test-title-localization.cjs .
           node tools/test-title-cn-style.cjs .
           python3 tools/test-web-image-cn-originals.py --root .
