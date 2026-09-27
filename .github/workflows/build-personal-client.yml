@@ -147,9 +147,11 @@ jobs:
         \ntest \"$(git -C .reviewed-fonts hash-object magica/fonts/TTZhiHeiGB3-W4.ttf)\" = \"b4fd9ba57a0fc0d8f86b318eb1d21c59dcea2488\"\
         \ninstall -m 0644 .reviewed-fonts/magica/fonts/TTDaYuanGB3.ttf \"${TREE}/assets/fonts/TTDaYuanGB3.ttf\"\ninstall -m\
         \ 0644 .reviewed-fonts/magica/fonts/TTZhiHeiGB3-W4.ttf \"${TREE}/assets/fonts/TTZhiHeiGB3-W4.ttf\"\ninstall -m 0644\
-        \ assets/fonts/mbm_20160902.ttf \"${TREE}/assets/fonts/MTF4a5kp.ttf\"\ninstall -m 0644 assets/fonts/mbm_20160902.ttf\
+        \ .reviewed-fonts/magica/fonts/TTDaYuanGB3.ttf \"${TREE}/assets/fonts/MTF4a5kp.ttf\"\ninstall -m 0644 .reviewed-fonts/magica/fonts/TTDaYuanGB3.ttf\
         \ \"${TREE}/assets/fonts/mbm_20160902.ttf\"\necho \"重建树：$(find \"${TREE}\" -type f | wc -l) 个文件\"\n\nmkdir -p \"${TREE}/assets/font-licenses\"\
-        \ncp .reviewed-fonts/magica/font-licenses/* \"${TREE}/assets/font-licenses/\"\n"
+        \ncp .reviewed-fonts/magica/font-licenses/* \"${TREE}/assets/font-licenses/\"\n\ncmp \"${TREE}/assets/fonts/TTDaYuanGB3.ttf\"\
+        \ \"${TREE}/assets/fonts/MTF4a5kp.ttf\"\ncmp \"${TREE}/assets/fonts/TTDaYuanGB3.ttf\" \"${TREE}/assets/fonts/mbm_20160902.ttf\"\
+        \n"
     - name: 🚫 正式包剔除悬浮窗权限（F-043）
       if: ${{ inputs.debug_overlay != true }}
       run: "set -euo pipefail\nMANIFEST=\"${TREE}/AndroidManifest.xml\"\nsed -i '/android.permission.SYSTEM_ALERT_WINDOW/d'\
@@ -358,8 +360,8 @@ jobs:
         \ \\\n  --cert .build/key/testkey.x509.pem \\\n  --v1-signing-enabled true \\\n  --v2-signing-enabled true \\\n  --v3-signing-enabled\
         \ true \\\n  --out .build/magirecocn-legacy-client.apk \\\n  .build/aligned.apk\n\"${BT_DIR}/apksigner\" verify --print-certs\
         \ .build/magirecocn-legacy-client.apk\n"
-    - name: 核验194 APK字体字节、符号与许可
-      run: python3 tools/check-font194-artifact.py .build/magirecocn-legacy-client.apk
+    - name: 核验195实际原生圆体别名、符号与许可
+      run: python3 tools/check-font195-artifact.py .build/magirecocn-legacy-client.apk
     - name: 🔍 构建后自检
       run: "set -euo pipefail\nAPK=.build/magirecocn-legacy-client.apk\necho \"sha256: $(sha256sum \"$APK\" | cut -d' ' -f1)\"\
         \necho \"大小:   $(stat -c%s \"$APK\") 字节\"\n# BGM 的 ogg 必须未压缩，否则 AssetManager.openFd() 打不开，\n# 表现为「界面一切正常、就是没声音」——光看界面发现不了\n\
@@ -400,7 +402,9 @@ jobs:
         name: personal-native-main-verified
         path: '.build/magirecocn-legacy-client.apk
 
-          .build/magireco-latest-legacy-client.version.json'
+          .build/magireco-latest-legacy-client.version.json
+
+          .build/font195-apk-verification.json'
         if-no-files-found: error
         retention-days: 14
     - name: 📊 构建报告

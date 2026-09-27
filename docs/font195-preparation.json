@@ -1,0 +1,23 @@
+{
+  "verified_round_sha256": "a6adbd53d4d061c54a210194d800fafd989f656a6bd5334843fc069c08ed8f48",
+  "required_glyphs_with_nonempty_outlines": 54,
+  "actual_194_rejected": true,
+  "negative_tests": [
+    "actual_194_unreplaced_aliases",
+    "wrong_font_MTF4a5kp.ttf",
+    "wrong_font_mbm_20160902.ttf",
+    "missing_native_alias"
+  ],
+  "positive_alias_fixture_passed": true,
+  "source_changed_paths": [
+    "magia-native/src/MagiaLegacy.cpp",
+    "tools/check-fonts.py",
+    "tools/check-font195-artifact.py",
+    "assets/fonts/mbm_20160902.ttf",
+    ".github/workflows/build-apk.yml",
+    "patch/src/main/java/io/kamihama/magianative/CNPublicResources.java",
+    "docs/font-replacement-195.md"
+  ],
+  "font_routing_changed": false,
+  "download_priority_changed": false
+}
