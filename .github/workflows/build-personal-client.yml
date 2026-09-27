@@ -86,6 +86,10 @@ jobs:
       with:
         distribution: temurin
         java-version: '17'
+    - name: Verify independent public routing and bounded source rounds
+      run: |
+        python3 tools/test-public-resource-fallback.py
+        python3 tools/test-private-source-round.py
     - name: 🔧 安装构建工具
       run: "set -euo pipefail\nsudo mkdir -p /usr/local/bin\n\n# ── 构建工具 2.9.3 ───────────────────────────────────────────\n\
         curl -sSL -o /tmp/apktool.jar \\\n  \"https://github.com/iBotPeaches/Apktool/releases/download/v2.9.3/apktool_2.9.3.jar\"\

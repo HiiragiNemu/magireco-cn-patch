@@ -16,7 +16,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: publish-verified-client
+  group: public-player-resource-mirror
   cancel-in-progress: false
 
 jobs:
@@ -129,6 +129,10 @@ jobs:
             "payload/${META_NAME}" \
             --repo "${GITHUB_REPOSITORY}" \
             --clobber
+          # Publish bytes to the new authority before asking Pages to verify them.
+          gh release upload latest \
+            "payload/${APK_NAME}" "payload/${META_NAME}" \
+            --repo HiiragiNemu/ProgettoMagius-1 --clobber
 
       - name: Verify latest Release bytes
         env:
@@ -137,15 +141,16 @@ jobs:
           set -euo pipefail
           python3 - <<'PY'
           import json, os, subprocess
-          release=json.loads(subprocess.check_output([
-              'gh','api',f"repos/{os.environ['GITHUB_REPOSITORY']}/releases/tags/latest"
-          ],text=True))
-          assets={a['name']:a for a in release['assets']}
-          apk=assets[os.environ['APK_NAME']]
-          assert int(apk['size']) == int(os.environ['APK_SIZE']), apk
-          assert apk.get('digest') == 'sha256:'+os.environ['APK_SHA256'], apk
-          assert int(assets[os.environ['META_NAME']]['size']) > 0
-          print('release verified', apk['name'], apk['size'], apk['digest'])
+          for repo in (os.environ['GITHUB_REPOSITORY'], 'HiiragiNemu/ProgettoMagius-1'):
+              release=json.loads(subprocess.check_output([
+                  'gh','api',f'repos/{repo}/releases/tags/latest'
+              ],text=True))
+              assets={a['name']:a for a in release['assets']}
+              apk=assets[os.environ['APK_NAME']]
+              assert int(apk['size']) == int(os.environ['APK_SIZE']), apk
+              assert apk.get('digest') == 'sha256:'+os.environ['APK_SHA256'], apk
+              assert int(assets[os.environ['META_NAME']]['size']) > 0
+              print('release verified', repo, apk['name'], apk['size'], apk['digest'])
           PY
 
       - name: Verify Pages transport before raising gate
@@ -221,6 +226,12 @@ jobs:
           fi
           git commit -m "release: publish verified client ${APK_VERSION} [skip ci]"
           git push origin HEAD:main
+
+      - name: Promote public config only after all public assets agree
+        env:
+          SOURCE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python3 -u tools/mirror_release.py --source "$GITHUB_REPOSITORY" --target HiiragiNemu/ProgettoMagius-1
 
       - name: Verify live config after propagation
         run: |

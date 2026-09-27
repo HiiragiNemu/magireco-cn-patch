@@ -10,7 +10,7 @@
     "min_speed_kbps": 1200,
     "cooldown_ms": 60000,
     "force_aria2": false,
-    "offline_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/tag/latest",
+    "offline_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/tag/latest",
     "max_downloads": 6
   },
   "mirrors": [
@@ -36,9 +36,16 @@
       "enabled": true
     },
     {
-      "name": "个人 GitHub 直连",
+      "name": "公开资源仓直连",
+      "base": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/",
+      "weight": 90,
+      "chunks": 4,
+      "enabled": true
+    },
+    {
+      "name": "旧仓应急入口",
       "base": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/",
-      "weight": 80,
+      "weight": 10,
       "chunks": 4,
       "enabled": true
     }
@@ -258,7 +265,7 @@
       }
     ],
     "footer": "MadeInMagius：剧情 344 个；选关对话 735 条；角色语音共 1,588 条（字幕 1,335 条、看板语音 784 条，重合 531 条）；战斗技能 4,209 项；前端界面 1,470 项；图像 258 个（PNG 162 个、.vfxt 96 个）。MadeInMagius：记忆结晶简介校订 5 条（原 Wiki 译文归属保留）。CyberNova／PhotonFlow：国内加速、现代化下载界面、部分下载技术、Cocos 战斗场景汉化早期技术与美服 API 抓包资源；目前加速 CN BASE 主资源文件。圆环记录攻略组：剧情 52 个；角色语音共 703 条（字幕 109 条、看板语音 641 条，重合 47 条）；战斗技能 4,114 项。水银 h2oag：剧情 144 个；巡逻区域 25、阵型技能 25、Connect 技能 498 个汉化字段。segfault：国服数据留存。70 个合作剧情分别计入各参与者；国服原有译文不计入个人汉化贡献。 称号汉化整合 967 项（1,934 个字段）；Wiki 现成译名 545 项、规范人名及称号格式整理 420 项、另有 2 项补译。剧情逐句校对 264 条，修正 245 条。",
-    "github_url": "https://github.com/HiiragiNemu/magireco-cn-patch",
+    "github_url": "https://github.com/HiiragiNemu/ProgettoMagius-1",
     "footer_marquee": true
   },
   "branch_versions": {
