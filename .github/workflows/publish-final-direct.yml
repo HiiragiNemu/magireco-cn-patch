@@ -39,6 +39,8 @@ jobs:
             --pattern cn_js_update_manifest.json --pattern cn_scenario_update_manifest.json \
             --pattern manifest.json --pattern version_js.json --pattern version_scenario.json
           python scripts/publish_finalized_localization.py verify-local
+      - name: Verify metadata transport comparison
+        run: python tools/test-personal-transport-json.py
       - name: Verify actual personal transport bodies
         run: python distribution/personal/verify_live.py
       - uses: actions/upload-artifact@v4
