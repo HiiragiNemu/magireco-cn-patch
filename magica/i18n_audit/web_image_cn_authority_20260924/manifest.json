@@ -245,6 +245,17 @@
         21
       ],
       "action": "copied-CN-original-bytes"
+    },
+    {
+      "path": "magica/resource/image_web/common/global/connecting.png",
+      "sha256": "4bb87d745a258efa579b7e42cc0f536b537ebdd27b41c5558048482117c71120",
+      "source": "origin_apktool_decoded/assets/resource/standalone_collection/magica/resource/image_web/common/global/connecting.png",
+      "sourceTier": "cn-apk-2.2.1",
+      "size": [
+        334,
+        54
+      ],
+      "action": "restore-exact-CN-Connecting-after-cancelled-global-APNG-request-20260928"
     }
   ],
   "preservedAcceptedImages": [
@@ -325,17 +336,12 @@
       "reason": "Already exact CN original; no replacement"
     }
   ],
-  "userRequestedRestorations": [
-    {
-      "path": "magica/resource/image_web/common/global/connecting.png",
-      "sha256": "7d44ac8d75074abaaf0e122ae3fcb96eca910cf59c75ceef44c06c25ddd453ab",
-      "size": [
-        334,
-        54
-      ],
-      "frames": 8,
-      "action": "Restore prior running APNG by direct user request 2026-09-26",
-      "supersededSha256": "4bb87d745a258efa579b7e42cc0f536b537ebdd27b41c5558048482117c71120"
-    }
-  ]
+  "userRequestedRestorations": [],
+  "loadingSeparation": {
+    "webConnecting": "magica/resource/image_web/common/global/connecting.png",
+    "webSha256": "4bb87d745a258efa579b7e42cc0f536b537ebdd27b41c5558048482117c71120",
+    "nativeLoadingPreserved": "assets/package/loading/",
+    "reason": "Cancelled global running replacement must not override native/Web separation.",
+    "supersededRunningSha256": "7d44ac8d75074abaaf0e122ae3fcb96eca910cf59c75ceef44c06c25ddd453ab"
+  }
 }

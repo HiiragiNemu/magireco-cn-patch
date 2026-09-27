@@ -40,8 +40,8 @@ EXPECTED_GROUP_COUNTS = {
 
 PREEXISTING_VERIFIED: dict[str, tuple[str, str]] = {
     "common/global/connecting.png": (
-        "confirmed-human-current-canvas",
-        "Git history 12ac9b35; reviewed loading label and Kyubey outline",
+        "official-cn-legacy-client-image",
+        "Git history 19af55f8; exact Web Connecting restored, native Loading retained",
     ),
     "common/global/gacha_badge.png": ("official-cn-legacy-client-image", "exact official-CN asset"),
     "common/global/gacha_badge_a.png": ("official-cn-legacy-client-image", "exact official-CN asset"),
