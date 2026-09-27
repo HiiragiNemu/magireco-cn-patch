@@ -211,7 +211,7 @@ jobs:
               client['version']=new
               client['sha256']=os.environ['APK_SHA256']
               client['size']=int(os.environ['APK_SIZE'])
-              client['apk_url']='https://magireco-personal-release.pages.dev/magireco-latest-legacy-client.apk'
+              client['apk_url']='https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/magireco-latest-legacy-client.apk'
               data['updated']=datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z')
               p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
               print('client.version',old,'->',new)
