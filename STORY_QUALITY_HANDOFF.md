@@ -1,0 +1,7 @@
+# 剧情质量固定接手入口
+
+本项目与HiiragiNemu/magi-reader共同维护；不要依赖旧聊天。最新接续状态以Reader主分支根文件STORY_QUALITY_HANDOFF.md及docs/story-quality/CONTINUATION_STATE.json为唯一持续更新入口。详细操作指南在CONTINUATION.md。
+
+本批运行源码6b5181088a400c36976018b5b8da6eba776ad3e6，已交付3310；Reader实际部署源码149208c9a6bbcc99d2536cf294cb4f2d3c272bb9，生产/ADV发布均验收。后续文档提交不等于新代码部署。
+
+每个有恢复价值的中途步骤和每轮结束都更新Reader固定handoff；新工作只进main、不要PR/新分支/强推，保留中文颜色适配和43份V4已验收稿，不动L2D/AIO。余25候选/9旧版发言映射仍在Reader的remaining-control-work.json，不要重发同内容3311。恢复脚本和精确计划打包于Reader docs/story-quality/recovery/20260930-jp-controls-01-recovery.zip。
