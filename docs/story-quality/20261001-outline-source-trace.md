@@ -1,0 +1,13 @@
+# 剧情简介的数据链路进一步核查
+
+之前只确认StoryCollection显示model.outline。本轮进一步读取固定上游Puella-Care/en-data@38627c566235a0f528b7504b0cc58360b063abcb及项目官方CONTRIBUTING的en-data说明：该仓维护API服务端内部数据的文本覆盖，与scenario下载文件和en-text网页资源是不同子系统；上游说明数据更新需刷新服务端。这里仅用它追溯数据边界，不把英文覆盖当作中文权威。
+
+读取了sectionList、storyMap、eventStoryMap三表。上游sectionList1580条，其中376条有非空outline；当前CN patch的sectionList同为376条，sectionId集合完全一致，没有上游有简介而此中文表缺失的条目。当前376条简介中没有日文假名残留，也没有仍与对应上游日文完全相同的条目。这个检查证明已知覆盖集合不缺项，不证明全部376篇中文都已经逐句语义复核。
+
+更关键的是，实际打包的magica/js/libs/jquery-3.7.1.min.js里确实内嵌了中文sectionList，并且代码遇到匹配sectionId时执行put(o,'outline',t.outline)，连同title/charaName/message一起覆盖。之后StoryCollection把model.outline中的全角＠换成换行显示。因此并非必须重新修改远端服务端才有中文，也不能把它当成只由scenario包控制的文本。未来修订要同步源表与打包注入字典并走JS发行，避免仅改一个源表后宣称游戏已更新。
+
+百鬼夜行笼目的311201/311202/311203以及521810—521850在上游及当前相关记录中是选关标题/台词，没有该字段的剧情简介，也没有特指“海异光小阿鲁”的旧复合名需要替换。不能因为未写该名称就给简介添加原作不存在的内容；一般小阿鲁/妖怪小阿鲁群体仍保持通称。
+
+本轮没有取得玩家认证后的具体动态响应，也没有对当前全部376篇简介逐篇重译；来源与覆盖审计不冒称实机动态显示和语义清零。下一步可优先从上游仍有日文的outline对应目前中文逐条复核，并用与实际注入代码同版本的受控样本验证，不需要读取或保存用户账号凭据。
+
+证据文件：dynamic-outline-source-trace.json及outline-overlay-coverage.json。当前注入脚本blob d212fe7204bb2d3b05de1fabafc532a14ec98e17；CN sectionList blob68b7c095b13329dfe6f2d5063cbf39411d247e15。此次纯只读，无JS/scenario新增修改。
