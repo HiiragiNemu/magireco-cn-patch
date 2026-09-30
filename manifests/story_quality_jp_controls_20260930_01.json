@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "batch": "20260930-jp-controls-01",
+  "base_scenario": 3309,
+  "target_scenario": 3310,
+  "reader_scripts": 131,
+  "player_scripts": 130,
+  "scalar_edit_counts": {
+    "reader": {
+      "display_string_fields": 234,
+      "actor_id_values": 488
+    },
+    "patch": {
+      "display_string_fields": 233,
+      "actor_id_values": 488
+    }
+  },
+  "tests": 18,
+  "tests_passed": true,
+  "actual_reader_parser_files": 131,
+  "reader_display_identical_files": 124,
+  "reader_intended_display_change_files": [
+    "511110-8_Qep4x.json",
+    "519020-13_QIB0F.json",
+    "520820-9_6HXJQ.json",
+    "101506-4_BdcGe.json",
+    "103205-5_7xz7k.json",
+    "102704-1_yKMiv.json",
+    "519601-21_BPssF.json"
+  ],
+  "reader_audio_metadata_change_files": [
+    "519020-13_QIB0F.json",
+    "101704-1_YTq8g.json",
+    "519601-21_BPssF.json"
+  ],
+  "reader_txt_files": 16,
+  "accepted_v4_files_unchanged": 43,
+  "new_undefined_actor_or_instance_references": 0,
+  "candidate_classification": {
+    "staged": 155,
+    "retain_literal_or_malformed_japanese_not_executable_authority": 6,
+    "aligned_controls_already_equal": 31,
+    "requires_complete_old_version_speech_mapping": 25,
+    "staged_complete_speech_alignment": 5
+  },
+  "new_translated_utterances": 2,
+  "speech_alignment": [
+    {
+      "id": "102704-1_yKMiv",
+      "cn_events_before": 72,
+      "cn_events_after": 72,
+      "jp_events": 72,
+      "changed_fields": 66,
+      "new_source_based_fields": {
+        "5": "今天，局势一定又会@发生很大的变化吧…"
+      },
+      "discarded_proven_duplicate_ordinals": [
+        71
+      ],
+      "all_other_payloads_kept": true,
+      "non_display_structure_changed": false
+    },
+    {
+      "id": "519601-21_BPssF",
+      "cn_events_before": 79,
+      "cn_events_after": 80,
+      "jp_events": 80,
+      "changed_fields": 10,
+      "new_source_based_fields": {
+        "9": "——！？"
+      },
+      "discarded_proven_duplicate_ordinals": [],
+      "all_other_payloads_kept": true,
+      "non_display_structure_changed": false
+    }
+  ],
+  "full_corpus_complete": false,
+  "device_gameplay_verified": false,
+  "reader_production_verified": false,
+  "reader_commit": "149208c9a6bbcc99d2536cf294cb4f2d3c272bb9"
+}
