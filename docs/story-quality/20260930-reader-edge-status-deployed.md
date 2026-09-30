@@ -1,0 +1,1 @@
+Reader已完成服务端接口续修，生产源码17a4e82e0ac2e6891522861d05d17c275f019562，部署c57100ff-459a-4a7e-ac20-248d8e84895c。本次没有修改玩家JSON/ZIP；正式版本仍3309。已修复Exedra状态500且2405项累计剧情在线字节验证通过，43份V4迁移和196份授权修订保留。Reader回执提交9a5cdeb21274a6da6a23f14f277bc9b29f0975dc，docs/story-quality/20260930-edge-status-published.md。全库机翻及其余差异审核继续进行，不以网站接口修复增加空版本号。
