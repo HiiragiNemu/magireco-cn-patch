@@ -1,10 +1,10 @@
 # 剧情校订与累计贡献台账
 
-核定快照：玩家剧情包 **3319**。Reader `0a96f932a280a31c2c568cfaf6f4d9aec16630f7`；CN patch `ba8966482523031dbe7e110cfd177902ba6e9a99`；发行仓 `d911abc3353f5a979cf6e7175bfa65acf1deca14`。
+核定快照：玩家剧情包 **3320**。Reader `d5b1442cbba6889f9f917f41bcc9bfe3837ffe04`；CN patch `f8b3ee980ba73b7d8f0b160f6b5f49855c447a64`；发行仓 `ffd00daae29153f39c8e70b36eaf49d764429c03`。
 
-确认 AI／机翻来源的独立运行片段共 **1079**，全文复核 **443**，尚待 **636**（已含未索引 24）。完成中接手前已有 **48**，接手后 **395**；前一个 AI 的成果没有清零。
+确认 AI／机翻来源的独立运行片段共 **1079**，全文复核 **534**，尚待 **545**（已含未索引 24）。完成中接手前已有 **48**，接手后 **486**；前一个 AI 的成果没有清零。
 
-自 3301 至 3319 的已发布改动按运行 JSON 路径去重，共涉及 **731** 个片段。其中存在正文校订的 **413** 个片段、**13220** 个不同字段地址；历史重复校订计 **13220** 次操作，不能把操作次数当新句数。姓名修正、运行结构对齐和原稿恢复另列，不能都声称为原创翻译或全文复核。
+自 3301 至 3320 的已发布改动按运行 JSON 路径去重，共涉及 **822** 个片段。其中存在正文校订的 **504** 个片段、**15530** 个不同字段地址；历史重复校订计 **15530** 次操作，不能把操作次数当新句数。姓名修正、运行结构对齐和原稿恢复另列，不能都声称为原创翻译或全文复核。
 
 ## 固定文件与统计口径
 
@@ -51,6 +51,7 @@
 | 3317 | 接手后 | text_correction | 61 | 61 | 720 | `f1955c691d` |
 | 3318 | 接手后 | text_correction | 72 | 72 | 2523 | `0d04f7adc9` |
 | 3319 | 接手后 | text_correction | 96 | 96 | 3033 | `4c2eb16d22` |
+| 3320 | 接手后 | text_correction | 91 | 91 | 2310 | `d5b1442cbb` |
 
 各阶段修改片段合计需要扣除跨阶段重复：当前有 9 个运行片段在接手前后均有改动，累计总数已经去重。
 
@@ -58,7 +59,7 @@
 
 每批发布并完成当前来源核对后，用 `tools/story_quality_contributions.py` 重新生成以上记录。先刷新三仓 main 和已发布版本，固定 Reader、patch、public 引用；有并行改动或中日文 blob 漂移时必须中止核算并刷新来源。不得删除历史批次，不得只改汇总数字，未发布的暂存校订单独留在当前批次交接中。
 
-示例：`python tools/story_quality_contributions.py --reader . --patch-git <patch.git> --public-git <public.git> --reader-ref <SHA> --patch-ref <SHA> --public-ref <SHA> --last-version 3319 --output <staging-directory>`。生成器只读 Git、只写指定报告目录，不触碰剧情与贡献展示。
+示例：`python tools/story_quality_contributions.py --reader . --patch-git <patch.git> --public-git <public.git> --reader-ref <SHA> --patch-ref <SHA> --public-ref <SHA> --last-version 3320 --output <staging-directory>`。生成器只读 Git、只写指定报告目录，不触碰剧情与贡献展示。
 
 ## 唯一保存位置
 
