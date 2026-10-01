@@ -227,11 +227,13 @@ jobs:
           git commit -m "release: publish verified client ${APK_VERSION} [skip ci]"
           git push origin HEAD:main
 
-      - name: Promote public config only after all public assets agree
+      - name: Promote verified client without touching resource publications
         env:
           SOURCE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: python3 -u tools/mirror_release.py --source "$GITHUB_REPOSITORY" --target HiiragiNemu/ProgettoMagius-1
+        run: |
+          python3 tools/test-client-only-publication.py
+          python3 -u tools/promote_verified_client.py --source "$GITHUB_REPOSITORY" --target HiiragiNemu/ProgettoMagius-1 --expected-run "$SOURCE_RUN_ID"
 
       - name: Verify live config after propagation
         run: |
