@@ -1,10 +1,10 @@
 # 剧情校订与累计贡献台账
 
-核定快照：玩家剧情包 **3318**。Reader `0d04f7adc9db140a1f7fac1183c5d346353b7899`；CN patch `ed09e4b5b2a25968e7db51f8b3d78cec2c8e4423`；发行仓 `cf2b70fc2606801b574c3d4632daaf743def6d34`。
+核定快照：玩家剧情包 **3319**。Reader `0a96f932a280a31c2c568cfaf6f4d9aec16630f7`；CN patch `ba8966482523031dbe7e110cfd177902ba6e9a99`；发行仓 `d911abc3353f5a979cf6e7175bfa65acf1deca14`。
 
-确认 AI／机翻来源的独立运行片段共 **1079**，全文复核 **347**，尚待 **732**（已含未索引 24）。完成中接手前已有 **48**，接手后 **299**；前一个 AI 的成果没有清零。
+确认 AI／机翻来源的独立运行片段共 **1079**，全文复核 **443**，尚待 **636**（已含未索引 24）。完成中接手前已有 **48**，接手后 **395**；前一个 AI 的成果没有清零。
 
-自 3301 至 3318 的已发布改动按运行 JSON 路径去重，共涉及 **635** 个片段。其中存在正文校订的 **317** 个片段、**10187** 个不同字段地址；历史重复校订计 **10187** 次操作，不能把操作次数当新句数。姓名修正、运行结构对齐和原稿恢复另列，不能都声称为原创翻译或全文复核。
+自 3301 至 3319 的已发布改动按运行 JSON 路径去重，共涉及 **731** 个片段。其中存在正文校订的 **413** 个片段、**13220** 个不同字段地址；历史重复校订计 **13220** 次操作，不能把操作次数当新句数。姓名修正、运行结构对齐和原稿恢复另列，不能都声称为原创翻译或全文复核。
 
 ## 固定文件与统计口径
 
@@ -50,6 +50,7 @@
 | 3316 | 接手后 | text_correction | 44 | 44 | 163 | `93305879d4` |
 | 3317 | 接手后 | text_correction | 61 | 61 | 720 | `f1955c691d` |
 | 3318 | 接手后 | text_correction | 72 | 72 | 2523 | `0d04f7adc9` |
+| 3319 | 接手后 | text_correction | 96 | 96 | 3033 | `4c2eb16d22` |
 
 各阶段修改片段合计需要扣除跨阶段重复：当前有 9 个运行片段在接手前后均有改动，累计总数已经去重。
 
@@ -57,8 +58,8 @@
 
 每批发布并完成当前来源核对后，用 `tools/story_quality_contributions.py` 重新生成以上记录。先刷新三仓 main 和已发布版本，固定 Reader、patch、public 引用；有并行改动或中日文 blob 漂移时必须中止核算并刷新来源。不得删除历史批次，不得只改汇总数字，未发布的暂存校订单独留在当前批次交接中。
 
-示例：`python tools/story_quality_contributions.py --reader . --patch-git <patch.git> --public-git <public.git> --reader-ref <SHA> --patch-ref <SHA> --public-ref <SHA> --last-version 3318 --output <staging-directory>`。生成器只读 Git、只写指定报告目录，不触碰剧情与贡献展示。
+示例：`python tools/story_quality_contributions.py --reader . --patch-git <patch.git> --public-git <public.git> --reader-ref <SHA> --patch-ref <SHA> --public-ref <SHA> --last-version 3319 --output <staging-directory>`。生成器只读 Git、只写指定报告目录，不触碰剧情与贡献展示。
 
 ## 唯一保存位置
 
-按维护者要求，本目录和全量贡献记录仅保存在CN patch。Reader／发行仓只引用这里，不保存副本；后续只向CN patch提交生成结果。
+按维护者要求，累计贡献、完整已复核/待处理台账及包含这些信息的恢复包只保存在 HiiragiNemu/magireco-cn-patch。Reader 和 ProgettoMagius-1 只保留接续指针和必要的单批校订/发布证据，不提交生成目录副本，也不在ZIP内夹带台账。前一位AI和接手前的已确认贡献持续保留。
