@@ -69,7 +69,7 @@ def main():
  rg,pg,ug=Git(args.reader),Git(args.patch_git,True),Git(args.public_git,True)
  try:
   rr=rg.run('rev-parse',args.reader_ref).decode().strip();pr=pg.run('rev-parse',args.patch_ref).decode().strip();ur=ug.run('rev-parse',args.public_ref).decode().strip();rt=rg.tree(rr);pt=pg.tree(pr)
-  census=json.loads(gzip.decompress(args.census_file.read_bytes())) if args.census_file else rg.obj(rr+':docs/story-quality/20261001-ai-only-census.json.gz')
+  census=json.loads(gzip.decompress(args.census_file.read_bytes())) if args.census_file else pg.obj(pr+':docs/story-quality/20261001-ai-only-census.json.gz')
   ai={x['path']:x for x in census['scripts']};proof={x['path']:x for x in census['completed_evidence']};assert len(ai)==len(census['scripts']) and all(rt.get(p)==x['current_blob'] and rt.get(x['jp_path'])==x['jp_blob'] for p,x in ai.items()),'AI ledger source drift: refresh before contribution accounting'
   assert set(proof)=={p for p,x in ai.items() if x['complete']},'Every completion requires evidence, not a scan'
   for p,e in proof.items():assert e['cn_blob']==rt[p] and e['jp_blob']==rt[e['jp_path']]

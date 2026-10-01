@@ -58,3 +58,7 @@
 每批发布并完成当前来源核对后，用 `tools/story_quality_contributions.py` 重新生成以上记录。先刷新三仓 main 和已发布版本，固定 Reader、patch、public 引用；有并行改动或中日文 blob 漂移时必须中止核算并刷新来源。不得删除历史批次，不得只改汇总数字，未发布的暂存校订单独留在当前批次交接中。
 
 示例：`python tools/story_quality_contributions.py --reader . --patch-git <patch.git> --public-git <public.git> --reader-ref <SHA> --patch-ref <SHA> --public-ref <SHA> --last-version 3318 --output <staging-directory>`。生成器只读 Git、只写指定报告目录，不触碰剧情与贡献展示。
+
+## 唯一保存位置
+
+按维护者要求，本目录和全量贡献记录仅保存在CN patch。Reader／发行仓只引用这里，不保存副本；后续只向CN patch提交生成结果。
