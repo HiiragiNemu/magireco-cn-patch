@@ -1,0 +1,1388 @@
+{
+  "schema": 1,
+  "batch": "20261002-semantic-batch08-ai-only",
+  "verified_at": "2026-10-01T22:42:36+00:00",
+  "translation": {
+    "schema": 3,
+    "batch": "20261002-semantic-batch08-ai-only",
+    "validated_at": "2026-10-01T22:29:01+00:00",
+    "indexed_chapters_complete": 18,
+    "scenes_full_read": 94,
+    "complete_scenes_reviewed": 94,
+    "new_complete_scenes": 91,
+    "previous_complete_context_scenes": 3,
+    "new_reviewed_fields": 5155,
+    "context_fields": 186,
+    "pending_source_adjudication": [],
+    "display_fields_reviewed": 5341,
+    "display_fields_revised": 2310,
+    "body_fields_revised": 2310,
+    "explicit_speaker_label_repairs": 0,
+    "display_only": true,
+    "exact_reverse_to_original_bytes": true,
+    "nontext_structure_actor_identity_and_audio_unchanged": true,
+    "AI_import_source_verified": true,
+    "executable_tags_and_highlight_types_unchanged": true,
+    "player_name_placeholders_preserved": 0,
+    "actual_reader_parser_files": 94,
+    "actual_reader_events_and_audio_metadata_unchanged_except_source_proven_missing_display": true,
+    "restored_previously_empty_display_fields": 0,
+    "restored_display_explanation": "No new previously-empty Reader display event. Existing missing/mistranslated visible words are corrected inside already displayed fields; execution identities preserved.",
+    "specialized_tests_passed": 23,
+    "additional_missing_display_contract_tests": 17,
+    "reader_txt_files": 40,
+    "reader_txt_field_spans": 7738,
+    "historical_full_section_baselines": 25,
+    "multiline_artifact_spans": 0,
+    "txt_missing_fields": 0,
+    "txt_alignment_holds": 0,
+    "protected_v4_unchanged": 43,
+    "protected_authorized_cn_unchanged": 196,
+    "unrelated_dirty_paths_unchanged": true,
+    "review_method": "model_assisted_full_scene_Japanese_comparison_not_official_human_source",
+    "official_or_human_provenance_not_asserted": true,
+    "published": false,
+    "whole_corpus_complete": false,
+    "device_gameplay_verified": false
+  },
+  "delivery": {
+    "reader_source_commit": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+    "reader_data_commit": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+    "cn_patch_source_commit": "f8b3ee980ba73b7d8f0b160f6b5f49855c447a64",
+    "scenario_version": 3320,
+    "package": {
+      "size": 193611524,
+      "sha256": "29aa370870368a00bad57f1aae9f9fe35146e973efaf8d2e44407bf5ab01a1ea",
+      "md5": "1c5caaf943209727b073c57da2e2571b"
+    },
+    "package_publication_run": 36935598638,
+    "reader_production_deployment": "e4e792b3-edb0-45df-bfde-f87824c53cca",
+    "reader_site_uploaded": true,
+    "reader_site_uploaded_for_active_batch": true,
+    "adv_current_for_this_source_registered": true,
+    "adv_registered_for_active_batch": true,
+    "adv_record": {
+      "schema": 1,
+      "source_revision": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+      "deployment": "https://e4e792b3.magireader.pages.dev",
+      "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+      "shard_prefix": "/story-json-catalog/v1/",
+      "published_at": "2026-10-01T22:42:31.905Z"
+    },
+    "game_device_verified": false
+  },
+  "tests": {
+    "source_revision": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+    "verified_at": "2026-10-01T22:38:43.414249+00:00",
+    "python_tests": 611,
+    "python_skipped": 3,
+    "python_failures": 0,
+    "node_tests": 730,
+    "node_failures": 0,
+    "lint": true,
+    "typecheck": true,
+    "feature_policy": true,
+    "production_dependency_audit_vulnerabilities": 0,
+    "source_or_test_code_modified_to_pass": false,
+    "log_sha256": "a7dae09b5bf3e5e203479c6d1895ea16db393baa1517ae35a3d19e25b988bfbd"
+  },
+  "http": {
+    "source_revision": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+    "origin": "https://magireader.pages.dev",
+    "deployment_id": "e4e792b3-edb0-45df-bfde-f87824c53cca",
+    "checked_at": "2026-10-01T22:42:29Z",
+    "total": 2245,
+    "passed": 2245,
+    "failed": 0,
+    "retries": 0,
+    "categories": {
+      "changed_reader_txt": 126,
+      "act2_reader_txt": 103,
+      "authorized_reader_txt": 63,
+      "changed_or_authorized_json": 1687,
+      "index_or_manifest": 7,
+      "catalog_shard": 256,
+      "regression_source_json": 1,
+      "representative_source_json": 2
+    },
+    "authorized_196_all_covered": true
+  },
+  "browser": {
+    "sourceRevision": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+    "checks": 36,
+    "passed": true,
+    "results": [
+      {
+        "id": "420171-4",
+        "route": "420171",
+        "viewport": "desktop",
+        "expected": "拖挂房车",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-420171-420171-4-97ac1882.png"
+      },
+      {
+        "id": "420271-2",
+        "route": "420271",
+        "viewport": "desktop",
+        "expected": "增加了约一成",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-420271-420271-2-7551ea9b.png"
+      },
+      {
+        "id": "420371-3",
+        "route": "420371",
+        "viewport": "desktop",
+        "expected": "当时的我的推测",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-420371-420371-3-0b7333ab.png"
+      },
+      {
+        "id": "510010-9_9UlG8",
+        "route": "510010",
+        "viewport": "desktop",
+        "expected": "南凪海",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510010-510010-9_9UlG8-5a2cef4b.png"
+      },
+      {
+        "id": "510020-9_U7gkv",
+        "route": "510020",
+        "viewport": "desktop",
+        "expected": "新的花朵",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "desktop-510020-510020-9_U7gkv-5819d6e7.png"
+      },
+      {
+        "id": "510201-3_m4VmX",
+        "route": "510201",
+        "viewport": "desktop",
+        "expected": "祈祷花瓣",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510201-510201-3_m4VmX-5c6a35c7.png"
+      },
+      {
+        "id": "510204-3_m4VmX",
+        "route": "510204",
+        "viewport": "desktop",
+        "expected": "杀了她",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510204-510204-3_m4VmX-3d4bc52c.png"
+      },
+      {
+        "id": "510207-4_m4VmX",
+        "route": "510207",
+        "viewport": "desktop",
+        "expected": "地狱之门",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510207-510207-4_m4VmX-6845b3ad.png"
+      },
+      {
+        "id": "510208-1_kssXu",
+        "route": "510208",
+        "viewport": "desktop",
+        "expected": "消逝的光芒",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510208-510208-1_kssXu-28525d96.png"
+      },
+      {
+        "id": "510208-6_kssXu",
+        "route": "510208",
+        "viewport": "desktop",
+        "expected": "不能死",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510208-510208-6_kssXu-3c857523.png"
+      },
+      {
+        "id": "510211-5_kssXu",
+        "route": "510211",
+        "viewport": "desktop",
+        "expected": "不受任何魔法少女",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510211-510211-5_kssXu-7ec103b7.png"
+      },
+      {
+        "id": "510213-1_kssXu",
+        "route": "510213",
+        "viewport": "desktop",
+        "expected": "既非生者",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510213-510213-1_kssXu-f19ad4d3.png"
+      },
+      {
+        "id": "510213-5_kssXu",
+        "route": "510213",
+        "viewport": "desktop",
+        "expected": "才有了现在的我们",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510213-510213-5_kssXu-1855e2dd.png"
+      },
+      {
+        "id": "510208-1_kssXu",
+        "route": "510201-09",
+        "viewport": "desktop",
+        "expected": "消逝的光芒",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510201-09-510208-1_kssXu-28525d96.png"
+      },
+      {
+        "id": "510213-1_kssXu",
+        "route": "510210-13",
+        "viewport": "desktop",
+        "expected": "光的尽头",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510210-13-510213-1_kssXu-977f935e.png"
+      },
+      {
+        "id": "340361-2",
+        "route": "340361",
+        "viewport": "desktop",
+        "expected": "大一轮",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-340361-340361-2-f3327422.png"
+      },
+      {
+        "id": "340613-3",
+        "route": "340613",
+        "viewport": "desktop",
+        "expected": "为了保护弱者",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "desktop-340613-340613-3-715f91ad.png"
+      },
+      {
+        "id": "311133-4",
+        "route": "311133",
+        "viewport": "desktop",
+        "expected": "明日香的表妹",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-311133-311133-4-732841dc.png"
+      },
+      {
+        "id": "420171-4",
+        "route": "420171",
+        "viewport": "mobile",
+        "expected": "拖挂房车",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-420171-420171-4-97ac1882.png"
+      },
+      {
+        "id": "420271-2",
+        "route": "420271",
+        "viewport": "mobile",
+        "expected": "增加了约一成",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-420271-420271-2-7551ea9b.png"
+      },
+      {
+        "id": "420371-3",
+        "route": "420371",
+        "viewport": "mobile",
+        "expected": "当时的我的推测",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-420371-420371-3-0b7333ab.png"
+      },
+      {
+        "id": "510010-9_9UlG8",
+        "route": "510010",
+        "viewport": "mobile",
+        "expected": "南凪海",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510010-510010-9_9UlG8-5a2cef4b.png"
+      },
+      {
+        "id": "510020-9_U7gkv",
+        "route": "510020",
+        "viewport": "mobile",
+        "expected": "新的花朵",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "mobile-510020-510020-9_U7gkv-5819d6e7.png"
+      },
+      {
+        "id": "510201-3_m4VmX",
+        "route": "510201",
+        "viewport": "mobile",
+        "expected": "祈祷花瓣",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510201-510201-3_m4VmX-5c6a35c7.png"
+      },
+      {
+        "id": "510204-3_m4VmX",
+        "route": "510204",
+        "viewport": "mobile",
+        "expected": "杀了她",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510204-510204-3_m4VmX-3d4bc52c.png"
+      },
+      {
+        "id": "510207-4_m4VmX",
+        "route": "510207",
+        "viewport": "mobile",
+        "expected": "地狱之门",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510207-510207-4_m4VmX-6845b3ad.png"
+      },
+      {
+        "id": "510208-1_kssXu",
+        "route": "510208",
+        "viewport": "mobile",
+        "expected": "消逝的光芒",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510208-510208-1_kssXu-28525d96.png"
+      },
+      {
+        "id": "510208-6_kssXu",
+        "route": "510208",
+        "viewport": "mobile",
+        "expected": "不能死",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510208-510208-6_kssXu-3c857523.png"
+      },
+      {
+        "id": "510211-5_kssXu",
+        "route": "510211",
+        "viewport": "mobile",
+        "expected": "不受任何魔法少女",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510211-510211-5_kssXu-7ec103b7.png"
+      },
+      {
+        "id": "510213-1_kssXu",
+        "route": "510213",
+        "viewport": "mobile",
+        "expected": "既非生者",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510213-510213-1_kssXu-f19ad4d3.png"
+      },
+      {
+        "id": "510213-5_kssXu",
+        "route": "510213",
+        "viewport": "mobile",
+        "expected": "才有了现在的我们",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510213-510213-5_kssXu-1855e2dd.png"
+      },
+      {
+        "id": "510208-1_kssXu",
+        "route": "510201-09",
+        "viewport": "mobile",
+        "expected": "消逝的光芒",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510201-09-510208-1_kssXu-28525d96.png"
+      },
+      {
+        "id": "510213-1_kssXu",
+        "route": "510210-13",
+        "viewport": "mobile",
+        "expected": "光的尽头",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510210-13-510213-1_kssXu-977f935e.png"
+      },
+      {
+        "id": "340361-2",
+        "route": "340361",
+        "viewport": "mobile",
+        "expected": "大一轮",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-340361-340361-2-f3327422.png"
+      },
+      {
+        "id": "340613-3",
+        "route": "340613",
+        "viewport": "mobile",
+        "expected": "为了保护弱者",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "mobile-340613-340613-3-715f91ad.png"
+      },
+      {
+        "id": "311133-4",
+        "route": "311133",
+        "viewport": "mobile",
+        "expected": "明日香的表妹",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-311133-311133-4-732841dc.png"
+      }
+    ]
+  },
+  "edge_checks": {
+    "source_revision": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+    "origin": "https://magireader.pages.dev",
+    "verified_at": "2026-10-01T22:41:50Z",
+    "checks": 5,
+    "passed": true,
+    "tests": [
+      {
+        "path": "/api/exedra/localization-status",
+        "status": 200,
+        "payload": {
+          "version": 1,
+          "total": 0,
+          "entries": [],
+          "database_configured": true
+        },
+        "no_store": "no-store"
+      },
+      {
+        "path": "/api/exedra/localized/exedra_character_character_arina_dc31ada135",
+        "status": 307,
+        "location": "/data/exedra_character/character_arina/character_arina_cn.txt",
+        "kind": "existing_local_translation"
+      },
+      {
+        "path": "/data/exedra_character/character_arina/character_arina_cn.txt",
+        "status": 200,
+        "bytes": 21401,
+        "sha256": "64f1311f4f581364e0090b8396710fd1d40431744aeb4728f6748cd24fced0b3",
+        "kind": "exact_local_translation"
+      },
+      {
+        "path": "/api/exedra/localized/exedra_battle_battle_crisis1_23c06d53c9",
+        "status": 404,
+        "meaning": "genuinely unavailable Chinese, not an artificial translated success",
+        "body": "该剧情目前没有本地人工中文、官方台服中文或已验证的 Exedra Wiki 中文。"
+      },
+      {
+        "path": "/api/exedra/localized/__unknown_story_20260930",
+        "status": 404,
+        "kind": "unknown_identity_still_rejected"
+      }
+    ],
+    "no_false_translation_success": true
+  },
+  "package_receipt": {
+    "schema": 1,
+    "batch": "20261002-semantic-batch08-ai-only",
+    "version": 3320,
+    "status": "published_and_anonymously_verified",
+    "reader_commit": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+    "cn_patch_commit": "f8b3ee980ba73b7d8f0b160f6b5f49855c447a64",
+    "base_version": 3319,
+    "base_package": {
+      "size": 193609018,
+      "sha256": "17f67f928bfaa445fe28a3b6e8b8cd92ea9a4d59b5a10b10a8b82ebed35f4afd",
+      "md5": "276519174ce6cdd6e80e90f7f66e4d71"
+    },
+    "package": {
+      "size": 193611524,
+      "sha256": "29aa370870368a00bad57f1aae9f9fe35146e973efaf8d2e44407bf5ab01a1ea",
+      "md5": "1c5caaf943209727b073c57da2e2571b"
+    },
+    "files": [
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_4/420271-3.json",
+        "before": "53388ea6535fa24731a497fd616174ffb942d4f5",
+        "git_blob": "c29b4ccff73c3f17c8aa06b46cbbfb890d03f509",
+        "fields": 17
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_4/420271-4.json",
+        "before": "f6c8fd01ca23922d2717f8063086a1ba1d74c91a",
+        "git_blob": "339d4781226130c120f009f323f4ffdbcb408d8d",
+        "fields": 31
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_4/420371-2.json",
+        "before": "a760dbb8a67e2415624e3a19c4da76152aa6a53c",
+        "git_blob": "78d37b22dcc9d086dea6bafc2921046ccd856c57",
+        "fields": 26
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_4/420371-4.json",
+        "before": "3043894d060f5a1a7266c0f54825cb8fa0904102",
+        "git_blob": "5fb87779c4ca202bc4f60df2113e58cd2e1f64fc",
+        "fields": 4
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_4/420271-2.json",
+        "before": "7a0da699e8519ecacab1ac4cee7294646b5c335b",
+        "git_blob": "a81a186040784177d74d22ca0b3f1434e8813cd8",
+        "fields": 32
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_4/420271-1.json",
+        "before": "47ccb90cf51e6ab717d221895a75449ae85cba4e",
+        "git_blob": "db71ba60930559c6e16d1cd9539cc6b860c386ba",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_4/420371-1.json",
+        "before": "b497ee39662681bf992f233f71ac66bf32ccc5d9",
+        "git_blob": "f33731b0096132069342dfdbd7177e64170249de",
+        "fields": 24
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_4/420371-3.json",
+        "before": "b21a2e7fad7b7859afb129806f75985f769495a3",
+        "git_blob": "113d93ece262fc87691a37c199c57a34985ed3b0",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_4/420171-4.json",
+        "before": "0ff346171e02d8b2ac11387a48a70e5f370f0cea",
+        "git_blob": "6807076472b87fa4824930f6fa1ad4daf46504d8",
+        "fields": 51
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510208-2_kssXu.json",
+        "before": "e064d27f8266d4ee279b4aae8122c550edcee37e",
+        "git_blob": "4b62d0ebb14f2ae7e9bb49e14ef68ebaeb5658cf",
+        "fields": 41
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510209-2_kssXu.json",
+        "before": "8f515f94197ccc8f4ebf06046be8d9c1c4cb7cde",
+        "git_blob": "c78bfe3d51be9c3b9932eda1c88e39f5209df2d9",
+        "fields": 14
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510207-2_m4VmX.json",
+        "before": "7fc7dbd3993cc01c23150711306e7303f626ab43",
+        "git_blob": "366ddab0b5c7e1e7a50462c4a93073e2bfd27979",
+        "fields": 35
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510208-4_kssXu.json",
+        "before": "621b3ebd6c85dd5644f4dd1b42a1279dee0f1df0",
+        "git_blob": "bd8c12253284fac2b69486800a56220807d09e2a",
+        "fields": 33
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510212-1_kssXu.json",
+        "before": "36d4cb627c0d5150f4eb453b7b74c9356d09951d",
+        "git_blob": "648e53f61a75ad313736f55883502adc1294a6ae",
+        "fields": 33
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510010-10_9UlG8.json",
+        "before": "fc6d22e344a95364aaa6a317db6af34c94ef7b4d",
+        "git_blob": "9c54212b9e3313bfc0b7e26e05d9da68a81eb9c6",
+        "fields": 51
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510201-2_m4VmX.json",
+        "before": "36c5537fb37393dc9c0519ad8b75f691019d8bb0",
+        "git_blob": "aeae247676ea172da3d2ac718750680084f201b9",
+        "fields": 11
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510010-2_9UlG8.json",
+        "before": "2db1f698105ade4e4dc84101822d946056664948",
+        "git_blob": "68fba2f1dd22b91beabb16842ee31145db2760a5",
+        "fields": 39
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510212-2_kssXu.json",
+        "before": "d19565e57297c8a6da2c4653e46ee6ab7b4f5f33",
+        "git_blob": "8b506f39e995f242160a147fc890c21903c452a9",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510208-1_kssXu.json",
+        "before": "485d7668b9a5f6af8276555a0d6e067b3fa772cb",
+        "git_blob": "cf6a3254d5bd09b4380b02a0df324eec5ce4a779",
+        "fields": 29
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510010-7_9UlG8.json",
+        "before": "d73ce5b17017029a9e34e5f523404d297f4c52df",
+        "git_blob": "fb3e33cb785b38946771418185696c149d80bce9",
+        "fields": 35
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510213-3_kssXu.json",
+        "before": "364f9b776014dd48d67e1d3baf91ea369aff93af",
+        "git_blob": "68c3e27a2320df96fb1881d1f0adf1d27fb2ecac",
+        "fields": 14
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510020-10_U7gkv.json",
+        "before": "96adbc5a2ca1454b028baf24c5e724ccb198c829",
+        "git_blob": "e447cf8ae86946c23b5a9946d9c8195db21305b1",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510204-6_m4VmX.json",
+        "before": "1a24b775159e2f4e57f69a38f089cc80444bb1dc",
+        "git_blob": "39ec714fae36a42fdf4d8a177b1b89da416d14b9",
+        "fields": 29
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510211-1_kssXu.json",
+        "before": "46f22000459df348cd6f2f0f78039da5435ccdc5",
+        "git_blob": "489bda379f2653efb1c4ca090440a26576c9857c",
+        "fields": 37
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510209-1_kssXu.json",
+        "before": "737e781350e015fc7e616109f57f1897e0dc5509",
+        "git_blob": "8cc49ce9e08b3e056594a257819594fe1d8108a5",
+        "fields": 33
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510203-4_m4VmX.json",
+        "before": "045bfa1dc82a92856c74bdc038770c6354949502",
+        "git_blob": "7bc886abf63aeafac996d7fd453424e1c10ff5de",
+        "fields": 26
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510210-3_kssXu.json",
+        "before": "f9f454ebc2efb8b3d17bdcbf4d5df45ff68823f1",
+        "git_blob": "58c8d245990e3b2c17f0a67a77f5d1b29333e28d",
+        "fields": 12
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510213-1_kssXu.json",
+        "before": "f68bd2ea4c4b02ba9e8e64c329b8aa79b691e6b4",
+        "git_blob": "94fa3773ee477b0bc7e0146f7448698f75976757",
+        "fields": 38
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510203-5_m4VmX.json",
+        "before": "88cc12343071e8371bdb27afca8908f437f34d4a",
+        "git_blob": "5458d2fa35fb2ff039a0336aba519a67497266c5",
+        "fields": 21
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510010-9_9UlG8.json",
+        "before": "f2db91b8134783a1327356d5fc7e27a5c0bbd991",
+        "git_blob": "e382372223db256460b4e6b7850757eae432c35d",
+        "fields": 27
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510204-3_m4VmX.json",
+        "before": "7ae99919bf0de9034f51b76892657978ce5ddaac",
+        "git_blob": "8c906230e8c3dacdf3cdf63013fb6da4e517911f",
+        "fields": 51
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510203-3_m4VmX.json",
+        "before": "9b0a6dfa4f62a3af5247868a46055d61b6fdffb4",
+        "git_blob": "5661bb84a346c5ffea78890956b081778b642d0a",
+        "fields": 10
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510201-4_m4VmX.json",
+        "before": "2b0653538626bd364d1fa84a0d45a161bff4fac0",
+        "git_blob": "6b59246da1a973340e273be5cde8368629b6eb3f",
+        "fields": 20
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510010-1_9UlG8.json",
+        "before": "adaa5095a7f27d2100660146454a8e840136d523",
+        "git_blob": "db5fe491748723eb601dc45ae858a9109639ec69",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510209-3_kssXu.json",
+        "before": "5d7f5736f1b4b5647adf9f95cda9dc77710b1a8d",
+        "git_blob": "b5c661003a80ff1eff1314c7946d1e4c3a0bc86f",
+        "fields": 14
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510205-2_m4VmX.json",
+        "before": "aea034c71a29242308d900b27a168720fd69b1ea",
+        "git_blob": "404cb167e089578a1f3ef2de85feff6bf1c97985",
+        "fields": 35
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510211-4_kssXu.json",
+        "before": "64bdda629cb4827e80e8d222a44386e3b68f91c9",
+        "git_blob": "046c111074115b4071cc9633a22c5426d5a26b76",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510211-5_kssXu.json",
+        "before": "3f3b7260ef0482728e8887f61ff84e37ccd6e727",
+        "git_blob": "de5bce08225b427bc06c17d1438541e3f20738da",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510213-2_kssXu.json",
+        "before": "be27ce27dd44d4ed687b92c1fbbbdef398838977",
+        "git_blob": "1bfdc7f24199ed2945d280e8c929a51216ce2e4e",
+        "fields": 24
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510020-2_U7gkv.json",
+        "before": "6837692e946f1a47de5f9412cae7b2d6810c1c0e",
+        "git_blob": "5324a75a93ac45b8a79a014cbc0fb5f634a417d0",
+        "fields": 29
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510202-4_m4VmX.json",
+        "before": "6534faa8b04129b09b977db5243a8b09f7d628f5",
+        "git_blob": "83a750b57e5f5242ad323cd4a1ea73b06e4f55f2",
+        "fields": 37
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510020-4_U7gkv.json",
+        "before": "a147244050030f404dddcd0a3fb16abf2b991086",
+        "git_blob": "f1e2e83232d6609d81d0329438b5492606a9b622",
+        "fields": 21
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510010-5_9UlG8.json",
+        "before": "36e1fa314bdf3e04e012c0d5d5f8ef9a12b66173",
+        "git_blob": "a3343d497c397b71c816045d798d04da5215a64a",
+        "fields": 34
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510209-5_kssXu.json",
+        "before": "676d528b1a7cfd202880608d7ad04d32258e2670",
+        "git_blob": "5f040cd6eefafc601c76c5b709f5a3d020e202ea",
+        "fields": 14
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510204-8_m4VmX.json",
+        "before": "3fbd0a9456d68335bd245bfa739a41387ba339d9",
+        "git_blob": "064a5b06cf5b88e367a0b68d47824d46894c922e",
+        "fields": 48
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510020-3_U7gkv.json",
+        "before": "08d1c6853e000ed58be1115e16dcad13293638ee",
+        "git_blob": "8feccc04f175ff05a54e7be5556d5afa8dc67e1e",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510203-6_m4VmX.json",
+        "before": "2b33fa17bfcea6788c1fbcd12e2c256eecd6a79e",
+        "git_blob": "51ee7d8187a111abbab2161a7cd98435cdbd1881",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510204-4_m4VmX.json",
+        "before": "ccf9d4aa2d81a542c03f223c42c5a3e3af77ec41",
+        "git_blob": "3c86d058b070e617b3ce5f87003e9c55f2742763",
+        "fields": 27
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510204-2_m4VmX.json",
+        "before": "496986bb9d2bd8f48cc5f14c5b9585eb02cf49c2",
+        "git_blob": "5d5a4225f4cbb21a36577f94cb321fef5e9572a2",
+        "fields": 26
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510210-2_kssXu.json",
+        "before": "ccdbae2075ce344694feb49399004e5507aa888a",
+        "git_blob": "ffb23c3f23a1f3314bd69bd4cfd3713a3fc0f015",
+        "fields": 26
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510202-2_m4VmX.json",
+        "before": "bec9ff9c15a1c9e4df0287967e6937a7466a9947",
+        "git_blob": "bb32456252c7b5008ca21ece2dc7638d99354e9c",
+        "fields": 18
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510201-0.json",
+        "before": "2d634bf585bc3e29313f42dd9a38f338e925e9b1",
+        "git_blob": "f2b19215d3b9bd7e6213f90b79f7e4b46971e9ca",
+        "fields": 11
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510205-1_m4VmX.json",
+        "before": "3a8a5d68802aae56af3c33b745bb2be499dc0e32",
+        "git_blob": "06e7aafa9678c349bc165f315aa705e404f21201",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510210-4_kssXu.json",
+        "before": "610bc90d69b87cac54856affff5356a7c564a067",
+        "git_blob": "712f47d3aea2d54838cd927e3cb7427d9bdd4c0f",
+        "fields": 19
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510211-3_kssXu.json",
+        "before": "4ceadb49cff84d056dcbe909bb5f58ee916f87ff",
+        "git_blob": "5226b71f454031968e4397f70ab8bef69ce57fe7",
+        "fields": 29
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510010-4_9UlG8.json",
+        "before": "f5af687004c5a4590a6b8b1e8e04d12bed6092ef",
+        "git_blob": "e87a2aaa6cc0f0f66c3de8d12c9d246e13534d95",
+        "fields": 24
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510204-5_m4VmX.json",
+        "before": "85255f0f2d23cde36069441c438d6f1db3a6b9d7",
+        "git_blob": "a014e77b9b1f3e717db68b50a0e6a362b5992d7c",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510206-1_m4VmX.json",
+        "before": "0bdad7ac7d70489e19808b9f32727683eeb4c6e9",
+        "git_blob": "657cf86dd8d8b476ef4520a5adb1b8359c587290",
+        "fields": 24
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510209-4_kssXu.json",
+        "before": "776688bdf0b90932185b8df2798e997f9e4df04d",
+        "git_blob": "1f312f9832cc03289539fd2bfb28ed3d4e6631b0",
+        "fields": 12
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510208-3_kssXu.json",
+        "before": "f46064d3b36272f038948772149fcde8974f7f1d",
+        "git_blob": "2a47e4463016b458576802fef71c8bc3d39cb82d",
+        "fields": 27
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510210-5_kssXu.json",
+        "before": "d0290fdae1cfb6b211fca840e339e5048f7a6aa1",
+        "git_blob": "1a6c7d7a13e8ae1b653c00486133aad9b436cfce",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510010-8_9UlG8.json",
+        "before": "bac6740b2a23134ee00d82946048497af4c04810",
+        "git_blob": "285e6a37289a54d802303849edfb54882fc280bc",
+        "fields": 23
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510206-2_m4VmX.json",
+        "before": "46906dd80fcc339b2e3ef0d048a2d5d857b9a73d",
+        "git_blob": "6ec859a8f27d2d4802c36488e162668b8d95af9c",
+        "fields": 26
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510207-6_m4VmX.json",
+        "before": "16ea29cadfc66f976dd57efe31f3953039638ad1",
+        "git_blob": "7db5d973c644ac4435db6f50445eac24b2734df2",
+        "fields": 18
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510207-3_m4VmX.json",
+        "before": "cc22caffc298bf748641c887a0fa539e9b4a8b07",
+        "git_blob": "30ef2f6b9c560cb38d3574d5a7ebe39374aa6768",
+        "fields": 20
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510202-3_m4VmX.json",
+        "before": "758d099474251cf8988181a5fa62afd1d4265ed2",
+        "git_blob": "9fd072c5887822e241364b6506557bf7f502e35c",
+        "fields": 19
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510020-1_U7gkv.json",
+        "before": "30023cee5949ceb17625a3822cffc260f3c0ec4a",
+        "git_blob": "a3db9e17dd91044826304459c4a1f6948f818193",
+        "fields": 17
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510201-1_m4VmX.json",
+        "before": "bc18cc637da31d67bb8085dc03476868f900e753",
+        "git_blob": "1e1c80afb6a3d7b6cd955899ba67f5f430b4f3d6",
+        "fields": 17
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510020-9_U7gkv.json",
+        "before": "dcd5925547564f0d277ce990be1b1e229258bc10",
+        "git_blob": "012027ceb04181624f6ebd3da0bcce7a01e677d9",
+        "fields": 27
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510204-1_m4VmX.json",
+        "before": "42a0bafea914407606f215e25213fe9753fa280a",
+        "git_blob": "945c7229a1657e7bc26cbffb3ee898a4d856819d",
+        "fields": 17
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510211-2_kssXu.json",
+        "before": "b2f9d96de3a5d8a53feb678e22ee50f73340fbe2",
+        "git_blob": "c36c798bcc6ac7a0b6591009a8c4c71624626164",
+        "fields": 22
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510020-8_U7gkv.json",
+        "before": "38ec06f311becd985591466e46b2144e30144137",
+        "git_blob": "f8be19a12a4cc36db2b3b655fa0aac0b3f8658f2",
+        "fields": 24
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510213-4_kssXu.json",
+        "before": "1ec0308b78f384a86c11fdc27ed3ffbbc194cab0",
+        "git_blob": "bc17f9e7e55655b9a8a1c9ae534d04662bca54bd",
+        "fields": 11
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510207-5_m4VmX.json",
+        "before": "98f05e4fc63d22ab524096ebe9f6edbe8fdef13f",
+        "git_blob": "ff55102f0e555ec2f5216c6ec2d90f258c33a550",
+        "fields": 20
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510204-7_m4VmX.json",
+        "before": "0311f9ac9cb521e33e5d83f40f09417b6d9df2b3",
+        "git_blob": "c93ba0fcea672b6052cd1a088653f49e827f96f5",
+        "fields": 44
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510201-5_m4VmX.json",
+        "before": "c41c880674ff1ae85d3ddf57370f5d0ad0aef4ca",
+        "git_blob": "d055c3bdba5220491ee5b13be8af8e088836a1c6",
+        "fields": 21
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510203-2_m4VmX.json",
+        "before": "8272d5e7c8e9f0daa79ed0b84863b02040904cdb",
+        "git_blob": "392d2b182beda8f685e9f62c39f9e287e68466ef",
+        "fields": 19
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510010-6_9UlG8.json",
+        "before": "c1c14fe69ccc61ad9f2a3a5f5026071aa046c278",
+        "git_blob": "c102f5eab873e6af94f00c93557d3cb70ba9ca27",
+        "fields": 37
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510020-5_U7gkv.json",
+        "before": "21524eb5f9ec2d34803d65471dfdc5c5d6553396",
+        "git_blob": "424a84635c9658641ef419e5db062f82aaee3c5d",
+        "fields": 27
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510213-5_kssXu.json",
+        "before": "7b79aee7e0dc617b44eaa1aa30f7d048ba1c7702",
+        "git_blob": "6fc11e1b2e9e882f078cd5325c1f803776f8959f",
+        "fields": 21
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510203-1_m4VmX.json",
+        "before": "1bda7638976096dbe5aea94a37dc5e6f72ca1beb",
+        "git_blob": "74c90124793e3789640f935cb38e4345b48f8bc0",
+        "fields": 14
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510201-3_m4VmX.json",
+        "before": "33231403196b61f64466f685c47c48be4008d160",
+        "git_blob": "46565a9f65dee1481239f7b9d4f70db6d76a72f5",
+        "fields": 22
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510210-1_kssXu.json",
+        "before": "8d738b4d28f241ef5a33d184d40b2511a808681a",
+        "git_blob": "caf3f6c959c1ebc52c1bc9bf646144a68906c45e",
+        "fields": 25
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510020-6_U7gkv.json",
+        "before": "f6863acaacee32747372f76c9bc4ff8863058f31",
+        "git_blob": "52bb0d1cf6d3b511300f9254ca5a39b77c113db9",
+        "fields": 13
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510010-3_9UlG8.json",
+        "before": "578fb392a074fa1322a56f561a80d154fe91d92b",
+        "git_blob": "63c247b42311f193c386849a9b3bc20ad9d58361",
+        "fields": 42
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510208-6_kssXu.json",
+        "before": "2d934c3de069970eb5a290e48a62c4eeafa42e06",
+        "git_blob": "15ccdad7805cd450b595fc4b477ac1143c7297d0",
+        "fields": 19
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510020-7_U7gkv.json",
+        "before": "92ef9c6913f701960260fcf5410568ff13a1fa5d",
+        "git_blob": "2ced84e8d8e99103f1698571e9e5a2036682364b",
+        "fields": 32
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510202-1_m4VmX.json",
+        "before": "af4302d509f95e8fbba1dc87f4d9dd68192231c7",
+        "git_blob": "00fa8e5331de7886b3289ed63e6a8448347782af",
+        "fields": 12
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510208-5_kssXu.json",
+        "before": "7f457c03d04418c2f8b304fec44c4f42174eecaf",
+        "git_blob": "3ad4f5fb9c813a5913882cb7580a55d0089a6999",
+        "fields": 24
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510207-4_m4VmX.json",
+        "before": "5698e69701c0fd12aed0975660d3f262a6a0115d",
+        "git_blob": "d1893d31ae21e99a9e6467b687634319be890e78",
+        "fields": 42
+      },
+      {
+        "path": "madomagi/resource/scenario/json/adv/scenario_5/510207-1_m4VmX.json",
+        "before": "4ede0ddda044f636d3017b402f219ecd8f71fba6",
+        "git_blob": "8c251d6e62ba3528f003b1ab88ce3d160b02648d",
+        "fields": 12
+      }
+    ],
+    "changed_runtime_scripts": 91,
+    "full_scenes_read": 94,
+    "reviewed_complete_scenes": 94,
+    "new_complete_scenes": 91,
+    "previous_complete_context_scenes": 3,
+    "new_reviewed_fields": 5155,
+    "context_fields": 186,
+    "complete_indexed_chapters": 18,
+    "pending_source_adjudication": [],
+    "reviewed_fields": 5341,
+    "changed_chinese_fields": 2310,
+    "body_fields_changed": 2310,
+    "speaker_labels_changed": 0,
+    "new_jp_execution_layout_migrations": 0,
+    "unchanged_files": 14142,
+    "previous_corrected_scripts": 731,
+    "previous_byte_identical": 731,
+    "previous_exact_extensions": [],
+    "protected_v4_unchanged": 43,
+    "non_text_json_structure_unchanged": true,
+    "restored_previously_empty_display_fields": 0,
+    "additional_missing_display_contract_tests": 17,
+    "scenario_tests": 23,
+    "reviewed_execution_identities_preserved": 94,
+    "reader_txt_files": 40,
+    "reader_txt_field_spans": 7738,
+    "nonadv_files_changed": 0,
+    "official_cn_provenance_independently_verified": false,
+    "whole_corpus_complete": false,
+    "game_device_verified": false,
+    "public_release": "latest",
+    "immutable_release": "scenario-3320",
+    "unrelated_release_assets_unchanged": true,
+    "verified_at": "2026-10-01T22:33:07Z",
+    "public_assets": [
+      {
+        "id": 604263206,
+        "name": "cn_scenario_update.zip",
+        "size": 193611524,
+        "digest": "sha256:29aa370870368a00bad57f1aae9f9fe35146e973efaf8d2e44407bf5ab01a1ea",
+        "updated_at": "2026-10-01T22:32:53Z"
+      },
+      {
+        "id": 604263390,
+        "name": "cn_scenario_update_manifest.json",
+        "size": 1759734,
+        "digest": "sha256:e443047333ca8a5c77df724ed6e902c860a2ff41927435fa6c8aabe999a4e949",
+        "updated_at": "2026-10-01T22:32:55Z"
+      },
+      {
+        "id": 604263419,
+        "name": "manifest.json",
+        "size": 35176,
+        "digest": "sha256:c8c87a61a206023b47fc92b05b7940998722bc900018f849b8423e8683a88571",
+        "updated_at": "2026-10-01T22:32:56Z"
+      },
+      {
+        "id": 604263580,
+        "name": "version_scenario.json",
+        "size": 88,
+        "digest": "sha256:02d8edbaf14c607e41befabd5a77631d1547022242569550c74e70ed0d55beae",
+        "updated_at": "2026-10-01T22:33:05Z"
+      }
+    ]
+  },
+  "contribution_ledger_reference": {
+    "repository": "HiiragiNemu/magireco-cn-patch",
+    "entry": "docs/story-quality/contributions/README.md",
+    "census": "docs/story-quality/20261002-ai-only-census.json.gz",
+    "commit": "63f36afad8f1c7f42bd5fe334c95b3f5591b9e69",
+    "ledger_sha256": "f049a0e7b669d6cca1ccc2337eb7f9dd5c0a55449167d5ae5ab33ec656c892a0",
+    "rule": "CN patch only; no duplicate cumulative files or cumulative ZIP contents in Reader/public"
+  },
+  "capability_verification": {
+    "verified_at": "2026-10-01T22:33:53.493512+00:00",
+    "agentdock_runtime": "windows",
+    "execute_and_write_verified": true,
+    "write_read_sha256": "aa2cc33ae60f4a411bb9b6edf78790e3e40b66e6a18844db1329f5635718fe80",
+    "repositories": [
+      {
+        "repository": "HiiragiNemu/magi-reader",
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        }
+      },
+      {
+        "repository": "HiiragiNemu/magireco-cn-patch",
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        }
+      },
+      {
+        "repository": "HiiragiNemu/ProgettoMagius-1",
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        }
+      }
+    ],
+    "actual_main_source_commits": {
+      "reader": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+      "patch": "f8b3ee980ba73b7d8f0b160f6b5f49855c447a64"
+    },
+    "cloudflare_existing_oauth_refresh_exit": 0,
+    "cloudflare_auth_evidence": "Current turn successful locked Wrangler whoami; isolated build preflight successfully read canonical production with same credentials",
+    "config_or_permission_widening_performed": false,
+    "conclusion": "Not local-read-only: actual file writes, system execution and existing-main nonforce pushes succeeded; read-only action limitation cannot characterize entire AgentDock environment"
+  },
+  "context_and_alias_accounting": {
+    "prior_proofs_preserved": 443,
+    "context_only_scripts": [
+      "magireco-translate-data-master/Scenarios_full/mirror_story/420171-战斗博物馆-佐和月出里/420171-1.json",
+      "magireco-translate-data-master/Scenarios_full/mirror_story/420171-战斗博物馆-佐和月出里/420171-2.json",
+      "magireco-translate-data-master/Scenarios_full/mirror_story/420171-战斗博物馆-佐和月出里/420171-3.json"
+    ],
+    "new_unique_scripts": 91,
+    "new_primary_chapters": 18,
+    "new_indexed_entries": 20,
+    "derived_aliases": [
+      "510201-09",
+      "510210-13"
+    ],
+    "queue_tests": 7
+  },
+  "unrelated_worktree_state_unchanged": true,
+  "whole_corpus_complete": false,
+  "device_gameplay_verified": false,
+  "confirmed_ai_counts": {
+    "confirmed_current_machine_scripts": 1079,
+    "complete": 534,
+    "remaining": 545,
+    "pending_unindexed": 24,
+    "exact_bilingual_renamed_paths_resolved": 0,
+    "additional_exact_human_text_aliases_excluded": 152,
+    "new_paths_provenance_unresolved": 43,
+    "no_exact_output_pair_proof_within_import": 85,
+    "note": "Verified current machine-origin physical scripts only. Unresolved provenance is a separate queue, not blanket retranslation. No counts from automatic scans count as complete.",
+    "source_revision": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+    "new_complete_scripts": 91,
+    "new_complete_chapters": 18,
+    "new_reviewed_fields": 5155,
+    "verified_at": "2026-10-01T22:31:29+00:00",
+    "context_only_scripts": 3,
+    "context_only_fields": 186,
+    "full_read_fields_including_context": 5341
+  },
+  "cumulative_contributions": {
+    "schema": 1,
+    "reader_revision": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+    "patch_revision": "f8b3ee980ba73b7d8f0b160f6b5f49855c447a64",
+    "public_revision": "ffd00daae29153f39c8e70b36eaf49d764429c03",
+    "last_published_scenario_version": 3320,
+    "takeover_boundary_reader_main": "5f7cab788d32a2cc9cfe7db005be3e67fe621945",
+    "confirmed_ai_runtime_scripts": 1079,
+    "confirmed_ai_fully_reviewed": 534,
+    "confirmed_ai_pending": 545,
+    "pending_unindexed_included": 24,
+    "completed_before_takeover": 48,
+    "completed_after_takeover": 486,
+    "published_unique_runtime_scripts_modified": 822,
+    "published_unique_runtime_scripts_with_body_correction": 504,
+    "published_unique_body_addresses_corrected": 15530,
+    "published_body_correction_events": 15530,
+    "body_address_metric_is_not_newly_translated_sentence_count": true,
+    "body_address_metric_includes_source_text_alignment_and_wording_repairs": true,
+    "historical_body_events_with_changed_embedded_tag_sequence": 5,
+    "periods": {
+      "before_20261001_takeover": {
+        "unique_modified_runtime_scripts": 378,
+        "unique_body_corrected_runtime_scripts": 51,
+        "unique_body_corrected_addresses": 3268
+      },
+      "after_20261001_takeover": {
+        "unique_modified_runtime_scripts": 453,
+        "unique_body_corrected_runtime_scripts": 453,
+        "unique_body_corrected_addresses": 12262
+      }
+    },
+    "full_read_evidence_histories_retained": 547,
+    "legacy_applied_candidate_claim": 507,
+    "legacy_unique_registered_ids": 498,
+    "legacy_current_semantic_completion_assumed": 0,
+    "registered_list_duplicate_bullets_removed": 412,
+    "reader_unknown_provenance": 128,
+    "client_unknown_provenance": 35,
+    "modified_runtime_overlap_between_periods": 9,
+    "whole_corpus_complete": false,
+    "game_credit_ui_changed": false,
+    "original_translation_authorship_reassigned": false,
+    "units_note": "Versions/events cannot be added as unique stories. Physical runtime JSON paths, indexed chapters and field addresses are distinct units. Source/TXT/player mirrors count once. Legacy applied/structural claims do not grant semantic completion or human authorship."
+  },
+  "contribution_checks": {
+    "passed": true,
+    "checks": 19,
+    "verified": [
+      "runtime paths unique; source aliases never multiply totals",
+      "AI completion plus pending equals exact source-bound universe",
+      "all completed scripts have exact current CN and JP proof",
+      "pending has no automatic full-review grant",
+      "unindexed remainder is included not added again",
+      "pre-takeover and post-takeover completed work preserved",
+      "published version history continuous including previous AI",
+      "all publication receipts are successful separately from source validation",
+      "body fields deduplicated by runtime path and address",
+      "body correction scripts separately deduplicated",
+      "restoration and runtime migration not counted as original translation",
+      "all actual changes have before-after difference",
+      "historical 498 stable IDs preserved and not semantic completion",
+      "game credits unchanged and original authorship not reassigned",
+      "whole-chapter completion requires all mapped scripts",
+      "export row count full-reviewed-ai-scripts.tsv",
+      "export row count pending-ai-scripts.tsv",
+      "export row count processed-runtime-scripts.tsv",
+      "export row count legacy-registered-stories.tsv"
+    ],
+    "ledger_sha256": "f049a0e7b669d6cca1ccc2337eb7f9dd5c0a55449167d5ae5ab33ec656c892a0",
+    "source_summary": {
+      "schema": 1,
+      "reader_revision": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+      "patch_revision": "f8b3ee980ba73b7d8f0b160f6b5f49855c447a64",
+      "public_revision": "ffd00daae29153f39c8e70b36eaf49d764429c03",
+      "last_published_scenario_version": 3320,
+      "takeover_boundary_reader_main": "5f7cab788d32a2cc9cfe7db005be3e67fe621945",
+      "confirmed_ai_runtime_scripts": 1079,
+      "confirmed_ai_fully_reviewed": 534,
+      "confirmed_ai_pending": 545,
+      "pending_unindexed_included": 24,
+      "completed_before_takeover": 48,
+      "completed_after_takeover": 486,
+      "published_unique_runtime_scripts_modified": 822,
+      "published_unique_runtime_scripts_with_body_correction": 504,
+      "published_unique_body_addresses_corrected": 15530,
+      "published_body_correction_events": 15530,
+      "body_address_metric_is_not_newly_translated_sentence_count": true,
+      "body_address_metric_includes_source_text_alignment_and_wording_repairs": true,
+      "historical_body_events_with_changed_embedded_tag_sequence": 5,
+      "periods": {
+        "before_20261001_takeover": {
+          "unique_modified_runtime_scripts": 378,
+          "unique_body_corrected_runtime_scripts": 51,
+          "unique_body_corrected_addresses": 3268
+        },
+        "after_20261001_takeover": {
+          "unique_modified_runtime_scripts": 453,
+          "unique_body_corrected_runtime_scripts": 453,
+          "unique_body_corrected_addresses": 12262
+        }
+      },
+      "full_read_evidence_histories_retained": 547,
+      "legacy_applied_candidate_claim": 507,
+      "legacy_unique_registered_ids": 498,
+      "legacy_current_semantic_completion_assumed": 0,
+      "registered_list_duplicate_bullets_removed": 412,
+      "reader_unknown_provenance": 128,
+      "client_unknown_provenance": 35,
+      "modified_runtime_overlap_between_periods": 9,
+      "whole_corpus_complete": false,
+      "game_credit_ui_changed": false,
+      "original_translation_authorship_reassigned": false,
+      "units_note": "Versions/events cannot be added as unique stories. Physical runtime JSON paths, indexed chapters and field addresses are distinct units. Source/TXT/player mirrors count once. Legacy applied/structural claims do not grant semantic completion or human authorship."
+    }
+  },
+  "cross_repo_summary": {
+    "confirmed_reader_scripts": 1079,
+    "player_binding_counts": {
+      "exact_bytes": 1076,
+      "body_difference_requires_separate_sync": 2,
+      "same_full_display": 1
+    },
+    "completed_scripts_with_player_body_differences": [],
+    "extra_player_ids": 86,
+    "extra_player_counts": {
+      "no_body": 14,
+      "extra_body_provenance_unresolved": 35,
+      "exact_reader_mirror": 11,
+      "body_only_alias_needs_runtime_identity_validation": 26
+    },
+    "extra_possible_machine_aliases": [],
+    "note": "Reader/player mirror paths are linked, not counted as separate stories. Exact current field sequence comparison is structural delivery evidence, not a substitute for source-bound semantic review."
+  },
+  "recovery": {
+    "repository": "HiiragiNemu/magireco-cn-patch",
+    "path": "docs/story-quality/recovery/20261002-ai-only-3320.zip",
+    "sha256": "203c4f8bbd28298d4500f101e7f5f7d5584e3f9336a4c0f01fc5e69cbb7b87eb",
+    "bytes": 5107762,
+    "files": 391,
+    "stored_in_reader": false,
+    "stored_in_public": false
+  }
+}
