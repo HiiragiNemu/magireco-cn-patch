@@ -1,7 +1,7 @@
 {
   "batch": "20261003-semantic-batch15-ai-only-held",
   "task_id": "tsk_d2cf8978e0c9df21",
-  "stage": "review_in_isolation",
+  "stage": "validated_held_client_ready",
   "publication_prohibited": true,
   "target_version": null,
   "published_baseline_version": 3322,
@@ -168,7 +168,7 @@
     }
   ],
   "published": false,
-  "checkpoint": "第15批真正26待办已全文核对1383字段，638正文修订（含1句可信旧人译原样恢复）。94专项、10来源边界反例、26真实解析、14TXT1284位置验证通过；23人译+1旧全审排除且原335稿/9674记录保全。两仓漫画图像分别保留。准备更新361目标接入，仍不发布。",
+  "checkpoint": "26 new reviews/638 fields;361 held candidates;24 existing-authority exceptions,0 actionable remaining only within frozen scope. Not integrated or published.",
   "selected_scripts": 26,
   "selected_chapters": 7,
   "selected_fields": 1383,
@@ -176,7 +176,7 @@
     "fresh_full_review": 26
   },
   "boundary_verification": "48 exact shared baselines; 2 explicitly preserved independent player baselines",
-  "updated_at": "2026-10-02T20:58:36.976741+00:00",
+  "updated_at": "2026-10-02T21:07:04.587276+00:00",
   "release_version": null,
   "fresh_full_review_scripts": 26,
   "reuse_verified_scripts": 0,
@@ -188,5 +188,15 @@
   "authority_excluded": 24,
   "pinned_human_restorations": 23,
   "prior_full_review_not_recounted": 1,
-  "partial_human_fields_protected": 14
+  "partial_human_fields_protected": 14,
+  "recovery": {
+    "path": "docs/story-quality/unreleased/20261003-semantic-batch15-ai-only-held/held-recovery.json.gz",
+    "sha256": "57f897ec14b1f89f5b2ebd0c620bff4e6c2cd4f53a5b0fab32584adbb98073e7",
+    "bytes": 35460994,
+    "files": 1078,
+    "not_game_package": true,
+    "published": false,
+    "only_repository": "HiiragiNemu/magireco-cn-patch"
+  },
+  "validation": "docs/story-quality/unreleased/20261003-semantic-batch15-ai-only-held/validation.json"
 }

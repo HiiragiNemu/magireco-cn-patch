@@ -1,0 +1,122 @@
+{
+  "schema": 3,
+  "batch": "20261003-semantic-batch15-ai-only-held",
+  "validated_at": "2026-10-02T20:58:36.448311+00:00",
+  "passed": true,
+  "published": false,
+  "candidate_applied_to_runtime": false,
+  "release_version": null,
+  "chapters": 7,
+  "full_read_scripts": 26,
+  "new_full_read_scripts": 26,
+  "context_rereads": 0,
+  "context_body_fields": 0,
+  "body_fields_reviewed": 1383,
+  "new_body_fields_reviewed": 1383,
+  "body_fields_corrected": 638,
+  "trusted_human_quote_restoration_fields": 1,
+  "newly_authored_or_revised_body_fields": 637,
+  "nested_choices": 0,
+  "changed_candidate_runtime_files": 26,
+  "candidate_txt_files": 14,
+  "candidate_txt_field_spans": 1284,
+  "exact_full_section_matches": 52,
+  "historical_baselines": 3,
+  "existing_human_fields_synchronized_to_exports": 4,
+  "txt_holds": 0,
+  "txt_missing": 0,
+  "actual_reader_parser_scripts": 26,
+  "reader_events_speakers_audio_preserved": true,
+  "exact_reverse_to_original_bytes": true,
+  "specialized_tests": 94,
+  "authority_boundary_tests": 10,
+  "checks": [
+    {
+      "log": "translation-tests.log",
+      "returncode": 0,
+      "expected_test_count": 23,
+      "log_sha256": "600180a9471603cf5e368014ac28badcc851a2945e2177f0fbdc8baed5fffcb0",
+      "passed": true
+    },
+    {
+      "log": "held-contract-tests.log",
+      "returncode": 0,
+      "expected_test_count": 22,
+      "log_sha256": "bf7fde276290490516243fa4a3bdb2e77d269a9ceac5162e4f41176ce1a22012",
+      "passed": true
+    },
+    {
+      "log": "choice-export-tests.log",
+      "returncode": 0,
+      "expected_test_count": 8,
+      "log_sha256": "5d0c50b6e3bf67c50fd65648ae91ecb83e77d094a39c534dac4990f6a428a51d",
+      "passed": true
+    },
+    {
+      "log": "unreleased-merge-tests.log",
+      "returncode": 0,
+      "expected_test_count": 12,
+      "log_sha256": "ec49528a9ca42e661d5d44d84427d40a87406f01083650539f972a1f300686ef",
+      "passed": true
+    },
+    {
+      "log": "reader-recovery-tests.log",
+      "returncode": 0,
+      "expected_test_count": 17,
+      "log_sha256": "da3a362d47cf9770059d00af0fdffabdb8cc39a4589aa5e139288da98768f1b3",
+      "passed": true
+    },
+    {
+      "log": "independent-runtime-tests.log",
+      "returncode": 0,
+      "expected_test_count": 12,
+      "log_sha256": "c0e25a9f80f1da585391ea637fb6588ae2b06a2f9ffbbbef91709619859d470d",
+      "passed": true
+    },
+    {
+      "log": "parser-tests.log",
+      "returncode": 0,
+      "expected_test_count": 0,
+      "log_sha256": "39236da4c442321a203df7d28f066f07c65dcb9de8e90957148debe416b8be76",
+      "passed": true
+    },
+    {
+      "log": "text-sync.log",
+      "returncode": 0,
+      "expected_test_count": 0,
+      "log_sha256": "d80a320efbee4125d34501e802582989a0d8d476955dcd46b9a3ad6683e29a36",
+      "passed": true
+    }
+  ],
+  "authority_test_log_sha256": "fe1bdbedb71242f2b1ef3dd2437d6a7aa3b678bd4c2f19ce5c299e8403478fec",
+  "protected_v4": 43,
+  "protected_authorized_cn": 196,
+  "human_variant_registry_entries": 519,
+  "this_batch_human_variant_exclusions": 23,
+  "prior_full_review_not_recounted": 1,
+  "partial_restored_human_or_name_fields_preserved": 14,
+  "previous_held_records_preserved": 335,
+  "previous_held_field_records_preserved": 9674,
+  "published_completed_preserved": 694,
+  "published_pending_preserved": 385,
+  "merged_unreleased": 361,
+  "remaining_unprepared": 24,
+  "remaining_actionable_ai_in_frozen_census": 0,
+  "legacy_registered_ids_preserved": 498,
+  "frozen_source_references": {
+    "reader": "a35265a7dc39256ec057219c14ac5019798f7399",
+    "patch": "8a379ed411c30595aa7f441598e484d656ac81f4",
+    "public": "b1cdbd768596d9d37a5ebcbc66a5212e681158c6",
+    "frozen_at": "2026-10-02T20:25:23.981681+00:00",
+    "task_id": "tsk_d2cf8978e0c9df21"
+  },
+  "current_source_references": {
+    "reader": "bdd59609ab593b4bae94e86b5f54f65d042560ca",
+    "patch": "810ff90b407d01f960f7542372183ccde9ad4c13"
+  },
+  "source_drift": [],
+  "full_production_build_run": false,
+  "production_site_qa_run": false,
+  "device_gameplay_verified": false,
+  "whole_corpus_complete": false
+}

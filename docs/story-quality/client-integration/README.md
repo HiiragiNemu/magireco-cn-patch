@@ -1,20 +1,20 @@
-# 客户端统一资源发布：四批校订候选接入入口
+# 客户端统一资源接入：第11—15批361目标
 
-本目录属于 CN patch 的唯一交接材料。当前 `READY.json` 固定第11、12、13、14批共335个已验证目标、9674个显示字段更改。其中333个文件实际有改动，2个目标本来就与审订稿相同：1个同源复用、1个本批全文复核后无需修改。252个目标为新全文校订，83个为已有审订稿精确复用。**均尚未写入生产剧情路径，不能把3323/22当作已经包含它们。**
+当前READY.json固定361个未发布目标、10312个显示字段操作，其中359文件有字节更改、2个本来已相同。278个目标为新增全文复核，83个为已有审订稿精确复用。运行资源尚未整合。本目录不是发包许可，不代表实际包或设备已经包含新稿。
 
-本窗口不发包、不操作发布工作流、不改客户端代码。此工具只做读取、在新隔离目录准备候选和核验ZIP，不能Git提交、推送、发Release或部署。是否整合、发包由维护者及客户端侧窗口按最新资源审计回执决定。
+## 先固定最新清单
 
-## 为什么必须同时接入 delta
+本次在旧335个目标上追加26个，旧335条候选、逐字段操作及来源完全未变。旧清单/工具的不可变快照由READY的immutable_previous_snapshot指明。开始整合以及正式构建前，均须读回最新READY并固定manifest_sha256；不要在执行期间自动混用另一个版本的清单。旧回执只能证明它固定的旧范围。
 
-当前 `tools/build-cumulative-js-delta.py` 的 `product()` 不包含 scenario。剧情依赖 `configures/js-delta-baseline.json` 的 `supplemental_product_paths` 显式纳入。只把修订写入剧情源码然后执行统一工作流，不能保证新路径自动进入 delta。
+历史“剩余50”中另有23个已恢复人译和1个先前完成的全文复核，均不属于新增26，不得按AI机翻重译。历史发布账保持不变，来源豁免见第15批authority-exclusions.json。零待校订只指冻结历史范围，不是发布完成。
 
-本次提案完整保留原128个补充剧情路径，并追加335个新目标，总计463个。`js-delta-baseline.proposed.json` **只是一份文档中的提案，生产配置尚未改动**。不要删除原列表，不要拿旧 delta 的剧情覆盖新稿，也不要只上传 delta 而让完整 Scenario 留在旧字节。
+## 必须保留客户端自己的图像和控制
 
-正确接续是：检查最新版源码→精确合并候选→保留旧项并扩展补充列表→固定同一个 main 提交→由现有统一资源流程共同构建/发布 Scenario 与累计 delta→验证两仓及所有适用安装路径的最终字节。不要运行旧逐编号 scenario 发布器。
+521110-9_xCcbB在Reader与客户端包含不同的两处既有漫画内嵌图片。本清单中的该候选从客户端自己的原始字节构造，只修1个fallback正文，原图完全保留。不要从Reader复制整份JSON到客户端。其Reader前后blob以reader_identity_not_for_client_overwrite标注；累计台账的repository-baseline-overrides.json也保存双方身份。
 
-## 来源校验与隔离准备
+## 读取和隔离准备
 
-在已经更新的 CN patch 工作树中运行（PowerShell）：
+在已更新的CN patch工作树中运行：
 
 ```powershell
 $kit = Join-Path $PWD 'docs/story-quality/client-integration'
@@ -24,55 +24,38 @@ $manifest = Join-Path $kit 'integration-manifest.json.gz'
 python $tool --manifest $manifest --manifest-sha256 $ready.manifest_sha256 check-source --repo $PWD --ref HEAD
 ```
 
-`check-source` 成功仅代表可以安全准备，不代表候选已合入。输出 `staged_only` 的333个路径仍是旧源码；无需改字节的2个路径会显示 `already_integrated`，不应因此重复计功。
+check-source成功只表示可安全构造候选。当前359项仍为staged_only；2个原文字节已相同而显示already_integrated，不能把它们当作新稿已经上线。
 
-需要准备文件时，输出目录必须是尚不存在、且不位于Git工作树内的新目录：
+准备候选时，输出目录必须尚不存在，并且位于任何Git工作树之外：
 
 ```powershell
-python $tool --manifest $manifest --manifest-sha256 $ready.manifest_sha256 stage --repo $PWD --ref HEAD --output 'D:\magia\deliveries\client-story-candidates-batch11-14'
+python $tool --manifest $manifest --manifest-sha256 $ready.manifest_sha256 stage --repo $PWD --ref HEAD --output 'D:\magia\deliveries\client-story-candidates-batch11-15'
 ```
 
-该命令在隔离目录生成335份源版本锁定的剧情候选、一份保留全部既有配置字段的delta选择提案和 `INTEGRATION_PREFLIGHT.json`。不直接改工作树。客户端窗口再对照清单，按既有main提交纪律合并到自己的工作树；不得复制整个历史工作树覆盖并行修复。
+这只在隔离目录写入361份候选、一份delta配置提案和预检结果，不直接改工作树。遇到源blob第三版本、历史守卫变化或JS完整基线改变，须先协调重审，不能整文件强盖。
 
-所有目标均绑定旧/新Git blob、SHA-256、中日源版本及逐字段操作。发现第三种源码版本时会阻断，必须先对照并行修改重新合并，不能整文件强行覆盖。基线不变时允许幂等检查；后来追加的补充路径会被保留，但移除旧补充路径或更换JS完整基线必须重新审计。
+## 正文和delta选择列表一起整合
 
-## 构建前必须检查已整合，而不只是“可整合”
+普通product()筛选不自动收录scenario。必须保留configures/js-delta-baseline.json原128个supplemental_product_paths并加入361目标，共489。提案只位于本目录，生产配置未被本窗口修改。
 
-客户端提交合并后的实际main后：
+由客户端在同一个受审main提交中合入候选和补充列表，随后检查这个确定提交：
 
 ```powershell
 python $tool --manifest $manifest --manifest-sha256 $ready.manifest_sha256 check-integrated --repo $PWD --ref HEAD
 ```
 
-此命令要求所有335目标已经等于候选，并且生产 `supplemental_product_paths` 已包含这些路径。若只准备了文件但没有合并，或只合并正文却忘了delta选择列表，检查会失败。成功后才交给 `.github/workflows/publish-js-delta.yml`（“统一资源包发布”），Scenario 与 delta 必须由这一个固定提交构建。版本号、事务门槛、两仓身份复查和串行锁继续由客户端现有工具负责，本材料不绕过它们。
+仅有隔离文件、正文未合并或漏更新补充列表都会失败。通过后才按维护者授权使用.github/workflows/publish-js-delta.yml的统一资源流程，从同一已整合源共同构建完整Scenario与累计JS delta。版本、并发事务、APK实播/发布确认等客户端现行门槛全部保留；不要运行旧逐编号Scenario发布器。
 
-## 检查实际包：版本号新不等于内容新
-
-客户端构建后，向此工具提供真实完整包和完整JS；所有会参加安装的基础包可重复传入 `--base`：
+## 真实包及最终覆盖验收
 
 ```powershell
 python $tool --manifest $manifest --manifest-sha256 $ready.manifest_sha256 verify-packages --scenario 'D:\path\cn_scenario_update.zip' --delta 'D:\path\cn_js_delta.zip' --full-js 'D:\path\cn_js_update.zip' --base 'D:\path\cn_base_01_json.zip'
 ```
 
-核验要求：
+所有361目标须同时进入Scenario和delta且SHA一致。原delta成员不丢失，任一旧delta/完整JS后装回退正文都会失败。历史及新识别的人译保全路径以当前客户端权威源码为准，不从旧包倒灌。重复ZIP条目、路径穿越和缺少成员也会拒绝。
 
-1. 335个新目标必须同时存在于完整Scenario与累计delta，并与已审稿SHA-256一致。即使delta版本号比以前大，只要里面是旧字节仍然拒绝。
-2. delta和完整JS内**所有**剧情重叠路径都必须与完整Scenario相同；原128个delta剧情路径不能丢失。
-3. 为981个历史已发布修订路径和原补充路径保存的1105个当前权威源码守卫继续有效。它们来自当前CN patch源码，不从旧3322包取回较旧文本。
-4. 按基础包→Scenario→完整JS→delta，以及重装后再次重放delta的顺序检查最终字节。重复ZIP条目、危险路径、漏收新稿、旧delta/完整JS撤回新稿均会阻断。
+以上是静态ZIP重放检查，不等同实际CNHotUpdateTx/CNJsDelta、普通更新、全新安装、缓存重放、离线导入、手动重下和设备最终字节读回。正式交付须同时核验两仓latest、Cloudflare传输、version/manifest和实际下载/安装哈希。
 
-这是静态ZIP覆盖校验，不代替客户端的实际 `CNHotUpdateTx` / `CNJsDelta` 执行及设备读回。正式交付仍需覆盖普通更新、全新安装、缓存补充包重放、离线导入和手动重下，并按现有统一发布流程（详见 `docs/RESOURCE_PUBLICATION.md`）验证两仓latest、Cloudflare、version/manifest、下载字节与安装字节。**本窗口没有用这些新候选生成真实资源包，也没有声称这次的新稿已经实机验收。**
+请在本目录留下CLIENT_RECEIPT.json或独立回执，明确当前manifest SHA、整合main提交、Scenario/delta版本及包哈希、配套元数据和已覆盖的真实设备/安装路径。未收到回执前仍是未发布分账。Reader整合与部署另行核验，不能由客户端发包成功推断。
 
-## 回执和后续批次
-
-请客户端窗口把实际整合提交、两个新版本及包SHA-256、配套元数据和最终设备/安装核验写到本目录的 `CLIENT_RECEIPT.json` 或独立回执文档，并明确包含本次 `manifest_sha256`。在回执入库前，未发布总账仍不转换为已发布。不要手工把校订计数直接加到游戏“人工翻译”署名中。
-
-第11/12/13/14批的逐篇台账和恢复材料仍只在 CN patch 的 `docs/story-quality/contributions/`、`docs/story-quality/unreleased/`。Reader暂未更新运行源，后续Reader整合和部署须作为独立交付状态核验；不能因玩家包发布成功就宣称Reader也已上线。
-
-本工具通过28项合成反例测试，真实当前源码335目标及历史守卫已只读预检。测试中发现的ZIP异常分支未关闭句柄问题已经修正，首次失败日志仍在本批恢复证据里；没有放宽覆盖断言。
-
-## 更新时的并行接入边界
-
-当前READY通过supersedes_manifest_sha256指明替代旧255目标清单。旧清单及全部工具按其SHA固定在history/中，不会丢失。客户端在每次开始整合和正式构建前，应读回最新READY并核对manifest SHA；正在使用旧固定清单的任务应先核对这80个追加目标，不能混用新READY和旧ZIP，也不能把旧255目标回执当成335目标全部完成。
-
-本次新增80目标，不改变旧255个目标的候选字节或逐字段操作。本窗口仍不执行运行源整合/发包/部署；最终实际安装验收由客户端执行并留回执。
+接入工具通过28项反例测试，361个真实当前源及全部保全守卫已只读预检；新资源包和实际安装尚未由本窗口构建或验证。

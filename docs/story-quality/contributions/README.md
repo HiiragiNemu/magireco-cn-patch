@@ -1,3 +1,11 @@
+<!-- HELD-BATCH15-UNRELEASED -->
+## 当前未发布进度：第15批与人工来源边界复核
+
+2026-10-02T21:07:04.587276+00:00。本轮26片段1383正文全文核对，638字段修订；五批361目标、10312字段。原335目标/9674条原样保留。旧50待办中的23项已有固定人译、1项已有全文复核，另列来源豁免，不伪报新稿。历史694/385及498登记未改；本冻结范围待校订AI为0，不等于全库或发布完成。
+
+[第15批记录](../unreleased/20261003-semantic-batch15-ai-only-held/README.md)；[客户端入口](../client-integration/README.md)及READY.json。生产源和delta配置未改，提案128+361=489。注意MVD一份文件的Reader/客户端图片不同，必须使用独立原文身份，见repository-baseline-overrides.json。下一步为刷新新来源审计以及单独的客户端/Reader整合交付，不得重译24项豁免原稿。
+<!-- /HELD-BATCH15-UNRELEASED -->
+
 <!-- HELD-BATCH14-UNRELEASED -->
 ## 第14批与客户端接入准备
 
