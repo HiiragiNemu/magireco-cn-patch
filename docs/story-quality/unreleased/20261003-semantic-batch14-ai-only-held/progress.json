@@ -1,7 +1,7 @@
 {
   "batch": "20261003-semantic-batch14-ai-only-held",
   "task_id": "tsk_4278bf15fbb6e329",
-  "stage": "review_in_isolation",
+  "stage": "validated_held_client_ready",
   "publication_prohibited": true,
   "target_version": null,
   "published_baseline_version": 3322,
@@ -516,7 +516,7 @@
     }
   ],
   "published": false,
-  "checkpoint": "第14批84脚本日中全文对照全部完成：80新目标、4旧上下文，2227正文修正。88专项测试与84真实解析、TXT全节精确校验通过。所有候选仍未整合或发布；正在将客户端同源Scenario/delta接入从255扩展至335目标。",
+  "checkpoint": "80新全文校订候选；四批335目标/9674字段同源Scenario与delta接入清单已验证，运行资源未动，不发包",
   "selected_scripts": 84,
   "selected_chapters": 45,
   "selected_fields": 5841,
@@ -524,12 +524,23 @@
     "fresh_full_review": 80,
     "context_only": 4
   },
-  "updated_at": "2026-10-02T19:10:29.750716+00:00",
+  "updated_at": "2026-10-02T19:15:12.162473+00:00",
   "release_version": null,
   "fresh_full_review_scripts": 80,
   "reuse_verified_scripts": 0,
   "context_only_scripts": 4,
   "new_translation_correction_fields": 2227,
   "reuse_synchronization_fields": 0,
-  "changed_fields": 2227
+  "changed_fields": 2227,
+  "validation": "docs/story-quality/unreleased/20261003-semantic-batch14-ai-only-held/validation.json",
+  "recovery": {
+    "path": "docs/story-quality/unreleased/20261003-semantic-batch14-ai-only-held/held-recovery.json.gz",
+    "sha256": "f869c044d900b513539224e2b4da2d7c86a918344aacc63f3358d81ae7b98651",
+    "bytes": 7719781,
+    "files": 1534,
+    "not_game_package": true,
+    "published": false,
+    "only_repository": "HiiragiNemu/magireco-cn-patch"
+  },
+  "client_ready": "docs/story-quality/client-integration/READY.json"
 }

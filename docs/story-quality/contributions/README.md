@@ -1,3 +1,11 @@
+<!-- HELD-BATCH14-UNRELEASED -->
+## 第14批与客户端接入准备
+
+更新：2026-10-02T19:15:12.162473+00:00。新增80完整复核，四批累计335未发布目标（252新全文＋83精确复用），50尚未准备，累计9674字段。原255目标/7447字段逐项保留，已发布694/385与旧498登记未改。
+
+[第14批](../unreleased/20261003-semantic-batch14-ai-only-held/README.md)；[客户端接入](../client-integration/README.md)及READY.json。旧255目标清单保留不可变快照。生产资源/配置未动，Scenario和delta须同源整合，提案保留128旧项并扩展至463。客户端正式回执前不转为已发布。
+<!-- /HELD-BATCH14-UNRELEASED -->
+
 <!-- HELD-BATCH13-UNRELEASED -->
 ## 当前未发布进度：第13批及客户端接入准备
 

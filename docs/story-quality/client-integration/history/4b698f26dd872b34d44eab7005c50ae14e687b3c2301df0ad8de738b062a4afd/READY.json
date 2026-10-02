@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "status": "validated_candidates_ready_for_client_integration_not_released",
+  "ready_for_client_integration": true,
+  "production_build_ready": false,
+  "published": false,
+  "runtime_applied": false,
+  "release_version": null,
+  "canonical_repository": "HiiragiNemu/magireco-cn-patch",
+  "source_reference": "693af1a70ff017c6b6aae47b0d0c98ac32b5bc45",
+  "targets": 255,
+  "changed_targets": 254,
+  "field_changes": 7447,
+  "new_full_review_targets": 172,
+  "exact_reviewed_source_reuse_targets": 83,
+  "remaining_unprepared": 130,
+  "manifest": "docs/story-quality/client-integration/integration-manifest.json.gz",
+  "manifest_sha256": "4b698f26dd872b34d44eab7005c50ae14e687b3c2301df0ad8de738b062a4afd",
+  "files": {
+    "integration-manifest.json.gz": "4b698f26dd872b34d44eab7005c50ae14e687b3c2301df0ad8de738b062a4afd",
+    "js-delta-baseline.proposed.json": "84e2ff5c388c652f10b9245fc21a9c141cd3c8065d8e75e2d9dcbaf717b8f05e",
+    "client_candidate_tools.py": "ce9a694e65f64fc6c790ccdf4b10cd5980a01604cd78a7b6f547d04a54143b97",
+    "exact_json.py": "2030dfbd1551de2cfe1caaa1dd278b2e2aca432027c697d9c94aecdad12b7676",
+    "translation_rules.py": "ea7a29bd81639b518e8eadf78f72b598d9d545103aa5253d72de201fd311d729",
+    "test_client_integration.py": "972381b4f16e6b8ffb4b01f64161fc847c250771d4f8108e8c9b9776eda2b31e",
+    "integration-preflight.json": "88eb9c039b41f37fe376f35cbc66f6a2fc07e587325cf32b88ded8d8918bea96",
+    "README.md": "f9a53bcba5c09aa6e92830d75c50a7d1d0153c556566b3d26190f4eb4cd7acac"
+  },
+  "workflow": ".github/workflows/publish-js-delta.yml",
+  "next_gate": "Client must stage/merge reviewed JSON and union supplemental_product_paths in one reviewed main commit. check-integrated must pass at that commit before coherent build. Verify real scenario/delta/full-js/base ZIPs and supported actual install/replay/offline/redownload paths before claiming delivery.",
+  "last_observed_resources_not_this_batch": {
+    "scenario": 3323,
+    "js_delta": 22
+  },
+  "do_not_use_legacy_numbered_scenario_publishers": true
+}
