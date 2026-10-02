@@ -1,3 +1,11 @@
+<!-- HELD-BATCH16-AMENDMENTS -->
+## 第16批：361目标不变，追加90处漏改机翻
+
+30个既有候选已改进，累计10402字段。旧10312记录的值/顺序保留；活动候选版本在active-candidate-generations.json，旧361行索引快照在客户端history/5ee54cc0da1ac2681219affd5366517fced58cfdd1606fc34155f694b90e5207/ledger-snapshot/。不是新增90篇或新增30篇；694发布账、361未发布目标、24已核销来源项不变。
+
+[本批记录](../unreleased/20261003-semantic-batch16-ai-only-held/README.md)；[客户端最新READY](../client-integration/READY.json)，整合前必须使用current_ready_gate.py与远端main核对SHA，不只比较目标数。运行资源和发布均未改动。
+<!-- /HELD-BATCH16-AMENDMENTS -->
+
 <!-- HELD-BATCH15-UNRELEASED -->
 ## 当前未发布进度：第15批与人工来源边界复核
 

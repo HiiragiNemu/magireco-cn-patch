@@ -1,6 +1,26 @@
+# 当前接入版本：第16批残余复查后候选
+
+候选目标仍是361，字段已由10312增加到10402；30个既有候选追加90处机翻纠正，新增完整剧情数为0。前10312条操作的地址、原文、修订值逐项保留。不要因目标数量相同继续使用旧包。当前manifest SHA256 `c05ab3b7383178945fa045d9b3cd0709e4f8cf96e59e1b97f1c3cc9ff5625a72`；上一版`5ee54cc0da1ac2681219affd5366517fced58cfdd1606fc34155f694b90e5207`及配套材料保存在history/下，不得混用。
+
+## 新增必查：远端最新READY
+
+整合/构建之前，以及客户端的串行发布事务开始前，先刷新CN patch main，运行：
+
+```powershell
+$kit = Join-Path $PWD 'docs/story-quality/client-integration'
+$ready = Get-Content (Join-Path $kit 'READY.json') -Raw | ConvertFrom-Json
+python (Join-Path $kit 'current_ready_gate.py') --repo $PWD --manifest (Join-Path $kit 'integration-manifest.json.gz') --manifest-sha256 $ready.manifest_sha256
+```
+
+该检查实际读取origin当前main引用，再读取该提交的READY，而不是只相信本地旧文件。即使旧稿与新稿都是361目标，只要SHA已经被替代就拒绝。远端在核验中移动、最新提交本地不可读时也停止，要求刷新；不会自动抓取、改工作树、降低权限检查或发包。它仅验证新鲜度，不能替代check-source、check-integrated、真实ZIP和设备最终文件核验；最终发布仍由客户端既有串行锁/事务保证，不能把一次只读检查说成永久无竞争。
+
+原补充路径128＋361目标＝489，生产配置仍未写入。Reader导出也有新候选，但未部署，权威累计导出文档在第16批的cumulative-reader-exports.json.gz，仅CN patch留存。
+
+以下是沿用的集成步骤（数字已更新；历史背景不作为本轮已发布声明）：
+
 # 客户端统一资源接入：第11—15批361目标
 
-当前READY.json固定361个未发布目标、10312个显示字段操作，其中359文件有字节更改、2个本来已相同。278个目标为新增全文复核，83个为已有审订稿精确复用。运行资源尚未整合。本目录不是发包许可，不代表实际包或设备已经包含新稿。
+当前READY.json固定361个未发布目标、10402个显示字段操作，其中359文件有字节更改、2个本来已相同。278个目标为新增全文复核，83个为已有审订稿精确复用。运行资源尚未整合。本目录不是发包许可，不代表实际包或设备已经包含新稿。
 
 ## 先固定最新清单
 
