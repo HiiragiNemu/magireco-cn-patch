@@ -57,4 +57,16 @@ ok(response.headers.get('X-Release-Authority')==='verified-independent-snapshot'
 mock((_url,opts)=>new Promise((_resolve,reject)=>opts.signal.addEventListener('abort',()=>reject(new Error('timeout')))));
 const start=Date.now();response=await request('/legacy/config.json');
 ok(response.status===200 && calls.length===2 && Date.now()-start<5000,'metadata total budget below client budget');
+// Full-scenario integrity metadata contains one SHA-256 per script. The
+// selected endpoint has a bounded larger budget without widening other paths.
+const largeScenario={version:3323,files:{},padding:'x'.repeat(3*1024*1024)};
+mock(()=>json(largeScenario));
+response=await request('/cn_scenario_update_manifest.json');
+ok(response.status===200,'full scenario SHA inventory above 2 MiB is readable');
+assert.deepEqual(await response.json(),largeScenario);
+ok(calls.length===1,'large scenario metadata does not need emergency fallback');
+mock(()=>json(largeScenario));
+ok((await request('/cn_js_delta_manifest.json')).status===502,'other metadata retains 2 MiB limit');
+mock(()=>json({padding:'x'.repeat(4*1024*1024)}));
+ok((await request('/cn_scenario_update_manifest.json')).status===502,'scenario metadata remains bounded at 4 MiB');
 console.log(`PASS ${checks} worker migration assertions; source failure, independent config, bounded timeout, streaming and range semantics`);

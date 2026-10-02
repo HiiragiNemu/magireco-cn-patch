@@ -54,14 +54,14 @@ async function fetchPublic(target, options) {
   }
   throw new Error('Redirect budget exhausted');
 }
-async function readJson(response) {
+async function readJson(response, byteLimit = 2*1024*1024) {
   const reader=response.body?.getReader(); if(!reader) throw new Error('Missing JSON body');
   const chunks=[]; let length=0;
   try {
     for (;;) {
       const next=await reader.read(); if(next.done) break;
       length+=next.value.byteLength;
-      if(length>2*1024*1024) throw new Error('Metadata exceeds limit');
+      if(length>byteLimit) throw new Error('Metadata exceeds limit');
       chunks.push(next.value);
     }
   } catch(error) { await reader.cancel().catch(()=>{}); throw error; }
@@ -142,7 +142,10 @@ export default {
           if(upstream.body) await upstream.body.cancel(); continue;
         }
         if(metadata && request.method==='GET' && !headers.has('Range') && upstream.status===200) {
-          const value=await readJson(upstream);
+          // The full scenario per-file SHA-256 inventory is about 3 MiB. Other
+          // metadata retains its existing limit; this endpoint remains bounded.
+          const byteLimit=url.pathname==='/cn_scenario_update_manifest.json'?4*1024*1024:2*1024*1024;
+          const value=await readJson(upstream,byteLimit);
           return jsonResponse(value,request.method,authority);
         }
         clearTimeout(timer);
