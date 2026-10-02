@@ -23,6 +23,8 @@ def commit(repo,files,label):
  assert repo in ('reader','patch') and files
  for p,b in files.items():
   assert p=='STORY_QUALITY_HANDOFF.md' or p.startswith('docs/story-quality/'),('Forbidden non-document path',p)
+  from pending_contract import allow_document_destination
+  allow_document_destination(repo,p)
   assert isinstance(b,bytes) and p.endswith(('.md','.json','.json.gz','.tsv','.py','.cjs')),p
   if repo=='reader':assert p in ['STORY_QUALITY_HANDOFF.md','docs/story-quality/CONTINUATION.md','docs/story-quality/CONTINUATION_STATE.json'],'Reader may only get a pointer'
  guard();git(repo,'fetch','origin','main');base=git(repo,'rev-parse','FETCH_HEAD').decode().strip();bt=tree(repo,base);expect={p:bt.get(p) for p in files}
@@ -47,7 +49,7 @@ def commit(repo,files,label):
 def main():
  note=' '.join(sys.argv[1:]) or 'Unreleased translation preparation checkpoint'
  progress=read('progress.json');progress.update(updated_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),checkpoint=note,published=False,release_version=None,publication_prohibited=True);(W/'progress.json').write_bytes(enc(progress))
- names=['progress.json','bases.json','live-baseline.json','chapters.json','review-sources.json','provenance.json','repair-plan.json','reuse-results.json','validation.json','text-plan.json','pending-summary.json','final-verification.json']
+ names=['progress.json','bases.json','live-baseline.json','chapters.json','review-sources.json','provenance.json','repair-plan.json','reuse-results.json','validation.json','text-plan.json','pending-summary.json','final-verification.json','choice-review.json','second-pass-applied.json','trusted-terms.json','trusted-terms-02.json']
  evidence={n:read(n) for n in names if (W/n).exists()}
  evidence['decisions']={p.name:json.loads(p.read_bytes()) for p in sorted((W/'review').glob('*.edits.json'))}
  evidence['aligned_sources']={p.name:json.loads(p.read_bytes()) for p in sorted((W/'review').glob('*.aligned.json'))}
