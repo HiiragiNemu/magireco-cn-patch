@@ -1,0 +1,144 @@
+{
+  "verified_at": "2026-10-02T14:57:35.644688+00:00",
+  "heads": {
+    "reader": "2da843507d4141d5f9c5d31b1798ee39c5e6719c",
+    "patch": "44bfa4e405da67cd92e6c98e3121efa0ce54a8e8",
+    "public": "1e8c02c8c5fa58d8a1a54c266edb74b90f8eef98"
+  },
+  "doc_hash_checks": 14,
+  "publication_performed": false,
+  "runtime_integration_performed": false,
+  "live": [
+    {
+      "url": "https://magireco-personal-release.pages.dev/version_scenario.json",
+      "status": 200,
+      "attempts": 1,
+      "version": 3323,
+      "size": 192928598,
+      "md5": "a2c027c8cd18c4af3a975337960d9400",
+      "unchanged_from_baseline": false
+    },
+    {
+      "url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/version_scenario.json",
+      "status": 200,
+      "attempts": 1,
+      "version": 3323,
+      "size": 192928598,
+      "md5": "a2c027c8cd18c4af3a975337960d9400",
+      "unchanged_from_baseline": false
+    },
+    {
+      "url": "https://magireader.pages.dev/adv-release-build.json",
+      "status": 200,
+      "attempts": 1,
+      "source_revision": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+      "unchanged_from_baseline": true
+    },
+    {
+      "url": "https://magireader.pages.dev/api/adv/release",
+      "status": 200,
+      "attempts": 1,
+      "source_revision": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+      "unchanged_from_baseline": true,
+      "deployment": "https://672900ac.magireader.pages.dev"
+    }
+  ],
+  "doc_only_commits": [
+    {
+      "repository": "reader",
+      "commit": "2da843507d4141d5f9c5d31b1798ee39c5e6719c",
+      "paths": 3,
+      "runtime_paths": 0
+    },
+    {
+      "repository": "reader",
+      "commit": "a20702d4f1250f3b749580dff74c9bafeba50481",
+      "paths": 3,
+      "runtime_paths": 0
+    },
+    {
+      "repository": "reader",
+      "commit": "4a9afc1ab4fdf2ef79b02e0598ad8206e0638658",
+      "paths": 3,
+      "runtime_paths": 0
+    },
+    {
+      "repository": "reader",
+      "commit": "6f71e3cd5144adb995c0ee44dfb049af71fc00a0",
+      "paths": 3,
+      "runtime_paths": 0
+    },
+    {
+      "repository": "reader",
+      "commit": "e08500734594b9b69bebde1c3f560d5150d6773d",
+      "paths": 3,
+      "runtime_paths": 0
+    },
+    {
+      "repository": "patch",
+      "commit": "44bfa4e405da67cd92e6c98e3121efa0ce54a8e8",
+      "paths": 14,
+      "runtime_paths": 0
+    },
+    {
+      "repository": "patch",
+      "commit": "61efa5eb9b9e9b907f20c827729ba50b0fb1c675",
+      "paths": 5,
+      "runtime_paths": 0
+    },
+    {
+      "repository": "patch",
+      "commit": "1778bdc994683539a725cdf1f56548b0505c5660",
+      "paths": 3,
+      "runtime_paths": 0
+    },
+    {
+      "repository": "patch",
+      "commit": "934d26768a7c50cc3cd1f8c327f9575ce515f19f",
+      "paths": 6,
+      "runtime_paths": 0
+    },
+    {
+      "repository": "patch",
+      "commit": "826ab218332d3bf95ef15ce02f4b09a5b3c1678d",
+      "paths": 11,
+      "runtime_paths": 0
+    }
+  ],
+  "published_completed_preserved": 694,
+  "published_pending_preserved": 385,
+  "legacy_registered_ids_preserved": 498,
+  "published_record_files_unchanged": 15,
+  "new_full_review_unreleased": 50,
+  "exact_source_reuse_unreleased": 83,
+  "prepared_unique_targets": 133,
+  "remaining_not_prepared": 252,
+  "choice_corrections": 14,
+  "field_delta_records": 3560,
+  "recovery_files": 1835,
+  "recovery_sha256": "56f46f43f0354cb9399a3f2768ce5e50d5a05a98ad90486c588c24f6ffb75de1",
+  "all_candidates_still_unapplied": true,
+  "reader_cumulative_or_candidate_copies": 0,
+  "public_cumulative_or_candidate_copies": 0,
+  "public_head_unchanged_from_baseline": false,
+  "resource_path_differences_from_baseline": {
+    "reader": [],
+    "patch": [
+      "tools/StoryResourceLayerInstallTest.java",
+      "tools/audit_installed_resource_layers.py",
+      ".github/workflows/publish-js-delta.yml",
+      "tools/resource_layers.py",
+      "tools/test_resource_layers.py",
+      "docs/RESOURCE_PUBLICATION.md",
+      ".github/workflows/mirror-public-resources.yml",
+      "tools/publish_coherent_resources.py",
+      "tools/build_coherent_resources.py",
+      "tools/build-cumulative-js-delta.py",
+      "tools/mirror_release.py",
+      "tools/test_coherent_publication.py"
+    ]
+  },
+  "no_game_package_or_deployment_build_created": true,
+  "original_worktree_state_preserved": true,
+  "passed": true
+}
