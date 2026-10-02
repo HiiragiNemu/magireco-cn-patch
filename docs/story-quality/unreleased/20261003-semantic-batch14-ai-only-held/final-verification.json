@@ -1,0 +1,233 @@
+{
+  "verified_at": "2026-10-02T19:15:45.783550+00:00",
+  "heads": {
+    "reader": "671f8f07c45d66a3e995862ce2c916466d7122a7",
+    "patch": "9693b6d65454a65486d62ff62376d25f153d93f2",
+    "public": "c4f96dacfe416df8606dee2cebb4b3ed54be92e8"
+  },
+  "passed": true,
+  "runtime_integration_performed": false,
+  "publication_performed": false,
+  "doc_hash_checks": 40,
+  "reader_pointer_checks": 3,
+  "live": [
+    {
+      "url": "https://magireco-personal-release.pages.dev/version_scenario.json",
+      "status": 200,
+      "data": {
+        "version": 3323,
+        "size": 192928598,
+        "md5": "a2c027c8cd18c4af3a975337960d9400"
+      },
+      "attempts": 1
+    },
+    {
+      "url": "https://magireco-personal-release.pages.dev/version_js_delta.json",
+      "status": 200,
+      "data": {
+        "version": 22,
+        "size": 33240817,
+        "md5": "2bf149f7ce565164fdcdb59563b06e3d",
+        "base_js_version": 103,
+        "base_js_sha256": "bffc1acc31f65c24cc2f9042a492e4f18c5ba9e41806ed725e1e0730c60a7a9d"
+      },
+      "attempts": 1
+    },
+    {
+      "url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/version_scenario.json",
+      "status": 200,
+      "data": {
+        "version": 3323,
+        "size": 192928598,
+        "md5": "a2c027c8cd18c4af3a975337960d9400"
+      },
+      "attempts": 1
+    },
+    {
+      "url": "https://magireader.pages.dev/adv-release-build.json",
+      "status": 200,
+      "data": {
+        "schema": 1,
+        "source_revision": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+        "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+        "catalog_bytes": 8638040,
+        "stories": 3054,
+        "routes": 3073,
+        "shards": 256,
+        "shard_bytes_max": 276684,
+        "shard_bytes_mean": 145292,
+        "shard_prefix": "/story-json-catalog/v1/",
+        "source_packs": {
+          "schema": 1,
+          "files": 27406,
+          "packs": 654,
+          "raw_bytes": 1369542385,
+          "packed_bytes": 403917859
+        },
+        "auxiliary_source_files": [
+          {
+            "source": "magireco-translate-data-master/Scenarios_full/special/special-chapter-info.txt",
+            "path": "/data/special/special-chapter-info_cn.txt",
+            "bytes": 21049,
+            "sha256": "1e81540d6f6c3f6e75c82c7fa554a7264c0ec8c9641818a1a6919cb32c1656bd",
+            "kind": "chapter-name-metadata"
+          }
+        ]
+      },
+      "attempts": 1
+    },
+    {
+      "url": "https://magireader.pages.dev/api/adv/release",
+      "status": 200,
+      "data": {
+        "schema": 1,
+        "source_revision": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+        "deployment": "https://672900ac.magireader.pages.dev",
+        "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+        "shard_prefix": "/story-json-catalog/v1/",
+        "published_at": "2026-10-02T11:24:10.067Z"
+      },
+      "attempts": 1
+    }
+  ],
+  "doc_only_commits": [
+    {
+      "repository": "reader",
+      "commit": "671f8f07c45d66a3e995862ce2c916466d7122a7",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "reader",
+      "commit": "967a12d1188cf24102652de05ebc1e113f883cee",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "reader",
+      "commit": "c6afdd1a317ff35bb509975362c42de7d04369f0",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "reader",
+      "commit": "38f7012dd54742d1881ce040867d33fc1d7b6bb6",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "reader",
+      "commit": "3fa7667b74b06dac457620c558930f241abb3c44",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "reader",
+      "commit": "a91526013a14764d7f82c69f71b9908ddc03a1b5",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "reader",
+      "commit": "3224f356362fb938d88b7ab469394019e30b35bb",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "patch",
+      "commit": "9693b6d65454a65486d62ff62376d25f153d93f2",
+      "paths": 37,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "patch",
+      "commit": "0404fd96a9c8de7d99442042cfa8ce9657cb7244",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "patch",
+      "commit": "e21d47fe7f70dd46a49e956e2476d2aef4fe8586",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "patch",
+      "commit": "92e87da409d34cf03d1b7b2cef480080aaee05e7",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "patch",
+      "commit": "015ad91b2dc1d781c19eb19b6f9af787dd569003",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "patch",
+      "commit": "c704b4ad5a33bfe0e6cd2d759e9eb8120cb395d1",
+      "paths": 3,
+      "runtime_paths": 0,
+      "skip_ci": true
+    },
+    {
+      "repository": "patch",
+      "commit": "7ef8e9e7fe23f302f86a0bca368ff90183f74434",
+      "paths": 13,
+      "runtime_paths": 0,
+      "skip_ci": true
+    }
+  ],
+  "published_completed_preserved": 694,
+  "published_pending_preserved": 385,
+  "legacy_registered_ids_preserved": 498,
+  "published_record_files_unchanged": 15,
+  "prior_recovery_and_snapshot_paths_preserved": 82,
+  "prior_held_scripts_preserved": 255,
+  "prior_held_field_records_preserved": 7447,
+  "new_full_review_unreleased": 80,
+  "total_prepared_unreleased": 335,
+  "total_unprepared": 50,
+  "field_delta_records": 9674,
+  "new_field_delta_records": 2227,
+  "recovery_files": 1534,
+  "recovery_sha256": "f869c044d900b513539224e2b4da2d7c86a918344aacc63f3358d81ae7b98651",
+  "all_candidates_still_unapplied": true,
+  "reader_cumulative_or_candidate_copies": 0,
+  "public_cumulative_or_candidate_copies": 0,
+  "resource_path_differences_from_baseline": {
+    "reader": [],
+    "patch": [],
+    "public": [
+      "README.md"
+    ]
+  },
+  "no_game_package_or_deployment_build_created": true,
+  "original_worktree_state_preserved": true,
+  "live_readback_complete": true,
+  "client_packet_remote_verified": true,
+  "client_packet_targets": 335,
+  "client_packet_changes": 9674,
+  "client_manifest_sha256": "54905b64a7008dbb33fe3bd6d832574b6d7aa5f4b3a8734c4e39838ded736df8",
+  "client_packet_files_verified": 8,
+  "production_delta_config_unchanged": true,
+  "delta_original_paths": 128,
+  "delta_proposed_paths": 463,
+  "client_actual_new_package_tests": false,
+  "client_device_tests": false,
+  "previous_client_snapshot_files_verified": 13,
+  "previous_client_targets_unchanged": 255,
+  "client_receipt_present": false
+}
