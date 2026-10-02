@@ -1,0 +1,2148 @@
+{
+  "schema": 1,
+  "updated_at": "2026-10-02T11:20:34.001023+00:00",
+  "checkpoint": "3322玩家已发布；Reader正式672900ac/9f881c9b已上传，40浏览器与5状态通过。2419HTTP初轮4个旧接口503已保留原始失败记录，普通URL复查恢复，完整同标准重跑中；成功前不登记ADV，不重部署或重发玩家包。",
+  "project_status": "long_term_in_progress_AI_only",
+  "instruction": "Read STORY_QUALITY_HANDOFF.md and CONTINUATION.md first; refresh remote main and live state before writes; update these files at every recoverable checkpoint and before the final reply.",
+  "reader_source_commit": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+  "cn_patch_source_commit": "199c127de4ff6e628ddac2a86e4e23b0f9404590",
+  "scenario_version": 3322,
+  "package": {
+    "size": 193615338,
+    "sha256": "37f6afa135a89d86d427147c71c5c18c67842571dd83dbbbeeb5ca09e66132ad",
+    "md5": "5669b58e19fedc8bb9e0450b8fe03a54"
+  },
+  "package_publication_run": 36985876172,
+  "reader_production_deployment": "672900ac-2d9a-4b14-8c5c-f25b7814aec7",
+  "reader_site_uploaded": true,
+  "reader_exact_http": {
+    "source_revision": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+    "origin": "https://magireader.pages.dev",
+    "deployment_id": "672900ac-2d9a-4b14-8c5c-f25b7814aec7",
+    "checked_at": "2026-10-02T11:17:06Z",
+    "total": 2419,
+    "passed": 2415,
+    "failed": 4,
+    "retries": 3,
+    "categories": {
+      "changed_reader_txt": 141,
+      "act2_reader_txt": 103,
+      "authorized_reader_txt": 63,
+      "changed_or_authorized_json": 1846,
+      "index_or_manifest": 7,
+      "catalog_shard": 256,
+      "regression_source_json": 1,
+      "representative_source_json": 2
+    },
+    "authorized_196_all_covered": true
+  },
+  "reader_browser_checks": {
+    "sourceRevision": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+    "checks": 40,
+    "passed": true
+  },
+  "adv_current_for_this_source_registered": false,
+  "adv_record": {
+    "schema": 1,
+    "source_revision": "20c748f726593711a2e29ad99d10f60f08a98db9",
+    "deployment": "https://30cfa903.magireader.pages.dev",
+    "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+    "shard_prefix": "/story-json-catalog/v1/",
+    "published_at": "2026-10-02T04:10:51.740Z"
+  },
+  "task_id": "tsk_c70dbee3ad67c9ad",
+  "paths": {
+    "workspace": "D:\\magia\\deliveries\\reader-production-20260930-1226\\repo",
+    "delivery_root": "D:\\magia\\deliveries\\reader-production-20260930-1226",
+    "current_batch": "D:\\magia\\deliveries\\reader-production-20260930-1226\\semantic-batch10-ai-only-20261002",
+    "prior_batch_root": "A:\\StoryQuality-20260930-1739",
+    "cn_patch_bare": "A:\\StoryQuality-20260930-1739\\patch.git",
+    "do_not_overwrite_original_reader": "D:\\magia\\MyProducts\\magi-reader",
+    "do_not_touch_l2d": "D:\\magia\\MyProducts\\Demo-main",
+    "do_not_touch_aio": "D:\\magia\\MyProducts\\magireco-aio-tool-framework"
+  },
+  "remaining_control_candidates": 0,
+  "remaining_control_scripts": [],
+  "pending": [
+    "等待并核验完整2419HTTP复查结果，不抹除首轮失败",
+    "通过后登记ADV并完成closeout和独立验证",
+    "累计台账和恢复包只CN patch，不重复标记审读"
+  ],
+  "protected_rules": [
+    "No branches, no PR, no force push",
+    "Do not overwrite parallel Reader/L2D/AIO work or clean unknown local modifications",
+    "Preserve 43 accepted V4 runtime scripts; migration records have 4 serialization-only byte differences between repositories",
+    "Preserve Chinese colour scopes, Chinese semantic pauses and exp/exp3 compatibility; do not copy malformed JP tags",
+    "Chinese translation must remain faithful; no invented content; do not claim restored human authorship for reviewed fallback",
+    "Source commit, player package, Reader website and ADV current are separate acceptance states"
+  ],
+  "delivery_receipt_commits": {
+    "reader_data": "20c748f726593711a2e29ad99d10f60f08a98db9",
+    "patch_data": "f61ccbaac7e4d889525f050d4eabd49e8c67d1f1",
+    "canonical_contributions": "5c88eb42ec59261cefa0a6d9fd94821aec7a462f",
+    "patch_closeout": "804dca4ca809deae0d637b54dc977d6c1412803a"
+  },
+  "recovery_bundle": {
+    "repository": "HiiragiNemu/magireco-cn-patch",
+    "path": "docs/story-quality/recovery/20261002-ai-only-3321.zip",
+    "sha256": "4b3a679dc6b012bbd548542c0ff5227e16c5ee7d2c22f25b4806c5604be3057e",
+    "bytes": 5179755,
+    "files": 324,
+    "stored_in_reader": false,
+    "stored_in_public": false
+  },
+  "remaining_work_file": "docs/story-quality/remaining-control-work.json",
+  "rule_for_future_batches": "This helper contains batch-specific assertions; on a new batch update source/package inputs, or update the three handoff files explicitly. Never overwrite new live state with historical 3310 defaults.",
+  "active_batch": {
+    "batch": "20261002-semantic-batch10-ai-only",
+    "task_id": "tsk_c70dbee3ad67c9ad",
+    "stage": "publishing",
+    "checkpoint": "3322玩家已发布；Reader正式672900ac/9f881c9b已上传，40浏览器与5状态通过。2419HTTP初轮4个旧接口503已保留原始失败记录，普通URL复查恢复，完整同标准重跑中；成功前不登记ADV，不重部署或重发玩家包。",
+    "selected_chapters": 10,
+    "selected_scenes": 92,
+    "selected_cn_fields": 4731,
+    "reviewed": [
+      {
+        "id": "510801-0",
+        "fields": 22,
+        "changed": 11
+      },
+      {
+        "id": "510801-1_ncQTe",
+        "fields": 54,
+        "changed": 26
+      },
+      {
+        "id": "510801-2_ncQTe",
+        "fields": 30,
+        "changed": 19
+      },
+      {
+        "id": "510801-3_ncQTe",
+        "fields": 38,
+        "changed": 16
+      },
+      {
+        "id": "510802-1_t5Dx9",
+        "fields": 55,
+        "changed": 27
+      },
+      {
+        "id": "510802-2_t5Dx9",
+        "fields": 40,
+        "changed": 17
+      },
+      {
+        "id": "510802-3_t5Dx9",
+        "fields": 39,
+        "changed": 17
+      },
+      {
+        "id": "510802-4_t5Dx9",
+        "fields": 58,
+        "changed": 27
+      },
+      {
+        "id": "510802-5_t5Dx9",
+        "fields": 74,
+        "changed": 31
+      },
+      {
+        "id": "510802-6_t5Dx9",
+        "fields": 76,
+        "changed": 0
+      },
+      {
+        "id": "510802-7_t5Dx9",
+        "fields": 77,
+        "changed": 37
+      },
+      {
+        "id": "510802-8_t5Dx9",
+        "fields": 32,
+        "changed": 16
+      },
+      {
+        "id": "510803-1_MTX4v",
+        "fields": 54,
+        "changed": 26
+      },
+      {
+        "id": "510803-2_MTX4v",
+        "fields": 60,
+        "changed": 25
+      },
+      {
+        "id": "510803-3_MTX4v",
+        "fields": 73,
+        "changed": 29
+      },
+      {
+        "id": "510803-4_MTX4v",
+        "fields": 62,
+        "changed": 27
+      },
+      {
+        "id": "510803-5_MTX4v",
+        "fields": 70,
+        "changed": 38
+      },
+      {
+        "id": "510803-6_MTX4v",
+        "fields": 64,
+        "changed": 21
+      },
+      {
+        "id": "510803-7_MTX4v",
+        "fields": 69,
+        "changed": 0
+      },
+      {
+        "id": "510803-8_MTX4v",
+        "fields": 70,
+        "changed": 26
+      },
+      {
+        "id": "510804-1_zCzKI",
+        "fields": 40,
+        "changed": 21
+      },
+      {
+        "id": "510804-2_zCzKI",
+        "fields": 58,
+        "changed": 20
+      },
+      {
+        "id": "510804-3_zCzKI",
+        "fields": 57,
+        "changed": 0
+      },
+      {
+        "id": "510804-4_zCzKI",
+        "fields": 65,
+        "changed": 24
+      },
+      {
+        "id": "510804-5_zCzKI",
+        "fields": 33,
+        "changed": 15
+      },
+      {
+        "id": "510804-6_zCzKI",
+        "fields": 68,
+        "changed": 25
+      },
+      {
+        "id": "510804-7_zCzKI",
+        "fields": 58,
+        "changed": 15
+      },
+      {
+        "id": "510805-1_3SpcM",
+        "fields": 50,
+        "changed": 22
+      },
+      {
+        "id": "510805-2_3SpcM",
+        "fields": 27,
+        "changed": 12
+      },
+      {
+        "id": "510805-3_3SpcM",
+        "fields": 42,
+        "changed": 15
+      },
+      {
+        "id": "510805-4_3SpcM",
+        "fields": 70,
+        "changed": 27
+      },
+      {
+        "id": "511120-1_5eVzV",
+        "fields": 47,
+        "changed": 18
+      },
+      {
+        "id": "511120-2_5eVzV",
+        "fields": 81,
+        "changed": 23
+      },
+      {
+        "id": "511120-3_5eVzV",
+        "fields": 75,
+        "changed": 31
+      },
+      {
+        "id": "511120-4_5eVzV",
+        "fields": 84,
+        "changed": 34
+      },
+      {
+        "id": "511120-5_5eVzV",
+        "fields": 66,
+        "changed": 23
+      },
+      {
+        "id": "511120-6_5eVzV",
+        "fields": 67,
+        "changed": 20
+      },
+      {
+        "id": "511120-7_5eVzV",
+        "fields": 48,
+        "changed": 16
+      },
+      {
+        "id": "511120-8_5eVzV",
+        "fields": 57,
+        "changed": 19
+      },
+      {
+        "id": "511120-9_5eVzV",
+        "fields": 36,
+        "changed": 10
+      },
+      {
+        "id": "511120-10_5eVzV",
+        "fields": 54,
+        "changed": 22
+      },
+      {
+        "id": "511120-11_5eVzV",
+        "fields": 14,
+        "changed": 7
+      },
+      {
+        "id": "511410-0",
+        "fields": 32,
+        "changed": 8
+      },
+      {
+        "id": "511410-1_ycKqc",
+        "fields": 56,
+        "changed": 19
+      },
+      {
+        "id": "511410-2_ycKqc",
+        "fields": 49,
+        "changed": 14
+      },
+      {
+        "id": "511410-3_ycKqc",
+        "fields": 25,
+        "changed": 8
+      },
+      {
+        "id": "511410-4_ycKqc",
+        "fields": 57,
+        "changed": 15
+      },
+      {
+        "id": "511410-5_ycKqc",
+        "fields": 55,
+        "changed": 19
+      },
+      {
+        "id": "511410-6_ycKqc",
+        "fields": 12,
+        "changed": 4
+      },
+      {
+        "id": "511410-7_ycKqc",
+        "fields": 86,
+        "changed": 21
+      },
+      {
+        "id": "511410-8_ycKqc",
+        "fields": 55,
+        "changed": 13
+      },
+      {
+        "id": "511410-9_ycKqc",
+        "fields": 49,
+        "changed": 12
+      },
+      {
+        "id": "511410-10_ycKqc",
+        "fields": 81,
+        "changed": 18
+      },
+      {
+        "id": "511410-11_ycKqc",
+        "fields": 91,
+        "changed": 34
+      },
+      {
+        "id": "511410-12_ycKqc",
+        "fields": 37,
+        "changed": 10
+      },
+      {
+        "id": "511410-13_ycKqc",
+        "fields": 7,
+        "changed": 3
+      },
+      {
+        "id": "511410-14_ycKqc",
+        "fields": 26,
+        "changed": 11
+      },
+      {
+        "id": "511420-1_Qp0aZ",
+        "fields": 40,
+        "changed": 16
+      },
+      {
+        "id": "511420-2_Qp0aZ",
+        "fields": 44,
+        "changed": 14
+      },
+      {
+        "id": "511420-3_Qp0aZ",
+        "fields": 66,
+        "changed": 24
+      },
+      {
+        "id": "511420-4_Qp0aZ",
+        "fields": 61,
+        "changed": 16
+      },
+      {
+        "id": "511420-5_Qp0aZ",
+        "fields": 54,
+        "changed": 19
+      },
+      {
+        "id": "511420-6_Qp0aZ",
+        "fields": 75,
+        "changed": 28
+      },
+      {
+        "id": "511420-7_Qp0aZ",
+        "fields": 40,
+        "changed": 18
+      },
+      {
+        "id": "511420-8_Qp0aZ",
+        "fields": 4,
+        "changed": 2
+      },
+      {
+        "id": "511420-9_Qp0aZ",
+        "fields": 13,
+        "changed": 2
+      },
+      {
+        "id": "511420-10_Qp0aZ",
+        "fields": 61,
+        "changed": 23
+      },
+      {
+        "id": "511420-11_Qp0aZ",
+        "fields": 19,
+        "changed": 3
+      },
+      {
+        "id": "511420-12_Qp0aZ",
+        "fields": 27,
+        "changed": 9
+      },
+      {
+        "id": "511420-13_Qp0aZ",
+        "fields": 64,
+        "changed": 18
+      },
+      {
+        "id": "512610-0",
+        "fields": 3,
+        "changed": 3
+      },
+      {
+        "id": "512610-1_NTfaR",
+        "fields": 54,
+        "changed": 33
+      },
+      {
+        "id": "512610-2_NTfaR",
+        "fields": 46,
+        "changed": 22
+      },
+      {
+        "id": "512610-3_NTfaR",
+        "fields": 54,
+        "changed": 24
+      },
+      {
+        "id": "512610-4_NTfaR",
+        "fields": 47,
+        "changed": 21
+      },
+      {
+        "id": "512610-5_NTfaR",
+        "fields": 51,
+        "changed": 24
+      },
+      {
+        "id": "512610-6_NTfaR",
+        "fields": 54,
+        "changed": 24
+      },
+      {
+        "id": "512610-7_NTfaR",
+        "fields": 51,
+        "changed": 21
+      },
+      {
+        "id": "512610-8_NTfaR",
+        "fields": 53,
+        "changed": 19
+      },
+      {
+        "id": "512610-9_NTfaR",
+        "fields": 30,
+        "changed": 12
+      },
+      {
+        "id": "512610-10_NTfaR",
+        "fields": 46,
+        "changed": 20
+      },
+      {
+        "id": "512620-1_HxTD7",
+        "fields": 41,
+        "changed": 18
+      },
+      {
+        "id": "512620-2_HxTD7",
+        "fields": 75,
+        "changed": 34
+      },
+      {
+        "id": "512620-3_HxTD7",
+        "fields": 72,
+        "changed": 25
+      },
+      {
+        "id": "512620-4_HxTD7",
+        "fields": 51,
+        "changed": 16
+      },
+      {
+        "id": "512620-5_HxTD7",
+        "fields": 53,
+        "changed": 19
+      },
+      {
+        "id": "512620-6_HxTD7",
+        "fields": 77,
+        "changed": 30
+      },
+      {
+        "id": "512620-7_HxTD7",
+        "fields": 45,
+        "changed": 22
+      },
+      {
+        "id": "512620-8_HxTD7",
+        "fields": 65,
+        "changed": 27
+      },
+      {
+        "id": "512620-9_HxTD7",
+        "fields": 51,
+        "changed": 20
+      },
+      {
+        "id": "512620-10_HxTD7",
+        "fields": 59,
+        "changed": 21
+      },
+      {
+        "id": "512620-11_HxTD7",
+        "fields": 53,
+        "changed": 21
+      }
+    ],
+    "reviewed_fields": 4731,
+    "changed_fields": 1732,
+    "target_version": 3322,
+    "updated_at": "2026-10-02T11:20:34.001023+00:00",
+    "validation": {
+      "schema": 4,
+      "batch": "20261002-semantic-batch10-ai-only",
+      "validated_at": "2026-10-02T08:39:56+00:00",
+      "indexed_chapters_complete": 10,
+      "scenes_full_read": 92,
+      "complete_scenes_reviewed": 92,
+      "new_complete_scenes": 89,
+      "previous_complete_context_scenes": 3,
+      "new_reviewed_fields": 4529,
+      "context_fields": 202,
+      "pending_source_adjudication": [],
+      "display_fields_reviewed": 4731,
+      "display_fields_revised": 1732,
+      "body_fields_revised": 1732,
+      "runtime_body_fields_revised": 1730,
+      "reader_only_original_literal_restorations": 2,
+      "intentional_witch_literals_restored_reader": 7,
+      "intentional_witch_literals_restored_runtime": 5,
+      "explicit_speaker_label_repairs": 0,
+      "display_only": true,
+      "exact_reverse_to_original_bytes": true,
+      "reader_player_converged_exact_bytes": 92,
+      "nontext_structure_actor_identity_and_audio_unchanged": true,
+      "AI_import_source_verified": true,
+      "executable_tags_and_highlight_types_unchanged": true,
+      "player_name_placeholders_preserved": 1,
+      "actual_reader_parser_files": 92,
+      "actual_reader_events_and_audio_metadata_unchanged_except_source_proven_missing_display": true,
+      "restored_previously_empty_display_fields": 0,
+      "restored_display_explanation": "No new display events. Seven pre-existing witch speech literals restored exactly from Japanese;two player literals already correct and left byte-identical. Source-bound independent reverse proof for each repository.",
+      "specialized_tests_passed": 23,
+      "additional_missing_display_contract_tests": 17,
+      "source_reconciliation_refusal_tests": 9,
+      "reader_txt_files": 22,
+      "reader_txt_field_spans": 4776,
+      "historical_full_section_baselines": 15,
+      "multiline_artifact_spans": 0,
+      "txt_missing_fields": 0,
+      "txt_alignment_holds": 0,
+      "protected_v4_unchanged": 43,
+      "protected_authorized_cn_unchanged": 196,
+      "unrelated_dirty_paths_unchanged": true,
+      "review_method": "model_assisted_full_scene_Japanese_comparison_not_official_human_source",
+      "official_or_human_provenance_not_asserted": true,
+      "published": false,
+      "whole_corpus_complete": false,
+      "device_gameplay_verified": false,
+      "changed_runtime_scripts": 89,
+      "new_complete_unchanged_scripts": []
+    },
+    "next": [
+      "等待并核验完整2419HTTP复查结果，不抹除首轮失败",
+      "通过后登记ADV并完成closeout和独立验证",
+      "累计台账和恢复包只CN patch，不重复标记审读"
+    ],
+    "source_commits": {
+      "reader": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+      "patch": "199c127de4ff6e628ddac2a86e4e23b0f9404590"
+    },
+    "public_workflow_commit": "ef5936ca5c922c4568edb366795a9eb07b74f343",
+    "build_source_commit": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+    "build_root": "D:\\magia\\deliveries\\reader-production-20260930-1226\\semantic-batch10-ai-only-20261002\\delivery",
+    "resumed_at": "2026-10-02T11:12:03+00:00",
+    "player_package_published": true,
+    "player_package_version": 3322,
+    "resume_evidence": "resume-20261002-verification.json",
+    "reader_production_uploaded": "672900ac-2d9a-4b14-8c5c-f25b7814aec7",
+    "active_sessions": {
+      "http_recheck": "session-af3f1b3f6d90e8bc852152e6"
+    }
+  },
+  "naming_decision": {
+    "source": "maintainer explicit instruction in current conversation",
+    "source_term": "アマビエ小阿鲁",
+    "superseded_review_translation": "阿玛比埃小阿鲁",
+    "approved_chinese": "海异光小阿鲁",
+    "meaning": "百鬼夜行笼目的小阿鲁变成了海异光",
+    "original_japanese_sources_unchanged": true
+  },
+  "reader_data_commit": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+  "active_provenance_audit": {
+    "stage": "delivered",
+    "checkpoint": "回复中断已恢复：3312公开状态复验完成，最后5控制项分类为4误报及1保留适配，3份全文/原档及动态简介继续待审",
+    "new_package_published_in_this_audit": true,
+    "task_id": "tsk_3a0b0c934813da6c",
+    "next": [
+      "继续三份旧剧情全文/原始国服独立来源核对，勿将已分类控制误报当待搬动指令",
+      "核对动态outline和其他非剧情文本的实源，真实JS变化才走JS发布链",
+      "继续全库严重机翻，只有真实新修订才发布下一批scenario"
+    ],
+    "completed": [
+      "9份旧源逐提交核对，睡醒来自2026-02-11最早快照，原官方来源尚未独立核实",
+      "另一编号5109七个同原文副本确有2026-07-27测试导入；睡醒在8月恢复旧稿时回填",
+      "3878个当前非ADV/网页源扫描完成，相关复合旧名0，通用小阿鲁不应替换",
+      "两份主线53/81发言与日文一一对应，不存在此处缺句；其中一处chara缺左括号已精确暂存",
+      "四篇同日文229字段与已交付3311中文对应，199字段同步候选，执行标签和非文本结构不改"
+    ],
+    "source_commits": {
+      "reader": "0982d3040c13839eb3e2a60b463370008351270f",
+      "patch": "78d7d40385180164d581dbec382493317179e7fe"
+    },
+    "remaining_control_candidates": 0,
+    "remaining_control_scripts": [],
+    "tests": {
+      "specialized": 12,
+      "node": 730,
+      "full_check_passed": true
+    },
+    "publication_run": 36731997595,
+    "package": {
+      "size": 193597638,
+      "sha256": "744259eabf4b04ef947ed4f29caba6f0fc6bfe7e27b84d76bc477e1a5603da05",
+      "md5": "da491967340f178c66b3da2fc5466157"
+    },
+    "delivery_state": {
+      "reader_source_commit": "0982d3040c13839eb3e2a60b463370008351270f",
+      "reader_data_commit": "0982d3040c13839eb3e2a60b463370008351270f",
+      "cn_patch_source_commit": "78d7d40385180164d581dbec382493317179e7fe",
+      "scenario_version": 3312,
+      "package": {
+        "size": 193597638,
+        "sha256": "744259eabf4b04ef947ed4f29caba6f0fc6bfe7e27b84d76bc477e1a5603da05",
+        "md5": "da491967340f178c66b3da2fc5466157"
+      },
+      "package_publication_run": 36731997595,
+      "reader_production_deployment": "360c72f0-2842-4f50-baa2-937509276af8",
+      "reader_site_uploaded": true,
+      "reader_exact_http": {
+        "source_revision": "0982d3040c13839eb3e2a60b463370008351270f",
+        "origin": "https://magireader.pages.dev",
+        "deployment_id": "360c72f0-2842-4f50-baa2-937509276af8",
+        "checked_at": "2026-09-30T15:05:03Z",
+        "total": 2516,
+        "passed": 2516,
+        "failed": 0,
+        "retries": 0,
+        "categories": {
+          "changed_reader_txt": 623,
+          "act2_reader_txt": 75,
+          "changed_or_authorized_json": 1510,
+          "authorized_reader_txt": 42,
+          "index_or_manifest": 7,
+          "catalog_shard": 256,
+          "regression_source_json": 1,
+          "representative_source_json": 2
+        },
+        "authorized_196_all_covered": true
+      },
+      "reader_browser_checks": {
+        "sourceRevision": "0982d3040c13839eb3e2a60b463370008351270f",
+        "checks": 6,
+        "passed": true,
+        "results": [
+          {
+            "id": "510911-2_RK87H",
+            "route": "510911",
+            "viewport": "desktop",
+            "expected": "不能用X档案",
+            "visible": true,
+            "pageTurns": 0,
+            "pageErrors": [],
+            "screenshot": "desktop-510911-2_RK87H.png"
+          },
+          {
+            "id": "510941-1_RK87H",
+            "route": "510941-44",
+            "viewport": "desktop",
+            "expected": "今天肉类特价",
+            "visible": true,
+            "pageTurns": 0,
+            "pageErrors": [],
+            "screenshot": "desktop-510941-1_RK87H.png"
+          },
+          {
+            "id": "102301-4_Z9WSZ",
+            "route": "102301",
+            "viewport": "desktop",
+            "expected": "可以参加啦！",
+            "visible": true,
+            "pageTurns": 1,
+            "pageErrors": [],
+            "screenshot": "desktop-102301-4_Z9WSZ.png"
+          },
+          {
+            "id": "510911-2_RK87H",
+            "route": "510911",
+            "viewport": "mobile",
+            "expected": "不能用X档案",
+            "visible": true,
+            "pageTurns": 0,
+            "pageErrors": [],
+            "screenshot": "mobile-510911-2_RK87H.png"
+          },
+          {
+            "id": "510941-1_RK87H",
+            "route": "510941-44",
+            "viewport": "mobile",
+            "expected": "今天肉类特价",
+            "visible": true,
+            "pageTurns": 0,
+            "pageErrors": [],
+            "screenshot": "mobile-510941-1_RK87H.png"
+          },
+          {
+            "id": "102301-4_Z9WSZ",
+            "route": "102301",
+            "viewport": "mobile",
+            "expected": "可以参加啦！",
+            "visible": true,
+            "pageTurns": 1,
+            "pageErrors": [],
+            "screenshot": "mobile-102301-4_Z9WSZ.png"
+          }
+        ]
+      },
+      "adv_current_for_this_source_registered": true,
+      "adv_record": {
+        "schema": 1,
+        "source_revision": "0982d3040c13839eb3e2a60b463370008351270f",
+        "deployment": "https://360c72f0.magireader.pages.dev",
+        "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+        "shard_prefix": "/story-json-catalog/v1/",
+        "published_at": "2026-09-30T15:06:58.517Z"
+      },
+      "recovery_bundle": {
+        "path": "docs/story-quality/recovery/20260930-cn-origin-duplicates.zip",
+        "size": 178726,
+        "sha256": "b57c8f241c30737412db6e99714f06a8b30dbfb760080b9717f2b98834543422",
+        "files": 37
+      },
+      "delivery_receipt_commits": {
+        "reader": "ea9fcde7c7431463d55f33991bf7d2f3d17ed922",
+        "patch": "91595ac5cb6c02e3aea58c5149083f0c39ea912b"
+      }
+    },
+    "active_sessions": {},
+    "deployment_helper": "cn-origin-20260930/deploy_verified_snapshot.py",
+    "reader_upload": {
+      "source": "0982d3040c13839eb3e2a60b463370008351270f",
+      "deployment": "360c72f0-2842-4f50-baa2-937509276af8"
+    },
+    "recovery": {
+      "path": "docs/story-quality/recovery/20260930-cn-origin-duplicates.zip",
+      "size": 178726,
+      "sha256": "b57c8f241c30737412db6e99714f06a8b30dbfb760080b9717f2b98834543422",
+      "files": 37
+    },
+    "closeout_commits": {
+      "reader": "ea9fcde7c7431463d55f33991bf7d2f3d17ed922",
+      "patch": "91595ac5cb6c02e3aea58c5149083f0c39ea912b"
+    },
+    "fresh_resume_verification": {
+      "schema": 1,
+      "verified_at": "2026-09-30T17:07:49Z",
+      "scenario_version": 3312,
+      "reader_source_commit": "0982d3040c13839eb3e2a60b463370008351270f",
+      "checks": 10,
+      "all_passed": true,
+      "fresh_reads": [
+        {
+          "kind": "player",
+          "url": "https://magireco-personal-release.pages.dev/version_scenario.json",
+          "status": 200,
+          "bytes": 74,
+          "sha256": "818ab1794d04c5ed1b0235cb65a0a00f1f55de1d86552b94d6b8ce0945604e37",
+          "seconds": 0.894,
+          "data": {
+            "version": 3312,
+            "size": 193597638,
+            "md5": "da491967340f178c66b3da2fc5466157"
+          }
+        },
+        {
+          "kind": "player",
+          "url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/version_scenario.json",
+          "status": 200,
+          "bytes": 88,
+          "sha256": "6dfdf38b79dbfdc6054a79688c9dd857fc0144b8f07c222d02053cd8a6e96c2f",
+          "seconds": 1.019,
+          "data": {
+            "version": 3312,
+            "size": 193597638,
+            "md5": "da491967340f178c66b3da2fc5466157"
+          }
+        },
+        {
+          "kind": "adv",
+          "url": "https://magireader.pages.dev/api/adv/release",
+          "status": 200,
+          "bytes": 293,
+          "sha256": "cca700a37addc2f0271d6de30ef5789c565813da69248d84b36de9714b6492a7",
+          "seconds": 0.997,
+          "release": {
+            "schema": 1,
+            "source_revision": "0982d3040c13839eb3e2a60b463370008351270f",
+            "deployment": "https://360c72f0.magireader.pages.dev",
+            "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+            "shard_prefix": "/story-json-catalog/v1/",
+            "published_at": "2026-09-30T15:06:58.517Z"
+          }
+        },
+        {
+          "kind": "build",
+          "url": "https://magireader.pages.dev/adv-release-build.json",
+          "status": 200,
+          "bytes": 708,
+          "sha256": "f10ca3613fc946230881ac38a556e90fcc787f93a151c2e3ea8211d375f7bf2a",
+          "seconds": 0.625,
+          "source_revision": "0982d3040c13839eb3e2a60b463370008351270f"
+        },
+        {
+          "kind": "json",
+          "url": "https://magireader.pages.dev/api/story-json/510081-89/cn/6",
+          "status": 200,
+          "bytes": 31086,
+          "sha256": "38d4a403f4f90afcb54f581c80966dc203dac59a3bb764b1debb20261af5c8d6",
+          "seconds": 0.517,
+          "source_path": "magireco-translate-data-master/Scenarios_full/event_story/51008 - Another Daze～魔法少女和美～/510084-1.json"
+        },
+        {
+          "kind": "json",
+          "url": "https://magireader.pages.dev/api/story-json/510941-44/cn/0",
+          "status": 200,
+          "bytes": 17907,
+          "sha256": "86746b8519b499f219605b87eb81fc98f55e36b535d111676df62002201861cc",
+          "seconds": 0.698,
+          "source_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510941-1_RK87H.json"
+        },
+        {
+          "kind": "json",
+          "url": "https://magireader.pages.dev/api/story-json/510911/cn/1",
+          "status": 200,
+          "bytes": 14050,
+          "sha256": "8f7b2f21b07d647ee7b7340536dc4ef71a9ac25ae6e2b35c2b2dff46c240015a",
+          "seconds": 0.617,
+          "source_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510911-2_RK87H.json"
+        },
+        {
+          "kind": "json",
+          "url": "https://magireader.pages.dev/api/story-json/102301/cn/3",
+          "status": 200,
+          "bytes": 13716,
+          "sha256": "33e1b38d5e45bdc8000f91a3aaa4a02358a7526bb66cd4335103212c912edc44",
+          "seconds": 0.731,
+          "source_path": "magireco-translate-data-master/Scenarios_full/main_story/1023-13 - 第II部 第2章 - 集結の百禍編/102301-4_Z9WSZ.json"
+        },
+        {
+          "kind": "json",
+          "url": "https://magireader.pages.dev/api/story-json/311201/cn/1",
+          "status": 200,
+          "bytes": 20491,
+          "sha256": "c365948d7aceba5201940ab0432d3f38afa40fd00d72d166e61a00f8a4be1dd1",
+          "seconds": 0.496,
+          "source_path": "magireco-translate-data-master/Scenarios_full/character_story/1120 - 佐鸟笼目（百鬼夜行ver.）（佐鳥 かごめ（百鬼夜行ver.））/311201-2.json"
+        },
+        {
+          "kind": "json",
+          "url": "https://magireader.pages.dev/api/story-json/521820/cn/7",
+          "status": 200,
+          "bytes": 12604,
+          "sha256": "f23f715b15948b4b63b04da38bed030a04183e2267ed837aed87238c92c9128c",
+          "seconds": 0.412,
+          "source_path": "magireco-translate-data-master/Scenarios_full/event_story/5218 - 笼目的百怪波澜～炎夏之宴～/521820-8_2csyG.json"
+        }
+      ],
+      "prior_full_http_checked_at": "2026-09-30T15:05:03Z",
+      "prior_full_http_passed": 2516,
+      "browser_checks": 6,
+      "note": "Recovered after chat output interruption; old sessions not rerun, no package version bump or redeployment."
+    },
+    "pending_semantic_scripts": [
+      "510088-2",
+      "510089-2",
+      "510089-3"
+    ],
+    "resume_diagnostic_commits": {
+      "reader": "22d897d0f993571dfef54ed53f10ae7038dfa30f",
+      "patch": "9a07a96eeafd3356bef41aaa1822f9cc8bb67cc6"
+    },
+    "resume_recovery": {
+      "path": "docs/story-quality/recovery/20261001-cn-origin-resume.zip",
+      "files": 11,
+      "size": 76788,
+      "sha256": "6d25ed980bac8b51fe781353fcd4ae7a210e8b69a121815520695dae0a87f223"
+    },
+    "batch": "20260930-cn-origin-duplicates"
+  },
+  "new_scope": {
+    "official_cn_preservation": "Do not label original national-server translation as AI without history/source evidence; prefer verified original CN wording where available. Japanese execution changes must not erase legitimate localized text.",
+    "non_adv_text_in_scope": [
+      "stage-selection lines",
+      "event/quest synopsis",
+      "chapter titles and blurbs",
+      "related character text mentioning 海异光小阿鲁"
+    ]
+  },
+  "previous_batch_summaries": {
+    "20260930-haiyiguang-controls-02": {
+      "stage": "delivered",
+      "checkpoint": "本批收口：海异光3311、Reader生产和ADV登记已完成，余8控制项与全库待审继续",
+      "package_version": 3311,
+      "recovery": {
+        "path": "docs/story-quality/recovery/20260930-haiyiguang-controls-02.zip",
+        "size": 184297,
+        "sha256": "32cf0a1bcbe53aa9329283549ba3cebcca83575796f2dca4b6cfcd670c1c5716",
+        "files": 51
+      }
+    },
+    "20260930-cn-origin-duplicates": {
+      "stage": "delivered",
+      "checkpoint": "回复中断已恢复：3312公开状态复验完成，最后5控制项分类为4误报及1保留适配，3份全文/原档及动态简介继续待审",
+      "recovery": {
+        "path": "docs/story-quality/recovery/20260930-cn-origin-duplicates.zip",
+        "size": 178726,
+        "sha256": "b57c8f241c30737412db6e99714f06a8b30dbfb760080b9717f2b98834543422",
+        "files": 37
+      }
+    },
+    "20261001-severe-5109": {
+      "stage": "delivered",
+      "checkpoint": "3313、Reader和ADV已验收；完整剩余队列已列入5109的12份及座谈会两部分18份，376简介语义另行复核",
+      "recovery": {
+        "path": "docs/story-quality/recovery/20261001-severe-5109.zip",
+        "size": 220593,
+        "sha256": "04cad6b9771ee99f2560960f5324222796a151cd2660f3f721aaeede46aeb477",
+        "files": 49
+      }
+    },
+    "20261001-semantic-batch02": {
+      "stage": "delivered",
+      "checkpoint": "30篇2381字段/1713修订及22份TXT已通过源码、3314、Reader生产和ADV全链路验收；原12+18正文队列清零，全库仍需继续",
+      "recovery": {
+        "path": "docs/story-quality/recovery/20261001-semantic-batch02.zip",
+        "bytes": 1275363,
+        "sha256": "1c7074e2fad069f36838d3d442bae933436d9193345a5a9c891d9c6d21d99ad9",
+        "files": 155
+      }
+    },
+    "20261001-semantic-batch04-ai-only": {
+      "stage": "delivered",
+      "scenario_version": 3316,
+      "reader_source_commit": "93305879d45862439647d346281814b7070fe1cd",
+      "cn_patch_source_commit": "a3448c39da6fa2bf0dcf9067ca3a15dc8e0b8728",
+      "recovery": {
+        "path": "docs/story-quality/recovery/20261001-ai-only-3316.zip",
+        "sha256": "eb3b15e07afa24331fe150038fd5af4455e120f5c2a068ddc43c0e5e7547d4f3",
+        "bytes": 894619,
+        "files": 157
+      }
+    },
+    "20261001-semantic-batch05-ai-only": {
+      "stage": "delivered",
+      "scenario_version": 3317,
+      "reader_source_commit": "f1955c691d7747fe1ead58af3fe6847c4c62525c",
+      "cn_patch_source_commit": "84e7a9a4b67d026d57f41272d70bc9f24ee81b8b",
+      "recovery": {
+        "path": "docs/story-quality/recovery/20261001-ai-only-3317.zip",
+        "sha256": "bd42344adf9765bdc9c789bec2b655e1e15df010acbef281c41261d364cae1b8",
+        "bytes": 1233103,
+        "files": 250
+      }
+    },
+    "20261002-semantic-batch06-ai-only": {
+      "stage": "delivered",
+      "scenario_version": 3318,
+      "reader_source_commit": "0d04f7adc9db140a1f7fac1183c5d346353b7899",
+      "cn_patch_source_commit": "ed09e4b5b2a25968e7db51f8b3d78cec2c8e4423",
+      "recovery": {
+        "path": "docs/story-quality/recovery/20261002-ai-only-3318.zip",
+        "sha256": "583ce5fc2a0c36e6544af3f9b86ac9530f75a9d07062e507d1ce741f8cd35cd5",
+        "bytes": 3966874,
+        "files": 256
+      },
+      "contribution_commits": {
+        "reader": {
+          "repository": "reader",
+          "version": 3318,
+          "parent": "c2b5223f7cb37aeebbbd2b4408e3ad5615e626a1",
+          "commit": "34b1058fc0e1f75304204c99ff0b2710fc7403b8",
+          "files": 13,
+          "remote_verified": true,
+          "runtime_and_other_files_unchanged": true,
+          "ledger_sha256": "1d4a094cae0db70bfd83f58d72506ff6e3eb5c0e0c6e76f9ea66253b1920e470"
+        },
+        "patch": {
+          "repository": "patch",
+          "version": 3318,
+          "parent": "dcef5ea5f2014ba6d8cbe26db96e7cb29ea43a2f",
+          "commit": "f6d5be2a473cd8ab7eb74671bf33c944b8a7d56c",
+          "files": 13,
+          "remote_verified": true,
+          "runtime_and_other_files_unchanged": true,
+          "ledger_sha256": "1d4a094cae0db70bfd83f58d72506ff6e3eb5c0e0c6e76f9ea66253b1920e470"
+        },
+        "public": {
+          "repository": "public",
+          "version": 3318,
+          "parent": "7ee2300a57d5355dfaffcbb7284633ea0ac8a1ff",
+          "commit": "c3fb8e91fe3fa167f672aa60f6c64bd0740f31c1",
+          "files": 11,
+          "remote_verified": true,
+          "runtime_and_other_files_unchanged": true,
+          "ledger_sha256": "1d4a094cae0db70bfd83f58d72506ff6e3eb5c0e0c6e76f9ea66253b1920e470"
+        }
+      }
+    },
+    "20261002-semantic-batch07-ai-only": {
+      "stage": "delivered",
+      "scenario_version": 3319,
+      "reader_source_commit": "4c2eb16d22aae5bab05937a9a0a4821b9f6f0227",
+      "cn_patch_source_commit": "ba8966482523031dbe7e110cfd177902ba6e9a99",
+      "recovery_reference": {
+        "repository": "HiiragiNemu/magireco-cn-patch",
+        "path": "docs/story-quality/recovery/20261002-ai-only-3319.zip",
+        "sha256": "b76a671a45cf0f7a7b4fc2eed35577a9c207ef4836270a2d4d76add5c0c2ffc6",
+        "bytes": 4506614,
+        "files": 278,
+        "stored_in_reader": false,
+        "stored_in_public": false
+      }
+    },
+    "20261002-semantic-batch08-ai-only": {
+      "stage": "delivered",
+      "scenario_version": 3320,
+      "reader_source_commit": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+      "cn_patch_source_commit": "f8b3ee980ba73b7d8f0b160f6b5f49855c447a64",
+      "recovery_reference": {
+        "repository": "HiiragiNemu/magireco-cn-patch",
+        "path": "docs/story-quality/recovery/20261002-ai-only-3320.zip",
+        "sha256": "203c4f8bbd28298d4500f101e7f5f7d5584e3f9336a4c0f01fc5e69cbb7b87eb",
+        "bytes": 5107762,
+        "files": 391,
+        "stored_in_reader": false,
+        "stored_in_public": false
+      }
+    },
+    "20261002-semantic-batch09-ai-only": {
+      "stage": "delivered",
+      "scenario_version": 3321,
+      "reader_source_commit": "20c748f726593711a2e29ad99d10f60f08a98db9",
+      "cn_patch_source_commit": "f61ccbaac7e4d889525f050d4eabd49e8c67d1f1",
+      "recovery_reference": {
+        "repository": "HiiragiNemu/magireco-cn-patch",
+        "path": "docs/story-quality/recovery/20261002-ai-only-3321.zip",
+        "sha256": "4b3a679dc6b012bbd548542c0ff5227e16c5ee7d2c22f25b4806c5604be3057e",
+        "bytes": 5179755,
+        "files": 324,
+        "stored_in_reader": false,
+        "stored_in_public": false
+      }
+    }
+  },
+  "pending_semantic_scripts": [
+    "510088-2",
+    "510089-2",
+    "510089-3"
+  ],
+  "takeover": {
+    "schema": 1,
+    "checked_at": "2026-10-01T00:54:18Z",
+    "task_id": "tsk_a3ced3d7cb24b251",
+    "scope": "takeover_and_documentation_only_no_new_translation_or_runtime_release",
+    "share": "https://chatgpt.com/share/6abbf4ba-1d4c-83ee-b173-2dd784a278da",
+    "conversation_title": "修复机翻剧情并发布",
+    "visible_messages": 113,
+    "user_messages": 24,
+    "assistant_messages": 89,
+    "last_user_message": "继续推进 我希望你每一次尽可能多的推进进度",
+    "last_user_message_utc": "2026-10-01T00:12:35.187Z",
+    "last_assistant_was_plan_only": true,
+    "visible_transcript_sha256": "c4574caed811971582ae3cdb48c22b1799f65ff08a592b8242be8e75d5e63bd5",
+    "read_entire_available_visible_text": true,
+    "attachment_pixels_recovered": false,
+    "reader_main_before_handoff": "5f7cab788d32a2cc9cfe7db005be3e67fe621945",
+    "patch_main_observed": "c3a9bb82c325d8f1a47a3ab2d9f3a8d233a15c80",
+    "reader_data_commit": "bb7e164a450c4b2019f5965555a942cc53acfb52",
+    "patch_data_commit": "d01fb8d0aec1afecd1b065918cbb81f6fc394ef2",
+    "reader_deployed_source": "bf9bc575e50108e3dc2bb4c5e99f07cf3c16489a",
+    "reader_deployment": "f95b8e5a-a84b-4d18-b446-892f64654b2e",
+    "scenario_version": 3313,
+    "fresh_http_observed_at": "2026-10-01T00:50:37.1578824Z",
+    "fresh_http_method": "Bounded read-only Invoke-WebRequest via AgentDock; ordinary public URLs, no cache-busting",
+    "fresh_http": [
+      {
+        "url": "https://magireco-personal-release.pages.dev/version_scenario.json",
+        "status": 200,
+        "version": 3313,
+        "size": 193598223,
+        "md5": "b139e0d2f5764d8ee054298636a607d2"
+      },
+      {
+        "url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/version_scenario.json",
+        "status": 200,
+        "version": 3313,
+        "size": 193598223,
+        "md5": "b139e0d2f5764d8ee054298636a607d2"
+      },
+      {
+        "url": "https://magireader.pages.dev/api/adv/release",
+        "status": 200,
+        "source_revision": "bf9bc575e50108e3dc2bb4c5e99f07cf3c16489a",
+        "deployment": "https://f95b8e5a.magireader.pages.dev"
+      },
+      {
+        "url": "https://magireader.pages.dev/adv-release-build.json",
+        "status": 200,
+        "source_revision": "bf9bc575e50108e3dc2bb4c5e99f07cf3c16489a",
+        "stories": 3054,
+        "routes": 3073
+      }
+    ],
+    "recovery": {
+      "path": "docs/story-quality/recovery/20261001-severe-5109.zip",
+      "bytes": 220593,
+      "sha256": "04cad6b9771ee99f2560960f5324222796a151cd2660f3f721aaeede46aeb477",
+      "crc_passed": true,
+      "archive_entries": 49
+    },
+    "queue": {
+      "source": "docs/story-quality/remaining-severe-translation-20261001.json",
+      "verified_source_blobs": 42,
+      "5109": 12,
+      "517210": 8,
+      "517220": 10,
+      "outlines": 376,
+      "old_cn_full_scenes": 3,
+      "unindexed_variants": 39,
+      "control_candidates": 0
+    },
+    "no_new_scenario_or_js_release": true,
+    "no_redeployment": true,
+    "inherited_checks_not_rerun": {
+      "full_http": 2523,
+      "browser_checks": 10,
+      "voice_checks": 34,
+      "status_checks": 5,
+      "node_tests": 730,
+      "python_checks": 611,
+      "existing_python_skips": 3
+    },
+    "local_status_before": " M __pycache__/reconstruction_v12.cpython-314.pyc\n M artifacts/search-split/split_search_report.json\n M website/public/data/machine_translation_manifest.generated.json\n M website/public/search_index_manifest.exedra.json\n M website/public/search_index_manifest.magireco.json\n M website/public/story_index.json\n?? website/public/adv-release-build.json\n?? website/public/data/special/\n?? website/public/story-json-catalog/\n",
+    "tracked_dirty_diff_sha256": "65926004bfbe269d32514808d2f1bc8e1a114f0bc484f865774c95bbf4999b77",
+    "limitations": [
+      "Original chat attachment pixels and historical sandbox artifacts were not recovered by the share extractor.",
+      "Prior 2523-response/browser/voice/full-test results are inherited evidence, not rerun in this takeover.",
+      "The complete 193598223-byte player ZIP was not redownloaded in this takeover; release receipt and live version metadata were checked.",
+      "No new Totentanz device animation, autoplay or authenticated outline-response verification.",
+      "Pending review does not mean every file is confirmed incorrect."
+    ],
+    "report_path": "docs/story-quality/20261001-reader-takeover.md"
+  },
+  "remaining_priorities": {
+    "source_snapshot": "8cc010620c4e87ad13fd351c4c0d92a984d2b9c9",
+    "reviewed_this_batch": [
+      "510911-1_RK87H",
+      "510921-1_RK87H",
+      "510931-1_RK87H",
+      "510944-2_RK87H",
+      "510951-1_RK87H",
+      "510954-2_RK87H",
+      "510961-1_RK87H",
+      "510964-2_RK87H",
+      "510971-1_RK87H",
+      "510974-2_RK87H",
+      "510981-1_RK87H",
+      "510991-1_RK87H",
+      "517210-10_h28aL",
+      "517210-3_h28aL",
+      "517210-4_h28aL",
+      "517210-5_h28aL",
+      "517210-6_h28aL",
+      "517210-7_h28aL",
+      "517210-8_h28aL",
+      "517210-9_h28aL",
+      "517220-10_MkF3R",
+      "517220-1_MkF3R",
+      "517220-2_MkF3R",
+      "517220-3_MkF3R",
+      "517220-4_MkF3R",
+      "517220-5_MkF3R",
+      "517220-6_MkF3R",
+      "517220-7_MkF3R",
+      "517220-8_MkF3R",
+      "517220-9_MkF3R"
+    ],
+    "remaining_5109_full_review": [],
+    "remaining_517210_full_review": [],
+    "old_original_cn_scenes_separate": [
+      "510088-2",
+      "510089-2",
+      "510089-3"
+    ],
+    "dynamic_outline": {
+      "known_cn_records": 376,
+      "known_id_coverage_complete": true,
+      "full_semantic_review_complete": false,
+      "authenticated_live_response_verified": false
+    },
+    "unindexed_variants_preexisting": 39,
+    "whole_corpus_complete": false,
+    "remaining_517220_full_review": [],
+    "remaining_recap_event_body_files": 0,
+    "scope_note": "本次明确排队的30篇已完整对照日文校订并发布3314/Reader/ADV；不代表全库严重机翻清零，也不宣称官方或人工来源。动态376简介、其他非剧情、旧51008三篇与39未索引变体仍另计。",
+    "reviewed_previous_batches": [
+      {
+        "source_snapshot": "bf9bc575e50108e3dc2bb4c5e99f07cf3c16489a",
+        "reviewed_ids": [
+          "510984-2_RK87H",
+          "510991-2_RK87H",
+          "510991-3_RK87H",
+          "517210-1_h28aL",
+          "517210-2_h28aL"
+        ]
+      }
+    ],
+    "updated_at": "2026-10-01T01:58:44Z",
+    "completed_this_batch": [
+      {
+        "id": "510911-1_RK87H",
+        "fields_reviewed": 56,
+        "fields_changed": 4,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510911-1_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510911-1_RK87H.json",
+        "jp_blob": "c0695e107f2ed4616c3d0e7d9196d8f8c9185a61",
+        "after_blob": "be2d868339c8186be20f17872a448ae5befd28af"
+      },
+      {
+        "id": "510921-1_RK87H",
+        "fields_reviewed": 51,
+        "fields_changed": 10,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510921-1_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510921-1_RK87H.json",
+        "jp_blob": "5c6eef49004f2ed967f4f4b412a5b9809de86e66",
+        "after_blob": "afc0c4b97d95ca87f2766056f70ec785107e8228"
+      },
+      {
+        "id": "510931-1_RK87H",
+        "fields_reviewed": 50,
+        "fields_changed": 12,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510931-1_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510931-1_RK87H.json",
+        "jp_blob": "26c908bd74d38c802adac6673551eb2625e73a71",
+        "after_blob": "76337cfcaa1b72284a90fefa72e92f0f90fec145"
+      },
+      {
+        "id": "510944-2_RK87H",
+        "fields_reviewed": 64,
+        "fields_changed": 23,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510944-2_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510944-2_RK87H.json",
+        "jp_blob": "5a0a23ed097b9f2c6f199c3ddf24e4792533ffb7",
+        "after_blob": "18b2d354a4e5be148f135d546441a681a18f2692"
+      },
+      {
+        "id": "510951-1_RK87H",
+        "fields_reviewed": 72,
+        "fields_changed": 18,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510951-1_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510951-1_RK87H.json",
+        "jp_blob": "b4774f3e0eaf6eaa82af25d3a0e185ffc79c2b7e",
+        "after_blob": "adb463025d88c5e584d7d50c9f14399667a030d6"
+      },
+      {
+        "id": "510954-2_RK87H",
+        "fields_reviewed": 79,
+        "fields_changed": 75,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510954-2_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510954-2_RK87H.json",
+        "jp_blob": "09a42fbc2ca7eb60c4736f244b413b2c2846d019",
+        "after_blob": "750b9d28bb0be97b588ed82278149a00f060a665"
+      },
+      {
+        "id": "510961-1_RK87H",
+        "fields_reviewed": 56,
+        "fields_changed": 16,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510961-1_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510961-1_RK87H.json",
+        "jp_blob": "92c7ac9de6701beacf7a379e69722d6eb434995d",
+        "after_blob": "ff4c42816a47ba4de7eddbcb1b58681ec5ce2180"
+      },
+      {
+        "id": "510964-2_RK87H",
+        "fields_reviewed": 53,
+        "fields_changed": 12,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510964-2_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510964-2_RK87H.json",
+        "jp_blob": "1269518e176edbf2e6cfb8c7988e37bfb6a49bc2",
+        "after_blob": "e580a4de809f42f8f07f0a1de47df3a8ba16628a"
+      },
+      {
+        "id": "510971-1_RK87H",
+        "fields_reviewed": 50,
+        "fields_changed": 10,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510971-1_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510971-1_RK87H.json",
+        "jp_blob": "afe933d8299603903003e7c57f61e18d4a3ca022",
+        "after_blob": "0446c596fe0d8ee0a0868c287997c34f6a021609"
+      },
+      {
+        "id": "510974-2_RK87H",
+        "fields_reviewed": 44,
+        "fields_changed": 8,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510974-2_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510974-2_RK87H.json",
+        "jp_blob": "6c643e25ea9cc59e8051d29b879dcf51ef551447",
+        "after_blob": "7fef94a4aeb4299bd8d52337a27c6cc8a6f20878"
+      },
+      {
+        "id": "510981-1_RK87H",
+        "fields_reviewed": 130,
+        "fields_changed": 15,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510981-1_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510981-1_RK87H.json",
+        "jp_blob": "2dad50d43e68cf628f6d7f629fcc216a9f693b0b",
+        "after_blob": "ab8c26b9a97c0fc89a328742feb3d7e12ccef6ec"
+      },
+      {
+        "id": "510991-1_RK87H",
+        "fields_reviewed": 131,
+        "fields_changed": 33,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510991-1_RK87H.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5109 - Another Daze～魔法少女和美～/510991-1_RK87H.json",
+        "jp_blob": "e907235384371e07bd59f665e2f7210473956edb",
+        "after_blob": "b32b7261b0af1902b4e126088de069b628b38c09"
+      },
+      {
+        "id": "517210-3_h28aL",
+        "fields_reviewed": 64,
+        "fields_changed": 57,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-3_h28aL.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-3_h28aL.json",
+        "jp_blob": "4d8a510073374a561cffa37e62d5edc24f153b07",
+        "after_blob": "2b628c43198a1cc5e01cda9a7d70f5f4736f07af"
+      },
+      {
+        "id": "517210-4_h28aL",
+        "fields_reviewed": 99,
+        "fields_changed": 94,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-4_h28aL.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-4_h28aL.json",
+        "jp_blob": "4cdd6e5ac24cb9acff572b17e3d892fa32d33770",
+        "after_blob": "ba9824dc51b47ea48a6b4237b742f9081012a998"
+      },
+      {
+        "id": "517210-5_h28aL",
+        "fields_reviewed": 61,
+        "fields_changed": 59,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-5_h28aL.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-5_h28aL.json",
+        "jp_blob": "1cd733a235ae73934afc23334298dfde4c7ae73b",
+        "after_blob": "d98664cb503987085f0f40e269ca7369d6df19a7"
+      },
+      {
+        "id": "517210-6_h28aL",
+        "fields_reviewed": 86,
+        "fields_changed": 82,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-6_h28aL.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-6_h28aL.json",
+        "jp_blob": "a9740454f2c6e8b22c8a46d5db592577ac452c06",
+        "after_blob": "a8c8c2df089967c50c8a08550c2eba9becff15ae"
+      },
+      {
+        "id": "517210-7_h28aL",
+        "fields_reviewed": 77,
+        "fields_changed": 67,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-7_h28aL.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-7_h28aL.json",
+        "jp_blob": "af747c5ade1c1fd0e66a60a30f9d61f41cf53b83",
+        "after_blob": "92f09e8e888ae74a7ec8329677b25a985487b2e4"
+      },
+      {
+        "id": "517210-8_h28aL",
+        "fields_reviewed": 88,
+        "fields_changed": 86,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-8_h28aL.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-8_h28aL.json",
+        "jp_blob": "b64ed867c1ca4cfc2ded5f756c36102ef643acd1",
+        "after_blob": "eef42fa1ef6f5f89130409df6b34d65b0e065e04"
+      },
+      {
+        "id": "517210-9_h28aL",
+        "fields_reviewed": 66,
+        "fields_changed": 61,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-9_h28aL.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-9_h28aL.json",
+        "jp_blob": "f75cc8526a1ea314ca5e67556c3fd44a629532c1",
+        "after_blob": "7f50fae0f9a87ca016ba7641303e35e9001fcda5"
+      },
+      {
+        "id": "517210-10_h28aL",
+        "fields_reviewed": 117,
+        "fields_changed": 113,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-10_h28aL.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517210-10_h28aL.json",
+        "jp_blob": "7987354c9c2bb2ca7a9ba786a1526f8d76e34e84",
+        "after_blob": "5480423603f6284741ce10978accdc948512f275"
+      },
+      {
+        "id": "517220-1_MkF3R",
+        "fields_reviewed": 84,
+        "fields_changed": 76,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-1_MkF3R.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-1_MkF3R.json",
+        "jp_blob": "0f87260849a2896b216db569f90414c0a6ec91cd",
+        "after_blob": "d3c10177d0bcd8501096388d764aa4bc19fa1e76"
+      },
+      {
+        "id": "517220-2_MkF3R",
+        "fields_reviewed": 88,
+        "fields_changed": 86,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-2_MkF3R.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-2_MkF3R.json",
+        "jp_blob": "81d0abe3f6b74f97e287d09eb4e1c3a58f4f4df8",
+        "after_blob": "3e27fd10c2465e25fc47ce64095c969cfcc2351c"
+      },
+      {
+        "id": "517220-3_MkF3R",
+        "fields_reviewed": 93,
+        "fields_changed": 90,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-3_MkF3R.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-3_MkF3R.json",
+        "jp_blob": "d53d9239905681e40d3f9fc73672517582a27fd4",
+        "after_blob": "4815c420a9d597644e26ffb956d02045a366cb47"
+      },
+      {
+        "id": "517220-4_MkF3R",
+        "fields_reviewed": 79,
+        "fields_changed": 78,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-4_MkF3R.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-4_MkF3R.json",
+        "jp_blob": "3c4eaa54ba9fb1e83623d8e8133ea6d2decb50a0",
+        "after_blob": "fdd33ee2a4fd720ce3d7778f2b06e80b1668e242"
+      },
+      {
+        "id": "517220-5_MkF3R",
+        "fields_reviewed": 81,
+        "fields_changed": 80,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-5_MkF3R.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-5_MkF3R.json",
+        "jp_blob": "121c4cfe2d1df736235440dfc2f36131bc9333c3",
+        "after_blob": "331cd6e995a7ac2e5d11df2d829793a0aa4ea2be"
+      },
+      {
+        "id": "517220-6_MkF3R",
+        "fields_reviewed": 90,
+        "fields_changed": 88,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-6_MkF3R.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-6_MkF3R.json",
+        "jp_blob": "dcf3b615fe979ac3687e82a38ada3529ab4ce4cc",
+        "after_blob": "35e85f9b534bd5f2ac15097e94999ac50435f1fe"
+      },
+      {
+        "id": "517220-7_MkF3R",
+        "fields_reviewed": 76,
+        "fields_changed": 71,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-7_MkF3R.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-7_MkF3R.json",
+        "jp_blob": "930a7448ec0ed186c2f224b95f25c99b8c06fc07",
+        "after_blob": "990618af20cf9c7acc00ef0a2aa0c99511e2a121"
+      },
+      {
+        "id": "517220-8_MkF3R",
+        "fields_reviewed": 115,
+        "fields_changed": 113,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-8_MkF3R.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-8_MkF3R.json",
+        "jp_blob": "b0669551afbbc7a353f1193f4e6b6706ac0f6a03",
+        "after_blob": "73ffa80dc028d334d1006d22c324320ce1a1d8a3"
+      },
+      {
+        "id": "517220-9_MkF3R",
+        "fields_reviewed": 71,
+        "fields_changed": 68,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-9_MkF3R.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-9_MkF3R.json",
+        "jp_blob": "b30789a8bafb749d4f0c5f5be350f704024dcac3",
+        "after_blob": "d9352d3b4e4a9957e36b6d8275d73fdd9c140a9a"
+      },
+      {
+        "id": "517220-10_MkF3R",
+        "fields_reviewed": 110,
+        "fields_changed": 108,
+        "cn_path": "magireco-translate-data-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-10_MkF3R.json",
+        "jp_path": "magireco-source-master/Scenarios_full/event_story/5172 - 握成拳头然后张开座谈会～第2部的整理总结～/517220-10_MkF3R.json",
+        "jp_blob": "b7d79c57f9d9324ab0a0b0a2ce3fbf7eacbbe1c8",
+        "after_blob": "65af7528c06b749c2d13cbeed61c0929b83af7ab"
+      }
+    ]
+  },
+  "corpus_review_summary": {
+    "schema": 3,
+    "snapshot": {
+      "reader": "6a2cecf281d043c7a095f596dce921f96ca890a7",
+      "patch": "bff78674a7454a943956433db976aa296a70ba7c"
+    },
+    "created_at": "2026-10-01T06:18:19.734708+00:00",
+    "scope": "Magireco Chinese Scenarios_full; a unit is one script ID including runtime suffix, shared repository/TXT copies excluded",
+    "total_script_paths": 10907,
+    "unique_script_ids": 10907,
+    "unique_numeric_ids_without_suffix": 10339,
+    "distinct_full_json_blobs": 10046,
+    "exact_bilingual_body_sequence_groups": 9963,
+    "reviewed_script_paths": 87,
+    "pending_script_paths": 10820,
+    "completion_percent": 0.7977,
+    "fully_reviewed_bilingual_groups": 83,
+    "review_status_counts": {
+      "not_individually_verified": 10820,
+      "cn_paths": 10907,
+      "text_fields": 546988,
+      "empty_display_scripts": 91,
+      "nonlexical_display_scripts": 7,
+      "jp_unresolved": 508,
+      "prior_44_bound_full_reviews": 44,
+      "full_review_3311": 4,
+      "full_review_3314": 30,
+      "whole_scene_verified_equivalent_3312": 4,
+      "full_review_3313": 5
+    },
+    "categories": {
+      "Scene0主线": {
+        "total": 300,
+        "reviewed": 0,
+        "pending": 300
+      },
+      "Scene0支线": {
+        "total": 143,
+        "reviewed": 0,
+        "pending": 143
+      },
+      "character_story": {
+        "total": 2680,
+        "reviewed": 0,
+        "pending": 2680
+      },
+      "costume_story": {
+        "total": 215,
+        "reviewed": 34,
+        "pending": 181
+      },
+      "event_story": {
+        "total": 5411,
+        "reviewed": 53,
+        "pending": 5358
+      },
+      "login_story": {
+        "total": 220,
+        "reviewed": 0,
+        "pending": 220
+      },
+      "main_story": {
+        "total": 1865,
+        "reviewed": 0,
+        "pending": 1865
+      },
+      "mirror_story": {
+        "total": 73,
+        "reviewed": 0,
+        "pending": 73
+      }
+    },
+    "stale_prior_review_count": 0,
+    "patch_adv_paths": 10468,
+    "patch_unmatched_by_exact_script_id": 86,
+    "notes": [
+      "Unreviewed does not mean mistranslated; scans/title checkboxes/control fixes are not semantic approvals.",
+      "39 unindexed changed variants and 3 old 51008 scripts are subsets, not numbers to add again.",
+      "376 dynamic outlines and other non-scenario UI texts are separate units.",
+      "Exact bilingual content grouping is a diagnostic, not permission to merge runtime variants or copy a review over unchecked speaker/layout differences."
+    ]
+  },
+  "ai_only_scope": {
+    "canonical_repository": "HiiragiNemu/magireco-cn-patch",
+    "entry": "docs/story-quality/contributions/README.md",
+    "census": "docs/story-quality/20261002-ai-only-census.json.gz",
+    "unit": "unique runtime JSON fragment; cumulative counts only in CN patch"
+  },
+  "reader_site_uploaded_for_active_batch": true,
+  "adv_registered_for_active_batch": false,
+  "game_device_verified": false,
+  "contribution_record_requirement": {
+    "repository": "HiiragiNemu/magireco-cn-patch",
+    "entry": "docs/story-quality/contributions/README.md",
+    "census": "docs/story-quality/20261002-ai-only-census.json.gz",
+    "commit": "5c88eb42ec59261cefa0a6d9fd94821aec7a462f",
+    "ledger_sha256": "4d69cfd81cb103534a7e92124f87e9ffe5ca2a65d6d25228eede8cb10365c9e8",
+    "rule": "CN patch only; no cumulative copies or cumulative ZIP contents in Reader/public"
+  },
+  "contribution_ledger": {
+    "repository": "HiiragiNemu/magireco-cn-patch",
+    "entry": "docs/story-quality/contributions/README.md",
+    "census": "docs/story-quality/20261002-ai-only-census.json.gz",
+    "include_pre_takeover": true
+  },
+  "contribution_storage_policy": "CN patch only",
+  "capability_verification": {
+    "verified_at": "2026-10-01T22:33:53.493512+00:00",
+    "agentdock_runtime": "windows",
+    "execute_and_write_verified": true,
+    "write_read_sha256": "aa2cc33ae60f4a411bb9b6edf78790e3e40b66e6a18844db1329f5635718fe80",
+    "repositories": [
+      {
+        "repository": "HiiragiNemu/magi-reader",
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        }
+      },
+      {
+        "repository": "HiiragiNemu/magireco-cn-patch",
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        }
+      },
+      {
+        "repository": "HiiragiNemu/ProgettoMagius-1",
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        }
+      }
+    ],
+    "actual_main_source_commits": {
+      "reader": "d5b1442cbba6889f9f917f41bcc9bfe3837ffe04",
+      "patch": "f8b3ee980ba73b7d8f0b160f6b5f49855c447a64"
+    },
+    "cloudflare_existing_oauth_refresh_exit": 0,
+    "cloudflare_auth_evidence": "Current turn successful locked Wrangler whoami; isolated build preflight successfully read canonical production with same credentials",
+    "config_or_permission_widening_performed": false,
+    "conclusion": "Not local-read-only: actual file writes, system execution and existing-main nonforce pushes succeeded; read-only action limitation cannot characterize entire AgentDock environment"
+  },
+  "player_data_commit": "199c127de4ff6e628ddac2a86e4e23b0f9404590",
+  "reader_browser": {
+    "sourceRevision": "20c748f726593711a2e29ad99d10f60f08a98db9",
+    "checks": 36,
+    "passed": true,
+    "results": [
+      {
+        "id": "510301-1",
+        "route": "510301",
+        "viewport": "desktop",
+        "expected": "五分之四",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510301-510301-1-cd1e750f.png"
+      },
+      {
+        "id": "510301-10",
+        "route": "510301",
+        "viewport": "desktop",
+        "expected": "全部答对了",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510301-510301-10-a90efcca.png"
+      },
+      {
+        "id": "510510-6_Hemql",
+        "route": "510510",
+        "viewport": "desktop",
+        "expected": "鼓手",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510510-510510-6_Hemql-00cc463f.png"
+      },
+      {
+        "id": "510510-10_Hemql",
+        "route": "510510",
+        "viewport": "desktop",
+        "expected": "把想法喊出来",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "desktop-510510-510510-10_Hemql-417afaf7.png"
+      },
+      {
+        "id": "510520-4_5XtSr",
+        "route": "510520",
+        "viewport": "desktop",
+        "expected": "我相信你们",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510520-510520-4_5XtSr-e181acc5.png"
+      },
+      {
+        "id": "510520-10_5XtSr",
+        "route": "510520",
+        "viewport": "desktop",
+        "expected": "较真的样子",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "desktop-510520-510520-10_5XtSr-d02d5c13.png"
+      },
+      {
+        "id": "510601-1",
+        "route": "510601",
+        "viewport": "desktop",
+        "expected": "同一个场景",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510601-510601-1-aa19eaf1.png"
+      },
+      {
+        "id": "510602-3",
+        "route": "510602",
+        "viewport": "desktop",
+        "expected": "铁人三项",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510602-510602-3-25cfebe8.png"
+      },
+      {
+        "id": "510603-3",
+        "route": "510603",
+        "viewport": "desktop",
+        "expected": "独自生活",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510603-510603-3-f16ffdb0.png"
+      },
+      {
+        "id": "510604-5",
+        "route": "510604",
+        "viewport": "desktop",
+        "expected": "冰红茶",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510604-510604-5-b73e762c.png"
+      },
+      {
+        "id": "510604-5",
+        "route": "510601-04",
+        "viewport": "desktop",
+        "expected": "冰红茶",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510601-04-510604-5-b73e762c.png"
+      },
+      {
+        "id": "510710-4_1DyhN",
+        "route": "510710",
+        "viewport": "desktop",
+        "expected": "双腿不能动",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510710-510710-4_1DyhN-371c1898.png"
+      },
+      {
+        "id": "510710-11_1DyhN",
+        "route": "510710",
+        "viewport": "desktop",
+        "expected": "补充盐分和水分",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "desktop-510710-510710-11_1DyhN-59b5fbd9.png"
+      },
+      {
+        "id": "510720-5_eP7q2",
+        "route": "510720",
+        "viewport": "desktop",
+        "expected": "既然死了就会被遗忘",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510720-510720-5_eP7q2-21a9497f.png"
+      },
+      {
+        "id": "510720-10_eP7q2",
+        "route": "510720",
+        "viewport": "desktop",
+        "expected": "还没到该打开的时候",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510720-510720-10_eP7q2-c937e524.png"
+      },
+      {
+        "id": "510204-3_m4VmX",
+        "route": "510204",
+        "viewport": "desktop",
+        "expected": "杀了她",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-510204-510204-3_m4VmX-3d4bc52c.png"
+      },
+      {
+        "id": "340613-3",
+        "route": "340613",
+        "viewport": "desktop",
+        "expected": "为了保护弱者",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "desktop-340613-340613-3-715f91ad.png"
+      },
+      {
+        "id": "311133-4",
+        "route": "311133",
+        "viewport": "desktop",
+        "expected": "明日香的表妹",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "desktop-311133-311133-4-732841dc.png"
+      },
+      {
+        "id": "510301-1",
+        "route": "510301",
+        "viewport": "mobile",
+        "expected": "五分之四",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510301-510301-1-cd1e750f.png"
+      },
+      {
+        "id": "510301-10",
+        "route": "510301",
+        "viewport": "mobile",
+        "expected": "全部答对了",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510301-510301-10-a90efcca.png"
+      },
+      {
+        "id": "510510-6_Hemql",
+        "route": "510510",
+        "viewport": "mobile",
+        "expected": "鼓手",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510510-510510-6_Hemql-00cc463f.png"
+      },
+      {
+        "id": "510510-10_Hemql",
+        "route": "510510",
+        "viewport": "mobile",
+        "expected": "把想法喊出来",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "mobile-510510-510510-10_Hemql-417afaf7.png"
+      },
+      {
+        "id": "510520-4_5XtSr",
+        "route": "510520",
+        "viewport": "mobile",
+        "expected": "我相信你们",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510520-510520-4_5XtSr-e181acc5.png"
+      },
+      {
+        "id": "510520-10_5XtSr",
+        "route": "510520",
+        "viewport": "mobile",
+        "expected": "较真的样子",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "mobile-510520-510520-10_5XtSr-d02d5c13.png"
+      },
+      {
+        "id": "510601-1",
+        "route": "510601",
+        "viewport": "mobile",
+        "expected": "同一个场景",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510601-510601-1-aa19eaf1.png"
+      },
+      {
+        "id": "510602-3",
+        "route": "510602",
+        "viewport": "mobile",
+        "expected": "铁人三项",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510602-510602-3-25cfebe8.png"
+      },
+      {
+        "id": "510603-3",
+        "route": "510603",
+        "viewport": "mobile",
+        "expected": "独自生活",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510603-510603-3-f16ffdb0.png"
+      },
+      {
+        "id": "510604-5",
+        "route": "510604",
+        "viewport": "mobile",
+        "expected": "冰红茶",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510604-510604-5-b73e762c.png"
+      },
+      {
+        "id": "510604-5",
+        "route": "510601-04",
+        "viewport": "mobile",
+        "expected": "冰红茶",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510601-04-510604-5-b73e762c.png"
+      },
+      {
+        "id": "510710-4_1DyhN",
+        "route": "510710",
+        "viewport": "mobile",
+        "expected": "双腿不能动",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510710-510710-4_1DyhN-371c1898.png"
+      },
+      {
+        "id": "510710-11_1DyhN",
+        "route": "510710",
+        "viewport": "mobile",
+        "expected": "补充盐分和水分",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "mobile-510710-510710-11_1DyhN-59b5fbd9.png"
+      },
+      {
+        "id": "510720-5_eP7q2",
+        "route": "510720",
+        "viewport": "mobile",
+        "expected": "既然死了就会被遗忘",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510720-510720-5_eP7q2-21a9497f.png"
+      },
+      {
+        "id": "510720-10_eP7q2",
+        "route": "510720",
+        "viewport": "mobile",
+        "expected": "还没到该打开的时候",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510720-510720-10_eP7q2-c937e524.png"
+      },
+      {
+        "id": "510204-3_m4VmX",
+        "route": "510204",
+        "viewport": "mobile",
+        "expected": "杀了她",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-510204-510204-3_m4VmX-3d4bc52c.png"
+      },
+      {
+        "id": "340613-3",
+        "route": "340613",
+        "viewport": "mobile",
+        "expected": "为了保护弱者",
+        "visible": true,
+        "pageTurns": 1,
+        "pageErrors": [],
+        "screenshot": "mobile-340613-340613-3-715f91ad.png"
+      },
+      {
+        "id": "311133-4",
+        "route": "311133",
+        "viewport": "mobile",
+        "expected": "明日香的表妹",
+        "visible": true,
+        "pageTurns": 0,
+        "pageErrors": [],
+        "screenshot": "mobile-311133-311133-4-732841dc.png"
+      }
+    ]
+  },
+  "reader_full_qa": {
+    "source_revision": "20c748f726593711a2e29ad99d10f60f08a98db9",
+    "verified_at": "2026-10-02T04:07:01.210568+00:00",
+    "python_tests": 611,
+    "python_skipped": 3,
+    "python_failures": 0,
+    "node_tests": 730,
+    "node_failures": 0,
+    "lint": true,
+    "typecheck": true,
+    "feature_policy": true,
+    "production_dependency_audit_vulnerabilities": 0,
+    "source_or_test_code_modified_to_pass": false,
+    "log_sha256": "a492ebcae6a418f754743b0496d80027b143dfe976d745eedf72c616793aa924"
+  },
+  "reader_edge_status": {
+    "source_revision": "20c748f726593711a2e29ad99d10f60f08a98db9",
+    "origin": "https://magireader.pages.dev",
+    "verified_at": "2026-10-02T04:10:32Z",
+    "checks": 5,
+    "passed": true,
+    "tests": [
+      {
+        "path": "/api/exedra/localization-status",
+        "status": 200,
+        "payload": {
+          "version": 1,
+          "total": 0,
+          "entries": [],
+          "database_configured": true
+        },
+        "no_store": "no-store"
+      },
+      {
+        "path": "/api/exedra/localized/exedra_character_character_arina_dc31ada135",
+        "status": 307,
+        "location": "/data/exedra_character/character_arina/character_arina_cn.txt",
+        "kind": "existing_local_translation"
+      },
+      {
+        "path": "/data/exedra_character/character_arina/character_arina_cn.txt",
+        "status": 200,
+        "bytes": 21401,
+        "sha256": "64f1311f4f581364e0090b8396710fd1d40431744aeb4728f6748cd24fced0b3",
+        "kind": "exact_local_translation"
+      },
+      {
+        "path": "/api/exedra/localized/exedra_battle_battle_crisis1_23c06d53c9",
+        "status": 404,
+        "meaning": "genuinely unavailable Chinese, not an artificial translated success",
+        "body": "该剧情目前没有本地人工中文、官方台服中文或已验证的 Exedra Wiki 中文。"
+      },
+      {
+        "path": "/api/exedra/localized/__unknown_story_20260930",
+        "status": 404,
+        "kind": "unknown_identity_still_rejected"
+      }
+    ],
+    "no_false_translation_success": true
+  },
+  "resume_status": {
+    "player_version": 3322,
+    "reader_target_source": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+    "reader_observed_source": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+    "adv_observed_source": "20c748f726593711a2e29ad99d10f60f08a98db9",
+    "evidence": "docs/story-quality/20261002-batch10-resume-verification.json",
+    "new_review_work_claimed_in_recovery": false
+  }
+}
