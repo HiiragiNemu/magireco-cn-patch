@@ -1,3 +1,11 @@
+<!-- HELD-BATCH12-UNRELEASED -->
+## 当前未发布进度（第12批追加）
+
+更新：2026-10-02T17:20:05.202538+00:00。本批新增71个全文校订候选；累计204个待处理目标已准备（121新全文、83同源复用），另181个尚未准备。已发布694／385总账保持原字节，不将未发布候选冒充上线成果。之前133目标和3560条字段依据逐项原样保留，合计5688条未发布字段记录。
+
+见 [第12批记录](../unreleased/20261003-semantic-batch12-ai-only-held/README.md)、`unreleased-summary.json`、`unreleased-scripts.tsv`、`pending-status-with-unreleased.tsv`。下方第11批说明为历史批次记录，其133／252数字不再是当前累计。仅本仓保存累计清单和恢复材料，发包仍暂停。
+<!-- /HELD-BATCH12-UNRELEASED -->
+
 # 剧情校订与累计贡献台账
 
 核定快照：玩家剧情包 **3322**。Reader `9f881c9bbb1bf9283130f9d36caa433e12797dcd`；CN patch `199c127de4ff6e628ddac2a86e4e23b0f9404590`；发行仓 `657bdc658ce47e5bfdf10be9debe6eea2939c08a`。

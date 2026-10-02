@@ -1,0 +1,105 @@
+{
+  "schema": 2,
+  "batch": "20261003-semantic-batch12-ai-only-held",
+  "validated_at": "2026-10-02T17:17:50.625920+00:00",
+  "passed": true,
+  "published": false,
+  "candidate_applied_to_runtime": false,
+  "release_version": null,
+  "chapters": 7,
+  "full_read_scripts": 72,
+  "new_full_read_scripts": 71,
+  "context_rereads": 1,
+  "context_body_fields": 84,
+  "body_fields_reviewed": 4539,
+  "new_body_fields_reviewed": 4455,
+  "body_fields_corrected": 2128,
+  "nested_choices": 0,
+  "changed_candidate_runtime_files": 71,
+  "candidate_txt_files": 14,
+  "candidate_txt_field_spans": 4296,
+  "exact_full_section_matches": 142,
+  "historical_baselines": 18,
+  "txt_holds": 0,
+  "txt_missing": 0,
+  "actual_reader_parser_scripts": 72,
+  "reader_events_speakers_audio_preserved": true,
+  "exact_reverse_to_original_bytes": true,
+  "specialized_tests": 82,
+  "checks": [
+    {
+      "log": "translation-tests.log",
+      "returncode": 0,
+      "expected_test_count": 23,
+      "log_sha256": "600180a9471603cf5e368014ac28badcc851a2945e2177f0fbdc8baed5fffcb0",
+      "passed": true
+    },
+    {
+      "log": "held-contract-tests.log",
+      "returncode": 0,
+      "expected_test_count": 22,
+      "log_sha256": "9b22fd44a94e0e7c8145189f1b67627e70c16c51f7116f28ed2f2f1fa1e57d0a",
+      "passed": true
+    },
+    {
+      "log": "choice-export-tests.log",
+      "returncode": 0,
+      "expected_test_count": 8,
+      "log_sha256": "5d0c50b6e3bf67c50fd65648ae91ecb83e77d094a39c534dac4990f6a428a51d",
+      "passed": true
+    },
+    {
+      "log": "unreleased-merge-tests.log",
+      "returncode": 0,
+      "expected_test_count": 12,
+      "log_sha256": "ec49528a9ca42e661d5d44d84427d40a87406f01083650539f972a1f300686ef",
+      "passed": true
+    },
+    {
+      "log": "reader-recovery-tests.log",
+      "returncode": 0,
+      "expected_test_count": 17,
+      "log_sha256": "3f520f31955d7a5f29369c0ccd0c8c9b15714a15b5fc029ad5547698bd669bb4",
+      "passed": true
+    },
+    {
+      "log": "parser-tests.log",
+      "returncode": 0,
+      "expected_test_count": 0,
+      "log_sha256": "7eedc38074995005edb0dfde3afb2d86fb19897f155aef972332048a7f346dd5",
+      "passed": true
+    },
+    {
+      "log": "text-sync.log",
+      "returncode": 0,
+      "expected_test_count": 0,
+      "log_sha256": "eb94ef4c5d6f85e69c2752139292b5abe6731092aaa7a260d9832dc8ab78fb90",
+      "passed": true
+    }
+  ],
+  "protected_v4": 43,
+  "protected_authorized_cn": 196,
+  "previous_held_records_preserved": 133,
+  "previous_held_field_records_preserved": 3560,
+  "published_completed_preserved": 694,
+  "published_pending_preserved": 385,
+  "merged_unreleased": 204,
+  "remaining_unprepared": 181,
+  "legacy_registered_ids_preserved": 498,
+  "frozen_source_references": {
+    "reader": "2da843507d4141d5f9c5d31b1798ee39c5e6719c",
+    "patch": "599ebdcdb4906c4b633d8b2a222a1d20c675818d",
+    "public": "908b9e3a3756a415dbd40ab0f32dcd3cfdf40608",
+    "frozen_at": "2026-10-02T16:15:02.339542+00:00",
+    "task_id": "tsk_b3baf81214867553"
+  },
+  "current_source_references": {
+    "reader": "a125586535da4d3c13083f88d9c3034382e4a092",
+    "patch": "236cf86f30dd85878b5464817489a8f07f3c2af9"
+  },
+  "source_drift": [],
+  "full_production_build_run": false,
+  "production_site_qa_run": false,
+  "device_gameplay_verified": false,
+  "whole_corpus_complete": false
+}
