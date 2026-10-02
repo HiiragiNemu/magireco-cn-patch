@@ -1,0 +1,9 @@
+# 客户端可接入的三批未发布校订
+
+CN patch候选与接入工具提交：`237f1a0757fd96473b5450949cb398003348fc00`。唯一入口：`docs/story-quality/client-integration/READY.json`；详细接入/核验说明：同目录README.md。清单SHA256：`4b698f26dd872b34d44eab7005c50ae14e687b3c2301df0ad8de738b062a4afd`。
+
+第11—13批255目标(254有改动)与7447字段已全部验证并保存。原128项delta补充剧情选择不可删除；需并入255新目标形成383项，并与完整Scenario在同一受审main提交中对齐。产品筛选默认不收scenario，不能只改正文然后误以为delta会自动带上。check-integrated会拒绝未合入的正文或未扩展的生产补充列表。
+
+已向资源窗口当前审计目录的TRANSLATION_WINDOW_HANDOFF.md写入最新READY及提交指针，并读回文件SHA。未收到已阅读、已整合或已发布回执；此动作不表示跨窗口自动通信成功。本窗口没有改客户端的代码/工作流或任何运行剧情，没有发包/触发同步/部署Reader。已发布694/385与新候选255/130分账继续保留。
+
+客户端资源修复验收对齐后，应自行核对最新源blob，按统一流程合入、构建并核验实际包及最终安装字节，再在CN patch的client-integration目录留下带manifest SHA的CLIENT_RECEIPT。只推进版本号或只看到ZIP下载成功不算交付。新的错误源版本必须阻断，不得用旧delta撤回新译文，也不得拿旧Scenario撤回原有delta修订。
