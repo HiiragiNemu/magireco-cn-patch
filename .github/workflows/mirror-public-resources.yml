@@ -8,6 +8,7 @@ on:
       - 'configures/personal-online-config.json'
       - 'tools/mirror_release.py'
       - 'tools/test-public-resource-mirror.py'
+      - 'tools/test_mirror_transport.py'
   schedule:
     - cron: '17 * * * *'
   workflow_run:
@@ -39,6 +40,7 @@ jobs:
       - name: Test mirror policy without credentials
         run: |
           python tools/test-public-resource-mirror.py
+          python tools/test_mirror_transport.py
           node distribution/personal/test-worker.mjs
       - name: Synchronize source-owned public mirror
         env:

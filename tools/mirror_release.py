@@ -19,6 +19,52 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+_TRANSIENT_READ_STATUS = frozenset((500, 502, 503, 504))
+
+def open_request(opener, request, timeout, operation):
+    """Retry only an unopened, body-free GET; never repeat a publication write."""
+    method = request.get_method().upper()
+    limit = 3 if method == 'GET' and request.data is None else 1
+    # Labels are internal identifiers, never URLs, query strings or response bodies.
+    label = operation if re.fullmatch(r'[A-Za-z0-9_./-]{1,160}', operation) else 'transport'
+    for attempt in range(1, limit + 1):
+        try:
+            return opener.open(request, timeout=timeout)
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            code = exc.code if isinstance(exc, urllib.error.HTTPError) else None
+            exc.mirror_transport = {
+                'operation': label, 'method': method, 'http_status': code,
+                'attempts': attempt,
+            }
+            # Do not retry permission/rate-limit/identity failures. An interrupted
+            # response body is handled by the existing size/hash checks, not here.
+            if attempt == limit or code not in _TRANSIENT_READ_STATUS:
+                raise
+            exc.close()
+            time.sleep(attempt)
+
+def failure_report(exc):
+    """Retain status and stage without signed URLs, response text or auth headers."""
+    current, seen, transport = exc, set(), None
+    while current is not None and id(current) not in seen:
+        seen.add(id(current))
+        context = getattr(current, 'mirror_transport', None)
+        if isinstance(context, dict):
+            transport = {k: context.get(k) for k in
+                         ('operation', 'method', 'http_status', 'attempts')}
+            break
+        current = current.__cause__
+    return {'schema': 1, 'status': 'failed', 'error_type': type(exc).__name__,
+            'transport': transport,
+            'publication_state': 'not_confirmed',
+            'checked_at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
+
+def write_failure_report(exc, path='mirror-report.json'):
+    report = failure_report(exc)
+    Path(path).write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    return report
+
+
 PACKAGES = (
     'cn_js_update.zip', 'cn_scenario_update.zip', 'cn_js_delta.zip',
     'cn_base_00_db.zip', 'cn_base_01_json.zip', 'cn_base_02.zip',
@@ -77,7 +123,7 @@ class API:
             data = json.dumps(data).encode()
             headers['Content-Type'] = 'application/json'
         req = urllib.request.Request(url, data=data, method=method, headers=headers)
-        return self.opener.open(req, timeout=300)
+        return open_request(self.opener, req, 300, path.split('?', 1)[0])
 
     def json(self, path, method='GET', data=None, missing=False):
         try:
@@ -89,7 +135,7 @@ class API:
         except urllib.error.HTTPError as exc:
             if missing and exc.code == 404:
                 return None
-            raise Failure('GitHub API ' + method + ' failed: HTTP ' + str(exc.code)) from None
+            raise Failure('GitHub API ' + method + ' failed: HTTP ' + str(exc.code)) from exc
 
     def download(self, asset, out):
         with self.open('releases/assets/' + str(asset['id']), extra={
@@ -245,7 +291,7 @@ def anonymous_verify(target, assets, config_bytes=None):
         request = urllib.request.Request(base + name, headers={
             'User-Agent': 'ProgettoMagius-Anonymous-Verify', 'Range': 'bytes=0-0',
             'Accept-Encoding': 'identity'})
-        with opener.open(request, timeout=120) as response:
+        with open_request(opener, request, 120, 'anonymous/' + name) as response:
             expected = 'bytes 0-0/' + str(assets[name]['size'])
             if response.status != 206 or response.headers.get('Content-Range') != expected:
                 raise Failure('Anonymous range verification failed: ' + name)
@@ -253,7 +299,7 @@ def anonymous_verify(target, assets, config_bytes=None):
                 raise Failure('Unexpected range body: ' + name)
     if config_bytes is not None:
         u = 'https://raw.githubusercontent.com/' + target + '/main/legacy/config.json?verify=' + str(time.time_ns())
-        with opener.open(u, timeout=60) as response:
+        with open_request(opener, urllib.request.Request(u), 60, 'anonymous/config') as response:
             if response.read(MAX_JSON + 1) != config_bytes:
                 raise Failure('Public configuration did not converge')
 
@@ -381,8 +427,13 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except Failure as e:
-        raise SystemExit(str(e))
     except Exception as e:
-        # Do not print signed redirect URLs or authentication-bearing exception context.
-        raise SystemExit('Mirror failed (' + type(e).__name__ + '); check publication report before changing repository visibility')
+        # Preflight/download failures must also produce the always-uploaded report.
+        # Never format urllib exceptions: their text can contain signed asset URLs.
+        report = write_failure_report(e)
+        context = report.get('transport') or {}
+        detail = ('; HTTP ' + str(context['http_status'])
+                  + '; operation=' + context['operation']
+                  + '; attempts=' + str(context['attempts'])) if context.get('http_status') else ''
+        message = str(e) if isinstance(e, Failure) else 'Mirror failed (' + type(e).__name__ + ')'
+        raise SystemExit(message + detail + '; see mirror-report.json')
