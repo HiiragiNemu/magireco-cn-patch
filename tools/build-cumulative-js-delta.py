@@ -25,7 +25,7 @@ def supplemental_paths(cfg):
             raise ValueError('Invalid supplemental scenario path: ' + name)
     return set(paths)
 
-def build(repo, base, config, out, previous=None, ref='HEAD'):
+def build(repo, base, config, out, previous=None, ref='HEAD', reuse=None):
     repo, base, out = map(Path, (repo, base, out)); out.mkdir(parents=True, exist_ok=True)
     cfg = json.loads(Path(config).read_text(encoding='utf8'))
     if delta.digest(base) != cfg['base_js_sha256']: raise ValueError('Frozen JS archive changed')
@@ -36,9 +36,35 @@ def build(repo, base, config, out, previous=None, ref='HEAD'):
     # Include these paths even after a later revert, so skipped updates converge.
     changes = sorted({n for n in changes if product(n)} | supplemental_paths(cfg))
     blobs = {}
-    for name in changes:
-        # Removal is not an overwrite. Do not silently erase or leave a stale layer.
-        blobs[name] = git('show', source+':'+name)
+    # Reuse downloaded bytes only after matching the exact source Git blob.
+    # A partial clone otherwise performs hundreds of independent network fetches.
+    # This is a cache, never an alternate authority or an old-content fallback.
+    tree = {}
+    for row in git('ls-tree', '-rz', source).split(b'\0'):
+        if row:
+            attr, path = row.split(b'\t', 1)
+            tree[path.decode('utf8')] = attr.decode().split()[-1]
+    from contextlib import ExitStack
+    with ExitStack() as stack:
+        caches = [stack.enter_context(zipfile.ZipFile(p))
+                  for p in ([previous] if previous else []) + list(reuse or []) + [base]]
+        inventories = [delta.members(z) for z in caches]
+        for name in changes:
+            if name not in tree:
+                raise ValueError('Removal requires an explicit migration: ' + name)
+            raw = None
+            for z, inventory in zip(caches, inventories):
+                if name in inventory:
+                    candidate = z.read(name)
+                    oid = hashlib.sha1(b'blob '+str(len(candidate)).encode()+b'\0'+candidate).hexdigest()
+                    if oid == tree[name]:
+                        raw = candidate
+                        break
+            if raw is None:
+                raw = git('show', source+':'+name)
+            if hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest() != tree[name]:
+                raise ValueError('Source product identity mismatch: ' + name)
+            blobs[name] = raw
     target = out/'target.zip'
     with zipfile.ZipFile(base) as bz, zipfile.ZipFile(target,'w') as tz:
         known = set(delta.members(bz))

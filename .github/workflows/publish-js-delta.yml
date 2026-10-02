@@ -1,4 +1,4 @@
-name: 累计补充包发布
+name: 统一资源包发布
 on:
   push:
     branches: [main]
@@ -15,13 +15,13 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: personal-main-hotupdate-publication
+  group: public-player-resource-mirror
   cancel-in-progress: false
 jobs:
   publish:
     if: github.repository == 'HiiragiNemu/magireco-cn-patch'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
@@ -29,25 +29,11 @@ jobs:
         with:
           ref: main
           fetch-depth: 1
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Read frozen full JS and last cumulative package
-        run: |
-          mkdir -p baseline previous
-          gh release download latest --repo "$GITHUB_REPOSITORY" --pattern cn_js_update.zip --dir baseline
-          gh release view latest --repo "$GITHUB_REPOSITORY" --json assets > baseline/assets.json
-          python3 - <<'PY'
-          import json,os,subprocess
-          names={x['name'] for x in json.load(open('baseline/assets.json'))['assets']}
-          selected=names & {'cn_js_delta.zip','version_js_delta.json','cn_js_delta_manifest.json'}
-          if selected and len(selected)!=3: raise SystemExit('Incomplete previous supplement release; repair before replacing')
-          for name in sorted(selected):
-              subprocess.run(['gh','release','download','latest','--repo',os.environ['GITHUB_REPOSITORY'],'--pattern',name,'--dir','previous'],check=True)
-          cfg=json.load(open('configures/js-delta-baseline.json'))
-          subprocess.run(['git','fetch','--depth=1','origin',cfg['base_source_commit']],check=True)
-          PY
-      - name: Build cumulative overlay without changing full JS
+      - name: Preserve existing product and cumulative overlay regression checks
         run: |
           node tools/test-uwasa-names.cjs .
           node tools/test-double-home-caption.cjs .
@@ -69,19 +55,25 @@ jobs:
           node tools/test-white-feather-standardization.cjs .
           python3 tools/test-cumulative-extra-paths.py
           python3 tools/test-i18n-delta-package.py
-          PREVIOUS=()
-          if [ -f previous/cn_js_delta.zip ]; then PREVIOUS=(--previous previous/cn_js_delta.zip); fi
-          python3 tools/build-cumulative-js-delta.py --base baseline/cn_js_update.zip --out payload "${PREVIOUS[@]}"
-      - name: Publish ZIP first and version identity last with rollback
-        run: python3 tools/publish-js-delta.py --payload payload --previous previous
+      - name: Reject last-writer regression and version rollback
+        run: |
+          python3 tools/test_resource_layers.py -v
+          python3 tools/test_coherent_publication.py -v
+          python3 tools/test-public-resource-mirror.py
+      - name: Build from one main tree and publish coherent latest in both repositories
+        run: python3 -u tools/publish_coherent_resources.py --work resource-publication --publish
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: js-delta-publication
+          name: coherent-resource-publication
           path: |
-            payload/cn_js_delta.zip
-            payload/version_js_delta.json
-            payload/cn_js_delta_manifest.json
-            payload/build-receipt.json
-            payload/publication-verification.json
-            previous/
+            resource-publication/prepared-report.json
+            resource-publication/publication-report.json
+            resource-publication/publication-progress.json
+            resource-publication/*-before.json
+            resource-publication/payload/*.json
+            resource-publication/payload/cn_scenario_update.zip
+            resource-publication/payload/cn_js_delta.zip
+            resource-publication/before/
+          if-no-files-found: warn
+          retention-days: 30

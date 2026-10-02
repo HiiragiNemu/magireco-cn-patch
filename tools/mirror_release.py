@@ -231,6 +231,11 @@ def check_metadata(meta, assets, config):
     delta = meta['version_js_delta.json']
     if delta.get('base_js_sha256') != assets['cn_js_update.zip']['digest'][7:]:
         raise Failure('Cumulative update does not match frozen full JS')
+    from resource_layers import validate_manifest_layers
+    try:
+        validate_manifest_layers(meta, assets)
+    except ValueError as exc:
+        raise Failure(str(exc)) from exc
 
 
 def anonymous_verify(target, assets, config_bytes=None):
