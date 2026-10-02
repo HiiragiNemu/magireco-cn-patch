@@ -1,13 +1,23 @@
 name: Publish verified client
 
 on:
-  workflow_run:
-    workflows: ["个人 main 客户端手动构建"]
-    types: [completed]
   workflow_dispatch:
     inputs:
       run_id:
         description: Successful client build run ID to publish
+        required: true
+        type: string
+      runtime_verified:
+        description: Same APK bytes passed actual runtime and no-regression verification
+        required: true
+        type: boolean
+        default: false
+      verified_apk_sha256:
+        description: SHA-256 of the exact APK that was installed and verified
+        required: true
+        type: string
+      verified_native_source_sha:
+        description: Native main source commit recorded by that verified APK
         required: true
         type: string
 
@@ -21,7 +31,7 @@ concurrency:
 
 jobs:
   publish:
-    if: ${{ github.repository == 'HiiragiNemu/magireco-cn-patch' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
+    if: ${{ github.repository == 'HiiragiNemu/magireco-cn-patch' && github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     env:
       APK_NAME: "magireco-latest-legacy-client.apk"
@@ -31,15 +41,10 @@ jobs:
       - name: Resolve and validate source run
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          EVENT_RUN_ID: ${{ github.event.workflow_run.id }}
           INPUT_RUN_ID: ${{ inputs.run_id }}
         run: |
           set -euo pipefail
-          if [ "${GITHUB_EVENT_NAME}" = "workflow_run" ]; then
-            RUN_ID="${EVENT_RUN_ID}"
-          else
-            RUN_ID="${INPUT_RUN_ID}"
-          fi
+          RUN_ID="${INPUT_RUN_ID}"
           [[ "${RUN_ID}" =~ ^[0-9]+$ ]]
           gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}" > /tmp/source-run.json
           python3 - <<'PY'
@@ -71,6 +76,9 @@ jobs:
       - name: Verify artifact and publication monotonicity
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          RUNTIME_VERIFIED: ${{ inputs.runtime_verified }}
+          VERIFIED_APK_SHA256: ${{ inputs.verified_apk_sha256 }}
+          VERIFIED_SOURCE_SHA: ${{ inputs.verified_native_source_sha }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
@@ -88,6 +96,15 @@ jobs:
           assert meta.get('sha256') == digest, (meta.get('sha256'), digest)
           assert int(meta.get('size',-1)) == size, (meta.get('size'), size)
           assert meta.get('source_branch') == 'main', meta
+
+          # Runtime approval must identify these exact bytes, not just a green build.
+          assert os.environ.get('RUNTIME_VERIFIED') == 'true', 'Actual APK runtime verification has not been approved'
+          approved_sha=os.environ.get('VERIFIED_APK_SHA256','')
+          approved_source=os.environ.get('VERIFIED_SOURCE_SHA','')
+          assert re.fullmatch(r'[0-9a-f]{64}', approved_sha), 'Exact verified APK SHA-256 is required'
+          assert re.fullmatch(r'[0-9a-f]{40}', approved_source), 'Verified native source SHA is required'
+          assert approved_sha == digest, 'Runtime approval belongs to different APK bytes'
+          assert approved_source == meta.get('source_commit'), 'Runtime approval belongs to a different native source'
 
           run=json.load(open('/tmp/source-run.json', encoding='utf-8'))
           assert meta.get('workflow_commit') == run.get('head_sha'), (meta.get('workflow_commit'), run.get('head_sha'))
