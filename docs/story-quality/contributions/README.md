@@ -1,3 +1,11 @@
+<!-- HELD-BATCH13-UNRELEASED -->
+## 当前未发布进度：第13批及客户端接入准备
+
+更新：2026-10-02T18:14:49.108627+00:00。本批新增51完整复核候选；三批累计255已备稿（172新全文＋83同源复用），130尚未准备。7447未发布字段记录，原204候选/5688字段逐项原样保留，已发布694/385总账和旧498登记不变。
+
+[第13批记录](../unreleased/20261003-semantic-batch13-ai-only-held/README.md)；[客户端接入入口](../client-integration/README.md)与`../client-integration/READY.json`。只读预检通过不代表已发布；客户端必须同源更新Scenario与delta，并把原128补充路径保留扩展至383。完整清单、候选和恢复材料仍只在本仓。
+<!-- /HELD-BATCH13-UNRELEASED -->
+
 <!-- HELD-BATCH12-UNRELEASED -->
 ## 当前未发布进度（第12批追加）
 

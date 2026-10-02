@@ -1,7 +1,7 @@
 {
   "batch": "20261003-semantic-batch13-ai-only-held",
   "task_id": "tsk_ea56506361255df4",
-  "stage": "review_in_isolation",
+  "stage": "validated_held_client_ready",
   "publication_prohibited": true,
   "target_version": null,
   "published_baseline_version": 3322,
@@ -324,7 +324,7 @@
     }
   ],
   "published": false,
-  "checkpoint": "本批四组52片段全文完成，51新稿3285正文、1759修正；82校订专项及52实际解析通过，8TXT3550位置精确同步。三批255目标(254变更)/7447字段客户端候选已核验，需同源加入scenario及delta；28新覆盖/冲突反例测试通过，仍未写运行资源或发包。",
+  "checkpoint": "51新全文校订候选；三批255目标与同源delta接入清单均已验证，不写运行资源不发包",
   "selected_scripts": 52,
   "selected_chapters": 4,
   "selected_fields": 3354,
@@ -332,12 +332,23 @@
     "fresh_full_review": 51,
     "context_only": 1
   },
-  "updated_at": "2026-10-02T18:11:00.903984+00:00",
+  "updated_at": "2026-10-02T18:14:49.108627+00:00",
   "release_version": null,
   "fresh_full_review_scripts": 51,
   "reuse_verified_scripts": 0,
   "context_only_scripts": 1,
   "new_translation_correction_fields": 1759,
   "reuse_synchronization_fields": 0,
-  "changed_fields": 1759
+  "changed_fields": 1759,
+  "validation": "docs/story-quality/unreleased/20261003-semantic-batch13-ai-only-held/validation.json",
+  "recovery": {
+    "path": "docs/story-quality/unreleased/20261003-semantic-batch13-ai-only-held/held-recovery.json.gz",
+    "sha256": "8e6bad01bc9754f556f3cfd5e99c162ad54e4a315c0017bedae2522a7f2d94d5",
+    "bytes": 5935112,
+    "files": 742,
+    "not_game_package": true,
+    "published": false,
+    "only_repository": "HiiragiNemu/magireco-cn-patch"
+  },
+  "client_ready": "docs/story-quality/client-integration/READY.json"
 }
