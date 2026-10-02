@@ -33,6 +33,12 @@ def main():
    if new!=row['cn']:
     assert new.strip() and '\ufffd' not in new and '§' not in new
     ops.append([row['address'],row['cn'],new]);records.append({'ordinal':row['ordinal'],'address':row['address'],'speaker':row['cn_name'],'jp':row['jp'],'before':row['cn'],'after':new,'mode':mode})
+  body_count=len(ops);choice_count=0
+  for choice in d.get('choice_edits',[]):
+   assert mode=='fresh_full_review' and choice['address'][-1]=='textSelect'
+   assert not execution_tokens(choice['before']) and not execution_tokens(choice['after'])
+   ops.append([choice['address'],choice['before'],choice['after']]);choice_count+=1
+   records.append({'ordinal':None,'address':choice['address'],'speaker':'选项','jp':choice['japanese'],'before':choice['before'],'after':choice['after'],'mode':'nested_choice_text_only','alternativeId':choice['alternativeId'],'target_group':choice['target_group']})
   if context:assert prior[s['cn_path']]['complete'] and not ops,'Do not silently edit old complete context'
   a=(W/'review'/(s['id']+'.cn.json')).read_bytes();jp=(W/'review'/(s['id']+'.jp.json')).read_bytes();assert blob(a)==s['cn_sha']==s['patch_sha'] and blob(jp)==s['jp_sha']
   b=apply(a,ops);validate(a,b,ops);assert apply(b,[[at,new,old] for at,old,new in ops])==a
@@ -48,10 +54,11 @@ def main():
    if ops:plan['reader_files' if repo=='reader' else 'runtime_files'].append({'path':path,'before':s['cn_sha'],'after':blob(b),'operations':ops,'jp_path':s['jp_path'],'jp_sha':s['jp_sha'],'reader_paths':[s['cn_path']],'review_mode':mode})
   plan['inputs'].update({s['cn_path']:s['cn_sha'],s['jp_path']:s['jp_sha']})
   if reuse:plan['inputs'].update({d['donor_path']:d['donor_cn_blob'],d['donor_completed_evidence']['jp_path']:s['jp_sha']})
-  story=s|{'fields_reviewed':len(rows),'fields_changed':len(ops),'body_fields_changed':len(ops),'name_fields_changed':0,'review_note':d['review_note'],'semantic_complete':not reuse,'prepared_complete':True,'unresolved':[],'aligned_review':records,'candidate_blob':blob(b)}
+  story=s|{'fields_reviewed':len(rows),'fields_changed':len(ops),'body_fields_changed':body_count,'choice_fields_changed':choice_count,'choice_fields_reviewed':d.get('choice_fields_reviewed',0),'name_fields_changed':0,'review_note':d['review_note'],'semantic_complete':not reuse,'prepared_complete':True,'unresolved':[],'aligned_review':records,'candidate_blob':blob(b)}
   plan['reviewed_stories'].append(story);(W/'review'/(s['id']+'.final.txt')).write_text('\n'.join(lines)+'\n',encoding='utf8')
  groups=collections.Counter(x['review_mode'] for x in plan['reviewed_stories']);plan.update(reviewed_fields=sum(s['fields_reviewed'] for s in plan['reviewed_stories']),changed_fields=sum(s['fields_changed'] for s in plan['reviewed_stories']),fresh_full_review_scripts=groups['fresh_full_review'],reuse_verified_scripts=groups['exact_reviewed_text_reuse'],context_only_scripts=groups['context_only'])
- plan['newly_read_fields']=sum(x['fields_reviewed'] for x in plan['reviewed_stories'] if x['review_mode']=='fresh_full_review');plan['new_translation_correction_fields']=sum(x['fields_changed'] for x in plan['reviewed_stories'] if x['review_mode']=='fresh_full_review');plan['reuse_synchronization_fields']=sum(x['fields_changed'] for x in plan['reviewed_stories'] if x['review_mode']=='exact_reviewed_text_reuse');plan['completed_review_stories']=[s['id'] for s in plan['reviewed_stories']];plan['pending_adjudication_stories']=[]
+ plan['newly_read_fields']=sum(x['fields_reviewed'] for x in plan['reviewed_stories'] if x['review_mode']=='fresh_full_review');plan['new_translation_correction_fields']=sum(x['body_fields_changed'] for x in plan['reviewed_stories'] if x['review_mode']=='fresh_full_review');plan['reuse_synchronization_fields']=sum(x['fields_changed'] for x in plan['reviewed_stories'] if x['review_mode']=='exact_reviewed_text_reuse');plan['completed_review_stories']=[s['id'] for s in plan['reviewed_stories']];plan['pending_adjudication_stories']=[]
+ plan['choice_fields_reviewed']=sum(x['choice_fields_reviewed'] for x in plan['reviewed_stories']);plan['choice_fields_changed']=sum(x['choice_fields_changed'] for x in plan['reviewed_stories'])
  save('repair-plan.json',plan);progress=json.loads((W/'progress.json').read_bytes());progress.update(stage='review_in_isolation',reviewed=[{'id':s['id'],'mode':s['review_mode'],'fields':s['fields_reviewed'],'changed':s['fields_changed']} for s in plan['reviewed_stories']],fresh_full_review_scripts=plan['fresh_full_review_scripts'],reuse_verified_scripts=plan['reuse_verified_scripts'],context_only_scripts=plan['context_only_scripts'],new_translation_correction_fields=plan['new_translation_correction_fields'],reuse_synchronization_fields=plan['reuse_synchronization_fields'],changed_fields=plan['changed_fields'],target_version=None,published=False,checkpoint='Exact text candidates saved only outside runtime paths; new full review and prior-proof reuse are separate; release held')
  save('progress.json',progress);guard();print('HELD_STAGE',json.dumps({k:plan[k] for k in ['fresh_full_review_scripts','reuse_verified_scripts','context_only_scripts','newly_read_fields','new_translation_correction_fields','reuse_synchronization_fields','changed_fields','published','target_version']},ensure_ascii=False))
 if __name__=='__main__':main()
