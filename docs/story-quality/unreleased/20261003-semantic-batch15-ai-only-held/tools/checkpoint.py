@@ -50,7 +50,7 @@ def commit(repo,files,label,expected_old=None):
 def main():
  note=' '.join(sys.argv[1:]) or 'Unreleased translation preparation checkpoint'
  progress=read('progress.json');progress.update(updated_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),checkpoint=note,published=False,release_version=None,publication_prohibited=True);(W/'progress.json').write_bytes(enc(progress))
- names=['progress.json','bases.json','live-baseline.json','chapters.json','review-sources.json','provenance.json','repair-plan.json','reuse-results.json','validation.json','text-plan.json','pending-summary.json','final-verification.json','choice-review.json','second-pass-applied.json','trusted-terms.json','trusted-terms-02.json','boundary-audit.json','source-adjudications.json']
+ names=['progress.json','bases.json','live-baseline.json','chapters.json','review-sources.json','provenance.json','repair-plan.json','reuse-results.json','validation.json','text-plan.json','pending-summary.json','final-verification.json','choice-review.json','second-pass-applied.json','trusted-terms.json','trusted-terms-02.json','boundary-audit.json','source-adjudications.json','authority-exclusions.json','protected-field-pins.json','prior-field-restoration-audit.json','human-pin-drift-adjudicated.json']
  evidence={n:read(n) for n in names if (W/n).exists()}
  evidence['decisions']={p.name:json.loads(p.read_bytes()) for p in sorted((W/'review').glob('*.edits.json'))}
  evidence['aligned_sources']={p.name:json.loads(p.read_bytes()) for p in sorted((W/'review').glob('*.aligned.json'))}

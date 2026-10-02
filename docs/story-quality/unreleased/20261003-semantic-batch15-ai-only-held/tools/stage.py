@@ -41,6 +41,17 @@ def main():
    records.append({'ordinal':None,'address':choice['address'],'speaker':'选项','jp':choice['japanese'],'before':choice['before'],'after':choice['after'],'mode':'nested_choice_text_only','alternativeId':choice['alternativeId'],'target_group':choice['target_group']})
   if context:assert prior[s['cn_path']]['complete'] and not ops,'Do not silently edit old complete context'
   a=(W/'review'/(s['id']+'.cn.json')).read_bytes();jp=(W/'review'/(s['id']+'.jp.json')).read_bytes();assert blob(a)==s['cn_sha'] and blob(jp)==s['jp_sha']
+  if 'allowed_body_ordinals' in s:
+   assert set(map(int,d['edits'])).issubset(s['allowed_body_ordinals']),'Attempt to rewrite human mixed-payload field'
+  excluded=json.loads((W/'authority-exclusions.json').read_bytes())['excluded']
+  assert s['cn_path'] not in {e['reader_path'] for e in excluded},'Human restoration or prior full review cannot be retranslated'
+  humanpins=json.loads((W/'protected-field-pins.json').read_bytes())['records']
+  protected={tuple(x['address']):x['current'] for x in humanpins if x['script_id']==s['id']}
+  assert not {tuple(x[0]) for x in ops}&set(protected),'Attempt to rewrite pinned human restoration'
+  for address,value in protected.items():
+   node=json.loads(a)
+   for key in address:node=node[key]
+   assert node==value,'Pinned human field changed outside this batch'
   from independent_runtime import stage_pair
   pa=(W/'review'/(s['id']+'.player.json')).read_bytes();assert blob(pa)==s['patch_sha']
   proofs=json.loads((W/'source-adjudications.json').read_bytes())['records']
