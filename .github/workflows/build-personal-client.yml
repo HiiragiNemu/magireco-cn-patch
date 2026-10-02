@@ -81,6 +81,14 @@ jobs:
         PY'
     - name: Verify typed native battle skill names
       run: python3 tools/test-battle-skill-name-context.py
+    - name: Verify native name geometry, baseline and retained font body
+      run: |
+        set -euo pipefail
+        mkdir -p .build/name-layout
+        for name in StoryNameLayoutTest StoryNameBaselineTest StoryNameBodyTest; do
+          g++ -std=c++17 "tools/${name}.cpp" -o ".build/name-layout/${name}"
+          ".build/name-layout/${name}"
+        done
     - name: ☕ 设置 JDK 17
       uses: actions/setup-java@v4
       with:
