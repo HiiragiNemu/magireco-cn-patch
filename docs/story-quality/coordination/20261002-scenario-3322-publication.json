@@ -1,0 +1,1078 @@
+{
+  "schema": 1,
+  "observed_at": "2026-10-02T13:33:18+00:00",
+  "status": "audit_complete_pipeline_repair_owned_by_other_window",
+  "this_task": "tsk_33166d025533cab0",
+  "repair_owner_task": "tsk_7157a63af2456791",
+  "other_window_acknowledged": false,
+  "this_window_publication_hold": true,
+  "global_workflow_disable_or_lock_performed": false,
+  "latest_verified_story_version": 3322,
+  "source_commit": "199c127de4ff6e628ddac2a86e4e23b0f9404590",
+  "reader_source_commit": "9f881c9bbb1bf9283130f9d36caa433e12797dcd",
+  "scenario_package": {
+    "size": 193615338,
+    "sha256": "37f6afa135a89d86d427147c71c5c18c67842571dd83dbbbeeb5ca09e66132ad",
+    "md5": "5669b58e19fedc8bb9e0450b8fe03a54"
+  },
+  "fresh_release_snapshot": {
+    "observed_at": "2026-10-02T13:10:58.741055+00:00",
+    "read_only": true,
+    "asset_differences": [
+      "cn_scenario_update.zip",
+      "version_scenario.json",
+      "version_js_delta.json",
+      "cn_scenario_update_manifest.json",
+      "cn_js_delta_manifest.json",
+      "manifest.json"
+    ]
+  },
+  "release_comparison": [
+    {
+      "repository": "HiiragiNemu/magireco-cn-patch",
+      "head": "20b0f3ca9d576800ae16162aaa31eafde37ead99",
+      "assets": {
+        "cn_js_delta.zip": {
+          "id": 598131535,
+          "name": "cn_js_delta.zip",
+          "size": 33225465,
+          "digest": "sha256:1efb2e1109cadcf9d77b2f402615eefe5570a9d3803e00c5f1084d7864f883bf",
+          "updated_at": "2026-09-29T12:11:51Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_js_delta.zip"
+        },
+        "cn_js_delta_manifest.json": {
+          "id": 598131628,
+          "name": "cn_js_delta_manifest.json",
+          "size": 46121,
+          "digest": "sha256:0e09e35d8ba11b7856e7f8e2c8895688fbf01a62586f7948cb88a703645528fe",
+          "updated_at": "2026-09-29T12:11:52Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_js_delta_manifest.json"
+        },
+        "cn_js_update.zip": {
+          "id": 591153478,
+          "name": "cn_js_update.zip",
+          "size": 287846730,
+          "digest": "sha256:bffc1acc31f65c24cc2f9042a492e4f18c5ba9e41806ed725e1e0730c60a7a9d",
+          "updated_at": "2026-09-26T17:56:01Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_js_update.zip"
+        },
+        "cn_js_update_manifest.json": {
+          "id": 591153822,
+          "name": "cn_js_update_manifest.json",
+          "size": 281250,
+          "digest": "sha256:e60b77abe0bef51b564fd232c97f4b16c23904d421bc6336dd98eb0b1b1d588b",
+          "updated_at": "2026-09-26T17:56:06Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_js_update_manifest.json"
+        },
+        "cn_scenario_update.zip": {
+          "id": 582120468,
+          "name": "cn_scenario_update.zip",
+          "size": 194067302,
+          "digest": "sha256:fe8b069ed36f7dc4450522f024796eea76c830d6003a2c516d2a19c90b6388cf",
+          "updated_at": "2026-09-22T19:45:54Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_scenario_update.zip"
+        },
+        "cn_scenario_update_manifest.json": {
+          "id": 582120422,
+          "name": "cn_scenario_update_manifest.json",
+          "size": 1617389,
+          "digest": "sha256:a11a122a402496f48fd3169311418ba7d3be21c3f5b492decbf09f5078e6f56f",
+          "updated_at": "2026-09-22T19:45:55Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/cn_scenario_update_manifest.json"
+        },
+        "magireco-latest-legacy-client.apk": {
+          "id": 605484622,
+          "name": "magireco-latest-legacy-client.apk",
+          "size": 103821876,
+          "digest": "sha256:5971c19811fdfe81708c87c9ccaaf76a6ad71e1b288e57b2581e75c415fa4129",
+          "updated_at": "2026-10-02T11:40:28Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/magireco-latest-legacy-client.apk"
+        },
+        "magireco-latest-legacy-client.version.json": {
+          "id": 605484623,
+          "name": "magireco-latest-legacy-client.version.json",
+          "size": 532,
+          "digest": "sha256:e8d7969779835f4e831bb17093bafe438639b2893043f94384a43b673addd4ba",
+          "updated_at": "2026-10-02T11:40:25Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/magireco-latest-legacy-client.version.json"
+        },
+        "manifest.json": {
+          "id": 591153885,
+          "name": "manifest.json",
+          "size": 35176,
+          "digest": "sha256:dcadc9dff3e628333f8517575a3236036d298aa5ab511500886000e225908b41",
+          "updated_at": "2026-09-26T17:56:08Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/manifest.json"
+        },
+        "version_js.json": {
+          "id": 591153918,
+          "name": "version_js.json",
+          "size": 87,
+          "digest": "sha256:798f7a14e38fdd4569c04ab18b342775bd920c0885a3854d0394b87f44207b26",
+          "updated_at": "2026-09-26T17:56:09Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/version_js.json"
+        },
+        "version_js_delta.json": {
+          "id": 598131678,
+          "name": "version_js_delta.json",
+          "size": 199,
+          "digest": "sha256:046d017b281154937ce539a04b7cfae7d4c576c2cc5c1091cbbe386c602a5220",
+          "updated_at": "2026-09-29T12:11:54Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/version_js_delta.json"
+        },
+        "version_scenario.json": {
+          "id": 582120784,
+          "name": "version_scenario.json",
+          "size": 87,
+          "digest": "sha256:6a2f6aad9c16acf15132b7b1cb1daa5797df2acfc546d7ef90766d50ee3481cc",
+          "updated_at": "2026-09-22T19:45:59Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/version_scenario.json"
+        }
+      },
+      "metadata": {
+        "version_scenario.json": {
+          "version": 3300,
+          "size": 194067302,
+          "md5": "f799e71310f292270d586fa21bb9eed2"
+        },
+        "version_js.json": {
+          "version": 103,
+          "size": 287846730,
+          "md5": "db88c1938cf4f8276f5e3644547ba14f"
+        },
+        "version_js_delta.json": {
+          "version": 21,
+          "size": 33225465,
+          "md5": "ddd0bb0a5f569f2a0360afecdca881a1",
+          "base_js_version": 103,
+          "base_js_sha256": "bffc1acc31f65c24cc2f9042a492e4f18c5ba9e41806ed725e1e0730c60a7a9d"
+        },
+        "magireco-latest-legacy-client.version.json": {
+          "version": "1.0.201",
+          "apk": "magireco-latest-legacy-client.apk",
+          "sha256": "5971c19811fdfe81708c87c9ccaaf76a6ad71e1b288e57b2581e75c415fa4129",
+          "size": 103821876,
+          "source_commit": "8dcd875db0bf0f8cb3f252a70505bfe22d303d27",
+          "workflow_commit": "a4d926123a662c1f5ce25cf448e0e9cfbd58a8af",
+          "source_branch": "main",
+          "publication": "PUBLISHED",
+          "built_at": "2026-10-02T11:08:09.090286+00:00",
+          "run": "https://github.com/HiiragiNemu/magireco-cn-patch/actions/runs/36999099429",
+          "published_from_run": 36999099429
+        },
+        "cn_scenario_update_manifest.json": {
+          "bytes": 1617389,
+          "sha256": "a11a122a402496f48fd3169311418ba7d3be21c3f5b492decbf09f5078e6f56f",
+          "keys": [
+            "schema",
+            "package",
+            "version",
+            "generated",
+            "zip_size",
+            "zip_md5",
+            "file_count",
+            "total_size",
+            "cleanup_prefixes",
+            "files"
+          ]
+        },
+        "cn_js_delta_manifest.json": {
+          "bytes": 46121,
+          "sha256": "0e09e35d8ba11b7856e7f8e2c8895688fbf01a62586f7948cb88a703645528fe",
+          "keys": [
+            "schema",
+            "version",
+            "base_js_version",
+            "base_js_sha256",
+            "target_js_sha256",
+            "entries"
+          ]
+        },
+        "cn_js_update_manifest.json": {
+          "bytes": 281250,
+          "sha256": "e60b77abe0bef51b564fd232c97f4b16c23904d421bc6336dd98eb0b1b1d588b",
+          "keys": [
+            "schema",
+            "package",
+            "version",
+            "generated",
+            "zip_size",
+            "zip_md5",
+            "file_count",
+            "total_size",
+            "cleanup_prefixes",
+            "files"
+          ]
+        },
+        "manifest.json": {
+          "bytes": 35176,
+          "sha256": "dcadc9dff3e628333f8517575a3236036d298aa5ab511500886000e225908b41",
+          "keys": [
+            "cn_base_00_db.zip",
+            "cn_base_01_json.zip",
+            "cn_base_02.zip",
+            "cn_base_03.zip",
+            "cn_base_04.zip",
+            "cn_base_05.zip",
+            "cn_base_06.zip",
+            "cn_js_update.zip",
+            "cn_magica_resource.zip",
+            "cn_scenario_img.zip",
+            "cn_scenario_update.zip",
+            "cn_voice_01.zip",
+            "cn_voice_02_done.zip",
+            "movie2.zip",
+            "movie.zip",
+            "cn_js_delta.zip"
+          ]
+        }
+      },
+      "routing": {
+        "path": "configures/personal-online-config.json",
+        "blob": "fe37259bd8604249dcc6cf43e6b3b2e4125d4ee5",
+        "client": {
+          "version": "1.0.201",
+          "apk_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/magireco-latest-legacy-client.apk",
+          "sha256": "5971c19811fdfe81708c87c9ccaaf76a6ad71e1b288e57b2581e75c415fa4129",
+          "size": 103821876
+        },
+        "settings": {
+          "offline_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/tag/latest"
+        },
+        "mirrors": [
+          {
+            "name": "EdgeOne 加速",
+            "base": "https://edgeone.assets.magireco.top/",
+            "weight": 140,
+            "chunks": 8,
+            "enabled": true
+          },
+          {
+            "name": "阿里 ESA 加速",
+            "base": "https://esa.assets.magireco.top/",
+            "weight": 120,
+            "chunks": 8,
+            "enabled": true
+          },
+          {
+            "name": "Cloudflare 中转",
+            "base": "https://magireco-personal-release.pages.dev/",
+            "weight": 100,
+            "chunks": 8,
+            "enabled": true
+          },
+          {
+            "name": "公开资源仓直连",
+            "base": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/",
+            "weight": 90,
+            "chunks": 4,
+            "enabled": true
+          },
+          {
+            "name": "旧仓应急入口",
+            "base": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/",
+            "weight": 10,
+            "chunks": 4,
+            "enabled": true
+          }
+        ]
+      }
+    },
+    {
+      "repository": "HiiragiNemu/ProgettoMagius-1",
+      "head": "968c89d661cce56cb4e5eb2f6a8150ddbf9faae9",
+      "assets": {
+        "cn_js_delta.zip": {
+          "id": 593832219,
+          "name": "cn_js_delta.zip",
+          "size": 33225465,
+          "digest": "sha256:1efb2e1109cadcf9d77b2f402615eefe5570a9d3803e00c5f1084d7864f883bf",
+          "updated_at": "2026-09-27T21:41:53Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/cn_js_delta.zip"
+        },
+        "cn_js_delta_manifest.json": {
+          "id": 593832444,
+          "name": "cn_js_delta_manifest.json",
+          "size": 47305,
+          "digest": "sha256:646b31c703ed462a383853053776f59cc82472853b9e875e87211d807e568460",
+          "updated_at": "2026-09-27T21:41:58Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/cn_js_delta_manifest.json"
+        },
+        "cn_js_update.zip": {
+          "id": 591157157,
+          "name": "cn_js_update.zip",
+          "size": 287846730,
+          "digest": "sha256:bffc1acc31f65c24cc2f9042a492e4f18c5ba9e41806ed725e1e0730c60a7a9d",
+          "updated_at": "2026-09-26T17:58:24Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/cn_js_update.zip"
+        },
+        "cn_js_update_manifest.json": {
+          "id": 591157437,
+          "name": "cn_js_update_manifest.json",
+          "size": 281250,
+          "digest": "sha256:e60b77abe0bef51b564fd232c97f4b16c23904d421bc6336dd98eb0b1b1d588b",
+          "updated_at": "2026-09-26T17:58:26Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/cn_js_update_manifest.json"
+        },
+        "cn_scenario_update.zip": {
+          "id": 605194578,
+          "name": "cn_scenario_update.zip",
+          "size": 193615338,
+          "digest": "sha256:37f6afa135a89d86d427147c71c5c18c67842571dd83dbbbeeb5ca09e66132ad",
+          "updated_at": "2026-10-02T08:46:33Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/cn_scenario_update.zip"
+        },
+        "cn_scenario_update_manifest.json": {
+          "id": 605194771,
+          "name": "cn_scenario_update_manifest.json",
+          "size": 1759735,
+          "digest": "sha256:481eeb8843a945ee664b2caa08cf706708bc0fa02883128888ec3bc5c2806a4c",
+          "updated_at": "2026-10-02T08:46:35Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/cn_scenario_update_manifest.json"
+        },
+        "magireco-latest-legacy-client.apk": {
+          "id": 605484727,
+          "name": "magireco-latest-legacy-client.apk",
+          "size": 103821876,
+          "digest": "sha256:5971c19811fdfe81708c87c9ccaaf76a6ad71e1b288e57b2581e75c415fa4129",
+          "updated_at": "2026-10-02T11:40:33Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/magireco-latest-legacy-client.apk"
+        },
+        "magireco-latest-legacy-client.version.json": {
+          "id": 605484728,
+          "name": "magireco-latest-legacy-client.version.json",
+          "size": 532,
+          "digest": "sha256:e8d7969779835f4e831bb17093bafe438639b2893043f94384a43b673addd4ba",
+          "updated_at": "2026-10-02T11:40:29Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/magireco-latest-legacy-client.version.json"
+        },
+        "manifest.json": {
+          "id": 605194800,
+          "name": "manifest.json",
+          "size": 35176,
+          "digest": "sha256:0be6e7f702781deec72cdea627e3bc085aa1be65863927e3d1e4118de3ae0d4a",
+          "updated_at": "2026-10-02T08:46:35Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/manifest.json"
+        },
+        "version_js.json": {
+          "id": 591157568,
+          "name": "version_js.json",
+          "size": 87,
+          "digest": "sha256:798f7a14e38fdd4569c04ab18b342775bd920c0885a3854d0394b87f44207b26",
+          "updated_at": "2026-09-26T17:58:31Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/version_js.json"
+        },
+        "version_js_delta.json": {
+          "id": 593832541,
+          "name": "version_js_delta.json",
+          "size": 206,
+          "digest": "sha256:3cd50a5b31e74d8ea200d77e16f9012177debe5d1269f1b3be967b7a113edb3b",
+          "updated_at": "2026-09-27T21:42:01Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/version_js_delta.json"
+        },
+        "version_scenario.json": {
+          "id": 605194907,
+          "name": "version_scenario.json",
+          "size": 88,
+          "digest": "sha256:508221da7d2848755f854be59085dfb6d0d666e521d5ef8da2d8e9460a8a4dc6",
+          "updated_at": "2026-10-02T08:46:40Z",
+          "browser_download_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/version_scenario.json"
+        }
+      },
+      "metadata": {
+        "version_scenario.json": {
+          "version": 3322,
+          "size": 193615338,
+          "md5": "5669b58e19fedc8bb9e0450b8fe03a54"
+        },
+        "version_js.json": {
+          "version": 103,
+          "size": 287846730,
+          "md5": "db88c1938cf4f8276f5e3644547ba14f"
+        },
+        "version_js_delta.json": {
+          "version": 21,
+          "size": 33225465,
+          "md5": "ddd0bb0a5f569f2a0360afecdca881a1",
+          "base_js_version": 103,
+          "base_js_sha256": "bffc1acc31f65c24cc2f9042a492e4f18c5ba9e41806ed725e1e0730c60a7a9d"
+        },
+        "magireco-latest-legacy-client.version.json": {
+          "version": "1.0.201",
+          "apk": "magireco-latest-legacy-client.apk",
+          "sha256": "5971c19811fdfe81708c87c9ccaaf76a6ad71e1b288e57b2581e75c415fa4129",
+          "size": 103821876,
+          "source_commit": "8dcd875db0bf0f8cb3f252a70505bfe22d303d27",
+          "workflow_commit": "a4d926123a662c1f5ce25cf448e0e9cfbd58a8af",
+          "source_branch": "main",
+          "publication": "PUBLISHED",
+          "built_at": "2026-10-02T11:08:09.090286+00:00",
+          "run": "https://github.com/HiiragiNemu/magireco-cn-patch/actions/runs/36999099429",
+          "published_from_run": 36999099429
+        },
+        "cn_scenario_update_manifest.json": {
+          "bytes": 1759735,
+          "sha256": "481eeb8843a945ee664b2caa08cf706708bc0fa02883128888ec3bc5c2806a4c",
+          "keys": [
+            "schema",
+            "package",
+            "version",
+            "generated",
+            "zip_size",
+            "zip_md5",
+            "file_count",
+            "total_size",
+            "cleanup_prefixes",
+            "files"
+          ]
+        },
+        "cn_js_delta_manifest.json": {
+          "bytes": 47305,
+          "sha256": "646b31c703ed462a383853053776f59cc82472853b9e875e87211d807e568460",
+          "keys": [
+            "schema",
+            "version",
+            "base_js_version",
+            "base_js_sha256",
+            "target_js_sha256",
+            "entries"
+          ]
+        },
+        "cn_js_update_manifest.json": {
+          "bytes": 281250,
+          "sha256": "e60b77abe0bef51b564fd232c97f4b16c23904d421bc6336dd98eb0b1b1d588b",
+          "keys": [
+            "schema",
+            "package",
+            "version",
+            "generated",
+            "zip_size",
+            "zip_md5",
+            "file_count",
+            "total_size",
+            "cleanup_prefixes",
+            "files"
+          ]
+        },
+        "manifest.json": {
+          "bytes": 35176,
+          "sha256": "0be6e7f702781deec72cdea627e3bc085aa1be65863927e3d1e4118de3ae0d4a",
+          "keys": [
+            "cn_base_00_db.zip",
+            "cn_base_01_json.zip",
+            "cn_base_02.zip",
+            "cn_base_03.zip",
+            "cn_base_04.zip",
+            "cn_base_05.zip",
+            "cn_base_06.zip",
+            "cn_js_update.zip",
+            "cn_magica_resource.zip",
+            "cn_scenario_img.zip",
+            "cn_scenario_update.zip",
+            "cn_voice_01.zip",
+            "cn_voice_02_done.zip",
+            "movie2.zip",
+            "movie.zip",
+            "cn_js_delta.zip"
+          ]
+        }
+      },
+      "routing": {
+        "path": "legacy/config.json",
+        "blob": "b226f7e864de836905171c0e671f645ad17c9fe6",
+        "client": {
+          "version": "1.0.201",
+          "apk_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/magireco-latest-legacy-client.apk",
+          "sha256": "5971c19811fdfe81708c87c9ccaaf76a6ad71e1b288e57b2581e75c415fa4129",
+          "size": 103821876
+        },
+        "settings": {
+          "offline_url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/tag/latest"
+        },
+        "mirrors": [
+          {
+            "name": "EdgeOne 加速",
+            "base": "https://edgeone.assets.magireco.top/",
+            "weight": 140,
+            "chunks": 8,
+            "enabled": true
+          },
+          {
+            "name": "阿里 ESA 加速",
+            "base": "https://esa.assets.magireco.top/",
+            "weight": 120,
+            "chunks": 8,
+            "enabled": true
+          },
+          {
+            "name": "Cloudflare 中转",
+            "base": "https://magireco-personal-release.pages.dev/",
+            "weight": 100,
+            "chunks": 8,
+            "enabled": true
+          },
+          {
+            "name": "公开资源仓直连",
+            "base": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/",
+            "weight": 90,
+            "chunks": 4,
+            "enabled": true
+          },
+          {
+            "name": "旧仓应急入口",
+            "base": "https://github.com/HiiragiNemu/magireco-cn-patch/releases/download/latest/",
+            "weight": 10,
+            "chunks": 4,
+            "enabled": true
+          }
+        ]
+      }
+    }
+  ],
+  "latest_mirror_failure": {
+    "run": 37002364349,
+    "message": "Refusing a public version rollback",
+    "phase": "before asset write loop",
+    "not_a_permission_error": true,
+    "other_failures_not_all_root_caused": true
+  },
+  "overlap_summary": {
+    "verified_at": "2026-10-02T13:28:32.340272+00:00",
+    "scope": "All128actual overlapping ZIP entries from published delta21 and scenario3322; ZIP CRC/size and release manifest identities verified, using pinned GitHub asset IDs and strict206ranges",
+    "scenario_asset_id": 605194578,
+    "scenario_asset_digest": "sha256:37f6afa135a89d86d427147c71c5c18c67842571dd83dbbbeeb5ca09e66132ad",
+    "delta_asset_id": 593832219,
+    "delta_asset_digest": "sha256:1efb2e1109cadcf9d77b2f402615eefe5570a9d3803e00c5f1084d7864f883bf",
+    "overlap": 128,
+    "bytes_equal": 0,
+    "json_equal": 0,
+    "bytes_different": 128,
+    "json_different": 128,
+    "scenario_matches_source": 4,
+    "delta_matches_source": 124,
+    "known_scenario_corrected_intersections": 4,
+    "known_corrected_json_conflicts": 4,
+    "whole_zip_sha256_recomputed_this_audit": false,
+    "device_final_files_checked": false,
+    "no_install_or_publication_performed": true
+  },
+  "delta_retained_source_corrections": {
+    "scripts": 124,
+    "fields": 274,
+    "change": "白翼→白羽",
+    "these_are_existing_canonical_source_corrections_not_new_translation_claims": true
+  },
+  "scenario_retained_source_corrections": [
+    {
+      "path": "madomagi/resource/scenario/json/adv/scenario_1/101704-1_YTq8g.json",
+      "scenario_actual_sha256": "1aadafb83af063c39c0544fcd141862887902b6f8cdbec9ea83413fc223216b7",
+      "delta_actual_sha256": "ef800c6960ebaf284546e259ae462db8217ec4282769029f382c168e3e2562e7",
+      "source_blob": "c72c0ea0b601b8439a5138484c6535909678ba11",
+      "source_sha256": "1aadafb83af063c39c0544fcd141862887902b6f8cdbec9ea83413fc223216b7",
+      "exact_equal": false,
+      "parsed_json_equal": false,
+      "scenario_matches_canonical_source": true,
+      "delta_matches_canonical_source": false,
+      "known_scenario_corrected": true,
+      "canonical_correction_versions": "[3310]",
+      "json_differences": 1,
+      "differences": [
+        {
+          "address": [
+            "story",
+            "group_1",
+            26,
+            "textCenter"
+          ],
+          "scenario": "……[wait:1.0][chara:100104:lipSynch_1][chara:100104:voiceFull_fullvoice/section_101704/vo_full_101704-1-22]把[textBlue:传闻]……",
+          "delta": "……[wait:1.0][chara:100104:lipSynch_1]把[textBlue:传闻]……"
+        }
+      ]
+    },
+    {
+      "path": "madomagi/resource/scenario/json/adv/scenario_1/101802-21_a7FVS.json",
+      "scenario_actual_sha256": "033b6fbc32b7ad1fe4eb34ca92cb6098a29b05379ffb3127c4a443738290833d",
+      "delta_actual_sha256": "feec6859a893ad9c00fa961447aecca656cbe4e1441608c28aeb9da35021b99c",
+      "source_blob": "95f56a05cb92760be1c2aa6d036c252aa2974e7b",
+      "source_sha256": "033b6fbc32b7ad1fe4eb34ca92cb6098a29b05379ffb3127c4a443738290833d",
+      "exact_equal": false,
+      "parsed_json_equal": false,
+      "scenario_matches_canonical_source": true,
+      "delta_matches_canonical_source": false,
+      "known_scenario_corrected": true,
+      "canonical_correction_versions": "[3310]",
+      "json_differences": 1,
+      "differences": [
+        {
+          "address": [
+            "story",
+            "group_1",
+            35,
+            "narration"
+          ],
+          "scenario": "[flashEffect:flashWhite2][bgEffect:shakeLarge]最终射击 圣夜！",
+          "delta": "最终射击 圣夜！"
+        }
+      ]
+    },
+    {
+      "path": "madomagi/resource/scenario/json/adv/scenario_5/506905-5_ifs6e.json",
+      "scenario_actual_sha256": "837ab9895fc121c88a3ba95149133df021842cc6f5409d3b12a9eb59f20a3881",
+      "delta_actual_sha256": "eb1dc785c4da2812166498cb930011056bb8deb47f52a4269ef2f77778f172ad",
+      "source_blob": "895d8b06a4499971954e54a5f619ec853862f543",
+      "source_sha256": "837ab9895fc121c88a3ba95149133df021842cc6f5409d3b12a9eb59f20a3881",
+      "exact_equal": false,
+      "parsed_json_equal": false,
+      "scenario_matches_canonical_source": true,
+      "delta_matches_canonical_source": false,
+      "known_scenario_corrected": true,
+      "canonical_correction_versions": "[3310]",
+      "json_differences": 13,
+      "differences": [
+        {
+          "address": [
+            "story",
+            "group_1",
+            10,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            16,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            17,
+            "chara",
+            2,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            21,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            21,
+            "textCenter"
+          ],
+          "scenario": "[chara:101471:effect_emotion_surprise_0][se:7226_shock]！？",
+          "delta": "[chara:101403:effect_emotion_surprise_0][se:7226_shock]！？"
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            22,
+            "chara",
+            2,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            32,
+            "chara",
+            1,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            34,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            35,
+            "chara",
+            1,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            38,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            76,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            78,
+            "chara",
+            1,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            82,
+            "chara",
+            1,
+            "id"
+          ],
+          "scenario": 101471,
+          "delta": 101403
+        }
+      ]
+    },
+    {
+      "path": "madomagi/resource/scenario/json/adv/scenario_5/506909-9_Arnzs.json",
+      "scenario_actual_sha256": "b7d8fde68fcf55c82b22d4b8ded3f456f6750d7af50132e8856af7c9d29b4033",
+      "delta_actual_sha256": "bb62521346bb5376bc020e974dc63bb1f19fb7e445c89ddb423278ff01968d8a",
+      "source_blob": "bc44e09626d0448faa799b1bf3a36d4f19e14a7c",
+      "source_sha256": "b7d8fde68fcf55c82b22d4b8ded3f456f6750d7af50132e8856af7c9d29b4033",
+      "exact_equal": false,
+      "parsed_json_equal": false,
+      "scenario_matches_canonical_source": true,
+      "delta_matches_canonical_source": false,
+      "known_scenario_corrected": true,
+      "canonical_correction_versions": "[3310]",
+      "json_differences": 21,
+      "differences": [
+        {
+          "address": [
+            "story",
+            "group_1",
+            0,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            2,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            3,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            4,
+            "chara",
+            1,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            22,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            52,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            59,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            63,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            63,
+            "textRight"
+          ],
+          "scenario": "那就……@[chara:100770:lipSynch_0][wait:1.0][chara:100770:motion_201][chara:100770:cheek_0][chara:100770:face_mtn_ex_020.exp.json][chara:100770:lipSynch_1]发——送！",
+          "delta": "那就……@[chara:100701:lipSynch_0][wait:1.0][chara:100701:motion_201][chara:100701:cheek_0][chara:100701:face_mtn_ex_020.exp.json][chara:100701:lipSynch_1]发——送！"
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            64,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            76,
+            "chara",
+            1,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            77,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            79,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            80,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            81,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            82,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            84,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            85,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            86,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            88,
+            "chara",
+            0,
+            "id"
+          ],
+          "scenario": 100770,
+          "delta": 100701
+        },
+        {
+          "address": [
+            "story",
+            "group_1",
+            88,
+            "textRight"
+          ],
+          "scenario": "[chara:100770:effect_emotion_angry_0][se:7219_strain]你说什喵！",
+          "delta": "[chara:100701:effect_emotion_angry_0][se:7219_strain]你说什喵！"
+        }
+      ]
+    }
+  ],
+  "contributions_unchanged": {
+    "confirmed_ai": 1079,
+    "complete": 694,
+    "pending": 385,
+    "audit_adds_no_translation_credit": true
+  },
+  "must_not_do": [
+    "blindly rerun source3300-to-public3322mirror",
+    "remove rollback guard",
+    "delete all scenario files from delta before carrying124existing corrections forward",
+    "simply apply scenario last without reconciling124delta corrections",
+    "delete historical receipt/release dependencies without migration",
+    "run3323from the old publication helpers while coordination remains open"
+  ],
+  "exit_conditions": [
+    "A single agreed publisher/owner per latest asset and metadata with cross-repo serialization",
+    "All128overlapping paths reconcile to canonical source or individually reviewed newer corrections;all981prior correctedruntimepaths protected",
+    "Verify firstinstall/update/offlineimport/redownload final installed bytes as applicable,not merely version3322",
+    "Confirm public/CF/source emergency routing and metadata coherence; preserve all current JS/image/client fixes",
+    "Record explicit repair receipt then allow this story window to resume from refreshed source and release baseline"
+  ],
+  "device_final_files_verified": false,
+  "all16packages_and_all5mirrors_verified": false,
+  "whole_zip_sha256_recomputed_this_audit": false,
+  "no_release_or_runtime_mutation_this_audit": true
+}
