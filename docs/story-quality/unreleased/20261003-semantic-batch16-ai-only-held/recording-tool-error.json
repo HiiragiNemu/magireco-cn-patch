@@ -1,0 +1,8 @@
+{
+  "stage": "documentation_commit_validation_before_ref_write",
+  "error": "tests-final.log.txt is outside the existing docs-only extension whitelist",
+  "resolved_by": "Store complete test log text with its SHA-256 inside tests-final.log.json; do not widen the write whitelist",
+  "original_error_log_utf8": "Traceback (most recent call last):\r\n  File \"D:\\magia\\deliveries\\reader-production-20260930-1226\\semantic-batch16-ai-only-held-20261003\\finalize_records16.py\", line 88, in <module>\r\n    if __name__=='__main__':main()\r\n                            ~~~~^^\r\n  File \"D:\\magia\\deliveries\\reader-production-20260930-1226\\semantic-batch16-ai-only-held-20261003\\finalize_records16.py\", line 86, in main\r\n    result=commit('patch',files,'held-batch16 validated residual amendments and current READY gate',expected_old=expected)\r\n  File \"D:\\magia\\deliveries\\reader-production-20260930-1226\\semantic-batch16-ai-only-held-20261003\\checkpoint.py\", line 28, in commit\r\n    assert isinstance(b,bytes) and p.endswith(('.md','.json','.json.gz','.tsv','.py','.cjs')),p\r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError: docs/story-quality/unreleased/20261003-semantic-batch16-ai-only-held/tests-final.log.txt\r\n",
+  "sha256": "6f028163daac2173e72531a04e568cda5ea756663f6a9356d020e6666cddc6e3",
+  "production_changed": false
+}

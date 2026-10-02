@@ -1,0 +1,164 @@
+{
+  "verified_at": "2026-10-02T22:48:22.913510+00:00",
+  "passed": true,
+  "heads": {
+    "reader": "aa113d74a82130938d9c74318c3ae0a42cb93fae",
+    "patch": "db260368834c6aa900631113bcd17448addd78fd",
+    "public": "52f67b363d3d8ed429fb18a3b590978eb16bc821"
+  },
+  "cn_patch_document_hashes_verified": 59,
+  "reader_pointer_hashes_verified": 3,
+  "historical_published_files_preserved": 17,
+  "old_snapshot_files_verified": 17,
+  "old_fields_preserved": 10312,
+  "new_fields": 90,
+  "total_fields": 10402,
+  "existing_candidates_amended": 30,
+  "total_candidates": 361,
+  "new_full_review_count": 0,
+  "all_runtime_sources_still_unapplied": true,
+  "current_READY_gate": {
+    "passed": true,
+    "remote_main": "db260368834c6aa900631113bcd17448addd78fd",
+    "manifest_sha256": "c05ab3b7383178945fa045d9b3cd0709e4f8cf96e59e1b97f1c3cc9ff5625a72",
+    "targets": 361,
+    "field_changes": 10402,
+    "publication_performed": false,
+    "runtime_changed": false,
+    "note": "This gate checks freshness only. Existing source, integrated-source, ZIP and device gates remain mandatory."
+  },
+  "old_361_manifest_rejected": "Superseded candidate manifest: read current remote main READY even if target count is unchanged",
+  "same_count_freshness_check_tested_against_real_remote": true,
+  "old694_385_published_ledger_preserved": true,
+  "old498_registered_ids_preserved": true,
+  "exemptions24_preserved": true,
+  "current_delta_proposal_paths": 489,
+  "original_delta_production_config_preserved": true,
+  "reader_export_files": 240,
+  "reader_and_public_cumulative_copies": 0,
+  "recovery_files": 377,
+  "recovery_sha256": "7d6e55c91d81185f722f4d4e12bb77a75a24bc635b809c870325621233caacd5",
+  "own_doc_only_commits": [
+    {
+      "repo": "reader",
+      "commit": "aa113d74a82130938d9c74318c3ae0a42cb93fae",
+      "paths": 3,
+      "runtime_paths": 0
+    },
+    {
+      "repo": "reader",
+      "commit": "0a483e53fa05020ea77d48074a0535ad8eb87438",
+      "paths": 3,
+      "runtime_paths": 0
+    },
+    {
+      "repo": "reader",
+      "commit": "8c050df7a308dc46dc983bfc07fe2e4b07d2556a",
+      "paths": 3,
+      "runtime_paths": 0
+    },
+    {
+      "repo": "patch",
+      "commit": "db260368834c6aa900631113bcd17448addd78fd",
+      "paths": 53,
+      "runtime_paths": 0
+    },
+    {
+      "repo": "patch",
+      "commit": "6fd4d6b4ca13be34da0417f643ceddc61970ac8a",
+      "paths": 3,
+      "runtime_paths": 0
+    },
+    {
+      "repo": "patch",
+      "commit": "6c01423e0fea26b4f43a07ce53b99719d814cb3b",
+      "paths": 7,
+      "runtime_paths": 0
+    }
+  ],
+  "client_receipt_received": false,
+  "publication_performed": false,
+  "deployment_performed": false,
+  "live_readback_complete": true,
+  "live": [
+    {
+      "url": "https://magireco-personal-release.pages.dev/version_scenario.json",
+      "status": 200,
+      "data": {
+        "version": 3323,
+        "size": 192928598,
+        "md5": "a2c027c8cd18c4af3a975337960d9400"
+      },
+      "sha256": "99fb4729e2c78ae6c6eb00b2bca516b1cf0c6228d146492644498eace0cb2e67"
+    },
+    {
+      "url": "https://magireco-personal-release.pages.dev/version_js_delta.json",
+      "status": 200,
+      "data": {
+        "version": 22,
+        "size": 33240817,
+        "md5": "2bf149f7ce565164fdcdb59563b06e3d",
+        "base_js_version": 103,
+        "base_js_sha256": "bffc1acc31f65c24cc2f9042a492e4f18c5ba9e41806ed725e1e0730c60a7a9d"
+      },
+      "sha256": "3f093e70bd34a8b434b9cf1f58e158c79082b1d6fb769f1c865094a8fdde64e9"
+    },
+    {
+      "url": "https://github.com/HiiragiNemu/ProgettoMagius-1/releases/download/latest/version_scenario.json",
+      "status": 200,
+      "data": {
+        "version": 3323,
+        "size": 192928598,
+        "md5": "a2c027c8cd18c4af3a975337960d9400"
+      },
+      "sha256": "9cb1b75fd4b494ce6e1e554904b8a52a850e551bff45dd0ef51b15ca2907f78d"
+    },
+    {
+      "url": "https://magireader.pages.dev/adv-release-build.json",
+      "status": 200,
+      "data": {
+        "schema": 1,
+        "source_revision": "15d2ee951514ea13e67d68a6864707a7f926fa98",
+        "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+        "catalog_bytes": 8638040,
+        "stories": 3054,
+        "routes": 3073,
+        "shards": 256,
+        "shard_bytes_max": 276684,
+        "shard_bytes_mean": 145292,
+        "shard_prefix": "/story-json-catalog/v1/",
+        "source_packs": {
+          "schema": 1,
+          "files": 27406,
+          "packs": 654,
+          "raw_bytes": 1369542385,
+          "packed_bytes": 403917859
+        },
+        "auxiliary_source_files": [
+          {
+            "source": "magireco-translate-data-master/Scenarios_full/special/special-chapter-info.txt",
+            "path": "/data/special/special-chapter-info_cn.txt",
+            "bytes": 21049,
+            "sha256": "1e81540d6f6c3f6e75c82c7fa554a7264c0ec8c9641818a1a6919cb32c1656bd",
+            "kind": "chapter-name-metadata"
+          }
+        ]
+      },
+      "sha256": "bd593393dd9932d92f89333f9705af7e89d80dc14bc8cf5c4a3ec665ab3379f2"
+    },
+    {
+      "url": "https://magireader.pages.dev/api/adv/release",
+      "status": 200,
+      "data": {
+        "schema": 1,
+        "source_revision": "15d2ee951514ea13e67d68a6864707a7f926fa98",
+        "deployment": "https://f271c901.magireader.pages.dev",
+        "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+        "shard_prefix": "/story-json-catalog/v1/",
+        "published_at": "2026-10-02T20:40:42.351Z"
+      },
+      "sha256": "4b89b6e69a2c59686bbc65774cf827c9050a50901c0723ff3b286ff8baec8c56"
+    }
+  ],
+  "original_worktree_state_preserved": true
+}
