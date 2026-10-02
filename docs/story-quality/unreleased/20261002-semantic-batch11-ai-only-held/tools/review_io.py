@@ -2,6 +2,8 @@
 from pathlib import Path
 import json,sys
 W=Path(__file__).resolve().parent
+sys.path.insert(0,str(W.parent/'severe-5109-20261001'))
+from collect_review import CTRL
 
 def show(chapters):
  sources=json.loads((W/'review-sources.json').read_bytes())
@@ -10,7 +12,7 @@ def show(chapters):
   rows=json.loads((W/'review'/(s['id']+'.aligned.json')).read_bytes())
   print('\n###',s['id'],'FIELDS',len(rows),'###')
   for r in rows:
-   print(str(r['ordinal'])+' '+str(r['cn_name'])+' | J:'+json.dumps(r['jp'],ensure_ascii=False)+' | C:'+json.dumps(r['cn'],ensure_ascii=False))
+   print(str(r['ordinal'])+' '+str(r['cn_name'])+' | J:'+json.dumps(CTRL.sub('§',r['jp']),ensure_ascii=False)+' | C:'+json.dumps(CTRL.sub('§',r['cn']),ensure_ascii=False))
   print('### END',s['id'],'###')
 
 def record(path):
