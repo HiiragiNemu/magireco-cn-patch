@@ -40,21 +40,25 @@ def main():
    ops.append([choice['address'],choice['before'],choice['after']]);choice_count+=1
    records.append({'ordinal':None,'address':choice['address'],'speaker':'选项','jp':choice['japanese'],'before':choice['before'],'after':choice['after'],'mode':'nested_choice_text_only','alternativeId':choice['alternativeId'],'target_group':choice['target_group']})
   if context:assert prior[s['cn_path']]['complete'] and not ops,'Do not silently edit old complete context'
-  a=(W/'review'/(s['id']+'.cn.json')).read_bytes();jp=(W/'review'/(s['id']+'.jp.json')).read_bytes();assert blob(a)==s['cn_sha']==s['patch_sha'] and blob(jp)==s['jp_sha']
-  b=apply(a,ops);validate(a,b,ops);assert apply(b,[[at,new,old] for at,old,new in ops])==a
+  a=(W/'review'/(s['id']+'.cn.json')).read_bytes();jp=(W/'review'/(s['id']+'.jp.json')).read_bytes();assert blob(a)==s['cn_sha'] and blob(jp)==s['jp_sha']
+  from independent_runtime import stage_pair
+  pa=(W/'review'/(s['id']+'.player.json')).read_bytes();assert blob(pa)==s['patch_sha']
+  proofs=json.loads((W/'source-adjudications.json').read_bytes())['records']
+  b,pb=stage_pair(s['id'],a,pa,ops,proofs)
+  no_added_undefined_references(pa,pb)
   assert shape(json.loads(a))==shape(json.loads(b))
   assert [(x['address'],x['name'],x['actor_id']) for x in fields(json.loads(a))]==[(x['address'],x['name'],x['actor_id']) for x in fields(json.loads(b))]
   no_added_undefined_references(a,b)
   if reuse:
    assert blob(b)==d['candidate_blob'];donor=(W/'review'/(s['id']+'.donor.json')).read_bytes();assert blob(donor)==d['donor_cn_blob']
    assert [(x['address'],x['text'],x['actor_id']) for x in fields(json.loads(b))]==[(x['address'],x['text'],x['actor_id']) for x in fields(json.loads(donor))]
-  for repo,path in [('reader',s['cn_path']),('patch',s['patch_path'])]:
-   for folder,data in [('originals',a),('stage',b)]:
+  for repo,path,ra,rb in [('reader',s['cn_path'],a,b),('patch',s['patch_path'],pa,pb)]:
+   for folder,data in [('originals',ra),('stage',rb)]:
     dest=W/folder/repo/path;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(data)
-   if ops:plan['reader_files' if repo=='reader' else 'runtime_files'].append({'path':path,'before':s['cn_sha'],'after':blob(b),'operations':ops,'jp_path':s['jp_path'],'jp_sha':s['jp_sha'],'reader_paths':[s['cn_path']],'review_mode':mode})
+   if ops:plan['reader_files' if repo=='reader' else 'runtime_files'].append({'path':path,'before':blob(ra),'after':blob(rb),'operations':ops,'jp_path':s['jp_path'],'jp_sha':s['jp_sha'],'reader_paths':[s['cn_path']],'review_mode':mode})
   plan['inputs'].update({s['cn_path']:s['cn_sha'],s['jp_path']:s['jp_sha']})
   if reuse:plan['inputs'].update({d['donor_path']:d['donor_cn_blob'],d['donor_completed_evidence']['jp_path']:s['jp_sha']})
-  story=s|{'fields_reviewed':len(rows),'fields_changed':len(ops),'body_fields_changed':body_count,'choice_fields_changed':choice_count,'choice_fields_reviewed':d.get('choice_fields_reviewed',0),'name_fields_changed':0,'review_note':d['review_note'],'semantic_complete':not reuse,'prepared_complete':True,'unresolved':[],'aligned_review':records,'candidate_blob':blob(b)}
+  story=s|{'fields_reviewed':len(rows),'fields_changed':len(ops),'body_fields_changed':body_count,'choice_fields_changed':choice_count,'choice_fields_reviewed':d.get('choice_fields_reviewed',0),'name_fields_changed':0,'review_note':d['review_note'],'semantic_complete':not reuse,'prepared_complete':True,'unresolved':[],'aligned_review':records,'candidate_blob':blob(b),'player_candidate_blob':blob(pb),'player_source_blob':blob(pa),'repository_specific_originals_preserved':True}
   plan['reviewed_stories'].append(story);(W/'review'/(s['id']+'.final.txt')).write_text('\n'.join(lines)+'\n',encoding='utf8')
  groups=collections.Counter(x['review_mode'] for x in plan['reviewed_stories']);plan.update(reviewed_fields=sum(s['fields_reviewed'] for s in plan['reviewed_stories']),changed_fields=sum(s['fields_changed'] for s in plan['reviewed_stories']),fresh_full_review_scripts=groups['fresh_full_review'],reuse_verified_scripts=groups['exact_reviewed_text_reuse'],context_only_scripts=groups['context_only'])
  plan['newly_read_fields']=sum(x['fields_reviewed'] for x in plan['reviewed_stories'] if x['review_mode']=='fresh_full_review');plan['new_translation_correction_fields']=sum(x['body_fields_changed'] for x in plan['reviewed_stories'] if x['review_mode']=='fresh_full_review');plan['reuse_synchronization_fields']=sum(x['fields_changed'] for x in plan['reviewed_stories'] if x['review_mode']=='exact_reviewed_text_reuse');plan['completed_review_stories']=[s['id'] for s in plan['reviewed_stories']];plan['pending_adjudication_stories']=[]
