@@ -66,3 +66,11 @@
 ## 唯一保存位置
 
 按维护者要求，累计贡献、完整已复核/待处理台账及包含这些信息的恢复包只保存在 HiiragiNemu/magireco-cn-patch。Reader 和 ProgettoMagius-1 只保留接续指针和必要的单批校订/发布证据，不提交生成目录副本，也不在ZIP内夹带台账。前一位AI和接手前的已确认贡献持续保留。
+
+
+<!-- HELD-BATCH11-UNRELEASED -->
+## 尚未整合／发布的校订候选
+
+本批新增50个全文校订目标与83个既有校订稿精确复用目标，共133个待办目标已有候选。**不是新增已发布剧情**，运行源尚未应用，未分配版本号。已发布694／385总账和历史贡献不变；385待办中尚有252个未准备。
+
+见 [未发布批次11](../unreleased/20261002-semantic-batch11-ai-only-held/README.md)、`unreleased-summary.json`、`unreleased-scripts.tsv`、`pending-status-with-unreleased.tsv`、`unreleased-field-changes.json.gz`。复用不是新翻译；所有累计与完整清单仅保存在CN patch。资源审计修正对齐后须重新核对源版本和最终安装覆盖，再单独决定是否整合发布。

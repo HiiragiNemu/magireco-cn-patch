@@ -1,7 +1,7 @@
 {
   "batch": "20261002-semantic-batch11-ai-only-held",
   "task_id": "tsk_e9584d2518500246",
-  "stage": "review_in_isolation",
+  "stage": "completed_held_unreleased",
   "publication_prohibited": true,
   "resource_source_writes_prohibited_during_audit": true,
   "target_version": null,
@@ -815,7 +815,7 @@
     }
   ],
   "reused": [],
-  "checkpoint": "本轮候选完整验收通过：50新全文2794正文、1425正文及14选项修订；83复刻精确复用2121字段。46TXT11144精确位置同步、134实际解析、23文字＋22暂存计数＋17显示恢复＋8分支导出测试通过。全部未发布、未应用运行资源，已发布694/385仍保留；候选已覆盖133待办，余252尚未准备。",
+  "checkpoint": "本轮校订及精确复用候选均已验收并记录；仅文档入库，运行源未应用，发包/同步/网站ADV发布保持禁止。下一阶段继续未准备队列。",
   "selected_scripts": 135,
   "selected_chapters": 21,
   "selected_fields": 7607,
@@ -824,7 +824,7 @@
     "context_only": 2,
     "fresh_full_review": 50
   },
-  "updated_at": "2026-10-02T14:44:00.474820+00:00",
+  "updated_at": "2026-10-02T14:51:53.397379+00:00",
   "published": false,
   "release_version": null,
   "fresh_full_review_scripts": 50,
@@ -832,5 +832,8 @@
   "context_only_scripts": 1,
   "new_translation_correction_fields": 1425,
   "reuse_synchronization_fields": 2121,
-  "changed_fields": 3560
+  "changed_fields": 3560,
+  "integration_prohibited_until_audit_alignment": true,
+  "unreleased_ledger": "docs/story-quality/contributions/unreleased-summary.json",
+  "next_unprepared_queue": "docs/story-quality/unreleased/20261002-semantic-batch11-ai-only-held/next-unprepared-queue.json"
 }
