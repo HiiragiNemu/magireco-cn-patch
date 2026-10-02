@@ -1,7 +1,7 @@
 {
   "batch": "20261003-semantic-batch13-ai-only-held",
   "task_id": "tsk_ea56506361255df4",
-  "stage": "review",
+  "stage": "review_in_isolation",
   "publication_prohibited": true,
   "target_version": null,
   "published_baseline_version": 3322,
@@ -9,9 +9,70 @@
   "published_pending": 385,
   "prior_prepared_unreleased": 204,
   "prior_not_prepared": 181,
-  "reviewed": [],
+  "reviewed": [
+    {
+      "id": "514710-0",
+      "mode": "fresh_full_review",
+      "fields": 26,
+      "changed": 16
+    },
+    {
+      "id": "514710-1_n32PQ",
+      "mode": "fresh_full_review",
+      "fields": 57,
+      "changed": 25
+    },
+    {
+      "id": "514710-2_n32PQ",
+      "mode": "fresh_full_review",
+      "fields": 98,
+      "changed": 54
+    },
+    {
+      "id": "514710-3_n32PQ",
+      "mode": "fresh_full_review",
+      "fields": 84,
+      "changed": 51
+    },
+    {
+      "id": "514710-4_n32PQ",
+      "mode": "fresh_full_review",
+      "fields": 64,
+      "changed": 32
+    },
+    {
+      "id": "514710-5_n32PQ",
+      "mode": "fresh_full_review",
+      "fields": 61,
+      "changed": 32
+    },
+    {
+      "id": "514710-6_n32PQ",
+      "mode": "fresh_full_review",
+      "fields": 45,
+      "changed": 17
+    },
+    {
+      "id": "514710-7_n32PQ",
+      "mode": "fresh_full_review",
+      "fields": 66,
+      "changed": 32
+    },
+    {
+      "id": "514710-8_n32PQ",
+      "mode": "fresh_full_review",
+      "fields": 35,
+      "changed": 21
+    },
+    {
+      "id": "514710-9_n32PQ",
+      "mode": "fresh_full_review",
+      "fields": 64,
+      "changed": 36
+    }
+  ],
   "published": false,
-  "checkpoint": "已刷新3323/22与未发布204目标；本批52片段(51新+1旧上下文)冻结，优先和美上下篇与杏子Homecoming。新增客户端JS delta同源与完整覆盖交接准备，尚无本批新增完成，不发包不写运行资源。",
+  "checkpoint": "和美上篇前10片段已实际全文对照并保存逐字段候选；客户端侧已放置本窗口交接指针，明确新增剧情需扩展现有delta supplemental路径并与scenario同源。旧204候选不动，新稿仍不发包。",
   "selected_scripts": 52,
   "selected_chapters": 4,
   "selected_fields": 3354,
@@ -19,6 +80,12 @@
     "fresh_full_review": 51,
     "context_only": 1
   },
-  "updated_at": "2026-10-02T17:40:35.136306+00:00",
-  "release_version": null
+  "updated_at": "2026-10-02T17:45:39.786986+00:00",
+  "release_version": null,
+  "fresh_full_review_scripts": 10,
+  "reuse_verified_scripts": 0,
+  "context_only_scripts": 0,
+  "new_translation_correction_fields": 316,
+  "reuse_synchronization_fields": 0,
+  "changed_fields": 316
 }
