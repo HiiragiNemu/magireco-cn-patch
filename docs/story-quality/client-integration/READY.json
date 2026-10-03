@@ -49,7 +49,7 @@
   "client_must_pin_current_manifest_before_integration": true,
   "source_bound_repository_differences_must_be_preserved": true,
   "do_not_use_legacy_numbered_scenario_publishers": true,
-  "next_gate": "Delivered: client204 and cumulative delta25. Future changes use the same frozen Scenario3323/JS103 plus cumulative delta-only pipeline.",
+  "next_gate": "Story and image delivery remains device-verified at delta25; default player name added in published delta26 without device re-entry. Frozen Scenario3323/JS103 and APK204 unchanged.",
   "amended_existing_targets": 235,
   "appended_fields": 824,
   "freshness_gate": "docs/story-quality/client-integration/current_ready_gate.py",
@@ -68,5 +68,7 @@
   "legacy_verify_packages_for_delta_only_prohibited": true,
   "production_workflow_compatible_with_current_policy": true,
   "workflow_requires_delta_only_adaptation": false,
-  "game_delivery_receipt": "docs/story-quality/client-integration/GAME_DELIVERY_RECEIPT.json"
+  "game_delivery_receipt": "docs/story-quality/client-integration/GAME_DELIVERY_RECEIPT.json",
+  "latest_resource_release": 26,
+  "default_player_name_receipt": "docs/story-quality/client-integration/DEFAULT_PLAYER_NAME_20261003.json"
 }
