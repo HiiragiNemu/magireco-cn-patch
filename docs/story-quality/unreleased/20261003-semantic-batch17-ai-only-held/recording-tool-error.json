@@ -1,0 +1,19 @@
+{
+  "published": false,
+  "runtime_changed": false,
+  "failures": [
+    {
+      "kind": "wrong_interpreter",
+      "command_suffix": "python parser_amendments.cjs",
+      "actual_failure": "SyntaxError at the first Node const declaration",
+      "resolution": "Rerun the unchanged .cjs with Node; parser-final.log proves 235 actual comparisons passed."
+    },
+    {
+      "kind": "missing_inherited_recovery_proof",
+      "actual_failure": "sync_text.py could not read missing-display-restoration.json",
+      "resolution": "Verified SHA of prior recovery archives, extracted the exact source-bound 710044 restoration, checked source Chinese/Japanese/candidate bytes, then reran full TXT synchronization without lowering assertions.",
+      "failed_log": "sync-text-final.log",
+      "successful_log": "sync-text-with-recovery.log"
+    }
+  ]
+}
