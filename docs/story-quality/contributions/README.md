@@ -1,3 +1,11 @@
+# 当前交付：客户端 1.0.204 / 累计 delta 25
+
+361 个剧情目标已进入游戏累计包（359 个文件实际变化，11,226 处字段操作），待交付 0。967 项称号来源核对的最终矩阵保存在 `title-source-crosscheck-967`；完整国服称号缺失时保留明确来源，不冒充全是国服译文。图像仍为 282 项，两张本轮重制计为既有图返工，不重复增加贡献。
+
+准确版本及安装文件核验见 `../client-integration/GAME_DELIVERY_RECEIPT.json` 与 `CLIENT_RECEIPT.json`。以下记录为历史交接状态，旧的“待交付”文字已由当前回执取代。
+
+---
+
 # Reader交付已完成，游戏delta交付另计
 
 2026-10-03T05:35:51.691058+00:00：最终361目标已在Reader正式部署并验收，游戏侧仍待客户端窗口仅累计delta发行。本次没有新增翻译贡献，不改原694/385游戏发布账、旧498登记和历史候选。详见`delivery-status.json`及`../reader-final-20261003/receipt.json`。新发布政策位于`../client-integration/release-policy.json`。

@@ -1,31 +1,36 @@
 {
   "schema": 1,
-  "as_of": "2026-10-03T09:01:46.855888+00:00",
+  "as_of": "2026-10-03T09:28:52.063374+00:00",
   "status": "published_and_device_verified",
-  "delta_version": 24,
-  "source_commit": "45e69cc6c208c2857e1e9d5f8abb7db9e28eadfe",
-  "publication_run": 37108400052,
-  "public_mirror_run": 37108543465,
+  "delta_version": 25,
+  "source_commit": "80d6a5d38d56a0157243492514663296f2ed6663",
+  "publication_run": 37111760368,
+  "public_mirror_run": 37112801546,
   "public_verification": {
     "passed": true,
-    "anonymous_public_zip_readback": true,
-    "both_repos_same_4_delta_assets": true,
-    "all_23_other_asset_ids_sizes_digests_unchanged": true,
-    "candidate_manifest_semantics_match": true,
+    "anonymous_public_readback": true,
+    "both_repositories_same_4_delta_assets": true,
+    "all_21_unrelated_assets_unchanged": true,
+    "client_assets_excluded_for_separate_verified_204_publication": true,
+    "exactly_2_accepted_image_payloads_changed": [
+      "magica/resource/image_web/regularEvent/groupBattle/6015/title_s.png",
+      "magica/resource/image_web/regularEvent/groupBattle/6017/title_s.png"
+    ],
+    "all_638_paths_preserved": true,
+    "all_489_story_files_unchanged_from_latest_24": true,
     "delta": {
-      "size": 39375761,
-      "sha256": "e870b23efdc1d0668d37f1028da728841ee3cd9ac77c3b9ba0c485ecbb816689",
-      "md5": "cdf8be4185b2c083bff0df981fb3518a"
+      "size": 39391066,
+      "sha256": "1cf67626fe8c73d355b71942bd2ceaae76b7c8fca48acd02cdc1635b1bb34a1a",
+      "md5": "e770203923da973105e37282a02c860d"
     },
-    "source": "45e69cc6c208c2857e1e9d5f8abb7db9e28eadfe",
-    "run": 37108400052,
-    "windows_candidate_diff": "JSON newline CRLF vs CI LF; payload entry hashes identical; final public archive separately device-verified"
+    "source": "80d6a5d38d56a0157243492514663296f2ed6663",
+    "run": 37111760368
   },
   "device_verification": {
     "passed": true,
     "serial": "127.0.0.1:16416",
     "versions": {
-      "js_delta_version": "24",
+      "js_delta_version": "25",
       "js_version": "103",
       "scenario_version": "3323"
     },
@@ -37,7 +42,7 @@
     "changed_story_files": 359,
     "removed_story_files": [],
     "all_other_story_files_unchanged": true,
-    "delta_sha256": "e870b23efdc1d0668d37f1028da728841ee3cd9ac77c3b9ba0c485ecbb816689",
+    "delta_sha256": "1cf67626fe8c73d355b71942bd2ceaae76b7c8fca48acd02cdc1635b1bb34a1a",
     "method": "Normal final APK online updater, followed by read-only hashes of installed files; no resource push to game files"
   },
   "story_targets": 361,
@@ -47,7 +52,7 @@
     "scenario": 3323,
     "js": 103
   },
-  "receipt_scope": "Delta 24 as actually published and installed; the two newly user-accepted image reproductions are staged for the next cumulative delta, not included in this receipt.",
-  "next_accepted_images": "logo-aspect-reproduction-20261003.json",
-  "evidence_root": "D:\\magia\\deliveries\\game-resource-final-20261003-evidence"
+  "receipt_scope": "Final cumulative delta25, including both user-accepted image reproductions; all 361 latest client story targets integrated. Actual installed bytes verified after normal online update.",
+  "evidence_root": "D:\\magia\\deliveries\\game-resource-final-20261003-evidence",
+  "accepted_images": "logo-aspect-reproduction-20261003.json"
 }
