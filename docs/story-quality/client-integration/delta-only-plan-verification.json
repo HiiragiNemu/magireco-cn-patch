@@ -1,0 +1,29 @@
+{
+  "source_revision": "85abae76b0aeb6668c17fd4cf8446ad6e7119a8c",
+  "production_ready": false,
+  "client_source_integrated": false,
+  "delta_config_integrated": false,
+  "story_changes_against_frozen_scenario": 359,
+  "previous_payload_count": 235,
+  "old_scenario_paths": 128,
+  "all_candidate_paths": 361,
+  "required_delta_paths": 596,
+  "required_scenario_paths": 489,
+  "final_source_checks": 14340,
+  "new_package_built": false,
+  "published": false,
+  "negative_cases": [
+    {
+      "case": "old_zip_inventory_relabelled_in_memory",
+      "blocked": true,
+      "error": "Cumulative delta omitted required/previously owned paths: ['madomagi/resource/scenario/json/adv/scenario_1/101507-7_3hUBN.json', 'madomagi/resource/scenario/json/adv/scenario_3/324011-3.json', 'madomagi/resource/scenario/json/adv/scenario_3/324011-4.json', 'madomagi/resource/scenario/json/adv/scenario_4/420131-1.json', 'madomagi/resource/scenario/json/adv/scenario_4/420131-2.json', 'madomagi/resource/scenario/json/adv/scenario_4/420131-3.json', 'madomagi/resource/scenario/json/adv/scenario_4/420131-4.json', 'madomagi/resource/scenario/json/adv/scenario_5/511110-10_Qep4x.json']"
+    },
+    {
+      "case": "all_required_paths_but_old_story_bytes_in_memory",
+      "blocked": true,
+      "error": "Stale delta differs from authoritative integrated source: madomagi/resource/scenario/json/adv/scenario_1/101507-7_3hUBN.json"
+    }
+  ],
+  "baseline_lock_sha256": "f26fcdd083e7a5d1bcbb735357fc15e2bfdaf907d936805110bdf56be0b2dd75",
+  "plan_sha256": "ad92da5963308c474622cf9b79d96bd1d995a9241107ad3b12349d3a3baf35e2"
+}

@@ -1,3 +1,7 @@
+# Reader交付已完成，游戏delta交付另计
+
+2026-10-03T05:35:51.691058+00:00：最终361目标已在Reader正式部署并验收，游戏侧仍待客户端窗口仅累计delta发行。本次没有新增翻译贡献，不改原694/385游戏发布账、旧498登记和历史候选。详见`delivery-status.json`及`../reader-final-20261003/receipt.json`。新发布政策位于`../client-integration/release-policy.json`。
+
 <!-- HELD-BATCH17-AMENDMENTS -->
 ## 第17批：361目标不变，追加824处漏改机翻
 

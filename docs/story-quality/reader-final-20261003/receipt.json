@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "status": "reader_deployed_and_verified_client_delta_pending",
+  "verified_at": "2026-10-03T05:35:51.691058+00:00",
+  "reader_data_commit": "bafe7a64a5b3537302e5d43679448d23c4a7ac8f",
+  "reader_source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+  "reader_deployment_id": "2086f41c-5f7d-4ad4-b082-4505679ab7a9",
+  "reader_immutable_url": "https://2086f41c.magireader.pages.dev",
+  "reader_url": "https://magireader.pages.dev",
+  "reader_inputs": 601,
+  "reader_json_targets": 361,
+  "reader_exports": 240,
+  "actually_changed_inputs": 599,
+  "data": {
+    "passed": true,
+    "source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+    "input_files": 601,
+    "target_json": 361,
+    "txt_exports": 240,
+    "catalog_stories": 3054,
+    "catalog_unchanged": true,
+    "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+    "catalog_shards": 256,
+    "source_pack_files": 610,
+    "packed_source_members_checked": 27406,
+    "all_final_targets_match": true,
+    "search": {
+      "magireco": {
+        "entries": 4681,
+        "chunks": 68,
+        "sha256": "4089c83c2b5026e051c66589060e2c5561888d6830dd584b65145bb53b5f5b0b"
+      },
+      "exedra": {
+        "entries": 903,
+        "chunks": 13,
+        "sha256": "273e38b69ae59eafcbc71df9aa85291a9a99d45cbf6748c36bce247ff26cb7ce"
+      }
+    },
+    "deployment_asset_count": 12012,
+    "worker_present": true,
+    "verified_at": "2026-10-03T05:20:41.070855+00:00"
+  },
+  "online": {
+    "source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+    "checked_at": "2026-10-03T05:30:13.133928+00:00",
+    "total": 2929,
+    "passed": 2929,
+    "failed": 0,
+    "retries": 0,
+    "authorized_196_all_covered": true,
+    "categories": {
+      "final_reviewed_json": 424,
+      "final_reviewed_export": 120,
+      "act2_export": 103,
+      "preserved_source_json": 1264,
+      "protected_human_export": 63,
+      "index_or_manifest": 7,
+      "catalog_shard": 256,
+      "source_pack": 610,
+      "search_chunk": 81,
+      "other_game_regression": 1
+    }
+  },
+  "new_text_browser_checks": 10,
+  "ui_preservation_checks": 11,
+  "python_tests": 612,
+  "python_skipped": 3,
+  "node_tests": 732,
+  "node_failed": 0,
+  "production_dependency_audit": "zero vulnerabilities",
+  "adv_release": {
+    "schema": 1,
+    "source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+    "deployment": "https://2086f41c.magireader.pages.dev",
+    "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+    "shard_prefix": "/story-json-catalog/v1/",
+    "published_at": "2026-10-03T05:30:19.562Z"
+  },
+  "all_other_project_configuration_preserved": true,
+  "client_runtime_written_by_this_task": false,
+  "game_package_built_or_published": false,
+  "client_manifest_sha256": "f4db42783439dc15e2cb94cdcc10857c5e40c8d2e020b4004891bf9e5cc258a1",
+  "reader_input_manifest_sha256": "1972b526cbfc2029c3d1782661e334f7c35d8f3e9c81d4b7467cae4f8faa122c",
+  "game_release_policy": "delta_only_cumulative",
+  "game_delivery_still_pending": 361,
+  "known_first_review_remaining": 0,
+  "known_identified_residual_review_remaining": 0,
+  "ci_deployment_note": "First run missed declared OpenCC dependency, fixed in b06987d3. Second run passed checks/build but its separate CI Cloudflare voice-binding preflight returned 403. Final production used the existing local Wrangler session, refreshed via official CLI; no account/permission/secret change. Both failed CI records are retained.",
+  "ci_runs": [
+    37098698110,
+    37098949139
+  ],
+  "evidence_root": "D:\\magia\\deliveries\\reader-story-final-production-20261003",
+  "voice_checks": {
+    "passed": true,
+    "checks": 34,
+    "ogg_complete_reads": 32,
+    "hca_range_reads": 2
+  }
+}

@@ -17,7 +17,7 @@
   "combined_text_address_changes": 11226,
   "source_drift_requires_reconciliation": [],
   "schema": 5,
-  "updated_at": "2026-10-03T03:17:32.138079+00:00",
+  "updated_at": "2026-10-03T05:35:51.691058+00:00",
   "canonical_repository": "HiiragiNemu/magireco-cn-patch",
   "entry": "docs/story-quality/unreleased/20261003-semantic-batch17-ai-only-held/README.md",
   "published_baseline_version": 3322,
@@ -151,5 +151,19 @@
   "residual_review_remaining_fields": 0,
   "residual_review_remaining_scripts": 0,
   "remaining_scope_summary": "docs/story-quality/unreleased/20261003-semantic-batch17-ai-only-held/remaining-status-summary.json",
-  "remaining_scope_paths": "docs/story-quality/unreleased/20261003-semantic-batch17-ai-only-held/scope-status.tsv"
+  "remaining_scope_paths": "docs/story-quality/unreleased/20261003-semantic-batch17-ai-only-held/scope-status.tsv",
+  "published_accounting_scope": "game/client delivery; Reader status recorded independently",
+  "reader_delivery": {
+    "deployed": true,
+    "source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+    "deployment_id": "2086f41c-5f7d-4ad4-b082-4505679ab7a9",
+    "targets": 361,
+    "receipt": "docs/story-quality/reader-final-20261003/receipt.json"
+  },
+  "client_delivery": {
+    "published": false,
+    "policy": "delta_only_cumulative",
+    "pending_targets": 361
+  },
+  "game_release_policy": "docs/story-quality/client-integration/release-policy.json"
 }

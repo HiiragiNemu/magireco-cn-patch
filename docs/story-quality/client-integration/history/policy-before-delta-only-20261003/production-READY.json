@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "reader_deployed_and_verified_client_delta_pending",
+  "status": "data_generated_in_isolation_and_inputs_ready_not_published",
   "canonical_repository": "HiiragiNemu/magireco-cn-patch",
   "known_first_review_pending": 0,
   "known_identified_residual_review_pending": 0,
@@ -14,20 +14,20 @@
   "reader_base": "afc37211ca1eb6c6970c4dce7b2ff0d3e9c8c7d6",
   "reader_local_validation_source_not_remote": "662e24f62f656ec9e71edd1ae7b4f096ca4d14fb",
   "reader_data_generated_and_verified": true,
-  "reader_production_runtime_integrated": true,
+  "reader_production_runtime_integrated": false,
   "client_runtime_integrated": false,
-  "production_build_ready": true,
-  "full_application_build_run": true,
+  "production_build_ready": false,
+  "full_application_build_run": false,
   "published": false,
-  "deployment_performed": true,
+  "deployment_performed": false,
   "data_product_manifest": "docs/story-quality/production-handoff/production-file-manifest.json.gz",
   "data_product_manifest_sha256": "4f80daee466f50a706df7f1fd8499af6cc076fd2e102d827756b60240a8e27e9",
   "local_data_root": "D:\\magia\\deliveries\\reader-production-20260930-1226\\production-readiness-20261003\\reader-build",
   "client_staged_inputs": "D:\\magia\\deliveries\\reader-production-20260930-1226\\production-readiness-20261003\\staged-client-delivery",
   "reader_staged_inputs": "D:\\magia\\deliveries\\reader-production-20260930-1226\\production-readiness-20261003\\staged-reader-delivery",
-  "requires_actual_main_integration_and_regeneration_before_deploy": false,
+  "requires_actual_main_integration_and_regeneration_before_deploy": true,
   "files": {
-    "README.md": "e544d0a4c1ebf6b7e130f04bee73ebf1512f4f72492445bf39ae01ef9f3a4499",
+    "README.md": "4d91268fe1b3560ad1bcfded4c1e59b1562e143ce33e283d4bf7debcecbcf095",
     "reader_inputs.py": "7301bd3769bf1845ff29e675d2494146d5770b22cc28ff462408cbf06a7c6dad",
     "test_reader_inputs.py": "bb17b1b5add820b942a0a8314550ea6be08381abbd96670835ca6ce138b35711",
     "reader-input-manifest.json.gz": "1972b526cbfc2029c3d1782661e334f7c35d8f3e9c81d4b7467cae4f8faa122c",
@@ -47,16 +47,6 @@
     "tools/validate_handoff_tools.py": "b2b19ea0056efcdcee6031029e27196456745afec56be7cd46a26d40be6f26be",
     "tools/prepare_inputs.py": "a92e78bdbc57a5d8ee88451482e24f53e4eb96039ac9c15de9f88c3cb126b03f",
     "tools/restore_snapshot_bytes.py": "cbd212d05c9102acf0953782372e173da85e2fa49458b5c3c17a961169d56b35",
-    "generator-log-evidence.json.gz": "7dcb0083371acead3fec492ee9fc303fa2cd4b10b5f0eea626a5701ba7932680",
-    "PASTE_TO_CLIENT_WINDOW.md": "6ac3327c20d6bddeb7f0a2e467ba742155421336f7f729e8c96b64046eaff89a"
-  },
-  "reader_production_source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
-  "reader_production_deployment": "2086f41c-5f7d-4ad4-b082-4505679ab7a9",
-  "reader_delivery_receipt": "docs/story-quality/reader-final-20261003/receipt.json",
-  "reader_published": true,
-  "client_published": false,
-  "game_package_published": false,
-  "published_flag_scope": "all requested deliverables; game delta still pending",
-  "game_release_policy": "docs/story-quality/client-integration/release-policy.json",
-  "updated_at": "2026-10-03T05:35:51.691058+00:00"
+    "generator-log-evidence.json.gz": "7dcb0083371acead3fec492ee9fc303fa2cd4b10b5f0eea626a5701ba7932680"
+  }
 }
