@@ -1,0 +1,149 @@
+{
+  "local_candidate_source": "662e24f62f656ec9e71edd1ae7b4f096ca4d14fb",
+  "client_manifest_sha256": "f4db42783439dc15e2cb94cdcc10857c5e40c8d2e020b4004891bf9e5cc258a1",
+  "checks": [
+    {
+      "name": "story-index",
+      "args": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "generate_story_index.py"
+      ],
+      "cwd_relative": ".",
+      "exit_code": 0,
+      "seconds": 123.811,
+      "log_sha256": "431896b94bc76ea7404363cd62458612bd81fd188c450c0980ae11148d5ae9a8"
+    },
+    {
+      "name": "tw-metadata",
+      "args": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "tools/apply_tw_official_metadata.py"
+      ],
+      "cwd_relative": ".",
+      "exit_code": 0,
+      "seconds": 0.388,
+      "log_sha256": "60c3f7d9298a621d975a7645825101eccad82da07bd5febd9c38786a64d9cc6a"
+    },
+    {
+      "name": "voice-manifest",
+      "args": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "tools/generate_story_voice_manifest.py"
+      ],
+      "cwd_relative": ".",
+      "exit_code": 0,
+      "seconds": 14.654,
+      "log_sha256": "7af9bdadf57db3d2853bb7e15850bb73813bb2819f89d59da7cb3087a7231d41"
+    },
+    {
+      "name": "voice-validate",
+      "args": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "tools/generate_story_voice_manifest.py",
+        "--validate-only"
+      ],
+      "cwd_relative": ".",
+      "exit_code": 0,
+      "seconds": 13.134,
+      "log_sha256": "62a9358def71d0aa70943298427b5286ce53cd41daa704ba6af5eadc17c8ea1c"
+    },
+    {
+      "name": "machine-manifest",
+      "args": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "generate_machine_translation_manifest.py",
+        "--translation-base",
+        "65f221f2aaa5a9fe161ed32e03e4dfbb93d4746d",
+        "--translation-commit",
+        "3d463befe7a10d4cb72034378ce2a6f23c377abb",
+        "--source-ref",
+        "662e24f62f656ec9e71edd1ae7b4f096ca4d14fb"
+      ],
+      "cwd_relative": ".",
+      "exit_code": 0,
+      "seconds": 57.904,
+      "log_sha256": "9168c001330fbe5c0f557bc134afe810762c04e0fe1491f60b4016d43f95e244"
+    },
+    {
+      "name": "split-search",
+      "args": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "tools/build_split_search_indexes.py"
+      ],
+      "cwd_relative": ".",
+      "exit_code": 0,
+      "seconds": 8.454,
+      "log_sha256": "db7695e1e9dfd8dcc99d52e88932a66eeec5783ba9e4b6ad1c53b43c5111915e"
+    },
+    {
+      "name": "search-validate",
+      "args": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "tools/build_split_search_indexes.py",
+        "--validate-only"
+      ],
+      "cwd_relative": ".",
+      "exit_code": 0,
+      "seconds": 8.033,
+      "log_sha256": "db7695e1e9dfd8dcc99d52e88932a66eeec5783ba9e4b6ad1c53b43c5111915e"
+    },
+    {
+      "name": "search-chunks",
+      "args": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "../tools/search_chunk_delivery.py",
+        "materialize"
+      ],
+      "cwd_relative": "website",
+      "exit_code": 0,
+      "seconds": 0.295,
+      "log_sha256": "844d286cec42b9b07957156f8f788d88d5296a71b4d829974a1d7557bae0a33f"
+    },
+    {
+      "name": "chunks-validate",
+      "args": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "../tools/search_chunk_delivery.py",
+        "verify-tree",
+        "--root",
+        "public"
+      ],
+      "cwd_relative": "website",
+      "exit_code": 0,
+      "seconds": 0.172,
+      "log_sha256": "6c0ebbb5c8f2cbd93fbf61a55dc56b454ab77db36dec94823f9260ba147878d7"
+    },
+    {
+      "name": "json-catalog-packs",
+      "args": [
+        "node",
+        "--experimental-strip-types",
+        "scripts/build-story-json-catalog.ts"
+      ],
+      "cwd_relative": "website",
+      "exit_code": 0,
+      "seconds": 24.65,
+      "log_sha256": "e8a050f1685530726d62124a56a81a23e36ded21d157133473bd37b75ddb32f3"
+    },
+    {
+      "name": "other-text-validate",
+      "args": [
+        "C:\\Users\\proje\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "tools/verify_other_text.py",
+        "--root",
+        "website/public"
+      ],
+      "cwd_relative": ".",
+      "exit_code": 0,
+      "seconds": 0.311,
+      "log_sha256": "fb1ca659c6d5f20c53090259d66579ae61944e9629d2f4fa5262e0b1f64a5fe9"
+    }
+  ],
+  "published": false,
+  "production_runtime_modified": false,
+  "passed": true,
+  "completed_at": "2026-10-03T04:34:30.816544+00:00",
+  "full_next_worker_build_performed": false,
+  "deploy_performed": false,
+  "game_package_created": false
+}

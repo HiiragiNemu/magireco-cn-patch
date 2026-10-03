@@ -12,14 +12,15 @@ def command(args,cwd=None,env=None,data=None):
 
 def main():
  guard();assert not (W/'production-result.json').exists(),'Already generated: verify existing products instead'
- bases=read('bases.json');assert git('reader','rev-parse','origin/main').decode().strip()==bases['reader']
+ bases=read('bases.json');now=tree('reader','origin/main');frozen=tree('reader',bases['reader']);assert {p:h for p,h in now.items() if not p.startswith('docs/story-quality/') and p!='STORY_QUALITY_HANDOFF.md'}=={p:h for p,h in frozen.items() if not p.startswith('docs/story-quality/') and p!='STORY_QUALITY_HANDOFF.md'},'Production source changed; reconcile before building'
  overlays={e['path']:e for e in read('reader-candidates.json')['files']};exports=json.loads(gzip.decompress((W/'cumulative-reader-exports.json.gz').read_bytes()))['files'];assert not set(overlays)&set(exports)
  before=tree('reader',bases['reader']);inputs={}
  for p,e in {**overlays,**exports}.items():
   assert before[p]==e['source_blob'];raw=(W/'reader-inputs'/p).read_bytes();assert sha(raw)==e['candidate_sha256'] and blob(raw)==e['candidate_blob'];inputs[p]=raw
  assert len(inputs)==601
- if not B.exists():
-  command(['git','init','--bare',str(B)]);alt=B/'objects/info/alternates';alt.parent.mkdir(exist_ok=True);alt.write_text(str(R/'.git/objects').replace('\\','/')+'\n',encoding='utf8')
+ if not (W/'candidate-snapshot.json').exists():
+  if not B.exists():command(['git','init','--bare',str(B)])
+  alt=B/'objects/info/alternates';alt.parent.mkdir(exist_ok=True);alt.write_bytes((str(R/'.git/objects').replace('\\','/')+'\n').encode('utf8'))
   env=os.environ.copy()|{'GIT_INDEX_FILE':str(W/'isolated-candidate.index'),'GIT_AUTHOR_NAME':'Story Production Verification','GIT_AUTHOR_EMAIL':'verification@localhost','GIT_COMMITTER_NAME':'Story Production Verification','GIT_COMMITTER_EMAIL':'verification@localhost'}
   command(['git','--git-dir='+str(B),'read-tree',bases['reader']],env=env);rows=[]
   for p,raw in inputs.items():
@@ -31,7 +32,7 @@ def main():
   assert not S.exists(),'Partial extraction exists; inspect instead of deleting blindly';S.mkdir()
   # No font/model/game package binaries are copied or delivered. Generators use their tracked JSON/TXT inputs.
   skipped=[];files=0;total=0
-  proc=subprocess.Popen(['git','--git-dir='+str(B),'archive','--format=tar',ref],stdout=subprocess.PIPE,stderr=open(W/'snapshot-archive-stderr.log','wb'))
+  proc=subprocess.Popen(['git','-c','core.autocrlf=false','-c','core.eol=lf','--git-dir='+str(B),'archive','--format=tar',ref],stdout=subprocess.PIPE,stderr=open(W/'snapshot-archive-stderr.log','wb'))
   with tarfile.open(fileobj=proc.stdout,mode='r|') as archive:
    for m in archive:
     if m.isdir():continue

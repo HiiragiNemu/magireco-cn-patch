@@ -1,0 +1,76 @@
+{
+  "passed": true,
+  "current_client_freshness": {
+    "passed": true,
+    "remote_main": "f4121a218650483382192306a229124df7752c4c",
+    "manifest_sha256": "f4db42783439dc15e2cb94cdcc10857c5e40c8d2e020b4004891bf9e5cc258a1",
+    "targets": 361,
+    "field_changes": 11226,
+    "publication_performed": false,
+    "runtime_changed": false,
+    "note": "This gate checks freshness only. Existing source, integrated-source, ZIP and device gates remain mandatory."
+  },
+  "source_refs": {
+    "reader": "fdfefcc98c5b6b176a2dcb14294c431311e23658",
+    "patch": "f4121a218650483382192306a229124df7752c4c"
+  },
+  "steps": [
+    {
+      "name": "current-client-freshness",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "stdout_sha256": "fc11b5d5480de37ff1472a00e062209bf66ecd2447bc2b3ec1cd297a0dd73b03",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "client-contract-tests",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0594ca2329ee10982a56692fb942288ba10bef4338d45816b701437dc773a726"
+    },
+    {
+      "name": "client-stage",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "stdout_sha256": "2dc5e61975bd22ce8f70101060553295100e266d0ee753de0bd510adfb15738e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "client-not-integrated",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "fd88b1c8d3ac5f17dbb09bc358aaf8c23f91e03beb74cbce58a4d9103e2fea0e"
+    },
+    {
+      "name": "reader-stage",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "stdout_sha256": "725142b9d451152936f81e2ccc1dc5e4c98a00f3b724f928ee45999b1d7a3c22",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "reader-not-integrated",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0a2091ba942da1a027fdf3b2150f1817f302605219cf5268d2413a54c4222303"
+    }
+  ],
+  "client_staged_target_count": 361,
+  "client_state_counts": {
+    "staged_only": 359,
+    "already_integrated": 2
+  },
+  "reader_staged_input_count": 601,
+  "reader_state_counts": {
+    "staged_only": 599,
+    "already_integrated": 2
+  },
+  "client_output": "D:\\magia\\deliveries\\reader-production-20260930-1226\\production-readiness-20261003\\staged-client-delivery",
+  "reader_output": "D:\\magia\\deliveries\\reader-production-20260930-1226\\production-readiness-20261003\\staged-reader-delivery",
+  "unintegrated_sources_correctly_blocked": true,
+  "published": false,
+  "runtime_modified": false
+}
