@@ -1,3 +1,11 @@
+<!-- HELD-BATCH17-AMENDMENTS -->
+## 第17批：361目标不变，追加824处漏改机翻
+
+235个既有候选已改进，累计11226字段。旧10402记录的值/顺序保留；活动候选版本在active-candidate-generations.json，旧361行索引快照在客户端history/c05ab3b7383178945fa045d9b3cd0709e4f8cf96e59e1b97f1c3cc9ff5625a72/ledger-snapshot/。不是新增824篇或新增235篇；694发布账、361未发布目标、24已核销来源项不变。
+
+[本批记录](../unreleased/20261003-semantic-batch17-ai-only-held/README.md)；[客户端最新READY](../client-integration/READY.json)，整合前必须使用current_ready_gate.py与远端main核对SHA，不只比较目标数。运行资源和发布均未改动。
+<!-- /HELD-BATCH17-AMENDMENTS -->
+
 <!-- HELD-BATCH16-AMENDMENTS -->
 ## 第16批：361目标不变，追加90处漏改机翻
 
