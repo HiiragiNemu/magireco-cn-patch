@@ -37,6 +37,7 @@ jobs:
           python-version: '3.12'
       - name: Preserve existing product and cumulative overlay regression checks
         run: |
+          node tools/test-default-player-display-name.cjs .
           node tools/test-uwasa-names.cjs .
           node tools/test-double-home-caption.cjs .
           node tools/test-title-localization.cjs .

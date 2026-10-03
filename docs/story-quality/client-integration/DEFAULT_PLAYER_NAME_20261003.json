@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "requirement": "默认玩家名 TOTENTANZ 显示为小丘比；其他名字保持原值。",
+  "scope": "JS response display-name fields only; no account ID, invite code, save identifier, arbitrary text, or story-file rewrite.",
+  "fields": [
+    "loginName",
+    "userName",
+    "username",
+    "topUserName",
+    "gameUser.name"
+  ],
+  "custom_name_status": "Existing ConfigTopView menu and userChangeName request observed; persistence across restart is NOT verified and no new rename feature is claimed.",
+  "tests": {
+    "command": "node tools/test-default-player-display-name.cjs .",
+    "assertions": 55,
+    "passed": true,
+    "existing_regression_commands_passed": 25
+  },
+  "native_scenario_name": "Existing nativeCommand.js passes user.loginName; retained unchanged.",
+  "apk_unchanged": "1.0.204",
+  "scenario_unchanged": 3323,
+  "full_js_unchanged": 103,
+  "device_interaction": "None; user requested no repeated game entry.",
+  "release_status": "Awaiting cumulative delta publication"
+}
