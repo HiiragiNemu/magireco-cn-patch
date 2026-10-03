@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "verified_at": "2026-10-03T05:40:08.645078+00:00",
+  "reader_source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+  "reader_deployment_id": "2086f41c-5f7d-4ad4-b082-4505679ab7a9",
+  "reader_main": "27cfb31b98774abc909f9adf3fca0538b7ae5b2f",
+  "patch_main_before_final_proof": "66a679183c9e99af035354b062a1899ec2321d11",
+  "reader_inputs_verified": 601,
+  "client_targets_still_pending": 361,
+  "patch_documents_verified": 39,
+  "reader_pointers_verified": 3,
+  "old_contribution_paths_preserved": 21,
+  "client_manifest_unchanged": true,
+  "policy_sha256": "21b682d4ddf813901063608e6b88401677ad772a0eea2c44b428fe3183dad896",
+  "reader_cumulative_copies": 0,
+  "public_cumulative_copies": 0,
+  "original_reader_worktree_preserved": true,
+  "all_three_live_reader_revisions_match": true,
+  "live_reader_and_adv": {
+    "/adv-release-build.json": {
+      "schema": 1,
+      "source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+      "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+      "catalog_bytes": 8638040,
+      "stories": 3054,
+      "routes": 3073,
+      "shards": 256,
+      "shard_bytes_max": 276688,
+      "shard_bytes_mean": 145292,
+      "shard_prefix": "/story-json-catalog/v1/",
+      "source_packs": {
+        "schema": 1,
+        "files": 27406,
+        "packs": 654,
+        "raw_bytes": 1369557662,
+        "packed_bytes": 403926101
+      },
+      "auxiliary_source_files": [
+        {
+          "source": "magireco-translate-data-master/Scenarios_full/special/special-chapter-info.txt",
+          "path": "/data/special/special-chapter-info_cn.txt",
+          "bytes": 21049,
+          "sha256": "1e81540d6f6c3f6e75c82c7fa554a7264c0ec8c9641818a1a6919cb32c1656bd",
+          "kind": "chapter-name-metadata"
+        }
+      ]
+    },
+    "/api/adv/release": {
+      "schema": 1,
+      "source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+      "deployment": "https://2086f41c.magireader.pages.dev",
+      "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+      "shard_prefix": "/story-json-catalog/v1/",
+      "published_at": "2026-10-03T05:30:19.562Z"
+    },
+    "/api/proofreading/config": {
+      "submissions_enabled": false,
+      "turnstile_site_key": "",
+      "target_branch": "main",
+      "source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+      "github_admin_auth": false,
+      "shared_admin_auth": false,
+      "server_pr_creation": false,
+      "turnstile_test_mode": false
+    }
+  },
+  "delta_only_cli_passed": true,
+  "delta_only_tests": 21,
+  "game_package_published_by_this_task": false,
+  "client_pointer": {
+    "path": "D:\\magia\\deliveries\\resource-integrity-20261002-src\\.build\\finish-20261003\\TRANSLATION_WINDOW_HANDOFF.md",
+    "sha256": "1ab24aa17ace5faaa8c3c096524e8110d2f213884de72bb11e6e38f5a51b7489",
+    "previous_sha256": "f33b94ae64eff81185432f77157e01aac3bb754124558e279f6b4efee8ec0ba8",
+    "previous_text_preserved": true,
+    "reader_source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+    "policy_sha256": "21b682d4ddf813901063608e6b88401677ad772a0eea2c44b428fe3183dad896",
+    "client_acknowledged": false,
+    "client_runtime_or_workflow_changed": false
+  }
+}

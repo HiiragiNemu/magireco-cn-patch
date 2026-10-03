@@ -111,7 +111,14 @@ def main():
  p.add_argument('--manifest-sha256',required=True);p.add_argument('--repo',required=True);p.add_argument('--ref',default='HEAD')
  sub=p.add_subparsers(dest='action',required=True);s=sub.add_parser('plan');s.add_argument('--out',required=True,type=Path)
  v=sub.add_parser('verify');v.add_argument('--new-delta',required=True,type=Path);v.add_argument('--version-json',required=True,type=Path);v.add_argument('--manifest-json',required=True,type=Path)
- a=p.parse_args();check_current(a.repo,a.manifest,a.manifest_sha256);packet=load_packet(a.manifest,a.manifest_sha256);packet['manifest_sha256']=a.manifest_sha256
+ a=p.parse_args();fresh=check_current(a.repo,a.manifest,a.manifest_sha256)
+ current=json.loads(git(a.repo,'show',fresh['remote_main']+':docs/story-quality/client-integration/READY.json'))
+ policy_raw=git(a.repo,'show',fresh['remote_main']+':'+current['publication_policy_path']);policy=json.loads(policy_raw)
+ require(sha(policy_raw)==current['publication_policy_sha256'] and policy.get('mode')=='delta_only_cumulative','Current release policy is missing, changed or not delta-only')
+ require(policy.get('candidate_manifest_sha256')==a.manifest_sha256,'Release policy belongs to another translation manifest')
+ remote_lock=git(a.repo,'show',fresh['remote_main']+':'+policy['baseline_lock'])
+ require(sha(a.baseline_lock.read_bytes())==sha(remote_lock),'Local baseline lock differs from current canonical handoff')
+ packet=load_packet(a.manifest,a.manifest_sha256);packet['manifest_sha256']=a.manifest_sha256
  scenario,full,prev=map(inventory,[a.scenario,a.full_js,a.previous_delta]);lock=json.loads(a.baseline_lock.read_bytes())
  plan=make_plan(a.repo,a.ref,packet,scenario,full,prev,lock,require_integrated=a.action=='verify')
  if a.action=='plan':
