@@ -23,7 +23,57 @@
 	<div class="c_red" style="margin-top:20px;">※小组名可不限次数更改</div>
 </script>
 <!-- ミッション -->
-<script type="text/template" id="MissionPartsTemp"> <div class="popupInner">
+<script type="text/template" id="MissionPartsTemp"><style data-cn-mission-layout="20261003">/* Mission-owned styles remain with the popup when page CSS is replaced. */
+#MissionContainer #allReserve.off,#MissionContainer .wrap .missionBtn{filter:grayscale();-webkit-transform:translateZ(0);transform:translateZ(0)}
+#MissionContainer .popupInner{left:-webkit-calc(50% - 492px);top:-webkit-calc(50% - 269px);position:absolute;width:984px!important;height:538px!important}
+#MissionContainer{-webkit-animation:.3s both popup_open}
+#MissionContainer.close{-webkit-animation:.3s both popup_close}
+#MissionContainer #missionScrollWrap{width:896px;height:-webkit-calc(100% - 44px);top:12px;left:46px;overflow:hidden}
+#MissionContainer #allReserve{z-index:100;width:130px;filter:unset;position:absolute;top:11px;right:24px}
+#MissionContainer #allReserve.hide{display:none}
+#MissionContainer .missionList{width:100%;height:auto;min-height:100%;padding-bottom:50px;padding-right:0;position:relative}
+#MissionContainer .missionList .noMission{width:100%;top:-webkit-calc(50% - 10px);text-align:center;padding-left:18px;font-size:20px;position:absolute;left:0}
+#MissionContainer .wrap{background:url(/magica/resource/image_web/regularEvent/groupBattle/common2/bg_list_l.png) 0 0 no-repeat;width:870px;height:104px;margin:10px 0 10px 5px;padding:20px;position:relative}
+#MissionContainer .wrap .commonItemImgWrap{-ms-flex-flow:wrap;flex-flow:wrap;justify-content:flex-end;align-items:center;width:74px;height:100%;display:-webkit-box;display:-ms-flexbox;display:flex;position:absolute;top:0;left:0}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet{background:url(/magica/resource/image_web/item/main/item_bg.png) 0/74px 74px no-repeat}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase{width:50px;height:50px;top:-webkit-calc(50% - 25px);left:-webkit-calc(50% - 25px);background-color:#4d4462;border-radius:5px;padding:5px;position:absolute}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner{background-color:#736080;border-radius:5px;width:40px;height:40px;position:relative}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols{background-color:#736080;width:10px;height:10px;position:absolute}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.on{background-color:#f4e0ca}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation1,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation4,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation7{top:27px}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation2,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation5,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation8{top:15px}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation3,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation6,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation9{top:3px}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation1,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation2,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation3{left:3px}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation4,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation5,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation6{left:15px}
+#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation7,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation8,#MissionContainer .wrap .commonItemImgWrap.formation_sheet .formationBase .formationInner .cols.formation9{left:27px}
+#MissionContainer .wrap .commonItemImgWrap.live2d{background:url(/magica/resource/image_web/item/main/live2d.png) 0/74px 74px no-repeat}
+#MissionContainer .wrap .commonItemImgWrap.doppel{background:url(/magica/resource/image_web/item/main/doppel.png) 0/74px 74px no-repeat}
+#MissionContainer .wrap .commonItemImgWrap .commonItemImg{width:74px}
+#MissionContainer .wrap .commonItemImgWrap .quantity{color:#fff;text-shadow:-1px -1px 1px #8a5f29,1px -1px 1px #8a5f29,-1px 1px 1px #8a5f29,1px 1px 1px #8a5f29,-1px -1px #8a5f29,1px -1px #8a5f29,-1px 1px #8a5f29,1px 1px #8a5f29,-1px -1px 2px #8a5f29,1px -1px 2px #8a5f29,-1px 1px 2px #8a5f29,1px 1px 2px #8a5f29,-1px -1px 2px #8a5f29,1px -1px 2px #8a5f29,-1px 1px 2px #8a5f29,1px 1px 2px #8a5f29,-1px -1px 3px #8a5f29,1px -1px 3px #8a5f29,-1px 1px 3px #8a5f29,1px 1px 3px #8a5f29;position:absolute}
+#MissionContainer .wrap .commonItemImgWrap .charaIcon{width:58px;height:52px;position:absolute;bottom:5px;right:-12px}
+#MissionContainer .wrap .commonItemImgWrap .charaIcon:before{content:"";width:58px;height:52px;top:0;left:-webkit-calc(50% - 29px);z-index:100;background:url(/magica/resource/image_web/common/chara/chara_frame_S.png) 0 0/100% 100% no-repeat;display:block;position:absolute}
+#MissionContainer .wrap .commonItemImgWrap .charaIcon:after{content:"";width:58px;height:52px;top:0;left:-webkit-calc(50% - 29px);z-index:80;background:url(/magica/resource/image_web/common/chara/chara_base_S.png) 0 0/100% 100% no-repeat;display:block;position:absolute}
+#MissionContainer .wrap .commonItemImgWrap .charaIcon .maskWrap{width:52px;height:52px;top:0;left:-webkit-calc(50% - 26px);z-index:90;border-radius:26px;position:absolute;overflow:hidden}
+#MissionContainer .wrap .commonItemImgWrap .charaIcon .maskWrap img{width:60px;height:auto;top:0;left:-webkit-calc(50% - 30px);position:absolute}
+#MissionContainer .wrap .commonItemImgWrap{top:0;left:45px}
+#MissionContainer .wrap .commonItemImgWrap .quantity{color:#fff;font-size:16px;position:absolute;bottom:4px;right:0}
+#MissionContainer .wrap .missionTitleWrap{text-align:left;color:#fff;width:546px;height:60px;font-size:16px;display:block;position:absolute;top:20px;left:140px;overflow:hidden}
+#MissionContainer .wrap .missionBtn{pointer-events:none;color:#fff;text-shadow:2px 0 2px #9931bb,-2px 0 2px #9931bb,0 2px 2px #9931bb,0 -2px 2px #9931bb,2px 2px 2px #9931bb,-2px 2px 2px #9931bb,2px -2px 2px #9931bb,-2px -2px 2px #9931bb;background:url(/magica/resource/image_web/regularEvent/groupBattle/common2/btn_mission_c.png) top no-repeat;background-size:-webkit-calc(100% - 30px) 64px;min-width:162px;font-size:19px;position:absolute;top:20px;right:15px}
+#MissionContainer .wrap .missionBtn:before{background:url(/magica/resource/image_web/regularEvent/groupBattle/common2/btn_mission_l.png) 0 0 no-repeat;width:39px}
+#MissionContainer .wrap .missionBtn:after{background:url(/magica/resource/image_web/regularEvent/groupBattle/common2/btn_mission_r.png) 0 0 no-repeat;width:39px}
+#MissionContainer .wrap.clear .missionBtn{pointer-events:auto;filter:none;-webkit-transform:none;transform:none}
+#MissionContainer .wrap.clear:before{content:"";z-index:2;background:url(/magica/resource/image_web/regularEvent/groupBattle/common/mission_clear.png) 0 0 no-repeat;width:66px;height:68px;position:absolute;top:1px;left:0}
+/* Keep the existing mission artwork and controls, sized inside this popup. */
+#MissionContainer > .popupInner {left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 48px)!important;max-width:984px;height:calc(100% - 64px)!important;max-height:538px;min-height:0;overflow:visible;}
+#MissionContainer .popupTitle {width:100%;margin:0;height:44px;line-height:44px;font-size:22px;}
+#MissionContainer #missionScrollWrap {position:absolute;left:12px;right:12px;top:54px;bottom:10px;width:auto;height:auto;overflow:hidden;}
+#MissionContainer .missionList {padding:0 0 24px;}
+#MissionContainer .wrap {width:100%;margin:0 0 12px;background-size:100% 104px;}
+#MissionContainer .wrap .commonItemImgWrap {left:30px;}
+#MissionContainer .wrap .missionTitleWrap {left:120px;right:194px;width:auto;height:64px;line-height:22px;}
+#MissionContainer #allReserve {right:42px;}
+#MissionContainer > .popupInner > .popupCloseBtn {top:-18px;right:-18px;width:52px;height:52px;z-index:200;background-position:0 0;background-size:52px 51px;background-repeat:no-repeat;pointer-events:auto;}
+</style> <div class="popupInner">
 		<p id="popupInfoDetailTitle" class="popupTitle common_title">任务报酬</p>
 
 		<div id="missionScrollWrap">

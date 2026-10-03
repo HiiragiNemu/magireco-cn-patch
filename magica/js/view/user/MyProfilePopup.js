@@ -1,5 +1,62 @@
-define("underscore backbone backboneCommon ajaxControl cardUtil command".split(" "),function(h,C,a,k,D,r){var n,p,q,l,m="",g=function(){var c=function(e){require(["text!template/user/MyProfilePopup.html"],function(d){n||(n=h.template(d));window.isLocal&&(e=JSON.parse(e));new a.PopupClass({content:"",popupType:"typeB",exClass:"userProfile"});d=k.getPageJson();a.doc.createDocumentFragment();var c=a.doc.createElement("div");l=a.storage.gameUser.toJSON();var f=[];for(i=1;7>i;i++)if(e.userDeck["userCardId"+
-i]){var b=h.findWhere(e.userCardList,{id:e.userDeck["userCardId"+i]});b.attNum=e.userDeck["questPositionId"+i];f.push(b);b=null}a.storage.userStatusList.findWhere({statusId:"BTP"}).get("point");a.storage.userStatusList.findWhere({statusId:"MAX_BTP"}).get("point");var b=a.isRankingRunning({eventList:k.getPageJson().eventList,regularEventList:k.getPageJson().regularEventList}),t=d.userTotalForces&&d.userTotalForces.totalForces?d.userTotalForces.totalForces:0;c.innerHTML=n({model:l,profile:e,support:f,
+define("underscore backbone backboneCommon ajaxControl cardUtil command js/view/user/ProfileLocalState".split(" "),function(h,C,a,k,D,r){
+/* The own-profile endpoint returns an archived snapshot. Resolve only its
+ * editable leader and support fields from the same live storage as MyPage
+ * and DeckFormation; never rewrite another user's profile or save a deck. */
+function cnOwnProfileState(profile) {
+  if (!profile || !a.storage || !a.storage.gameUser) return profile;
+  var own = a.storage.gameUser.toJSON();
+  var owner = profile.userId || (profile.gameUser && profile.gameUser.userId);
+  if (owner && own.userId && String(owner) !== String(own.userId)) return profile;
+  var out = JSON.parse(JSON.stringify(profile));
+  var cards = a.storage.userCardListEx;
+  if (!cards && D && D.createCardList) {
+    D.createCardList();
+    cards = a.storage.userCardListEx;
+  }
+  var list = cards && cards.toJSON ? cards.toJSON() : [];
+  function resolve(id) {
+    for (var j = 0; j < list.length; j++) {
+      var card = list[j];
+      if (card && String(card.id) === String(id) && card.displayCardId && card.card) {
+        return JSON.parse(JSON.stringify(card));
+      }
+    }
+    return null;
+  }
+  var leader = own.leaderId && resolve(own.leaderId);
+  if (leader) out.leaderUserCard = leader;
+  var decks = a.storage.userDeckList;
+  var deckList = decks && decks.toJSON ? decks.toJSON() : [];
+  var deck = null;
+  for (var j = 0; j < deckList.length; j++) {
+    if (deckList[j] && Number(deckList[j].deckType) === 20) {
+      deck = deckList[j];
+      break;
+    }
+  }
+  if (deck) {
+    var selected = [], positions = {}, complete = true;
+    for (var slot = 1; slot <= 6; slot++) {
+      var id = deck['userCardId' + slot];
+      if (!id) continue;
+      var card = resolve(id), position = Number(deck['questPositionId' + slot]);
+      if (!card || position < 1 || position > 6 || position !== Math.floor(position) || positions[position]) {
+        complete = false;
+        break;
+      }
+      positions[position] = true;
+      selected.push(card);
+    }
+    if (complete) {
+      out.userDeck = JSON.parse(JSON.stringify(deck));
+      out.userCardList = selected;
+    }
+  }
+  return out;
+}
+
+var n,p,q,l,m="",g=function(){var c=function(e){require(["text!template/user/MyProfilePopup.html"],function(d){n||(n=h.template(d));window.isLocal&&(e=JSON.parse(e));e=cnOwnProfileState(e);new a.PopupClass({content:"",popupType:"typeB",exClass:"userProfile"});d=k.getPageJson();a.doc.createDocumentFragment();var c=a.doc.createElement("div");l=a.storage.gameUser.toJSON();var f=[];for(i=1;7>i;i++)if(e.userDeck["userCardId"+
+i]){var b=h.findWhere(e.userCardList,{id:e.userDeck["userCardId"+i]});if(!b)continue;b=h.clone(b);b.attNum=e.userDeck["questPositionId"+i];f.push(b);b=null}a.storage.userStatusList.findWhere({statusId:"BTP"}).get("point");a.storage.userStatusList.findWhere({statusId:"MAX_BTP"}).get("point");var b=a.isRankingRunning({eventList:k.getPageJson().eventList,regularEventList:k.getPageJson().regularEventList}),t=d.userTotalForces&&d.userTotalForces.totalForces?d.userTotalForces.totalForces:0;c.innerHTML=n({model:l,profile:e,support:f,
 rankingRunning:b,totalForces:t});a.doc.getElementById("popupArea").getElementsByClassName("popupTextArea")[0].appendChild(c);c=null;d=a.doc.getElementById("myProfStone");d.innerHTML=a.doc.getElementById("money").innerHTML;a.addClass(d.getElementsByClassName("pointWrap")[0],"pointFrame");a.doc.getElementById("followImageWrap").getElementsByClassName("messageInner")[0].textContent=l.comment;secondFrgmnt=null;d=a.doc.getElementById("myProfile");d.getElementsByClassName("miniBtn")[0].addEventListener(a.cgti,
 w);d.getElementsByClassName("titleChangeBtn")[0].addEventListener(a.cgti,x);d.getElementsByClassName("totalForcesHelpBtn")[0].addEventListener(a.cgti,y);d.getElementsByClassName("arenaHelpBtn")[0].addEventListener(a.cgti,z);d.getElementsByClassName("userIdCopyBtn")[0].addEventListener(a.cgti,A);d.getElementsByClassName("arenaSettingPopupBtn")[0].addEventListener(a.cgti,B);var u=function(d){var b="未上榜";if(d.rankingInfo)b=d.rankingInfo.ranking;else{var c="----";d.bottomForces&&(c=d.bottomForces-t,0>
 c&&(c=0));a.doc.getElementById("totalForcesRequire").innerHTML="距上次统计的上榜门槛还差："+c}a.doc.getElementById("totalForcesRanking").innerHTML=b};window.isLocal?require(["text!/magica/json/totalForcesRanking/getRanking.json"],function(a){u(a)}):k.ajaxSimpleGet(a.linkList.getTotalForcesRanking,"",u);r.getBaseData(a.getNativeObj())})};window.isLocal?require(["text!/magica/json/friend/user/1.json"],function(a){c(a)}):k.ajaxSimpleGet(a.linkList.followerProfile,a.storage.gameUser.toJSON().userId,c)},B=function(c){c.preventDefault();

@@ -6,7 +6,7 @@
 	<div id="tabBtnList">
 		<% for(var i = 0; i < length; i++) { %>
 		<div class="tabBtn se_tabs TE <%= statusModel['battle'+(i+1)+'Status'] %> <% if(current == i){ %>current<%  } %>" data-index="<%= i %>"><span>
-			<%= difficultyModel.list[i].enemyNameShorthand %>
+			<em class="cnEnemyTabLabel"><%= difficultyModel.list[i].enemyNameShorthand %></em>
 		</span></div>
 		<% } %>
 	</div>

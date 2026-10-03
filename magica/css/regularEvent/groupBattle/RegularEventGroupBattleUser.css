@@ -86,3 +86,30 @@
 #RegularEventGroupBattleUser #bottomWrap #battleLogBtn { left:12px;top:auto;bottom:10px;width:114px;height:30px;line-height:30px;text-align:center;font-size:14px; }
 
 #RegularEventGroupBattleUser #bottomWrap .userCharaIcon img {width:74px;height:74px;top:2px;left:2px;object-fit:contain;}
+
+/* Keep each three-slice button at the page's chosen height. */
+#RegularEventGroupBattleUser #rankingPageBtn,
+#RegularEventGroupBattleUser #rankingWrap #myScrollBtn,
+#RegularEventGroupBattleUser #rankingWrap #topScrollMemberBtn,
+#RegularEventGroupBattleUser #bottomWrap #battleLogBtn {
+  background-size:calc(100% - 30px) 100%;
+}
+#RegularEventGroupBattleUser #rankingPageBtn:before,
+#RegularEventGroupBattleUser #rankingPageBtn:after,
+#RegularEventGroupBattleUser #rankingWrap #myScrollBtn:before,
+#RegularEventGroupBattleUser #rankingWrap #myScrollBtn:after,
+#RegularEventGroupBattleUser #rankingWrap #topScrollMemberBtn:before,
+#RegularEventGroupBattleUser #rankingWrap #topScrollMemberBtn:after,
+#RegularEventGroupBattleUser #bottomWrap #battleLogBtn:before,
+#RegularEventGroupBattleUser #bottomWrap #battleLogBtn:after {
+  height:100%;background-size:100% 100%;
+}
+#RegularEventGroupBattleUser #rankingWrap #myScrollBtn:before {left:0;}
+#RegularEventGroupBattleUser #rankingWrap #myScrollBtn:after {right:0;}
+#RegularEventGroupBattleUser #rankingWrap #rankingList .member .logBtn {
+  background-size:calc(100% - 18px) 100%;
+}
+#RegularEventGroupBattleUser #rankingWrap #rankingList .member .logBtn:before,
+#RegularEventGroupBattleUser #rankingWrap #rankingList .member .logBtn:after {
+  height:100%;background-size:100% 100%;
+}

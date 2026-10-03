@@ -31,7 +31,7 @@
 
 		<!-- プレゼント文言 -->
 		<div class="presentCommentWrap">
-			<%= "<% var presentComment = model.presentComment.replace(/＠/g, '　'); %\>" %>
+			<%= "<% var presentComment = (model.presentComment === 'A gift from Lovely Coordinator.' ? '来自可爱的调整师的礼物。' : model.presentComment).replace(/＠/g, '　'); %\>" %>
 			<p class="presentComment c_gold"><%= "<%= presentComment.replace(/userName/g,_.escape(userName)) %\>" %></p>
 			<%='<% var limitDate = model.expiredAt.substr(0,10).split("/"); %\>'%>
 			<%='<% var limitDateTime = model.expiredAt.split(" ")[1].split(":"); %\>'%>

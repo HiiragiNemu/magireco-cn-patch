@@ -1,4 +1,4 @@
-define("underscore backbone backboneCommon ajaxControl command text!template/user/MyPage.html text!css/user/MyPage.css js/view/user/BannerView cardUtil text!template/etc/EtcPopup.html js/etc/ConsentRules js/quest/puellaHistoria/lastBattle/Utility".split(" "),function(p,z,a,l,e,C,D,A,E,F,G,J){function cnDoubleHomeCaptionV1(cmd){
+define("underscore backbone backboneCommon ajaxControl command text!template/user/MyPage.html text!css/user/MyPage.css js/view/user/BannerView cardUtil text!template/etc/EtcPopup.html js/etc/ConsentRules js/quest/puellaHistoria/lastBattle/Utility js/view/user/ProfileLocalState".split(" "),function(p,z,a,l,e,C,D,A,E,F,G,J){function cnDoubleHomeCaptionV1(cmd){
   var page=a.doc&&a.doc.getElementById("MyPage");
   if(a.location==="MyPage"&&c&&c.chara&&c.chara.doubleUnitFlg&&
      c.live2dIndex===0&&cmd.subId&&page&&
