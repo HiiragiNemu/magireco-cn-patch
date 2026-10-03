@@ -111,7 +111,7 @@ class API:
 
     def open(self, path, method='GET', data=None, extra=None, upload=False):
         url = ('https://uploads.github.com/repos/' + self.repo + '/' + path
-               if upload else self.base + path)
+               if upload else (self.base + path if path else self.base.rstrip('/')))
         headers = {'Accept': 'application/vnd.github+json',
                    'User-Agent': 'ProgettoMagius-Resource-Mirror',
                    'X-GitHub-Api-Version': '2022-11-28'}
@@ -279,7 +279,13 @@ def check_metadata(meta, assets, config):
         raise Failure('Cumulative update does not match frozen full JS')
     from resource_layers import validate_manifest_layers
     try:
-        validate_manifest_layers(meta, assets)
+        authority = None
+        if meta.get('cn_js_delta_manifest.json', {}).get('source_authority', {}).get('mode') == 'delta_only_cumulative':
+            from build_delta_only import mirror_authority
+            from source_access import authenticated_source_git
+            with authenticated_source_git(os.environ.get('SOURCE_TOKEN','')):
+                authority = mirror_authority(meta, assets)
+        validate_manifest_layers(meta, assets, authority)
     except ValueError as exc:
         raise Failure(str(exc)) from exc
 

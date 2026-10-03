@@ -71,7 +71,7 @@ def validate(full_js: Path, scenario: Path, delta: Path) -> dict:
                 'cached_delta_replay_safe_for_scenario': True}
 
 
-def validate_manifest_layers(metadata: dict, assets: dict) -> int:
+def validate_manifest_layers(metadata: dict, assets: dict, authority: dict | None = None) -> int:
     """Cheap publication guard, with manifests bound to the ZIP descriptors."""
     delta = metadata.get('cn_js_delta_manifest.json', {})
     paths = [e for e in delta.get('entries', []) if e['path'].startswith(SCENARIO_PREFIX)]
@@ -84,6 +84,10 @@ def validate_manifest_layers(metadata: dict, assets: dict) -> int:
             or delta.get('version') != metadata['version_js_delta.json']['version']):
         raise ValueError('Scenario/delta manifest identity is missing or inconsistent')
     known = scene.get('files', {})
+    if delta.get('source_authority', {}).get('mode') == 'delta_only_cumulative':
+        if authority is None:
+            raise ValueError('Current Git source authority is required for cumulative publication')
+        known = authority
     for entry in paths:
         other = known.get(entry['path'], {})
         if other.get('size') != entry['size'] or other.get('sha256') != entry['sha256']:

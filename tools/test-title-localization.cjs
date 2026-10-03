@@ -6,6 +6,8 @@ const base=process.argv[3]&&path.resolve(process.argv[3]);
 const audit=path.join(root,'magica/i18n_audit/title_battle_delta_20260923');
 const titles=JSON.parse(fs.readFileSync(path.join(audit,'jp-title-master.json'),'utf8'));
 const expected=new Map(JSON.parse(fs.readFileSync(path.join(audit,'title-review.json'),'utf8')).map(x=>[x.id,{...x,name:canonicalName(x.name),description:canonicalName(x.description)}]));
+const amendments=JSON.parse(fs.readFileSync(path.join(root,'docs/story-quality/client-integration/title-reviewed-amendments-20261003.json'),'utf8')).rows;
+for(const row of amendments){const t=expected.get(row.titleId);assert.equal(t[row.field],row.before);t[row.field]=row.after;}
 const clone=x=>JSON.parse(JSON.stringify(x));
 function runtime(dir){
  const s=fs.readFileSync(path.join(dir,'magica/js/libs/jquery-3.7.1.min.js'),'utf8');

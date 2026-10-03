@@ -1,7 +1,7 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert'),crypto=require('crypto');
 const root=path.resolve(process.argv[2]||path.join(__dirname,'..'));
 const b=fs.readFileSync(path.join(root,'magica/js/user/MyPage.js')),s=b.toString('utf8');
-assert.equal(crypto.createHash('sha256').update(b).digest('hex'),'8456e851de34dd9a06aa69358343db4e238d0b3256ad00b54e745a32d4167e86','must publish device-3 accepted bytes');
+assert.equal(crypto.createHash('sha256').update(b).digest('hex'),'53c7720b3c342264851e0898b1c948c4e76edf3ce2c131499fed81752359c8a3','accepted caption bytes plus independently accepted ProfileLocalState import');
 new vm.Script(s);
 const match=s.match(/function cnDoubleHomeCaptionV1\(cmd\)\{[\s\S]*?return cmd;\s*\}/);assert(match);
 const cases=[['single',false,0,'MyPage',false,false,1024,undefined],['double',true,0,'MyPage',false,false,1024,-160],['wide',true,0,'MyPage',false,false,1138,-175],['costume',true,1,'MyPage',false,false,1024,undefined],['hidden',true,0,'MyPage',true,false,1024,undefined],['portrait',true,0,'MyPage',false,true,1024,undefined],['ADV',true,0,'Story',false,false,1024,undefined],['title',true,0,'TopPage',false,false,1024,undefined]];

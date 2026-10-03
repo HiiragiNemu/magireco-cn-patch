@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 1
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-python@v5
         with:
@@ -59,20 +59,21 @@ jobs:
         run: |
           python3 tools/test_resource_layers.py -v
           python3 tools/test_coherent_publication.py -v
+          python3 tools/test_delta_publication.py -v
+          python3 docs/story-quality/client-integration/test_delta_only_guard.py
           python3 tools/test-public-resource-mirror.py
       - name: Build from one main tree and publish coherent latest in both repositories
-        run: python3 -u tools/publish_coherent_resources.py --work resource-publication --publish
+        run: python3 -u tools/publish_delta_only.py --work resource-publication --publish
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: coherent-resource-publication
+          name: cumulative-resource-publication
           path: |
             resource-publication/prepared-report.json
             resource-publication/publication-report.json
             resource-publication/publication-progress.json
             resource-publication/*-before.json
             resource-publication/payload/*.json
-            resource-publication/payload/cn_scenario_update.zip
             resource-publication/payload/cn_js_delta.zip
             resource-publication/before/
           if-no-files-found: warn
