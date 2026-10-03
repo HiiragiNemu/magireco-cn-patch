@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "policy_id": "20261003-delta-only-cumulative-v1",
-  "updated_at": "2026-10-03T05:35:51.691058+00:00",
+  "updated_at": "2026-10-03T09:01:46.855888+00:00",
   "authority": "Maintainer explicitly requires future game updates only through cumulative JS delta",
   "mode": "delta_only_cumulative",
   "publish_new_scenario": false,
@@ -18,8 +18,11 @@
   "include_all_story_changes_against_frozen_scenario": true,
   "reject_stale_cached_delta_replay": true,
   "device_final_bytes_required": true,
-  "production_workflow_still_requires_client_delta_only_adaptation": true,
-  "this_window_changed_production_game_workflow": false,
-  "game_package_published": false,
-  "reader_delivery": "docs/story-quality/reader-final-20261003/receipt.json"
+  "production_workflow_still_requires_client_delta_only_adaptation": false,
+  "this_window_changed_production_game_workflow": true,
+  "game_package_published": true,
+  "reader_delivery": "docs/story-quality/reader-final-20261003/receipt.json",
+  "game_package_delta_version": 24,
+  "game_production_workflow_adapted": true,
+  "game_publication_receipt": "docs/story-quality/client-integration/GAME_DELIVERY_RECEIPT.json"
 }
