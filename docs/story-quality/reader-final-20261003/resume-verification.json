@@ -1,0 +1,112 @@
+{
+  "passed": true,
+  "started_at": "2026-10-03T06:14:27.580144+00:00",
+  "verified_at": "2026-10-03T06:15:45.209057+00:00",
+  "reader_main": "27cfb31b98774abc909f9adf3fca0538b7ae5b2f",
+  "patch_main": "ced4a834554b94bc63bba519195905907ffbdd2f",
+  "reader_source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+  "reader_deployment_id": "2086f41c-5f7d-4ad4-b082-4505679ab7a9",
+  "reader_input_count": 601,
+  "reader_inputs_all_match": true,
+  "rechecked_live_resources": 888,
+  "rechecked_live_passed": 888,
+  "rechecked_live_failed": 0,
+  "rechecked_live_retries": 1,
+  "previous_full_2929_results_preserved_and_validated": true,
+  "live_identity": {
+    "/adv-release-build.json": {
+      "schema": 1,
+      "source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+      "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+      "catalog_bytes": 8638040,
+      "stories": 3054,
+      "routes": 3073,
+      "shards": 256,
+      "shard_bytes_max": 276688,
+      "shard_bytes_mean": 145292,
+      "shard_prefix": "/story-json-catalog/v1/",
+      "source_packs": {
+        "schema": 1,
+        "files": 27406,
+        "packs": 654,
+        "raw_bytes": 1369557662,
+        "packed_bytes": 403926101
+      },
+      "auxiliary_source_files": [
+        {
+          "source": "magireco-translate-data-master/Scenarios_full/special/special-chapter-info.txt",
+          "path": "/data/special/special-chapter-info_cn.txt",
+          "bytes": 21049,
+          "sha256": "1e81540d6f6c3f6e75c82c7fa554a7264c0ec8c9641818a1a6919cb32c1656bd",
+          "kind": "chapter-name-metadata"
+        }
+      ]
+    },
+    "/api/adv/release": {
+      "schema": 1,
+      "source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+      "deployment": "https://2086f41c.magireader.pages.dev",
+      "catalog_sha256": "0f6d44a7f7440e37f9f16cecf2f5c4a808efc36ffdf6f02f94e9cb447f3f53d1",
+      "shard_prefix": "/story-json-catalog/v1/",
+      "published_at": "2026-10-03T05:30:19.562Z"
+    },
+    "/api/proofreading/config": {
+      "submissions_enabled": false,
+      "turnstile_site_key": "",
+      "target_branch": "main",
+      "source_revision": "b06987d363c8d62976b491f7779df6bd5ab885a0",
+      "github_admin_auth": false,
+      "shared_admin_auth": false,
+      "server_pr_creation": false,
+      "turnstile_test_mode": false
+    }
+  },
+  "client_manifest_sha256": "f4db42783439dc15e2cb94cdcc10857c5e40c8d2e020b4004891bf9e5cc258a1",
+  "policy_sha256": "21b682d4ddf813901063608e6b88401677ad772a0eea2c44b428fe3183dad896",
+  "ready_sha256": "1b3c295d69d489a1cfd3537e47350a7cf89341fa831850bfa762b418c6fd4b5e",
+  "delivered_tool_hashes_verified": 20,
+  "delta_only_tests": 21,
+  "client_target_states": {
+    "pending": 359,
+    "unchanged_target": 2
+  },
+  "client_receipt_paths": [],
+  "game_versions": [
+    {
+      "url": "https://magireco-personal-release.pages.dev/version_scenario.json",
+      "status": 200,
+      "data": {
+        "version": 3323,
+        "size": 192928598,
+        "md5": "a2c027c8cd18c4af3a975337960d9400"
+      }
+    },
+    {
+      "url": "https://magireco-personal-release.pages.dev/version_js.json",
+      "status": 200,
+      "data": {
+        "version": 103,
+        "size": 287846730,
+        "md5": "db88c1938cf4f8276f5e3644547ba14f"
+      }
+    },
+    {
+      "url": "https://magireco-personal-release.pages.dev/version_js_delta.json",
+      "status": 200,
+      "data": {
+        "version": 22,
+        "size": 33240817,
+        "md5": "2bf149f7ce565164fdcdb59563b06e3d",
+        "base_js_version": 103,
+        "base_js_sha256": "bffc1acc31f65c24cc2f9042a492e4f18c5ba9e41806ed725e1e0730c60a7a9d"
+      }
+    }
+  ],
+  "publication_policy": "delta_only_cumulative",
+  "original_worktree_preserved": true,
+  "old_contribution_paths_preserved": 21,
+  "repeated_deployment": false,
+  "game_package_built_or_published": false,
+  "game_production_workflow_modified": false,
+  "client_install_rollback_fix_still_needs_production_implementation_and_device_validation": true
+}
