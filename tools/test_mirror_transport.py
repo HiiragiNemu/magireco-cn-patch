@@ -22,6 +22,16 @@ def error(code):
     return exc
 
 class Transport(unittest.TestCase):
+    def test_anonymous_config_waits_for_exact_cdn_bytes(self):
+        with patch.object(t,'open_request',side_effect=[io.BytesIO(b'old'),io.BytesIO(b'new')]) as op, patch.object(t.time,'sleep') as sleep:
+            t.anonymous_verify('Example/Public',{},b'new')
+        self.assertEqual(op.call_count,2);sleep.assert_called_once_with(5)
+
+    def test_anonymous_config_never_accepts_stale_bytes(self):
+        with patch.object(t,'open_request',side_effect=[io.BytesIO(b'old') for _ in range(12)]) as op, patch.object(t.time,'sleep') as sleep:
+            with self.assertRaises(t.Failure):t.anonymous_verify('Example/Public',{},b'new')
+        self.assertEqual(op.call_count,12);self.assertEqual(sleep.call_count,11)
+
     def tearDown(self):
         for exc in ERRORS: exc.close()
         ERRORS.clear()

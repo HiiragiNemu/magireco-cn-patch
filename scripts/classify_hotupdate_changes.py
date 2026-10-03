@@ -80,6 +80,15 @@ def format_outputs(result: Classification) -> str:
     )
 
 
+def apply_release_policy(result: Classification, policy: dict) -> Classification:
+    """A cumulative-only policy freezes BOTH full packages, even for manual all."""
+    if policy.get("mode") == "delta_only_cumulative":
+        if policy.get("publish_new_scenario") is not False or policy.get("publish_new_full_js") is not False:
+            raise ValueError("Contradictory cumulative-only full-package policy")
+        return Classification(has_js=0, has_scenario=0)
+    raise ValueError("Unsupported current release policy")
+
+
 def resolve_github_output(value: str | None, parser: argparse.ArgumentParser) -> Path | None:
     if value is None:
         return None
@@ -104,6 +113,7 @@ def parse_args(argv: list[str] | None = None) -> tuple[argparse.Namespace, argpa
         type=Path,
         help="explicit package-16 scenario paths do not trigger automatic full scenario rebuilds",
     )
+    parser.add_argument("--release-policy", type=Path, help="Current policy overrides all automatic and manual full-package requests")
     parser.add_argument(
         "--github-output",
         nargs="?",
@@ -128,6 +138,8 @@ def main(argv: list[str] | None = None) -> int:
         ):
             parser.error("invalid supplemental_product_paths in delta baseline")
     result = classify(sys.stdin, scope=args.scope, supplemental_paths=supplemental)
+    if args.release_policy is not None:
+        result = apply_release_policy(result, json.loads(args.release_policy.read_text(encoding="utf-8")))
     payload = format_outputs(result)
     sys.stdout.write(payload)
 

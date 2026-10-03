@@ -308,9 +308,14 @@ jobs:
           fi
           python3 scripts/test_classify_hotupdate_changes.py
           printf '%s\n' "$CHANGED" | python3 scripts/classify_hotupdate_changes.py \
-            --scope "$SCOPE" "${DELTA[@]}" --github-output "$GITHUB_OUTPUT"
-          # Full JS 102 is frozen. New JS/native resource edits publish through package 16.
-          if [ -f configures/js-delta-baseline.json ]; then echo "has_js=0" >> "$GITHUB_OUTPUT"; fi
+            --scope "$SCOPE" "${DELTA[@]}" \
+            --release-policy docs/story-quality/client-integration/release-policy.json \
+            --github-output "$GITHUB_OUTPUT"
+          # Scenario 3323 AND full JS 103 are frozen for every trigger/scope.
+          # Push and upstream-update are owned by publish-js-delta.yml.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            gh workflow run publish-js-delta.yml --repo "$GITHUB_REPOSITORY" --ref main
+          fi
           mkdir -p _artifacts
 
       # ───────────────────────────────────────────────────────────────

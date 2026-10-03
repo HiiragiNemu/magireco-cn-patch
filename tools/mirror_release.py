@@ -304,10 +304,17 @@ def anonymous_verify(target, assets, config_bytes=None):
             if len(response.read(2)) != 1:
                 raise Failure('Unexpected range body: ' + name)
     if config_bytes is not None:
-        u = 'https://raw.githubusercontent.com/' + target + '/main/legacy/config.json?verify=' + str(time.time_ns())
-        with open_request(opener, urllib.request.Request(u), 60, 'anonymous/config') as response:
-            if response.read(MAX_JSON + 1) != config_bytes:
-                raise Failure('Public configuration did not converge')
+        # The contents API commit is authoritative, but the anonymous raw CDN
+        # can briefly serve the previous blob. Retry reads only; never repeat
+        # the compare-and-swap write or accept mismatched bytes.
+        for attempt in range(12):
+            u = 'https://raw.githubusercontent.com/' + target + '/main/legacy/config.json?verify=' + str(time.time_ns())
+            with open_request(opener, urllib.request.Request(u, headers={'Cache-Control':'no-cache'}), 60, 'anonymous/config') as response:
+                if response.read(MAX_JSON + 1) == config_bytes:
+                    break
+            if attempt == 11:
+                raise Failure('Public configuration did not converge after bounded anonymous reads')
+            time.sleep(5)
 
 
 def mirror(source, target, work):

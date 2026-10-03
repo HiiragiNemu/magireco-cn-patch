@@ -12,6 +12,8 @@ on:
       - 'madomagi/resource/scenario/**'
       - 'configures/js-delta-baseline.json'
   workflow_dispatch:
+  repository_dispatch:
+    types: [upstream-update]
 permissions:
   contents: write
 concurrency:

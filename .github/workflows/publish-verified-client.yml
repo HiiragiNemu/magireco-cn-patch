@@ -141,15 +141,20 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           set -euo pipefail
-          gh release upload latest \
-            "payload/${APK_NAME}" \
-            "payload/${META_NAME}" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --clobber
-          # Publish bytes to the new authority before asking Pages to verify them.
-          gh release upload latest \
-            "payload/${APK_NAME}" "payload/${META_NAME}" \
-            --repo HiiragiNemu/ProgettoMagius-1 --clobber
+          python3 - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          for repo in (os.environ['GITHUB_REPOSITORY'],'HiiragiNemu/ProgettoMagius-1'):
+              release=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/releases/tags/latest'],text=True))
+              assets={a['name']:a for a in release['assets']}
+              for name in (os.environ['APK_NAME'],os.environ['META_NAME']):
+                  p=Path('payload')/name; digest='sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
+                  old=assets.get(name,{})
+                  if old.get('digest')==digest and old.get('size')==p.stat().st_size:
+                      print('Already exact; retain asset identity',repo,name,old['id'])
+                  else:
+                      subprocess.run(['gh','release','upload','latest',str(p),'--repo',repo,'--clobber'],check=True)
+          PY
 
       - name: Verify latest Release bytes
         env:

@@ -16,6 +16,13 @@ SCRIPT = Path(__file__).with_name("classify_hotupdate_changes.py")
 
 
 class HotUpdateChangeClassificationTest(unittest.TestCase):
+    def test_current_cumulative_policy_freezes_both_packages_in_every_scope(self):
+        policy=SCRIPT.parents[1]/'docs/story-quality/client-integration/release-policy.json'
+        for scope in ('auto','js','scenario','all'):
+            for paths in (['ALL'],['madomagi/resource/scenario/json/new.json'],['magica/js/new.js']):
+                with self.subTest(scope=scope,paths=paths):
+                    self.assert_flags(self.run_cli(paths,scope=scope,extra_args=['--release-policy',str(policy)]),0,0)
+
     def run_cli(
         self,
         paths: list[str],
