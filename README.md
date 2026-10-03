@@ -1,55 +1,90 @@
-# 上游服务器运行状态
+# 魔法纪录中文资源补丁
 
-[![API server status](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-api.yml/badge.svg)](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-api.yml)
-[![Downloadable assets server status](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-downloadable.yml/badge.svg)](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-downloadable.yml)
-[![Web assets server status](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-web.yml/badge.svg)](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-web.yml)
+维护源：[HiiragiNemu/magireco-cn-patch](https://github.com/HiiragiNemu/magireco-cn-patch)。
+组织镜像：[MagirecoCN-Revival-Project/magireco-cn-patch](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch)，跟随维护源 `main`，不单独生产另一套资源。
+玩家下载统一使用 [ProgettoMagius-1 最新正式下载页](https://github.com/HiiragiNemu/ProgettoMagius-1/releases/latest)，无需自行拼装历史迭代包。
 
-# Actions 运行状态
+## 当前正式配套（2026-10-03 核验快照）
 
-### 自动更新组织下游并上传R2：
-[![🔄 同步上游并上传到 R2](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/sync-and-upload.yml)
+| 内容 | 正式版本 | 维护方式 |
+|---|---|---|
+| Android 客户端 | **1.0.204** | 独立构建、实测、按验收身份发布 |
+| `cn_scenario_update.zip` | **3323** | 固定完整基线，保留原文件、版本和摘要 |
+| `cn_js_update.zip` | **103** | 固定完整基线，保留原文件、版本和摘要 |
+| `cn_js_delta.zip` | **26** | 最新累计补充层，承载后续剧情、JS、图片、CSS 等更新 |
 
-> 同步分「R2 系」与「Doge 系」两条独立流水线：
-> - **R2 系**：上传到 R2 桶，刷新 EdgeOne / 阿里云 ESA / Cloudflare 三 CDN
-> - **Doge 系**：`sync-and-upload.yml` 里的 `doge-sync` job 在 **mainland
->   自托管 runner**（`runs-on [self-hosted, mainland]`）上跑
->   `scripts/sync-dogecloud.py`，改用**多吉云服务端拉取**（`/oss/fetch.json`
->   提交 URL + `query.json` 轮询），runner 只做控制面（换临时密钥、提交任务、
->   轮询、列桶校验），不再下载+上传大文件。源 URL 用脚本内 `race_source_cdn()`
->   竞速国内 CDN（edgeone/esa/r2 测吞吐选最快，运行时就地测）。
->   排在 `r2-sync` 之后等 CDN 清缓存。同步指纹存 GitHub variable
->   `LAST_DOGE_FINGERPRINTS`，`confirm_cleanup=true` 才删过时文件
->
-> 多吉云相关密钥见 GitHub Secrets（`DOGE_ACCESS_KEY` / `DOGE_SECRET_KEY` /
-> `DOGE_BUCKET` / `DOGE_DOMAIN`）。
+这是有日期的交付快照，后续版本以正式入口的版本文件与配套清单为准，不能仅靠 README 或上传时间判断。
+累计 delta 26 共 **638 个载荷：489 个剧情文件及 149 个非剧情文件**。
+本轮 361 个剧情目标的客户端整合已交付（359 份文件实际改变，共 11,226 项字段操作）；
+Reader 与游戏各自正确的图片结构保留，未直接用 Reader 整份 JSON 覆盖游戏。
 
-> **怎么触发**（2026-08-21 起）：上游那份 `call-downstream-action.yml`
-> 联动 workflow 已删除，所以本 workflow 只剩两个入口——手动
-> `workflow_dispatch`，以及客户端构建流水线在产物就绪后发来的
-> `repository_dispatch`（`upstream-update`）。上游只有内容更新、没有新产物
-> 时，需要手动跑一次。
+- delta 26 相对 25 只改变默认玩家名显示逻辑：未自定义的 `TOTENTANZ` 显示为「小丘比」。
+  不替换玩家 ID、邀请码、存档标识或其他自定义名字；这不是新增改名功能，也不承诺未经实测的改名持久化。
+- 其余 637 个载荷逐字节保留，包括全部剧情及已验收的蛋白石、钻石图标。
+- 最终 APK 1.0.204 的手动重下 delta、JS 后重下 delta、Scenario 后重下 delta 已做设备测试。
+  delta 25 的设备最终落盘校验为 16,758/16,758 文件通过，用户已确认正常进入游戏。
+- delta 26 已通过回归、公开包完整下载和逐载荷校验；默认名显示尚未另做设备验收。
+  **发布校验、设备校验和用户视觉验收分别记录，不互相代替。**
 
-### 清除CDN缓存（手动）：
-[![🧹 清空CDN缓存](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/purge-all-cache.yml/badge.svg)](https://github.com/MagirecoCN-Revival-Project/magireco-cn-patch/actions/workflows/purge-all-cache.yml)
+交付依据：[游戏交付回执](docs/story-quality/client-integration/GAME_DELIVERY_RECEIPT.json)、
+[默认玩家名修订回执](docs/story-quality/client-integration/DEFAULT_PLAYER_NAME_20261003.json)。
+前者保留 delta 25 的设备证据，后者记录 delta 26；不是两个相互竞争的当前版本。
+贡献及完整处理台账只在本资源仓保存，见 [翻译贡献统计](docs/TRANSLATION_STATISTICS.md)。
 
----
+## 日常发布：只更新累计 delta
 
-# cn_js_update.zip 是怎么产出的
+**不要为新剧情或零星资源修订重打完整 Scenario／完整 JS。**
+当前约定见 [发布策略](docs/story-quality/client-integration/release-policy.json) 和
+[累计 delta 交接说明](docs/story-quality/client-integration/DELTA_ONLY_HANDOFF.md)。
+旧的完整包共同发布说明 `docs/RESOURCE_PUBLICATION.md`、旧打包器及早期 R2／Doge 操作记录是历史资料，
+涉及同时重打 Scenario、提高完整 JS 版本或要求 delta 与旧 Scenario 同路径字节一致的做法，已被本节取代。
 
-`magica/` 前端树、`madomagi/engine_i18n.tsv` 与固定的
-`madomagi/resource/image_native/` 修复层 **共同构成**包内容，CI 里由
-`python3 tools/build-v26-package.py --out cn_js_update_new.zip` 排序并固定 ZIP 元数据后打包。
-ZIP 根下的 `magica/` 与 `madomagi/` 平行。native 修复层由
-`madomagi/repair_manifest.json` 固定路径和大小；当前 91 项必须每版完整进入 JS 包，
-并在成品验证中逐项与产品树比较，且不得顺带装入 scenario、数据库或 asset manifest。
-打包前先跑 `Build_JS_Injector.py`，把
-`magica/js/libs/*.json` 那
-23 张字典和运行时汉化代码注入到 `original_source/jquery-3.7.1.min.js` 的副本
-里，写成 `magica/js/libs/jquery-3.7.1.min.js`。所以那个 4 MB 的 jQuery 是
-**产物不是源码**，别手改——改注入逻辑请改 `Build_JS_Injector.py` 的模板。
+1. 在维护源 `main` 集成已审产品修改，保留原有正确功能、翻译及来源记录。
+   剧情按客户端专用清单逐字段应用，不从 Reader 复制整份 JSON。
+2. 构建器从**同一个固定受审 Git 提交**读取每个载荷；旧 delta 用于确定应保留的路径，
+   不作为同名路径正文的最终权威。自动纳入权威源码相对固定基线的全部差异。
+3. `tools/build_delta_only.py` 构建，`tools/publish_delta_only.py` 负责发布。
+   保留既有补丁路径，同时用最新受审内容刷新；不靠清空剧情目录或简单追加新文件掩盖回退。
+4. 验收判据是：**固定基线 + 最新累计 delta 的最终文件 = 最新受审权威源码**。
+   delta 与基线的剧情不同是正常情况；仅提高版本号、保留旧正文，或漏掉旧修复，都不算通过。
+5. 新安装只需完整固定基线和最新累计 delta，无需逐版安装 22、23、24 等历史补充包。
+   包、逐文件清单和分块清单先就位，再更新版本门槛；无内容变化的附件不重传。
+6. 发布后核对源仓与公开仓的实际附件、匿名完整下载内容和版本身份；源码同步成功不等于资源已发布。
 
-`version_js_new.json` 的 version 由 `configures/version_js.json` 的当前值 +1
-得出，size/md5 由 CI 现算。
+已提交的 `magica/`、允许发布的 `madomagi/` 产品路径及配套规则是当前构建输入。
+历史 `Build_JS_Injector.py` 不是现行发包前置步骤：未经差异核对直接重跑旧模板会覆盖后续修复。
+修改字典或注入逻辑时，应维护外部字典与实际运行时注入内容的一致性，复核后再提交产品文件。
+
+### 当前 Actions 入口
+
+- [累计 JS delta 发布](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/publish-js-delta.yml)：产品路径更新、手动或既有联动入口；不重建冻结完整包。
+- [公开资源同步](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/mirror-public-resources.yml)：核对文件身份后同步到玩家公开入口。
+- [个人主线同步组织镜像](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/sync-personal-to-organization.yml)：维护源更新后让组织 `main` 对齐。
+- [已验收客户端发布](https://github.com/HiiragiNemu/magireco-cn-patch/actions/workflows/publish-verified-client.yml)：仅发布明确批准、APK SHA-256 与源码 SHA 匹配的既有构建；不顺带改资源。
+
+APK 发布需先完成最终包实测并显式提供验收身份，不以构建成功自动代替批准。
+文档修改不需要重打游戏包。历史提前发布流程失误的审计保留，不用后来的验收结果改写先后顺序。
+
+### 下载、重下与防回退
+
+客户端现有 **16 个下载项**：13 个基础资源包，加 Scenario、完整 JS 和累计 delta。
+基础包下载可有限并行，文件提交串行；热更新链按固定基线先、累计 delta 最后执行。
+在 1.0.204 中，手动重下 Scenario 或完整 JS 会重置 delta 的进度显示，
+基线写入后先按保护机制重放有效缓存，再从网络取得最新 delta、校验并应用。
+手动重下 delta 本身也会显示排队／下载／安装状态，不仅弹出提示。
+
+旧 delta、同版本不同摘要、错误基线及损坏缓存均由安装校验拒绝；
+版本及完成标记在相关文件校验成功后才记录。离线导入和缓存重放不绕过这些规则。
+TLS 证书校验保持开启，已退役的旧 CDN 不会作为内置备用线路自动恢复。
+
+### 公开分发与源仓私有化边界
+
+玩家当前使用公开 GitHub 下载仓与独立 Cloudflare 分发，无需访问维护源或取得访问令牌。
+跨仓工作流通过维护端凭据读取源仓，凭据不进入 APK、在线公开配置或玩家附件。
+组织源码镜像与公开资源同步是两条职责不同的流程。
+
+私有化后的设计路径已准备；**尚未实际切换仓库可见性并完成切换后的端到端复验**。
+将来切换后仍需核对 Actions 凭据、组织同步、公开附件与匿名下载，不能把当前公开状态下的成功当作该项实测。
 
 ## 翻译维护输入与产品树的关系
 
@@ -76,7 +111,7 @@ legacy 既有译文。
 > 新人工／LLM 译文”选择。`i18n/authority-policy.json` 与
 `i18n/authority-provenance.tsv` 保存权重、缺失证据和选择结果；
 `tools/i18n-authority-guard.py` 在发包前阻断低权重覆盖、同权重冲突、错名回流及
-23 张外部字典／jQuery 内嵌字典不一致。
+外部字典／jQuery 内嵌字典不一致。
 
 迁移来的四表另行细分：只有带逐条复核证据的条目才可进入“已有人工译文”；
 目前 `frontend-strings.tsv` 的 1632 条译文、`overrides.tsv` 的 9 条与
@@ -85,48 +120,46 @@ legacy 既有译文。
 它不会写入 `magica/`。
 
 
-## 16MB 分块校验（manifest.json）
+## 分块清单与客户端落盘
 
-下载完整性从「整包重读 md5」演进为「16MB 分块哈希」：客户端下载时每个
-分片线程段内顺序喂 MessageDigest，每到块边界比对清单指纹，**坏块只重下那
-16MB**，不再整包重来（cn_base_03 等 1GB+ 包反复失败事故的根治）。
+`configures/manifest.json` 提供 16 MiB 分块哈希，客户端可按坏块重下。
+现行累计发布器只更新发生变化的 delta 及其清单；固定基础包和完整 JS／Scenario 的原有身份保持不动。
+分块下载校验、压缩包身份校验及安装后的逐文件 SHA-256 校验是不同层级，不能用其中一项替代全部验收。
 
-- `scripts/build_chunk_manifest.py` 生成/更新 `configures/manifest.json`，
-  覆盖全部下载文件（base 包 + 热更包）的块指纹
-- base 包是静态资产，首次全量生成后提交入库；热更包每次构建增量刷新
-- 发布时 manifest.json 上传到 Release，随镜像分发，客户端走多线路拉取
-- 客户端无清单/拉取失败时静默退化为原来的 zip 结构预检 + 整包 md5
+热更新解压到 `/data/data/io.kamihama.totentanz/files/`。
+WebView 本地拦截按路径读取 `<files>/magica/` 下的前端文件，包含图片、CSS、JS 等；
+查询串不改变本地路径。`madomagi/engine_i18n.tsv` 仍由原生 Label hook 读取，
+已核定的原生图片修复也继续保留。现在新增或修订这些内容通过累计 delta，不重打完整 JS。
 
-## 客户端怎么消费它
+从源码或打包列表去掉文件，不等于可靠撤销所有设备上的旧覆盖。
+客户端事务的孤儿清理有明确路径白名单，不能据此任意删除历史修复；
+需撤销错误覆盖时按受审计划交付正确内容，并验证最终落盘及相关功能。
 
-热更包解压到 `/data/data/io.kamihama.totentanz/files/`，而
-`WebViewImpl$WebViewClientImpl.shouldInterceptRequest` 把所有
-`/magica/<path>`（`api/` 开头的除外）重定向到 `<files>/magica/<path>`，
-按扩展名给 MIME（`.png`→image/png、`.css`→text/css、`.js`→application/javascript）。
-**它只认路径，会把 `?<md5>` 查询串丢掉。**
+## 产品清单与历史台账
 
-同一包中的 `madomagi/engine_i18n.tsv` 解压为
-`<files>/madomagi/engine_i18n.tsv`，由 native cocos Label hook 每 3 秒检查 mtime
-并热重载。它从 `cn_scenario_update.zip` 迁入 JS 包后路径没有变化，只改变版本与
-发布归属；清单生成会强制 JS 包必含、scenario 包禁含，装错包会直接阻断发布。
+当前发布检查以 `cn_js_delta_manifest.json`、固定基线锁和受审 Git 提交为依据，
+记录包身份及逐文件路径、大小、SHA-256，并核对最终叠加结果。
+`manifests/` 中早期完整包路径台账用于追溯已下发内容，不替代当前累计 delta 清单。
+旧源码里独有的文件也不自动视为有价值，先核实来源和当前功能，再决定保留、修正或显式撤销。
 
-同一 JS 包还固定携带 `madomagi/resource/image_native/` 下清单声明的 91 项角色、
-卡面与小人修复资源。它们来自用户提供的 `A:\madomagi` 修复层；构建器逐项要求路径
-和大小一致，解包验证再逐项比较产品字节。工作树中其他 `madomagi/` 数据库、资源清单
-和 scenario 不因此进入 JS 包。
+`magica/resource/` 中只维护已核定需要下发的覆盖资源，而不是整个游戏资源解包目录。
+放行范围以实际 `.gitignore` 和 Git 跟踪产品文件为准，已不局限于 `image_web/common/global/`。
+新增图标应检查原图长宽比、透明边界、实际显示尺寸及原图／旧图／新图对照，再进入发布清单。
 
-迁移采用 **JS-only 发布**：线上历史 scenario v3217 仍物理保留迁移前的旧表，
-本轮不为删除几 KB 旧副本而让用户重下约 194 MB 剧情包；客户端事务先保留最后可用
-表，再由新版 JS 包在同一路径原子覆盖。今后由本工作流新生成的 scenario 包一律禁含
-该表。这里区分“历史线上资产”与“新 producer 合同”，不把旧资产误报为已重包。
+## 新译文与新剧情的合入
 
-推论有两条，都很硬：
+保留正确旧修订，但不盲目保留旧错误。来源核对优先采用同义国服译文，结合稳定字段、
+原文语境和人工验收；假名数量减少或文件更晚生成都不是正确性的充分证据。
+本轮 967 项称号已完成来源核对，不代表每项都存在可直接套用的国服完整同名称号。
 
-1. **任何前端静态资源都能走这个包**——图片、CSS、字体，不只是 js 和模板。
-   同一个包里的东西是原子生效的（一次性解压覆盖）。
-2. **进过包的文件拿不出来。** 解压只写不删（`RestClient.unzip`），包里没有的
-   文件既不删也不还原。从包里移除某个文件，只是「以后不再更新它」——设备上
-   那份**永远留着、永远赢过服务端**。
+历史 `scripts/merge_translations.py` 的字符数量启发式仅适合发现候选冲突，
+不再作为“每轮必须自动合并并重跑旧注入器”的发布指令。
+历史事故曾出现 29 个前端文件、1,520 个假名字符，以及 23 张字典中 11,735 个字段回退；
+这些是历史反例，不能当成当前待办或贡献总数。
+
+应用新候选前核对字段前像、来源与客户端结构，保留运行时比较键和正确图片结构；
+提交后用固定基线加累计 delta 复验最终文件，并做相关功能回归。
+CSS 修改同样需保留有效规则；不以整站日文快照覆盖已有正确本地化。
 
 ## 🔴 CSS 尤其危险
 
@@ -145,9 +178,9 @@ CSS 整份放进包里，那份快照缺了 `#QuestMap #toPuellaHistoriaTopButto
 背景图/定位全靠 CSS 给——规则一没就塌成 0 高度空 div，**历史篇（Puella
 Historia）入口无声消失**，模板、js、图片、控制台全都正常。
 
-解毒只有一条路：把服务端现役内容原样放回包里再发一次。`magica/css/` 当前共有
-19 个文件：13 个是上述历史冻结修复，另 6 个是已经逐页审计的 Totentanz 新 UI
-本地化样式。它们都不是未经筛选的全站 188 个 CSS：
+这次历史事故通过恢复正确规则解决。下表记录的是**早期 19 个 CSS 的范围**：
+13 个历史冻结修复和 6 个已审计的本地化样式，不是当前产品文件总数。当前范围以
+已审产品树及累计 delta 清单为准；不要把未经筛选的全站 CSS 快照整体加入补丁：
 
 | 文件 | 为什么在这儿 |
 |---|---|
@@ -170,100 +203,31 @@ Historia）入口无声消失**，模板、js、图片、控制台全都正常�
 `_common/GlobalMenu.css` 虽然在服务端 `fileTimeStamp` 里，但全站没有任何模块
 require 它，是死文件，不带。
 
-> **代价说清楚**：只覆盖这 19 个，意味着别的页面若也被冻住，它仍然冻着，而且要
-> 等有人报症状才会知道。这是有意换来的——冻 188 个等于把全站 CSS 都钉死，服务端
-> 以后改任何一处玩家端都吃不到，还是静默的。范围小 = 未来的债少；新症状出现时
-> 按同样方法（查该页 `text!css` 依赖 → 把服务端现役内容放进包）补进来即可。
+> 覆盖范围越大，后续维护负担越大。新增 CSS 前先查页面的 `text!css` 依赖，
+> 保留服务端现役规则与已有正确本地化，再验证页面显示。文件独有或翻译字数更多，
+> 都不等于内容正确。
 
-代价是这 19 个 CSS 从此**冻在仓库里**，服务端改了玩家端吃不到。所以 CI 里
-加了闸门（也可以本地跑）：
+下面是早期 CSS 冻结排查工具，保留供调查使用；它不是当前累计 delta 的完整
+发布验收，也不能要求有意本地化的 CSS 与日文服务端完全相同：
 
 ```bash
 python3 scripts/check_css_freeze.py            # 查 magica/css/
-python3 scripts/check_css_freeze.py --zip cn_js_update_new.zip
+python3 scripts/check_css_freeze.py --zip <待审补丁包.zip>
 ```
 
-判据取自服务端 `js/system/replacement.js` 的 `fileTimeStamp` 表（`index.html`
+该历史工具的判据取自服务端 `js/system/replacement.js` 的 `fileTimeStamp` 表（`index.html`
 的 `?<hash>` 就是从这来的）：包里每个 CSS 的 md5 必须与清单一致；`fonts.css`
 在豁免名单（我们故意改 `src` 指向包内 GB 字体），`common.css` 按「前 N 字节
 == 服务端原文」校验（它是服务端原文 + 末尾追加 cn-patch 段）。
 
-## magica/resource/ 的 .gitignore
+## 上游服务器运行状态
 
-这个路径在别处是几百 MB 资源包的解包产物，所以默认忽略；只放行
-`image_web/common/global/`——里面是我们主动下发的国服图标和中文
-`connecting.png`（334×54 的 8 帧 APNG，替换原版英文 "Connecting..."，
-同名同尺寸同 MIME 原地替换，不需要动 CSS；旧 WebView 不认 APNG 就显示第 1 帧
-的静止中文。生成脚本在 magirecocn-legacy-client 的
-`tools/make-connecting-sprite.py`）。
-
-## 文件清单与账本（manifests/）
-
-`scripts/build_manifest.py` 在每次打包后跑，产出两样东西：
-
-| 文件 | 内容 | 去处 |
-|---|---|---|
-| `<package>_manifest.json` | 这一版的完整清单：路径 / 大小 / crc32，以及 zip 的 size/md5 | `_artifacts/`（workflow artifact） |
-| `manifests/<package>_ledger.json` | **累计账本**：每个路径首次/最后出现在哪一版、当前是否还在包里 | 入库，由 CI 提交回来 |
-
-账本是**已经写进玩家设备的路径全集**。因为热更只写不删，任何一条从包里消失
-（`current: false`）都意味着它**留在所有设备上并继续盖住服务端的版本**——脚本会在
-这时候把名单打出来，CI 也会在 Job Summary 里标红。
-
-客户端那边（`CNHotUpdateTx`）现在会自己记清单、在下一次热更时把「上一版有、这一版
-没有」的孤儿删掉，但删除范围限死在白名单前缀内（`magica/js|template|css|fonts/`、
-`madomagi/resource/scenario/json/`），而且**只对装了新客户端之后下发的版本有效**。
-所以账本里 `current: false` 且不在白名单前缀下的那些，只能靠「把服务端现役内容
-原样发一次覆盖」来撤销。
-
-> `cleanup_prefixes` 也写进 manifest，但**只是留档给人看**——客户端用的是它自己
-> 硬编码的白名单，不读这个字段。不然「服务端下发的数据能扩大客户端的删除范围」。
-
-账本的初始值是从**线上现役包**播下去的（js v20 = 415 条，scenario v3211 = 14235 条），
-不是从仓库树，因为要记的是设备上真实有什么。
+[![API server status](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-api.yml/badge.svg)](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-api.yml)
+[![Downloadable assets server status](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-downloadable.yml/badge.svg)](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-downloadable.yml)
+[![Web assets server status](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-web.yml/badge.svg)](https://github.com/Puella-Care/totentanz-meta/actions/workflows/watchdog-web.yml)
 
 
-## 新一轮译文进来时：合并，不要覆盖
-
-`scripts/merge_translations.py`。**每轮 LLM 重译都必须过这一步。**
-
-覆盖率不是单调的：新一轮往往在 A 处译得更好、在 B 处却漏译，整包覆盖就会把 B 处
-**退回日文**。v3（authoritative-cn-dump pass6）直接盖上去的实测后果：
-
-- 29 个前端文件里假名反而变多，合计 **1520 个字符**退回日文；
-- `js/libs/*.json` 那 23 张表里 **11735 处字段**退回日文（道具名、记忆结晶名、
-  关卡标题、商店条目……条目一个没少，但内容退了）。
-
-```bash
-python3 scripts/merge_translations.py --old <上一版 cn_js_update.zip> --new magica --report
-python3 scripts/merge_translations.py --old <上一版 cn_js_update.zip> --new magica --write
-python3 Build_JS_Injector.py        # 合并完必须重跑，字典要重新注入
-```
-
-判据（对每个字符串单元，旧值 o / 新值 v）：
-
-1. v 没有这个单元 → 用 o
-2. `o == v` → 用 v
-3. **v 的假名比 o 多** → 用 o（新版退回日文了）
-4. v 是纯 ASCII 且含字母、而 o 里有汉字 → 用 o（新版退回英文了）
-5. 其余 → 用 v（**新版权威**）
-
-第 3 条比的是假名**数量**不是有无：有无只能抓住「旧版全译、新版全没译」，而实测
-更常见的是旧版译了一半、新版整句日文——两边都有假名，按有无判就放过去了。
-
-> **例外：比较用的字符串一律听新版的。** `APPopup2.html` 里
-> `item.itemName === "マギアストーン"` 是判据键不是文案；旧版把它译成「Magia 石材」，
-> 而 itemList 里根本没有这个条目、运行时字典不会改写 `item.itemName`，那个分支
-> 因此永远不成立——**旧版那处是 bug**。脚本按上下文（`===`/`!==`/`case`/`indexOf(`
-> 等紧邻）识别并跳过。
-
-切分粒度：JSON 按主键索引后逐字段；JS 抠出字符串字面量、其余当骨架（实测 196 个
-里 194 个骨架一致）；HTML 按 `<...>` 切成标签/文本段（181 个里 167 个标签序列一致）；
-对不上的少数走 difflib token 级对齐，且只在 `replace` 块上套判据——`insert`/`delete`
-是结构变化，一律听新版的。
-
-CSS 不参与合并：那里面没有译文，`magica/css/` 是原样复刻服务端的，一个字节都不能动。
-
+以下 movie 包内容保留为历史研究记录，不构成日常重打包指令。
 
 ## movie 包（`.usm`）：解密 / 加密 / 拆流
 
