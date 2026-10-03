@@ -71,7 +71,14 @@ class PrivateAccessTests(unittest.TestCase):
         old=dict(os.environ)
         with authenticated_source_git('fixture-not-a-secret'):
             i=int(old.get('GIT_CONFIG_COUNT','0'))
-            self.assertEqual(os.environ['GIT_CONFIG_KEY_'+str(i)],'http.https://github.com/HiiragiNemu/magireco-cn-patch/.extraheader')
+            self.assertEqual(os.environ['GIT_CONFIG_KEY_'+str(i)],'http.https://github.com/HiiragiNemu/magireco-cn-patch.extraheader')
+            import subprocess
+            for suffix in ('','.git','.git/info/refs'):
+                r=subprocess.run(['git','config','--get-urlmatch','http.extraheader','https://github.com/HiiragiNemu/magireco-cn-patch'+suffix],capture_output=True)
+                self.assertEqual(r.returncode,0)
+                self.assertIn(b'AUTHORIZATION: basic ',r.stdout)
+            r=subprocess.run(['git','config','--get-urlmatch','http.extraheader','https://github.com/HiiragiNemu/ProgettoMagius-1.git'],capture_output=True)
+            self.assertNotIn(b'Zml4dHVyZS1ub3QtYS1zZWNyZXQ=',r.stdout)
         self.assertEqual(dict(os.environ),old)
 
 
